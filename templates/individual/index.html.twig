@@ -1,0 +1,147 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}Dashboard - {{ app.user.firstname|default('Individual') }}{% endblock %}
+
+{% block body %}
+    <!-- Stats Overview -->
+    <div class="pro-stats-grid">
+        <div class="pro-stat-card primary">
+            <div class="pro-stat-header">
+                <div class="pro-stat-icon">
+                    <i class="feather-file-text"></i>
+                </div>
+                <span class="pro-stat-label">Posted Quotes</span>
+            </div>
+            <div class="pro-stat-value">{{ quotes|length }}</div>
+            <div class="pro-stat-footer">
+                <a href="{{ path('individual_quotes') }}" class="pro-stat-link">
+                    View all <i class="feather-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="pro-stat-card info">
+            <div class="pro-stat-header">
+                <div class="pro-stat-icon">
+                    <i class="feather-inbox"></i>
+                </div>
+                <span class="pro-stat-label">Received Offers</span>
+            </div>
+            <div class="pro-stat-value">
+                {% set totalOffers = 0 %}
+                {% for quote in quotes %}
+                    {% set totalOffers = totalOffers + quote.offers|length %}
+                {% endfor %}
+                {{ totalOffers }}
+            </div>
+            <div class="pro-stat-footer">
+                <a href="{{ path('individual_offers') }}" class="pro-stat-link">
+                    Review <i class="feather-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="pro-stat-card success">
+            <div class="pro-stat-header">
+                <div class="pro-stat-icon">
+                    <i class="feather-check-circle"></i>
+                </div>
+                <span class="pro-stat-label">Active Requests</span>
+            </div>
+            <div class="pro-stat-value">
+                {% set activeQuotes = 0 %}
+                {% for quote in quotes %}
+                    {% if quote.status == 'Pending' %}
+                        {% set activeQuotes = activeQuotes + 1 %}
+                    {% endif %}
+                {% endfor %}
+                {{ activeQuotes }}
+            </div>
+            <div class="pro-stat-footer">
+                <span class="pro-stat-trend up">
+                    <i class="feather-trending-up"></i> Open
+                </span>
+            </div>
+        </div>
+
+        <div class="pro-stat-card warning">
+            <div class="pro-stat-header">
+                <div class="pro-stat-icon">
+                    <i class="feather-user"></i>
+                </div>
+                <span class="pro-stat-label">Account Status</span>
+            </div>
+            <div class="pro-stat-value" style="font-size: 1.5rem;">Active</div>
+            <div class="pro-stat-footer">
+                <a href="{{ path('individual_settings') }}" class="pro-stat-link">
+                    Settings <i class="feather-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="pro-content-grid">
+        <!-- Recent Quotes -->
+        <div class="pro-card pro-card-elevated">
+            <div class="pro-card-header">
+                <div>
+                    <h5 class="pro-card-title">Recent Requests</h5>
+                    <p class="pro-card-subtitle">Your latest quote requests and their status</p>
+                </div>
+                <a href="{{ path('individual_quotes') }}" class="pro-btn pro-btn-outline pro-btn-sm">View all</a>
+            </div>
+
+            <div class="pro-table-wrapper">
+                <table class="pro-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Offers</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quote in quotes|slice(0, 5) %}
+                            <tr>
+                                <td>
+                                    <div>
+                                        <span class="pro-fw-semibold d-block">{{ quote.title }}</span>
+                                        <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ quote.description|slice(0, 50) }}...</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="pro-text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
+                                </td>
+                                <td>
+                                    <span class="pro-badge info">{{ quote.offers|length }} offers</span>
+                                </td>
+                                <td>
+                                    <span class="pro-badge {{ quote.status == 'Pending' ? 'warning' : 'success' }}">{{ quote.status }}</span>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="pro-table-empty">
+                                    <div class="pro-empty-state">
+                                        <div class="pro-empty-icon">
+                                            <i class="feather-file-text"></i>
+                                        </div>
+                                        <h6 class="pro-empty-title">No requests yet</h6>
+                                        <p class="pro-empty-text">Post your first quote request to get started</p>
+                                        <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm pro-mt-3">
+                                            <i class="feather-plus"></i> Post Request
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+     
+    </div>
+{% endblock %}

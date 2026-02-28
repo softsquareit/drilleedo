@@ -1,0 +1,344 @@
+   {% extends 'base.html.twig' %}
+
+{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+
+{% block body %}
+
+    <!-- Menus are handled by base.html.twig -->
+
+<!-- Start breadcrumb Area -->
+<div class="rbt-breadcrumb-default rbt-breadcrumb-style-3">
+    <div class="breadcrumb-inner breadcrumb-dark">
+            <img src="{{ asset('assets/drilleedo/images/bg/bg-image-10.jpg')}}" alt="Professional Background">
+    </div>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                 <div class="content text-start">
+                    <ul class="page-list">
+                        <li class="rbt-breadcrumb-item"><a href="#">Home</a></li>
+                        <li>
+                            <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                        </li>
+                        <li class="rbt-breadcrumb-item active">Renovation Services</li>
+                    </ul>
+                    <h1 class="title">
+                        <span class="theme-gradient">{{ professional.companyName }}</span>
+                    </h1>
+
+                    <h2 class="title">
+                        {{ professional.category ?: 'Professional Services' }}
+                    </h2>
+
+                    <p class="description">
+                        <strong>{{ professional.companyName }}</strong> is a professional company providing excellent services.
+                        Trusted, verified, and committed to delivering high-quality results for every project.
+                    </p>
+
+                    <div class="d-flex align-items-center mb--20 flex-wrap rbt-course-details-feature">
+
+                        <div class="feature-sin best-seller-badge">
+                            <span class="rbt-badge-2">
+                                <span class="image">
+                                    <img src="{{ asset('assets/drilleedo/images/icons/card-icon-1.png') }}" alt="Top Rated Icon">
+                                </span>
+                                Top Rated
+                            </span>
+                        </div>
+
+                        <div class="feature-sin rating">
+                            <a href="#">4.8</a>
+                            <a href="#"><i class="fa fa-star"></i></a>
+                            <a href="#"><i class="fa fa-star"></i></a>
+                            <a href="#"><i class="fa fa-star"></i></a>
+                            <a href="#"><i class="fa fa-star"></i></a>
+                            <a href="#"><i class="fa fa-star"></i></a>
+                        </div>
+
+                        <div class="feature-sin total-rating">
+                            <a class="rbt-badge-4" href="#">215 verified reviews</a>
+                        </div>
+
+                        <div class="feature-sin total-student">
+                            <span>616 completed projects</span>
+                        </div>
+
+                    </div>
+
+                    <div class="rbt-author-meta mb--20">
+                        <div class="rbt-avater">
+                            <a href="#">
+                                {% if professional.logo %}
+                                    <img src="{{ asset('uploads/logos/' ~ professional.logo) }}" alt="Company Logo">
+                                {% else %}
+                                    <img src="{{ asset('assets/drilleedo/images/client/avatar-02.png') }}" alt="Company Logo">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="rbt-author-info">
+                            By <a href="#">{{ professional.companyName }}</a> In <a href="#">{{ professional.category ?: 'Services' }}</a>
+                        </div>
+                    </div>
+
+                    <ul class="rbt-meta">
+                        <li><i class="feather-map-pin"></i>{{ professional.city ?: 'Location not specified' }}</li>
+                        <li><i class="feather-award"></i>Verified Company</li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumb Area -->
+
+<div class="rbt-course-details-area rbt-section-gap">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="course-details-content">
+
+                    {% if professional.banner %}
+                    <div class="rbt-feature-box rbt-shadow-box thuumbnail">
+                        <img class="w-100" src="{{ asset('uploads/banners/' ~ professional.banner) }}" alt="Professional Work">
+                    </div>
+                    {% endif %}
+
+                    <!-- Professional Overview -->
+                    <div class="rbt-feature-box rbt-shadow-box mt--60">
+                        <div class="row g-5">
+                            <div class="col-lg-12">
+                                <div class="section-title">
+                                    <h4 class="title mb--0">Professional Overview</h4>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <ul class="rbt-list-style-1">
+                                    <li><i class="feather-check"></i>Over {{ professional.expYears }} years of industry experience</li>
+                                    <li><i class="feather-check"></i>Certified and fully insured</li>
+                                    <li><i class="feather-check"></i>Residential renovation specialist</li>
+                                    <li><i class="feather-check"></i>High-quality materials and finishes</li>
+                                </ul>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <ul class="rbt-list-style-1">
+                                    <li><i class="feather-check"></i>Free project estimates</li>
+                                    <li><i class="feather-check"></i>Clear pricing and timelines</li>
+                                    <li><i class="feather-check"></i>Strong client satisfaction record</li>
+                                    <li><i class="feather-check"></i>Local expertise and support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About -->
+                    <div class="rbt-feature-box rbt-shadow-box mt--60">
+                        <div class="row g-5">
+                            <div class="col-lg-12">
+                                <div class="section-title">
+                                    <h4 class="title mb--20">About the Professional</h4>
+                                </div>
+                                <p>
+                                    {{ professional.companyName }} is a trusted specialist known for delivering
+                                    reliable, high-quality results. Their work ranges from small upgrades to full
+                                    projects, always focusing on precision and durability.
+                                </p>
+                                <p>
+                                    With a strong commitment to communication and transparency, John ensures that every
+                                    project meets client expectations from start to finish.
+                                </p>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="section-title">
+                                    <h4 class="title mb--20">Services Offered</h4>
+                                </div>
+                                <ul class="rbt-list-style-1">
+                                    <li><i class="feather-check"></i>Home renovation & remodeling</li>
+                                    <li><i class="feather-check"></i>Kitchen and bathroom upgrades</li>
+                                    <li><i class="feather-check"></i>Flooring, painting, and finishing</li>
+                                    <li><i class="feather-check"></i>Custom renovation solutions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div class="course-content rbt-shadow-box mt--60">
+                        <div class="section-title">
+                            <h4 class="title mb--0">Frequently Asked Questions</h4>
+                        </div>
+
+                        <div class="rbt-accordion-style rbt-accordion-02 accordion mt--45">
+                            <div class="accordion" id="accordionExampleb2">
+
+                                <div class="accordion-item card">
+                                    <h2 class="accordion-header card-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                            How can I request a quote?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show">
+                                        <div class="accordion-body card-body">
+                                            <p>
+                                                You can request a quote by contacting directly through the platform and
+                                                providing basic project details.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item card">
+                                    <h2 class="accordion-header card-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                            What type of projects do you handle?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse">
+                                        <div class="accordion-body card-body">
+                                            <p>
+                                                Projects range from minor renovations to full residential remodeling.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item card">
+                                    <h2 class="accordion-header card-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                            Are you licensed and insured?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse">
+                                        <div class="accordion-body card-body">
+                                            <p>
+                                                Yes, all work is completed under valid certifications and insurance.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team -->
+                  <div class="related-course mt--60">
+    <div class="row">
+        <div class="col-lg-12 mb--40">
+            <div class="section-title text-start">
+                <span class="subtitle bg-secondary-opacity">Similar Works</span>
+                <h2 class="title">Similar Projects</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        {% for project in professional.projets %}
+        <!-- Start Single Card -->
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mt--30"
+             data-sal-delay="150"
+             data-sal="slide-up"
+             data-sal-duration="800">
+            <div class="rbt-card event-grid-card variation-01 rbt-hover">
+                <div class="rbt-card-img">
+                    <a href="#">
+                        {% if project.mainPhoto %}
+                            <img src="{{ asset('uploads/images/' ~ project.mainPhoto) }}" alt="Project image">
+                        {% else %}
+                            <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Project image">
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="rbt-card-body">
+                    <ul class="rbt-meta">
+                        <li><i class="feather-map-pin"></i>{{ professional.city }}</li>
+                        {% if project.startDate and project.endDate %}
+                            <li><i class="feather-clock"></i>{{ project.startDate|date('M Y') }} - {{ project.endDate|date('M Y') }}</li>
+                        {% endif %}
+                    </ul>
+                    <h4 class="rbt-card-title">
+                        <a href="#">
+                            {{ project.name }}
+                        </a>
+                    </h4>
+
+                    <div class="read-more-btn">
+                        <a class="rbt-btn btn-border hover-icon-reverse btn-sm radius-round"
+                           href="#">
+                            <span class="icon-reverse-wrapper">
+                                <span class="btn-text">View Project</span>
+                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Single Card -->
+        {% else %}
+        <div class="col-12 mt--30">
+            <p>No projects to display.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="load-more mt--60 text-center">
+                <a class="rbt-btn rbt-switch-btn btn-border" href="projects.html">
+                    <span data-text="View More Projects">View More Projects</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4 mt_md--60 mt_sm--60">
+                <div class="course-sidebar rbt-gradient-border sticky-top rbt-shadow-box course-sidebar-top">
+                    <div class="inner">
+
+                        <a class="video-popup-with-text video-popup-wrapper text-center mb--15" href="#">
+                            <div class="video-content">
+                                <img class="w-100 rbt-radius" src="{{ asset('uploads/logos/' ~ professional.logo) }}" alt="Portfolio Preview">
+                                <span class="play-view-text d-block color-white">
+                                    <i class="feather-eye"></i> View portfolio preview
+                                </span>
+                            </div>
+                        </a>
+
+                        <div class="content pt--30">
+                            <a class="rbt-btn btn-gradient w-100 mb--15 text-center" href="#">
+                                <span class="btn-text">Request a Quote</span>
+                            </a>
+
+                            <a class="rbt-btn btn-border w-100 text-center" href="#">
+                                <span class="btn-text">Contact Professional</span>
+                            </a>
+
+                            <ul class="rbt-course-details-list-wrapper mt--30">
+                                <li><span>Experience</span><span class="rbt-feature-value">{{ professional.expYears }}+ Years</span></li>
+                                <li><span>Projects Completed</span><span class="rbt-feature-value">{{ professional.projets|length }}</span></li>
+                                <li><span>Location</span><span class="rbt-feature-value">{{ professional.city ?: 'N/A' }}</span></li>
+                                <li><span>Category</span><span class="rbt-feature-value">{{ professional.category ?: 'N/A' }}</span></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

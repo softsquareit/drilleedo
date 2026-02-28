@@ -1,0 +1,80 @@
+{% extends 'professional/base_professional.html.twig' %}
+
+{% block title %}Sent Offers - {{ app.user.companyName }}{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">My Offers</h4>
+                <p class="pro-card-subtitle">Track and manage all offers you've sent to potential clients</p>
+            </div>
+            <span class="pro-badge primary">{{ offers|length }} Total</span>
+        </div>
+
+        <div class="pro-table-wrapper">
+            <table class="pro-table">
+                <thead>
+                    <tr>
+                        <th>Project/Quote</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Sent Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for offer in offers %}
+                        <tr>
+                            <th>
+                                <span class="pro-fw-semibold">{{ offer.quoteRequest.title }}</span>
+                            </th>
+                            <td>
+                                <span class="pro-text-primary pro-fw-bold">${{ offer.price }}</span>
+                            </td>
+                            <td>
+                                {% if offer.status == 'PENDING' %}
+                                    <span class="pro-badge primary">Pending</span>
+                                {% elseif offer.status == 'SELECTED' %}
+                                    <span class="pro-badge success">Selected</span>
+                                {% elseif offer.status == 'ACCEPTED' %}
+                                    <span class="pro-badge success">Accepted</span>
+                                {% elseif offer.status == 'REJECTED' or offer.status == 'DECLINED_BY_PROVIDER' %}
+                                    <span class="pro-badge danger">Declined</span>
+                                {% else %}
+                                    <span class="pro-badge secondary">{{ offer.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                            </td>
+                            <td>
+                                {% if offer.status == 'SELECTED' %}
+                                    <a href="{{ path('offer_finalize_view', {id: offer.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                        <i class="feather-check-circle"></i> Finalize
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="View Details">
+                                        <i class="feather-eye"></i> View
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="pro-table-empty">
+                                <div class="pro-empty-state">
+                                    <div class="pro-empty-icon">
+                                        <i class="feather-send"></i>
+                                    </div>
+                                    <h6 class="pro-empty-title">No offers sent yet</h6>
+                                    <p class="pro-empty-text">You haven't sent any offers to clients</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

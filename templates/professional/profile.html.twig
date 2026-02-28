@@ -1,0 +1,322 @@
+{% extends 'professional/base_professional.html.twig' %}
+
+{% block title %}My Profile - {{ app.user.companyName }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">My Profile</h4>
+                <p class="pro-card-subtitle">View and manage your professional information</p>
+            </div>
+            <button type="button" class="pro-btn pro-btn-primary pro-btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                <i class="feather-edit"></i> Edit Profile
+            </button>
+        </div>
+
+        <div class="pro-card-body">
+            <!-- Banner and Profile Photo -->
+            <div class="mb-4">
+                <div class="tutor-bg-photo height-250 position-relative" style="background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}'); background-size: cover; background-position: center; border-radius: var(--pro-radius-lg);"></div>
+                <div class="rbt-tutor-information-left" style="margin-top: -60px; position: relative; z-index: 1;">
+                    <div class="thumbnail rbt-avatars size-lg" style="margin-left: 2rem;">
+                        {% if app.user.logo %}
+                            <img src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="Professional" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover; border: 4px solid white; box-shadow: var(--pro-shadow-lg);">
+                        {% else %}
+                            <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Professional" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover; border: 4px solid white; box-shadow: var(--pro-shadow-lg);">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-3 px-3">
+                    <h5 class="mb-1">{{ app.user.companyName }}</h5>
+                    <p class="pro-text-muted mb-0">{{ app.user.email }}</p>
+                </div>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="row g-4 mt-2">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-briefcase text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Professional Name</p>
+                            <p class="pro-fw-semibold mb-0">{{ app.user.companyName ?: 'Not set' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-mail text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Email</p>
+                            <p class="pro-fw-semibold mb-0">{{ app.user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-map-pin text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">City</p>
+                            <p class="pro-fw-semibold mb-0">{{ app.user.city ?: 'Not set' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-award text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Years of Experience</p>
+                            <p class="pro-fw-semibold mb-0">{{ app.user.expYears ?: 'Not set' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-tag text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Category</p>
+                            <p class="pro-fw-semibold mb-0">{{ app.user.category ? app.user.category.name : 'Not set' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-file-text text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">About Me</p>
+                            <p class="mb-0 text-break">{{ app.user.about ?: 'Not set' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-check-circle text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Why Choose Me</p>
+                            {% if app.user.whyChooseUs %}
+                                {% if app.user.whyChooseUs is iterable %}
+                                    <ul class="mb-0 ps-3">
+                                        {% for item in app.user.whyChooseUs %}
+                                            <li>{{ item }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="mb-0">{{ app.user.whyChooseUs }}</p>
+                                {% endif %}
+                            {% else %}
+                                <p class="mb-0">Not set</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-light rounded p-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="feather-list text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Services</p>
+                            {% if app.user.services %}
+                                {% if app.user.services is iterable %}
+                                    <ul class="mb-0 ps-3">
+                                        {% for item in app.user.services %}
+                                            <li>{{ item }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="mb-0">{{ app.user.services }}</p>
+                                {% endif %}
+                            {% else %}
+                                <p class="mb-0">Not set</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.getElementById('professional_logoFile')?.addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                 const reader = new FileReader();
+                 reader.onload = function(e) {
+                     const img = document.getElementById('profile-image-preview');
+                     if(img) img.src = e.target.result;
+                 };
+                 reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('professional_bannerFile')?.addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                 const reader = new FileReader();
+                 reader.onload = function(e) {
+                     const bannerDiv = document.getElementById('banner-preview');
+                     if(bannerDiv) bannerDiv.style.backgroundImage = `url('${e.target.result}')`;
+                 };
+                 reader.readAsDataURL(file);
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                    {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
+                        
+                        <!-- Image Previews and Inputs -->
+                        <div class="col-12">
+                            <div class="row g-4">
+                                <!-- Logo Upload -->
+                                <div class="col-md-6">
+                                    <div class="pro-form-group">
+                                        <label class="pro-form-label">Company Logo</label>
+                                        <div class="d-flex align-items-center gap-4 mb-3">
+                                            <div class="thumbnail rbt-avatars size-lg">
+                                                {% if app.user.logo %}
+                                                    <img id="profile-image-preview" src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="Preview" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 2px solid var(--pro-primary);">
+                                                {% else %}
+                                                    <img id="profile-image-preview" src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Preview" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 2px solid var(--pro-primary);">
+                                                {% endif %}
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                {{ form_widget(form.logoFile, {'attr': {'class': 'pro-form-input', 'accept': 'image/*'}}) }}
+                                                <small class="pro-text-muted d-block mt-1">Recommended size: 200x200px (JPG, PNG)</small>
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.logoFile) }}
+                                    </div>
+                                </div>
+
+                                <!-- Banner Upload -->
+                                <div class="col-md-6">
+                                    <div class="pro-form-group">
+                                        <label class="pro-form-label">Profile Banner</label>
+                                        <div class="mb-3">
+                                            <div id="banner-preview" class="tutor-bg-photo height-100 position-relative mb-2" style="background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}'); background-size: cover; background-position: center; border-radius: var(--pro-radius-md); border: 2px solid var(--pro-primary);"></div>
+                                            {{ form_widget(form.bannerFile, {'attr': {'class': 'pro-form-input', 'accept': 'image/*'}}) }}
+                                            <small class="pro-text-muted d-block mt-1">Recommended size: 1200x300px (JPG, PNG)</small>
+                                        </div>
+                                        {{ form_errors(form.bannerFile) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label" for="{{ form.company_name.vars.id }}">Professional Name</label>
+                                {{ form_widget(form.company_name, {'attr': {'class': 'pro-form-input', 'placeholder': 'John Doe'}}) }}
+                                {{ form_errors(form.company_name) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label" for="{{ form.category.vars.id }}">Business Category</label>
+                                {{ form_widget(form.category, {'attr': {'class': 'pro-form-select form-select'}}) }}
+                                {{ form_errors(form.category) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label" for="{{ form.email.vars.id }}">Email</label>
+                                {{ form_widget(form.email, {'attr': {'class': 'pro-form-input', 'placeholder': 'john@example.com'}}) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label" for="{{ form.city.vars.id }}">City</label>
+                                {{ form_widget(form.city, {'attr': {'class': 'pro-form-input'}}) }}
+                                {{ form_errors(form.city) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label" for="{{ form.exp_years.vars.id }}">Years of Experience</label>
+                                {{ form_widget(form.exp_years, {'attr': {'class': 'pro-form-input', 'placeholder': '5'}}) }}
+                                {{ form_errors(form.exp_years) }}
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label">About Me</label>
+                                {{ form_widget(form.about, {'attr': {'class': 'pro-form-textarea'}}) }}
+                                {{ form_errors(form.about) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label">Why Choose Me <span class="pro-text-muted">(One item per line)</span></label>
+                                {{ form_widget(form.whyChooseUs, {'attr': {'class': 'pro-form-textarea'}}) }}
+                                {{ form_errors(form.whyChooseUs) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="pro-form-group">
+                                <label class="pro-form-label">Services <span class="pro-text-muted">(One item per line)</span></label>
+                                {{ form_widget(form.services, {'attr': {'class': 'pro-form-textarea'}}) }}
+                                {{ form_errors(form.services) }}
+                            </div>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">
+                        <i class="feather-x"></i> Cancel
+                    </button>
+                    <button type="submit" form="{{ form.vars.name }}" class="pro-btn pro-btn-primary">
+                        <i class="feather-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

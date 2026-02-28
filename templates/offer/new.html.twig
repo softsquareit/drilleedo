@@ -1,0 +1,123 @@
+{% extends app.user and is_granted('ROLE_PROFESSIONAL') ? 'professional/base_professional.html.twig' : (app.user and is_granted('ROLE_COMPANY') ? 'company/base_company.html.twig' : 'base.html.twig') %}
+
+{% block title %}Send Offer - {{ quote.title }}{% endblock %}
+
+{% block body %}
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <!-- Quote Details -->
+            <div class="pro-card pro-card-elevated mb-4">
+                <div class="pro-card-header">
+                    <h4 class="pro-card-title">Quote Request Details</h4>
+                    <span class="pro-badge info">{{ quote.category.name }}</span>
+                </div>
+                <div class="pro-card-body">
+                    <h5 class="mb-3">{{ quote.title }}</h5>
+                    <p class="pro-text-muted mb-4">{{ quote.description }}</p>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="feather-calendar text-primary"></i>
+                                <div>
+                                    <small class="pro-text-muted d-block">Requested on</small>
+                                    <span class="pro-fw-semibold">{{ quote.creationDate|date('M d, Y') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="feather-map-pin text-primary"></i>
+                                <div>
+                                    <small class="pro-text-muted d-block">Location preference</small>
+                                    <span class="pro-fw-semibold">{{ quote.individual.personal_infos.adresse|default('Not specified') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if quote.images|length > 0 %}
+                        <div class="mt-4">
+                            <label class="pro-form-label mb-2">Attached Images</label>
+                            <div class="row g-2">
+                                {% for image in quote.images %}
+                                    <div class="col-auto">
+                                        <a href="{{ asset('uploads/quotes/' ~ image) }}" target="_blank">
+                                            <img src="{{ asset('uploads/quotes/' ~ image) }}" alt="Quote Image" class="rounded" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--pro-border);">
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Send Offer Form -->
+            <div class="pro-card pro-card-elevated">
+                <div class="pro-card-header">
+                    <h4 class="pro-card-title">Your Offer</h4>
+                    <p class="pro-card-subtitle">Provide your best price and a detailed message</p>
+                </div>
+                <div class="pro-card-body">
+                    {{ form_start(form, {'attr': {'class': 'pro-form-row'}}) }}
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label">Total Proposed Price ($)</label>
+                                    {{ form_widget(form.price, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. 500'}}) }}
+                                    {{ form_errors(form.price) }}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label">Message to Client</label>
+                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'placeholder': 'Describe your approach, availability, and why you are the best fit...'}}) }}
+                                    {{ form_errors(form.description) }}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label">Supporting Documents <span class="pro-text-muted">(Optional)</span></label>
+                                    {{ form_widget(form.documents, {'attr': {'class': 'pro-form-input'}}) }}
+                                    {{ form_errors(form.documents) }}
+                                    <p class="pro-form-help">Upload quotes, certifications, or more details (Max 10MB each)</p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex gap-3">
+                                    <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg">
+                                        <i class="feather-send"></i> Send Offer
+                                    </button>
+                                    <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_dashboard') }}" class="pro-btn pro-btn-outline pro-btn-lg">
+                                        Cancel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="pro-card pro-card-elevated sticky-top" style="top: 100px;">
+                <div class="pro-card-header">
+                    <h5 class="pro-card-title">Instructions</h5>
+                </div>
+                <div class="pro-card-body">
+                    <ul class="pro-list-bullet">
+                        <li>Be clear about what is included in your price.</li>
+                        <li>Mention your estimated start date.</li>
+                        <li>Attach professional documents if they help your case.</li>
+                        <li>Once sent, the client will receive a notification immediately.</li>
+                    </ul>
+                    <div class="pro-alert info mt-4">
+                        <i class="feather-info"></i>
+                        <p class="mb-0">Your contact information will only be shared if the client accepts your offer.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

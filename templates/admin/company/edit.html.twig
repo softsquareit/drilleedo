@@ -1,0 +1,1059 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block header %}
+    <style>
+        /* Zenith Theme - Hyper Clean */
+        :root {
+            --zen-bg: #f9fafb;
+            --zen-surface: #ffffff;
+            --zen-border: #e5e7eb;
+            --zen-text-main: #111827;
+            --zen-text-muted: #6b7280;
+            --zen-primary: #111827; /* Near Black */
+            --zen-primary-hover: #000000;
+            --zen-accent: #6366f1;
+        }
+
+        body {
+            background-color: var(--zen-bg) !important;
+            color: var(--zen-text-main);
+        }
+
+        .zen-card {
+            position: relative;
+            background: var(--zen-surface);
+            border: 1px solid var(--zen-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            overflow: visible;
+            transition: box-shadow 0.2s;
+        }
+        
+        .zen-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .zen-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--zen-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .zen-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--zen-text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zen-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--zen-text-muted);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .zen-card-body {
+            padding: 24px;
+        }
+
+        /* Profile Sidebar */
+        .profile-sticky {
+            position: sticky;
+            top: 24px;
+        }
+
+        .profile-cover {
+            position: relative;
+            z-index: 0;
+            height: 120px;
+            background: linear-gradient(to top,transparent, #e2e8f0);
+            cursor: pointer;
+            overflow: hidden;
+            {% if company.banner %}
+                background-image: url('{{ asset('uploads/banners/' ~ company.banner) }}');
+                background-size: cover;
+                background-position: center;
+            {% endif %}
+        }
+
+        .profile-cover:hover .profile-cover-overlay {
+            opacity: 1;
+        }
+
+        .profile-cover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .profile-avatar-wrapper {
+            position: relative;
+            margin-top: -60px;
+            z-index: 1;
+            padding: 4px;
+            background: #ffffffff;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-avatar {
+            position: relative;
+            z-index: 2;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #f3f4f6;
+        }
+
+        
+        .profile-avatar img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .profile-avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .profile-avatar:hover .profile-avatar-overlay {
+            opacity: 1;
+        }
+
+        /* Stats in Sidebar */
+        .sidebar-stat {
+            padding: 16px;
+            border-bottom: 1px solid var(--zen-border);
+        }
+        .sidebar-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--zen-text-main);
+        }
+        
+        .stat-label {
+            font-size: 1.4rem;
+            color: var(--zen-text-muted);
+        }
+
+        /* Forms & Inputs */
+        .zen-input {
+            border: 1px solid var(--zen-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            transition: all 0.2s;
+        }
+        .zen-input:focus {
+            border-color: var(--zen-accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Buttons */
+        .btn-zen-primary {
+            background-color: var(--zen-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-zen-primary:hover {
+            background-color: var(--zen-primary-hover);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-zen-secondary {
+            background-color: white;
+            border: 1px solid var(--zen-border);
+            color: var(--zen-text-main);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-zen-secondary:hover {
+            border-color: #d1d5db;
+            background-color: #f9fafb;
+        }
+
+        /* Badges */
+        .badge-zen {
+            background: #f3f4f6;
+            color: var(--zen-text-main);
+            border: 1px solid #e5e7eb;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        
+        /* Zenith Modals */
+        .modal-backdrop.show {
+            opacity: 0.7;
+            backdrop-filter: blur(5px);
+            background-color: rgba(17, 24, 39, 0.7); /* Darker overlay */
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 20px; /* More rounded */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: var(--zen-surface);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--zen-border);
+            padding: 24px 32px;
+            background: #ffffff;
+        }
+        
+        .modal-body {
+            padding: 32px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--zen-border);
+            padding: 24px 32px;
+            background: #fdfdfd;
+        }
+
+        /* Modal Animation - Scale In */
+        .modal.fade .modal-dialog {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+        }
+        
+        .modal.show .modal-dialog {
+            transform: scale(1) !important;
+            opacity: 1;
+        }
+       
+        /* Fix Z-Index & Display */
+        body .modal.show {
+            display: block !important;
+            opacity: 1 !important;
+            z-index: 1055 !important;
+        }
+
+        /* Zenith Selection Cards */
+        .zen-check-card {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--zen-border);
+            border-radius: 12px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .zen-check-card:hover {
+            border-color: var(--zen-accent);
+            background: #fdfdfd;
+            transform: translateY(-1px);
+        }
+
+        .zen-check-card.checked {
+            border-color: var(--zen-accent);
+            background: rgba(99, 102, 241, 0.04);
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.1);
+        }
+
+        .zen-check-card .form-check-input {
+            width: 1.25em;
+            height: 1.25em;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkCards = document.querySelectorAll('.zen-check-card');
+            
+            checkCards.forEach(card => {
+                const input = card.querySelector('input');
+                if(input && input.checked) card.classList.add('checked');
+                
+                if(input) {
+                    input.addEventListener('change', () => {
+                        if(input.type === 'radio') {
+                             // clear siblings
+                             const name = input.getAttribute('name');
+                             document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+                                 el.closest('.zen-check-card').classList.remove('checked');
+                             });
+                        }
+                        if(input.checked) card.classList.add('checked');
+                        else card.classList.remove('checked');
+                    });
+                }
+                
+                // Card click triggers input
+                card.addEventListener('click', (e) => {
+                    if(e.target !== input) {
+                        input.click();
+                    }
+                });
+            });
+
+            // Password Confirmation Logic
+            const changePassForm = document.getElementById('changePasswordForm');
+            const newPasswordInput = document.getElementById('newPasswordInput');
+            const confirmPassBtn = document.getElementById('confirmPassBtn');
+            const realSubmitBtn = document.getElementById('realSubmitBtn');
+
+            if(confirmPassBtn && realSubmitBtn && changePassForm) {
+                confirmPassBtn.addEventListener('click', function() {
+                    const password = newPasswordInput.value;
+                    if(!password) {
+                        alert('Please enter a password');
+                        return;
+                    }
+                    
+                    const confirmModal = new bootstrap.Modal(document.getElementById('confirmPasswordChangeModal'));
+                    confirmModal.show();
+                    
+                    // Hide the first modal if needed, or just stack them. 
+                    // Bootstrap 5 handles stacked modals okay, but sometimes it's better to hide the first.
+                    // Let's keep the first one open as the user might want to cancel the confirmation and change the password input.
+                });
+
+                realSubmitBtn.addEventListener('click', function() {
+                    changePassForm.submit();
+                });
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <div class="content-inner pb-5">
+            
+            
+            <div class="container-xl pt-4 mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 small">
+                        <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ path('admin_company_index') }}" class="text-muted text-decoration-none">Companies</a></li>
+                        <li class="breadcrumb-item active text-dark" aria-current="page">Manage Company</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="container-xl">
+                <div class="row g-4">
+                    
+                    
+                    <div class="col-lg-4 col-xl-3">
+                        <div class="profile-sticky">
+                            
+                            
+                            <div class="zen-card text-center pb-3">
+                                <div class="profile-cover" data-bs-toggle="modal" data-bs-target="#updateBannerModal">
+                                    <div class="profile-cover-overlay">
+                                        <i class="fas fa-camera text-white fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="profile-avatar-wrapper">
+                                    <div class="profile-avatar" style="position: relative; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#updateLogoModal">
+                                        {% if company.logo %}
+                                            <img src="{{ asset('uploads/logos/' ~ company.logo) }}" alt="Logo">
+                                        {% else %}
+                                            <i class="fas fa-building fa-3x text-secondary opacity-50"></i>
+                                        {% endif %}
+                                        <div class="profile-avatar-overlay">
+                                            <i class="fas fa-camera text-white"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-3 mt-3">
+                                    <h5 class="fw-bold mb-1">{{ company.companyName }}</h5>
+                                    {% if company.tradeName %}
+                                        <p class="text-muted small mb-1">{{ company.tradeName }}</p>
+                                    {% endif %}
+                                    <p class="text-muted small mb-3">
+                                        <i class="far fa-envelope me-1"></i> {{ company.email }}
+                                    </p>
+                                    
+                                    <div class="d-flex justify-content-center gap-2 mb-4">
+                                        <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#BasicInfo">
+                                            Edit Details
+                                        </button>
+                                        {% if company.Website %}
+                                            <a href="{{ company.Website }}" target="_blank" class="btn btn-zen-secondary btn-sm">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="text-start border-top">
+                                        <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                            <span class="stat-label">Founded</span>
+                                            <span class="stat-value">{{ company.foundationYear ?: 'N/A' }}</span>
+                                        </div>
+                                        <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                            <span class="stat-label">Employees</span>
+                                            <span class="stat-value">{{ company.EmpNum ?: 0 }}</span>
+                                        </div>
+                                        <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                            <span class="stat-label">Type</span>
+                                            <span class="badge-zen">{{ company.entrepreneurType ? company.entrepreneurType.type : 'Standard' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="zen-card p-0">
+                                <div class="list-group list-group-flush">
+                                    <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                        <i class="fas fa-tags text-muted fa-fw"></i>
+                                        <span class="small fw-medium">Business Categories</span>
+                                    </button>
+                                    <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#managePaymentModal">
+                                        <i class="fas fa-credit-card text-muted fa-fw"></i>
+                                        <span class="small fw-medium">Payment Methods</span>
+                                    </button>
+                                    <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#Legal">
+                                        <i class="fas fa-file-contract text-muted fa-fw"></i>
+                                        <span class="small fw-medium">Legal Registration</span>
+                                    </button>
+                                    <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                        <i class="fas fa-key text-muted fa-fw"></i>
+                                        <span class="small fw-medium">Change Password</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-lg-8 col-xl-9">
+                        
+                        
+                         <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <div class="zen-card h-100 mb-0 d-flex align-items-center px-4 py-3">
+                                     <div class="bg-light rounded-circle p-2 me-3 text-muted"> <i class="fas fa-fingerprint"></i></div>
+                                     <div>
+                                         <div class="small fw-bold text-uppercase text-muted">Registration ID</div>
+                                         <div class="fw-bold fs-5 font-monospace">{{ company.companyNum ?: 'Not Registered' }}</div>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="zen-card h-100 mb-0 d-flex align-items-center px-4 py-3">
+                                     <div class="bg-light rounded-circle p-2 me-3 text-muted"> <i class="fas fa-certificate"></i></div>
+                                      <div>
+                                         <div class="small fw-bold text-uppercase text-muted">Licence Number</div>
+                                         <div class="fw-bold fs-5 font-monospace">{{ company.licenceNum ?: 'Not Licenced' }}</div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+                        <div class="zen-card mb-4">
+                            <div class="zen-card-header">
+                                <div class="zen-card-title">
+                                    <i class="fas fa-address-book text-muted"></i> Primary Contact
+                                </div>
+                                <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addContactModal">Manage</button>
+                            </div>
+                            <div class="zen-card-body">
+                                {% if company.primaryContact %}
+                                    <div class="d-flex align-items-center gap-4">
+                                        <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
+                                            <i class="fas fa-user fa-2x text-muted opacity-50"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">{{ company.primaryContact.firstName }} {{ company.primaryContact.lastName }} ({{ company.primaryContact.email }})</h5>
+                                            <p class="text-muted small mb-2">Main point of contact for this company.</p>
+                                            <div class="d-flex gap-3 text-muted small">
+                                                <a href="mailto:{{ company.primaryContact.email }}" class="text-decoration-none text-muted hover-text-dark"><i class="fas fa-envelope me-1"></i> Email</a>
+                                                <a href="tel:{{ company.primaryContact.phone }}" class="text-decoration-none text-muted hover-text-dark"><i class="fas fa-phone me-1"></i> {{ company.primaryContact.phone }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-4 text-muted">
+                                        <p class="mb-2">No primary contact assigned</p>
+                                        <button class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#addContactModal">Add Contact</button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                         
+                        <h6 class="zen-section-title mt-5">Company Portfolio</h6>
+                        <div class="zen-card">
+                             <div class="zen-card-header">
+                                <div class="zen-card-title">Completed Projects</div>
+                                <button class="btn btn-zen-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addProjectModal"><i class="fas fa-plus me-1"></i> Add Project</button>
+                            </div>
+                            <div class="p-0">
+                                {% if company.Projets is not empty %}
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 align-middle">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th class="ps-4 border-bottom-0 text-uppercase small text-muted fw-semibold py-3">Project</th>
+                                                    <th class="border-bottom-0 text-uppercase small text-muted fw-semibold py-3">Timeline</th>
+                                                    <th class="border-bottom-0 text-uppercase small text-muted fw-semibold py-3">Status</th>
+                                                    <th class="pe-4 border-bottom-0 text-end"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for project in company.Projets %}
+                                                    <tr>
+                                                        <td class="ps-4 border-bottom py-3">
+                                                            <div class="fw-medium text-dark">{{ project.name }}</div>
+                                                            <div class="small text-muted text-truncate" style="max-width: 250px;">{{ project.description }}</div>
+                                                        </td>
+                                                        <td class="border-bottom py-3 small text-muted">
+                                                            {{ project.startDate|date('M Y') }}
+                                                        </td>
+                                                        <td class="border-bottom py-3">
+                                                            {% if project.EndDate %}
+                                                                <span class="badge bg-light text-muted border fw-normal">Closed</span>
+                                                            {% else %}
+                                                                <span class="badge bg-success bg-opacity-10 text-success fw-normal">Ongoing</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="pe-4 border-bottom py-3 text-end">
+                                                            <button class="btn btn-icon btn-sm text-muted hover-text-dark"><i class="fas fa-ellipsis-h"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-5">
+                                        <div class="mb-3 text-muted opacity-25"><i class="fas fa-project-diagram fa-3x"></i></div>
+                                        <p class="text-muted small">No projects in portfolio.</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        
+                        <div class="row g-4 mt-1">
+                            
+                            
+                            <div class="col-md-6">
+                                <div class="zen-card h-100">
+                                    <div class="zen-card-header">
+                                        <div class="zen-card-title">Locations</div>
+                                        <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add</button>
+                                    </div>
+                                    <div class="zen-card-body">
+                                        {% if company.Adresse is not empty %}
+                                            <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                                                {% for address in company.Adresse %}
+                                                    <li class="d-flex gap-3 align-items-start">
+                                                        <i class="fas fa-map-marker-alt text-muted mt-1"></i>
+                                                        <div>
+                                                            <div class="fw-medium text-dark">{{ address.street }}</div>
+                                                            <div class="small text-muted">{{ address.city }}, {{ address.postalCode }}</div>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <p class="text-muted small mb-0">No locations registered.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-6">
+                                <div class="zen-card h-100">
+                                    <div class="zen-card-header">
+                                        <div class="zen-card-title">Social / Web</div>
+                                        <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addLinkModal">Add</button>
+                                    </div>
+                                     <div class="zen-card-body">
+                                        {% if company.links is not empty %}
+                                            <div class="d-flex flex-column gap-2">
+                                                {% for link in company.links %}
+                                                    <a href="{{ link.link }}" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none p-2 rounded hover-bg-light transition-all">
+                                                        <i class="fas fa-link text-primary"></i>
+                                                        <span class="text-dark small text-truncate">{{ link.link }}</span>
+                                                        <i class="fas fa-external-link-alt ms-auto text-muted small fa-xs"></i>
+                                                    </a>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <p class="text-muted small mb-0">No social links.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+    
+    <div class="modal fade" id="BasicInfo" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Company Registration Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(form1, {'attr': {'class': 'needs-validation'}}) }}
+                 <input type="hidden" name="_source" value="manual_company">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Legal Name <span class="text-danger">*</span></label>
+                            {{ form_widget(form1.company_name, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Trade Name</label>
+                            {{ form_widget(form1.tradeName, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Email <span class="text-danger">*</span></label>
+                            {{ form_widget(form1.email, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Phone</label>
+                            {{ form_widget(form1.phoneNum, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-12">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Website</label>
+                            {{ form_widget(form1.Website, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Founded Year</label>
+                            {{ form_widget(form1.foundationYear, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Employees</label>
+                            {{ form_widget(form1.EmpNum, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-12">
+                            {{ form_widget(form1.entrepreneurType, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+
+                         <div class="col-12">
+                            <label class="form-label small fw-bold text-uppercase text-muted">About Company</label>
+                            {{ form_widget(form1.about, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Why Choose Us</label>
+                             <small class="d-block text-muted mb-1" style="font-size: 0.7rem;">Enter one item per line</small>
+                            {{ form_widget(form1.whyChooseUs, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Services</label>
+                             <small class="d-block text-muted mb-1" style="font-size: 0.7rem;">Enter one item per line</small>
+                            {{ form_widget(form1.services, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-zen-primary">Save Changes</button>
+                </div>
+                {{ form_end(form1) }}
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="Legal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Legal Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(form2, {'attr': {'class': 'needs-validation'}}) }}
+                 <input type="hidden" name="_source" value="manual_company">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Company Number (SIRET)</label>
+                            {{ form_widget(form2.companyNum, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Licence Number</label>
+                            {{ form_widget(form2.licenceNum, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-zen-primary">Update Legal</button>
+                </div>
+
+                {{ form_end(form2) }}
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Manage Primary Contact</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(contactForm) }}
+                <div class="modal-body">
+                    <div class="row g-3">
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">First Name</label>
+                            {{ form_widget(contactForm.firstName, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Last Name</label>
+                            {{ form_widget(contactForm.lastName, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Email</label>
+                            {{ form_widget(contactForm.email, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                         <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Phone</label>
+                            {{ form_widget(contactForm.phone, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    {{ form_widget(contactForm.save, {'attr': {'class': 'btn btn-zen-primary'}}) }}
+                </div>
+                {{ form_end(contactForm) }}
+             </div>
+        </div>
+    </div>
+
+      
+    <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-hidden="true">
+         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                     <h5 class="modal-title fw-bold">Add Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(addressForm) }}
+                 <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Street</label>
+                        {{ form_widget(addressForm.street, {'attr': {'class': 'form-control zen-input'}}) }}
+                    </div>
+                     <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">City</label>
+                            {{ form_widget(addressForm.city, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Postal Code</label>
+                            {{ form_widget(addressForm.postalCode, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    {{ form_widget(addressForm.save, {'attr': {'class': 'btn btn-zen-primary'}}) }}
+                </div>
+                {{ form_end(addressForm) }}
+            </div>
+         </div>
+    </div>
+
+
+    
+    <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Add Project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(projectForm) }}
+                  <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Project Name</label>
+                        {{ form_widget(projectForm.name, {'attr': {'class': 'form-control zen-input'}}) }}
+                    </div>
+                     <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Start Date</label>
+                            {{ form_widget(projectForm.startDate, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">End Date</label>
+                            {{ form_widget(projectForm.EndDate, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label small fw-bold text-uppercase text-muted">Description</label>
+                        {{ form_widget(projectForm.description, {'attr': {'class': 'form-control zen-input', 'rows': '4'}}) }}
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    {{ form_widget(projectForm.save, {'attr': {'class': 'btn btn-zen-primary'}}) }}
+                </div>
+                {{ form_end(projectForm) }}
+             </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Manage Categories</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(categoryForm) }}
+                <div class="modal-body">
+                     <div class="alert alert-light border small text-muted">
+                        Select all applicable business categories for this company.
+                    </div>
+                     <div class="row g-3">
+                         {% for child in categoryForm.categories %}
+                             <div class="col-md-6">
+                                 <label class="zen-check-card h-100 w-100 mb-0">
+                                     <div class="form-check mb-0">
+                                         {{ form_widget(child, {'attr': {'class': 'form-check-input'}}) }}
+                                     </div>
+                                     <div class="ms-2 flex-grow-1">
+                                         <span class="d-block fw-semibold text-dark">{{ form_label(child) }}</span>
+                                     </div>
+                                     <i class="fas fa-check-circle check-icon"></i>
+                                 </label>
+                             </div>
+                         {% endfor %}
+                     </div>
+                     
+                     {{ form_rest(categoryForm) }}
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-zen-primary">Save Categories</button>
+                </div>
+                {{ form_end(categoryForm) }}
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="addLinkModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Add Link</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(linkForm) }}
+                 <div class="modal-body">
+                    <label class="form-label small fw-bold text-uppercase text-muted">URL</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-globe"></i></span>
+                        {{ form_widget(linkForm.link, {'attr': {'class': 'form-control zen-input border-start-0 ps-0', 'placeholder': 'https://'}}) }}
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    {{ form_widget(linkForm.save, {'attr': {'class': 'btn btn-zen-primary'}}) }}
+                </div>
+                {{ form_end(linkForm) }}
+             </div>
+        </div>
+    </div>
+
+
+    
+    <div class="modal fade" id="managePaymentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Manage Payment Methods</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(paymentForm) }}
+                <div class="modal-body">
+                    <div class="row g-3">
+                        {% for child in paymentForm.paymentMethod %}
+                            <div class="col-md-6">
+                                <label class="zen-check-card h-100 w-100 mb-0">
+                                    <div class="form-check mb-0">
+                                        {{ form_widget(child, {'attr': {'class': 'form-check-input'}}) }}
+                                    </div>
+                                    <div class="ms-2 flex-grow-1">
+                                        <span class="d-block fw-semibold text-dark">{{ form_label(child) }}</span>
+                                    </div>
+                                    <i class="fas fa-check-circle check-icon"></i>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    {{ form_widget(paymentForm.save, {'attr': {'class': 'btn btn-zen-primary'}}) }}
+                </div>
+                {{ form_end(paymentForm) }}
+             </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="changePasswordForm" action="{{ path('admin_user_change_password', {'id': company.id}) }}" method="POST">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">New Password</label>
+                            <input type="password" id="newPasswordInput" name="new_password" class="form-control zen-input" required>
+                        </div>
+                        <div class="alert alert-info border-0 bg-info bg-opacity-10 text-info small mb-0">
+                            <i class="fas fa-info-circle me-1"></i> This will immediately update the user's password.
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="confirmPassBtn" class="btn btn-primary">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmPasswordChangeModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center p-4">
+                    <div class="mb-3 text-warning">
+                        <i class="fas fa-exclamation-triangle fa-3x"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Are you sure?</h5>
+                    <p class="text-muted small mb-4">Do you really want to change the password for this account?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="realSubmitBtn" class="btn btn-primary btn-sm">Yes, Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateLogoModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Update Logo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(logoForm) }}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Select New Logo</label>
+                        {{ form_widget(logoForm.logoFile, {'attr': {'class': 'form-control zen-input'}}) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-zen-primary">Upload</button>
+                </div>
+                {{ form_end(logoForm) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateBannerModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Update Banner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ form_start(bannerForm) }}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Select New Banner</label>
+                        {{ form_widget(bannerForm.bannerFile, {'attr': {'class': 'form-control zen-input'}}) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-zen-primary">Upload</button>
+                </div>
+                {{ form_end(bannerForm) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

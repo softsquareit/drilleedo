@@ -1,0 +1,168 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $name = null;
+
+    // Parent category
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'childs')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Category $parent = null;
+
+    // Child categories
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Category::class)]
+    private Collection $childs;
+
+    /**
+     * @var Collection<int, Professional>
+     */
+    #[ORM\OneToMany(targetEntity: Professional::class, mappedBy: 'category')]
+    private Collection $professionals;
+
+    /**
+     * @var Collection<int, Company>
+     */
+    #[ORM\ManyToMany(targetEntity: Company::class, mappedBy: 'categories')]
+    private Collection $companies;
+
+    public function __construct()
+    {
+        $this->professionals = new ArrayCollection();
+        $this->companies = new ArrayCollection();
+        $this->childs = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?? '';
+    }
+
+
+    public function getParent(): ?Category
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?Category $parent): static
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getChilds(): Collection
+    {
+        return $this->childs;
+    }
+
+    public function addChild(Category $child): static
+    {
+        if (!$this->childs->contains($child)) {
+            $this->childs->add($child);
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Category $child): static
+    {
+        if ($this->childs->removeElement($child)) {
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Professional>
+     */
+    public function getProfessionals(): Collection
+    {
+        return $this->professionals;
+    }
+
+    public function addProfessional(Professional $professional): static
+    {
+        if (!$this->professionals->contains($professional)) {
+            $this->professionals->add($professional);
+            $professional->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfessional(Professional $professional): static
+    {
+        if ($this->professionals->removeElement($professional)) {
+            if ($professional->getCategory() === $this) {
+                $professional->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Company>
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Company $company): static
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies->add($company);
+            $company->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Company $company): static
+    {
+        if ($this->companies->removeElement($company)) {
+            $company->removeCategory($this);
+        }
+
+        return $this;
+    }
+}

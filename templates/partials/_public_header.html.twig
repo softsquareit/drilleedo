@@ -1,0 +1,220 @@
+<header class="rbt-header rbt-header-4 rbt-header-4-container-var">
+    <div class="rbt-sticky-placeholder"></div>
+    
+    <style>
+        /* Header Custom Overrides to match design exactly */
+        .rbt-header-wrapper {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+
+        
+        .mainmenu-nav .mainmenu > li > a {
+            font-size: 15px;
+            font-weight: bold !important; 
+            color: #17456eff !important; 
+            padding: 30px 15px;
+            text-transform: none; 
+            letter-spacing: -0.3px;
+        }
+        
+        .mainmenu-nav .mainmenu > li > a:hover {
+            color: #2b9eff; 
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .quick-access {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-link {
+            font-family: 'Euclid Circular A', sans-serif;
+            font-weight: 700;
+            color: #003666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .login-link:hover {
+            color: #2b9eff;
+        }
+        
+        .login-link i {
+            font-size: 18px; /* Slightly larger icon */
+            color: #003666;
+        }
+
+        .pro-signin-btn {
+            font-family: 'Euclid Circular A', sans-serif;
+            border: 2px solid #2b9eff; /* Thicker blue border */
+            color: #2b9eff; /* Match border color (Blue) */
+            background: white;
+            padding: 10px 24px;
+            border-radius: 6px; 
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .pro-signin-btn i {
+            font-size: 18px;
+            background: #2b9eff;
+            color: white;
+            border-radius: 3px;
+            padding: 1px;
+        }
+
+        .pro-signin-btn:hover {
+            background: #f0f7ff;
+            border-color: #0077cc;
+            color: #0077cc;
+            transform: translateY(-1px);
+        }
+        
+        .header-left .logo img {
+            max-height: 40px; /* Adjust logo size */
+        }
+    </style>
+
+    <div class="rbt-header-wrapper header-space-betwween shadow-none bg-color-white header-sticky">
+        <div class="container">
+            <div class="mainbar-row rbt-navigation-start align-items-center">
+                <div class="header-left">
+                    <div class="logo logo-dark">
+                        <a href="{{ path('app_home') }}">
+                            <img src="{{ asset('assets/drilleedo/images/logo/logo-black.png') }}" alt="Drilleedo Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="rbt-main-navigation d-none d-xl-block">
+                    <nav class="mainmenu-nav">
+                        <ul class="mainmenu menudrilleedo">
+                            <li><a href="{{ path('professionals_list') }}">Hire a Pro</a></li>
+                            <li><a href="{{ path('companies_list') }}">Leading Companies</a></li>
+                            <li><a href="{{ path('smartideas') }}">Smart Ideas</a></li>
+                            <li><a href="{{ path('packages') }}">Pro Packages</a></li>
+                            <li><a href="{{ path('contact') }}">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="header-right">
+                    <!-- Navbar Icons -->
+                    <ul class="quick-access">
+                         {% if app.user %}
+                            <li class="access-icon rbt-user-wrapper right-align-dropdown">
+                                <a class="rbt-round-btn" href="#">
+                                    <i class="feather-user"></i>
+                                </a>
+                                <div class="rbt-user-menu-list-wrapper">
+                                    <div class="inner">
+                                        <div class="rbt-admin-profile">
+                                            <div class="admin-thumbnail">
+                                                 {% if app.user.logo is defined and app.user.logo %}
+                                                    <img src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="User Image">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="User Image">
+                                                {% endif %}
+                                            </div>
+                                            <div class="admin-info">
+                                                <span class="name">
+                                                    {% if app.user.companyName is defined and app.user.companyName %}
+                                                        {{ app.user.companyName }}
+                                                    {% elseif app.user.personalInfos is defined and app.user.personalInfos %}
+                                                        {{ app.user.personalInfos.firstName }}
+                                                    {% else %}
+                                                        My Account
+                                                    {% endif %}
+                                                </span>
+                                                <a class="rbt-btn-link color-primary" href="{{ path('app_logout') }}">Log Out</a>
+                                            </div>
+                                        </div>
+                                        <ul class="user-list-wrapper">
+                                            <li>
+                                                {% if is_granted('ROLE_ADMIN') %}
+                                                    <a href="{{ path('admin_dashboard') }}"><i class="feather-home"></i> <span>Admin Dashboard</span></a>
+                                                {% elseif is_granted('ROLE_COMPANY') %}
+                                                    <a href="{{ path('company_dashboard') }}"><i class="feather-home"></i> <span>Company Dashboard</span></a>
+                                                {% elseif is_granted('ROLE_PROFESSIONAL') %}
+                                                    <a href="{{ path('professional_dashboard') }}"><i class="feather-home"></i> <span>Pro Dashboard</span></a>
+                                                {% elseif is_granted('ROLE_INDIVIDUAL') %}
+                                                    <a href="{{ path('individual_dashboard') }}"><i class="feather-home"></i> <span>My Dashboard</span></a>
+                                                {% endif %}
+                                            </li>
+                                            
+                                            {% if is_granted('ROLE_INDIVIDUAL') %}
+                                                 <li>
+                                                    <a href="{{ path('individual_profile') }}">
+                                                        <i class="feather-settings"></i>
+                                                        <span>Settings</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            {% if is_granted('ROLE_BUSINESS') %}
+                                                 <li>
+                                                    <a href="{{ path('professional_profile') }}">
+                                                        <i class="feather-settings"></i>
+                                                        <span>Settings</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+
+                                        </ul>
+                                        <hr class="mt--10 mb--10">
+                                        <ul class="user-list-wrapper">
+                                            <li>
+                                                <a href="{{ path('app_logout') }}">
+                                                    <i class="feather-log-out"></i>
+                                                    <span>Log Out</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="access-icon">
+                                <a class="login-link" href="{{ path('app_login') }}">
+                                    <i class="fas fa-user-alt"></i> Log in
+                                </a>
+                            </li>
+                             <li class="access-icon">
+                                <a class="pro-signin-btn" href="{{ path('app_register') }}">
+                                    <i class="far fa-check-square"></i> Sign in as a professional
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <!-- Start Mobile-Menu-Bar -->
+                    <div class="mobile-menu-bar d-block d-xl-none">
+                        <div class="hamberger">
+                            <button class="hamberger-button rbt-round-btn">
+                                <i class="feather-menu"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

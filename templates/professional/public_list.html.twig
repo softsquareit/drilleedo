@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Find Professionals – Drilleedo{% endblock %}
+
+
+{% block body %}
+    <!-- Start Banner -->
+    <div class="zenith-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1 text-center">
+                    <div class="zenith-title-wrapper">
+                        <a href="#" class="zenith-badge">
+                            <span>🛠️</span> {{ professionals|length }} Trusted Pros
+                        </a>
+                        <h1 class="zenith-title">Hire Expert Professionals</h1>
+                        <p class="description text-white opacity-75" style="max-width: 600px; margin: 0 auto; font-size: 1.2rem;">
+                            Browse trusted professionals for renovation, decoration, and home improvement projects. Verified experts near you.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Banner -->
+
+    <div class="rbt-section-gapBottom">
+        <div class="container">
+            
+            <!-- Start Filter Bar -->
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="zenith-filter-bar">
+                        <form action="{{ path('professionals_list') }}" method="get">
+                            <div class="row g-4 align-items-center">
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="filter-select rbt-modern-select">
+                                        <select class="w-100" name="category" onchange="this.form.submit()" style="border: none; background: #f8fafc; padding: 10px 15px; border-radius: 8px; font-weight: 500;">
+                                            <option value="">All Categories</option>
+                                            {% for cat in categories %}
+                                                <option value="{{ cat.id }}" {% if currentCategory == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                     <div class="search-input-group">
+                                        <input type="text" name="location" placeholder="City (e.g., Montreal)" value="{{ currentLocation }}" style="width: 100%; border: none; background: #f8fafc; padding: 10px 15px; border-radius: 8px; font-weight: 500;">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                     <div class="d-flex align-items-center bg-light rounded-3 p-1">
+                                         <input type="text" class="form-control border-0 bg-transparent shadow-none" disabled placeholder="Search by name coming soon..." style="padding: 10px 15px;">
+                                         <button type="submit" class="btn btn-primary btn-sm rounded-3 px-3 py-2 ms-2">
+                                            Search
+                                         </button>
+                                     </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End Filter Bar -->
+
+            <!-- Start Card Grid -->
+            <div class="row g-5">
+                {% for pro in professionals %}
+                    <div class="col-lg-4 col-md-6 col-12" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
+                        <div class="zenith-card">
+                            <div class="zenith-card-img-wrapper">
+                                <a href="{{ path('professional_show', {id: pro.id}) }}">
+                                    {% if pro.banner %}
+                                        <img src="{{ asset('uploads/banners/' ~ pro.banner) }}" alt="{{ pro.tradeName }}" class="banner-img">
+                                    {% else %}
+                                        <img src="{{ asset('assets/drilleedo/images/bg/bg-image-1.jpg') }}" alt="Default Banner" class="banner-img">
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="zenith-logo-overlay">
+                                {% if pro.logo %}
+                                        <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="Logo" class="zenith-logo-img">
+                                {% else %}
+                                        <div class="zenith-logo-placeholder">{{ pro.tradeName|first|default('P')|upper }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="zenith-card-body">
+                                <h4 class="zenith-card-title">
+                                    <a href="{{ path('professional_show', {id: pro.id}) }}">
+                                        {{ pro.tradeName ?: pro.companyName ?: (pro.firstName ~ ' ' ~ pro.lastName) }}
+                                    </a>
+                                </h4>
+                                
+                                <div class="zenith-badges-row">
+                                    <span class="zenith-mini-badge primary">{{ pro.category.name|default('Professional') }}</span>
+                                    
+                                    {% if pro.expYears > 0 %}
+                                        <span class="zenith-mini-badge"><i class="feather-award"></i> {{ pro.expYears }} Years Exp.</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="zenith-meta">
+                                    <div class="zenith-location">
+                                        <i class="feather-map-pin"></i> 
+                                        {{ pro.city|default('Location N/A') }}
+                                    </div>
+                                    <a href="{{ path('professional_show', {id: pro.id}) }}" class="btn-zenith-icon">
+                                        <i class="feather-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                         <div class="rbt-empty-state text-center py-5">
+                             <div class="mb-4" style="font-size: 3rem;">🔍</div>
+                             <h3 class="title">No professionals found</h3>
+                             <p class="description">Try adjusting your filters to find what you're looking for.</p>
+                             <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border btn-sm radius-round">Clear Filters</a>
+                         </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- End Card Grid -->
+
+        </div>
+    </div>
+{% endblock %}

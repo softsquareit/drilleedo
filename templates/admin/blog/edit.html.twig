@@ -1,0 +1,252 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block header %}
+    <style>
+        /* Zenith Theme - Hyper Clean */
+        :root {
+            --zen-bg: #f9fafb;
+            --zen-surface: #ffffff;
+            --zen-border: #e5e7eb;
+            --zen-text-main: #111827;
+            --zen-text-muted: #6b7280;
+            --zen-primary: #111827;
+            --zen-primary-hover: #000000;
+            --zen-accent: #6366f1;
+        }
+
+        body {
+            background-color: var(--zen-bg) !important;
+            color: var(--zen-text-main);
+        }
+
+        .zen-card {
+            background: var(--zen-surface);
+            border: 1px solid var(--zen-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            overflow: visible;
+        }
+
+        .zen-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--zen-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .zen-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .zen-card-body {
+            padding: 24px;
+        }
+
+        .zen-input {
+            border: 1px solid var(--zen-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            width: 100%;
+        }
+        
+        .zen-input:focus {
+             outline: none;
+             border-color: var(--zen-accent);
+             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-zen-primary {
+            background-color: var(--zen-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-zen-primary:hover {
+            background-color: var(--zen-primary-hover);
+            transform: translateY(-1px);
+        }
+        
+         .btn-zen-secondary {
+            background-color: white;
+            border: 1px solid var(--zen-border);
+            color: var(--zen-text-main);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-zen-secondary:hover {
+            border-color: #d1d5db;
+            background-color: #f9fafb;
+            color: var(--zen-text-main);
+        }
+
+        .profile-cover {
+            height: 120px;
+            background: linear-gradient(to top, transparent, #e2e8f0);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .profile-avatar-wrapper {
+            margin-top: -60px;
+            display: inline-block;
+            padding: 4px;
+            background: white;
+            border-radius: 16px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <div class="content-inner pb-5">
+        
+        
+        <div class="container-xl pt-4 mb-4">
+             <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 small">
+                    <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('admin_blog_index') }}" class="text-muted text-decoration-none">Blogs</a></li>
+                    <li class="breadcrumb-item active text-dark" aria-current="page">Edit Post</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="container-xl">
+            {{ form_start(form) }}
+            <div class="row g-4">
+                
+                
+                <div class="col-lg-4 col-xl-3">
+                     <div class="zen-card text-center pb-3">
+                        <div class="profile-cover"></div>
+                        <div class="profile-avatar-wrapper">
+                            <div class="profile-avatar">
+                                {% if blog.mainImg and blog.mainImg != 'placeholder.jpg' %}
+                                    <img src="{{ asset('uploads/blog/' ~ blog.mainImg) }}" alt="Blog Image">
+                                {% else %}
+                                    <i class="fas fa-image fa-3x text-secondary opacity-50"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="px-3 mt-3">
+                            <h5 class="fw-bold mb-1 text-truncate">{{ blog.Title }}</h5>
+                            <span class="badge bg-light text-dark border">{{ blog.type ?: 'Uncategorized' }}</span>
+                        </div>
+                        
+                        <div class="mt-4 px-4">
+                             
+                        </div>
+                     </div>
+                </div>
+
+                
+                <div class="col-lg-8 col-xl-9">
+                    
+                    
+                    <div class="zen-card">
+                        <div class="zen-card-header">
+                            <div class="zen-card-title">General Information</div>
+                        </div>
+                        <div class="zen-card-body">
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-uppercase text-muted">Post Title</label>
+                                {{ form_widget(form.title, {'attr': {'class': 'zen-input'}}) }}
+                            </div>
+                            <div>
+                                <label class="form-label small fw-bold text-uppercase text-muted">Short Description</label>
+                                {{ form_widget(form.short_desc, {'attr': {'class': 'zen-input', 'rows': '2'}}) }}
+                                <div class="form-text small">Brief summary for card views.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="zen-card">
+                        <div class="zen-card-header">
+                            <div class="zen-card-title">Content Body</div>
+                        </div>
+                        <div class="zen-card-body">
+                             {{ form_widget(form.description, {'attr': {'class': 'zen-input', 'rows': '12'}}) }}
+                        </div>
+                    </div>
+
+                    
+                     <div class="zen-card">
+                        <div class="zen-card-header">
+                            <div class="zen-card-title">Media & Classification</div>
+                        </div>
+                        <div class="zen-card-body">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                     <label class="form-label small fw-bold text-uppercase text-muted">Feature Image</label>
+                                     {{ form_widget(form.mainImgFile, {'attr': {'class': 'zen-input'}}) }}
+                                     <div class="form-text small">Enter filename or upload path</div>
+                                </div>
+                                <div class="col-md-6"></div> 
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-uppercase text-muted">Type</label>
+                                    {{ form_widget(form.type, {'attr': {'class': 'form-select zen-input'}}) }}
+                                </div>
+                                <div class="col-md-6">
+                                     <label class="form-label small fw-bold text-uppercase text-muted">Category</label>
+                                     {{ form_widget(form.category, {'attr': {'class': 'form-select zen-input'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="d-flex justify-content-end gap-3 mb-5">
+                        <a href="{{ path('admin_blog_index') }}" class="btn btn-zen-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-zen-primary">Save Changes</button>
+                    </div>
+
+                </div>
+            </div>
+            {{ form_end(form) }}
+            
+             
+             <div class="row">
+                 <div class="col-lg-4 col-xl-3">
+                     <form method="post" action="{{ path('admin_blog_delete', {'id': blog.id}) }}" onsubmit="return confirm('Are you sure you want to delete this post?');" class="mt-2 text-center">
+                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill w-75">
+                            <i class="fas fa-trash-alt me-2"></i> Delete Post
+                        </button>
+                    </form>
+                 </div>
+             </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

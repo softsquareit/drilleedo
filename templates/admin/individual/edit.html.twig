@@ -1,0 +1,458 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block header %}
+    <style>
+        /* Zenith Theme - Hyper Clean */
+        :root {
+            --zen-bg: #f9fafb;
+            --zen-surface: #ffffff;
+            --zen-border: #e5e7eb;
+            --zen-text-main: #111827;
+            --zen-text-muted: #6b7280;
+            --zen-primary: #111827;
+            --zen-primary-hover: #000000;
+            --zen-accent: #6366f1;
+        }
+
+        body {
+            background-color: var(--zen-bg) !important;
+            color: var(--zen-text-main);
+        }
+
+        .zen-card {
+            background: var(--zen-surface);
+            border: 1px solid var(--zen-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .zen-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .zen-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--zen-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .zen-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--zen-text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zen-card-body {
+            padding: 24px;
+        }
+
+        .zen-input {
+            border: 1px solid var(--zen-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        .zen-input:focus {
+             outline: none;
+             border-color: var(--zen-accent);
+             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-zen-primary {
+            background-color: var(--zen-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-zen-primary:hover {
+            background-color: var(--zen-primary-hover);
+            transform: translateY(-1px);
+            color: white;
+        }
+        
+         .btn-zen-secondary {
+            background-color: white;
+            border: 1px solid var(--zen-border);
+            color: var(--zen-text-main);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-zen-secondary:hover {
+            border-color: #d1d5db;
+            background-color: #f9fafb;
+            color: var(--zen-text-main);
+        }
+
+        /* Profile Sidebar Match */
+        .profile-sticky {
+            position: sticky;
+            top: 24px;
+        }
+
+        .profile-cover {
+            height: 120px;
+            background: linear-gradient(to right, #e2e8f0, #f1f5f9);
+            border-bottom: 1px solid var(--zen-border);
+        }
+
+        .profile-avatar-wrapper {
+            margin-top: -60px;
+            padding: 4px;
+            background: var(--zen-surface);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* Stats in Sidebar */
+        .sidebar-stat {
+            padding: 16px;
+            border-bottom: 1px solid var(--zen-border);
+        }
+        .sidebar-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            font-size: 1.4rem;
+            color: var(--zen-text-muted);
+        }
+
+        /* Zenith Modals Match */
+        .modal-backdrop.show {
+            opacity: 0.7;
+            backdrop-filter: blur(5px);
+            background-color: rgba(17, 24, 39, 0.7);
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: var(--zen-surface);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--zen-border);
+            padding: 24px 32px;
+            background: #ffffff;
+        }
+        
+        .modal-body {
+            padding: 32px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--zen-border);
+            padding: 24px 32px;
+            background: #fdfdfd;
+        }
+
+        .modal.fade .modal-dialog {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+        }
+        
+        .modal.show .modal-dialog {
+            transform: scale(1) !important;
+            opacity: 1;
+        }
+        
+        body .modal.show {
+            display: block !important;
+            opacity: 1 !important;
+            z-index: 1055 !important;
+        }
+    </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto open modals if there's an error in them
+            if (document.querySelector('#editIndividualModal .is-invalid')) {
+                var editModal = new bootstrap.Modal(document.getElementById('editIndividualModal'));
+                editModal.show();
+            } else if (document.querySelector('#changePasswordModal .is-invalid')) {
+                var pwdModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+                pwdModal.show();
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <div class="content-inner pb-5">
+        
+        <div class="container-xl pt-4 mb-4">
+             <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 small">
+                    <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('admin_individual_index') }}" class="text-muted text-decoration-none">Individuals</a></li>
+                    <li class="breadcrumb-item active text-dark" aria-current="page">View Profile</li>
+                </ol>
+            </nav>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="container-xl">
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle me-2"></i>
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="container-xl">
+                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="container-xl">
+            <div class="row g-4">
+                
+                <!-- Profile Sidebar -->
+                <div class="col-lg-4 col-xl-3">
+                    <div class="profile-sticky">
+                         <div class="zen-card text-center pb-3">
+                            <div class="profile-cover"></div>
+                            <div class="profile-avatar-wrapper">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user fa-3x text-secondary opacity-50"></i>
+                                </div>
+                            </div>
+                            <div class="px-3 mt-3">
+                                 <h5 class="fw-bold mb-1">
+                                    {% if individual.personalInfos and (individual.personalInfos.firstName or individual.personalInfos.lastName) %}
+                                        {{ individual.personalInfos.firstName }} {{ individual.personalInfos.lastName }}
+                                    {% else %}
+                                        {{ individual.email }}
+                                    {% endif %}
+                                 </h5>
+                                 <p class="text-muted small mb-3">{{ individual.email }}</p>
+                                
+                                <div class="d-flex justify-content-center gap-2 mb-4">
+                                    <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editIndividualModal">
+                                        Edit Profile
+                                    </button>
+                                </div>
+                                
+                                <div class="text-start border-top">
+                                    <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                        <span class="stat-label">Status</span>
+                                        <span class="badge bg-success bg-opacity-10 text-success fw-bold rounded-pill border border-success border-opacity-25" style="padding: 4px 10px;">Active</span>
+                                    </div>
+                                    <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                        <span class="stat-label">Role</span>
+                                        <span class="badge bg-light text-dark fw-bold rounded-pill border" style="padding: 4px 10px;">Individual</span>
+                                    </div>
+                                    {% if individual.personalInfos and individual.personalInfos.phoneNum %}
+                                        <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                            <span class="stat-label">Phone</span>
+                                            <span class="text-dark small fw-medium">{{ individual.personalInfos.phoneNum }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                         </div>
+
+                         <!-- Manage Account Card -->
+                         <div class="zen-card p-0">
+                            <div class="list-group list-group-flush">
+                                <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-danger py-3" onclick="if(confirm('Are you sure you want to delete this user? This action cannot be undone.')) document.getElementById('delete-individual-form').submit();">
+                                    <i class="fas fa-trash-alt fa-fw"></i>
+                                    <span class="small fw-medium">Delete Account</span>
+                                </button>
+                                <form id="delete-individual-form" method="post" action="{{ path('admin_individual_delete', {'id': individual.id}) }}" class="d-none"></form>
+
+                                <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 py-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                    <i class="fas fa-key text-muted fa-fw"></i>
+                                    <span class="small fw-medium">Change Password</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-8 col-xl-9">
+                    
+                    <div class="zen-card mb-4">
+                        <div class="zen-card-header">
+                            <div class="zen-card-title">
+                                <i class="fas fa-address-card text-muted"></i> Account Overview
+                            </div>
+                            <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editIndividualModal">Edit</button>
+                        </div>
+                        <div class="zen-card-body">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="text-muted small text-uppercase fw-bold mb-1">Email Address</div>
+                                    <div class="fw-medium text-dark">{{ individual.email }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-muted small text-uppercase fw-bold mb-1">Account Type</div>
+                                    <div class="fw-medium text-dark">Individual (Client)</div>
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <hr class="text-muted opacity-25">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-muted small text-uppercase fw-bold mb-1">First Name</div>
+                                    <div class="fw-medium text-dark">{{ individual.personalInfos and individual.personalInfos.firstName ? individual.personalInfos.firstName : '<span class="text-muted fst-italic fw-normal">Not provided</span>'|raw }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-muted small text-uppercase fw-bold mb-1">Last Name</div>
+                                    <div class="fw-medium text-dark">{{ individual.personalInfos and individual.personalInfos.lastName ? individual.personalInfos.lastName : '<span class="text-muted fst-italic fw-normal">Not provided</span>'|raw }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-muted small text-uppercase fw-bold mb-1">Phone Number</div>
+                                    <div class="fw-medium text-dark">{{ individual.personalInfos and individual.personalInfos.phoneNum ? individual.personalInfos.phoneNum : '<span class="text-muted fst-italic fw-normal">Not provided</span>'|raw }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-muted small text-uppercase fw-bold mb-1">Address</div>
+                                    <div class="fw-medium text-dark">{{ individual.personalInfos and individual.personalInfos.adresse ? individual.personalInfos.adresse : '<span class="text-muted fst-italic fw-normal">Not provided</span>'|raw }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center py-5">
+                        <div class="mb-3 text-muted opacity-25"><i class="fas fa-history fa-3x"></i></div>
+                        <p class="text-muted small">No recent activity to display.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editIndividualModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Email Address</label>
+                        {{ form_widget(form.email, {'attr': {'class': 'zen-input' ~ (form.email.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.email) }}</div>
+                    </div>
+                    {% if form.personal_infos is defined %}
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">First Name</label>
+                            {{ form_widget(form.personal_infos.first_name, {'attr': {'class': 'zen-input' ~ (form.personal_infos.first_name.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.personal_infos.first_name) }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Last Name</label>
+                            {{ form_widget(form.personal_infos.last_name, {'attr': {'class': 'zen-input' ~ (form.personal_infos.last_name.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.personal_infos.last_name) }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Phone Number</label>
+                            {{ form_widget(form.personal_infos.phone_num, {'attr': {'class': 'zen-input' ~ (form.personal_infos.phone_num.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.personal_infos.phone_num) }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Address</label>
+                            {{ form_widget(form.personal_infos.adresse, {'attr': {'class': 'zen-input' ~ (form.personal_infos.adresse.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.personal_infos.adresse) }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-zen-primary">Save Changes</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {{ form_start(passwordForm) }}
+            <div class="modal-body">
+                <p class="text-muted small mb-4">Set a new password for this user. The user will need this new password to log in.</p>
+                
+                <div class="row g-3">
+                    <div class="col-12">
+                        {{ form_label(passwordForm.plainPassword.first) }}
+                        {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'zen-input' ~ (passwordForm.plainPassword.first.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(passwordForm.plainPassword.first) }}</div>
+                    </div>
+                    <div class="col-12">
+                        {{ form_label(passwordForm.plainPassword.second) }}
+                        {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'zen-input' ~ (passwordForm.plainPassword.first.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(passwordForm.plainPassword.second) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-zen-primary">Update Password</button>
+            </div>
+            {{ form_end(passwordForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

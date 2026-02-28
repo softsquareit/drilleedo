@@ -1,0 +1,88 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}Received Offers - {{ app.user.firstname|default('Individual') }}{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">Received Offers</h4>
+                <p class="pro-card-subtitle">All offers received for your quote requests</p>
+            </div>
+            <span class="pro-badge info">{{ offers|length }} Total</span>
+        </div>
+
+        <div class="pro-table-wrapper">
+            <table class="pro-table">
+                <thead>
+                    <tr>
+                        <th>Quote Request</th>
+                        <th>Professional/Company</th>
+                        <th>Price</th>
+                        <th>Date Received</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for offer in offers %}
+                        <tr>
+                            <td>
+                                <div>
+                                    <span class="pro-fw-semibold d-block">{{ offer.quoteRequest.title }}</span>
+                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ offer.quoteRequest.description|slice(0, 50) }}...</span>
+                                </div>
+                            </td>
+                            <td>
+                                {% if offer.provider %}
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="feather-briefcase pro-text-info"></i>
+                                        <span>{{ offer.provider.companyName }}</span>
+                                    </div>
+                                {% else %}
+                                    <span class="pro-text-muted">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="pro-fw-semibold pro-text-success">${{ offer.price }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    {% if offer.status == 'pending' %}
+                                        <button class="pro-btn pro-btn-success pro-btn-sm" title="Accept Offer">
+                                            <i class="feather-check"></i>
+                                        </button>
+                                        <button class="pro-btn pro-btn-danger pro-btn-sm" title="Reject Offer">
+                                            <i class="feather-x"></i>
+                                        </button>
+                                    {% else %}
+                                        <span class="pro-badge {{ offer.status == 'accepted' ? 'success' : 'secondary' }}">
+                                            {{ offer.status|title }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="pro-table-empty">
+                                <div class="pro-empty-state">
+                                    <div class="pro-empty-icon">
+                                        <i class="feather-inbox"></i>
+                                    </div>
+                                    <h6 class="pro-empty-title">No offers received yet</h6>
+                                    <p class="pro-empty-text">Professionals will send you offers for your quote requests</p>
+                                    <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm pro-mt-3">
+                                        <i class="feather-plus"></i> Post a Request
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

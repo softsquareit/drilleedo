@@ -1,0 +1,82 @@
+{% extends 'professional/base_professional.html.twig' %}
+
+{% block title %}{{ title }} - {{ app.user.companyName }}{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">{{ title }}</h4>
+                <p class="pro-card-subtitle">Add or update project details for your portfolio</p>
+            </div>
+        </div>
+
+        <div class="pro-card-body">
+            {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
+                <div class="col-12">
+                    <div class="pro-form-group">
+                        <label class="pro-form-label">Project Name</label>
+                        {{ form_widget(form.name, {'attr': {'class': 'pro-form-input'}}) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="pro-form-group">
+                        <label class="pro-form-label">Description</label>
+                        {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea'}}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pro-form-group">
+                        <label class="pro-form-label">Start Date</label>
+                        {{ form_widget(form.startDate, {'attr': {'class': 'pro-form-input'}}) }}
+                        {{ form_errors(form.startDate) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pro-form-group">
+                        <label class="pro-form-label">End Date <span class="pro-text-muted">(Optional)</span></label>
+                        {{ form_widget(form.EndDate, {'attr': {'class': 'pro-form-input'}}) }}
+                        {{ form_errors(form.EndDate) }}
+                    </div>
+                </div>
+                
+                <div class="col-12">
+                    <div class="pro-form-group">
+                        <label class="pro-form-label">Main Project Photo</label>
+                        {{ form_widget(form.mainPhoto, {'attr': {'class': 'pro-form-input', 'accept': 'image/*'}}) }}
+                        {{ form_errors(form.mainPhoto) }}
+                        <p class="pro-form-help">Recommended size: 800x600px</p>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="pro-form-group">
+                        <label class="pro-form-label">Project Gallery <span class="pro-text-muted">(Multiple images)</span></label>
+                        {{ form_widget(form.gallery, {'attr': {'class': 'pro-form-input', 'accept': 'image/*', 'multiple': 'multiple'}}) }}
+                        {{ form_errors(form.gallery) }}
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check form-switch pro-form-group mb-0">
+                        {{ form_widget(form.state, {'attr': {'class': 'form-check-input'}}) }}
+                        <label class="pro-form-label mb-0 ms-2" for="{{ form.state.vars.id }}">Published / Visible in portfolio</label>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg">
+                            <i class="feather-save"></i> {{ form.save.vars.label|default('Save Project') }}
+                        </button>
+                        <a href="{{ path('professional_projects') }}" class="pro-btn pro-btn-outline pro-btn-lg">
+                            <i class="feather-x"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block header %}
+    <style>
+        /* Zenith Theme - Hyper Clean */
+        :root {
+            --zen-bg: #f9fafb;
+            --zen-surface: #ffffff;
+            --zen-border: #e5e7eb;
+            --zen-text-main: #111827;
+            --zen-text-muted: #6b7280;
+            --zen-primary: #111827;
+            --zen-primary-hover: #000000;
+            --zen-accent: #6366f1;
+        }
+
+        body {
+            background-color: var(--zen-bg) !important;
+            color: var(--zen-text-main);
+        }
+
+        .zen-card {
+            background: var(--zen-surface);
+            border: 1px solid var(--zen-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .zen-card-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--zen-border);
+            background: white;
+        }
+
+        .zen-card-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--zen-text-main);
+            margin: 0;
+        }
+
+        .zen-card-body {
+            padding: 32px;
+        }
+
+        .zen-input {
+            border: 1px solid var(--zen-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        .zen-input:focus {
+             outline: none;
+             border-color: var(--zen-accent);
+             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-zen-primary {
+            background-color: var(--zen-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        .btn-zen-primary:hover {
+            background-color: var(--zen-primary-hover);
+            transform: translateY(-1px);
+        }
+        
+         .btn-zen-secondary {
+            background-color: white;
+            border: 1px solid var(--zen-border);
+            color: var(--zen-text-main);
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-zen-secondary:hover {
+            border-color: #d1d5db;
+            background-color: #f9fafb;
+            color: var(--zen-text-main);
+        }
+
+        .form-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--zen-text-muted);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <div class="content-inner pb-5">
+        
+        
+        <div class="container-xl pt-4 mb-5">
+             <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 small">
+                    <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('admin_professionnel_index') }}" class="text-muted text-decoration-none">Professionals</a></li>
+                    <li class="breadcrumb-item active text-dark" aria-current="page">New Professional</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="container-xl">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    
+                    {{ form_start(form) }}
+                    <div class="zen-card">
+                        <div class="zen-card-header">
+                            <h1 class="zen-card-title text-center">Create Professional</h1>
+                            <p class="text-muted text-center small mb-0 mt-2">Add a new professional to the directory</p>
+                        </div>
+                        
+                        <div class="zen-card-body">
+                             
+                            <div class="mb-4">
+                                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 border text-muted"><i class="fas fa-envelope"></i></span>
+                                    {{ form_widget(form.email, {'attr': {'class': 'zen-input border-start-0 ps-2', 'placeholder': 'name@company.com'}}) }}
+                                </div>
+                                <div class="form-text small">This will be used for login and notifications.</div>
+                            </div>
+
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Company Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 border text-muted"><i class="fas fa-building"></i></span>
+                                    {{ form_widget(form.company_name, {'attr': {'class': 'zen-input border-start-0 ps-2', 'placeholder': 'Acme Corp'}}) }}
+                                </div>
+                            </div>
+
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Professional Category</label>
+                                {{ form_widget(form.category, {'attr': {'class': 'form-select zen-input'}}) }}
+                            </div>
+
+                            <div class="d-grid gap-3 pt-3">
+                                <button type="submit" class="btn btn-zen-primary shadow-sm">
+                                    <i class="fas fa-plus me-2"></i> Create Account
+                                </button>
+                                <a href="{{ path('admin_professionnel_index') }}" class="btn btn-link text-muted text-decoration-none btn-sm">
+                                    Cancel and go back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

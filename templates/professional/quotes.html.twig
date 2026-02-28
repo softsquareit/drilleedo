@@ -1,0 +1,63 @@
+{% extends 'professional/base_professional.html.twig' %}
+
+{% block title %}Received Quotes - {{ app.user.companyName }}{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">Quote Requests</h4>
+                <p class="pro-card-subtitle">New opportunities from individuals in your service category</p>
+            </div>
+            <span class="pro-badge info">{{ quotes|length }} Available</span>
+        </div>
+
+        <div class="pro-table-wrapper">
+            <table class="pro-table">
+                <thead>
+                    <tr>
+                        <th>Quote Title</th>
+                        <th>Individual</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quote in quotes %}
+                        <tr>
+                            <th>
+                                <div>
+                                    <span class="pro-fw-semibold d-block">{{ quote.title }}</span>
+                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ quote.description|slice(0, 70) }}...</span>
+                                </div>
+                            </th>
+                            <td>
+                                <span>{{ quote.individual.user.firstname|default('User') }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
+                            </td>
+                            <td>
+                                <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                    <i class="feather-send"></i> Submit Offer
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="pro-table-empty">
+                                <div class="pro-empty-state">
+                                    <div class="pro-empty-icon">
+                                        <i class="feather-message-square"></i>
+                                    </div>
+                                    <h6 class="pro-empty-title">No quote requests</h6>
+                                    <p class="pro-empty-text">No quote requests found in your category</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

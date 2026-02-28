@@ -1,0 +1,63 @@
+<div class="pro-sidebar-wrapper">
+    <div class="pro-sidebar-profile">
+        <h6 class="pro-sidebar-welcome">Welcome back,</h6>
+        <p class="pro-sidebar-name">{{ app.user.firstname|default('Professional') }}</p>
+    </div>
+
+    <nav class="pro-sidebar-nav-container">
+        <div class="pro-sidebar-section">
+            <ul class="pro-sidebar-list">
+                <li>
+                    <a href="{{ path('professional_dashboard') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_dashboard' %}active{% endif %}">
+                        <i class="feather-home"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('professional_profile') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_profile' %}active{% endif %}">
+                        <i class="feather-user"></i> <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('professional_projects') }}" class="pro-sidebar-link {% if app.request.get('_route') starts with 'professional_project' %}active{% endif %}">
+                        <i class="feather-briefcase"></i> <span>My Projects</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pro-sidebar-section">
+            <ul class="pro-sidebar-list">
+                <li>
+                    <a href="{{ path('professional_quotes') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_quotes' %}active{% endif %}">
+                        <i class="feather-message-square"></i> <span>Quote Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('professional_direct_requests') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_direct_requests' %}active{% endif %}">
+                        <i class="feather-inbox"></i> <span>Direct Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('professional_offers') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_offers' %}active{% endif %}">
+                        <i class="feather-send"></i> <span>My Offers</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pro-sidebar-section">
+            <ul class="pro-sidebar-list">
+                <li>
+                    <a href="{{ path('professional_settings') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_settings' %}active{% endif %}">
+                        <i class="feather-settings"></i> <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_logout') }}" class="pro-sidebar-link danger">
+                        <i class="feather-log-out"></i> <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

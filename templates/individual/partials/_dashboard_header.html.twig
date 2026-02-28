@@ -1,0 +1,32 @@
+<div class="pro-dashboard-header">
+    <div class="pro-header-cover" style="background-image:url('{{ asset('uploads/individual.png')}}') ">
+        <div class="pro-header-overlay" style="background: rgba(0,0,0,0.1);"></div>
+    </div>
+    
+    <div class="pro-header-content">
+        <div class="pro-header-profile">
+            <div class="pro-avatar-wrapper">
+                <div class="pro-avatar-img d-flex align-items-center justify-content-center" style="background: var(--pro-gradient-primary); color: white; font-size: 3.5rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    {{ (app.user.personalInfos ? app.user.personalInfos.firstName|first : app.user.email|first)|upper }}
+                </div>
+            </div>
+            
+            <div class="pro-header-info">
+                <h3 class="pro-header-name">{{ app.user.personalInfos ? (app.user.personalInfos.firstName ~ ' ' ~ app.user.personalInfos.lastName) : app.user.email }}</h3>
+                <div class="pro-header-meta">
+                    <span class="pro-badge secondary">Individual</span>
+                    <span class="pro-divider"></span>
+                    <span class="pro-text-muted">
+                        <i class="feather-mail"></i> {{ app.user.email }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pro-header-actions">
+            <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary">
+                <i class="feather-plus"></i> Post New Request
+            </a>
+        </div>
+    </div>
+</div>

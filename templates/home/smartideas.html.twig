@@ -1,0 +1,187 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+
+{% block body %}
+    <!-- End Side Vav -->
+    <a class="close_side_menu" href="javascript:void(0);"></a>
+
+<div class="rbt-page-banner-wrapper">
+    <!-- Banner BG Image -->
+    <div class="rbt-banner-image"></div>
+
+    <div class="rbt-banner-content">
+        <div class="rbt-banner-content-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <!-- Breadcrumb -->
+                        <ul class="page-list">
+                            <li class="rbt-breadcrumb-item">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <div class="icon-right">
+                                    <i class="feather-chevron-right"></i>
+                                </div>
+                            </li>
+                            <li class="rbt-breadcrumb-item active">
+                                Inspiration & Ideas
+                            </li>
+                        </ul>
+
+                        <div class="title-wrapper">
+                            <h1 class="title mb--0">Home Inspiration & Ideas</h1>
+                            <a href="#" class="rbt-badge-2">
+                               50+ Ideas
+                            </a>
+                        </div>
+
+                        <p class="description">
+                            Discover renovation and decoration ideas to inspire your next home project.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =======================
+    IDEAS CONTENT
+======================== -->
+<div class="rbt-blog-area rbt-section-overlayping-top rbt-section-gapBottom">
+    <div class="container">
+
+        <!-- FEATURED IDEAS -->
+        <div class="row g-5">
+
+            <!-- Main Featured Idea -->
+            {% if ideas|length > 0 %}
+                {% set mainIdea = ideas[0] %}
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="rbt-card variation-02 height-330 rbt-hover">
+                        <div class="rbt-card-img">
+                            <a href="{{ path('ideas_details', {slug: mainIdea.slug}) }}">
+                                <img src="{{ mainIdea.mainImg ? (mainIdea.mainImg starts with 'http' ? mainIdea.mainImg : asset('uploads/blog/' ~ mainIdea.mainImg)) : asset('assets/images/blog/blog-card-01.jpg') }}" alt="{{ mainIdea.Title }}">
+                            </a>
+                        </div>
+                        <div class="rbt-card-body">
+                            <h3 class="rbt-card-title">
+                                <a href="{{ path('ideas_details', {slug: mainIdea.slug}) }}">{{ mainIdea.Title }}</a>
+                            </h3>
+                            <p class="rbt-card-text">
+                                {{ mainIdea.shortDesc }}
+                            </p>
+                            <div class="rbt-card-bottom">
+                                <a class="transparent-button" href="{{ path('ideas_details', {slug: mainIdea.slug}) }}">
+                                    View Idea
+                                    <i>
+                                        <svg width="17" height="12" xmlns="http://www.w3.org/2000/svg">
+                                            <g stroke="#27374D" fill="none" fill-rule="evenodd">
+                                                <path d="M10.614 0l5.629 5.629-5.63 5.629"/>
+                                                <path stroke-linecap="square" d="M.663 5.572h14.594"/>
+                                            </g>
+                                        </svg>
+                                    </i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Side Ideas -->
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                {% for sideIdea in ideas|slice(1, 3) %}
+                    <div class="rbt-card card-list variation-02 rbt-hover {% if not loop.first %}mt--30{% endif %}">
+                        <div class="rbt-card-img">
+                            <a href="{{ path('ideas_details', {slug: sideIdea.slug}) }}">
+                                <img src="{{ sideIdea.mainImg ? (sideIdea.mainImg starts with 'http' ? sideIdea.mainImg : asset('uploads/blog/' ~ sideIdea.mainImg)) : asset('assets/images/blog/blog-card-02.jpg') }}" alt="{{ sideIdea.Title }}">
+                            </a>
+                        </div>
+                        <div class="rbt-card-body">
+                            <h5 class="rbt-card-title">
+                                <a href="{{ path('ideas_details', {slug: sideIdea.slug}) }}">{{ sideIdea.Title }}</a>
+                            </h5>
+                            <div class="rbt-card-bottom">
+                                <a class="transparent-button" href="{{ path('ideas_details', {slug: sideIdea.slug}) }}">View Idea</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- IDEAS GRID -->
+        <div class="row g-5 mt--15">
+            {% for gridIdea in ideas|slice(4) %}
+                <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div class="rbt-card variation-02 rbt-hover">
+                        <div class="rbt-card-img">
+                            <a href="{{ path('ideas_details', {slug: gridIdea.slug}) }}">
+                                <img src="{{ gridIdea.mainImg ? (gridIdea.mainImg starts with 'http' ? gridIdea.mainImg : asset('uploads/blog/' ~ gridIdea.mainImg)) : asset('assets/images/blog/blog-grid-01.jpg') }}" alt="{{ gridIdea.Title }}">
+                            </a>
+                        </div>
+                        <div class="rbt-card-body">
+                            <h5 class="rbt-card-title">
+                                <a href="{{ path('ideas_details', {slug: gridIdea.slug}) }}">{{ gridIdea.Title }}</a>
+                            </h5>
+                            <p class="rbt-card-text">
+                                {{ gridIdea.shortDesc }}
+                            </p>
+                            <div class="rbt-card-bottom">
+                                <a class="transparent-button" href="{{ path('ideas_details', {slug: gridIdea.slug}) }}">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {% if ideas|length == 0 %}
+                    <div class="col-12 text-center py-5">
+                        <h4 class="text-muted">No inspiration ideas available yet.</h4>
+                        <p>Check back soon for new home improvement tips!</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+                <!-- PAGINATION -->
+        <div class="row">
+            <div class="col-lg-12 mt--60">
+                <nav>
+                    <ul class="rbt-pagination">
+                        {% if currentPage > 1 %}
+                            <li>
+                                <a href="{{ path('smartideas', {page: currentPage - 1}) }}" aria-label="Previous">
+                                    <i class="feather-chevron-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for p in 1..totalPages %}
+                            <li class="{{ p == currentPage ? 'active' : '' }}">
+                                <a href="{{ path('smartideas', {page: p}) }}">{{ p }}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if currentPage < totalPages %}
+                            <li>
+                                <a href="{{ path('smartideas', {page: currentPage + 1}) }}" aria-label="Next">
+                                    <i class="feather-chevron-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

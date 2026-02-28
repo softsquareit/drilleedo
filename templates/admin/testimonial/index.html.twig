@@ -1,0 +1,197 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Admin Dashboard | Testimonials{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <div class="content-inner">
+            <div class="content px-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h4 class="mb-0 fw-bold text-dark">Testimonials</h4>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small">Home</a></li>
+                                <li class="breadcrumb-item active small" aria-current="page">Testimonials</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <button type="button" class="btn btn-primary shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addTestimonialModal">
+                        <i class="fas fa-plus me-2"></i>Add Testimonial
+                    </button>
+                 </div>
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle me-2"></i>
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('error') %}
+                     <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <div class="card border-0 shadow rounded-4 overflow-hidden">
+                    <div class="card-header bg-white border-0 py-4 px-4 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold text-dark">All Testimonials</h5>
+                                <p class="text-muted small mb-0">{{ testimonials|length }} items total</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table datatable-button-html5-columns">
+                            <thead class="bg-light bg-opacity-50">
+                                <tr>
+                                    <th class="border-0 px-4 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 5%;">#</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Client</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Role</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 40%;">Content</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Status</th>
+                                    <th class="border-0 px-4 py-3 text-end text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for testimonial in testimonials %}
+                                <tr class="border-bottom border-light">
+                                    <td class="px-4 text-muted fw-semibold">{{ loop.index }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if testimonial.image %}
+                                                <img src="{{ asset('uploads/testimonials/' ~ testimonial.image) }}" alt="{{ testimonial.clientName }}" class="rounded-circle me-2" style="width:40px;height:40px;object-fit:cover;">
+                                            {% else %}
+                                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                    <i class="fas fa-user small"></i>
+                                                </div>
+                                            {% endif %}
+                                            <span class="fw-bold text-dark d-block">{{ testimonial.clientName }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small">{{ testimonial.clientRole }}</span>
+                                    </td>
+                                    <td>
+                                        <p class="text-muted small mb-0" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 400px;">
+                                            {{ testimonial.content }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                       {% if testimonial.isActive %}
+                                            <a href="{{ path('admin_testimonial_toggle_active', {'id': testimonial.id}) }}" class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge text-decoration-none" title="Click to deactivate">
+                                                <i class="fas fa-dot-circle me-1 small"></i> Active
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('admin_testimonial_toggle_active', {'id': testimonial.id}) }}" class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 status-badge text-decoration-none" title="Click to activate">
+                                                <i class="fas fa-times-circle me-1 small"></i> Inactive
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-4 text-end">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <a href="{{ path('admin_testimonial_edit', {'id': testimonial.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" 
+                                               title="Edit Details"
+                                               style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-edit small"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" 
+                                               onclick="if(confirm('Are you sure you want to delete this testimonial?')) { document.getElementById('delete-form-{{ testimonial.id }}').submit(); return false; }"
+                                               title="Delete Testimonial"
+                                               style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-trash-alt small"></i>
+                                            </a>
+                                        </div>
+                                        
+                                        <form id="delete-form-{{ testimonial.id }}" action="{{ path('admin_testimonial_delete', {'id': testimonial.id}) }}" method="POST" style="display: none;">
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-5">
+                                        <div class="d-flex flex-column align-items-center justify-content-center p-5">
+                                            <div class="bg-light rounded-circle p-4 mb-4">
+                                                <i class="fas fa-comments fa-3x text-muted opacity-25"></i>
+                                            </div>
+                                            <h5 class="text-dark fw-bold mb-2">No Testimonials Found</h5>
+                                            <p class="text-muted mb-4">Add the first testimonial to display on the home page.</p>
+                                            <button type="button" class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addTestimonialModal">
+                                                <i class="fas fa-plus me-2"></i> Create First Testimonial
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" id="addTestimonialModal" tabindex="-1" aria-labelledby="addTestimonialLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="modal-header bg-white border-0 py-4 px-4">
+                        <h5 class="modal-title fw-bold text-dark" id="addTestimonialLabel">New Testimonial</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ form_start(form, {'action': path('admin_testimonial_create')}) }}
+                        <div class="modal-body p-4 pt-0">
+                            <div class="mb-4">
+                                {{ form_label(form.clientName) }}
+                                {{ form_widget(form.clientName) }}
+                                {{ form_errors(form.clientName) }}
+                            </div>
+                            <div class="mb-4">
+                                {{ form_label(form.clientRole) }}
+                                {{ form_widget(form.clientRole) }}
+                                {{ form_errors(form.clientRole) }}
+                            </div>
+                            <div class="mb-4">
+                                {{ form_label(form.content) }}
+                                {{ form_widget(form.content) }}
+                                {{ form_errors(form.content) }}
+                            </div>
+                            <div class="mb-4">
+                                {{ form_label(form.imageFile) }}
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0"><i class="fas fa-image text-muted"></i></span>
+                                    {{ form_widget(form.imageFile) }}
+                                </div>
+                                {{ form_errors(form.imageFile) }}
+                                <div class="form-text mt-2"><i class="fas fa-info-circle me-1"></i> Formats acceptés: JPG, PNG, WEBP (Max 2Mo).</div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-check form-switch form-switch-lg mt-2 d-flex align-items-center gap-2">
+                                    {{ form_widget(form.isActive) }}
+                                    {{ form_label(form.isActive) }}
+                                </div>
+                            </div>
+                            {{ form_rest(form) }}
+                        </div>
+                        <div class="modal-footer bg-light bg-opacity-50 border-0 py-3 px-4 rounded-bottom-4 justify-content-between">
+                            <button type="button" class="btn btn-link text-muted text-decoration-none fw-medium" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold shadow-sm">Create Testimonial</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

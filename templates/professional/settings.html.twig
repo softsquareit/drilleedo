@@ -1,0 +1,305 @@
+{% extends 'professional/base_professional.html.twig' %}
+
+{% block title %}Settings - {{ app.user.companyName }}{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">Account Settings</h4>
+                <p class="pro-card-subtitle">Manage your account preferences, contact information, and business details</p>
+            </div>
+        </div>
+
+        <div class="row g-4 p-4">
+            <div class="col-lg-3">
+                <div class="pro-sidebar sticky-top">
+                    <nav>
+                        <ul class="pro-sidebar-nav">
+                            <li class="pro-sidebar-item">
+                                <a class="pro-sidebar-link active" data-bs-toggle="list" href="#contact" role="tab">
+                                    <i class="feather-user"></i> Contact Info
+                                </a>
+                            </li>
+                            <li class="pro-sidebar-item">
+                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#address" role="tab">
+                                    <i class="feather-map-pin"></i> Address Book
+                                </a>
+                            </li>
+                            <li class="pro-sidebar-item">
+                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#categories" role="tab">
+                                    <i class="feather-tag"></i> Service Category
+                                </a>
+                            </li>
+                            <li class="pro-sidebar-item">
+                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#links" role="tab">
+                                    <i class="feather-link"></i> Social Links
+                                </a>
+                            </li>
+                            <li class="pro-sidebar-item">
+                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#security" role="tab">
+                                    <i class="feather-lock"></i> Security
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="tab-content">
+                    
+                    <!-- Contact Info -->
+                    <div class="tab-pane fade show active" id="contact" role="tabpanel">
+                        <div class="pro-card">
+                            <div class="pro-card-header">
+                                <h6 class="pro-card-title">Contact Information</h6>
+                            </div>
+                            <div class="pro-card-body">
+                                {{ form_start(contactForm, {'attr': {'class': 'row g-4'}}) }}
+                                    <div class="col-lg-6">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">First Name</label>
+                                            {{ form_widget(contactForm.firstName, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">Last Name</label>
+                                            {{ form_widget(contactForm.lastName, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">Email</label>
+                                            {{ form_widget(contactForm.email, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-6">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">Phone</label>
+                                            {{ form_widget(contactForm.phone, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                     <div class="col-12">
+                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                            <i class="feather-save"></i> {{ contactForm.save.vars.label|default('Save Changes') }}
+                                        </button>
+                                    </div>
+                                {{ form_end(contactForm) }}
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Address -->
+                    <div class="tab-pane fade" id="address" role="tabpanel">
+                        <div class="pro-card pro-mb-4">
+                            <div class="pro-card-header">
+                                <h6 class="pro-card-title">Add New Address</h6>
+                            </div>
+                            <div class="pro-card-body">
+                                {{ form_start(addressForm, {'attr': {'class': 'row g-4'}}) }}
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">Street</label>
+                                            {{ form_widget(addressForm.street, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-6">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">City</label>
+                                            {{ form_widget(addressForm.city, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                     <div class="col-lg-6">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">Postal Code</label>
+                                            {{ form_widget(addressForm.postalCode, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                            <i class="feather-plus"></i> {{ addressForm.save.vars.label|default('Add Address') }}
+                                        </button>
+                                    </div>
+                                {{ form_end(addressForm) }}
+                            </div>
+                        </div>
+                        
+                        <div class="pro-card">
+                            <div class="pro-card-header">
+                                <h6 class="pro-card-title">Addresses</h6>
+                            </div>
+                            <div class="pro-table-wrapper">
+                                <table class="pro-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Address</th>
+                                            <th>City</th>
+                                            <th>Zip</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for addr in user.adresse %}
+                                            <tr>
+                                                <td>{{ addr.street }}</td>
+                                                <td>{{ addr.city }}</td>
+                                                <td>{{ addr.postalCode }}</td>
+                                                <td><a href="#" class="pro-text-danger"><i class="feather-trash-2"></i></a></td>
+                                            </tr>
+                                        {% else %}
+                                             <tr><td colspan="4" class="pro-table-empty">No addresses saved.</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Categories -->
+                    <div class="tab-pane fade" id="categories" role="tabpanel">
+                        <div class="pro-card">
+                            <div class="pro-card-header">
+                                <h6 class="pro-card-title">Select Service Category</h6>
+                            </div>
+                            <div class="pro-card-body">
+                                {{ form_start(categoryForm) }}
+                                    <p class="pro-text-muted pro-mb-3">Select the primary service category for your profile.</p>
+                                    <div class="pro-form-group">
+                                        {{ form_widget(categoryForm.category, {'attr': {'class': 'pro-form-select'}}) }}
+                                    </div>
+                                    <button type="submit" class="pro-btn pro-btn-primary">
+                                        <i class="feather-tag"></i> Update Category
+                                    </button>
+                                {{ form_end(categoryForm) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Links -->
+                    <div class="tab-pane fade" id="links" role="tabpanel">
+                        <div class="pro-card">
+                            <div class="pro-card-header">
+                                <h6 class="pro-card-title">Social Profile</h6>
+                            </div>
+                            <div class="pro-card-body">
+                                {{ form_start(socialLinksForm, {'attr': {'class': 'row g-4'}}) }}
+                                    
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label"><i class="feather-facebook"></i> Facebook</label>
+                                            {{ form_widget(socialLinksForm.facebook, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label"><i class="feather-twitter"></i> Twitter</label>
+                                            {{ form_widget(socialLinksForm.twitter, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label"><i class="feather-linkedin"></i> LinkedIn</label>
+                                            {{ form_widget(socialLinksForm.linkedin, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label"><i class="feather-globe"></i> Website</label>
+                                            {{ form_widget(socialLinksForm.website, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label"><i class="feather-instagram"></i> Instagram</label>
+                                            {{ form_widget(socialLinksForm.instagram, {'attr': {'class': 'pro-form-input'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                            <i class="feather-link"></i> Update Social Links
+                                        </button>
+                                    </div>
+                                {{ form_end(socialLinksForm) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="tab-pane fade" id="security" role="tabpanel">
+                        <div class="pro-card">
+                            <div class="pro-card-header">
+                                <h6 class="pro-card-title">Change Password</h6>
+                            </div>
+                            <div class="pro-card-body">
+                                {{ form_start(passwordForm, {'attr': {'class': 'row g-4'}}) }}
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">New Password</label>
+                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'pro-form-input', 'placeholder': 'Enter new password...'}}) }}
+                                            {{ form_errors(passwordForm.plainPassword.first) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="pro-form-group">
+                                            <label class="pro-form-label">Confirm New Password</label>
+                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'pro-form-input', 'placeholder': 'Repeat new password...'}}) }}
+                                            {{ form_errors(passwordForm.plainPassword.second) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                            <i class="feather-shield"></i> Update Password
+                                        </button>
+                                    </div>
+                                {{ form_end(passwordForm) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle tab switching
+    const tabLinks = document.querySelectorAll('[data-bs-toggle="list"]');
+    
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            tabLinks.forEach(l => l.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Hide all tab panes
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('show', 'active');
+            });
+            
+            // Show target tab pane
+            const targetId = this.getAttribute('href');
+            const targetPane = document.querySelector(targetId);
+            if (targetPane) {
+                targetPane.classList.add('show', 'active');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+

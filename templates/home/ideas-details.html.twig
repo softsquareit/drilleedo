@@ -1,0 +1,169 @@
+   {% extends 'base.html.twig' %}
+
+{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+
+{% block body %}
+    <div class="rbt-overlay-page-wrapper">
+        <div class="breadcrumb-image-container breadcrumb-style-max-width">
+            <div class="breadcrumb-image-wrapper">
+                <div class="breadcrumb-dark">
+                   <img src="{{ idea.mainImg ? (idea.mainImg starts with 'http' ? idea.mainImg : asset('uploads/blog/' ~ idea.mainImg)) : 'https://softsquareit.com/drilleedo/assets/images/bg/bg-image-10.jpg' }}" alt="{{ idea.title }}">
+                </div>
+            </div>
+            <div class="breadcrumb-content-top text-center">
+                <ul class="meta-list justify-content-center mb--10">
+                    <li class="list-item">
+                        <div class="author-thumbnail">
+                            {% set authorImg = 'assets/images/testimonial/client-06.png' %}
+                            {% if idea.author %}
+                                {% if idea.author.type == 'Professional' or idea.author.type == 'Company' %}
+                                    {% if idea.author.logo %}
+                                        {% set authorImg = asset('uploads/logos/' ~ idea.author.logo) %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            <img src="{{ authorImg }}" alt="blog-image">
+                        </div>
+                        <div class="author-info">
+                            {% if idea.author %}
+                                <strong>{{ idea.author.companyName ?: idea.author.email }}</strong>
+                            {% else %}
+                                <strong>Admin</strong>
+                            {% endif %}
+                            in <strong>{{ idea.category ? idea.category.name : 'General' }}</strong>
+                        </div>
+                    </li>
+                    <li class="list-item">
+                        <i class="feather-clock"></i>
+                        <span>{{ idea.createdAt|date('d M Y') }}</span>
+                    </li>
+                </ul>
+                <h1 class="title">{{ idea.title }}</h1>
+                <p>{{ idea.shortDesc }}</p>
+            </div>
+        </div>
+
+        <div class="rbt-blog-details-area rbt-section-gapBottom breadcrumb-style-max-width">
+            <div class="blog-content-wrapper rbt-article-content-wrapper">
+                <div class="content">
+                    <div class="post-thumbnail mb--30 position-relative wp-block-image alignwide">
+                        <figure>
+                            <img src="{{ idea.mainImg ? (idea.mainImg starts with 'http' ? idea.mainImg : asset('uploads/blog/' ~ idea.mainImg)) : asset('assets/images/blog/blog-single-03.png') }}" alt="{{ idea.title }}">
+                        </figure>
+                    </div>
+                    
+                    {{ idea.description|raw }}
+
+                    {% if idea.multipleImgs %}
+                    <div class="wp-block-gallery columns-3 is-cropped">
+                        <ul class="blocks-gallery-grid">
+                            {% for img in idea.multipleImgs %}
+                            <li class="blocks-gallery-item">
+                                <figure>
+                                    <img class="radius-4" src="{{ asset('uploads/blog/' ~ img) }}" alt="Blog Gallery Image">
+                                </figure>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <!-- BLog Tag Clound  -->
+                    <div class="tagcloud">
+                        <a href="#">Education</a>
+                        <a href="#">Life Style</a>
+                        <a href="#">React</a>
+                        <a href="#">Javascript</a>
+                        <a href="#">Web App</a>
+                        <a href="#">Application</a>
+                    </div>
+
+           
+
+
+                    <!-- Blog Author  -->
+                    <div class="about-author">
+                        <div class="media">
+                            <div class="thumbnail">
+                                {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
+                                    {% set authorLink = idea.author.type == 'Professional' ? path('professional_details', {id: idea.author.id}) : path('company_details', {id: idea.author.id}) %}
+                                    <a href="{{ authorLink }}">
+                                        <img src="{{ idea.author.logo ? asset('uploads/logos/' ~ idea.author.logo) : asset('assets/images/testimonial/testimonial-4.jpg') }}" alt="Author Images">
+                                    </a>
+                                {% else %}
+                                    <img src="{{ asset('assets/images/testimonial/testimonial-4.jpg') }}" alt="Author Images">
+                                {% endif %}
+                            </div>
+                            <div class="media-body">
+                                <div class="author-info">
+                                    <h5 class="title">
+                                        {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
+                                            <a class="hover-flip-item-wrapper" href="{{ authorLink }}">
+                                                {{ idea.author.companyName ?: idea.author.email }}
+                                            </a>
+                                        {% else %}
+                                            <span class="hover-flip-item-wrapper">
+                                                Admin
+                                            </span>
+                                        {% endif %}
+                                    </h5>
+                                    <span class="b3 subtitle">
+                                        {% if idea.author %}
+                                            {% if idea.author.type == 'Professional' %}
+                                                {{ idea.author.category ? idea.author.category.name : 'Professional' }}
+                                            {% elseif idea.author.type == 'Company' %}
+                                                Company
+                                            {% else %}
+                                                Administrator
+                                            {% endif %}
+                                        {% else %}
+                                            Administrator
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="content">
+                                    <p class="description">
+                                        {% if idea.author and idea.author.type in ['Professional', 'Company'] %}
+                                            {{ idea.author.about|default('Discover my projects and expertise in home improvement.')|slice(0, 200) }}{{ (idea.author.about|default('')|length > 200) ? '...' : '' }}
+                                        {% else %}
+                                            Drilleedo Team expert content.
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="related-post pt--60">
+                    <div class="section-title text-start mb--40">
+                        <span class="subtitle bg-primary-opacity">Related Post</span>
+                        <h4 class="title">Similar Post</h4>
+                    </div>
+
+                    {% for simIdea in similarIdeas %}
+                        <!-- Start Single Card  -->
+                        <div class="rbt-card card-list variation-02 rbt-hover mt--30">
+                            <div class="rbt-card-img">
+                                <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}">
+                                    <img src="{{ simIdea.mainImg ? (simIdea.mainImg starts with 'http' ? simIdea.mainImg : asset('uploads/blog/' ~ simIdea.mainImg)) : asset('assets/images/blog/blog-card-02.jpg') }}" alt="{{ simIdea.title }}"> </a>
+                            </div>
+                            <div class="rbt-card-body">
+                                <h5 class="rbt-card-title"><a href="{{ path('ideas_details', {slug: simIdea.slug}) }}">{{ simIdea.title }}</a>
+                                </h5>
+                                <div class="rbt-card-bottom">
+                                    <a class="transparent-button" href="{{ path('ideas_details', {slug: simIdea.slug}) }}">Read
+                                        Article<i><svg width="17" height="12" xmlns="http://www.w3.org/2000/svg"><g stroke="#27374D" fill="none" fill-rule="evenodd"><path d="M10.614 0l5.629 5.629-5.63 5.629"/><path stroke-linecap="square" d="M.663 5.572h14.594"/></g></svg></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Card  -->
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

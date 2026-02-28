@@ -1,0 +1,73 @@
+{% extends 'professional/base_professional.html.twig' %}
+
+{% block title %}Direct Requests - {{ app.user.companyName }}{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title">Direct Requests</h4>
+                <p class="pro-card-subtitle">Requests sent directly to you by individuals</p>
+            </div>
+            <span class="pro-badge info">{{ directRequests|length }} Total</span>
+        </div>
+
+        <div class="pro-table-wrapper">
+            <table class="pro-table">
+                <thead>
+                    <tr>
+                        <th>Request Details</th>
+                        <th>Individual</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in directRequests %}
+                        <tr>
+                            <td>
+                                <div>
+                                    <span class="pro-fw-semibold d-block">{{ request.title }}</span>
+                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ request.description|slice(0, 70) }}...</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span>{{ request.individual.personalInfos.firstName|default('User') }} {{ request.individual.personalInfos.lastName|default('') }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-badge secondary">{{ request.category.name|default('General') }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted">{{ request.creationDate|date('M d, Y') }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-badge {{ request.status == 'Pending' ? 'warning' : (request.status == 'Completed' ? 'success' : 'secondary') }}">
+                                    {{ request.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                    <i class="feather-send"></i> Submit Offer
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="pro-table-empty">
+                                <div class="pro-empty-state">
+                                    <div class="pro-empty-icon">
+                                        <i class="feather-inbox"></i>
+                                    </div>
+                                    <h6 class="pro-empty-title">No direct requests</h6>
+                                    <p class="pro-empty-text">No direct requests have been sent to you yet</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

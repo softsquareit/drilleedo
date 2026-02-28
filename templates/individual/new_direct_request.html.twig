@@ -1,0 +1,276 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Request Quote from {{ targetName }} - Drilleedo{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/individual-dashboard.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<!-- Zenith Banner -->
+<div class="zenith-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 text-center">
+                 <div class="zenith-title-wrapper">
+                    <span class="zenith-badge">
+                        <i class="feather-star"></i>
+                        Direct Request
+                    </span>
+                    <h1 class="zenith-title">Request Quote from {{ targetName }}</h1>
+                    <p class="description text-white opacity-75" style="max-width: 600px; margin: 0 auto; font-size: 1.2rem;">
+                        Fill out the details below to send a direct request to this specific professional or company.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form Area -->
+<div class="quote-form-area">
+    <div class="container">
+        {{ form_start(form, {'attr': {'id': 'quoteRequestForm'}}) }}
+        
+        <div class="row g-4">
+            <!-- Left Column - Form Fields -->
+            <div class="col-lg-8">
+                
+                <!-- Request Title -->
+                <div class="zenith-form-box">
+                    <div class="form-box-header">
+                        <div class="form-icon icon-primary">
+                            <i class="feather-edit-3"></i>
+                        </div>
+                        <div class="form-box-title">
+                            <h5>Request Title</h5>
+                            <p>What do you need help with?</p>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        {{ form_widget(form.title, {
+                            'attr': {
+                                'class': 'zenith-input',
+                                'placeholder': 'E.g., Fix leaking faucet, Kitchen renovation...'
+                            }
+                        }) }}
+                        {{ form_errors(form.title) }}
+                        <div class="form-hint">
+                            <i class="feather-info"></i>
+                            <span>Be specific - it helps them understand your needs better</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Category -->
+                <div class="zenith-form-box">
+                    <div class="form-box-header">
+                        <div class="form-icon icon-secondary">
+                            <i class="feather-grid"></i>
+                        </div>
+                        <div class="form-box-title">
+                            <h5>Service Category</h5>
+                            <p>Select the category that best matches your project</p>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        {{ form_widget(form.category, {
+                            'attr': {
+                                'class': 'zenith-select'
+                            }
+                        }) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+                </div>
+
+                <!-- Request Description -->
+                <div class="zenith-form-box">
+                    <div class="form-box-header">
+                        <div class="form-icon icon-success">
+                            <i class="feather-file-text"></i>
+                        </div>
+                        <div class="form-box-title">
+                            <h5>Request Description</h5>
+                            <p>Tell them what you need done</p>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        {{ form_widget(form.description, {
+                            'attr': {
+                                'class': 'zenith-textarea',
+                                'placeholder': 'Describe what you need:\n\n• What work needs to be done?\n• Any specific requirements?\n• When do you need this done?'
+                            }
+                        }) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+
+                <!-- Upload Photos -->
+                <div class="zenith-form-box">
+                    <div class="form-box-header">
+                        <div class="form-icon icon-warning">
+                            <i class="feather-image"></i>
+                        </div>
+                        <div class="form-box-title">
+                            <h5>Upload Photos <span class="badge bg-light text-muted ms-2">Optional</span></h5>
+                            <p>Add images to help them understand what you need</p>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <div class="zenith-upload-zone" id="uploadZone">
+                            <div class="upload-icon-wrap">
+                                <i class="feather-upload-cloud"></i>
+                            </div>
+                            <h4 class="upload-title">Drop your photos here</h4>
+                            <p class="upload-subtitle">or click to browse from your device</p>
+                            <div class="upload-specs">
+                                <span><i class="feather-check"></i> JPG, PNG, WEBP</span>
+                                <span><i class="feather-check"></i> Max 5MB each</span>
+                                <span><i class="feather-check"></i> Up to 10 photos</span>
+                            </div>
+                            {{ form_widget(form.images, {
+                                'attr': {
+                                    'class': 'file-input-hidden',
+                                    'id': 'fileInput',
+                                    'onchange': 'handleFileSelect(event)'
+                                }
+                            }) }}
+                        </div>
+                        <div class="preview-grid" id="previewGrid"></div>
+                         {{ form_errors(form.images) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Info & Submit -->
+            <div class="col-lg-4">
+                <div class="zenith-sticky-sidebar">
+                    <!-- Info Card -->
+                    <div class="zenith-info-card">
+                        <div class="info-card-header">
+                            <div class="info-header-icon">
+                                <i class="feather-info"></i>
+                            </div>
+                            <h5>What happens next?</h5>
+                        </div>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <div class="process-number step-1">1</div>
+                                <div class="process-content">
+                                    <h6>Request Sent</h6>
+                                    <p>{{ targetName }} will receive your request immediately.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="process-number step-2">2</div>
+                                <div class="process-content">
+                                    <h6>Review & Reply</h6>
+                                    <p>They will review your project details and may ask for clarification.</p>
+                                </div>
+                            </div>
+                            <div class="process-step">
+                                <div class="process-number step-3">3</div>
+                                <div class="process-content">
+                                    <h6>Get a Quote</h6>
+                                    <p>If they are interested, they will send you a quote or offer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="zenith-submit-btn">
+                        Send Direct Request <i class="feather-arrow-right"></i>
+                    </button>
+                    <p class="submit-note">
+                        <i class="feather-lock"></i> Your request is private and secure
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    // File Upload Handling
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const previewGrid = document.getElementById('previewGrid');
+
+    // Drag and drop events
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        uploadZone.classList.add('dragging');
+    }
+
+    function unhighlight(e) {
+        uploadZone.classList.remove('dragging');
+    }
+
+    uploadZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files; // Update input files
+        handleFiles(files);
+    }
+
+    function handleFileSelect(e) {
+        const files = e.target.files;
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        previewGrid.innerHTML = ''; // Clear existing previews
+        ([...files]).forEach(previewFile);
+    }
+
+    function previewFile(file) {
+        if (!file.type.startsWith('image/')) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function() {
+            const div = document.createElement('div');
+            div.className = 'preview-item';
+            div.innerHTML = `
+                <img src="${reader.result}" alt="${file.name}">
+                <button type="button" class="preview-remove" onclick="this.parentElement.remove()">
+                    <i class="feather-x"></i>
+                </button>
+            `;
+            previewGrid.appendChild(div);
+        }
+    }
+
+    // Trigger file input when clicking zone
+    uploadZone.addEventListener('click', (e) => {
+        if (e.target !== fileInput) {
+            fileInput.click();
+        }
+    });
+</script>
+{% endblock %}

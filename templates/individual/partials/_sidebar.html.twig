@@ -1,0 +1,58 @@
+<div class="pro-sidebar-wrapper">
+    <div class="pro-sidebar-profile">
+        <h6 class="pro-sidebar-welcome">Welcome back,</h6>
+        <p class="pro-sidebar-name">{{ app.user.personalInfos ? app.user.personalInfos.firstName : (app.user.firstname|default('Individual')) }}</p>
+    </div>
+
+    <nav class="pro-sidebar-nav-container">
+        <div class="pro-sidebar-section">
+            <ul class="pro-sidebar-list">
+                <li>
+                    <a href="{{ path('individual_dashboard') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_dashboard' %}active{% endif %}">
+                        <i class="feather-home"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('individual_profile') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_profile' %}active{% endif %}">
+                        <i class="feather-user"></i> <span>My Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pro-sidebar-section">
+            <ul class="pro-sidebar-list">
+                <li>
+                    <a href="{{ path('individual_quotes') }}" class="pro-sidebar-link {% if app.request.get('_route') in ['individual_quotes', 'individual_quote_show'] %}active{% endif %}">
+                        <i class="feather-file-text"></i> <span>My Quotes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('individual_direct_requests') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_direct_requests' %}active{% endif %}">
+                        <i class="feather-send"></i> <span>Direct Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('individual_quote_new') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_quote_new' %}active{% endif %}">
+                        <i class="feather-plus-circle"></i> <span>Post New Request</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pro-sidebar-section">
+            <ul class="pro-sidebar-list">
+                <li>
+                    <a href="{{ path('individual_settings') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_settings' %}active{% endif %}">
+                        <i class="feather-settings"></i> <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_logout') }}" class="pro-sidebar-link danger">
+                        <i class="feather-log-out"></i> <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

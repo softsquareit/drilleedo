@@ -1,0 +1,87 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}My Quote Requests - Drilleedo{% endblock %}
+
+{% block body %}
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header border-bottom">
+            <div>
+                <h4 class="pro-card-title">My Quote Requests</h4>
+                <p class="pro-card-subtitle">All your posted quote requests and their current status</p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="pro-badge info">{{ quotes|length }} Total</span>
+                <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm d-flex align-items-center gap-2">
+                    <i class="feather-plus"></i> New Request
+                </a>
+            </div>
+        </div>
+
+        <div class="pro-table-wrapper">
+            <table class="pro-table align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 40%">Request Details</th>
+                        <th>Category</th>
+                        <th>Date Posted</th>
+                        <th>Offers Received</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quote in quotes %}
+                        <tr>
+                            <td>
+                                <div>
+                                    <span class="pro-fw-semibold d-block text-dark">{{ quote.title }}</span>
+                                    <span class="pro-text-muted" style="font-size: 0.8125rem;">{{ quote.description|slice(0, 80) }}...</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border">{{ quote.category.name|default('General') }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted small"><i class="feather-calendar me-1"></i>{{ quote.creationDate|date('M d, Y') }}</span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3">{{ quote.offers|length }} offers</span>
+                                </div>
+                            </td>
+                            <td>
+                                {% set statusBadges = {
+                                    'Pending': '<span class="badge bg-warning text-dark"><i class="feather-clock me-1"></i>Pending</span>',
+                                    'Accepted': '<span class="badge bg-success"><i class="feather-check-circle me-1"></i>Accepted</span>',
+                                    'Completed': '<span class="badge bg-success"><i class="feather-check-circle me-1"></i>Completed</span>',
+                                    'Rejected': '<span class="badge bg-danger"><i class="feather-x-circle me-1"></i>Rejected</span>'
+                                } %}
+                                {{ statusBadges[quote.status]|default('<span class="badge bg-secondary">' ~ quote.status ~ '</span>')|raw }}
+                            </td>
+                            <td>
+                                <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm d-flex align-items-center justify-content-center gap-2">
+                                    <i class="feather-eye"></i> Details
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="pro-table-empty py-5">
+                                <div class="pro-empty-state text-center">
+                                    <div class="pro-empty-icon mb-3 text-muted">
+                                        <i class="feather-file-text" style="font-size: 3rem; opacity: 0.5;"></i>
+                                    </div>
+                                    <h6 class="pro-empty-title">No quote requests found</h6>
+                                    <p class="pro-empty-text text-muted mb-4">You haven't posted any quote requests yet. Get started by describing what you need!</p>
+                                    <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary">
+                                        <i class="feather-plus me-2"></i> Post Your First Request
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

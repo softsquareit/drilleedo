@@ -1,0 +1,70 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}Account Settings - Drilleedo{% endblock %}
+
+{% block body %}
+    <div class="row g-4">
+        <div class="col-lg-8 mx-auto">
+            <div class="pro-card pro-card-elevated">
+                <div class="pro-card-header border-bottom">
+                    <div>
+                        <h4 class="pro-card-title">Account Settings</h4>
+                        <p class="pro-card-subtitle">Manage your account security and password</p>
+                    </div>
+                </div>
+
+                <div class="pro-card-body pt-4">
+                    {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                    <i class="feather-lock"></i>
+                                </div>
+                                Change Password
+                            </h6>
+                            
+                            <div class="pro-form-group mb-3">
+                                <label class="pro-form-label fw-semibold text-muted small text-uppercase" for="{{ form.plainPassword.first.vars.id }}">New Password</label>
+                                {{ form_widget(form.plainPassword.first, {
+                                    'attr': {
+                                        'class': 'pro-form-input',
+                                        'placeholder': 'Enter your new password'
+                                    }
+                                }) }}
+                                <div class="text-danger small mt-1">{{ form_errors(form.plainPassword.first) }}</div>
+                            </div>
+
+                            <div class="pro-form-group mb-3">
+                                <label class="pro-form-label fw-semibold text-muted small text-uppercase" for="{{ form.plainPassword.second.vars.id }}">Confirm New Password</label>
+                                {{ form_widget(form.plainPassword.second, {
+                                    'attr': {
+                                        'class': 'pro-form-input',
+                                        'placeholder': 'Confirm your new password'
+                                    }
+                                }) }}
+                                <div class="text-danger small mt-1">{{ form_errors(form.plainPassword.second) }}</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-end pt-3 border-top mt-4">
+                            <button type="submit" class="pro-btn pro-btn-primary px-5">
+                                <i class="feather-save me-2"></i> Update Password
+                            </button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            
+            <div class="mt-4 p-4 bg-light rounded-3 d-flex align-items-start gap-3">
+                <i class="feather-info text-primary mt-1" style="font-size: 1.25rem;"></i>
+                <div>
+                    <h6 class="fw-bold mb-1">Need to change your email or other details?</h6>
+                    <p class="small text-muted mb-2">Basic details like your name, phone number, and address can be updated on your profile page.</p>
+                    <a href="{{ path('individual_profile') }}" class="btn btn-link p-0 text-decoration-none small fw-semibold">Go to My Profile <i class="feather-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

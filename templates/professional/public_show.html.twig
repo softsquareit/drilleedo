@@ -1,0 +1,432 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ professional.tradeName ?: professional.companyName ?: 'Professional Profile' }} – Drilleedo{% endblock %}
+
+{% block stylesheets %}
+<style>
+    :root {
+        --zenith-bg-light: #f8fafc;
+        --zenith-border: #e2e8f0;
+        --zenith-primary: #0F172A;
+    }
+
+    /* Zenith Hero Section */
+    .zenith-hero-wrapper {
+        position: relative;
+        background: #0f172a;
+        margin-bottom: 80px;
+    }
+
+    .zenith-hero-bg {
+        height: 480px;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    
+    .zenith-hero-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.9));
+    }
+
+    .zenith-profile-header {
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding-bottom: 20px;
+    }
+
+    .zenith-avatar-large {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        background: #fff;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    
+    .zenith-avatar-large img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .zenith-avatar-placeholder {
+        width: 100%;
+        height: 100%;
+        background: #0F172A;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: 700;
+    }
+
+    .zenith-name {
+        
+        font-size: 3.5rem;
+        color: #fff;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .zenith-verified-badge {
+         display: inline-flex;
+         align-items: center;
+         gap: 6px;
+         background: rgba(34, 197, 94, 0.2);
+         color: #4ade80;
+         border: 1px solid rgba(34, 197, 94, 0.4);
+         padding: 6px 14px;
+         border-radius: 50px;
+         font-size: 0.9rem;
+         font-weight: 600;
+         backdrop-filter: blur(4px);
+    }
+
+    /* Content Layout */
+    .zenith-section-title {
+        
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--zenith-primary);
+        position: relative;
+        padding-left: 20px;
+    }
+    
+    .zenith-section-title::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 4px;
+        background: var(--color-primary);
+        border-radius: 4px;
+    }
+
+    .zenith-box {
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        border: 1px solid var(--zenith-border);
+        margin-bottom: 40px;
+    }
+
+    .zenith-grid-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+        color: #475569;
+        font-size: 1.05rem;
+    }
+    
+    .zenith-grid-list li i {
+        color: var(--color-primary);
+        background: rgba(59, 130, 246, 0.1);
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 14px;
+    }
+
+    /* Sticker Sidebar */
+    .zenith-sticky-card {
+        position: sticky;
+        top: 120px;
+        background: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        border: 1px solid var(--zenith-border);
+    }
+
+    .zenith-contact-btn {
+        width: 100%;
+        padding: 16px;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: 0.3s;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .zenith-btn-primary {
+        background: var(--color-primary);
+        color: #fff !important;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    }
+    .zenith-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+    }
+    
+    .zenith-btn-secondary {
+        background: #f1f5f9;
+        color: #475569 !important;
+    }
+    .zenith-btn-secondary:hover {
+        background: #e2e8f0;
+        color: #0f172a !important;
+    }
+
+    /* Projects Grid */
+    .zenith-project-card {
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        height: 280px;
+        group: project;
+    }
+    
+    .zenith-project-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.5s;
+    }
+    
+    .zenith-project-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 20px;
+        opacity: 0;
+        transition: 0.3s;
+    }
+    
+    .zenith-project-card:hover img {
+        transform: scale(1.1);
+    }
+    .zenith-project-card:hover .zenith-project-overlay {
+        opacity: 1;
+    }
+
+    @media (max-width: 991px) {
+        .zenith-hero-bg { height: 350px; }
+        .zenith-name { font-size: 2.5rem; }
+        .zenith-hero-wrapper { margin-bottom: 220px; }
+        .zenith-profile-header { bottom: -200px; text-align: center; }
+        .zenith-avatar-large { margin: 0 auto 20px; }
+        .zenith-sticky-card { position: static; margin-top: 40px; }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="zenith-hero-wrapper">
+    <div class="zenith-hero-bg" style="{% if professional.banner %}background-image: url('{{ asset('uploads/banners/' ~ professional.banner) }}');{% else %}background-color: #0F172A;{% endif %}">
+        <div class="container h-100">
+            <div class="row h-100 align-items-end">
+                <div class="col-lg-12">
+                     <div class="zenith-profile-header">
+                        <div class="d-lg-flex align-items-end gap-5">
+                            <div class="zenith-avatar-large flex-shrink-0">
+                                {% if professional.logo %}
+                                    <img src="{{ asset('uploads/logos/' ~ professional.logo) }}" alt="Profile Photo">
+                                {% else %}
+                                    <div class="zenith-avatar-placeholder">{{ professional.tradeName|first|default('P')|upper }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-4">
+                                <h1 class="zenith-name">{{ professional.tradeName ?: professional.companyName ?: (professional.firstName ~ ' ' ~ professional.lastName) }}</h1>
+                                <div class="d-flex align-items-center flex-wrap gap-3">
+                                    <span class="zenith-verified-badge"><i class="feather-check-circle"></i> Verified Pro</span>
+                                    <span class="text-white opacity-75"><i class="feather-map-pin"></i> {{ professional.city|default('Canada') }}</span>
+                                    <span class="text-white opacity-75">| {{ professional.category.name|default('Professional Service') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rbt-section-gapBottom">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Side Content -->
+            <div class="col-lg-8">
+                
+                <!-- Section: About -->
+                <div class="zenith-box">
+                    <h3 class="zenith-section-title">Professional Bio</h3>
+                    {% if professional.about %}
+                        <p style="color: #64748b; line-height: 1.8; white-space: pre-wrap;">{{ professional.about }}</p>
+                    {% else %}
+                        <p class="lead mb-4" style="color: #334155; font-weight: 500;">
+                            {{ professional.tradeName ?: professional.companyName }} is a dedicated professional providing high-quality 
+                            {{ professional.category ? professional.category.name|lower : 'renovation' }} solutions.
+                        </p>
+                        <p style="color: #64748b; line-height: 1.8;">
+                            With over {{ professional.expYears|default('several') }} years of experience in the industry, I have honed my skills to deliver exceptional results for every client.
+                            Whether it's a small repair or a major installation, I bring precision, reliability, and a clean workspace to every job.
+                            Client satisfaction is my top priority.
+                        </p>
+                    {% endif %}
+                </div>
+
+                <!-- Section: Highlights -->
+                <div class="zenith-box">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h4 class="mb-4 font-primary">Why Hire Me</h4>
+                            <ul class="zenith-grid-list list-unstyled">
+                                {% if professional.whyChooseUs|length > 0 %}
+                                    {% for item in professional.whyChooseUs %}
+                                        <li><i class="feather-award"></i> {{ item }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><i class="feather-award"></i> {{ professional.expYears|default(1) }}+ Years Experience</li>
+                                    <li><i class="feather-check-square"></i> Quality Guaranteed</li>
+                                    <li><i class="feather-clock"></i> Punctual & Reliable</li>
+                                    <li><i class="feather-thumbs-up"></i> Customer Focused</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="mb-4 font-primary">Services Offered</h4>
+                            <ul class="zenith-grid-list list-unstyled">
+                                {% if professional.services|length > 0 %}
+                                    {% for item in professional.services %}
+                                        <li><i class="feather-tool"></i> {{ item }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><i class="feather-tool"></i> {{ professional.category.name|default('General Service') }}</li>
+                                    <li><i class="feather-clipboard"></i> Consultations</li>
+                                    <li><i class="feather-settings"></i> Maintenance & Repair</li>
+                                    <li><i class="feather-box"></i> Custom Installations</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Projects -->
+                <div class="mb-5">
+                    <h3 class="zenith-section-title">Work Portfolio</h3>
+                    <div class="row g-4">
+                        {% for project in professional.projets %}
+                            <div class="col-md-6">
+                                <a href="{{ path('project_show', {'id': project.id}) }}" class="d-block" style="text-decoration: none;">
+                                    <div class="zenith-project-card">
+                                        <img src="{{ project.mainPhoto ? asset('uploads/projects/' ~ project.mainPhoto) : asset('assets/drilleedo/assets/images/bg/bg-image-1.jpg') }}" alt="{{ project.name }}">
+                                        <div class="zenith-project-overlay">
+                                            <span class="badge bg-primary mb-2 w-auto align-self-start">{{ project.startDate|date('M Y') }}</span>
+                                            <h4 class="text-white mb-0 h5">{{ project.name }}</h4>
+                                            <p class="text-white-50 small mb-0">{{ project.description|slice(0, 50) }}...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <div class="p-5 text-center bg-light rounded-3 border border-dashed">
+                                    <p class="mb-0 text-muted">No projects added to portfolio yet.</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Section: FAQ -->
+                 <div class="zenith-box p-0 overflow-hidden">
+                    <div class="p-4 border-bottom">
+                         <h3 class="zenith-section-title mb-0">Frequently Asked Questions</h3>
+                    </div>
+                    <div class="accordion accordion-flush" id="accordionFAQ">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    How do I get an estimate?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body text-muted">
+                                    Please use the "Request a Quote" button on this sidebar to send me details about your project. I'll get back to you with an estimate or to schedule a visit.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    What areas do you serve?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
+                                <div class="accordion-body text-muted">
+                                    I primarily serve clients in {{ professional.city|default('the local area') }} and surrounding neighborhoods.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+
+            </div>
+
+             <!-- Right Sidebar -->
+            <div class="col-lg-4">
+                <div class="zenith-sticky-card">
+                    <div class="d-flex align-items-center gap-2 mb-2 text-warning">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="text-dark fw-bold ms-1">5.0</span>
+                    </div>
+                    <h4 class="mb-4">Let's work together</h4>
+                    
+                    <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" class="btn zenith-contact-btn zenith-btn-primary">
+                        Request a Quote <i class="feather-arrow-right"></i>
+                    </a>
+                    <a href="mailto:{{ professional.email }}" class="btn zenith-contact-btn zenith-btn-secondary">
+                        <i class="feather-mail"></i> Contact Professional
+                    </a>
+
+                    <hr class="my-4 opacity-10">
+
+                    <ul class="list-unstyled d-flex flex-column gap-3 text-muted">
+                        <li class="d-flex justify-content-between">
+                            <span>Experience</span>
+                            <span class="text-dark fw-medium">{{ professional.expYears|default(0) }} Years</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span>Projects</span>
+                            <span class="text-dark fw-medium">{{ professional.projets|length }} Completed</span>
+                        </li>
+                         <li class="d-flex justify-content-between">
+                            <span>Phone</span>
+                            <span class="text-dark fw-medium">{{ professional.phoneNum|default('Hidden') }}</span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

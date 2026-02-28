@@ -1,0 +1,234 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}Quote Request Details - Drilleedo{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Add simple styles for the timeline/status if needed, otherwise rely on pro-card -->
+    <style>
+        .pro-detail-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .pro-detail-value {
+            font-size: 1rem;
+            color: #1e293b;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .offer-message-snippet {
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- Header Actions -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <a href="{{ path('individual_quotes') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
+            <i class="feather-arrow-left"></i> Back to My Quotes
+        </a>
+        <button type="button" class="pro-btn pro-btn-outline pro-btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#editQuoteModal">
+            <i class="feather-edit-2"></i> Edit Request
+        </button>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Quote Details Card -->
+        <div class="col-lg-12">
+            <div class="pro-card pro-card-elevated h-100">
+                <div class="pro-card-header border-bottom d-flex justify-content-between align-items-start">
+                    <div>
+                        <h4 class="pro-card-title mb-1">{{ quote.title }}</h4>
+                        <p class="mb-0 text-muted small"><i class="feather-calendar me-1"></i> Posted on {{ quote.creationDate|date('F j, Y') }}</p>
+                    </div>
+                    <div>
+                        {% set statusClass = quote.status == 'Pending' ? 'bg-warning text-dark' : (quote.status in ['Accepted', 'Completed'] ? 'bg-success' : 'bg-secondary') %}
+                        <span class="badge {{ statusClass }} px-3 py-2" style="font-size: 0.85rem;">
+                            {{ quote.status }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="pro-card-body pt-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="pro-detail-label">Description</div>
+                            <div class="pro-detail-value text-wrap text-break" style="white-space: pre-line;">
+                                {{ quote.description }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 border-start">
+                            <div class="ps-md-3">
+                                <div class="pro-detail-label">Category</div>
+                                <div class="pro-detail-value">
+                                    <span class="badge bg-light text-dark border">{{ quote.category.name|default('General') }}</span>
+                                </div>
+                                
+                                <div class="pro-detail-label mt-4">Attached Photos</div>
+                                <div class="pro-detail-value">
+                                    {% if quote.images|length > 0 %}
+                                        <div class="d-flex flex-wrap gap-2 mt-2">
+                                            {% for image in quote.images %}
+                                                <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank" class="d-inline-block border rounded p-1">
+                                                    <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Reference Image" style="width: 64px; height: 64px; object-fit: cover; border-radius: 4px;">
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <span class="text-muted small fst-italic">No photos attached</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offers Section -->
+    <div class="pro-card pro-card-elevated">
+        <div class="pro-card-header border-bottom">
+            <h4 class="pro-card-title d-flex align-items-center gap-2">
+                <i class="feather-inbox text-primary"></i> Received Offers
+                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill ms-2">{{ quote.offers|length }}</span>
+            </h4>
+        </div>
+
+        <div class="pro-table-wrapper">
+            <table class="pro-table align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 25%">Professional / Company</th>
+                        <th>Proposed Amount</th>
+                        <th style="width: 30%">Message / Notes</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for offer in quote.offers %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="pro-avatar bg-light text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;">
+                                        {% set providerName = offer.provider.primaryContact ? (offer.provider.primaryContact.firstName ~ ' ' ~ offer.provider.primaryContact.lastName) : (offer.provider.companyName|default(offer.provider.email)) %}
+                                        {{ providerName|slice(0, 1)|upper }}
+                                    </div>
+                                    <div>
+                                        <span class="pro-fw-semibold d-block text-dark">{{ providerName }}</span>
+                                        <span class="pro-text-muted small">{{ offer.provider.type == 'Professional' ? 'Independent Professional' : 'Company' }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="fw-bold text-dark">{{ offer.price }} {{ offer.currency|default('€') }}</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted small offer-message-snippet" title="{{ offer.description }}">
+                                    {{ offer.description|default('No additional message provided.') }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted small">{{ offer.createdAt|date('M d, Y') }}</span>
+                            </td>
+                            <td>
+                                {% set offerStatusClass = offer.status|upper == 'PENDING' ? 'bg-warning text-dark' : (offer.status == 'Accepted' ? 'bg-success' : 'bg-secondary') %}
+                                <span class="badge {{ offerStatusClass }}">{{ offer.status|default('Pending') }}</span>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="pro-table-empty py-5">
+                                <div class="pro-empty-state text-center">
+                                    <div class="pro-empty-icon mb-3 text-muted">
+                                        <i class="feather-inbox" style="font-size: 3rem; opacity: 0.5;"></i>
+                                    </div>
+                                    <h6 class="pro-empty-title">No offers received yet</h6>
+                                    <p class="pro-empty-text text-muted mb-0">Professionals will review your request and submit their quotes here.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    
+    <!-- Edit Quote Modal -->
+    <div class="modal fade" id="editQuoteModal" tabindex="-1" aria-labelledby="editQuoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="editQuoteModalLabel">Edit Quote Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                        
+                        <div class="pro-form-group mb-4">
+                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.title.vars.id }}">Request Title</label>
+                            {{ form_widget(form.title, {'attr': {'class': 'pro-form-input', 'style': 'font-size: 1.05rem; padding: 0.75rem 1rem;'}}) }}
+                            <div class="form-text text-muted small mt-1">Make it clear and concise.</div>
+                            <div class="text-danger small mt-1">{{ form_errors(form.title) }}</div>
+                        </div>
+
+                        <div class="pro-form-group mb-4">
+                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.category.vars.id }}">Service Category</label>
+                            {{ form_widget(form.category, {'attr': {'class': 'pro-form-input', 'style': 'padding: 0.75rem 1rem;'}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.category) }}</div>
+                        </div>
+
+                        <div class="pro-form-group mb-4">
+                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.description.vars.id }}">Project Description</label>
+                            {{ form_widget(form.description, {'attr': {'class': 'pro-form-input', 'rows': '6', 'style': 'font-size: 1rem; padding: 1rem;'}}) }}
+                            <div class="form-text text-muted small mt-1">Provide as much detail as possible to get accurate quotes.</div>
+                            <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
+                        </div>
+
+                        <div class="pro-form-group mb-4">
+                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.images.vars.id }}">
+                                <i class="feather-image me-1"></i> Add More Photos (Optional)
+                            </label>
+                            
+                            {% if quote.images|length > 0 %}
+                                <div class="mb-3 p-3 bg-light rounded border">
+                                    <p class="small text-muted mb-2 fw-semibold"><i class="feather-info text-primary"></i> Existing photos will be kept. You can add more below.</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for image in quote.images %}
+                                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Existing Photo" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6;">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            {{ form_widget(form.images, {'attr': {'class': 'form-control', 'accept': 'image/*', 'style': 'padding: 0.5rem;'}}) }}
+                            <div class="form-text text-muted small mt-2">Upload JPEG or PNG files up to 5MB. New files will be appended to your existing photos.</div>
+                            <div class="text-danger small mt-1">{{ form_errors(form.images) }}</div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-3 pt-4 border-top mt-5">
+                            <button type="button" class="pro-btn pro-btn-outline px-4" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="pro-btn pro-btn-primary px-5">
+                                <i class="feather-save me-2"></i> Save Changes
+                            </button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
