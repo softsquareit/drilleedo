@@ -83,6 +83,8 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--pro-slate-900);
     line-height: 1.6;
+    font-size: 16px;
+    /* Base font size increased for readability */
 }
 
 /* ===== PREMIUM CARD SYSTEM ===== */
@@ -166,7 +168,7 @@
 /* ===== MODERN STAT CARDS ===== */
 .pro-stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: var(--pro-spacing-lg);
     margin-bottom: var(--pro-spacing-xl);
 }
@@ -419,9 +421,10 @@
 .pro-badge {
     display: inline-flex;
     align-items: center;
-    padding: 5px 14px;
+    padding: 6px 16px;
     border-radius: var(--pro-radius-full);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    /* Slightly larger for readability */
     font-weight: 600;
     line-height: 1.4;
     transition: all var(--pro-transition-fast);
@@ -435,9 +438,10 @@
 }
 
 .pro-badge.success {
-    background: rgba(16, 185, 129, 0.12);
+    /* Green for Active / Accepted */
+    background: rgba(16, 185, 129, 0.15);
     color: var(--pro-success-dark);
-    border-color: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.3);
 }
 
 .pro-badge.info {
@@ -447,21 +451,24 @@
 }
 
 .pro-badge.warning {
-    background: rgba(245, 158, 11, 0.12);
+    /* Yellow for Pending / Waiting */
+    background: rgba(245, 158, 11, 0.15);
     color: var(--pro-warning-dark);
-    border-color: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.3);
 }
 
 .pro-badge.danger {
-    background: rgba(239, 68, 68, 0.12);
+    /* Red for Refused / Closed */
+    background: rgba(239, 68, 68, 0.15);
     color: var(--pro-danger-dark);
-    border-color: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.3);
 }
 
 .pro-badge.secondary {
+    /* Gray for Draft / Disabled */
     background: var(--pro-slate-100);
     color: var(--pro-slate-700);
-    border-color: var(--pro-slate-200);
+    border-color: var(--pro-slate-300);
 }
 
 /* ===== MODERN BUTTONS ===== */
@@ -469,10 +476,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px 24px;
+    gap: 10px;
+    padding: 14px 28px;
+    /* Larger hit area */
     border-radius: var(--pro-radius-md);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    /* Larger font */
     font-weight: 600;
     text-decoration: none;
     border: none;
@@ -1349,6 +1358,73 @@
     justify-content: center;
 }
 
+/* ===== MODERN ALERT SYSTEM ===== */
+.pro-alert {
+    padding: 16px 24px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 250ms ease;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+.pro-alert::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: currentColor;
+    opacity: 0.8;
+}
+
+.pro-alert .alert-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.pro-alert-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: #059669;
+}
+
+.pro-alert-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #dc2626;
+}
+
+.pro-alert-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: #d97706;
+}
+
+.pro-alert-info {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.2);
+    color: #2563eb;
+}
+
+.pro-alert .btn-close {
+    margin-left: auto;
+    padding: 0.5rem;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.pro-alert .btn-close:hover {
+    opacity: 1;
+}
+
 .project-placeholder {
     width: 64px;
     height: 64px;
@@ -1408,4 +1484,26 @@
 
 .project-link:hover {
     gap: 8px;
+}
+
+.pro-btn-success {
+    background-color: #10b981;
+    color: #ffffff !important;
+}
+
+.pro-btn-success:hover {
+    background-color: #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transform: translateY(-2px);
+}
+
+.pro-btn-danger {
+    background-color: #ef4444;
+    color: #ffffff !important;
+}
+
+.pro-btn-danger:hover {
+    background-color: #dc2626;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
 }

@@ -121,8 +121,7 @@
                     <form action="{{ path('individual_quote_toggle', {'id': quote.id}) }}" method="POST" class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('toggle-quote-' ~ quote.id) }}">
                         {% if quote.status == 'Inactive' %}
-                            <button type="submit" class="pro-btn pro-btn-sm d-flex align-items-center gap-2"
-                                    style="background: #22c55e; color: #fff; border: none;">
+                            <button type="submit" class="pro-btn pro-btn-success pro-btn-sm d-flex align-items-center gap-2">
                                 <i class="feather-eye"></i> Activate
                             </button>
                         {% else %}
@@ -141,8 +140,7 @@
                 </button>
 
                 {# Delete Button #}
-                <button type="button" class="pro-btn pro-btn-sm d-flex align-items-center gap-2"
-                        style="background: #ef4444; color: #fff; border: none;"
+                <button type="button" class="pro-btn pro-btn-danger pro-btn-sm d-flex align-items-center gap-2"
                         data-bs-toggle="modal" data-bs-target="#deleteQuoteModal">
                     <i class="feather-trash-2"></i> Delete
                 </button>
@@ -161,15 +159,15 @@
                     </div>
                     <div>
                         {% set statusMap = {
-                            'Pending': {'class': 'bg-warning text-dark', 'icon': 'feather-clock'},
-                            'Active': {'class': 'bg-success', 'icon': 'feather-zap'},
-                            'Inactive': {'class': 'bg-secondary', 'icon': 'feather-pause-circle'},
-                            'Accepted': {'class': 'bg-success', 'icon': 'feather-check-circle'},
-                            'Closed': {'class': 'bg-danger', 'icon': 'feather-lock'}
+                            'Pending': {'class': 'warning', 'icon': 'feather-clock'},
+                            'Active': {'class': 'success', 'icon': 'feather-zap'},
+                            'Inactive': {'class': 'secondary', 'icon': 'feather-pause-circle'},
+                            'Accepted': {'class': 'success', 'icon': 'feather-check-circle'},
+                            'Closed': {'class': 'danger', 'icon': 'feather-lock'}
                         } %}
-                        {% set statusInfo = statusMap[quote.status]|default({'class': 'bg-secondary', 'icon': 'feather-help-circle'}) %}
-                        <span class="badge {{ statusInfo.class }} px-3 py-2" style="font-size: 1rem;">
-                            <i class="{{ statusInfo.icon }} me-1"></i>{{ quote.status }}
+                        {% set statusInfo = statusMap[quote.status]|default({'class': 'secondary', 'icon': 'feather-help-circle'}) %}
+                        <span class="pro-badge {{ statusInfo.class }} px-4 py-2" style="font-size: 1.15rem;">
+                            <i class="{{ statusInfo.icon }} me-2"></i>{{ quote.status }}
                         </span>
                     </div>
                 </div>
@@ -186,7 +184,9 @@
                             <div class="ps-md-3">
                                 <div class="pro-detail-label">Category</div>
                                 <div class="pro-detail-value">
-                                    <span class="badge bg-light text-dark border">{{ quote.category.name|default('General') }}</span>
+                                    <span class="pro-badge secondary">
+                                        <i class="feather-tag me-1"></i>{{ quote.category.name|default('General') }}
+                                    </span>
                                 </div>
 
                                 <div class="pro-detail-label mt-4">Attached Photos</div>
@@ -328,11 +328,11 @@
                                 </div>
                                 <div class="text-muted small" style="font-size: 1rem;">Submitted {{ offer.createdAt|date('M d, Y') }}</div>
                             </td>
-                            <td>
-                                <div class="text-muted small" style="font-size: 0.85rem; line-height: 1.4; max-width: 250px;">
-                                    {{ offer.description|default('No notes provided.')|slice(0, 80) }}{% if offer.description|default('')|length > 80 %}...{% endif %}
-                                </div>
-                            </td>
+                             <td>
+                                 <div class="text-muted" style="font-size: 1rem; line-height: 1.5; max-width: 250px;">
+                                     {{ offer.description|default('No notes provided.')|slice(0, 100) }}{% if offer.description|default('')|length > 100 %}...{% endif %}
+                                 </div>
+                             </td>
                             <td>
                                 {% set offerStatusMap = {
                                     'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
@@ -514,8 +514,8 @@
                     <div class="d-flex flex-column gap-2 mt-4">
                         <form action="{{ path('individual_quote_delete', {'id': quote.id}) }}" method="POST" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
-                            <button type="submit" class="pro-btn w-100 py-3 d-flex align-items-center justify-content-center gap-2" 
-                                    style="background: #ef4444; color: #fff; border: none; font-weight: 600;">
+                            <button type="submit" class="pro-btn pro-btn-danger w-100 py-3 d-flex align-items-center justify-content-center gap-2" 
+                                    style="font-weight: 600;">
                                 <i class="feather-trash-2"></i> Delete Permanently
                             </button>
                         </form>

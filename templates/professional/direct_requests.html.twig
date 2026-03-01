@@ -43,7 +43,7 @@
                                 <span class="pro-text-muted">{{ request.creationDate|date('M d, Y') }}</span>
                             </td>
                             <td>
-                                <span class="pro-badge {{ request.status == 'Pending' ? 'warning' : (request.status == 'Completed' ? 'success' : 'secondary') }}">
+                                <span class="pro-badge {{ request.status == 'Pending' ? 'warning' : (request.status in ['Completed', 'Accepted'] ? 'success' : (request.status in ['Closed', 'Rejected'] ? 'danger' : 'secondary')) }}">
                                     {{ request.status }}
                                 </span>
                             </td>

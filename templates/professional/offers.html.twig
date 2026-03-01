@@ -61,7 +61,7 @@
                             </td>
                             <td>
                                 {% if offer.status == 'PENDING' %}
-                                    <span class="pro-badge primary"><i class="feather-clock" style="font-size:0.65rem;"></i> Pending</span>
+                                    <span class="pro-badge warning"><i class="feather-clock" style="font-size:0.65rem;"></i> Pending</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
                                     {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
                                         <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Completed</span>
