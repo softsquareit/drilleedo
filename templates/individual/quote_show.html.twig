@@ -6,7 +6,7 @@
     {{ parent() }}
     <style>
         .pro-detail-label {
-            font-size: 0.75rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #64748b;
@@ -56,8 +56,8 @@
         }
         /* Offer action buttons */
         .offer-action-btn {
-            padding: 0.3rem 0.65rem;
-            font-size: 0.78rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 1rem;
             font-weight: 600;
             border-radius: 6px;
             border: none;
@@ -102,8 +102,8 @@
         <div class="closed-banner">
             <i class="feather-lock"></i>
             <div>
-                <span class="closed-text">This request is closed.</span>
-                <span class="text-muted small d-block">The professional has finalized this job. No further offers can be submitted.</span>
+                <span class="closed-text mb-1" style="font-size: 1.1rem; display: block;">This request is closed.</span>
+                <span class="text-muted small d-block" style="font-size: 1rem;">The professional has finalized this job. No further offers can be submitted.</span>
             </div>
         </div>
     {% endif %}
@@ -164,11 +164,11 @@
                             'Pending': {'class': 'bg-warning text-dark', 'icon': 'feather-clock'},
                             'Active': {'class': 'bg-success', 'icon': 'feather-zap'},
                             'Inactive': {'class': 'bg-secondary', 'icon': 'feather-pause-circle'},
-                            'Accepted': {'class': 'bg-primary', 'icon': 'feather-check-circle'},
-                            'Closed': {'class': 'bg-dark', 'icon': 'feather-lock'}
+                            'Accepted': {'class': 'bg-success', 'icon': 'feather-check-circle'},
+                            'Closed': {'class': 'bg-danger', 'icon': 'feather-lock'}
                         } %}
                         {% set statusInfo = statusMap[quote.status]|default({'class': 'bg-secondary', 'icon': 'feather-help-circle'}) %}
-                        <span class="badge {{ statusInfo.class }} px-3 py-2" style="font-size: 0.85rem;">
+                        <span class="badge {{ statusInfo.class }} px-3 py-2" style="font-size: 1rem;">
                             <i class="{{ statusInfo.icon }} me-1"></i>{{ quote.status }}
                         </span>
                     </div>
@@ -310,11 +310,11 @@
                                             {{ providerName }}
                                         </a>
                                         <div class="d-flex align-items-center gap-2 mt-1">
-                                            <span class="pro-badge secondary p-0 px-2" style="font-size: 0.7rem;">
+                                            <span class="pro-badge secondary p-0 px-2" style="font-size: 1rem;">
                                                 <i class="feather-briefcase me-1"></i>{{ offer.provider.getType() }}
                                             </span>
                                             {% if offer.provider.entrepreneurType %}
-                                                <span class="pro-badge info p-0 px-2" style="font-size: 0.7rem;">
+                                                <span class="pro-badge info p-0 px-2" style="font-size: 1rem;">
                                                     {{ offer.provider.entrepreneurType.name }}
                                                 </span>
                                             {% endif %}
@@ -326,7 +326,7 @@
                                 <div class="fw-bold text-dark" style="font-size: 1.2rem;">
                                     {{ offer.price|number_format(2) }} <span class="text-muted small">$</span>
                                 </div>
-                                <div class="text-muted small" style="font-size: 0.7rem;">Submitted {{ offer.createdAt|date('M d, Y') }}</div>
+                                <div class="text-muted small" style="font-size: 1rem;">Submitted {{ offer.createdAt|date('M d, Y') }}</div>
                             </td>
                             <td>
                                 <div class="text-muted small" style="font-size: 0.85rem; line-height: 1.4; max-width: 250px;">
@@ -398,64 +398,95 @@
 {% block modals %}
     {{ parent() }}
 
-    {# Edit Quote Modal #}
-    ... (rest of modals) ...
-
+    {# ── Edit Quote Modal (Modernized) ── #}
     <div class="modal fade" id="editQuoteModal" tabindex="-1" aria-labelledby="editQuoteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0 pb-0">
-                    <h5 class="modal-title fw-bold" id="editQuoteModalLabel">Edit Quote Request</h5>
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+                <div class="modal-header border-bottom-0 pb-0 pt-4 px-4">
+                    <div>
+                        <h4 class="modal-title fw-bold text-dark" id="editQuoteModalLabel">Edit Quote Request</h4>
+                        <p class="text-muted small mb-0">Update your project details and requirements</p>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
-
-                        <div class="pro-form-group mb-4">
-                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.title.vars.id }}">Request Title</label>
-                            {{ form_widget(form.title, {'attr': {'class': 'pro-form-input', 'style': 'font-size: 1.05rem; padding: 0.75rem 1rem;'}}) }}
-                            <div class="form-text text-muted small mt-1">Make it clear and concise.</div>
-                            <div class="text-danger small mt-1">{{ form_errors(form.title) }}</div>
-                        </div>
-
-                        <div class="pro-form-group mb-4">
-                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.category.vars.id }}">Service Category</label>
-                            {{ form_widget(form.category, {'attr': {'class': 'pro-form-input', 'style': 'padding: 0.75rem 1rem;'}}) }}
-                            <div class="text-danger small mt-1">{{ form_errors(form.category) }}</div>
-                        </div>
-
-                        <div class="pro-form-group mb-4">
-                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.description.vars.id }}">Project Description</label>
-                            {{ form_widget(form.description, {'attr': {'class': 'pro-form-input', 'rows': '6', 'style': 'font-size: 1rem; padding: 1rem;'}}) }}
-                            <div class="form-text text-muted small mt-1">Provide as much detail as possible to get accurate quotes.</div>
-                            <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
-                        </div>
-
-                        <div class="pro-form-group mb-4">
-                            <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.images.vars.id }}">
-                                <i class="feather-image me-1"></i> Add More Photos (Optional)
-                            </label>
-
-                            {% if quote.images|length > 0 %}
-                                <div class="mb-3 p-3 bg-light rounded border">
-                                    <p class="small text-muted mb-2 fw-semibold"><i class="feather-info text-primary"></i> Existing photos will be kept. You can add more below.</p>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        {% for image in quote.images %}
-                                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Existing Photo" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6;">
-                                        {% endfor %}
-                                    </div>
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'id': 'editQuoteForm'}}) }}
+                        
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.title.vars.id }}">
+                                        <i class="feather-type me-2 text-primary"></i>Request Title
+                                    </label>
+                                    {{ form_widget(form.title, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. Need urgent plumbing repair'}}) }}
+                                    <div class="form-text text-muted small mt-1">Keep it short and descriptive.</div>
+                                    <div class="text-danger small mt-1">{{ form_errors(form.title) }}</div>
                                 </div>
-                            {% endif %}
+                            </div>
 
-                            {{ form_widget(form.images, {'attr': {'class': 'form-control', 'accept': 'image/*', 'style': 'padding: 0.5rem;'}}) }}
-                            <div class="form-text text-muted small mt-2">Upload JPEG or PNG files up to 5MB. New files will be appended to your existing photos.</div>
-                            <div class="text-danger small mt-1">{{ form_errors(form.images) }}</div>
+                            <div class="col-md-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.category.vars.id }}">
+                                        <i class="feather-grid me-2 text-primary"></i>Service Category
+                                    </label>
+                                    {{ form_widget(form.category, {'attr': {'class': 'pro-form-input'}}) }}
+                                    <div class="text-danger small mt-1">{{ form_errors(form.category) }}</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.description.vars.id }}">
+                                        <i class="feather-align-left me-2 text-primary"></i>Detailed Description
+                                    </label>
+                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-input', 'rows': '6', 'placeholder': 'Describe your project in detail...'}}) }}
+                                    <div class="form-text text-muted small mt-1">Specify timeline, materials, or special requests.</div>
+                                    <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.images.vars.id }}">
+                                        <i class="feather-image me-2 text-primary"></i>Photos & Attachments
+                                    </label>
+                                    
+                                    {# Existing Images Preview #}
+                                    {% if quote.images|length > 0 %}
+                                        <div class="mb-3 p-3 bg-light rounded-3 border">
+                                            <p class="small text-muted mb-2 fw-semibold">Current Photos</p>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                {% for image in quote.images %}
+                                                    <div class="position-relative">
+                                                        <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Existing Photo" 
+                                                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="custom-file-upload mt-2">
+                                        {{ form_widget(form.images, {'attr': {
+                                            'class': 'form-control pro-form-input', 
+                                            'accept': 'image/*', 
+                                            'multiple': 'multiple',
+                                            'onchange': 'previewImages(this)'
+                                        }}) }}
+                                        <div id="imagePreviewContainer" class="d-flex flex-wrap gap-2 mt-3"></div>
+                                        <div class="form-text text-muted small mt-2">
+                                            <i class="feather-info me-1"></i> New photos will be added to your current ones. Max 5MB per file.
+                                        </div>
+                                    </div>
+                                    <div class="text-danger small mt-1">{{ form_errors(form.images) }}</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-end gap-3 pt-4 border-top mt-5">
-                            <button type="button" class="pro-btn pro-btn-outline px-4" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="pro-btn pro-btn-primary px-5">
-                                <i class="feather-save me-2"></i> Save Changes
+                            <button type="button" class="pro-btn pro-btn-outline px-4" data-bs-dismiss="modal">Discard Changes</button>
+                            <button type="submit" class="pro-btn pro-btn-primary px-5 shadow-sm">
+                                <i class="feather-save me-2"></i> Update Request
                             </button>
                         </div>
                     {{ form_end(form) }}
@@ -464,31 +495,62 @@
         </div>
     </div>
 
-    {# ── Delete Confirmation Modal ── #}
+    {# ── Delete Confirmation Modal (Premium Redesign) ── #}
     <div class="modal fade" id="deleteQuoteModal" tabindex="-1" aria-labelledby="deleteQuoteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <h5 class="modal-title fw-bold text-danger" id="deleteQuoteModalLabel">
-                        <i class="feather-alert-triangle me-2"></i>Delete Request
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body py-4">
-                    <p class="mb-2">Are you sure you want to permanently delete this request?</p>
-                    <p class="fw-semibold text-dark mb-0">"{{ quote.title }}"</p>
-                    <p class="text-muted small mt-2 mb-0">This will also remove all associated offers and uploaded images. This action cannot be undone.</p>
-                </div>
-                <div class="modal-footer border-top-0">
-                    <button type="button" class="pro-btn pro-btn-outline px-4" data-bs-dismiss="modal">Cancel</button>
-                    <form action="{{ path('individual_quote_delete', {'id': quote.id}) }}" method="POST" class="d-inline">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
-                        <button type="submit" class="pro-btn pro-btn-sm px-4" style="background: #ef4444; color: #fff; border: none;">
-                            <i class="feather-trash-2 me-1"></i> Yes, Delete
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4">
+                        <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                            <i class="feather-alert-triangle"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Delete this request?</h4>
+                    <p class="text-muted px-4 mb-4">
+                        Are you sure you want to remove <span class="fw-bold text-dark">"{{ quote.title }}"</span>? 
+                        This action cannot be undone and will delete all associated offers.
+                    </p>
+                    
+                    <div class="d-flex flex-column gap-2 mt-4">
+                        <form action="{{ path('individual_quote_delete', {'id': quote.id}) }}" method="POST" class="w-100">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
+                            <button type="submit" class="pro-btn w-100 py-3 d-flex align-items-center justify-content-center gap-2" 
+                                    style="background: #ef4444; color: #fff; border: none; font-weight: 600;">
+                                <i class="feather-trash-2"></i> Delete Permanently
+                            </button>
+                        </form>
+                        <button type="button" class="pro-btn pro-btn-outline py-3 border-0 text-muted fw-semibold" data-bs-dismiss="modal">
+                            Keep Request
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function previewImages(input) {
+            const container = document.getElementById('imagePreviewContainer');
+            container.innerHTML = '';
+            
+            if (input.files) {
+                Array.from(input.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'position-relative';
+                        wrapper.innerHTML = `
+                            <img src="${e.target.result}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--pro-primary);">
+                            <div class="position-absolute top-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                 style="width: 16px; height: 16px; font-size: 10px; margin-top: -5px; margin-right: -5px;">
+                                <i class="feather-check"></i>
+                            </div>
+                        `;
+                        container.appendChild(wrapper);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+    </script>
 {% endblock %}

@@ -12,7 +12,7 @@
                         <i class="feather-message-square" style="font-size:1.25rem; color:var(--pro-primary,#4361ee);"></i>
                     </div>
                     <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ quoteCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Available Quotes</p>
+                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Available Quotes</p>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                         <i class="feather-send" style="font-size:1.25rem; color:#f59e0b;"></i>
                     </div>
                     <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ offerCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Offers Sent</p>
+                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Offers Sent</p>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                         <i class="feather-check-circle" style="font-size:1.25rem; color:#10b981;"></i>
                     </div>
                     <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ acceptedCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Accepted</p>
+                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Accepted</p>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
                         <i class="feather-briefcase" style="font-size:1.25rem; color:#8b5cf6;"></i>
                     </div>
                     <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ projectCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Projects</p>
+                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Projects</p>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
                     {% if unreadCount > 0 %}
                         <form method="post" action="{{ path('notification_mark_all_read') }}" style="display:inline;">
                             <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
-                            <button type="submit" class="pro-btn pro-btn-outline pro-btn-sm" style="font-size:0.75rem;">
+                            <button type="submit" class="pro-btn pro-btn-outline pro-btn-sm" style="font-size:1rem;">
                                 Mark all read
                             </button>
                         </form>
@@ -176,11 +176,11 @@
                                 {% endif %}
                             </div>
                             <div class="flex-grow-1" style="min-width:0;">
-                                <p class="mb-1 {{ not notification.read ? 'pro-fw-semibold' : '' }}" style="font-size:0.8125rem; line-height:1.4; color:var(--pro-text-dark,#1e293b);">
+                                <p class="mb-1 {{ not notification.read ? 'pro-fw-semibold' : '' }}" style="font-size:1rem; line-height:1.4; color:var(--pro-text-dark,#1e293b);">
                                     {{ notification.title }}
                                 </p>
-                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:0.75rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
-                                <small class="pro-text-muted" style="font-size:0.6875rem;">{{ notification.createdAt|date('M d, H:i') }}</small>
+                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:1.4rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
+                                <small class="pro-text-muted" style="font-size:1rem;">{{ notification.createdAt|date('M d, H:i') }}</small>
                             </div>
                         </div>
                     {% else %}
@@ -188,7 +188,7 @@
                             <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(67,97,238,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
                                 <i class="feather-bell-off" style="font-size:1.2rem; color:var(--pro-primary,#4361ee);"></i>
                             </div>
-                            <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">No notifications yet</p>
+                            <p class="pro-text-muted mb-0" style="font-size:1rem;">No notifications yet</p>
                         </div>
                     {% endfor %}
                 </div>

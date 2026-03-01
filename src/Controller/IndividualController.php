@@ -25,9 +25,22 @@ class IndividualController extends AbstractController
     {
         $user = $this->getUser();
         
+        $notifications = $em->getRepository(Notification::class)->findBy(
+            ['user' => $user],
+            ['createdAt' => 'DESC'],
+            50
+        );
+
+        $unreadCount = $em->getRepository(Notification::class)->count([
+            'user' => $user,
+            'isRead' => false
+        ]);
+
         return $this->render('individual/index.html.twig', [
             'user' => $user,
             'quotes' => $user->getQuoteRequests(),
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
         ]);
     }
 

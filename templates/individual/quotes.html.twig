@@ -36,10 +36,10 @@
                                     <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="fw-bold d-block text-dark text-decoration-none hover-primary" style="font-size: 1.05rem;">
                                         {{ quote.title }}
                                     </a>
-                                    <div class="text-muted small mt-1" style="font-size: 0.8rem;">
+                                    <div class="text-muted small mt-1" style="font-size: 1rem;">
                                         <i class="feather-calendar me-1"></i>Posted {{ quote.creationDate|date('M d, Y') }}
                                     </div>
-                                    <div class="text-muted mt-2 small text-truncate" style="max-width: 300px;">
+                                    <div class="text-muted mt-2 small text-truncate" style="font-size: 1rem; max-width: 300px;">
                                         {{ quote.description|slice(0, 100) }}...
                                     </div>
                                 </div>
@@ -51,10 +51,10 @@
                             </td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="pro-stat-icon info m-0" style="width: 32px; height: 32px; font-size: 0.85rem;">
+                                    <div class="pro-stat-icon info m-0" style="width: 32px; height: 32px; font-size: 1rem;">
                                         {{ quote.offers|length }}
                                     </div>
-                                    <span class="text-muted small">Bid{{ quote.offers|length != 1 ? 's' : '' }}</span>
+                                    <span class="text-muted small" style="font-size: 1rem;">Bid{{ quote.offers|length != 1 ? 's' : '' }}</span>
                                 </div>
                             </td>
                             <td>
@@ -62,8 +62,8 @@
                                     'Pending': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
                                     'Active': {'class': 'success', 'label': 'Active', 'icon': 'feather-zap'},
                                     'Inactive': {'class': 'secondary', 'label': 'Inactive', 'icon': 'feather-eye-off'},
-                                    'Accepted': {'class': 'primary', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                                    'Closed': {'class': 'dark', 'label': 'Closed', 'icon': 'feather-lock'},
+                                    'Accepted': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                    'Closed': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'},
                                     'Completed': {'class': 'success', 'label': 'Completed', 'icon': 'feather-award'},
                                     'Rejected': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
                                 } %}

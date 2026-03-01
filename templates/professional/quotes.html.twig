@@ -30,12 +30,12 @@
                             <td>
                                 <div>
                                     <span class="pro-fw-semibold d-block">{{ quote.title }}</span>
-                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
+                                    <span class="pro-text-muted" style="font-size: 1rem; font-weight: 400;">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
                                 </div>
                             </td>
                             <td>
                                 {% if quote.category %}
-                                    <span class="pro-badge info" style="font-size:0.7rem;">{{ quote.category.name }}</span>
+                                    <span class="pro-badge info" >{{ quote.category.name }}</span>
                                 {% else %}
                                     <span class="pro-text-muted">—</span>
                                 {% endif %}
@@ -52,17 +52,17 @@
                                 {% if quote.id in myOfferQuoteIds|keys %}
                                     {% set myStatus = myOfferQuoteIds[quote.id] %}
                                     {% if myStatus == 'PENDING' %}
-                                        <span class="pro-badge primary" style="font-size:0.7rem;"><i class="feather-check" style="font-size:0.6rem;"></i> Offer Sent</span>
+                                        <span class="pro-badge primary" ><i class="feather-check" ></i> Offer Sent</span>
                                     {% elseif myStatus == 'ACCEPTED' %}
-                                        <span class="pro-badge success" style="font-size:0.7rem;"><i class="feather-check-circle" style="font-size:0.6rem;"></i> Accepted</span>
+                                        <span class="pro-badge success" ><i class="feather-check-circle" ></i> Accepted</span>
                                     {% elseif myStatus == 'REJECTED' %}
-                                        <span class="pro-badge danger" style="font-size:0.7rem;"><i class="feather-x-circle" style="font-size:0.6rem;"></i> Rejected</span>
+                                        <span class="pro-badge danger" ><i class="feather-x-circle" ></i> Rejected</span>
                                     {% endif %}
                                 {% else %}
                                     {% if quote.status == 'Accepted' %}
-                                        <span class="pro-badge secondary" style="font-size:0.7rem;"><i class="feather-lock" style="font-size:0.6rem;"></i> Taken</span>
+                                        <span class="pro-badge secondary" ><i class="feather-lock" ></i> Taken</span>
                                     {% else %}
-                                        <span class="pro-badge success" style="font-size:0.7rem;"><i class="feather-zap" style="font-size:0.6rem;"></i> Open</span>
+                                        <span class="pro-badge success" ><i class="feather-zap" ></i> Open</span>
                                     {% endif %}
                                 {% endif %}
                             </td>

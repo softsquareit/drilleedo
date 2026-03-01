@@ -309,6 +309,13 @@ class OfferController extends AbstractController
         
         if (!$this->isCsrfTokenValid('mark-all-read', $request->request->get('_token'))) {
             $this->addFlash('error', 'Invalid security token.');
+            
+            if ($this->isGranted('ROLE_INDIVIDUAL')) {
+                return $this->redirectToRoute('individual_dashboard');
+            }
+            if ($this->isGranted('ROLE_COMPANY')) {
+                return $this->redirectToRoute('company_dashboard');
+            }
             return $this->redirectToRoute('professional_dashboard');
         }
 

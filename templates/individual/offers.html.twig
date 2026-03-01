@@ -32,7 +32,7 @@
                             <td>
                                 <div>
                                     <span class="pro-fw-semibold d-block text-dark">{{ parentRequest.title }}</span>
-                                    <span class="pro-badge secondary p-0 px-2" style="font-size: 0.7rem;">
+                                    <span class="pro-badge secondary p-0 px-2" style="font-size: 1rem;">
                                         {{ offer.quoteRequest ? 'Quote Request' : 'Direct Request' }}
                                     </span>
                                 </div>
@@ -44,14 +44,14 @@
                                         {{ providerName|slice(0, 1)|upper }}
                                     </div>
                                     <div>
-                                        <span class="fw-bold d-block text-dark" style="font-size: 0.95rem;">{{ providerName }}</span>
-                                        <span class="text-muted small">{{ offer.provider.getType() }}</span>
+                                        <span class="fw-bold d-block text-dark" style="font-size: 1.05rem;">{{ providerName }}</span>
+                                        <span class="text-muted small" style="font-size: 1rem;">{{ offer.provider.getType() }}</span>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <div class="fw-bold text-dark">{{ offer.price|number_format(2) }} $</div>
-                                <div class="text-muted small" style="font-size: 0.75rem;">Received {{ offer.createdAt|date('M d, Y') }}</div>
+                                <div class="fw-bold text-dark" style="font-size: 1.2rem;">{{ offer.price|number_format(2) }} $</div>
+                                <div class="text-muted small" style="font-size: 1rem;">Received {{ offer.createdAt|date('M d, Y') }}</div>
                             </td>
                             <td>
                                 {% set offerStatusMap = {

@@ -110,12 +110,12 @@
                     </div>
                     <div class="pro-card-body">
                         <h6 class="mb-2">{{ quote.title }}</h6>
-                        <p class="pro-text-muted mb-3" style="font-size:0.8125rem;">{{ quote.description|slice(0, 200) }}{% if quote.description|length > 200 %}...{% endif %}</p>
+                        <p class="pro-text-muted mb-3" style="font-size:1rem;">{{ quote.description|slice(0, 200) }}{% if quote.description|length > 200 %}...{% endif %}</p>
                         
                         {% if quote.category %}
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <i class="feather-tag" style="color:#94a3b8; font-size:0.85rem;"></i>
-                                <span class="pro-badge info" style="font-size:0.7rem;">{{ quote.category.name }}</span>
+                                <span class="pro-badge info" >{{ quote.category.name }}</span>
                             </div>
                         {% endif %}
 
@@ -127,11 +127,11 @@
                         <div class="d-flex align-items-center gap-2">
                             <i class="feather-info" style="color:#94a3b8; font-size:0.85rem;"></i>
                             {% if quote.status == 'Closed' %}
-                                <span class="pro-badge secondary" style="font-size:0.7rem;">Closed</span>
+                                <span class="pro-badge secondary" >Closed</span>
                             {% elseif quote.status == 'Accepted' %}
-                                <span class="pro-badge success" style="font-size:0.7rem;">Accepted</span>
+                                <span class="pro-badge success" >Accepted</span>
                             {% else %}
-                                <span class="pro-badge primary" style="font-size:0.7rem;">{{ quote.status }}</span>
+                                <span class="pro-badge primary" >{{ quote.status }}</span>
                             {% endif %}
                         </div>
 
@@ -139,7 +139,7 @@
                         {% if offer.status == 'ACCEPTED' and quote.individual %}
                             <div class="mt-4 p-3" style="background:rgba(16,185,129,0.06); border-radius:var(--pro-radius-md,8px); border:1px solid rgba(16,185,129,0.15);">
                                 <label class="pro-form-label mb-2" style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; color:#10b981;">
-                                    <i class="feather-unlock" style="font-size:0.7rem;"></i> Client Contact
+                                    <i class="feather-unlock" ></i> Client Contact
                                 </label>
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <i class="feather-mail" style="font-size:0.85rem; color:#10b981;"></i>

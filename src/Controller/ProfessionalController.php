@@ -76,7 +76,8 @@ class ProfessionalController extends AbstractController
         $quotes = [];
         $myOfferQuoteIds = [];
         if ($user->getCategory()) {
-            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
+            //$allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
+            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findAll();
             // Filter: only show Active/Pending requests
             $quotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), ['Pending', 'Active', 'Accepted']));
             $quotes = array_values($quotes);
