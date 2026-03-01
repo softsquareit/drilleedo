@@ -1,0 +1,170 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Admin Dashboard | Individual Requests{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <div class="content-inner">
+            <div class="content px-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h4 class="mb-0 fw-bold text-dark">Individual Requests</h4>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small">Home</a></li>
+                                <li class="breadcrumb-item active small" aria-current="page">Individual Requests</li>
+                            </ol>
+                        </nav>
+                    </div>
+                 </div>
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle me-2"></i>
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <div class="card border-0 shadow rounded-4 overflow-hidden">
+                    <div class="card-header bg-white border-0 py-4 px-4 d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="ph-clipboard-text"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold text-dark">All Requests</h5>
+                                <p class="text-muted small mb-0">{{ quoteRequests|length + directRequests|length }} items total</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table datatable-button-html5-columns">
+                            <thead class="bg-light bg-opacity-50">
+                                <tr>
+                                    <th class="border-0 px-4 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Title / Ref</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Individual</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Type</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Offers</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Status</th>
+                                    <th class="border-0 px-4 py-3 text-end text-muted small fw-bold text-uppercase letter-spacing-1">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {# Quote Requests #}
+                                {% for request in quoteRequests %}
+                                <tr class="border-bottom border-light">
+                                    <td class="px-4">
+                                        <span class="fw-bold text-dark">{{ request.title }}</span>
+                                        <div class="text-muted small">#QR-{{ request.id }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-info bg-opacity-10 text-info rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                                <i class="fas fa-user small"></i>
+                                            </div>
+                                            <span class="text-dark">
+                                                {% if request.individual %}
+                                                    {% if request.individual.personalInfos %}
+                                                        {{ request.individual.personalInfos.firstName }} {{ request.individual.personalInfos.lastName }}
+                                                    {% else %}
+                                                        {{ request.individual.email }}
+                                                    {% endif %}
+                                                {% else %}
+                                                    Unknown
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill">Quote</span></td>
+                                    <td>
+                                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">{{ request.offers|length }} offers</span>
+                                    </td>
+                                    <td>
+                                        {% set status_class = 'bg-warning' %}
+                                        {% if request.status == 'Accepted' %}{% set status_class = 'bg-success' %}
+                                        {% elseif request.status == 'Closed' %}{% set status_class = 'bg-secondary' %}
+                                        {% elseif request.status == 'Pending' %}{% set status_class = 'bg-warning' %}
+                                        {% endif %}
+                                        <span class="badge {{ status_class }} bg-opacity-10 {{ status_class|replace({'bg-': 'text-'}) }} rounded-pill px-2">
+                                            <i class="fas fa-dot-circle me-1 small"></i> {{ request.status }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 text-end">
+                                        <a href="{{ path('admin_quote_request_show', {'id': request.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" title="View Detail">
+                                            <i class="fas fa-eye small"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                {# Direct Requests #}
+                                {% for request in directRequests %}
+                                <tr class="border-bottom border-light">
+                                    <td class="px-4">
+                                        <span class="fw-bold text-dark">{{ request.title }}</span>
+                                        <div class="text-muted small">#DR-{{ request.id }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-info bg-opacity-10 text-info rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                                <i class="fas fa-user small"></i>
+                                            </div>
+                                            <span class="text-dark">
+                                                {% if request.individual %}
+                                                    {% if request.individual.personalInfos %}
+                                                        {{ request.individual.personalInfos.firstName }} {{ request.individual.personalInfos.lastName }}
+                                                    {% else %}
+                                                        {{ request.individual.email }}
+                                                    {% endif %}
+                                                {% else %}
+                                                    Unknown
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-indigo bg-opacity-10 text-indigo rounded-pill">Direct</span></td>
+                                    <td>
+                                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">{{ request.offers|length }} offers</span>
+                                    </td>
+                                    <td>
+                                        {% set status_class = 'bg-warning' %}
+                                        {% if request.status == 'Accepted' %}{% set status_class = 'bg-success' %}
+                                        {% elseif request.status == 'Closed' %}{% set status_class = 'bg-secondary' %}
+                                        {% endif %}
+                                        <span class="badge {{ status_class }} bg-opacity-10 {{ status_class|replace({'bg-': 'text-'}) }} rounded-pill px-2">
+                                            <i class="fas fa-dot-circle me-1 small"></i> {{ request.status }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 text-end">
+                                        <a href="{{ path('admin_direct_request_show', {'id': request.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" title="View Detail">
+                                            <i class="fas fa-eye small"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                {% if quoteRequests|length == 0 and directRequests|length == 0 %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-5">
+                                        <div class="d-flex flex-column align-items-center justify-content-center p-5">
+                                            <div class="bg-light rounded-circle p-4 mb-4">
+                                                <i class="ph-clipboard-text ph-3x text-muted opacity-25"></i>
+                                            </div>
+                                            <h5 class="text-dark fw-bold mb-2">No Requests Found</h5>
+                                            <p class="text-muted mb-0">There are no individual requests at the moment.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

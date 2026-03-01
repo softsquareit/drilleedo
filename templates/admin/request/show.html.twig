@@ -1,0 +1,232 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Admin | Request Detail{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <div class="content-inner">
+        <div class="content px-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div>
+                    <h4 class="mb-0 fw-bold text-dark">{{ type|capitalize }} Request Detail</h4>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('admin_request_index') }}" class="text-muted small">Individual Requests</a></li>
+                            <li class="breadcrumb-item active small" aria-current="page">#{{ type == 'quote' ? 'QR' : 'DR' }}-{{ request.id }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ path('admin_request_index') }}" class="btn btn-light rounded-pill px-4">
+                        <i class="fas fa-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 py-3 px-4">
+                            <h5 class="mb-0 fw-bold">Request Info</h5>
+                        </div>
+                        <div class="card-body px-4 pb-4 pt-0">
+                            <div class="mb-3">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Title</label>
+                                <div class="text-dark fw-bold">{{ request.title }}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Status</label>
+                                {% set status_class = 'bg-warning' %}
+                                {% if request.status == 'Accepted' %}{% set status_class = 'bg-success' %}
+                                {% elseif request.status == 'Closed' %}{% set status_class = 'bg-secondary' %}
+                                {% endif %}
+                                <span class="badge {{ status_class }} bg-opacity-10 {{ status_class|replace({'bg-': 'text-'}) }} rounded-pill px-2">
+                                    {{ request.status }}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Creation Date</label>
+                                <div class="text-dark small">{{ request.creationDate|date('M d, Y H:i') }}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Category</label>
+                                <div class="text-dark small">{{ request.category ? request.category.name : 'N/A' }}</div>
+                            </div>
+                            {% if type == 'direct' %}
+                                {% if request.targetProfessional or request.targetCompany %}
+                                    <div class="mb-3">
+                                        <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Targeted To</label>
+                                        <div class="text-dark small">
+                                            {% if request.targetProfessional %}
+                                                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill"><i class="ph-briefcase me-1"></i> {{ request.targetProfessional.companyName }}</span>
+                                            {% else %}
+                                                <span class="badge bg-indigo bg-opacity-10 text-indigo rounded-pill"><i class="fas fa-building me-1"></i> {{ request.targetCompany.companyName }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 py-3 px-4">
+                            <h5 class="mb-0 fw-bold">Individual Details</h5>
+                        </div>
+                        <div class="card-body px-4 pb-4 pt-0">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <div class="text-dark fw-bold">
+                                        {% if request.individual %}
+                                            {% if request.individual.personalInfos %}
+                                                {{ request.individual.personalInfos.firstName }} {{ request.individual.personalInfos.lastName }}
+                                            {% else %}
+                                                {{ request.individual.email }}
+                                            {% endif %}
+                                        {% else %}
+                                            Unknown
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-muted small">{{ request.individual ? request.individual.email : '' }}</div>
+                                </div>
+                            </div>
+                            {% if request.individual and request.individual.personalInfos %}
+                                <div class="mt-2 pt-2 border-top">
+                                    <div class="text-dark small mb-1"><i class="fas fa-phone me-2 text-muted"></i>{{ request.individual.personalInfos.phoneNum }}</div>
+                                    <div class="text-dark small"><i class="fas fa-map-marker-alt me-2 text-muted"></i>{{ request.individual.personalInfos.adresse }}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 py-3 px-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-align-left text-muted"></i>
+                                <h5 class="mb-0 fw-bold">Description</h5>
+                            </div>
+                        </div>
+                        <div class="card-body px-4 pb-4 pt-0 mt-2">
+                            <p class="text-dark" style="line-height: 1.6;">{{ request.description|nl2br }}</p>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 py-4 px-4 d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 fw-bold text-dark">Related Offers</h5>
+                                    <p class="text-muted small mb-0">{{ request.offers|length }} offers submitted</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table datatable-basic">
+                                <thead class="bg-light bg-opacity-50">
+                                    <tr>
+                                        <th class="border-0 px-4 py-3 text-muted small fw-bold text-uppercase">Provider</th>
+                                        <th class="border-0 py-3 text-muted small fw-bold text-uppercase">Amount</th>
+                                        <th class="border-0 py-3 text-muted small fw-bold text-uppercase">Date</th>
+                                        <th class="border-0 py-3 text-muted small fw-bold text-uppercase">Status</th>
+                                        <th class="border-0 px-4 py-3 text-end text-muted small fw-bold text-uppercase">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for offer in request.offers %}
+                                    <tr class="border-bottom border-light">
+                                        <td class="px-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                                    {% if offer.provider and offer.provider.city is defined %}
+                                                        <i class="ph-briefcase small"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-building small"></i>
+                                                    {% endif %}
+                                                </div>
+                                                <span class="text-dark fw-semibold">{{ offer.provider ? offer.provider.companyName : 'Unknown' }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="text-success fw-bold">{{ offer.price|number_format(2) }} $</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted small">{{ offer.createdAt|date('M d, Y') }}</span>
+                                        </td>
+                                        <td>
+                                            {% set offer_status_class = 'bg-warning text-warning' %}
+                                            {% if offer.status|upper == 'ACCEPTED' %}{% set offer_status_class = 'bg-success text-success' %}
+                                            {% elseif offer.status|upper == 'REJECTED' %}{% set offer_status_class = 'bg-danger text-danger' %}
+                                            {% endif %}
+                                            <span class="badge {{ offer_status_class }} bg-opacity-10 rounded-pill px-2">
+                                                {{ offer.status }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 text-end">
+                                            <button class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" 
+                                                    title="View Offer Details" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#offerModal{{ offer.id }}">
+                                                <i class="fas fa-eye small"></i>
+                                            </button>
+
+                                            <!-- Offer Modal -->
+                                            <div class="modal fade" id="offerModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content border-0 shadow-lg rounded-4 text-start">
+                                                        <div class="modal-header border-0 py-3 px-4">
+                                                            <h5 class="modal-title fw-bold">Offer from {{ offer.provider ? offer.provider.companyName : 'Unknown' }}</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body p-4 pt-0">
+                                                            <div class="mb-4">
+                                                                <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Message / Description</label>
+                                                                <div class="bg-light p-3 rounded-3 text-dark mb-0">{{ offer.description|nl2br }}</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Proposed Amount</label>
+                                                                    <div class="text-success fw-bold fs-4">{{ offer.price|number_format(2) }} $</div>
+                                                                </div>
+                                                                <div class="col-6 text-end">
+                                                                    <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Status</label>
+                                                                    <span class="badge {{ offer_status_class }} bg-opacity-10 rounded-pill px-2 fw-bold fs-6 mt-1">
+                                                                        {{ offer.status }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer border-0 bg-light bg-opacity-50 py-3 px-4 rounded-bottom-4">
+                                                            <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center py-5 text-muted fst-italic">
+                                            No offers submitted for this request yet.
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

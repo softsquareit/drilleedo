@@ -11,6 +11,9 @@ use App\Entity\Professional;
 use App\Entity\Type;
 use App\Entity\PaymentMethod;
 use App\Entity\Testimonial;
+use App\Entity\QuoteRequest;
+use App\Entity\DirectRequest;
+use App\Entity\Offer;
 use App\Repository\CategoryRepository;
 use App\Form\BlogType;
 use App\Form\PaymentMethodType;
@@ -1255,5 +1258,50 @@ class AdminController extends AbstractController
         }
 
         return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_testimonial_index')));
+    }
+
+    #[Route('/admin/requests', name: 'admin_request_index')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function listRequests(): Response
+    {
+        $adminUser = $this->getUser();
+        $username = $adminUser->getUserIdentifier();
+
+        $quoteRequests = $this->em->getRepository(QuoteRequest::class)->findBy([], ['creationDate' => 'DESC']);
+        $directRequests = $this->em->getRepository(DirectRequest::class)->findBy([], ['creationDate' => 'DESC']);
+
+        return $this->render('admin/request/index.html.twig', [
+            'username' => $username,
+            'quoteRequests' => $quoteRequests,
+            'directRequests' => $directRequests,
+        ]);
+    }
+
+    #[Route('/admin/requests/quote/{id}', name: 'admin_quote_request_show')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function showQuoteRequest(QuoteRequest $request): Response
+    {
+        $adminUser = $this->getUser();
+        $username = $adminUser->getUserIdentifier();
+
+        return $this->render('admin/request/show.html.twig', [
+            'username' => $username,
+            'request' => $request,
+            'type' => 'quote',
+        ]);
+    }
+
+    #[Route('/admin/requests/direct/{id}', name: 'admin_direct_request_show')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function showDirectRequest(DirectRequest $request): Response
+    {
+        $adminUser = $this->getUser();
+        $username = $adminUser->getUserIdentifier();
+
+        return $this->render('admin/request/show.html.twig', [
+            'username' => $username,
+            'request' => $request,
+            'type' => 'direct',
+        ]);
     }
 }
