@@ -1,49 +1,55 @@
 {% extends app.user and is_granted('ROLE_PROFESSIONAL') ? 'professional/base_professional.html.twig' : (app.user and is_granted('ROLE_COMPANY') ? 'company/base_company.html.twig' : 'base.html.twig') %}
 
-{% block title %}Send Offer - {{ quote.title }}{% endblock %}
+{% set parentRequest = quote ?? directRequest %}
+
+{% block title %}{{ isEdit|default(false) ? 'Edit Offer' : 'Send Offer' }} - {{ parentRequest.title }}{% endblock %}
 
 {% block body %}
     <div class="row g-4">
         <div class="col-lg-8">
-            <!-- Quote Details -->
+            {# ── Request Details ── #}
             <div class="pro-card pro-card-elevated mb-4">
                 <div class="pro-card-header">
-                    <h4 class="pro-card-title">Quote Request Details</h4>
-                    <span class="pro-badge info">{{ quote.category.name }}</span>
+                    <h4 class="pro-card-title">{{ directRequest is defined ? 'Direct Request' : 'Quote Request' }} Details</h4>
+                    {% if parentRequest.category %}
+                        <span class="pro-badge info">{{ parentRequest.category.name }}</span>
+                    {% endif %}
                 </div>
                 <div class="pro-card-body">
-                    <h5 class="mb-3">{{ quote.title }}</h5>
-                    <p class="pro-text-muted mb-4">{{ quote.description }}</p>
+                    <h5 class="mb-3">{{ parentRequest.title }}</h5>
+                    <p class="pro-text-muted mb-4">{{ parentRequest.description }}</p>
                     
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="feather-calendar text-primary"></i>
                                 <div>
-                                    <small class="pro-text-muted d-block">Requested on</small>
-                                    <span class="pro-fw-semibold">{{ quote.creationDate|date('M d, Y') }}</span>
+                                    <small class="pro-text-muted d-block">{{ directRequest is defined ? 'Sent' : 'Requested' }} on</small>
+                                    <span class="pro-fw-semibold">{{ parentRequest.creationDate|date('M d, Y') }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="feather-map-pin text-primary"></i>
+                                <i class="feather-user text-primary"></i>
                                 <div>
-                                    <small class="pro-text-muted d-block">Location preference</small>
-                                    <span class="pro-fw-semibold">{{ quote.individual.personal_infos.adresse|default('Not specified') }}</span>
+                                    <small class="pro-text-muted d-block">Client</small>
+                                    {% set clientName = parentRequest.individual and parentRequest.individual.personalInfos ? (parentRequest.individual.personalInfos.firstName|default('') ~ ' ' ~ parentRequest.individual.personalInfos.lastName|default(''))|trim : '' %}
+                                    <span class="pro-fw-semibold">{{ clientName ?: 'Client' }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {% if quote.images|length > 0 %}
+                    {% if parentRequest.images is defined and parentRequest.images|length > 0 %}
                         <div class="mt-4">
-                            <label class="pro-form-label mb-2">Attached Images</label>
+                            <label class="pro-form-label mb-2">Attached Photos</label>
                             <div class="row g-2">
-                                {% for image in quote.images %}
+                                {% for image in parentRequest.images %}
                                     <div class="col-auto">
-                                        <a href="{{ asset('uploads/quotes/' ~ image) }}" target="_blank">
-                                            <img src="{{ asset('uploads/quotes/' ~ image) }}" alt="Quote Image" class="rounded" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--pro-border);">
+                                        {% set uploadDir = directRequest is defined ? 'quote_requests' : 'quote_requests' %}
+                                        <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank">
+                                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Request Image" class="rounded" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--pro-border);">
                                         </a>
                                     </div>
                                 {% endfor %}
@@ -53,26 +59,26 @@
                 </div>
             </div>
 
-            <!-- Send Offer Form -->
+            {# ── Send/Edit Offer Form ── #}
             <div class="pro-card pro-card-elevated">
                 <div class="pro-card-header">
-                    <h4 class="pro-card-title">Your Offer</h4>
+                    <h4 class="pro-card-title">{{ isEdit|default(false) ? 'Update Your Offer' : 'Your Offer' }}</h4>
                     <p class="pro-card-subtitle">Provide your best price and a detailed message</p>
                 </div>
                 <div class="pro-card-body">
-                    {{ form_start(form, {'attr': {'class': 'pro-form-row'}}) }}
+                    {{ form_start(form, {'attr': {'class': 'pro-form-row', 'novalidate': 'novalidate'}}) }}
                         <div class="row g-4">
                             <div class="col-md-12">
                                 <div class="pro-form-group">
-                                    <label class="pro-form-label">Total Proposed Price ($)</label>
-                                    {{ form_widget(form.price, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. 500'}}) }}
+                                    <label class="pro-form-label">Total Proposed Price ($) <span style="color:#ef4444;">*</span></label>
+                                    {{ form_widget(form.price, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. 500', 'required': 'required'}}) }}
                                     {{ form_errors(form.price) }}
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="pro-form-group">
-                                    <label class="pro-form-label">Message to Client</label>
-                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'placeholder': 'Describe your approach, availability, and why you are the best fit...'}}) }}
+                                    <label class="pro-form-label">Message to Client <span style="color:#ef4444;">*</span></label>
+                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'placeholder': 'Describe your approach, availability, and why you are the best fit...', 'required': 'required'}}) }}
                                     {{ form_errors(form.description) }}
                                 </div>
                             </div>
@@ -87,9 +93,9 @@
                             <div class="col-12">
                                 <div class="d-flex gap-3">
                                     <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg">
-                                        <i class="feather-send"></i> Send Offer
+                                        <i class="feather-send"></i> {{ isEdit|default(false) ? 'Update Offer' : 'Send Offer' }}
                                     </button>
-                                    <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_dashboard') }}" class="pro-btn pro-btn-outline pro-btn-lg">
+                                    <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-lg">
                                         Cancel
                                     </a>
                                 </div>

@@ -1,0 +1,14 @@
+
+
+
+
+(function ( $ ) {
+
+    var localization = $.spectrum.localization["pt-br"] = {
+        cancelText: "Cancelar",
+        chooseText: "Escolher"
+    };
+
+    $.extend($.fn.spectrum.defaults, localization);
+
+})( jQuery );

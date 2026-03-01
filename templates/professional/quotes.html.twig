@@ -1,13 +1,13 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Received Quotes - {{ app.user.companyName }}{% endblock %}
+{% block title %}Quote Requests - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
     <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header">
+        <div class="pro-card-header border-bottom">
             <div>
                 <h4 class="pro-card-title">Quote Requests</h4>
-                <p class="pro-card-subtitle">New opportunities from individuals in your service category</p>
+                <p class="pro-card-subtitle">Opportunities from individuals in your service category</p>
             </div>
             <span class="pro-badge info">{{ quotes|length }} Available</span>
         </div>
@@ -16,42 +16,79 @@
             <table class="pro-table">
                 <thead>
                     <tr>
-                        <th>Quote Title</th>
-                        <th>Individual</th>
+                        <th>Request Details</th>
+                        <th>Category</th>
+                        <th>Client</th>
                         <th>Date</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for quote in quotes %}
                         <tr>
-                            <th>
+                            <td>
                                 <div>
                                     <span class="pro-fw-semibold d-block">{{ quote.title }}</span>
-                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ quote.description|slice(0, 70) }}...</span>
+                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
                                 </div>
-                            </th>
+                            </td>
                             <td>
-                                <span>{{ quote.individual.user.firstname|default('User') }}</span>
+                                {% if quote.category %}
+                                    <span class="pro-badge info" style="font-size:0.7rem;">{{ quote.category.name }}</span>
+                                {% else %}
+                                    <span class="pro-text-muted">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% set clientName = quote.individual.personalInfos ? (quote.individual.personalInfos.firstName|default('') ~ ' ' ~ quote.individual.personalInfos.lastName|default(''))|trim : '' %}
+                                <span>{{ clientName ?: quote.individual.email|default('Client') }}</span>
                             </td>
                             <td>
                                 <span class="pro-text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
                             </td>
                             <td>
-                                <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
-                                    <i class="feather-send"></i> Submit Offer
-                                </a>
+                                {# Show if this pro already sent an offer #}
+                                {% if quote.id in myOfferQuoteIds|keys %}
+                                    {% set myStatus = myOfferQuoteIds[quote.id] %}
+                                    {% if myStatus == 'PENDING' %}
+                                        <span class="pro-badge primary" style="font-size:0.7rem;"><i class="feather-check" style="font-size:0.6rem;"></i> Offer Sent</span>
+                                    {% elseif myStatus == 'ACCEPTED' %}
+                                        <span class="pro-badge success" style="font-size:0.7rem;"><i class="feather-check-circle" style="font-size:0.6rem;"></i> Accepted</span>
+                                    {% elseif myStatus == 'REJECTED' %}
+                                        <span class="pro-badge danger" style="font-size:0.7rem;"><i class="feather-x-circle" style="font-size:0.6rem;"></i> Rejected</span>
+                                    {% endif %}
+                                {% else %}
+                                    {% if quote.status == 'Accepted' %}
+                                        <span class="pro-badge secondary" style="font-size:0.7rem;"><i class="feather-lock" style="font-size:0.6rem;"></i> Taken</span>
+                                    {% else %}
+                                        <span class="pro-badge success" style="font-size:0.7rem;"><i class="feather-zap" style="font-size:0.6rem;"></i> Open</span>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if quote.id in myOfferQuoteIds|keys %}
+                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm">
+                                        <i class="feather-edit-2"></i> Edit Offer
+                                    </a>
+                                {% elseif quote.status != 'Accepted' %}
+                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                        <i class="feather-send"></i> Submit Offer
+                                    </a>
+                                {% else %}
+                                    <span class="pro-text-muted" style="font-size:0.8rem;">—</span>
+                                {% endif %}
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="4" class="pro-table-empty">
+                            <td colspan="6" class="pro-table-empty">
                                 <div class="pro-empty-state">
                                     <div class="pro-empty-icon">
                                         <i class="feather-message-square"></i>
                                     </div>
                                     <h6 class="pro-empty-title">No quote requests</h6>
-                                    <p class="pro-empty-text">No quote requests found in your category</p>
+                                    <p class="pro-empty-text">No active quote requests found in your category</p>
                                 </div>
                             </td>
                         </tr>

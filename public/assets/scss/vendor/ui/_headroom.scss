@@ -1,0 +1,46 @@
+
+
+
+@if $enable-headroom {
+
+	
+	.headroom {
+		transition: transform ease-in-out 0.2s, box-shadow ease-in-out 0.2s;
+		will-change: transform;
+	}
+
+
+	
+	
+	
+
+	
+	.navbar-slide-top {
+
+		
+		&.headroom--pinned {
+		    transform: translateY(0);
+		}
+
+		
+		&.headroom--unpinned {
+			transform: translateY(-100%);
+			@include box-shadow(none);
+		}
+	}
+
+	
+	.navbar-slide-bottom {
+
+		
+		&.headroom--pinned {
+			transform: translateY(100%);
+			@include box-shadow(none);
+		}
+
+		
+		&.headroom--unpinned {
+			transform: translateY(0);
+		}
+	}
+}

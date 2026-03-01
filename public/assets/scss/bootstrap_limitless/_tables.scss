@@ -1,0 +1,264 @@
+
+
+
+
+
+.table {
+    @include color-scheme(dark) {
+        --#{$prefix}table-striped-bg: #{$table-darkmode-striped-bg};
+        --#{$prefix}table-striped-bg: #{$table-darkmode-striped-bg};
+        --#{$prefix}table-hover-bg: #{$table-darkmode-hover-bg};
+    }
+
+    margin-bottom: 0;
+
+    
+    
+    
+    
+    
+    > :not(caption) > * > * {
+        border-bottom-width: 0;
+        border-top-width: var(--#{$prefix}table-border-width);
+    }
+
+    
+    > :not(caption):first-child > *:first-child > * {
+        border-top-width: 0;
+    }
+
+    
+    > thead {
+        vertical-align: middle;
+
+        
+        > * > * {
+            border-bottom: var(--#{$prefix}table-border-width) solid var(--#{$prefix}table-group-separator-color);
+        }
+    }
+
+    
+    > tfoot {
+        > * > * {
+            border-top-color: var(--#{$prefix}table-group-separator-color);
+        }
+    }
+}
+
+
+.table[class*=bg-] {
+    > :not(caption) > * > * {
+        background-color: inherit;
+        border-color: rgba(var(--#{$prefix}white-rgb), .15);
+    }
+
+    &.table-striped {
+        tbody > tr:nth-of-type(#{$table-striped-order}) > * {
+            --#{$prefix}table-striped-bg: rgba(var(--#{$prefix}black-rgb), .05);
+        }
+    }
+
+    &.table-hover {
+        tbody > tr:hover > * {
+            --#{$prefix}table-accent-bg: rgba(var(--#{$prefix}black-rgb), .075);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+.table-borderless {
+    
+    > :not(caption) > * > * {
+        border-top-width: 0;
+    }
+}
+
+
+
+
+
+
+.table-hover {
+    > tbody > tr > * {
+        @include transition(box-shadow ease-in-out var(--#{$prefix}transition-base-timer));
+    }
+}
+
+
+
+
+
+
+
+.table-scrollable {
+    max-height: $table-scrollable-max-height;
+    overflow: auto;
+}
+
+
+.table-columned {
+    > :not(caption) > * > * {
+        border-top-width: 0;
+        border-left-width: var(--#{$prefix}table-border-width);
+
+        &:first-child {
+            border-left: 0;
+        }
+    }
+}
+
+
+
+
+
+
+
+.table-xl {
+    --#{$prefix}table-cell-padding-y: #{$table-cell-padding-y-xl};
+    --#{$prefix}table-cell-padding-x: #{$table-cell-padding-x-xl};
+}
+
+
+.table-lg {
+    --#{$prefix}table-cell-padding-y: #{$table-cell-padding-y-lg};
+    --#{$prefix}table-cell-padding-x: #{$table-cell-padding-x-lg};
+}
+
+
+.table-xs {
+    --#{$prefix}table-cell-padding-y: #{$table-cell-padding-y-xs};
+    --#{$prefix}table-cell-padding-x: #{$table-cell-padding-x-xs};
+}
+
+
+
+
+
+
+
+.table-border-solid {
+    thead > & > * {
+        border-bottom-width: calc(var(--#{$prefix}table-border-width) * 2);
+    }
+
+    tbody > & > *,
+    tfoot > & > * {
+        border-top-width: calc(var(--#{$prefix}table-border-width) * 2);
+    }
+}
+
+
+.table-border-double {
+    thead > & > * {
+        border-bottom-width: calc(var(--#{$prefix}table-border-width) * 3);
+        border-bottom-style: double;
+    }
+
+    tbody > & > *,
+    tfoot > & > * {
+        border-top-width: calc(var(--#{$prefix}table-border-width) * 3);
+        border-top-style: double;
+    }
+}
+
+
+.table-border-dashed {
+     > * {
+        border-top-style: dashed;
+    }
+}
+
+
+
+
+
+
+
+.card {
+
+    
+    > .table-bordered,
+    > [class*=table-responsive] > .table-bordered {
+        > :not(caption) > * {
+            border-width: 0;
+
+            > *:first-child {
+                border-left: 0;
+            }
+            > *:last-child {
+                border-right: 0;
+            }
+        }
+    }
+
+    
+    > .table:first-child,
+    > [class*=table-responsive]:first-child > .table:first-child {
+        @include border-top-radius(var(--#{$prefix}card-inner-border-radius));
+
+        thead:first-child,
+        tbody:first-child {
+            tr:first-child {
+                @include border-top-radius(var(--#{$prefix}card-inner-border-radius));
+
+                td:first-child,
+                th:first-child {
+                    @include border-top-start-radius(var(--#{$prefix}card-inner-border-radius));
+                }
+                td:last-child,
+                th:last-child {
+                    @include border-top-end-radius(var(--#{$prefix}card-inner-border-radius));
+                }
+            }
+        }
+    }
+
+    
+    > .table:last-child,
+    > [class*=table-responsive]:last-child > .table:last-child {
+        @include border-bottom-radius(var(--#{$prefix}card-inner-border-radius));
+
+        tbody:last-child,
+        tfoot:last-child {
+            tr:last-child {
+                @include border-bottom-radius(var(--#{$prefix}card-inner-border-radius));
+
+                td:first-child,
+                th:first-child {
+                    @include border-bottom-start-radius(var(--#{$prefix}card-inner-border-radius));
+                }
+                td:last-child,
+                th:last-child {
+                    @include border-bottom-end-radius(var(--#{$prefix}card-inner-border-radius));
+                }
+            }
+        }
+    }
+}
+
+
+.card-body {
+    + [class*=table-responsive],
+    + .table {
+        border-top: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+    }
+}
+
+
+
+
+
+
+
+@each $color, $value in $table-dark-variants {
+    @include table-dark-variant($color, $value);
+}

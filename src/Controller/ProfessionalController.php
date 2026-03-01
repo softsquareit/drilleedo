@@ -30,26 +30,40 @@ class ProfessionalController extends AbstractController
              $projectCount = $user->getProjets()->count();
         }
         
-        // Quotes Count (matching category)
+        // Quotes Count (matching category) — only Active/Pending
         $quoteCount = 0;
+        $availableQuotes = [];
         if ($user instanceof \App\Entity\Professional && $user->getCategory()) {
-            $quoteCount = count($em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory()));
+            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
+            $availableQuotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), ['Pending', 'Active']));
+            $quoteCount = count($availableQuotes);
         }
 
-        // Offers Count (sent by provider)
-        $offerCount = count($em->getRepository(\App\Entity\Offer::class)->findByProvider($user));
+        // Offers (sent by provider) — all and recent
+        $allOffers = $em->getRepository(\App\Entity\Offer::class)->findBy(
+            ['provider' => $user],
+            ['createdAt' => 'DESC']
+        );
+        $offerCount = count($allOffers);
+        $acceptedCount = count(array_filter($allOffers, fn($o) => $o->getStatus() === 'ACCEPTED'));
+        $recentOffers = array_slice($allOffers, 0, 5);
 
-        // Notifications Logic
-        $notifications = [];
-        if (method_exists($user, 'getNotifications')) {
-            $notifications = $user->getNotifications();
-        }
+        // Notifications — recent, ordered newest first
+        $notifications = $em->getRepository(\App\Entity\Notification::class)->findBy(
+            ['user' => $user],
+            ['createdAt' => 'DESC'],
+            10
+        );
+        $unreadCount = count(array_filter($notifications, fn($n) => !$n->isRead()));
 
         return $this->render('professional/index.html.twig', [
             'projectCount' => $projectCount,
             'quoteCount' => $quoteCount,
             'offerCount' => $offerCount,
+            'acceptedCount' => $acceptedCount,
+            'recentOffers' => $recentOffers,
             'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
         ]);
     }
 
@@ -60,12 +74,24 @@ class ProfessionalController extends AbstractController
         $user = $this->getUser();
         
         $quotes = [];
+        $myOfferQuoteIds = [];
         if ($user->getCategory()) {
-            $quotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
+            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
+            // Filter: only show Active/Pending requests
+            $quotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), ['Pending', 'Active', 'Accepted']));
+            $quotes = array_values($quotes);
+            // Find which quotes this provider already sent an offer to
+            $myOffers = $em->getRepository(\App\Entity\Offer::class)->findBy(['provider' => $user]);
+            foreach ($myOffers as $offer) {
+                if ($offer->getQuoteRequest()) {
+                    $myOfferQuoteIds[$offer->getQuoteRequest()->getId()] = $offer->getStatus();
+                }
+            }
         }
 
         return $this->render('professional/quotes.html.twig', [
             'quotes' => $quotes,
+            'myOfferQuoteIds' => $myOfferQuoteIds,
         ]);
     }
 

@@ -1,0 +1,63 @@
+
+
+
+.breadcrumb {
+    --#{$prefix}breadcrumb-item-color: #{$breadcrumb-item-color};
+    --#{$prefix}breadcrumb-item-hover-color: #{$breadcrumb-item-hover-color};
+}
+
+
+.breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    @include transition(color ease-in-out var(--#{$prefix}transition-base-timer));
+
+    
+    &.text-white,
+    &.text-reset {
+        &:before {
+            color: inherit;
+        }
+    }
+}
+
+
+a.breadcrumb-item {
+    color: var(--#{$prefix}breadcrumb-item-color);
+
+    &:hover,
+    &:focus,
+    &[aria-expanded="true"] {
+        color: var(--#{$prefix}breadcrumb-item-hover-color);
+    }
+}
+
+
+
+
+
+
+
+.breadcrumb-dash .breadcrumb-item + .breadcrumb-item:before  {
+    --#{$prefix}breadcrumb-divider: "\2013";
+}
+
+
+.breadcrumb-arrow .breadcrumb-item + .breadcrumb-item:before  {
+    --#{$prefix}breadcrumb-divider: "\2192";
+
+    
+    [dir=rtl] & {
+        --#{$prefix}breadcrumb-divider: "\2190";
+    }
+}
+
+
+.breadcrumb-arrows .breadcrumb-item + .breadcrumb-item:before  {
+    --#{$prefix}breadcrumb-divider: "\00bb";
+}
+
+
+.breadcrumb-caret .breadcrumb-item + .breadcrumb-item:before  {
+    --#{$prefix}breadcrumb-divider: "\203A";
+}

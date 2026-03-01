@@ -1,0 +1,54 @@
+
+
+
+
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$dark-theme-colors-rgb: map-loop($dark-theme-colors, to-rgb, "$value") !default;
+
+
+
+
+
+
+
+$utilities-colors: $theme-colors-rgb;
+$utilities-dark-colors: $dark-theme-colors-rgb !default;
+
+
+
+$utilities-text: map-merge(
+  $utilities-colors,
+  (
+    "black": to-rgb($black),
+    "white": to-rgb($white),
+    "body": to-rgb($body-color)
+  )
+);
+$utilities-text-colors: map-loop($utilities-text, rgba-css-var, "$key", "text");
+
+
+
+$utilities-bg: map-merge(
+  $utilities-colors,
+  (
+    "black": to-rgb($black),
+    "white": to-rgb($white),
+    "body": to-rgb($body-bg)
+  )
+);
+$utilities-bg-colors: map-loop($utilities-bg, rgba-css-var, "$key", "bg");
+
+
+
+$utilities-border: map-merge(
+  $utilities-colors,
+  (
+    "white": to-rgb($white)
+  )
+);
+$utilities-border-colors: map-loop($utilities-border, rgba-css-var, "$key", "border");
+
+
+
+$negative-spacers: if($enable-negative-margins, negativify-map($spacers), null);
+$gutters: $spacers;

@@ -1,0 +1,55 @@
+
+
+
+mark {
+    color: currentColor;
+}
+
+
+code {
+    --#{$prefix}code-bg: #{$code-bg};
+    --#{$prefix}code-padding: #{$code-padding};
+    background-color: var(--#{$prefix}code-bg);
+    padding: var(--#{$prefix}code-padding);
+    @include border-radius(var(--#{$prefix}border-radius-sm));
+}
+
+
+kbd {
+    @include color-scheme(dark) {
+        color: $kbd-darkmode-color;
+        background-color: $kbd-darkmode-bg;
+    }
+}
+
+
+.pre-scrollable {
+    max-height: 340px;
+    overflow-y: scroll;
+}
+
+
+
+
+
+
+@include media-breakpoint-up(md) {
+    .custom-scrollbars {
+        * {
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+            scrollbar-width: thin;
+            scrollbar-color: $cs-thumb-color $cs-track-color;
+        }
+        ::-webkit-scrollbar {
+            height: $cs-size;
+            width: $cs-size;
+        }
+        ::-webkit-scrollbar-track {
+            background: $cs-track-color;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: $cs-thumb-color;
+            border-radius: $cs-size;
+        }
+    }
+}

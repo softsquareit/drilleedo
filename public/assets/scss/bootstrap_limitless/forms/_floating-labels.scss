@@ -1,0 +1,13 @@
+
+
+.form-floating {
+    --#{$prefix}form-floating-label-readonly-transform: #{$form-floating-label-readonly-transform};
+
+    
+    &.form-control-feedback-start > label {
+        left: calc(var(--#{$prefix}form-floating-padding-x) + var(--#{$prefix}icon-font-size));
+    }
+    &.form-control-feedback-end > label {
+        right: calc(var(--#{$prefix}form-floating-padding-x) + var(--#{$prefix}icon-font-size));
+    }
+}

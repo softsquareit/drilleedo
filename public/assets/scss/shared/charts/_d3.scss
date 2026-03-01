@@ -1,0 +1,436 @@
+
+
+
+@if $enable-d3 {
+
+    
+    
+
+    
+    .d3-text {
+        fill: $chart-text-color;
+    }
+
+    
+    .d3-slice-border {
+        stroke: var(--#{$prefix}card-bg);
+        stroke-width: 1.5px;
+    }
+
+    
+    .d3-state-empty {
+        fill: $chart-empty-bg;
+    }
+
+    
+    .d3-bg {
+        fill: var(--#{$prefix}card-bg);
+    }
+
+
+    
+    
+
+    
+    .d3-axis {
+
+        
+        path,
+        line {
+            stroke: $chart-axis-line-color;
+            shape-rendering: crispEdges;
+        }
+
+        
+        path {
+            fill: none;
+        }
+
+        
+        .tick {
+            &,
+            text {
+                font-size: $chart-text-size;
+                fill: $chart-axis-text-color;
+            }
+        }
+    }
+
+    
+    .d3-axis-transparent {
+        path {
+            stroke: none;
+        }
+    }
+
+    
+    .d3-axis-title {
+        font-size: $chart-text-size;
+        fill: $chart-text-color;
+    }
+
+
+
+    
+    
+
+    
+    
+    
+
+    
+    .d3-tip {
+        --#{$prefix}d3-tooltip-padding-x: #{$tooltip-padding-x};
+        --#{$prefix}d3-tooltip-padding-y: #{$tooltip-padding-y};
+        @include rfs($tooltip-font-size, --#{$prefix}d3-tooltip-font-size);
+        --#{$prefix}d3-tooltip-color: #{$tooltip-color};
+        --#{$prefix}d3-tooltip-bg: #{$tooltip-bg};
+        --#{$prefix}d3-tooltip-arrow-width: #{$tooltip-arrow-width};
+        --#{$prefix}d3-tooltip-arrow-height: #{$tooltip-arrow-height};
+        --#{$prefix}d3-tooltip-border-radius: #{$tooltip-border-radius};
+
+        @include color-scheme(dark) {
+            --#{$prefix}d3-tooltip-color: #{$tooltip-darkmode-color};
+            --#{$prefix}d3-tooltip-bg: #{$tooltip-darkmode-bg};
+        }
+
+        position: absolute;
+        padding: var(--#{$prefix}d3-tooltip-padding-y) var(--#{$prefix}d3-tooltip-padding-x);
+        background-color: var(--#{$prefix}d3-tooltip-bg);
+        color: var(--#{$prefix}d3-tooltip-color);
+        margin-bottom: calc(var(--#{$prefix}d3-tooltip-arrow-height) * -1);
+        font-size: var(--#{$prefix}d3-tooltip-font-size);
+        z-index: $zindex-tooltip;
+        @include box-shadow(var(--#{$prefix}box-shadow));
+        @include border-radius(var(--#{$prefix}d3-tooltip-border-radius));
+
+        
+        .d3-tip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+        }
+    }
+
+
+    
+    .d3-tip {
+        &.n .d3-tip-arrow {
+            bottom: calc(var(--#{$prefix}d3-tooltip-arrow-height) * -1);
+            left: 50%;
+            border-width: var(--#{$prefix}d3-tooltip-arrow-height) var(--#{$prefix}d3-tooltip-arrow-height) 0;
+            border-top-color: var(--#{$prefix}d3-tooltip-bg);
+            transform: translateX(-50%);
+        }
+        &.e .d3-tip-arrow {
+            top: 50%;
+            transform: translateY(-50%);
+            
+            left: calc(var(--#{$prefix}d3-tooltip-arrow-height) * -1);
+            border-width: var(--#{$prefix}d3-tooltip-arrow-height) var(--#{$prefix}d3-tooltip-arrow-height) var(--#{$prefix}d3-tooltip-arrow-height) 0;
+            border-right-color: var(--#{$prefix}d3-tooltip-bg);
+            
+        }
+        &.w .d3-tip-arrow {
+            top: 50%;
+            transform: translateY(-50%);
+            
+            right: calc(var(--#{$prefix}d3-tooltip-arrow-height) * -1);
+            border-width: var(--#{$prefix}d3-tooltip-arrow-height) 0 var(--#{$prefix}d3-tooltip-arrow-height) var(--#{$prefix}d3-tooltip-arrow-height);
+            border-left-color: var(--#{$prefix}d3-tooltip-bg);
+            
+        }
+        &.s .d3-tip-arrow {
+            top: 0;
+            left: 50%;
+            border-width: 0 var(--#{$prefix}d3-tooltip-arrow-height) var(--#{$prefix}d3-tooltip-arrow-height);
+            border-bottom-color: var(--#{$prefix}d3-tooltip-bg);
+            transform: translateX(-50%);
+        }
+    }
+
+
+
+    
+    
+
+    
+    .d3-line {
+        fill: none;
+
+        
+        &-thin {
+            stroke-width: 1px;
+        }
+
+        
+        &-medium {
+            stroke-width: 1.5px;
+        }
+
+        
+        &-strong {
+            stroke-width: 2px;
+        }
+    }
+
+
+    
+    .d3-line-circle {
+        fill: var(--#{$prefix}card-bg);
+        cursor: pointer;
+
+        
+        &-thin {
+            stroke-width: 1px;
+        }
+
+        
+        &-medium {
+            stroke-width: 1.5px;
+        }
+
+        
+        &-strong {
+            stroke-width: 2px;
+        }
+    }
+
+    
+    .d3-line-connect {
+        fill: none;
+        stroke: $chart-line-color;
+    }
+
+
+
+    
+    
+
+    
+    .d3-grid {
+        .tick {
+            line {
+                stroke-width: 1px;
+                stroke: $chart-line-color;
+            }
+        }
+    }
+
+    
+    .d3-grid-dashed {
+        .tick {
+            line {
+                stroke-dasharray: 4,2;
+                stroke: $chart-line-color;
+            }
+        }
+
+        path {
+            stroke-width: 0;
+        }
+    }
+
+
+
+    
+    
+
+    
+    .d3-crosshair-overlay {
+        fill: none;
+        pointer-events: all;
+    }
+
+    
+    .d3-crosshair-pointer {
+        text {
+            fill: var(--#{$prefix}body-color);
+        }
+    }
+
+    
+    .d3-crosshair-line {
+        fill: none;
+        stroke: $chart-line-color;
+        stroke-width: 1px;
+        shape-rendering: crispEdges;
+        pointer-events: none;
+    }
+
+
+
+    
+    
+
+    
+    
+    
+
+    
+    .bullet-tick {
+
+        
+        line {
+            stroke: $chart-axis-line-color;
+            stroke-width: 1px;
+            shape-rendering: crispEdges;
+        }
+
+        
+        text {
+            fill: $chart-axis-text-color;
+            font-size: $chart-text-size;
+        }
+    }
+
+    
+    .bullet-marker {
+        stroke-width: 2px;
+        shape-rendering: crispEdges;
+    }
+
+    
+    .bullet-title {
+        fill: $chart-text-color;
+        font-weight: $font-weight-semibold;
+    }
+
+    
+    .bullet-subtitle {
+        fill: $chart-text-color;
+    }
+
+
+    
+    
+    
+
+    
+    .bullet-1 .bullet-range-1 {
+        fill: rgba(var(--#{$prefix}primary-rgb), .8);
+    }
+    .bullet-1 .bullet-range-2 {
+        fill: rgba(var(--#{$prefix}primary-rgb), .4);
+    }
+    .bullet-1 .bullet-range-3 {
+        fill: var(--#{$prefix}primary);
+    }
+
+    
+    .bullet-1 .bullet-measure-1 {
+        fill: rgba(var(--#{$prefix}primary), .9);
+    }
+    .bullet-1 .bullet-measure-2 {
+        fill: var(--#{$prefix}white);
+    }
+
+    
+    .bullet-1 .bullet-marker {
+        stroke: rgba(var(--#{$prefix}black), .25);
+    }
+
+
+    
+    
+    
+
+    
+    .bullet-2 .bullet-range-1 {
+        fill: rgba(var(--#{$prefix}danger-rgb), .6);
+    }
+    .bullet-2 .bullet-range-2 {
+        fill: rgba(var(--#{$prefix}danger-rgb), .3);
+    }
+    .bullet-2 .bullet-range-3 {
+        fill: var(--#{$prefix}danger);
+    }
+
+    
+    .bullet-2 .bullet-measure-1 {
+        fill: rgba(var(--#{$prefix}danger-rgb), .9);
+    }
+    .bullet-2 .bullet-measure-2 {
+        fill: var(--#{$prefix}white);
+    }
+
+    
+    .bullet-2 .bullet-marker {
+        stroke: rgba(var(--#{$prefix}black), .25);
+    }
+
+
+    
+    
+    
+
+    
+    .bullet-3 .bullet-range-1 {
+        fill: rgba(var(--#{$prefix}success-rgb), .7);
+    }
+    .bullet-3 .bullet-range-2 {
+        fill: rgba(var(--#{$prefix}success-rgb), .35);
+    }
+    .bullet-3 .bullet-range-3 {
+        fill: var(--#{$prefix}success);
+    }
+
+    
+    .bullet-3 .bullet-measure-1 {
+        fill: rgba(var(--#{$prefix}success-rgb), .9);
+    }
+    .bullet-3 .bullet-measure-2 {
+        fill: var(--#{$prefix}white);
+    }
+
+    
+    .bullet-3 .bullet-marker {
+        stroke: rgba(var(--#{$prefix}black), .25);
+    }
+
+
+
+    
+    
+    
+
+    .counter-icon {
+        font-size: calc(var(--#{$prefix}icon-font-size) * 2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    
+    
+
+    .d3-legend {
+        text {
+            fill: $chart-text-color;
+            font-size: $chart-text-size;
+        }
+
+        line {
+            stroke: $chart-axis-line-color;
+            stroke-width: 1px;
+        }
+    }
+
+    .chart-widget-legend {
+        margin: var(--#{$prefix}spacer-2) 0 0 0;
+        padding: 0;
+        fill: $chart-text-color;
+        font-size: $chart-text-size;
+        text-align: center;
+        
+        li {
+            margin: var(--#{$prefix}spacer-1) var(--#{$prefix}spacer-2) 0;
+            padding: var(--#{$prefix}spacer-2) var(--#{$prefix}spacer-2) var(--#{$prefix}spacer-1);
+            display: inline-block;
+        }
+    }
+}

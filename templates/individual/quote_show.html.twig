@@ -1,10 +1,9 @@
 {% extends 'individual/base_individual.html.twig' %}
 
-{% block title %}Quote Request Details - Drilleedo{% endblock %}
+{% block title %}{{ quote.title }} - Drilleedo{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- Add simple styles for the timeline/status if needed, otherwise rely on pro-card -->
     <style>
         .pro-detail-label {
             font-size: 0.75rem;
@@ -21,28 +20,138 @@
             margin-bottom: 1.5rem;
         }
         .offer-message-snippet {
-            max-width: 250px;
+            max-width: 220px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
         }
+        /* Image gallery with delete overlay */
+        .quote-img-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .quote-img-wrapper .img-delete-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: #fff;
+            border: 2px solid #fff;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            padding: 0;
+            line-height: 1;
+        }
+        .quote-img-wrapper:hover .img-delete-btn {
+            opacity: 1;
+        }
+        /* Offer action buttons */
+        .offer-action-btn {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        .offer-action-btn.accept { background: #22c55e; color: #fff; }
+        .offer-action-btn.accept:hover { background: #16a34a; }
+        .offer-action-btn.reject { background: #ef4444; color: #fff; }
+        .offer-action-btn.reject:hover { background: #dc2626; }
+        .offer-action-btn.pending-revert { background: #f59e0b; color: #fff; }
+        .offer-action-btn.pending-revert:hover { background: #d97706; }
+        /* Closed banner */
+        .closed-banner {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .closed-banner i { font-size: 1.5rem; color: #64748b; }
+        .closed-banner .closed-text { font-size: 0.95rem; color: #475569; font-weight: 500; }
+        /* Contact reveal card */
+        .contact-reveal {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 1px solid #6ee7b7;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
-    <!-- Header Actions -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    {# ── Closed Banner ── #}
+    {% if quote.status == 'Closed' %}
+        <div class="closed-banner">
+            <i class="feather-lock"></i>
+            <div>
+                <span class="closed-text">This request is closed.</span>
+                <span class="text-muted small d-block">The professional has finalized this job. No further offers can be submitted.</span>
+            </div>
+        </div>
+    {% endif %}
+
+    {# ── Header Actions ── #}
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
         <a href="{{ path('individual_quotes') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
             <i class="feather-arrow-left"></i> Back to My Quotes
         </a>
-        <button type="button" class="pro-btn pro-btn-outline pro-btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#editQuoteModal">
-            <i class="feather-edit-2"></i> Edit Request
-        </button>
+
+        {% if quote.status not in ['Closed'] %}
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                {# Toggle Active/Inactive #}
+                {% if quote.status not in ['Accepted'] %}
+                    <form action="{{ path('individual_quote_toggle', {'id': quote.id}) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('toggle-quote-' ~ quote.id) }}">
+                        {% if quote.status == 'Inactive' %}
+                            <button type="submit" class="pro-btn pro-btn-sm d-flex align-items-center gap-2"
+                                    style="background: #22c55e; color: #fff; border: none;">
+                                <i class="feather-eye"></i> Activate
+                            </button>
+                        {% else %}
+                            <button type="submit" class="pro-btn pro-btn-outline pro-btn-sm d-flex align-items-center gap-2"
+                                    style="color: #64748b; border-color: #cbd5e1;">
+                                <i class="feather-eye-off"></i> Deactivate
+                            </button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+
+                {# Edit Button #}
+                <button type="button" class="pro-btn pro-btn-outline pro-btn-sm d-flex align-items-center gap-2"
+                        data-bs-toggle="modal" data-bs-target="#editQuoteModal">
+                    <i class="feather-edit-2"></i> Edit Request
+                </button>
+
+                {# Delete Button #}
+                <button type="button" class="pro-btn pro-btn-sm d-flex align-items-center gap-2"
+                        style="background: #ef4444; color: #fff; border: none;"
+                        data-bs-toggle="modal" data-bs-target="#deleteQuoteModal">
+                    <i class="feather-trash-2"></i> Delete
+                </button>
+            </div>
+        {% endif %}
     </div>
 
+    {# ── Quote Details Card ── #}
     <div class="row g-4 mb-4">
-        <!-- Quote Details Card -->
         <div class="col-lg-12">
             <div class="pro-card pro-card-elevated h-100">
                 <div class="pro-card-header border-bottom d-flex justify-content-between align-items-start">
@@ -51,13 +160,20 @@
                         <p class="mb-0 text-muted small"><i class="feather-calendar me-1"></i> Posted on {{ quote.creationDate|date('F j, Y') }}</p>
                     </div>
                     <div>
-                        {% set statusClass = quote.status == 'Pending' ? 'bg-warning text-dark' : (quote.status in ['Accepted', 'Completed'] ? 'bg-success' : 'bg-secondary') %}
-                        <span class="badge {{ statusClass }} px-3 py-2" style="font-size: 0.85rem;">
-                            {{ quote.status }}
+                        {% set statusMap = {
+                            'Pending': {'class': 'bg-warning text-dark', 'icon': 'feather-clock'},
+                            'Active': {'class': 'bg-success', 'icon': 'feather-zap'},
+                            'Inactive': {'class': 'bg-secondary', 'icon': 'feather-pause-circle'},
+                            'Accepted': {'class': 'bg-primary', 'icon': 'feather-check-circle'},
+                            'Closed': {'class': 'bg-dark', 'icon': 'feather-lock'}
+                        } %}
+                        {% set statusInfo = statusMap[quote.status]|default({'class': 'bg-secondary', 'icon': 'feather-help-circle'}) %}
+                        <span class="badge {{ statusInfo.class }} px-3 py-2" style="font-size: 0.85rem;">
+                            <i class="{{ statusInfo.icon }} me-1"></i>{{ quote.status }}
                         </span>
                     </div>
                 </div>
-                
+
                 <div class="pro-card-body pt-4">
                     <div class="row">
                         <div class="col-md-8">
@@ -72,15 +188,25 @@
                                 <div class="pro-detail-value">
                                     <span class="badge bg-light text-dark border">{{ quote.category.name|default('General') }}</span>
                                 </div>
-                                
+
                                 <div class="pro-detail-label mt-4">Attached Photos</div>
                                 <div class="pro-detail-value">
                                     {% if quote.images|length > 0 %}
                                         <div class="d-flex flex-wrap gap-2 mt-2">
                                             {% for image in quote.images %}
-                                                <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank" class="d-inline-block border rounded p-1">
-                                                    <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Reference Image" style="width: 64px; height: 64px; object-fit: cover; border-radius: 4px;">
-                                                </a>
+                                                <div class="quote-img-wrapper">
+                                                    <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank">
+                                                        <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Reference Image"
+                                                             style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6;">
+                                                    </a>
+                                                    {% if quote.status not in ['Closed'] %}
+                                                        <form action="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}" method="POST" class="d-inline"
+                                                              onsubmit="return confirm('Remove this image?')">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
+                                                            <button type="submit" class="img-delete-btn" title="Remove image">×</button>
+                                                        </form>
+                                                    {% endif %}
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     {% else %}
@@ -95,24 +221,79 @@
         </div>
     </div>
 
-    <!-- Offers Section -->
+    {# ── Contact Reveal (when an offer is accepted) ── #}
+    {% set acceptedOffer = null %}
+    {% for offer in quote.offers %}
+        {% if offer.status|upper == 'ACCEPTED' %}
+            {% set acceptedOffer = offer %}
+        {% endif %}
+    {% endfor %}
+
+    {% if acceptedOffer %}
+        <div class="pro-card pro-card-elevated mb-5" style="border-left: 5px solid var(--pro-success);">
+            <div class="pro-card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-4">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="pro-stat-icon success" style="width: 64px; height: 64px; font-size: 28px;">
+                            <i class="feather-award"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-1 fw-bold text-dark">Provider Selected & Hired</h4>
+                            <p class="mb-0 text-muted">You have accepted an offer. You can now contact the professional below.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5 g-4">
+                    {% set provider = acceptedOffer.provider %}
+                    {% set provName = provider.primaryContact ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName) : (provider.companyName|default(provider.email)) %}
+                    <div class="col-md-4">
+                        <div class="p-4 rounded-3 bg-light border-0 shadow-sm h-100">
+                            <label class="pro-form-label mb-2"><i class="feather-user me-2 text-primary"></i>Hired Professional</label>
+                            <div class="h5 fw-bold text-dark mb-1">{{ provName }}</div>
+                            <span class="badge pro-badge info">{{ provider.getType() }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 rounded-3 bg-light border-0 shadow-sm h-100">
+                            <label class="pro-form-label mb-2"><i class="feather-mail me-2 text-primary"></i>Email Address</label>
+                            <div class="h5 fw-bold mb-0">
+                                <a href="mailto:{{ provider.email }}" class="text-dark text-decoration-none hover-primary">{{ provider.email }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 rounded-3 bg-light border-0 shadow-sm h-100">
+                            <label class="pro-form-label mb-2"><i class="feather-phone me-2 text-primary"></i>Phone Number</label>
+                            <div class="h5 fw-bold text-dark mb-0">{{ provider.phoneNum|default('Not provided') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {# ── Offers Section ── #}
     <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header border-bottom">
-            <h4 class="pro-card-title d-flex align-items-center gap-2">
-                <i class="feather-inbox text-primary"></i> Received Offers
-                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill ms-2">{{ quote.offers|length }}</span>
-            </h4>
+        <div class="pro-card-header">
+            <div>
+                <h4 class="pro-card-title d-flex align-items-center gap-3">
+                    <i class="feather-inbox text-primary"></i> Received Offers
+                </h4>
+                <p class="pro-card-subtitle">Review quotes from local professionals</p>
+            </div>
+            <span class="pro-badge info">{{ quote.offers|length }} Total</span>
         </div>
 
-        <div class="pro-table-wrapper">
+        <div class="pro-table-wrapper border-0">
             <table class="pro-table align-middle">
                 <thead>
                     <tr>
-                        <th style="width: 25%">Professional / Company</th>
-                        <th>Proposed Amount</th>
-                        <th style="width: 30%">Message / Notes</th>
-                        <th>Date</th>
+                        <th style="width: 30%">Professional / Company</th>
+                        <th>Amount</th>
+                        <th style="width: 25%">Message</th>
                         <th>Status</th>
+                        <th class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,42 +301,91 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="pro-avatar bg-light text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;">
+                                    <div class="pro-stat-icon primary m-0" style="width: 48px; height: 48px; min-width: 48px; font-size: 1.25rem;">
                                         {% set providerName = offer.provider.primaryContact ? (offer.provider.primaryContact.firstName ~ ' ' ~ offer.provider.primaryContact.lastName) : (offer.provider.companyName|default(offer.provider.email)) %}
                                         {{ providerName|slice(0, 1)|upper }}
                                     </div>
                                     <div>
-                                        <span class="pro-fw-semibold d-block text-dark">{{ providerName }}</span>
-                                        <span class="pro-text-muted small">{{ offer.provider.type == 'Professional' ? 'Independent Professional' : 'Company' }}</span>
+                                        <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="fw-bold d-block text-dark text-decoration-none" style="font-size: 1.05rem;">
+                                            {{ providerName }}
+                                        </a>
+                                        <div class="d-flex align-items-center gap-2 mt-1">
+                                            <span class="pro-badge secondary p-0 px-2" style="font-size: 0.7rem;">
+                                                <i class="feather-briefcase me-1"></i>{{ offer.provider.getType() }}
+                                            </span>
+                                            {% if offer.provider.entrepreneurType %}
+                                                <span class="pro-badge info p-0 px-2" style="font-size: 0.7rem;">
+                                                    {{ offer.provider.entrepreneurType.name }}
+                                                </span>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <span class="fw-bold text-dark">{{ offer.price }} {{ offer.currency|default('€') }}</span>
+                                <div class="fw-bold text-dark" style="font-size: 1.2rem;">
+                                    {{ offer.price|number_format(2) }} <span class="text-muted small">$</span>
+                                </div>
+                                <div class="text-muted small" style="font-size: 0.7rem;">Submitted {{ offer.createdAt|date('M d, Y') }}</div>
                             </td>
                             <td>
-                                <span class="pro-text-muted small offer-message-snippet" title="{{ offer.description }}">
-                                    {{ offer.description|default('No additional message provided.') }}
+                                <div class="text-muted small" style="font-size: 0.85rem; line-height: 1.4; max-width: 250px;">
+                                    {{ offer.description|default('No notes provided.')|slice(0, 80) }}{% if offer.description|default('')|length > 80 %}...{% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                {% set offerStatusMap = {
+                                    'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                                    'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                    'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
+                                } %}
+                                {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
+                                <span class="pro-badge {{ offerInfo.class }}">
+                                    <i class="{{ offerInfo.icon }} me-1"></i>{{ offerInfo.label }}
                                 </span>
                             </td>
-                            <td>
-                                <span class="pro-text-muted small">{{ offer.createdAt|date('M d, Y') }}</span>
-                            </td>
-                            <td>
-                                {% set offerStatusClass = offer.status|upper == 'PENDING' ? 'bg-warning text-dark' : (offer.status == 'Accepted' ? 'bg-success' : 'bg-secondary') %}
-                                <span class="badge {{ offerStatusClass }}">{{ offer.status|default('Pending') }}</span>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="pro-btn pro-btn-icon" title="View Details">
+                                        <i class="feather-eye"></i>
+                                    </a>
+                                    
+                                    {% if quote.status not in ['Closed'] %}
+                                        {% if offer.status|upper == 'PENDING' %}
+                                            <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
+                                                  onsubmit="return confirm('Accept this offer? This will notify the provider and reject other pending offers.');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                                <button type="submit" class="pro-btn pro-btn-icon" style="color: var(--pro-success-dark); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05);" title="Accept Offer">
+                                                    <i class="feather-check"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
+                                                  onsubmit="return confirm('Reject this offer?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                                <button type="submit" class="pro-btn pro-btn-icon" style="color: var(--pro-danger-dark); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);" title="Reject Offer">
+                                                    <i class="feather-x"></i>
+                                                </button>
+                                            </form>
+                                        {% elseif offer.status|upper == 'REJECTED' and quote.status not in ['Accepted'] %}
+                                            <form action="{{ path('individual_offer_pending', {'id': offer.id}) }}" method="POST" class="d-inline">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                                <button type="submit" class="pro-btn pro-btn-icon" style="color: var(--pro-warning-dark); border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05);" title="Revert to Pending">
+                                                    <i class="feather-rotate-ccw"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5" class="pro-table-empty py-5">
-                                <div class="pro-empty-state text-center">
-                                    <div class="pro-empty-icon mb-3 text-muted">
-                                        <i class="feather-inbox" style="font-size: 3rem; opacity: 0.5;"></i>
-                                    </div>
-                                    <h6 class="pro-empty-title">No offers received yet</h6>
-                                    <p class="pro-empty-text text-muted mb-0">Professionals will review your request and submit their quotes here.</p>
+                            <td colspan="5" class="py-5 text-center">
+                                <div class="mb-3 text-muted">
+                                    <i class="feather-inbox" style="font-size: 4rem; opacity: 0.2;"></i>
                                 </div>
+                                <h5 class="fw-bold text-dark">No offers received yet</h5>
+                                <p class="text-muted small">Professionals will review your request and submit their quotes here.</p>
                             </td>
                         </tr>
                     {% endfor %}
@@ -167,8 +397,10 @@
 
 {% block modals %}
     {{ parent() }}
-    
-    <!-- Edit Quote Modal -->
+
+    {# Edit Quote Modal #}
+    ... (rest of modals) ...
+
     <div class="modal fade" id="editQuoteModal" tabindex="-1" aria-labelledby="editQuoteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -178,7 +410,7 @@
                 </div>
                 <div class="modal-body p-4">
                     {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
-                        
+
                         <div class="pro-form-group mb-4">
                             <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.title.vars.id }}">Request Title</label>
                             {{ form_widget(form.title, {'attr': {'class': 'pro-form-input', 'style': 'font-size: 1.05rem; padding: 0.75rem 1rem;'}}) }}
@@ -203,7 +435,7 @@
                             <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.images.vars.id }}">
                                 <i class="feather-image me-1"></i> Add More Photos (Optional)
                             </label>
-                            
+
                             {% if quote.images|length > 0 %}
                                 <div class="mb-3 p-3 bg-light rounded border">
                                     <p class="small text-muted mb-2 fw-semibold"><i class="feather-info text-primary"></i> Existing photos will be kept. You can add more below.</p>
@@ -214,7 +446,7 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            
+
                             {{ form_widget(form.images, {'attr': {'class': 'form-control', 'accept': 'image/*', 'style': 'padding: 0.5rem;'}}) }}
                             <div class="form-text text-muted small mt-2">Upload JPEG or PNG files up to 5MB. New files will be appended to your existing photos.</div>
                             <div class="text-danger small mt-1">{{ form_errors(form.images) }}</div>
@@ -227,6 +459,34 @@
                             </button>
                         </div>
                     {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ── Delete Confirmation Modal ── #}
+    <div class="modal fade" id="deleteQuoteModal" tabindex="-1" aria-labelledby="deleteQuoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title fw-bold text-danger" id="deleteQuoteModalLabel">
+                        <i class="feather-alert-triangle me-2"></i>Delete Request
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p class="mb-2">Are you sure you want to permanently delete this request?</p>
+                    <p class="fw-semibold text-dark mb-0">"{{ quote.title }}"</p>
+                    <p class="text-muted small mt-2 mb-0">This will also remove all associated offers and uploaded images. This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer border-top-0">
+                    <button type="button" class="pro-btn pro-btn-outline px-4" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{ path('individual_quote_delete', {'id': quote.id}) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
+                        <button type="submit" class="pro-btn pro-btn-sm px-4" style="background: #ef4444; color: #fff; border: none;">
+                            <i class="feather-trash-2 me-1"></i> Yes, Delete
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

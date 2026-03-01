@@ -1,0 +1,33 @@
+
+
+
+@if $enable-datatable-row-reorder {
+
+    
+    .dt-rowReorder-float {
+        position: absolute!important;
+        table-layout: static;
+        outline: var(--#{$prefix}table-border-width) dashed var(--#{$prefix}table-border-color);
+        outline-offset: calc(var(--#{$prefix}table-border-width) * -1);
+        background-color: rgba(var(--#{$prefix}light-rgb), .75);
+        z-index: $zindex-fixed;
+        cursor: move;
+    }
+
+    
+    .dt-rowReorder-moving {
+        outline: var(--#{$prefix}table-border-width) solid var(--#{$prefix}table-border-color);
+        outline-offset: calc(var(--#{$prefix}table-border-width) * -1);
+    }
+
+    
+    .dt-rowReorder-noOverflow {
+        overflow-x: hidden;
+    }
+
+    
+    .dataTable td.reorder {
+        text-align: center;
+        cursor: move;
+    }
+}

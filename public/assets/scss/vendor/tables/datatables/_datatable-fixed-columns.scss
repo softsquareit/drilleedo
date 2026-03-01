@@ -1,0 +1,23 @@
+
+
+
+@if $enable-datatable-fixed-columns {
+
+    
+    .dtfc-fixed-left,
+    .dtfc-fixed-right {
+        --#{$prefix}dtfc-bg: #{$card-bg};
+
+        
+        @include color-scheme(dark) {
+            --#{$prefix}dtfc-bg: #{$card-darkmode-bg};
+        }
+    }
+
+    
+    .dataTable tr > .dtfc-fixed-left,
+    .dataTable tr > .dtfc-fixed-right {
+        z-index: 1;
+        background-color: var(--#{$prefix}dtfc-bg);
+    }
+}

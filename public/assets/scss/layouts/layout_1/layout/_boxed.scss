@@ -1,0 +1,24 @@
+
+
+
+@if $enable-boxed {
+
+    
+    .layout-boxed-bg {
+        --#{$prefix}layout-boxed-bg: #{$boxed-bg};
+        background: var(--#{$prefix}layout-boxed-bg); 
+    }
+    
+    
+    .layout-boxed {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+
+        
+        .page-content {
+            background-color: var(--#{$prefix}body-bg);
+        }
+    }
+}

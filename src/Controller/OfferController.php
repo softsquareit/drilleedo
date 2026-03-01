@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class OfferController extends AbstractController
 {
     #[Route('/send/{id}', name: 'offer_send')]
-    #[IsGranted('ROLE_BUSINESS')] // Covers Professional and Company
+    #[IsGranted('ROLE_BUSINESS')]
     public function send(QuoteRequest $quote, Request $request, EntityManagerInterface $em, \App\Service\FileUploader $fileUploader): Response
     {
         $user = $this->getUser();
@@ -26,10 +26,10 @@ class OfferController extends AbstractController
             throw $this->createAccessDeniedException('Only businesses can send offers.');
         }
 
-        // Check if offer already sent? (Optional, but good UX)
-        // For now, allow sending multiple offers or check simply:
+        // Check if offer already sent
         $offer = $em->getRepository(Offer::class)->findOneBy(['quoteRequest' => $quote, 'provider' => $user]);
         
+        $isEdit = (bool) $offer;
         if (!$offer) {
             $offer = new Offer();
             $offer->setQuoteRequest($quote);
@@ -43,11 +43,15 @@ class OfferController extends AbstractController
             // Handle Documents
             $documents = $form->get('documents')->getData();
             if ($documents) {
-                $docPaths = [];
+                $docPaths = $offer->getDocuments() ?? [];
                 foreach ($documents as $doc) {
                     $docPaths[] = $fileUploader->upload($doc, 'offers');
                 }
                 $offer->setDocuments($docPaths);
+            }
+
+            if ($isEdit) {
+                $offer->setUpdatedAt(new \DateTime());
             }
 
             $em->persist($offer);
@@ -55,34 +59,37 @@ class OfferController extends AbstractController
             // Notification for Individual
             $individual = $quote->getIndividual();
             if ($individual) {
+                $providerName = $user->getCompanyName() ?? $user->getTradeName() ?? 'a provider';
                 $notification = new Notification();
                 $notification->setUser($individual);
-                $notification->setTitle('New Offer Received');
+                $notification->setTitle($isEdit ? 'Offer Updated' : 'New Offer Received');
                 $notification->setMessage(sprintf(
-                    'You received an offer of %s from %s for your request "%s".',
+                    '%s %s an offer of %s$ for your request "%s".',
+                    $providerName,
+                    $isEdit ? 'updated' : 'sent',
                     $offer->getPrice(),
-                    $user->getCompanyName() ?? $user->getTradeName() ?? 'a provider',
                     $quote->getTitle()
                 ));
-                $notification->setRelatedEntityId($offer->getId());
-                $notification->setRelatedEntityType('offer'); 
+                $notification->setRelatedEntityId($quote->getId());
+                $notification->setRelatedEntityType('quote');
                 $notification->setRead(false);
                 $em->persist($notification);
             }
 
             $em->flush();
 
-            $this->addFlash('success', 'Offer sent successfully!');
+            $this->addFlash('success', $isEdit ? 'Offer updated successfully!' : 'Offer sent successfully!');
             
-            // Redirect back to dashboard based on role
             if ($this->isGranted('ROLE_COMPANY')) {
                 return $this->redirectToRoute('company_dashboard');
             }
-            return $this->redirectToRoute('professional_dashboard');
+            return $this->redirectToRoute('professional_offers');
         }
 
         return $this->render('offer/new.html.twig', [
             'quote' => $quote,
+            'offer' => $offer,
+            'isEdit' => $isEdit,
             'form' => $form->createView(),
         ]);
     }
@@ -128,7 +135,7 @@ class OfferController extends AbstractController
                 $notification->setUser($individual);
                 $notification->setTitle('New Offer Received');
                 $notification->setMessage(sprintf(
-                    'You received an offer of $%s from %s for your direct request "%s".',
+                    'You received an offer of %s$ from %s for your direct request "%s".',
                     $offer->getPrice(),
                     $user->getCompanyName() ?? $user->getTradeName() ?? 'a provider',
                     $directRequest->getTitle()
@@ -146,7 +153,7 @@ class OfferController extends AbstractController
             if ($this->isGranted('ROLE_COMPANY')) {
                 return $this->redirectToRoute('company_dashboard');
             }
-            return $this->redirectToRoute('professional_dashboard');
+            return $this->redirectToRoute('professional_offers');
         }
 
         return $this->render('offer/new.html.twig', [
@@ -155,163 +162,175 @@ class OfferController extends AbstractController
         ]);
     }
 
-    #[Route('/manage/{id}', name: 'offer_manage')]
-    #[IsGranted('ROLE_INDIVIDUAL')]
-    public function manage(QuoteRequest $quote, EntityManagerInterface $em): Response
-    {
-        $user = $this->getUser();
-        if ($quote->getIndividual() !== $user) {
-            throw $this->createAccessDeniedException('You are not the owner of this quote.');
-        }
-
-        $offers = $quote->getOffers();
-
-        return $this->render('offer/manage.html.twig', [
-            'quote' => $quote,
-            'offers' => $offers,
-        ]);
-    }
-
-    #[Route('/status/{id}/{status}', name: 'offer_status')]
-    #[IsGranted('ROLE_INDIVIDUAL')]
-    public function changeStatus(Offer $offer, string $status, EntityManagerInterface $em): Response
-    {
-        $user = $this->getUser();
-        if ($offer->getQuoteRequest()->getIndividual() !== $user) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $validStatuses = ['REJECTED', 'INTERESTED', 'SELECTED'];
-        if (!in_array($status, $validStatuses)) {
-            throw $this->createNotFoundException('Invalid status');
-        }
-
-        // Logic for 'SELECTED': Only one offer can be selected? Or multiple?
-        // Prompt says: "finally he chooses an offer from the interested ones". Implies single selection for finalization.
-        if ($status === 'SELECTED') {
-            // Check if another offer is already selected/accepted?
-            // For now, let's just proceed.
-            $offer->setStatus('SELECTED');
-            
-            // Notification to Provider
-            $notification = new Notification();
-            $notification->setUser($offer->getProvider());
-            $notification->setTitle('Offer Selected');
-            $notification->setMessage(sprintf(
-                'Your offer for "%s" has been selected by the individual. Please confirm acceptance to exchange contact info.',
-                $offer->getQuoteRequest()->getTitle()
-            ));
-            $notification->setRelatedEntityId($offer->getId());
-            $notification->setRelatedEntityType('offer_finalize'); // Special type to link to finalize page
-            $notification->setRead(false);
-            $em->persist($notification);
-        } else {
-             $offer->setStatus($status);
-        }
-
-        $em->flush();
-        $this->addFlash('success', 'Offer status updated.');
-
-        return $this->redirectToRoute('offer_manage', ['id' => $offer->getQuoteRequest()->getId()]);
-    }
-
-    #[Route('/finalize/{id}', name: 'offer_finalize_view')]
+    /**
+     * Professional deletes their own PENDING offer
+     */
+    #[Route('/{id}/delete', name: 'offer_delete', methods: ['POST'])]
     #[IsGranted('ROLE_BUSINESS')]
-    public function finalizeView(Offer $offer): Response
+    public function delete(Offer $offer, Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         if ($offer->getProvider() !== $user) {
-             throw $this->createAccessDeniedException();
+            throw $this->createAccessDeniedException('This is not your offer.');
         }
 
-        return $this->render('offer/finalize.html.twig', [
+        if ($offer->getStatus() !== 'PENDING') {
+            $this->addFlash('error', 'Only pending offers can be deleted.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
+        if (!$this->isCsrfTokenValid('delete-offer-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Invalid security token.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
+        // Notify the individual
+        $quote = $offer->getQuoteRequest();
+        if ($quote && $quote->getIndividual()) {
+            $notification = new Notification();
+            $notification->setUser($quote->getIndividual());
+            $notification->setTitle('Offer Withdrawn');
+            $notification->setMessage(sprintf(
+                '%s has withdrawn their offer for your request "%s".',
+                $user->getCompanyName() ?? 'A provider',
+                $quote->getTitle()
+            ));
+            $notification->setRelatedEntityId($quote->getId());
+            $notification->setRelatedEntityType('quote');
+            $notification->setRead(false);
+            $em->persist($notification);
+        }
+
+        $em->remove($offer);
+        $em->flush();
+
+        $this->addFlash('success', 'Offer deleted successfully.');
+        return $this->redirectToRoute('professional_offers');
+    }
+
+    /**
+     * Professional finalizes an accepted offer → marks the QuoteRequest as "Closed"
+     */
+    #[Route('/{id}/finalize', name: 'offer_finalize', methods: ['POST'])]
+    #[IsGranted('ROLE_BUSINESS')]
+    public function finalize(Offer $offer, Request $request, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        if ($offer->getProvider() !== $user) {
+            throw $this->createAccessDeniedException('This is not your offer.');
+        }
+
+        if ($offer->getStatus() !== 'ACCEPTED') {
+            $this->addFlash('error', 'Only accepted offers can be finalized.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
+        if (!$this->isCsrfTokenValid('finalize-offer-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Invalid security token.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
+        // Mark the QuoteRequest as Closed
+        $quote = $offer->getQuoteRequest();
+        if ($quote) {
+            $quote->setStatus('Closed');
+        }
+
+        // Notify the Individual
+        if ($quote && $quote->getIndividual()) {
+            $notification = new Notification();
+            $notification->setUser($quote->getIndividual());
+            $notification->setTitle('Request Completed');
+            $notification->setMessage(sprintf(
+                'Good news! %s has marked your request "%s" as completed.',
+                $user->getCompanyName() ?? 'Your provider',
+                $quote->getTitle()
+            ));
+            $notification->setRelatedEntityId($quote->getId());
+            $notification->setRelatedEntityType('quote');
+            $notification->setRead(false);
+            $em->persist($notification);
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Request finalized! The individual has been notified that the work is complete.');
+
+        if ($this->isGranted('ROLE_COMPANY')) {
+            return $this->redirectToRoute('company_dashboard');
+        }
+        return $this->redirectToRoute('professional_offers');
+    }
+
+    /**
+     * View offer detail from Professional side  
+     */
+    #[Route('/{id}/view', name: 'offer_view')]
+    #[IsGranted('ROLE_BUSINESS')]
+    public function view(Offer $offer): Response
+    {
+        $user = $this->getUser();
+        if ($offer->getProvider() !== $user) {
+            throw $this->createAccessDeniedException('This is not your offer.');
+        }
+
+        return $this->render('offer/view.html.twig', [
             'offer' => $offer,
-            'quote' => $offer->getQuoteRequest()
+            'quote' => $offer->getQuoteRequest(),
         ]);
     }
 
-    #[Route('/finalize/{id}/{decision}', name: 'offer_finalize_action')]
-    #[IsGranted('ROLE_BUSINESS')]
-    public function finalizeAction(Offer $offer, string $decision, EntityManagerInterface $em): Response
+    /**
+     * Mark a notification as read (AJAX-friendly)
+     */
+    #[Route('/notification/{id}/read', name: 'notification_mark_read', methods: ['POST'])]
+    public function markNotificationRead(int $id, EntityManagerInterface $em): Response
     {
-         $user = $this->getUser();
-         if ($offer->getProvider() !== $user) {
-              throw $this->createAccessDeniedException();
-         }
+        $user = $this->getUser();
+        $notification = $em->getRepository(Notification::class)->find($id);
+        
+        if (!$notification || $notification->getUser() !== $user) {
+            return $this->json(['error' => 'Not found'], 404);
+        }
 
-         if ($decision === 'ACCEPT') {
-             $offer->setStatus('ACCEPTED');
-             
-             // NOTIFY INDIVIDUAL with CONTACT INFO
-             $individual = $offer->getQuoteRequest()->getIndividual();
-             $notification = new Notification();
-             $notification->setUser($individual);
-             $notification->setTitle('Offer Accepted!');
-             $notification->setMessage(sprintf(
-                 'Great news! %s has accepted the job. Contact them at: %s / %s',
-                 $user->getCompanyName() ?? 'Provider',
-                 $user->getEmail(),
-                 $user->getPhoneNum() ?? 'No phone'
-             ));
-             $notification->setRelatedEntityId($offer->getId()); // Link back to offer or quote?
-             $notification->setRelatedEntityType('offer_accepted');
-             $notification->setRead(false);
-             $em->persist($notification);
-             
-             $this->addFlash('success', 'You accepted the job. The individual has been notified with your contact info.');
-             
-         } elseif ($decision === 'REJECT') {
-             $offer->setStatus('DECLINED_BY_PROVIDER');
-             
-             // Notify Individual
-             $individual = $offer->getQuoteRequest()->getIndividual();
-             $notification = new Notification();
-             $notification->setUser($individual);
-             $notification->setTitle('Offer Declined by Provider');
-             $notification->setMessage('The provider has declined the final selection. Please choose another offer.');
-             $notification->setRelatedEntityId($offer->getQuoteRequest()->getId());
-             $notification->setRelatedEntityType('quote'); // Link back to quote manage
-             $notification->setRead(false);
-             $em->persist($notification);
-             
-             $this->addFlash('info', 'You declined the job.');
-         } else {
-             throw $this->createNotFoundException();
-         }
+        $notification->setRead(true);
+        $em->flush();
 
-         $em->flush();
-         
-         if ($this->isGranted('ROLE_COMPANY')) {
-             return $this->redirectToRoute('company_dashboard');
-         }
-         return $this->redirectToRoute('professional_dashboard');
+        return $this->json(['success' => true]);
     }
 
-    #[Route('/redirect/{id}', name: 'offer_redirect')]
-    public function redirectAction(int $id, EntityManagerInterface $em): Response
+    /**
+     * Mark all notifications as read
+     */
+    #[Route('/notifications/read-all', name: 'notification_mark_all_read', methods: ['POST'])]
+    public function markAllRead(Request $request, EntityManagerInterface $em): Response
     {
-        $offer = $em->getRepository(Offer::class)->find($id);
-        if (!$offer) {
-            throw $this->createNotFoundException('Offer not found');
-        }
-
         $user = $this->getUser();
         
-        // If Role Individual: Redirect to Manage (Quote)
+        if (!$this->isCsrfTokenValid('mark-all-read', $request->request->get('_token'))) {
+            $this->addFlash('error', 'Invalid security token.');
+            return $this->redirectToRoute('professional_dashboard');
+        }
+
+        $notifications = $em->getRepository(Notification::class)->findBy([
+            'user' => $user,
+            'isRead' => false,
+        ]);
+
+        foreach ($notifications as $notification) {
+            $notification->setRead(true);
+        }
+
+        $em->flush();
+        $this->addFlash('success', 'All notifications marked as read.');
+
+        // Redirect back based on role
         if ($this->isGranted('ROLE_INDIVIDUAL')) {
-             return $this->redirectToRoute('offer_manage', ['id' => $offer->getQuoteRequest()->getId()]);
+            return $this->redirectToRoute('individual_dashboard');
         }
-        
-        // If Role Business:
-        // Maybe go to Finalize if status is selected?
-        if ($this->isGranted('ROLE_BUSINESS')) {
-             if ($offer->getStatus() === 'SELECTED') {
-                 return $this->redirectToRoute('offer_finalize_view', ['id' => $offer->getId()]);
-             }
-             // Else maybe show quote details? Reuse send view?
-             return $this->redirectToRoute('offer_send', ['id' => $offer->getQuoteRequest()->getId()]);
+        if ($this->isGranted('ROLE_COMPANY')) {
+            return $this->redirectToRoute('company_dashboard');
         }
-        
-        throw $this->createAccessDeniedException();
+        return $this->redirectToRoute('professional_dashboard');
     }
 }

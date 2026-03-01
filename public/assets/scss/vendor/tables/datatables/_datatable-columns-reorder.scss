@@ -1,0 +1,27 @@
+
+
+
+@if $enable-datatable-colreorder {
+
+    
+    .DTCR_clonedTable {
+        --#{$prefix}dt-spacer-y: #{$dt-spacer-y};
+
+        background-color: rgba(var(--#{$prefix}light-rgb), .75);
+        z-index: 202;
+        cursor: move;
+
+        
+        th,
+        td {
+            border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color)!important;
+        }
+    }
+
+    
+    .DTCR_pointer {
+        width: var(--#{$prefix}border-width);
+        background-color: var(--#{$prefix}primary);
+        z-index: 201;
+    }
+}

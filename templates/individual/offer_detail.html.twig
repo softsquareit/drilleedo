@@ -1,0 +1,198 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}Offer Details - Drilleedo{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {# ── Back link ── #}
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        {% if quote %}
+            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
+                <i class="feather-arrow-left"></i> Back to "{{ parentRequest.title }}"
+            </a>
+        {% else %}
+            <a href="{{ path('individual_offers') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
+                <i class="feather-arrow-left"></i> Back to All Offers
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="row g-4">
+        {# ── Provider Card ── #}
+        <div class="col-lg-4">
+            <div class="pro-card pro-card-elevated h-100">
+                <div class="pro-card-header border-bottom">
+                    <h5 class="pro-card-title"><i class="feather-user text-primary me-2"></i>Provider</h5>
+                </div>
+                <div class="pro-card-body text-center py-4">
+                    {% set provider = offer.provider %}
+                    {% set providerName = provider.primaryContact ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName) : (provider.companyName|default(provider.email)) %}
+
+                    {# Avatar #}
+                    {% if provider.logo %}
+                        <img src="{{ asset('uploads/logos/' ~ provider.logo) }}" alt="Provider Logo"
+                             style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0;"
+                             class="mb-3 mx-auto d-block">
+                    {% else %}
+                        <div class="pro-stat-icon primary mx-auto mb-3" style="width: 72px; height: 72px; font-size: 2rem;">
+                            {{ providerName|slice(0, 1)|upper }}
+                        </div>
+                    {% endif %}
+
+                    <h5 class="fw-bold text-dark mb-1">{{ providerName }}</h5>
+                    <div class="mb-3">
+                        <span class="badge pro-badge info">
+                            {{ provider.getType() }}
+                        </span>
+                        {% if provider.entrepreneurType %}
+                            <span class="badge pro-badge secondary">
+                                {{ provider.entrepreneurType.name }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    {% if provider.companyName and provider.companyName != providerName %}
+                        <div class="mt-2">
+                            <div class="text-muted small">Company</div>
+                            <div class="fw-bold text-dark">{{ provider.companyName }}</div>
+                        </div>
+                    {% endif %}
+
+                    {# Contact info: only revealed if offer is ACCEPTED #}
+                    {% if offer.status|upper == 'ACCEPTED' %}
+                        <div class="contact-info-card text-start mt-4 p-4 rounded-3 bg-light border">
+                            <h6 class="fw-bold text-dark mb-3"><i class="feather-phone-call me-2 text-success"></i>Contact Details</h6>
+                            <div class="mb-3">
+                                <label class="pro-form-label mb-1" style="font-size: 0.75rem;">Email</label>
+                                <div class="fw-bold">
+                                    <a href="mailto:{{ provider.email }}" class="text-primary text-decoration-none">{{ provider.email }}</a>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="pro-form-label mb-1" style="font-size: 0.75rem;">Phone</label>
+                                <div class="fw-bold text-dark">{{ provider.phoneNum|default('Not provided') }}</div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="mt-4 p-4 bg-light rounded-3 border text-start">
+                            <p class="small text-muted mb-0 fst-italic">
+                                <i class="feather-lock me-1"></i> Contact details will be revealed once you accept this offer.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {# ── Offer Details Card ── #}
+        <div class="col-lg-8">
+            <div class="pro-card pro-card-elevated h-100">
+                <div class="pro-card-header border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="pro-card-title"><i class="feather-file-text text-primary me-2"></i>Offer Quote</h5>
+                    {% set offerStatusMap = {
+                        'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                        'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                        'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
+                    } %}
+                    {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
+                    <span class="pro-badge {{ offerInfo.class }} px-3 py-2">
+                        <i class="{{ offerInfo.icon }} me-1"></i>{{ offerInfo.label }}
+                    </span>
+                </div>
+                <div class="pro-card-body pt-4">
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <label class="pro-form-label">Proposed Amount</label>
+                            <div class="fw-bold text-dark" style="font-size: 2rem; line-height: 1;">
+                                {{ offer.price|number_format(2) }} <span class="text-muted" style="font-size: 1.25rem;">$</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="pro-form-label">Submitted On</label>
+                            <div class="fw-bold text-dark h5">{{ offer.createdAt|date('F j, Y \\a\\t g:i A') }}</div>
+                        </div>
+                    </div>
+
+                    <label class="pro-form-label">Message / Description</label>
+                    <div class="p-4 bg-light rounded-3 border mb-4" style="white-space: pre-line; color: #334155; font-size: 1.05rem; line-height: 1.6;">
+                        {{ offer.description|default('No additional message provided.') }}
+                    </div>
+
+                    {% if offer.documents|length > 0 %}
+                        <label class="pro-form-label">Attached Documents</label>
+                        <div class="d-flex flex-wrap gap-2 mb-4">
+                            {% for doc in offer.documents %}
+                                <a href="{{ asset('uploads/offer_documents/' ~ doc) }}" target="_blank" class="pro-badge secondary px-3 py-2">
+                                    <i class="feather-paperclip me-2"></i>{{ doc }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <label class="pro-form-label">Related Request</label>
+                    <div class="p-3 border rounded-3 d-flex align-items-center justify-content-between mb-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="pro-activity-icon info">
+                                <i class="feather-link"></i>
+                            </div>
+                            <div>
+                                <span class="fw-bold text-dark d-block mb-1">{{ parentRequest.title }}</span>
+                                <span class="badge pro-badge secondary p-0 px-2" style="font-size: 0.7rem;">
+                                    {{ offer.quoteRequest ? 'Quote Request' : 'Direct Request' }}
+                                </span>
+                            </div>
+                        </div>
+                        {% if quote %}
+                            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="pro-btn pro-btn-icon">
+                                <i class="feather-arrow-right"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    {# ── Action Buttons ── #}
+                    {% if parentRequest.status not in ['Closed'] %}
+                        <hr class="my-5">
+                        <h6 class="fw-bold text-dark mb-4"><i class="feather-zap text-warning me-2"></i>Available Actions</h6>
+                        <div class="d-flex flex-wrap gap-3">
+                            {% if offer.status|upper == 'PENDING' %}
+                                <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Accept this offer? All other pending offers will be automatically rejected.');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                    <button type="submit" class="pro-btn pro-btn-primary px-5">
+                                        <i class="feather-check-circle"></i> Accept Offer
+                                    </button>
+                                </form>
+                                <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Reject this offer?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                    <button type="submit" class="pro-btn pro-btn-outline text-danger px-5" style="border-color: var(--pro-danger);">
+                                        <i class="feather-x-circle"></i> Reject Offer
+                                    </button>
+                                </form>
+                            {% elseif offer.status|upper == 'REJECTED' and parentRequest.status not in ['Accepted'] %}
+                                <form action="{{ path('individual_offer_pending', {'id': offer.id}) }}" method="POST" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                    <button type="submit" class="pro-btn pro-btn-outline px-5">
+                                        <i class="feather-rotate-ccw"></i> Revert to Pending
+                                    </button>
+                                </form>
+                            {% elseif offer.status|upper == 'ACCEPTED' %}
+                                <div class="alert alert-success d-flex align-items-center gap-3 w-100 mb-0">
+                                    <i class="feather-award h4 mb-0"></i>
+                                    <span class="fw-bold">This offer has been accepted! Go to your request to contact the pro.</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-secondary mt-4 mb-0">
+                            <i class="feather-info me-2"></i>This request is closed. No further actions can be taken on this offer.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -28,7 +28,7 @@
         <div class="pro-sidebar-section">
             <ul class="pro-sidebar-list">
                 <li>
-                    <a href="{{ path('professional_quotes') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_quotes' %}active{% endif %}">
+                    <a href="{{ path('professional_quotes') }}" class="pro-sidebar-link {% if app.request.get('_route') in ['professional_quotes', 'offer_send'] %}active{% endif %}">
                         <i class="feather-message-square"></i> <span>Quote Requests</span>
                     </a>
                 </li>
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('professional_offers') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'professional_offers' %}active{% endif %}">
+                    <a href="{{ path('professional_offers') }}" class="pro-sidebar-link {% if app.request.get('_route') in ['professional_offers', 'offer_view', 'offer_finalize'] %}active{% endif %}">
                         <i class="feather-send"></i> <span>My Offers</span>
                     </a>
                 </li>

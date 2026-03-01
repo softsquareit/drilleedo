@@ -1,0 +1,207 @@
+
+
+
+
+.form-control {
+  --#{$prefix}input-padding-y: #{$input-padding-y};
+  --#{$prefix}input-padding-x: #{$input-padding-x};
+  --#{$prefix}input-height: #{$input-height};
+  --#{$prefix}input-bg: #{$input-bg};
+  --#{$prefix}input-color: #{$input-color};
+  --#{$prefix}input-plaintext-color: #{$input-plaintext-color};
+  --#{$prefix}input-placeholder-color: #{$input-placeholder-color};
+  --#{$prefix}input-font-weight: #{$input-font-weight};
+  @include rfs($input-font-size, --#{$prefix}input-font-size);
+  --#{$prefix}input-line-height: #{$input-line-height};
+  --#{$prefix}input-border-width: #{$input-border-width};
+  --#{$prefix}input-border-color: #{$input-border-color};
+  --#{$prefix}input-border-radius: #{$input-border-radius};
+  --#{$prefix}input-box-shadow: #{$input-box-shadow};
+  --#{$prefix}input-focus-bg: #{$input-focus-bg};
+  --#{$prefix}input-focus-border-color: #{$input-focus-border-color};
+  --#{$prefix}input-focus-box-shadow: #{$input-focus-box-shadow};
+  --#{$prefix}input-disabled-bg: #{$input-disabled-bg};
+  --#{$prefix}input-disabled-border-color: #{$input-disabled-border-color};
+
+  display: block;
+  width: 100%;
+  padding: var(--#{$prefix}input-padding-y) var(--#{$prefix}input-padding-x);
+  font-family: $input-font-family;
+  font-size: var(--#{$prefix}input-font-size);
+  font-weight: var(--#{$prefix}input-font-weight);
+  line-height: var(--#{$prefix}input-line-height);
+  color: var(--#{$prefix}input-color);
+  background-color: var(--#{$prefix}input-bg);
+  background-clip: padding-box;
+  border: var(--#{$prefix}input-border-width) solid var(--#{$prefix}input-border-color);
+  appearance: none; 
+
+  
+  @include border-radius(var(--#{$prefix}input-border-radius), 0);
+  @include box-shadow(var(--#{$prefix}input-box-shadow));
+  @include transition($input-transition);
+
+  &[type="file"] {
+    --#{$prefix}form-file-button-color: #{$form-file-button-color};
+    --#{$prefix}form-file-button-bg: #{$form-file-button-bg};
+    --#{$prefix}form-file-button-hover-bg: #{$form-file-button-hover-bg};
+
+    overflow: hidden; 
+
+    &:not(:disabled):not([readonly]) {
+      cursor: pointer;
+    }
+  }
+
+  
+  &:focus {
+    color: $input-focus-color;
+    background-color: var(--#{$prefix}input-focus-bg);
+    border-color: var(--#{$prefix}input-focus-border-color);
+    outline: 0;
+    @if $enable-shadows {
+      @include box-shadow($input-box-shadow, var(--#{$prefix}input-focus-box-shadow));
+    } @else {
+      
+      box-shadow: var(--#{$prefix}input-focus-box-shadow);
+    }
+  }
+
+  
+  
+  
+  &::-webkit-date-and-time-value {
+    
+    height: var(--#{$prefix}body-line-height-computed);
+  }
+
+  
+  &::placeholder {
+    color: var(--#{$prefix}input-placeholder-color);
+    
+    opacity: 1;
+  }
+
+  
+  
+  
+  
+  
+  &:disabled {
+    color: var(--#{$prefix}input-disabled-color);
+    background-color: var(--#{$prefix}input-disabled-bg);
+    border-color: var(--#{$prefix}input-disabled-border-color);
+    
+    opacity: 1;
+  }
+
+  
+  &::file-selector-button {
+    padding: var(--#{$prefix}input-padding-y) var(--#{$prefix}input-padding-x);
+    margin: calc(var(--#{$prefix}input-padding-y) * -1) calc(var(--#{$prefix}input-padding-x) * -1);
+    margin-inline-end: var(--#{$prefix}input-padding-x);
+    color: var(--#{$prefix}form-file-button-color);
+    @include gradient-bg(var(--#{$prefix}form-file-button-bg));
+    pointer-events: none;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-inline-end-width: var(--#{$prefix}input-border-width);
+    border-radius: 0; 
+    @include transition($btn-transition);
+  }
+
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: var(--#{$prefix}form-file-button-hover-bg);
+  }
+}
+
+
+
+
+
+
+.form-control-plaintext {
+  display: block;
+  width: 100%;
+  padding: var(--#{$prefix}input-padding-y) 0;
+  margin-bottom: 0; 
+  line-height: var(--#{$prefix}input-line-height);
+  color: var(--#{$prefix}input-plaintext-color);
+  background-color: transparent;
+  border: solid transparent;
+  border-width: var(--#{$prefix}input-border-width) 0;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &.form-control-sm,
+  &.form-control-lg {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+
+
+
+
+
+
+
+.form-control-sm {
+  --#{$prefix}input-height: #{$input-height-sm};
+  --#{$prefix}input-padding-y: #{$input-padding-y-sm};
+  --#{$prefix}input-padding-x: #{$input-padding-x-sm};
+  @include rfs($input-font-size-sm, --#{$prefix}input-font-size);
+  --#{$prefix}input-line-height: #{$input-line-height-sm};
+  --#{$prefix}input-border-radius: #{$input-border-radius-sm};
+}
+
+.form-control-lg {
+  --#{$prefix}input-height: #{$input-height-lg};
+  --#{$prefix}input-padding-y: #{$input-padding-y-lg};
+  --#{$prefix}input-padding-x: #{$input-padding-x-lg};
+  @include rfs($input-font-size-lg, --#{$prefix}input-font-size);
+  --#{$prefix}input-line-height: #{$input-line-height-lg};
+  --#{$prefix}input-border-radius: #{$input-border-radius-lg};
+}
+
+
+
+
+textarea {
+  &.form-control {
+    min-height: var(--#{$prefix}input-height);
+  }
+
+  &.form-control-sm {
+    --#{$prefix}input-height: #{$input-height-lg};
+  }
+
+  &.form-control-lg {
+    --#{$prefix}input-height: #{$input-height-lg};
+  }
+}
+
+
+.form-control-color {
+  width: $form-color-width;
+  height: auto; 
+  padding: var(--#{$prefix}input-padding-y);
+
+  &:not(:disabled):not([readonly]) {
+    cursor: pointer;
+  }
+
+  &::-moz-color-swatch {
+    height: var(--#{$prefix}body-line-height-computed);
+    @include border-radius(var(--#{$prefix}input-border-radius));
+  }
+
+  &::-webkit-color-swatch {
+    height: var(--#{$prefix}body-line-height-computed);
+    @include border-radius(var(--#{$prefix}input-border-radius));
+  }
+}

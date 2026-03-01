@@ -1,74 +1,133 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Sent Offers - {{ app.user.companyName }}{% endblock %}
+{% block title %}My Offers - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
     <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header">
+        <div class="pro-card-header border-bottom">
             <div>
                 <h4 class="pro-card-title">My Offers</h4>
                 <p class="pro-card-subtitle">Track and manage all offers you've sent to potential clients</p>
             </div>
-            <span class="pro-badge primary">{{ offers|length }} Total</span>
+            <div class="d-flex align-items-center gap-2">
+                <span class="pro-badge primary">{{ offers|length }} Total</span>
+                <a href="{{ path('professional_quotes') }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                    <i class="feather-plus"></i> New Offer
+                </a>
+            </div>
         </div>
 
         <div class="pro-table-wrapper">
             <table class="pro-table">
                 <thead>
                     <tr>
-                        <th>Project/Quote</th>
-                        <th>Price</th>
+                        <th>Quote Request</th>
+                        <th>Amount</th>
+                        <th>Message</th>
+                        <th>Date</th>
                         <th>Status</th>
-                        <th>Sent Date</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for offer in offers %}
                         <tr>
-                            <th>
-                                <span class="pro-fw-semibold">{{ offer.quoteRequest.title }}</span>
-                            </th>
                             <td>
-                                <span class="pro-text-primary pro-fw-bold">${{ offer.price }}</span>
+                                {% if offer.quoteRequest %}
+                                    <div>
+                                        <span class="pro-fw-semibold d-block">{{ offer.quoteRequest.title }}</span>
+                                        <small class="pro-text-muted">
+                                            <i class="feather-tag" style="font-size:0.7rem;"></i>
+                                            {{ offer.quoteRequest.category ? offer.quoteRequest.category.name : 'N/A' }}
+                                        </small>
+                                    </div>
+                                {% elseif offer.directRequest is defined and offer.directRequest %}
+                                    <span class="pro-fw-semibold">{{ offer.directRequest.title|default('Direct Request') }}</span>
+                                {% else %}
+                                    <span class="pro-text-muted">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="pro-fw-bold" style="color:#10b981; font-size:1rem;">{{ offer.price|number_format(2) }} $</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted" style="font-size:0.8125rem;">{{ offer.description|slice(0, 50) }}{% if offer.description|length > 50 %}...{% endif %}</span>
+                            </td>
+                            <td>
+                                <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                                {% if offer.updatedAt %}
+                                    <br><small class="pro-text-muted" style="font-size:0.7rem;"><i class="feather-edit-3" style="font-size:0.65rem;"></i> {{ offer.updatedAt|date('M d') }}</small>
+                                {% endif %}
                             </td>
                             <td>
                                 {% if offer.status == 'PENDING' %}
-                                    <span class="pro-badge primary">Pending</span>
-                                {% elseif offer.status == 'SELECTED' %}
-                                    <span class="pro-badge success">Selected</span>
+                                    <span class="pro-badge primary"><i class="feather-clock" style="font-size:0.65rem;"></i> Pending</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
-                                    <span class="pro-badge success">Accepted</span>
-                                {% elseif offer.status == 'REJECTED' or offer.status == 'DECLINED_BY_PROVIDER' %}
-                                    <span class="pro-badge danger">Declined</span>
+                                    {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
+                                        <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Completed</span>
+                                    {% else %}
+                                        <span class="pro-badge success"><i class="feather-check-circle" style="font-size:0.65rem;"></i> Accepted</span>
+                                    {% endif %}
+                                {% elseif offer.status == 'REJECTED' %}
+                                    <span class="pro-badge danger"><i class="feather-x-circle" style="font-size:0.65rem;"></i> Rejected</span>
                                 {% else %}
                                     <span class="pro-badge secondary">{{ offer.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
-                                <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
-                            </td>
-                            <td>
-                                {% if offer.status == 'SELECTED' %}
-                                    <a href="{{ path('offer_finalize_view', {id: offer.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
-                                        <i class="feather-check-circle"></i> Finalize
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="View Details">
-                                        <i class="feather-eye"></i> View
-                                    </a>
-                                {% endif %}
+                                <div class="d-flex gap-1 flex-wrap">
+                                    {# Finalize button — only for ACCEPTED offers where request is not yet Closed #}
+                                    {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
+                                        <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Mark this request as completed? The individual will be notified that the work is done.');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                                            <button type="submit" class="pro-btn pro-btn-success pro-btn-sm" title="Finalize Request">
+                                                <i class="feather-check-circle"></i> Finalize
+                                            </button>
+                                        </form>
+                                    {% endif %}
+
+                                    {# Edit/View button #}
+                                    {% if offer.quoteRequest %}
+                                        <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="{{ offer.status == 'PENDING' ? 'Edit Offer' : 'View Details' }}">
+                                            <i class="feather-{{ offer.status == 'PENDING' ? 'edit-2' : 'eye' }}"></i>
+                                        </a>
+                                    {% elseif offer.directRequest %}
+                                        <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="{{ offer.status == 'PENDING' ? 'Edit Offer' : 'View Details' }}">
+                                            <i class="feather-{{ offer.status == 'PENDING' ? 'edit-2' : 'eye' }}"></i>
+                                        </a>
+                                    {% endif %}
+
+                                    {# Delete button — only for PENDING offers #}
+                                    {% if offer.status == 'PENDING' %}
+                                        <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Delete this offer? This action cannot be undone.');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
+                                            <button type="submit" class="pro-btn pro-btn-sm" style="background:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.3);" title="Delete Offer">
+                                                <i class="feather-trash-2"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+
+                                    {# Completed indicator #}
+                                    {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
+                                        <span class="d-inline-flex align-items-center gap-1" style="color:#10b981; font-size:0.75rem;">
+                                            <i class="feather-award" style="font-size:0.7rem;"></i> Done
+                                        </span>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5" class="pro-table-empty">
+                            <td colspan="6" class="pro-table-empty">
                                 <div class="pro-empty-state">
                                     <div class="pro-empty-icon">
                                         <i class="feather-send"></i>
                                     </div>
                                     <h6 class="pro-empty-title">No offers sent yet</h6>
-                                    <p class="pro-empty-text">You haven't sent any offers to clients</p>
+                                    <p class="pro-empty-text">Browse available quote requests and submit your best offer</p>
+                                    <a href="{{ path('professional_quotes') }}" class="pro-btn pro-btn-primary pro-btn-sm mt-2">
+                                        <i class="feather-search"></i> Browse Quotes
+                                    </a>
                                 </div>
                             </td>
                         </tr>

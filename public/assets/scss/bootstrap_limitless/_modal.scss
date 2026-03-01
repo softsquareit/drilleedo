@@ -1,0 +1,31 @@
+
+
+
+.modal {
+    @include color-scheme(dark) {
+        --#{$prefix}modal-bg: #{$modal-content-darkmode-bg};
+    }
+}
+
+
+.modal-header {
+    .btn-close {
+        @include color-scheme(dark) {
+            filter: $btn-close-white-filter;
+        }
+    }
+}
+
+
+@include media-breakpoint-up(sm) {
+
+    
+    .modal-xs {
+        --#{$prefix}modal-width: #{$modal-xs};
+    }
+
+    
+    .modal-full {
+        --#{$prefix}modal-width: #{$modal-full};
+    }
+}

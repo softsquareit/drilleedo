@@ -1,0 +1,36 @@
+
+
+
+@if $enable-datatable-scroller {
+
+    
+    .DTS {
+
+        
+        tbody {
+            th,
+            td {
+                white-space: nowrap;
+            }
+        }
+
+        
+        .DTS_Loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: calc(var(--#{$prefix}spacer) * 10);
+            height: var(--#{$prefix}spacer);
+            z-index: 1;
+            border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+            padding: var(--#{$prefix}spacer) 0;
+            text-align: center;
+            transform: translate(-50%, -50%)
+        }
+
+        
+        .dataTables_scrollBody {
+            z-index: 2;
+        }
+    }
+}

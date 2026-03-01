@@ -1,8 +1,198 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Dashboard - {{ app.user.firstname|default('Professional') }}{% endblock %}
+{% block title %}Dashboard - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
- 
+    {# ── KPI Cards ── #}
+    <div class="row g-4 mb-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid var(--pro-primary, #4361ee);">
+                <div class="pro-card-body py-4">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(67,97,238,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                        <i class="feather-message-square" style="font-size:1.25rem; color:var(--pro-primary,#4361ee);"></i>
+                    </div>
+                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ quoteCount }}</h3>
+                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Available Quotes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid #f59e0b;">
+                <div class="pro-card-body py-4">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245,158,11,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                        <i class="feather-send" style="font-size:1.25rem; color:#f59e0b;"></i>
+                    </div>
+                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ offerCount }}</h3>
+                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Offers Sent</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid #10b981;">
+                <div class="pro-card-body py-4">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16,185,129,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                        <i class="feather-check-circle" style="font-size:1.25rem; color:#10b981;"></i>
+                    </div>
+                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ acceptedCount }}</h3>
+                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Accepted</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid #8b5cf6;">
+                <div class="pro-card-body py-4">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(139,92,246,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                        <i class="feather-briefcase" style="font-size:1.25rem; color:#8b5cf6;"></i>
+                    </div>
+                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ projectCount }}</h3>
+                    <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">Projects</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row g-4">
+        {# ── Recent Offers ── #}
+        <div class="col-lg-8">
+            <div class="pro-card pro-card-elevated">
+                <div class="pro-card-header">
+                    <div>
+                        <h4 class="pro-card-title">Recent Offers</h4>
+                        <p class="pro-card-subtitle">Your latest submitted offers</p>
+                    </div>
+                    <a href="{{ path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-sm">
+                        View All <i class="feather-arrow-right" style="margin-left:4px;"></i>
+                    </a>
+                </div>
+
+                <div class="pro-table-wrapper">
+                    <table class="pro-table">
+                        <thead>
+                            <tr>
+                                <th>Quote Request</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for offer in recentOffers %}
+                                <tr>
+                                    <td>
+                                        <span class="pro-fw-semibold">{{ offer.quoteRequest ? offer.quoteRequest.title : 'Direct Request' }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="pro-text-primary pro-fw-bold">{{ offer.price|number_format(2) }} $</span>
+                                    </td>
+                                    <td>
+                                        {% if offer.status == 'PENDING' %}
+                                            <span class="pro-badge primary">Pending</span>
+                                        {% elseif offer.status == 'ACCEPTED' %}
+                                            <span class="pro-badge success">Accepted</span>
+                                        {% elseif offer.status == 'REJECTED' %}
+                                            <span class="pro-badge danger">Rejected</span>
+                                        {% else %}
+                                            <span class="pro-badge secondary">{{ offer.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                                    </td>
+                                    <td>
+                                        {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
+                                            <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Mark this request as completed? The individual will be notified.');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                                                <button type="submit" class="pro-btn pro-btn-success pro-btn-sm">
+                                                    <i class="feather-check-circle"></i> Finalize
+                                                </button>
+                                            </form>
+                                        {% elseif offer.quoteRequest %}
+                                            <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="View Details">
+                                                <i class="feather-eye"></i>
+                                            </a>
+                                        {% elseif offer.directRequest %}
+                                            <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="View Details">
+                                                <i class="feather-eye"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="pro-table-empty">
+                                        <div class="pro-empty-state">
+                                            <div class="pro-empty-icon">
+                                                <i class="feather-send"></i>
+                                            </div>
+                                            <h6 class="pro-empty-title">No offers yet</h6>
+                                            <p class="pro-empty-text">Browse quote requests to start submitting offers</p>
+                                            <a href="{{ path('professional_quotes') }}" class="pro-btn pro-btn-primary pro-btn-sm mt-2">
+                                                <i class="feather-search"></i> Browse Quotes
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {# ── Notifications Panel ── #}
+        <div class="col-lg-4">
+            <div class="pro-card pro-card-elevated">
+                <div class="pro-card-header">
+                    <div>
+                        <h4 class="pro-card-title">
+                            Notifications
+                            {% if unreadCount > 0 %}
+                                <span class="pro-badge danger" style="font-size:0.7rem; vertical-align:middle; margin-left:6px;">{{ unreadCount }}</span>
+                            {% endif %}
+                        </h4>
+                    </div>
+                    {% if unreadCount > 0 %}
+                        <form method="post" action="{{ path('notification_mark_all_read') }}" style="display:inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
+                            <button type="submit" class="pro-btn pro-btn-outline pro-btn-sm" style="font-size:0.75rem;">
+                                Mark all read
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <div class="pro-card-body" style="max-height: 420px; overflow-y: auto; padding: 0;">
+                    {% for notification in notifications %}
+                        <div class="d-flex align-items-start gap-3 px-3 py-3 {{ not notification.read ? 'bg-light' : '' }}" style="border-bottom: 1px solid rgba(0,0,0,0.06);">
+                            <div style="min-width: 36px; width: 36px; height: 36px; border-radius: 50%; display:flex; align-items:center; justify-content:center;
+                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}background:rgba(16,185,129,0.12);{% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}background:rgba(239,68,68,0.12);{% else %}background:rgba(67,97,238,0.12);{% endif %}">
+                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}
+                                    <i class="feather-check-circle" style="font-size:0.85rem; color:#10b981;"></i>
+                                {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}
+                                    <i class="feather-x-circle" style="font-size:0.85rem; color:#ef4444;"></i>
+                                {% else %}
+                                    <i class="feather-bell" style="font-size:0.85rem; color:#4361ee;"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1" style="min-width:0;">
+                                <p class="mb-1 {{ not notification.read ? 'pro-fw-semibold' : '' }}" style="font-size:0.8125rem; line-height:1.4; color:var(--pro-text-dark,#1e293b);">
+                                    {{ notification.title }}
+                                </p>
+                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:0.75rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
+                                <small class="pro-text-muted" style="font-size:0.6875rem;">{{ notification.createdAt|date('M d, H:i') }}</small>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5 px-3">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(67,97,238,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                <i class="feather-bell-off" style="font-size:1.2rem; color:var(--pro-primary,#4361ee);"></i>
+                            </div>
+                            <p class="pro-text-muted mb-0" style="font-size:0.8125rem;">No notifications yet</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

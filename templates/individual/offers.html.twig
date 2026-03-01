@@ -7,60 +7,86 @@
         <div class="pro-card-header">
             <div>
                 <h4 class="pro-card-title">Received Offers</h4>
-                <p class="pro-card-subtitle">All offers received for your quote requests</p>
+                <p class="pro-card-subtitle">All offers received for your quote and direct requests</p>
             </div>
-            <span class="pro-badge info">{{ offers|length }} Total</span>
+            <div class="d-flex gap-2">
+                <span class="pro-badge info">{{ offers|length }} Total</span>
+            </div>
         </div>
 
-        <div class="pro-table-wrapper">
+        <div class="pro-table-wrapper border-0">
             <table class="pro-table">
                 <thead>
                     <tr>
-                        <th>Quote Request</th>
-                        <th>Professional/Company</th>
-                        <th>Price</th>
-                        <th>Date Received</th>
-                        <th>Actions</th>
+                        <th style="width: 25%">Related Request</th>
+                        <th>Professional / Company</th>
+                        <th>Offer Details</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for offer in offers %}
+                        {% set parentRequest = offer.quoteRequest ?? offer.directRequest %}
                         <tr>
                             <td>
                                 <div>
-                                    <span class="pro-fw-semibold d-block">{{ offer.quoteRequest.title }}</span>
-                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ offer.quoteRequest.description|slice(0, 50) }}...</span>
+                                    <span class="pro-fw-semibold d-block text-dark">{{ parentRequest.title }}</span>
+                                    <span class="pro-badge secondary p-0 px-2" style="font-size: 0.7rem;">
+                                        {{ offer.quoteRequest ? 'Quote Request' : 'Direct Request' }}
+                                    </span>
                                 </div>
                             </td>
                             <td>
-                                {% if offer.provider %}
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="feather-briefcase pro-text-info"></i>
-                                        <span>{{ offer.provider.companyName }}</span>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="pro-stat-icon primary m-0" style="width: 40px; height: 40px; min-width: 40px; font-size: 1rem;">
+                                        {% set providerName = offer.provider.primaryContact ? (offer.provider.primaryContact.firstName ~ ' ' ~ offer.provider.primaryContact.lastName) : (offer.provider.companyName|default(offer.provider.email)) %}
+                                        {{ providerName|slice(0, 1)|upper }}
                                     </div>
-                                {% else %}
-                                    <span class="pro-text-muted">N/A</span>
-                                {% endif %}
+                                    <div>
+                                        <span class="fw-bold d-block text-dark" style="font-size: 0.95rem;">{{ providerName }}</span>
+                                        <span class="text-muted small">{{ offer.provider.getType() }}</span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
-                                <span class="pro-fw-semibold pro-text-success">${{ offer.price }}</span>
+                                <div class="fw-bold text-dark">{{ offer.price|number_format(2) }} $</div>
+                                <div class="text-muted small" style="font-size: 0.75rem;">Received {{ offer.createdAt|date('M d, Y') }}</div>
                             </td>
                             <td>
-                                <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                                {% set offerStatusMap = {
+                                    'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                                    'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                    'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
+                                } %}
+                                {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
+                                <span class="pro-badge {{ offerInfo.class }}">
+                                    <i class="{{ offerInfo.icon }} me-1"></i>{{ offerInfo.label }}
+                                </span>
                             </td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    {% if offer.status == 'pending' %}
-                                        <button class="pro-btn pro-btn-success pro-btn-sm" title="Accept Offer">
-                                            <i class="feather-check"></i>
-                                        </button>
-                                        <button class="pro-btn pro-btn-danger pro-btn-sm" title="Reject Offer">
-                                            <i class="feather-x"></i>
-                                        </button>
-                                    {% else %}
-                                        <span class="pro-badge {{ offer.status == 'accepted' ? 'success' : 'secondary' }}">
-                                            {{ offer.status|title }}
-                                        </span>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="pro-btn pro-btn-icon" title="View Details">
+                                        <i class="feather-eye"></i>
+                                    </a>
+
+                                    {% if parentRequest.status not in ['Closed'] %}
+                                        {% if offer.status|upper == 'PENDING' %}
+                                            <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
+                                                  onsubmit="return confirm('Accept this offer? This will notify the provider.');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                                <button type="submit" class="pro-btn pro-btn-icon text-success" style="border-color: rgba(16, 185, 129, 0.3);" title="Accept Offer">
+                                                    <i class="feather-check"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
+                                                  onsubmit="return confirm('Reject this offer?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                                <button type="submit" class="pro-btn pro-btn-icon text-danger" style="border-color: rgba(239, 68, 68, 0.3);" title="Reject Offer">
+                                                    <i class="feather-x"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </td>
@@ -73,10 +99,15 @@
                                         <i class="feather-inbox"></i>
                                     </div>
                                     <h6 class="pro-empty-title">No offers received yet</h6>
-                                    <p class="pro-empty-text">Professionals will send you offers for your quote requests</p>
-                                    <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm pro-mt-3">
-                                        <i class="feather-plus"></i> Post a Request
-                                    </a>
+                                    <p class="pro-empty-text">Professionals will send you offers for your requests</p>
+                                    <div class="d-flex justify-content-center gap-3 mt-4">
+                                        <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                            <i class="feather-plus"></i> Post Global Request
+                                        </a>
+                                        <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-outline pro-btn-sm">
+                                            <i class="feather-search"></i> Direct Inquiry
+                                        </a>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

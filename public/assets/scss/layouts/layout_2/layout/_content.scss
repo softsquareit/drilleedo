@@ -1,0 +1,94 @@
+
+
+
+html {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.page-content {
+    display: flex;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    min-width: 0;
+}
+
+
+.content {
+    padding: $content-container-padding-y $content-container-padding-x;
+    flex-grow: 1;
+    @include clearfix;
+}
+
+
+.content-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    
+    @media (prefers-reduced-motion: no-preference) {
+        scroll-behavior: smooth;
+    }
+}
+
+
+
+
+
+
+
+.layout-static {
+    &,
+    body,
+    .page-content {
+        overflow: visible;
+    }
+}
+
+
+
+
+
+
+.btn-to-top {
+    position: absolute;
+    bottom: $content-container-padding-y;
+    right: $content-container-padding-x;
+    align-self: flex-end;
+    opacity: 0;
+    visibility: hidden;
+    z-index: $zindex-dropdown - 1;
+    @include transition(opacity ease-in-out var(--#{$prefix}transition-base-timer), visibility ease-in-out var(--#{$prefix}transition-base-timer), bottom ease-in-out var(--#{$prefix}transition-base-timer));
+
+    
+    &-visible {
+        visibility: visible;
+        opacity: 1;
+    }
+}

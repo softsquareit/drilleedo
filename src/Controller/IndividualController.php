@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\QuoteRequest;
+use App\Entity\Offer;
 use App\Entity\Notification;
 use App\Entity\Professional;
 use App\Form\QuoteRequestType;
@@ -189,13 +190,28 @@ class IndividualController extends AbstractController
     #[Route('/offers', name: 'individual_offers')]
     public function receivedOffers(EntityManagerInterface $em): Response
     {
+        /** @var \App\Entity\Individual $user */
         $user = $this->getUser();
         $offers = [];
+        
+        // Offers from Quote Requests
         foreach ($user->getQuoteRequests() as $quote) {
             foreach ($quote->getOffers() as $offer) {
                 $offers[] = $offer;
             }
         }
+        
+        // Offers from Direct Requests
+        foreach ($user->getDirectRequests() as $directRequest) {
+            foreach ($directRequest->getOffers() as $offer) {
+                $offers[] = $offer;
+            }
+        }
+        
+        // Sort by creation date descending
+        usort($offers, function($a, $b) {
+            return $b->getCreatedAt() <=> $a->getCreatedAt();
+        });
         
         return $this->render('individual/offers.html.twig', [
             'offers' => $offers,
@@ -232,5 +248,237 @@ class IndividualController extends AbstractController
             'form' => $form->createView(),
             'user' => $user
         ]);
+    }
+
+    // ========================================================
+    // WORKFLOW STEP 1 – Request Management & Offer Actions
+    // ========================================================
+
+    #[Route('/quote/{id}/toggle', name: 'individual_quote_toggle', methods: ['POST'])]
+    public function toggleQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not own this quote request.');
+        }
+
+        if (!$this->isCsrfTokenValid('toggle-quote-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        if (in_array($quote->getStatus(), ['Closed', 'Accepted'])) {
+            $this->addFlash('warning', 'Cannot toggle a request that is already accepted or closed.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $newStatus = $quote->getStatus() === 'Inactive' ? 'Active' : 'Inactive';
+        $quote->setStatus($newStatus);
+        $em->flush();
+
+        $this->addFlash('success', 'Request is now ' . $newStatus . '.');
+        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+    }
+
+    #[Route('/quote/{id}/delete', name: 'individual_quote_delete', methods: ['POST'])]
+    public function deleteQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not own this quote request.');
+        }
+
+        if (!$this->isCsrfTokenValid('delete-quote-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->redirectToRoute('individual_quotes');
+        }
+
+        $title = $quote->getTitle();
+
+        // Delete uploaded images from disk
+        $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/quote_requests/';
+        if ($quote->getImages()) {
+            foreach ($quote->getImages() as $img) {
+                $filePath = $uploadDir . $img;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+        }
+
+        $em->remove($quote);
+        $em->flush();
+
+        $this->addFlash('success', 'Request "' . $title . '" has been permanently deleted.');
+        return $this->redirectToRoute('individual_quotes');
+    }
+
+    #[Route('/quote/{id}/remove-image/{index}', name: 'individual_quote_remove_image', methods: ['POST'], requirements: ['index' => '\d+'])]
+    public function removeQuoteImage(QuoteRequest $quote, int $index, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not own this quote request.');
+        }
+
+        if (!$this->isCsrfTokenValid('remove-image-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $images = $quote->getImages() ?? [];
+        if (isset($images[$index])) {
+            // Delete file from disk
+            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/quote_requests/';
+            $filePath = $uploadDir . $images[$index];
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            // Remove from array and re-index
+            array_splice($images, $index, 1);
+            $quote->setImages($images);
+            $em->flush();
+
+            $this->addFlash('success', 'Image removed successfully.');
+        } else {
+            $this->addFlash('warning', 'Image not found.');
+        }
+
+        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+    }
+
+    #[Route('/offer/{id}', name: 'individual_offer_show', requirements: ['id' => '\d+'])]
+    public function showOffer(Offer $offer, EntityManagerInterface $em): Response
+    {
+        $quoteRequest = $offer->getQuoteRequest();
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quoteRequest ?? $directRequest;
+
+        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not have access to this offer.');
+        }
+
+        return $this->render('individual/offer_detail.html.twig', [
+            'offer' => $offer,
+            'quote' => $quoteRequest,
+            'directRequest' => $directRequest,
+            'parentRequest' => $parentRequest,
+        ]);
+    }
+
+    #[Route('/offer/{id}/accept', name: 'individual_offer_accept', methods: ['POST'])]
+    public function acceptOffer(Offer $offer, Request $request, EntityManagerInterface $em): Response
+    {
+        $quoteRequest = $offer->getQuoteRequest();
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quoteRequest ?? $directRequest;
+
+        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not have access to this offer.');
+        }
+
+        if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->redirectToRoute('individual_offers');
+        }
+
+        if ($parentRequest->getStatus() === 'Closed') {
+            $this->addFlash('warning', 'This request is already closed.');
+            return $this->returnToParentRequest($offer);
+        }
+
+        // Accept this offer
+        $offer->setStatus('ACCEPTED');
+        $offer->setUpdatedAt(new \DateTime());
+
+        // Update parent request
+        $parentRequest->setStatus('Accepted');
+
+        // Auto-reject other pending offers
+        foreach ($parentRequest->getOffers() as $otherOffer) {
+            if ($otherOffer->getId() !== $offer->getId() && strtoupper($otherOffer->getStatus()) === 'PENDING') {
+                $otherOffer->setStatus('REJECTED');
+                $otherOffer->setUpdatedAt(new \DateTime());
+            }
+        }
+
+        // Notify the accepted provider
+        $provider = $offer->getProvider();
+        if ($provider) {
+            $notification = new Notification();
+            $notification->setUser($provider);
+            $notification->setMessage('Your offer for "' . $parentRequest->getTitle() . '" has been accepted!');
+            $notification->setRelatedEntityId($offer->getId());
+            $notification->setRelatedEntityType('offer');
+            $em->persist($notification);
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Offer accepted! The provider has been notified.');
+        return $this->returnToParentRequest($offer);
+    }
+
+    #[Route('/offer/{id}/reject', name: 'individual_offer_reject', methods: ['POST'])]
+    public function rejectOffer(Offer $offer, Request $request, EntityManagerInterface $em): Response
+    {
+        $quoteRequest = $offer->getQuoteRequest();
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quoteRequest ?? $directRequest;
+
+        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not have access to this offer.');
+        }
+
+        if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->returnToParentRequest($offer);
+        }
+
+        $offer->setStatus('REJECTED');
+        $offer->setUpdatedAt(new \DateTime());
+        $em->flush();
+
+        $this->addFlash('success', 'Offer has been rejected.');
+        return $this->returnToParentRequest($offer);
+    }
+
+    #[Route('/offer/{id}/pending', name: 'individual_offer_pending', methods: ['POST'])]
+    public function revertOfferPending(Offer $offer, Request $request, EntityManagerInterface $em): Response
+    {
+        $quoteRequest = $offer->getQuoteRequest();
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quoteRequest ?? $directRequest;
+
+        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not have access to this offer.');
+        }
+
+        if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->returnToParentRequest($offer);
+        }
+
+        if (in_array($parentRequest->getStatus(), ['Closed', 'Accepted'])) {
+            $this->addFlash('warning', 'Cannot revert offer status on a closed or accepted request.');
+            return $this->returnToParentRequest($offer);
+        }
+
+        $offer->setStatus('PENDING');
+        $offer->setUpdatedAt(new \DateTime());
+        $em->flush();
+
+        $this->addFlash('success', 'Offer has been reverted to pending.');
+        return $this->returnToParentRequest($offer);
+    }
+
+    private function returnToParentRequest(Offer $offer): Response
+    {
+        if ($offer->getQuoteRequest()) {
+            return $this->redirectToRoute('individual_quote_show', ['id' => $offer->getQuoteRequest()->getId()]);
+        }
+        if ($offer->getDirectRequest()) {
+            // Assuming there's a show route for direct requests, or redirect to offers list
+            return $this->redirectToRoute('individual_offers');
+        }
+        return $this->redirectToRoute('individual_offers');
     }
 }

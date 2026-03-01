@@ -1,0 +1,79 @@
+
+
+
+@if $enable-inbox {
+
+    
+    .table-inbox {
+        --#{$prefix}inbox-read-row-bg: #{$inbox-read-row-bg};
+        --#{$prefix}inbox-unread-row-bg: #{$inbox-unread-row-bg};
+        --#{$prefix}inbox-img-size: #{$inbox-img-size};
+
+        table-layout: fixed;
+        min-width: map-get($grid-breakpoints, "md");
+
+        
+        tr {
+            cursor: pointer;
+            @include transition(all ease-in-out var(--#{$prefix}transition-base-timer));
+
+            
+            &:not([class*=bg-]) {
+                background-color: var(--#{$prefix}inbox-read-row-bg);
+            }
+
+            
+            td {
+                &:not(:first-child) {
+                    padding-left: 0;
+                }
+            }
+
+            
+            &.unread {
+                font-weight: $font-weight-bold;
+
+                
+                &:not([class*=bg-]) {
+                    background-color: var(--#{$prefix}inbox-unread-row-bg);
+                }
+            }
+        }
+    }
+
+    
+    .table-inbox-checkbox {
+        width: calc(var(--#{$prefix}table-cell-padding-x) * 3);
+    }
+
+    
+    .table-inbox-star,
+    .table-inbox-attachment {
+        width: calc(var(--#{$prefix}table-cell-padding-x) + var(--#{$prefix}icon-font-size));
+    }
+
+    
+    .table-inbox-image {
+        width: calc(var(--#{$prefix}table-cell-padding-x) + var(--#{$prefix}inbox-img-size));
+    }
+
+    
+    .table-inbox-name {
+        width: 15rem;
+    }
+
+    
+    .table-inbox-subject {
+        @include media-breakpoint-down(sm) {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    
+    .table-inbox-time {
+        text-align: right;
+        width: 5.5rem;
+    }
+}

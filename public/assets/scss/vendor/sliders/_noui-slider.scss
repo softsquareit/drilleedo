@@ -1,0 +1,524 @@
+
+
+
+@if $enable-noui {
+
+
+    
+    
+
+    
+    .noUi-target {
+        --#{$prefix}noui-bg: #{$slider-bg};
+        --#{$prefix}noui-box-shadow: #{$slider-box-shadow};
+        --#{$prefix}noui-connect-bg: #{$slider-connect-bg};
+        --#{$prefix}noui-height: #{$slider-height};
+        --#{$prefix}noui-vertical-height: #{$slider-vertical-height};
+
+        --#{$prefix}noui-handle-size: #{$slider-handle-size};
+        --#{$prefix}noui-handle-bg: #{$slider-handle-bg};
+        --#{$prefix}noui-handle-inner-bg: #{$slider-handle-inner-bg};
+        --#{$prefix}noui-handle-inner-hover-bg: #{$slider-handle-inner-hover-bg};
+        --#{$prefix}noui-handle-border-width: #{$slider-handle-border-width};
+        --#{$prefix}noui-handle-border-color: #{$slider-handle-border-color};
+
+        --#{$prefix}noui-pips-spacer-y: #{$slider-pips-spacer-y};
+        --#{$prefix}noui-pips-spacer-x: #{$slider-pips-spacer-x};
+        --#{$prefix}noui-pips-color: #{$slider-pips-color};
+        --#{$prefix}noui-pips-font-size: #{$slider-pips-font-size};
+        --#{$prefix}noui-pips-marker-width: #{$slider-pips-marker-width};
+        --#{$prefix}noui-pips-marker-height: #{$slider-pips-marker-height};
+
+        position: relative;
+        background-color: var(--#{$prefix}noui-bg);
+        @include border-radius(var(--#{$prefix}border-radius-pill));
+        @include box-shadow(var(--#{$prefix}noui-box-shadow));
+
+        
+        &,
+        & * {
+            user-select: none;
+        }
+    }
+
+    
+    .noUi-base,
+    .noUi-connects {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    
+    .noUi-connects {
+        overflow: hidden;
+        z-index: 0;
+        @include border-radius(var(--#{$prefix}border-radius-pill));
+    }
+
+    
+    .noUi-connect,
+    .noUi-origin {
+        will-change: transform;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        
+        left: 0;
+        transform-origin: 0 0;
+        
+    }
+
+    
+    .noUi-state-drag * {
+        cursor: inherit !important;
+    }
+
+    
+    .noUi-connect {
+        background-color: var(--#{$prefix}noui-connect-bg);
+        width: 100%;
+        height: 100%;
+    }
+
+    
+    .noUi-origin {
+        width: 100%;
+        height: 100%;
+    }
+
+    
+    [disabled] {
+        .noUi-target {
+            opacity: .65;
+        }
+    }
+
+
+    
+    
+    
+
+    
+    .noUi-horizontal {
+        height: var(--#{$prefix}noui-height);
+
+        
+        .noUi-handle {
+            top: calc(calc(calc(var(--#{$prefix}noui-handle-size) * .5) * -1) + calc(var(--#{$prefix}noui-height) * .5));
+            right: calc(calc(var(--#{$prefix}noui-handle-size) * .5) * -1);
+        }
+
+        
+        .noUi-origin {
+            height: 0;
+            left: auto;
+            right: 0;
+        }
+
+        
+        &.has-pips {
+            margin-bottom: calc(var(--#{$prefix}noui-pips-spacer-y) + var(--#{$prefix}body-line-height-computed));
+        }
+    }
+
+    
+    .noUi-vertical {
+        display: inline-block;
+        width: var(--#{$prefix}noui-height);
+        height: var(--#{$prefix}noui-vertical-height);
+
+        
+        & + & {
+            margin-left: calc(var(--#{$prefix}spacer) * 1.5);
+        }
+
+        
+        .noUi-handle {
+            top: calc(calc(var(--#{$prefix}noui-handle-size) * .5) * -1);
+            
+            left: calc(calc(calc(var(--#{$prefix}noui-handle-size) * .5) * -1) + calc(var(--#{$prefix}noui-height) * .5));
+        }
+
+        
+        .noUi-origin {
+            width: 0;
+        }
+
+        
+        &.has-pips {
+            margin-right: calc(var(--#{$prefix}noui-pips-spacer-y) + var(--#{$prefix}body-line-height-computed));
+        }
+    }
+
+
+    
+    
+    
+
+    
+    .noUi-draggable {
+        cursor: w-resize;
+
+        
+        .noUi-vertical & {
+            cursor: n-resize;
+        }
+    }
+
+    
+    .noUi-touch-area {
+        width: 100%;
+        height: 100%;
+    }
+
+    
+    .noUi-handle {
+        background-color: var(--#{$prefix}noui-handle-bg);
+        cursor: pointer;
+        top: calc(var(--#{$prefix}noui-height) * -1);
+        position: absolute;
+        z-index: 1;
+        border: var(--#{$prefix}noui-handle-border-width) solid var(--#{$prefix}noui-handle-border-color);
+        outline: 0;
+        width: var(--#{$prefix}noui-handle-size);
+        height: var(--#{$prefix}noui-handle-size);
+        background-clip: content-box;
+        @include border-radius(var(--#{$prefix}border-radius-pill));
+        
+        
+        &,
+        &:after {
+            @include transition(all ease-in-out var(--#{$prefix}transition-base-timer));
+        }
+
+        
+        &:after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: calc(calc(var(--#{$prefix}noui-height) * .5) * -1);
+            margin-left: calc(calc(var(--#{$prefix}noui-height) * .5) * -1);
+            background-color: var(--#{$prefix}noui-handle-inner-bg);
+            width: var(--#{$prefix}noui-height);
+            height: var(--#{$prefix}noui-height);
+            @include border-radius(var(--#{$prefix}border-radius-pill));
+        }
+
+        
+        &:hover,
+        &:focus {
+            &:after {
+                background-color: var(--#{$prefix}noui-handle-inner-hover-bg);
+            }
+        }
+    }
+
+    
+    .noui-slider-white .noUi-handle:after {
+        content: none;
+    }
+
+
+    
+    
+    
+
+    .noUi-state-tap {
+        .noUi-connect,
+        .noUi-origin {
+            @include transition(transform var(--#{$prefix}transition-base-timer));
+        }
+    }
+
+
+    
+    
+    
+
+    
+    .noui-slider-lg {
+        --#{$prefix}noui-height: #{$slider-height-lg};
+    }
+
+    
+    .noui-slider-sm {
+        --#{$prefix}noui-height: #{$slider-height-sm};
+    }
+
+
+    
+    
+    
+
+    .noui-slider-solid {
+        --#{$prefix}noui-handle-bg: var(--#{$prefix}primary);
+        --#{$prefix}noui-handle-border-color: var(--#{$prefix}primary);
+
+        
+        .noUi-handle {
+
+            
+            &:after {
+                background-color: var(--#{$prefix}white);
+            }
+
+            
+            &:hover,
+            &:focus {
+                &:after {
+                    opacity: 0.75;
+                }
+            }
+        }
+
+        
+        &.noui-slider-secondary {
+            --#{$prefix}noui-handle-bg: var(--#{$prefix}secondary);
+            --#{$prefix}noui-handle-border-color: var(--#{$prefix}secondary);
+        }
+
+        &.noui-slider-danger {
+            --#{$prefix}noui-handle-bg: var(--#{$prefix}danger);
+            --#{$prefix}noui-handle-border-color: var(--#{$prefix}danger);
+        }
+
+        &.noui-slider-success {
+            --#{$prefix}noui-handle-bg: var(--#{$prefix}success);
+            --#{$prefix}noui-handle-border-color: var(--#{$prefix}success);
+        }
+
+        &.noui-slider-warning {
+            --#{$prefix}noui-handle-bg: var(--#{$prefix}warning);
+            --#{$prefix}noui-handle-border-color: var(--#{$prefix}warning);
+        }
+
+        &.noui-slider-info {
+            --#{$prefix}noui-handle-bg: var(--#{$prefix}info);
+            --#{$prefix}noui-handle-border-color: var(--#{$prefix}info);
+        }
+    }
+
+
+    
+    
+    
+
+    
+    .noui-slider-secondary {
+        --#{$prefix}noui-handle-inner-hover-bg: var(--#{$prefix}secondary);        
+        --#{$prefix}noui-connect-bg: var(--#{$prefix}secondary);
+    }
+
+    
+    .noui-slider-danger {
+        --#{$prefix}noui-handle-inner-hover-bg: var(--#{$prefix}danger);        
+        --#{$prefix}noui-connect-bg: var(--#{$prefix}danger);
+    }
+
+    
+    .noui-slider-success {
+        --#{$prefix}noui-handle-inner-hover-bg: var(--#{$prefix}success);        
+        --#{$prefix}noui-connect-bg: var(--#{$prefix}success);
+    }
+
+    
+    .noui-slider-warning {
+        --#{$prefix}noui-handle-inner-hover-bg: var(--#{$prefix}warning);        
+        --#{$prefix}noui-connect-bg: var(--#{$prefix}warning);
+    }
+
+    
+    .noui-slider-info {
+        --#{$prefix}noui-handle-inner-hover-bg: var(--#{$prefix}info);        
+        --#{$prefix}noui-connect-bg: var(--#{$prefix}info);
+    }
+
+
+    
+    
+    
+
+    .noUi-tooltip {
+        --#{$prefix}noui-tooltip-bg: #{$tooltip-bg};
+        --#{$prefix}noui-tooltip-color: #{$tooltip-color};
+        --#{$prefix}noui-tooltip-padding-y: #{$tooltip-padding-y};
+        --#{$prefix}noui-tooltip-padding-x: #{$tooltip-padding-x};
+        --#{$prefix}noui-tooltip-arrow-height: #{$tooltip-arrow-height};
+
+        
+        @include color-scheme(dark) {
+            --#{$prefix}noui-tooltip-color: #{$tooltip-darkmode-color};
+            --#{$prefix}noui-tooltip-bg: #{$tooltip-darkmode-bg};
+        }
+
+        position: absolute;
+        background-color: var(--#{$prefix}noui-tooltip-bg);
+        color: var(--#{$prefix}noui-tooltip-color);
+        padding: var(--#{$prefix}noui-tooltip-padding-y) var(--#{$prefix}noui-tooltip-padding-x);
+        bottom: var(--#{$prefix}noui-tooltip-arrow-height);
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        opacity: 0;
+        visibility: hidden;
+        @include border-radius(var(--#{$prefix}border-radius));
+        @include transition(all ease-in-out var(--#{$prefix}transition-base-timer));
+
+        
+        &:after {
+            content: '';
+            border: var(--#{$prefix}noui-tooltip-arrow-height) solid transparent;
+            border-top-color: var(--#{$prefix}noui-tooltip-bg);
+            position: absolute;
+            left: 50%;
+            bottom: calc(calc(var(--#{$prefix}noui-tooltip-arrow-height) * 2) * -1);
+            transform: translate3d(-50%, 0, 0);
+            width: 0;
+            height: 0;
+        }
+
+        
+        .noUi-handle:hover & {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+
+    
+    
+
+    
+    .noUi-pips {
+        position: absolute;
+        color: var(--#{$prefix}noui-pips-color);
+        font-size: var(--#{$prefix}noui-pips-font-size);
+    }
+
+
+    
+    
+    
+
+    
+    .noUi-value {
+        position: absolute;
+        text-align: center;
+    }
+
+    
+    .noUi-value-sub {
+        opacity: .75;
+    }
+
+
+    
+    
+    
+
+    .noUi-marker {
+        position: absolute;
+        background-color: var(--#{$prefix}noui-pips-color);
+    }
+
+
+    
+    
+    
+
+    
+    .noUi-pips-horizontal {
+        padding-top: calc(var(--#{$prefix}noui-pips-spacer-y) * .5);
+        height: calc(var(--#{$prefix}noui-pips-spacer-y) + var(--#{$prefix}body-line-height-computed));
+        top: 100%;
+        left: 0;
+        width: 100%;
+    }
+
+    
+    .noUi-value-horizontal {
+        padding-top: var(--#{$prefix}noui-pips-spacer-y);
+        transform: translateX(-50%);
+
+        
+        &.noUi-value-sub {
+            padding-top: calc(var(--#{$prefix}noui-pips-spacer-y) * .5);
+        }
+
+        
+        .noUi-rtl & {
+            
+            transform: translateX(50%);
+            
+        }
+    }
+
+    
+    .noUi-marker-horizontal {
+
+        
+        &.noUi-marker {
+            width: var(--#{$prefix}noui-pips-marker-width);
+            height: var(--#{$prefix}noui-pips-marker-height);
+        }
+
+        
+        &.noUi-marker-sub {
+            height: calc(var(--#{$prefix}noui-pips-marker-height) * 2);
+        }
+
+        
+        &.noUi-marker-large {
+            height: calc(var(--#{$prefix}noui-pips-marker-height) * 3);
+        }
+    }
+
+
+    
+    
+    
+
+    
+    .noUi-pips-vertical {
+        padding-left: calc(var(--#{$prefix}noui-pips-spacer-x) * .5);
+        height: 100%;
+        top: 0;
+        left: 100%;
+    }
+
+    
+    .noUi-value-vertical {
+        padding-left: var(--#{$prefix}noui-pips-spacer-x);
+        transform: translateY(-50%);
+
+        
+        .noUi-rtl & {
+            
+            transform: translateY(50%);
+            
+        }
+    }
+
+    
+    .noUi-marker-vertical {
+
+        
+        &.noUi-marker {
+            width: var(--#{$prefix}noui-pips-marker-height);
+            height: var(--#{$prefix}noui-pips-marker-width);
+        }
+
+        
+        &.noUi-marker-sub {
+            width: calc(var(--#{$prefix}noui-pips-marker-height) * 2);
+        }
+
+        
+        &.noUi-marker-large {
+            width: calc(var(--#{$prefix}noui-pips-marker-height) * 3);
+        }
+    }
+}

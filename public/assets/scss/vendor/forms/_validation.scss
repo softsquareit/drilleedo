@@ -1,0 +1,56 @@
+
+
+
+@if $enable-validation {
+
+	
+	.validation-invalid-label,
+	.validation-valid-label {
+		margin-top: $form-text-margin-top;
+		margin-bottom: $form-text-margin-top;
+		display: block;
+		color: var(--#{$prefix}danger);
+		position: relative;
+		padding-left: calc(var(--#{$prefix}spacer-2) + var(--#{$prefix}icon-font-size));
+	}
+
+	
+	.validation-valid-label {
+		color: var(--#{$prefix}success);
+	}
+
+
+	
+	
+	
+
+	
+	.validation-invalid-label,
+	.validation-valid-label {
+		&:before {
+			font-family: var(--#{$prefix}icon-font-family);
+			font-size: var(--#{$prefix}icon-font-size);
+			position: absolute;
+			top: calc(calc(var(--#{$prefix}body-line-height-computed) - var(--#{$prefix}icon-font-size)) * .5);
+			left: 0;
+			display: inline-block;
+			line-height: 1;
+			@include ll-font-smoothing();
+		}
+
+		
+		&:empty {
+			display: none;
+		}
+	}
+
+	
+	.validation-invalid-label:before {
+		content: $icon-validation-error;
+	}
+
+	
+	.validation-valid-label:before {
+		content: $icon-validation-success;
+	}
+}

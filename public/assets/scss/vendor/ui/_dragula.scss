@@ -1,0 +1,50 @@
+
+
+
+@if $enable-dragula {
+
+    
+    .gu-mirror {
+        position: fixed !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        opacity: 0.8;
+    }
+
+    
+    .gu-unselectable.dropdown-menu li:nth-last-child(2) {
+        margin-bottom: 0;
+    }
+
+    
+    .nav-pills-toolbar > li.gu-mirror:not(.active) > a {
+        border: 0;
+    }
+
+    
+    .gu-hide {
+        display: none !important;
+    }
+
+    
+    .gu-unselectable {
+        user-select: none;
+    }
+
+    
+    .gu-transit {
+        opacity: 0.5;
+    }
+
+    
+    .dragula-handle {
+        color: var(--#{$prefix}gray-600);
+        cursor: move;
+
+        
+        &:hover,
+        &:focus {
+            color: var(--#{$prefix}body-color);
+        }
+    }
+}

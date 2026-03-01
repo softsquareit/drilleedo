@@ -1,0 +1,345 @@
+
+
+
+@if $enable-datatable {
+
+
+	
+	
+
+	
+	.dataTables_wrapper {
+        --#{$prefix}dt-spacer-y: #{$dt-spacer-y};
+        --#{$prefix}dt-spacer-x: #{$dt-spacer-x};
+        --#{$prefix}dt-filter-width: #{$dt-filter-width};
+
+		position: relative;
+	}
+
+	
+	.dataTable {
+
+		
+		thead {
+			th,
+			td {
+				position: relative;
+			}
+
+			
+			.sorting {
+				cursor: pointer;
+				padding-right: calc(var(--#{$prefix}dt-spacer-y) * 2);
+			}
+
+			
+			.sorting:before,
+			.sorting:after,
+			.sorting_asc_disabled:before,
+			.sorting_desc_disabled:after {
+				content: '';
+				font-family: var(--#{$prefix}icon-font-family);
+				position: absolute;
+				top: 50%;
+				right: var(--#{$prefix}dt-spacer-y);
+				font-size: var(--#{$prefix}body-font-size);
+				transform: translateY(-50%);
+				display: inline-block;
+				line-height: 1;
+				opacity: 0.5;
+				@include ll-font-smoothing();
+			}
+
+			
+			.sorting {
+				&:not([class*=sorting_asc]):not([class*=sorting_desc]) {
+					&:before {
+						transform: translateY(-20%);
+					}
+					&:after {
+						transform: translateY(-80%);
+					}
+				}
+				&:not(.sorting_desc):before,
+				&_asc_disabled:before {
+					content: $icon-table-sorting-down;
+				}
+				&:not(.sorting_asc):after,
+				&_desc_disabled:after {
+					content: $icon-table-sorting-up;
+				}
+				&_asc,
+				&_desc {
+					&:before,
+					&:after {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		
+		tbody {
+		    th,
+		    td {		    	
+		    	&.active {
+		    		background-color: var(--#{$prefix}table-hover-bg);
+		    	}
+		    }
+		}
+
+		
+		.dataTables_empty {
+			text-align: center;
+		}
+	}
+
+	
+	.dataTables_processing {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		padding: var(--#{$prefix}spacer);
+		transform: translate(-50%, -50%);
+		text-align: center;
+		background-color: var(--#{$prefix}gray-100);
+	}
+
+
+	
+	
+
+	
+	.datatable-header,
+	.datatable-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: var(--#{$prefix}dt-spacer-y);
+		padding-bottom: 0;
+
+		
+		.card-body & {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		
+		&-accent {
+			background-color: var(--#{$prefix}table-accent-bg);
+		}
+	}
+
+	
+	.datatable-header {
+		border-bottom: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+	}
+
+	
+	.datatable-footer {
+		border-top: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+	}
+
+
+	
+	
+
+	
+	.dataTables_length {
+		margin-bottom: var(--#{$prefix}dt-spacer-y);
+
+		
+		> label {
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	
+	.dataTables_filter {
+		margin-bottom: var(--#{$prefix}dt-spacer-y);
+
+		
+		> label {
+			position: relative;
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	
+	.dataTables_info {
+		margin-bottom: var(--#{$prefix}dt-spacer-y);
+	}
+
+	
+	.dataTables_paginate {
+		margin-bottom: var(--#{$prefix}dt-spacer-y);
+	}
+
+
+	
+	
+
+	.dataTables_scroll {
+		clear: both;
+
+		
+		.dataTables_scrollHead {
+			table {
+				border-bottom: 0;
+			}
+
+			th,
+			td {
+				white-space: nowrap;
+			}
+		}
+
+		
+		.dataTables_scrollBody {
+			-webkit-overflow-scrolling: touch;
+
+			table {
+				border-bottom: 0;
+
+				thead th[class*=sorting] {
+					&:before,
+					&:after {
+						content: none;
+					}
+				}
+
+				tbody tr:first-child > td {
+					border-top: 0;
+				}
+			}
+
+			th,
+			td {
+				white-space: nowrap;
+
+				> .dataTables_sizing {
+					height: 0;
+					overflow: hidden;
+					margin: 0;
+					padding: 0;
+				}
+			}
+		}
+	}
+
+
+	
+	
+
+	
+	.card-body {
+		+ .dataTables_wrapper,
+		+ * > .dataTables_wrapper {
+			border-top: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+		}
+
+		> .dataTables_wrapper {
+			.datatable-footer {
+				border-top: 0;
+				
+				.dataTables_length,
+				.dataTables_filter,
+				.dataTables_info,
+				.dataTables_paginate {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+
+	
+	.card > .dataTables_wrapper .table-bordered {
+		> * {
+	        &:first-child {
+	            > * {
+	            	border-top: 0;
+	            }
+	        }
+	        &:last-child {
+	            > * {
+	            	border-bottom: 0;
+	            }
+	        }
+	        > * {
+	            > *:first-child {
+	                border-left: 0;
+	            }
+	            > *:last-child {
+	                border-right: 0;
+	            }
+	        }
+		}
+	}
+
+
+	
+	
+
+	
+	.datatable-scroll-lg,
+	.datatable-scroll,
+	.datatable-scroll-sm {
+		min-height: .01%;
+	}
+
+	
+	.datatable-scroll-wrap {
+		width: 100%;
+		min-height: .01%;
+		overflow-x: auto;
+	}
+
+	@include media-breakpoint-down(sm) {
+		.datatable-scroll-sm {
+			width: 100%;
+			overflow-x: scroll;
+
+			th,
+			td {
+				white-space: nowrap;
+			}
+		}
+	}
+	@include media-breakpoint-down(md) {
+		.datatable-scroll {
+			width: 100%;
+			overflow-x: scroll;
+
+			th,
+			td {
+				white-space: nowrap;
+			}
+		}
+	}
+	@include media-breakpoint-down(lg) {
+		.datatable-scroll-lg {
+			width: 100%;
+			overflow-x: scroll;
+
+			th,
+			td {
+				white-space: nowrap;
+			}
+		}
+	}
+
+	
+	@include media-breakpoint-up(sm) {
+		.dataTables_filter .form-control {
+			width: var(--#{$prefix}dt-filter-width);
+		}
+	}
+	@include media-breakpoint-down(sm) {
+		.datatable-header,
+		.datatable-footer {
+			display: block;
+		}
+	}
+}

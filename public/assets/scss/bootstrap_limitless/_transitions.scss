@@ -1,0 +1,19 @@
+
+
+
+.no-transitions * {
+    &,
+    &:before,
+    &:after {
+        transition: none !important;
+    }
+}
+
+
+.collapsible-indicator {
+    @include transition(transform ease-in-out var(--#{$prefix}transition-collapse-timer));
+
+    .collapsed & {
+        transform: rotate(-90deg);
+    }
+}

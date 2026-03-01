@@ -1,37 +1,53 @@
 {% extends app.user and is_granted('ROLE_PROFESSIONAL') ? 'professional/base_professional.html.twig' : (app.user and is_granted('ROLE_COMPANY') ? 'company/base_company.html.twig' : 'base.html.twig') %}
 
-{% block title %}Finalize Selection - {{ quote.title }}{% endblock %}
+{% block title %}Complete Request - {{ quote.title }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated max-width-700 mx-auto">
-        <div class="pro-card-header text-center">
-            <div class="pro-icon-box pro-icon-box-lg pro-icon-box-success mx-auto mb-3">
-                <i class="feather-check-circle"></i>
+    <div class="pro-card pro-card-elevated mx-auto" style="max-width: 700px;">
+        <div class="pro-card-header text-center" style="border-bottom: none; padding-bottom: 0;">
+            <div style="width: 100%;">
+                <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(16,185,129,0.12); display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <i class="feather-check-circle" style="font-size:1.75rem; color:#10b981;"></i>
+                </div>
+                <h4 class="pro-card-title">Finalize This Request</h4>
+                <p class="pro-card-subtitle">Confirm that the work for "{{ quote.title }}" is complete</p>
             </div>
-            <h4 class="pro-card-title">You've Been Selected!</h4>
-            <p class="pro-card-subtitle">The client is interested in your offer for "{{ quote.title }}". Please confirm if you can take this job.</p>
         </div>
         
         <div class="pro-card-body">
-            <div class="pro-alert info mb-4">
-                <p class="mb-0"><strong>Your Offer:</strong> ${{ offer.price }}</p>
-                <p class="pro-text-muted small mt-1">{{ offer.description|slice(0, 100) }}...</p>
+            {# Offer Summary #}
+            <div class="pro-alert info mb-4" style="border-radius: var(--pro-radius-md, 8px);">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong>Your Offer</strong>
+                    <span class="pro-badge success">Accepted</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="feather-dollar-sign" style="font-size:0.85rem;"></i>
+                    <strong style="font-size:1.1rem;">{{ offer.price|number_format(2) }} $</strong>
+                </div>
+                <p class="pro-text-muted small mb-0">{{ offer.description|slice(0, 150) }}{% if offer.description|length > 150 %}...{% endif %}</p>
             </div>
 
-            <p class="mb-4 text-center">Confirming will share your contact details (Email and Phone) with <strong>{{ quote.individual.firstName }} {{ quote.individual.lastName }}</strong> so you can finalize the work details.</p>
+            {# Client Info #}
+            {% set clientName = quote.individual and quote.individual.personalInfos ? (quote.individual.personalInfos.firstName|default('') ~ ' ' ~ quote.individual.personalInfos.lastName|default(''))|trim : '' %}
+            <p class="mb-4 text-center">
+                By finalizing, you confirm that the work for 
+                <strong>{{ clientName ?: quote.individual.email|default('the client') }}</strong> 
+                is complete. The request will be marked as <strong>Closed</strong>.
+            </p>
 
+            {# Actions #}
             <div class="d-flex flex-column gap-3">
-                <a href="{{ path('offer_finalize_action', {id: offer.id, decision: 'ACCEPT'}) }}" class="pro-btn pro-btn-primary pro-btn-lg w-100">
-                    <i class="feather-check"></i> I Accept this Job
-                </a>
-                <a href="{{ path('offer_finalize_action', {id: offer.id, decision: 'REJECT'}) }}" class="pro-btn pro-btn-outline pro-btn-lg w-100 text-danger" onclick="return confirm('Are you sure you want to decline this job opportunity?');">
-                    <i class="feather-x"></i> Decline Job
+                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" onsubmit="return confirm('Are you sure? This will close the request permanently.');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                    <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg w-100">
+                        <i class="feather-check"></i> Mark as Completed
+                    </button>
+                </form>
+                <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
+                    <i class="feather-arrow-left"></i> Go Back
                 </a>
             </div>
-        </div>
-        
-        <div class="pro-card-footer text-center">
-            <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_dashboard') }}" class="pro-link">Go back to Dashboard</a>
         </div>
     </div>
 {% endblock %}

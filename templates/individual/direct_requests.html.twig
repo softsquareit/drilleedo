@@ -4,29 +4,29 @@
 
 {% block body %}
     <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header">
+        <div class="pro-card-header border-bottom">
             <div>
                 <h4 class="pro-card-title">My Direct Requests</h4>
-                <p class="pro-card-subtitle">Direct inquiries sent to specific professionals or companies</p>
+                <p class="pro-card-subtitle">Inquiries sent specifically to professionals or companies</p>
             </div>
-            <div class="d-flex gap-2">
+            <div class="d-flex align-items-center gap-3">
                 <span class="pro-badge info">{{ directRequests|length }} Total</span>
-                <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-primary pro-btn-sm d-flex align-items-center gap-2">
                     <i class="feather-search"></i> Find Professionals
                 </a>
             </div>
         </div>
 
-        <div class="pro-table-wrapper">
-            <table class="pro-table">
+        <div class="pro-table-wrapper border-0">
+            <table class="pro-table align-middle">
                 <thead>
                     <tr>
-                        <th>Request Details</th>
-                        <th>Target</th>
-                        <th>Type</th>
+                        <th style="width: 35%">Request Details</th>
+                        <th>Target Recipient</th>
                         <th>Category</th>
-                        <th>Date Sent</th>
+                        <th>Offers</th>
                         <th>Status</th>
+                        <th style="width: 10%" class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,61 +34,83 @@
                         <tr>
                             <td>
                                 <div>
-                                    <span class="pro-fw-semibold d-block">{{ request.title }}</span>
-                                    <span class="pro-text-muted" style="font-size: 0.8125rem; font-weight: 400;">{{ request.description|slice(0, 70) }}...</span>
+                                    <span class="fw-bold d-block text-dark" style="font-size: 1.05rem;">{{ request.title }}</span>
+                                    <div class="text-muted small mt-1" style="font-size: 0.8rem;">
+                                        <i class="feather-calendar me-1"></i>Sent {{ request.creationDate|date('M d, Y') }}
+                                    </div>
+                                    <div class="text-muted mt-2 small text-truncate" style="max-width: 300px;">
+                                        {{ request.description|slice(0, 100) }}...
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 {% if request.targetProfessional %}
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-light border rounded-circle p-2 me-2" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                                            <i class="feather-user text-primary"></i>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="pro-stat-icon primary m-0" style="width: 40px; height: 40px; font-size: 1rem;">
+                                            <i class="feather-user"></i>
                                         </div>
-                                        <span class="pro-fw-semibold">{{ request.targetProfessional.tradeName ?: request.targetProfessional.userIdentifier }}</span>
+                                        <div>
+                                            <span class="fw-bold d-block text-dark">{{ request.targetProfessional.tradeName ?: request.targetProfessional.userIdentifier }}</span>
+                                            <span class="pro-badge info p-0 px-2" style="font-size: 0.7rem;">Professional</span>
+                                        </div>
                                     </div>
                                 {% elseif request.targetCompany %}
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-light border rounded-circle p-2 me-2" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                                            <i class="feather-briefcase text-primary"></i>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="pro-stat-icon purple m-0" style="width: 40px; height: 40px; font-size: 1rem;">
+                                            <i class="feather-briefcase"></i>
                                         </div>
-                                        <span class="pro-fw-semibold">{{ request.targetCompany.companyName }}</span>
+                                        <div>
+                                            <span class="fw-bold d-block text-dark">{{ request.targetCompany.companyName }}</span>
+                                            <span class="pro-badge purple p-0 px-2" style="font-size: 0.7rem;">Company</span>
+                                        </div>
                                     </div>
                                 {% else %}
-                                    <span class="pro-text-muted">Unknown</span>
+                                    <span class="text-muted">—</span>
                                 {% endif %}
                             </td>
                             <td>
-                                {% if request.targetProfessional %}
-                                    <span class="pro-badge primary">Professional</span>
-                                {% elseif request.targetCompany %}
-                                    <span class="pro-badge purple">Company</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <span class="pro-badge secondary">{{ request.category.name|default('General') }}</span>
-                            </td>
-                            <td>
-                                <span class="pro-text-muted">{{ request.creationDate|date('M d, Y') }}</span>
-                            </td>
-                            <td>
-                                <span class="pro-badge {{ request.status == 'Pending' ? 'warning' : (request.status == 'Accepté' ? 'success' : 'secondary') }}">
-                                    {{ request.status }}
+                                <span class="pro-badge secondary">
+                                    <i class="feather-tag me-1"></i>{{ request.category.name|default('General') }}
                                 </span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="pro-stat-icon info m-0" style="width: 32px; height: 32px; font-size: 0.85rem;">
+                                        {{ request.offers|length }}
+                                    </div>
+                                    <span class="text-muted small">Offer{{ request.offers|length != 1 ? 's' : '' }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                {% set stField = request.status|upper %}
+                                {% set statusInfo = {
+                                    'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                                    'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                    'CLOSED': {'class': 'dark', 'label': 'Closed', 'icon': 'feather-lock'},
+                                    'ACCEPTÉ': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                } %}
+                                {% set st = statusInfo[stField]|default({'class': 'secondary', 'label': request.status, 'icon': 'feather-help-circle'}) %}
+                                <span class="pro-badge {{ st.class }}">
+                                    <i class="{{ st.icon }} me-1"></i>{{ st.label }}
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <a href="{{ path('individual_offers') }}" class="pro-btn pro-btn-icon" title="View Offers">
+                                    <i class="feather-inbox"></i>
+                                </a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="pro-table-empty">
-                                <div class="pro-empty-state">
-                                    <div class="pro-empty-icon">
-                                        <i class="feather-send"></i>
-                                    </div>
-                                    <h6 class="pro-empty-title">No direct requests sent</h6>
-                                    <p class="pro-empty-text">You haven't sent any direct requests to professionals or companies yet</p>
-                                    <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-primary pro-btn-sm pro-mt-3">
-                                        <i class="feather-search"></i> Find Professionals
-                                    </a>
+                            <td colspan="6" class="py-5 text-center">
+                                <div class="mb-4 text-muted">
+                                    <i class="feather-send" style="font-size: 4rem; opacity: 0.1;"></i>
                                 </div>
+                                <h5 class="fw-bold text-dark">No direct requests sent</h5>
+                                <p class="text-muted mb-4">You haven't sent any direct requests to professionals or companies yet.</p>
+                                <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-primary px-4">
+                                    <i class="feather-search me-2"></i> Find Professionals
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

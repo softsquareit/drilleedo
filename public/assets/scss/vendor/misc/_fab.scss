@@ -1,0 +1,273 @@
+
+
+
+@if $enable-fab {
+
+    
+    .fab-menu {
+        --#{$prefix}fab-main-btn-size: #{$fab-main-btn-size};
+        --#{$prefix}fab-inner-btn-spacing: #{$fab-inner-btn-spacing};
+        --#{$prefix}fab-inner-btn-size: #{$fab-inner-btn-size};
+
+        position: relative;
+        display: inline-block;
+        z-index: $zindex-dropdown - 3;
+    }
+
+
+    
+    
+    
+
+    
+    .fab-menu-absolute {
+        position: absolute;
+    }
+
+    
+    .fab-menu-fixed {
+        position: fixed;
+        z-index: $zindex-dropdown - 2;
+    }
+
+
+    
+    
+    
+
+     
+    .fab-menu-top {
+
+        
+        .content-wrapper > & {
+            top: calc(var(--#{$prefix}fab-main-btn-size) * -1);
+        }
+
+        
+        .navbar & {
+            bottom: 0;
+            transform: translate(50%, calc(50% + var(--#{$prefix}navbar-padding-y)));
+        }
+    }
+
+    
+    .fab-menu-bottom {
+        bottom: 0;
+        transition: bottom ease-in-out var(--#{$prefix}transition-base-timer);
+        
+        
+        &.reached-bottom {
+            bottom: calc(#{$nav-link-height} + calc(var(--#{$prefix}spacer) * 2));
+        }
+
+        
+        .navbar & {
+            top: 0;
+            transform: translate(calc(50% - var(--#{$prefix}navbar-padding-y)), 50%);
+        }
+    }
+
+
+    
+    
+    
+
+    .fab-menu-inner {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+
+    
+    
+    
+
+    
+    .fab-menu-btn {
+        padding: var(--#{$prefix}fab-main-btn-size);
+        z-index: ($zindex-dropdown - 1);
+
+        
+        i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: calc(calc(var(--#{$prefix}icon-font-size) * .5) * -1);
+            margin-left: calc(calc(var(--#{$prefix}icon-font-size) * .5) * -1);
+        }
+    }
+
+    
+    .fab-icon-close,
+    .fab-icon-open {
+        transform: rotate(0deg);
+        transition: transform ease-in-out calc(var(--#{$prefix}transition-base-timer) * 2), opacity ease-in-out calc(var(--#{$prefix}transition-base-timer) * 2);
+
+        
+        .fab-menu[data-fab-toggle="hover"]:hover &,
+        .fab-menu[data-fab-state="open"] & {
+            transform: rotate(180deg);
+        }
+    }
+
+    
+    .fab-icon-open {
+        .fab-menu[data-fab-toggle="hover"]:hover &,
+        .fab-menu[data-fab-state="open"] & {
+            opacity: 0;
+        }
+    }
+
+    
+    .fab-icon-close {
+        opacity: 0;
+
+        
+        .fab-menu[data-fab-toggle="hover"]:hover &,
+        .fab-menu[data-fab-state="open"] & {
+            opacity: 1;
+        }
+    }
+
+
+    
+    
+    
+
+    
+    .fab-menu {
+
+        
+        .fab-menu-inner > li {
+            visibility: hidden;
+            opacity: 0;
+            transition: all ease-in-out calc(var(--#{$prefix}transition-base-timer) * 2);
+        }
+
+        
+        &[data-fab-toggle="hover"]:hover,
+        &[data-fab-state="open"] {
+            .fab-menu-inner > li {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+
+    
+    .fab-menu-top {
+        .fab-menu-inner {
+            top: 100%;
+
+            
+            > li:not(:first-child) {
+                margin-top: -100%;
+            }
+        }
+        &[data-fab-toggle="hover"]:hover,
+        &[data-fab-state="open"] {
+            .fab-menu-inner > li {
+                margin-top: var(--fab-inner-btn-spacing);
+            }
+        }
+    }
+
+    
+    .fab-menu-bottom {
+        .fab-menu-inner {
+            bottom: 100%;
+            flex-direction: column-reverse;
+
+            
+            > li:not(:first-child) {
+                margin-bottom: -100%;
+            }
+        }
+        &[data-fab-toggle="hover"]:hover,
+        &[data-fab-state="open"] {
+            .fab-menu-inner > li {
+                margin-bottom: var(--fab-inner-btn-spacing);
+            }
+        }
+    }
+
+
+    
+    
+    
+
+    .fab-menu-inner div[data-fab-label] {
+        --#{$prefix}fab-tooltip-padding-y: #{$tooltip-padding-y};
+        --#{$prefix}fab-tooltip-padding-x: #{$tooltip-padding-x};
+        --#{$prefix}fab-tooltip-bg: #{$tooltip-bg};
+        --#{$prefix}fab-tooltip-color: #{$tooltip-color};
+        --#{$prefix}fab-tooltip-shadow: var(--#{$prefix}box-shadow);
+
+        
+        @include color-scheme(dark) {
+            --#{$prefix}fab-tooltip-color: #{$tooltip-darkmode-color};
+            --#{$prefix}fab-tooltip-bg: #{$tooltip-darkmode-bg};
+        }
+
+        position: relative;
+
+        
+        &:after {
+            content: attr(data-fab-label);
+            position: absolute;
+            top: 50%;
+            right: calc(100% + var(--#{$prefix}spacer-2));
+            transform: translateY(-50%);
+            color: var(--#{$prefix}fab-tooltip-color);
+            background-color: var(--#{$prefix}fab-tooltip-bg);
+            padding: var(--#{$prefix}fab-tooltip-padding-y) var(--#{$prefix}fab-tooltip-padding-x);
+            visibility: hidden;
+            opacity: 0;
+            white-space: nowrap;
+            box-shadow: var(--#{$prefix}fab-tooltip-shadow);
+            transition: all ease-in-out calc(var(--#{$prefix}transition-base-timer) * 2);
+            @include border-radius(var(--#{$prefix}border-radius));
+
+            
+            .fab-menu-bottom & {
+                margin-top: calc(calc(var(--#{$prefix}fab-tooltip-padding-y) + var(--#{$prefix}fab-inner-btn-spacing)) * -1);
+            }
+        }
+
+        
+        &.fab-label-end:after {
+            right: auto;
+            left: calc(100% + var(--#{$prefix}spacer-2));
+        }
+
+        
+        .fab-menu[data-fab-toggle="hover"] &:hover:after,
+        .fab-menu[data-fab-state="open"] &:hover:after {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        
+        &.fab-label-light {
+            --#{$prefix}fab-tooltip-bg: var(--#{$prefix}white);
+            --#{$prefix}fab-tooltip-color: var(--#{$prefix}black);
+            @include color-scheme(dark) {
+                --#{$prefix}fab-tooltip-bg: var(--#{$prefix}black);
+                --#{$prefix}fab-tooltip-color: var(--#{$prefix}white);
+            }
+        }
+
+        
+        &.fab-label-visible:after {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}

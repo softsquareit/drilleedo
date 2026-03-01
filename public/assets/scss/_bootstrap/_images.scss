@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+.img-fluid {
+  @include img-fluid();
+}
+
+
+
+.img-thumbnail {
+  --#{$prefix}thumbnail-padding: #{$thumbnail-padding};
+  --#{$prefix}thumbnail-bg: #{$thumbnail-bg};
+  --#{$prefix}thumbnail-border-width: #{$thumbnail-border-width};
+  --#{$prefix}thumbnail-border-color: #{$thumbnail-border-color};
+  --#{$prefix}thumbnail-border-radius: #{$thumbnail-border-radius};
+  --#{$prefix}thumbnail-box-shadow: #{$thumbnail-box-shadow};
+  padding: var(--#{$prefix}thumbnail-padding);
+  background-color: var(--#{$prefix}thumbnail-bg);
+  border: var(--#{$prefix}thumbnail-border-width) solid var(--#{$prefix}thumbnail-border-color);
+  @include border-radius(var(--#{$prefix}thumbnail-border-radius));
+  @include box-shadow(var(--#{$prefix}thumbnail-box-shadow));
+
+  
+  @include img-fluid();
+}
+
+
+
+
+
+.figure {
+  
+  display: inline-block;
+}
+
+.figure-img {
+  margin-bottom: $spacer * .5;
+  line-height: 1;
+}
+
+.figure-caption {
+  @include font-size($figure-caption-font-size);
+  color: $figure-caption-color;
+}

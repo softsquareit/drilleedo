@@ -1,0 +1,126 @@
+
+
+
+
+
+
+const DatatableButtonsPrint = function() {
+
+
+    
+    
+    
+
+    
+    const _componentDatatableButtonsPrint = function() {
+        if (!$().DataTable) {
+            console.warn('Warning - datatables.min.js is not loaded.');
+            return;
+        }
+
+        
+        $.extend( $.fn.dataTable.defaults, {
+            autoWidth: false,
+            dom: '<"datatable-header justify-content-start"f<"ms-sm-auto"l><"ms-sm-3"B>><"datatable-scroll-wrap"t><"datatable-footer"ip>',
+            language: {
+                search: '<span class="me-3">Filter:</span> <div class="form-control-feedback form-control-feedback-end flex-fill">_INPUT_<div class="form-control-feedback-icon"><i class="ph-magnifying-glass opacity-50"></i></div></div>',
+                searchPlaceholder: 'Type to filter...',
+                lengthMenu: '<span class="me-3">Show:</span> _MENU_',
+                paginate: { 'first': 'First', 'last': 'Last', 'next': document.dir == "rtl" ? '&larr;' : '&rarr;', 'previous': document.dir == "rtl" ? '&rarr;' : '&larr;' }
+            }
+        });
+
+
+        
+        $('.datatable-button-print-basic').DataTable({
+            buttons: [
+                {
+                    extend: 'print',
+                    text: '<i class="ph-printer me-2"></i> Print table',
+                    className: 'btn btn-primary'
+                }
+            ]
+        });
+
+
+        
+        $('.datatable-button-print-disable').DataTable({
+            buttons: [
+                {
+                    extend: 'print',
+                    text: '<i class="ph-printer me-2"></i> Print table',
+                    className: 'btn btn-primary',
+                    autoPrint: false
+                }
+            ]
+        });
+
+
+        
+        $('.datatable-button-print-columns').DataTable({
+            columnDefs: [{
+                targets: -1, 
+                visible: false
+            }],
+            buttons: [
+                {
+                    extend: 'print',
+                    text: '<i class="ph-printer me-2"></i> Print table',
+                    className: 'btn btn-light',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    text: '<i class="ph-list"></i>',
+                    className: 'btn btn-light btn-icon dropdown-toggle'
+                }
+            ]
+        });
+
+
+        
+        $('.datatable-button-print-rows').DataTable({
+            buttons: {
+                buttons: [
+                    {
+                        extend: 'print',
+                        className: 'btn btn-light',
+                        text: '<i class="ph-printer me-2"></i> Print all'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn btn-light',
+                        text: '<i class="ph-check me-2"></i> Print selected',
+                        exportOptions: {
+                            modifier: {
+                                selected: true
+                            }
+                        }
+                    }
+                ],
+            },
+            select: true
+        });
+    };
+
+
+    
+    
+    
+
+    return {
+        init: function() {
+            _componentDatatableButtonsPrint();
+        }
+    }
+}();
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    DatatableButtonsPrint.init();
+});

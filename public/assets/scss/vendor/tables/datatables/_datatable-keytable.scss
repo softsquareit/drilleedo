@@ -1,0 +1,38 @@
+
+
+
+@if $enable-datatable-keytable {
+
+    
+    .dataTable {
+        th,
+        td {
+
+            
+            &.focus {
+                outline: calc(var(--#{$prefix}border-width) * 2) solid var(--#{$prefix}primary);
+                outline-offset: calc(var(--#{$prefix}border-width) * -1);
+            }
+
+            
+            &.focus-success {
+                outline-color: var(--#{$prefix}success);
+            }
+
+            
+            &.focus-info {
+                outline-color: var(--#{$prefix}info);
+            }
+
+            
+            &.focus-warning {
+                outline-color: var(--#{$prefix}warning);
+            }
+
+            
+            &.focus-danger {
+                outline-color: var(--#{$prefix}danger);
+            }
+        }
+    }
+}

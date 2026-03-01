@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+.spinner {
+    display: inline-block;
+    animation: rotation 1s linear infinite;
+}
+
+
+.spinner-reverse {
+    display: inline-block;
+    animation: rotation_reverse 1s linear infinite;
+}
+
+
+@keyframes rotation {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+
+@keyframes rotation_reverse {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(-360deg);}
+}
+
+
+
+
+
+
+
+.invert-dark {
+    @include color-scheme(dark) {
+        filter: invert(1) grayscale(100);
+    }
+}
+
+
+.scrollbar-hidden {
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+}

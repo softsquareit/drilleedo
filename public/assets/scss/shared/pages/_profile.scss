@@ -1,0 +1,26 @@
+
+
+
+@if $enable-profile {
+
+	
+	.profile-cover {
+	    --#{$prefix}profile-cover-height: #{$profile-cover-height};
+	    --#{$prefix}profile-cover-text-shadow: #{$profile-cover-text-shadow};
+
+		position: relative;
+	}
+
+	
+	.profile-cover-text {
+		text-shadow: var(--#{$prefix}profile-cover-text-shadow);
+	}
+
+	
+	.profile-cover-img {
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: var(--#{$prefix}profile-cover-height);
+	}
+}
