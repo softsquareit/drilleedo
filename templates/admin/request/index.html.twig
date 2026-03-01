@@ -47,6 +47,7 @@
                                 <tr>
                                     <th class="border-0 px-4 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Title / Ref</th>
                                     <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Individual</th>
+                                    <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Category</th>
                                     <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Type</th>
                                     <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Offers</th>
                                     <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1">Status</th>
@@ -78,6 +79,9 @@
                                                 {% endif %}
                                             </span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-dark small fw-medium">{{ request.category ? request.category.name : 'N/A' }}</span>
                                     </td>
                                     <td><span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill">Quote</span></td>
                                     <td>
@@ -125,6 +129,9 @@
                                                 {% endif %}
                                             </span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-dark small fw-medium">{{ request.category ? request.category.name : 'N/A' }}</span>
                                     </td>
                                     <td><span class="badge bg-indigo bg-opacity-10 text-indigo rounded-pill">Direct</span></td>
                                     <td>
