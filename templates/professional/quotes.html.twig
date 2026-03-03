@@ -30,7 +30,7 @@
                             <td>
                                 <div>
                                     <span class="pro-fw-semibold d-block">{{ quote.title }}</span>
-                                    <span class="pro-text-muted" style="font-size: 1rem; font-weight: 400;">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
+                                    <span class="pro-text-muted">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
                                 </div>
                             </td>
                             <td>
@@ -68,15 +68,15 @@
                             </td>
                             <td>
                                 {% if quote.id in myOfferQuoteIds|keys %}
-                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm">
+                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-action-badge edit">
                                         <i class="feather-edit-2"></i> Edit Offer
                                     </a>
                                 {% elseif quote.status != 'Accepted' %}
-                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-action-badge view">
                                         <i class="feather-send"></i> Submit Offer
                                     </a>
                                 {% else %}
-                                    <span class="pro-text-muted" style="font-size:0.8rem;">—</span>
+                                    <span class="pro-text-muted">—</span>
                                 {% endif %}
                             </td>
                         </tr>

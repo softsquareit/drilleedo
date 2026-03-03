@@ -6,46 +6,54 @@
     {# ── KPI Cards ── #}
     <div class="row g-4 mb-4">
         <div class="col-md-3 col-sm-6">
-            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid var(--pro-primary, #4361ee);">
-                <div class="pro-card-body py-4">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(67,97,238,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                        <i class="feather-message-square" style="font-size:1.25rem; color:var(--pro-primary,#4361ee);"></i>
+            <div class="pro-stat-card primary">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon">
+                        <i class="feather-message-square"></i>
                     </div>
-                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ quoteCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Available Quotes</p>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ quoteCount }}</h3>
+                    <p class="pro-stat-label">Available Quotes</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid #f59e0b;">
-                <div class="pro-card-body py-4">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245,158,11,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                        <i class="feather-send" style="font-size:1.25rem; color:#f59e0b;"></i>
+            <div class="pro-stat-card warning">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon">
+                        <i class="feather-send"></i>
                     </div>
-                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ offerCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Offers Sent</p>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ offerCount }}</h3>
+                    <p class="pro-stat-label">Offers Sent</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid #10b981;">
-                <div class="pro-card-body py-4">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16,185,129,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                        <i class="feather-check-circle" style="font-size:1.25rem; color:#10b981;"></i>
+            <div class="pro-stat-card success">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon">
+                        <i class="feather-check-circle"></i>
                     </div>
-                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ acceptedCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Accepted</p>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ acceptedCount }}</h3>
+                    <p class="pro-stat-label">Accepted</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="pro-card pro-card-elevated text-center" style="border-left: 4px solid #8b5cf6;">
-                <div class="pro-card-body py-4">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(139,92,246,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                        <i class="feather-briefcase" style="font-size:1.25rem; color:#8b5cf6;"></i>
+            <div class="pro-stat-card info">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon">
+                        <i class="feather-briefcase"></i>
                     </div>
-                    <h3 class="mb-1" style="font-size:1.75rem; font-weight:700; color:var(--pro-text-dark,#1e293b);">{{ projectCount }}</h3>
-                    <p class="pro-text-muted mb-0" style="font-size:1rem;">Projects</p>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ projectCount }}</h3>
+                    <p class="pro-stat-label">Projects</p>
                 </div>
             </div>
         </div>
@@ -61,7 +69,7 @@
                         <p class="pro-card-subtitle">Your latest submitted offers</p>
                     </div>
                     <a href="{{ path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-sm">
-                        View All <i class="feather-arrow-right" style="margin-left:4px;"></i>
+                        View All <i class="feather-arrow-right"></i>
                     </a>
                 </div>
 
@@ -101,19 +109,44 @@
                                     </td>
                                     <td>
                                         {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                                            <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Mark this request as completed? The individual will be notified.');">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                                                <button type="submit" class="pro-btn pro-btn-success pro-btn-sm">
-                                                    <i class="feather-check-circle"></i> Finalize
-                                                </button>
-                                            </form>
+                                            <button type="button" class="pro-action-badge success" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
+                                                <i class="feather-check-circle"></i> Finalize
+                                            </button>
+
+                                            <!-- Finalize Modal -->
+                                            <div class="modal fade" id="finalizeModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
+                                                        <div class="modal-body p-4 text-center">
+                                                            <div class="mb-4">
+                                                                <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(16, 185, 129, 0.1); color: var(--pro-success);">
+                                                                    <i class="feather-check-circle"></i>
+                                                                </div>
+                                                            </div>
+                                                            <h4 class="fw-bold text-dark mb-2">Finalize Request?</h4>
+                                                            <p class="text-muted px-4 mb-4">Mark this request as completed? The individual will be notified that the work is successfully done.</p>
+                                                            <div class="d-flex flex-column gap-3 mt-4">
+                                                                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                                                                    <button type="submit" class="pro-btn pro-btn-primary w-100 py-3 justify-content-center">
+                                                                        <i class="feather-check-circle"></i> Yes, Mark as Completed
+                                                                    </button>
+                                                                </form>
+                                                                <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
+                                                                    No, Not Yet
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         {% elseif offer.quoteRequest %}
-                                            <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="View Details">
-                                                <i class="feather-eye"></i>
+                                            <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-action-badge view">
+                                                <i class="feather-eye"></i> View
                                             </a>
                                         {% elseif offer.directRequest %}
-                                            <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="View Details">
-                                                <i class="feather-eye"></i>
+                                            <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-action-badge view">
+                                                <i class="feather-eye"></i> View
                                             </a>
                                         {% endif %}
                                     </td>

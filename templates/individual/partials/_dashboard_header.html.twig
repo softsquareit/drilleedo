@@ -6,7 +6,7 @@
     <div class="pro-header-content">
         <div class="pro-header-profile">
             <div class="pro-avatar-wrapper">
-                <div class="pro-avatar-img d-flex align-items-center justify-content-center" style="background: var(--pro-gradient-primary); color: white; font-size: 3.5rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div class="pro-avatar-img d-flex align-items-center justify-content-center" style="background: var(--indiv-primary); color: white; font-size: 3.5rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     {{ (app.user.personalInfos ? app.user.personalInfos.firstName|first : app.user.email|first)|upper }}
                 </div>
             </div>
@@ -24,7 +24,7 @@
         </div>
         
         <div class="pro-header-actions">
-            <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary">
+            <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary">
                 <i class="feather-plus"></i> Post New Request
             </a>
         </div>

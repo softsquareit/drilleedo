@@ -66,8 +66,8 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="pro-btn pro-btn-icon" title="View Details">
-                                        <i class="feather-eye"></i>
+                                    <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="indiv-action-badge view">
+                                        <i class="feather-eye"></i> View
                                     </a>
 
                                     {% if parentRequest.status not in ['Closed'] %}
@@ -75,15 +75,15 @@
                                             <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
                                                   onsubmit="return confirm('Accept this offer? This will notify the provider.');">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="pro-btn pro-btn-icon text-success" style="border-color: rgba(16, 185, 129, 0.3);" title="Accept Offer">
-                                                    <i class="feather-check"></i>
+                                                <button type="submit" class="indiv-action-badge view" style="color: var(--indiv-success); background: var(--indiv-success-bg);">
+                                                    <i class="feather-check"></i> Accept
                                                 </button>
                                             </form>
                                             <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
                                                   onsubmit="return confirm('Reject this offer?');">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="pro-btn pro-btn-icon text-danger" style="border-color: rgba(239, 68, 68, 0.3);" title="Reject Offer">
-                                                    <i class="feather-x"></i>
+                                                <button type="submit" class="indiv-action-badge delete">
+                                                    <i class="feather-x"></i> Reject
                                                 </button>
                                             </form>
                                         {% endif %}
@@ -101,10 +101,10 @@
                                     <h6 class="pro-empty-title">No offers received yet</h6>
                                     <p class="pro-empty-text">Professionals will send you offers for your requests</p>
                                     <div class="d-flex justify-content-center gap-3 mt-4">
-                                        <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                                        <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary pro-btn-sm">
                                             <i class="feather-plus"></i> Post Global Request
                                         </a>
-                                        <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-outline pro-btn-sm">
+                                        <a href="{{ path('professionals_list') }}" class="indiv-btn-secondary pro-btn-sm">
                                             <i class="feather-search"></i> Direct Inquiry
                                         </a>
                                     </div>

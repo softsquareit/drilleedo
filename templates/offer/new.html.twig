@@ -70,14 +70,14 @@
                         <div class="row g-4">
                             <div class="col-md-12">
                                 <div class="pro-form-group">
-                                    <label class="pro-form-label">Total Proposed Price ($) <span style="color:#ef4444;">*</span></label>
+                                    <label class="pro-form-label">Total Proposed Price ($) <span class="pro-text-danger">*</span></label>
                                     {{ form_widget(form.price, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. 500', 'required': 'required'}}) }}
                                     {{ form_errors(form.price) }}
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="pro-form-group">
-                                    <label class="pro-form-label">Message to Client <span style="color:#ef4444;">*</span></label>
+                                    <label class="pro-form-label">Message to Client <span class="pro-text-danger">*</span></label>
                                     {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'placeholder': 'Describe your approach, availability, and why you are the best fit...', 'required': 'required'}}) }}
                                     {{ form_errors(form.description) }}
                                 </div>

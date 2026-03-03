@@ -161,21 +161,21 @@
                                 <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
                                       onsubmit="return confirm('Accept this offer? All other pending offers will be automatically rejected.');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="pro-btn pro-btn-primary px-5">
+                                    <button type="submit" class="indiv-btn-primary px-5">
                                         <i class="feather-check-circle"></i> Accept Offer
                                     </button>
                                 </form>
                                 <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
                                       onsubmit="return confirm('Reject this offer?');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="pro-btn pro-btn-outline text-danger px-5" style="border-color: var(--pro-danger);">
+                                    <button type="submit" class="indiv-btn-secondary px-5" style="border-color: var(--indiv-danger); color: var(--indiv-danger);">
                                         <i class="feather-x-circle"></i> Reject Offer
                                     </button>
                                 </form>
                             {% elseif offer.status|upper == 'REJECTED' and parentRequest.status not in ['Accepted'] %}
                                 <form action="{{ path('individual_offer_pending', {'id': offer.id}) }}" method="POST" class="d-inline">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="pro-btn pro-btn-outline px-5">
+                                    <button type="submit" class="indiv-btn-secondary px-5">
                                         <i class="feather-rotate-ccw"></i> Revert to Pending
                                     </button>
                                 </form>

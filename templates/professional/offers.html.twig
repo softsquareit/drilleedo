@@ -78,33 +78,83 @@
                                 <div class="d-flex gap-1 flex-wrap">
                                     {# Finalize button — only for ACCEPTED offers where request is not yet Closed #}
                                     {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                                        <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Mark this request as completed? The individual will be notified that the work is done.');">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                                            <button type="submit" class="pro-btn pro-btn-success pro-btn-sm" title="Finalize Request">
-                                                <i class="feather-check-circle"></i> Finalize
-                                            </button>
-                                        </form>
+                                        <button type="button" class="pro-action-badge view" style="background: rgba(16, 185, 129, 0.1); color: var(--pro-success-dark);" data-bs-toggle="modal" data-bs-target="#finalizeOfferModal{{ offer.id }}" title="Finalize Request">
+                                            <i class="feather-check-circle"></i> Finalize
+                                        </button>
+                                        
+                                        <!-- Finalize Modal -->
+                                        <div class="modal fade" id="finalizeOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
+                                                    <div class="modal-body p-4 text-center">
+                                                        <div class="mb-4">
+                                                            <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(16, 185, 129, 0.1); color: var(--pro-success);">
+                                                                <i class="feather-check-circle"></i>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="fw-bold text-dark mb-2">Finalize Request?</h4>
+                                                        <p class="text-muted px-4 mb-4">Mark this request as completed? The client will be notified that the work is successfully done.</p>
+                                                        <div class="d-flex flex-column gap-3 mt-4">
+                                                            <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                                                                <button type="submit" class="pro-btn pro-btn-primary w-100 py-3 justify-content-center">
+                                                                    <i class="feather-check-circle"></i> Yes, Mark as Completed
+                                                                </button>
+                                                            </form>
+                                                            <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
+                                                                No, Not Yet
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endif %}
 
                                     {# Edit/View button #}
                                     {% if offer.quoteRequest %}
-                                        <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="{{ offer.status == 'PENDING' ? 'Edit Offer' : 'View Details' }}">
-                                            <i class="feather-{{ offer.status == 'PENDING' ? 'edit-2' : 'eye' }}"></i>
+                                        <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-action-badge {{ offer.status == 'PENDING' ? 'edit' : 'view' }}">
+                                            <i class="feather-{{ offer.status == 'PENDING' ? 'edit-2' : 'eye' }}"></i> {{ offer.status == 'PENDING' ? 'Edit' : 'View' }}
                                         </a>
                                     {% elseif offer.directRequest %}
-                                        <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-btn pro-btn-outline pro-btn-sm" title="{{ offer.status == 'PENDING' ? 'Edit Offer' : 'View Details' }}">
-                                            <i class="feather-{{ offer.status == 'PENDING' ? 'edit-2' : 'eye' }}"></i>
+                                        <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-action-badge {{ offer.status == 'PENDING' ? 'edit' : 'view' }}">
+                                            <i class="feather-{{ offer.status == 'PENDING' ? 'edit-2' : 'eye' }}"></i> {{ offer.status == 'PENDING' ? 'Edit' : 'View' }}
                                         </a>
                                     {% endif %}
 
                                     {# Delete button — only for PENDING offers #}
                                     {% if offer.status == 'PENDING' %}
-                                        <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Delete this offer? This action cannot be undone.');">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
-                                            <button type="submit" class="pro-btn pro-btn-sm" style="background:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.3);" title="Delete Offer">
-                                                <i class="feather-trash-2"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="pro-action-badge delete" data-bs-toggle="modal" data-bs-target="#deleteOfferModal{{ offer.id }}" title="Delete Offer">
+                                            <i class="feather-trash-2"></i> Delete
+                                        </button>
+                                        
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="deleteOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
+                                                    <div class="modal-body p-4 text-center">
+                                                        <div class="mb-4">
+                                                            <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: var(--pro-danger);">
+                                                                <i class="feather-alert-triangle"></i>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="fw-bold text-dark mb-2">Delete this offer?</h4>
+                                                        <p class="text-muted px-4 mb-4">Are you sure you want to permanently delete this offer? This action cannot be undone.</p>
+                                                        <div class="d-flex flex-column gap-3 mt-4">
+                                                            <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
+                                                                <button type="submit" class="pro-btn pro-btn-danger w-100 py-3 justify-content-center">
+                                                                    <i class="feather-trash-2"></i> Yes, Delete Permanently
+                                                                </button>
+                                                            </form>
+                                                            <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endif %}
 
                                     {# Completed indicator #}

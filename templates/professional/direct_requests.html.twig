@@ -30,7 +30,7 @@
                             <td>
                                 <div>
                                     <span class="pro-fw-semibold d-block">{{ request.title }}</span>
-                                    <span class="pro-text-muted" style="font-size: 1rem; font-weight: 400;">{{ request.description|slice(0, 70) }}...</span>
+                                    <span class="pro-text-muted">{{ request.description|slice(0, 70) }}...</span>
                                 </div>
                             </td>
                             <td>
@@ -48,9 +48,9 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="pro-btn pro-btn-primary pro-btn-sm">
-                                    <i class="feather-send"></i> Submit Offer
-                                </a>
+                                    <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="pro-action-badge view">
+                                        <i class="feather-send"></i> Submit Offer
+                                    </a>
                             </td>
                         </tr>
                     {% else %}

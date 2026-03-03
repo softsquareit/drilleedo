@@ -10,8 +10,8 @@
                 <p class="pro-card-subtitle">Manage your public requests sent to local professionals</p>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <span class="pro-badge info">{{ quotes|length }} Total</span>
-                <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary pro-btn-sm d-flex align-items-center gap-2">
+                <span class="pro-badge primary">{{ quotes|length }} Total</span>
+                <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary pro-btn-sm d-flex align-items-center gap-2">
                     <i class="feather-plus"></i> New Request
                 </a>
             </div>
@@ -75,33 +75,9 @@
                             <td>
                                 <div class="d-flex align-items-center justify-content-end gap-2">
                                     <a href="{{ path('individual_quote_show', {'id': quote.id}) }}"
-                                       class="pro-btn pro-btn-icon"
-                                       title="View Details">
-                                        <i class="feather-eye"></i>
+                                       class="indiv-action-badge view">
+                                        <i class="feather-eye"></i> View
                                     </a>
-                                    {% if quote.status not in ['Closed', 'Accepted'] %}
-                                        <form action="{{ path('individual_quote_toggle', {'id': quote.id}) }}" method="POST" class="d-inline">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('toggle-quote-' ~ quote.id) }}">
-                                            <button type="submit"
-                                                    class="pro-btn pro-btn-icon"
-                                                    title="{{ quote.status == 'Inactive' ? 'Activate' : 'Deactivate' }}"
-                                                    style="{{ quote.status == 'Inactive' ? 'color: var(--pro-success); border-color: rgba(34, 197, 94, 0.3);' : '' }}">
-                                                <i class="feather-{{ quote.status == 'Inactive' ? 'play' : 'pause-circle' }}"></i>
-                                            </button>
-                                        </form>
-                                    {% endif %}
-                                    {% if quote.status not in ['Closed'] %}
-                                        <form action="{{ path('individual_quote_delete', {'id': quote.id}) }}" method="POST" class="d-inline"
-                                              onsubmit="return confirm('Are you sure you want to delete this request?');">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
-                                            <button type="submit"
-                                                    class="pro-btn pro-btn-icon"
-                                                    title="Delete"
-                                                    style="color: var(--pro-danger); border-color: rgba(239, 68, 68, 0.3);">
-                                                <i class="feather-trash-2"></i>
-                                            </button>
-                                        </form>
-                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
@@ -113,7 +89,7 @@
                                 </div>
                                 <h5 class="fw-bold text-dark">No quote requests found</h5>
                                 <p class="text-muted mb-4">You haven't posted any quote requests yet. Get started by describing what you need!</p>
-                                <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-primary px-4">
+                                <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary px-4">
                                     <i class="feather-plus me-2"></i> Post Your First Request
                                 </a>
                             </td>

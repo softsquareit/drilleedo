@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,34 +29,23 @@ class ProfessionalType extends AbstractType
             ])
             ->add('city')
             ->add('exp_years')
-            ->add('logoFile', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'Company Logo',
-            ])
-            ->add('bannerFile', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'Profile Banner',
-            ])
-
-            ->add('about', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, [
+            ->add('about', TextareaType::class, [
                 'required' => false,
                 'label' => 'About Me',
                 'attr' => ['rows' => 6, 'placeholder' => 'Tell us about yourself...']
             ])
-            ->add('whyChooseUs', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, [
+            ->add('whyChooseUs', TextareaType::class, [
                 'required' => false,
                 'label' => 'Why Choose Me (One item per line)',
                 'attr' => ['rows' => 5, 'placeholder' => "Experienced\nPunctual\nHigh Quality"]
             ])
-            ->add('services', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, [
+            ->add('services', TextareaType::class, [
                 'required' => false,
                 'label' => 'Services (One item per line)',
                 'attr' => ['rows' => 5, 'placeholder' => "Repair\nMaintainance\nInstallation"]
             ]);
 
-        $builder->get('whyChooseUs')->addModelTransformer(new \Symfony\Component\Form\CallbackTransformer(
+        $builder->get('whyChooseUs')->addModelTransformer(new CallbackTransformer(
             function ($tagsAsArray): string {
                 return implode("\n", $tagsAsArray ?? []);
             },
@@ -64,7 +55,7 @@ class ProfessionalType extends AbstractType
             }
         ));
 
-        $builder->get('services')->addModelTransformer(new \Symfony\Component\Form\CallbackTransformer(
+        $builder->get('services')->addModelTransformer(new CallbackTransformer(
             function ($tagsAsArray): string {
                 return implode("\n", $tagsAsArray ?? []);
             },

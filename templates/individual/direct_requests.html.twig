@@ -11,7 +11,7 @@
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span class="pro-badge info">{{ directRequests|length }} Total</span>
-                <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-primary pro-btn-sm d-flex align-items-center gap-2">
+                <a href="{{ path('professionals_list') }}" class="indiv-btn-primary pro-btn-sm d-flex align-items-center gap-2">
                     <i class="feather-search"></i> Find Professionals
                 </a>
             </div>
@@ -95,8 +95,8 @@
                                 </span>
                             </td>
                             <td class="text-end">
-                                <a href="{{ path('individual_offers') }}" class="pro-btn pro-btn-icon" title="View Offers">
-                                    <i class="feather-inbox"></i>
+                                <a href="{{ path('individual_offers') }}" class="indiv-action-badge view">
+                                    <i class="feather-inbox"></i> Offers
                                 </a>
                             </td>
                         </tr>
@@ -108,7 +108,7 @@
                                 </div>
                                 <h5 class="fw-bold text-dark">No direct requests sent</h5>
                                 <p class="text-muted mb-4">You haven't sent any direct requests to professionals or companies yet.</p>
-                                <a href="{{ path('professionals_list') }}" class="pro-btn pro-btn-primary px-4">
+                                <a href="{{ path('professionals_list') }}" class="indiv-btn-primary px-4">
                                     <i class="feather-search me-2"></i> Find Professionals
                                 </a>
                             </td>

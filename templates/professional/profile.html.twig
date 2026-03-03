@@ -45,7 +45,7 @@
                             <i class="feather-briefcase text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Professional Name</p>
+                            <p class="pro-text-muted mb-1">Professional Name</p>
                             <p class="pro-fw-semibold mb-0">{{ app.user.companyName ?: 'Not set' }}</p>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <i class="feather-mail text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Email</p>
+                            <p class="pro-text-muted mb-1">Email</p>
                             <p class="pro-fw-semibold mb-0">{{ app.user.email }}</p>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             <i class="feather-map-pin text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">City</p>
+                            <p class="pro-text-muted mb-1">City</p>
                             <p class="pro-fw-semibold mb-0">{{ app.user.city ?: 'Not set' }}</p>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                             <i class="feather-award text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Years of Experience</p>
+                            <p class="pro-text-muted mb-1">Years of Experience</p>
                             <p class="pro-fw-semibold mb-0">{{ app.user.expYears ?: 'Not set' }}</p>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             <i class="feather-tag text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Category</p>
+                            <p class="pro-text-muted mb-1">Category</p>
                             <p class="pro-fw-semibold mb-0">{{ app.user.category ? app.user.category.name : 'Not set' }}</p>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                             <i class="feather-file-text text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">About Me</p>
+                            <p class="pro-text-muted mb-1">About Me</p>
                             <p class="mb-0 text-break">{{ app.user.about ?: 'Not set' }}</p>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                             <i class="feather-check-circle text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Why Choose Me</p>
+                            <p class="pro-text-muted mb-1">Why Choose Me</p>
                             {% if app.user.whyChooseUs %}
                                 {% if app.user.whyChooseUs is iterable %}
                                     <ul class="mb-0 ps-3">
@@ -141,7 +141,7 @@
                             <i class="feather-list text-primary"></i>
                         </div>
                         <div class="flex-grow-1">
-                            <p class="pro-text-muted mb-1" style="font-size: 1.4rem;">Services</p>
+                            <p class="pro-text-muted mb-1">Services</p>
                             {% if app.user.services %}
                                 {% if app.user.services is iterable %}
                                     <ul class="mb-0 ps-3">
@@ -165,29 +165,34 @@
 
 {% block script %}
     <script>
-        document.getElementById('professional_logoFile')?.addEventListener('change', function(event) {
+        document.getElementById('{{ form.logoFile.vars.id }}')?.addEventListener('change', function(event) {
             const [file] = event.target.files;
             if (file) {
                  const reader = new FileReader();
                  reader.onload = function(e) {
-                     const img = document.getElementById('profile-image-preview');
+                     const img = document.getElementById('logo-preview');
                      if(img) img.src = e.target.result;
                  };
                  reader.readAsDataURL(file);
             }
         });
 
-        document.getElementById('professional_bannerFile')?.addEventListener('change', function(event) {
+        document.getElementById('{{ form.bannerFile.vars.id }}')?.addEventListener('change', function(event) {
             const [file] = event.target.files;
             if (file) {
                  const reader = new FileReader();
                  reader.onload = function(e) {
-                     const bannerDiv = document.getElementById('banner-preview');
+                     const bannerDiv = document.getElementById('banner-preview-box');
                      if(bannerDiv) bannerDiv.style.backgroundImage = `url('${e.target.result}')`;
                  };
                  reader.readAsDataURL(file);
             }
         });
+        // Reopen modal if form has errors
+        {% if not form.vars.valid %}
+            const editModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+            editModal.show();
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -201,48 +206,9 @@
                     <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-                    {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
-                        
-                        <!-- Image Previews and Inputs -->
-                        <div class="col-12">
-                            <div class="row g-4">
-                                <!-- Logo Upload -->
-                                <div class="col-md-6">
-                                    <div class="pro-form-group">
-                                        <label class="pro-form-label">Company Logo</label>
-                                        <div class="d-flex align-items-center gap-4 mb-3">
-                                            <div class="thumbnail rbt-avatars size-lg">
-                                                {% if app.user.logo %}
-                                                    <img id="profile-image-preview" src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="Preview" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 2px solid var(--pro-primary);">
-                                                {% else %}
-                                                    <img id="profile-image-preview" src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Preview" style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover; border: 2px solid var(--pro-primary);">
-                                                {% endif %}
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                {{ form_widget(form.logoFile, {'attr': {'class': 'pro-form-input', 'accept': 'image/*'}}) }}
-                                                <small class="pro-text-muted d-block mt-1">Recommended size: 200x200px (JPG, PNG)</small>
-                                            </div>
-                                        </div>
-                                        {{ form_errors(form.logoFile) }}
-                                    </div>
-                                </div>
-
-                                <!-- Banner Upload -->
-                                <div class="col-md-6">
-                                    <div class="pro-form-group">
-                                        <label class="pro-form-label">Profile Banner</label>
-                                        <div class="mb-3">
-                                            <div id="banner-preview" class="tutor-bg-photo height-100 position-relative mb-2" style="background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}'); background-size: cover; background-position: center; border-radius: var(--pro-radius-md); border: 2px solid var(--pro-primary);"></div>
-                                            {{ form_widget(form.bannerFile, {'attr': {'class': 'pro-form-input', 'accept': 'image/*'}}) }}
-                                            <small class="pro-text-muted d-block mt-1">Recommended size: 1200x300px (JPG, PNG)</small>
-                                        </div>
-                                        {{ form_errors(form.bannerFile) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                <div class="modal-body" style="max-height: 80vh; overflow-y: auto; padding: 2rem;">
+                    {{ form_start(form, {'attr': {'class': 'row g-4', 'id': 'profileUpdateForm'}}) }}
+                   
                         <div class="col-lg-6">
                             <div class="pro-form-group">
                                 <label class="pro-form-label" for="{{ form.company_name.vars.id }}">Professional Name</label>
@@ -312,7 +278,7 @@
                     <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">
                         <i class="feather-x"></i> Cancel
                     </button>
-                    <button type="submit" form="{{ form.vars.name }}" class="pro-btn pro-btn-primary">
+                    <button type="submit" form="profileUpdateForm" class="pro-btn pro-btn-primary">
                         <i class="feather-save"></i> Save Changes
                     </button>
                 </div>

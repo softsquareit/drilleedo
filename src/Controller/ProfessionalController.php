@@ -167,6 +167,10 @@ class ProfessionalController extends AbstractController
             $this->addFlash('success', 'Profile updated successfully.');
 
             return $this->redirectToRoute('professional_profile');
+        } elseif ($form->isSubmitted()) {
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('error', $error->getMessage());
+            }
         }
 
         return $this->render('professional/profile.html.twig', [
@@ -209,9 +213,18 @@ class ProfessionalController extends AbstractController
             return $this->redirectToRoute('professional_projects');
         }
 
+        $projects = $this->getUser()->getProjets();
+        $editForms = [];
+        foreach ($projects as $proj) {
+            $editForms[$proj->getId()] = $this->createForm(\App\Form\ProjetType::class, $proj, [
+                'action' => $this->generateUrl('professional_project_edit', ['id' => $proj->getId()]),
+            ])->createView();
+        }
+
         return $this->render('professional/projects/index.html.twig', [
-            'projects' => $this->getUser()->getProjets(),
+            'projects' => $projects,
             'projectForm' => $form->createView(),
+            'editForms' => $editForms,
         ]);
     }
 
@@ -248,6 +261,11 @@ class ProfessionalController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Project updated successfully.');
             return $this->redirectToRoute('professional_projects');
+        } elseif ($form->isSubmitted()) {
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('error', $error->getMessage());
+            }
+            return $this->redirectToRoute('professional_projects');
         }
 
         return $this->render('professional/projects/form.html.twig', [
@@ -257,14 +275,18 @@ class ProfessionalController extends AbstractController
     }
 
     #[Route('/projects/{id}/delete', name: 'professional_project_delete', methods: ['POST'])]
-    public function deleteProject(int $id, EntityManagerInterface $em): Response
+    public function deleteProject(int $id, Request $request, EntityManagerInterface $em): Response
     {
         $project = $em->getRepository(\App\Entity\Projet::class)->find($id);
         
         if ($project && $project->getBusiness() === $this->getUser()) {
-            $em->remove($project);
-            $em->flush();
-            $this->addFlash('success', 'Project deleted successfully.');
+            if ($this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
+                $em->remove($project);
+                $em->flush();
+                $this->addFlash('success', 'Project deleted successfully.');
+            } else {
+                $this->addFlash('error', 'Invalid security token. Please try again.');
+            }
         }
 
         return $this->redirectToRoute('professional_projects');

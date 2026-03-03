@@ -121,12 +121,11 @@
                     <form action="{{ path('individual_quote_toggle', {'id': quote.id}) }}" method="POST" class="d-inline">
                         <input type="hidden" name="_token" value="{{ csrf_token('toggle-quote-' ~ quote.id) }}">
                         {% if quote.status == 'Inactive' %}
-                            <button type="submit" class="pro-btn pro-btn-success pro-btn-sm d-flex align-items-center gap-2">
+                            <button type="submit" class="indiv-btn-primary pro-btn-sm d-flex align-items-center gap-2">
                                 <i class="feather-eye"></i> Activate
                             </button>
                         {% else %}
-                            <button type="submit" class="pro-btn pro-btn-outline pro-btn-sm d-flex align-items-center gap-2"
-                                    style="color: #64748b; border-color: #cbd5e1;">
+                            <button type="submit" class="indiv-btn-secondary pro-btn-sm d-flex align-items-center gap-2">
                                 <i class="feather-eye-off"></i> Deactivate
                             </button>
                         {% endif %}
@@ -134,13 +133,13 @@
                 {% endif %}
 
                 {# Edit Button #}
-                <button type="button" class="pro-btn pro-btn-outline pro-btn-sm d-flex align-items-center gap-2"
+                <button type="button" class="indiv-btn-secondary pro-btn-sm d-flex align-items-center gap-2"
                         data-bs-toggle="modal" data-bs-target="#editQuoteModal">
                     <i class="feather-edit-2"></i> Edit Request
                 </button>
 
                 {# Delete Button #}
-                <button type="button" class="pro-btn pro-btn-danger pro-btn-sm d-flex align-items-center gap-2"
+                <button type="button" class="indiv-btn-secondary pro-btn-sm d-flex align-items-center gap-2" style="border-color: var(--indiv-danger); color: var(--indiv-danger);"
                         data-bs-toggle="modal" data-bs-target="#deleteQuoteModal">
                     <i class="feather-trash-2"></i> Delete
                 </button>
@@ -194,19 +193,42 @@
                                     {% if quote.images|length > 0 %}
                                         <div class="d-flex flex-wrap gap-2 mt-2">
                                             {% for image in quote.images %}
-                                                <div class="quote-img-wrapper">
-                                                    <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank">
-                                                        <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Reference Image"
-                                                             style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6;">
-                                                    </a>
-                                                    {% if quote.status not in ['Closed'] %}
-                                                        <form action="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}" method="POST" class="d-inline"
-                                                              onsubmit="return confirm('Remove this image?')">
-                                                            <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
-                                                            <button type="submit" class="img-delete-btn" title="Remove image">×</button>
-                                                        </form>
-                                                    {% endif %}
-                                                </div>
+                                                    <div class="position-relative">
+                                                        <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank">
+                                                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Reference Image"
+                                                                 style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6;">
+                                                        </a>
+                                                        {% if quote.status not in ['Closed'] %}
+                                                            <button type="button" class="img-delete-btn" title="Remove image" data-bs-toggle="modal" data-bs-target="#deleteImageModal{{ loop.index0 }}">×</button>
+                                                            
+                                                            <div class="modal fade" id="deleteImageModal{{ loop.index0 }}" tabindex="-1" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered" style="z-index: 1060;">
+                                                                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
+                                                                        <div class="modal-body p-4 text-center">
+                                                                            <div class="mb-4">
+                                                                                <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: var(--indiv-danger);">
+                                                                                    <i class="feather-alert-triangle"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                            <h4 class="fw-bold text-dark mb-2">Remove Image?</h4>
+                                                                            <p class="text-muted px-4 mb-4">Are you sure you want to delete this attached photo from your request?</p>
+                                                                            <div class="d-flex flex-column gap-3 mt-4">
+                                                                                <form action="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}" method="POST" class="w-100">
+                                                                                    <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
+                                                                                    <button type="submit" class="indiv-btn-primary w-100 py-3 justify-content-center" style="background: var(--indiv-danger); font-size: 1.15rem;">
+                                                                                        <i class="feather-trash-2"></i> Yes, Remove Image
+                                                                                    </button>
+                                                                                </form>
+                                                                                <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                                                                                    Cancel
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
                                             {% endfor %}
                                         </div>
                                     {% else %}
@@ -250,14 +272,14 @@
                     <div class="col-md-4">
                         <div class="p-4 rounded-3 bg-light border-0 shadow-sm h-100">
                             <label class="pro-form-label mb-2"><i class="feather-user me-2 text-primary"></i>Hired Professional</label>
-                            <div class="h5 fw-bold text-dark mb-1">{{ provName }}</div>
+                            <div class="h6 fw-bold text-dark mb-1">{{ provName }}</div>
                             <span class="badge pro-badge info">{{ provider.getType() }}</span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="p-4 rounded-3 bg-light border-0 shadow-sm h-100">
                             <label class="pro-form-label mb-2"><i class="feather-mail me-2 text-primary"></i>Email Address</label>
-                            <div class="h5 fw-bold mb-0">
+                            <div class="h6 fw-bold mb-0">
                                 <a href="mailto:{{ provider.email }}" class="text-dark text-decoration-none hover-primary">{{ provider.email }}</a>
                             </div>
                         </div>
@@ -346,8 +368,8 @@
                             </td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="pro-btn pro-btn-icon" title="View Details">
-                                        <i class="feather-eye"></i>
+                                    <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="indiv-action-badge view">
+                                        <i class="feather-eye"></i> View
                                     </a>
                                     
                                     {% if quote.status not in ['Closed'] %}
@@ -355,22 +377,22 @@
                                             <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
                                                   onsubmit="return confirm('Accept this offer? This will notify the provider and reject other pending offers.');">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="pro-btn pro-btn-icon" style="color: var(--pro-success-dark); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05);" title="Accept Offer">
-                                                    <i class="feather-check"></i>
+                                                <button type="submit" class="indiv-action-badge view" style="color: var(--indiv-success); background: var(--indiv-success-bg);">
+                                                    <i class="feather-check"></i> Accept
                                                 </button>
                                             </form>
                                             <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
                                                   onsubmit="return confirm('Reject this offer?');">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="pro-btn pro-btn-icon" style="color: var(--pro-danger-dark); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);" title="Reject Offer">
-                                                    <i class="feather-x"></i>
+                                                <button type="submit" class="indiv-action-badge delete">
+                                                    <i class="feather-x"></i> Reject
                                                 </button>
                                             </form>
                                         {% elseif offer.status|upper == 'REJECTED' and quote.status not in ['Accepted'] %}
                                             <form action="{{ path('individual_offer_pending', {'id': offer.id}) }}" method="POST" class="d-inline">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="pro-btn pro-btn-icon" style="color: var(--pro-warning-dark); border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05);" title="Revert to Pending">
-                                                    <i class="feather-rotate-ccw"></i>
+                                                <button type="submit" class="indiv-action-badge edit">
+                                                    <i class="feather-rotate-ccw"></i> Revert
                                                 </button>
                                             </form>
                                         {% endif %}
@@ -484,8 +506,8 @@
                         </div>
 
                         <div class="d-flex justify-content-end gap-3 pt-4 border-top mt-5">
-                            <button type="button" class="pro-btn pro-btn-outline px-4" data-bs-dismiss="modal">Discard Changes</button>
-                            <button type="submit" class="pro-btn pro-btn-primary px-5 shadow-sm">
+                            <button type="button" class="indiv-btn-secondary px-4" data-bs-dismiss="modal">Discard Changes</button>
+                            <button type="submit" class="indiv-btn-primary px-5 shadow-sm">
                                 <i class="feather-save me-2"></i> Update Request
                             </button>
                         </div>
@@ -511,16 +533,16 @@
                         This action cannot be undone and will delete all associated offers.
                     </p>
                     
-                    <div class="d-flex flex-column gap-2 mt-4">
+                    <div class="d-flex flex-column gap-3 mt-4">
                         <form action="{{ path('individual_quote_delete', {'id': quote.id}) }}" method="POST" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
-                            <button type="submit" class="pro-btn pro-btn-danger w-100 py-3 d-flex align-items-center justify-content-center gap-2" 
-                                    style="font-weight: 600;">
-                                <i class="feather-trash-2"></i> Delete Permanently
+                            <button type="submit" class="indiv-btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2" 
+                                    style="background: var(--indiv-danger); font-size: 1.15rem;">
+                                <i class="feather-trash-2"></i> Yes, Delete Permanently
                             </button>
                         </form>
-                        <button type="button" class="pro-btn pro-btn-outline py-3 border-0 text-muted fw-semibold" data-bs-dismiss="modal">
-                            Keep Request
+                        <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                            No, Keep Request
                         </button>
                     </div>
                 </div>
