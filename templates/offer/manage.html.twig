@@ -63,14 +63,12 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if offer.status == 'PENDING' %}
-                                    <span class="pro-badge primary">New</span>
-                                {% elseif offer.status == 'SELECTED' %}
-                                    <span class="pro-badge warning">Selected</span>
+                                {% if offer.status == 'PUBLISHED' %}
+                                    <span class="pro-badge info">New</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
                                     <span class="pro-badge success">Accepted</span>
-                                {% elseif offer.status == 'REJECTED' or offer.status == 'DECLINED_BY_PROVIDER' %}
-                                    <span class="pro-badge danger">Declined</span>
+                                {% elseif offer.status == 'REJECTED' %}
+                                    <span class="pro-badge danger">Rejected</span>
                                 {% else %}
                                     <span class="pro-badge secondary">{{ offer.status }}</span>
                                 {% endif %}
@@ -81,9 +79,9 @@
                                         Actions <i class="feather-chevron-down ms-1"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end p-2 border-0 shadow-sm">
-                                        {% if offer.status == 'PENDING' %}
-                                            <li><a class="dropdown-item rounded py-2" href="{{ path('offer_status', {id: offer.id, status: 'SELECTED'}) }}"><i class="feather-check text-success me-2"></i> Select this Offer</a></li>
-                                            <li><a class="dropdown-item rounded py-2 text-danger" href="{{ path('offer_status', {id: offer.id, status: 'REJECTED'}) }}"><i class="feather-x me-2"></i> Reject Offer</a></li>
+                                        {% if offer.status == 'PUBLISHED' %}
+                                            <li><a class="dropdown-item rounded py-2" href="{{ path('individual_offer_accept', {id: offer.id}) }}"><i class="feather-check text-success me-2"></i> Accept this Offer</a></li>
+                                            <li><a class="dropdown-item rounded py-2 text-danger" href="{{ path('individual_offer_reject', {id: offer.id}) }}"><i class="feather-x me-2"></i> Reject Offer</a></li>
                                         {% endif %}
                                         <li><a class="dropdown-item rounded py-2" href="{{ path('professional_public_show', {id: offer.provider.id}) }}" target="_blank"><i class="feather-user me-2"></i> View Profile</a></li>
                                     </ul>

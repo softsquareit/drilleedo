@@ -16,11 +16,30 @@ class ProfessionalRegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('parentCategory', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'label' => 'Industry/Sector',
+                'placeholder' => 'Select industry',
+                'mapped' => false,
+                'required' => false,
+                'query_builder' => function(\App\Repository\CategoryRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.parent IS NULL')
+                        ->orderBy('c.name', 'ASC');
+                },
+                'attr' => ['class' => 'form-select parent-category-select selectpicker', 'data-live-search' => 'true']
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choose a category',
-                'label' => 'Category *'
+                'placeholder' => 'Select a sub-category',
+                'label' => 'Specific Service *',
+                'required' => true,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\NotBlank(['message' => 'Please select a specific service'])
+                ],
+                'attr' => ['class' => 'form-select child-category-select selectpicker', 'data-live-search' => 'true']
             ])
             ->add('city', TextType::class, [
                 'label' => 'City *',

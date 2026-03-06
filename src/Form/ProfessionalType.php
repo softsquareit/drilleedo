@@ -20,12 +20,30 @@ class ProfessionalType extends AbstractType
         $builder
             ->add('email')
             ->add('company_name')
+            ->add('parentCategory', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'label' => 'Industry/Sector',
+                'placeholder' => 'Select industry',
+                'mapped' => false,
+                'required' => false,
+                'query_builder' => function(\App\Repository\CategoryRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.parent IS NULL')
+                        ->orderBy('c.name', 'ASC');
+                },
+                'attr' => ['class' => 'form-select parent-category-select selectpicker', 'data-live-search' => 'true']
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'required' => true,
-                'label' => 'Business Category',
-                'placeholder' => 'Select a category',
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\NotBlank(['message' => 'Please select your primary service'])
+                ],
+                'label' => 'Specific Service *',
+                'placeholder' => 'Select a sub-category',
+                'attr' => ['class' => 'form-select child-category-select selectpicker', 'data-live-search' => 'true']
             ])
             ->add('city')
             ->add('exp_years')

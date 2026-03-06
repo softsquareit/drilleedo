@@ -54,7 +54,7 @@ class IndividualController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quoteRequest->setIndividual($user);
-            $quoteRequest->setStatus('Pending'); // Default status
+            $quoteRequest->setStatus(QuoteRequest::STATUS_DRAFT); // Default status is now Draft
             
             // Handle Images
             $images = $form->get('images')->getData();
@@ -67,44 +67,9 @@ class IndividualController extends AbstractController
             }
 
             $em->persist($quoteRequest);
-            $em->flush(); // Generate ID for notifications
-            
-            // Notification Logic
-            $category = $quoteRequest->getCategory();
-            if ($category) {
-                // Find professionals with this category
-                $professionals = $em->getRepository(Professional::class)->findBy(['category' => $category]);
-                
-                foreach ($professionals as $pro) {
-                    $notification = new Notification();
-                    $notification->setUser($pro);
-                    $notification->setMessage('New quote request: ' . $quoteRequest->getTitle());
-                    $notification->setRelatedEntityId($quoteRequest->getId());
-                    $notification->setRelatedEntityType('quote');
-                    $em->persist($notification);
-                }
-
-                // Find companies with this category
-                $companies = $em->getRepository(\App\Entity\Company::class)
-                    ->createQueryBuilder('c')
-                    ->where(':category MEMBER OF c.categories')
-                    ->setParameter('category', $category)
-                    ->getQuery()
-                    ->getResult();
-
-                 foreach ($companies as $comp) {
-                    $notification = new Notification();
-                    $notification->setUser($comp);
-                    $notification->setMessage('New quote request: ' . $quoteRequest->getTitle());
-                    $notification->setRelatedEntityId($quoteRequest->getId());
-                    $notification->setRelatedEntityType('quote');
-                    $em->persist($notification);
-                }
-                
-                $em->flush(); // Save notifications
-            }
-            $this->addFlash('success', 'Quote request posted and professionals notified.');
-            return $this->redirectToRoute('individual_dashboard');
+            $em->flush();
+            $this->addFlash('success', 'Quote request saved as draft. You can publish it when ready.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quoteRequest->getId()]);
         }
 
         return $this->render('individual/new_quote.html.twig', [
@@ -160,10 +125,13 @@ class IndividualController extends AbstractController
         }
 
         // Edit form
-        $form = $this->createForm(QuoteRequestType::class, $quote);
+        $isDraft = $quote->getStatus() === QuoteRequest::STATUS_DRAFT;
+        $form = $this->createForm(QuoteRequestType::class, $quote, [
+            'disabled' => !$isDraft
+        ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($isDraft && $form->isSubmitted() && $form->isValid()) {
             
             // Handle Images
             $images = $form->get('images')->getData();
@@ -210,14 +178,18 @@ class IndividualController extends AbstractController
         // Offers from Quote Requests
         foreach ($user->getQuoteRequests() as $quote) {
             foreach ($quote->getOffers() as $offer) {
-                $offers[] = $offer;
+                if ($offer->getStatus() !== Offer::STATUS_DRAFT) {
+                    $offers[] = $offer;
+                }
             }
         }
         
         // Offers from Direct Requests
         foreach ($user->getDirectRequests() as $directRequest) {
             foreach ($directRequest->getOffers() as $offer) {
-                $offers[] = $offer;
+                if ($offer->getStatus() !== Offer::STATUS_DRAFT) {
+                    $offers[] = $offer;
+                }
             }
         }
         
@@ -262,35 +234,67 @@ class IndividualController extends AbstractController
             'user' => $user
         ]);
     }
+ 
+    #[Route('/quote/{id}/publish', name: 'individual_quote_publish', methods: ['POST'])]
+    public function publishQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You do not own this quote request.');
+        }
+ 
+        if (!$this->isCsrfTokenValid('publish-quote-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Invalid security token.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+ 
+        if ($quote->getStatus() !== QuoteRequest::STATUS_DRAFT) {
+            $this->addFlash('warning', 'Only draft requests can be published.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+ 
+        $quote->setStatus(QuoteRequest::STATUS_PUBLISHED);
+        
+        // Notification Logic for Professionals (Moved from createQuote)
+        $category = $quote->getCategory();
+        if ($category) {
+            $professionals = $em->getRepository(Professional::class)->findBy(['category' => $category]);
+            foreach ($professionals as $pro) {
+                $notification = new Notification();
+                $notification->setUser($pro);
+                $notification->setMessage('New quote request published: ' . $quote->getTitle());
+                $notification->setRelatedEntityId($quote->getId());
+                $notification->setRelatedEntityType('quote');
+                $em->persist($notification);
+            }
+ 
+            $companies = $em->getRepository(\App\Entity\Company::class)
+                ->createQueryBuilder('c')
+                ->where(':category MEMBER OF c.categories')
+                ->setParameter('category', $category)
+                ->getQuery()
+                ->getResult();
+ 
+            foreach ($companies as $comp) {
+                $notification = new Notification();
+                $notification->setUser($comp);
+                $notification->setMessage('New quote request published: ' . $quote->getTitle());
+                $notification->setRelatedEntityId($quote->getId());
+                $notification->setRelatedEntityType('quote');
+                $em->persist($notification);
+            }
+        }
+ 
+        $em->flush();
+ 
+        $this->addFlash('success', 'Quote request is now published and visible to professionals!');
+        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+    }
 
     // ========================================================
     // WORKFLOW STEP 1 – Request Management & Offer Actions
     // ========================================================
 
-    #[Route('/quote/{id}/toggle', name: 'individual_quote_toggle', methods: ['POST'])]
-    public function toggleQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
-    {
-        if ($quote->getIndividual() !== $this->getUser()) {
-            throw $this->createAccessDeniedException('You do not own this quote request.');
-        }
-
-        if (!$this->isCsrfTokenValid('toggle-quote-' . $quote->getId(), $request->request->get('_token'))) {
-            $this->addFlash('danger', 'Invalid security token.');
-            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
-        }
-
-        if (in_array($quote->getStatus(), ['Closed', 'Accepted'])) {
-            $this->addFlash('warning', 'Cannot toggle a request that is already accepted or closed.');
-            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
-        }
-
-        $newStatus = $quote->getStatus() === 'Inactive' ? 'Active' : 'Inactive';
-        $quote->setStatus($newStatus);
-        $em->flush();
-
-        $this->addFlash('success', 'Request is now ' . $newStatus . '.');
-        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
-    }
+    // Removed toggleQuote as it used legacy statuses (Active/Inactive)
 
     #[Route('/quote/{id}/delete', name: 'individual_quote_delete', methods: ['POST'])]
     public function deleteQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
@@ -393,22 +397,22 @@ class IndividualController extends AbstractController
             return $this->redirectToRoute('individual_offers');
         }
 
-        if ($parentRequest->getStatus() === 'Closed') {
+        if ($parentRequest->getStatus() === QuoteRequest::STATUS_CLOSED) {
             $this->addFlash('warning', 'This request is already closed.');
             return $this->returnToParentRequest($offer);
         }
 
         // Accept this offer
-        $offer->setStatus('ACCEPTED');
+        $offer->setStatus(Offer::STATUS_ACCEPTED);
         $offer->setUpdatedAt(new \DateTime());
 
         // Update parent request
-        $parentRequest->setStatus('Accepted');
+        $parentRequest->setStatus(QuoteRequest::STATUS_ACCEPTED);
 
-        // Auto-reject other pending offers
+        // Auto-reject other published offers
         foreach ($parentRequest->getOffers() as $otherOffer) {
-            if ($otherOffer->getId() !== $offer->getId() && strtoupper($otherOffer->getStatus()) === 'PENDING') {
-                $otherOffer->setStatus('REJECTED');
+            if ($otherOffer->getId() !== $offer->getId() && $otherOffer->getStatus() === Offer::STATUS_PUBLISHED) {
+                $otherOffer->setStatus(Offer::STATUS_REJECTED);
                 $otherOffer->setUpdatedAt(new \DateTime());
             }
         }
@@ -446,42 +450,28 @@ class IndividualController extends AbstractController
             return $this->returnToParentRequest($offer);
         }
 
-        $offer->setStatus('REJECTED');
+        $offer->setStatus(Offer::STATUS_REJECTED);
         $offer->setUpdatedAt(new \DateTime());
+
+        // Notify the provider
+        $provider = $offer->getProvider();
+        if ($provider) {
+            $notification = new Notification();
+            $notification->setUser($provider);
+            $notification->setTitle('Offer Rejected');
+            $notification->setMessage(sprintf('Your offer for "%s" has been rejected.', $parentRequest->getTitle()));
+            $notification->setRelatedEntityId($offer->getId());
+            $notification->setRelatedEntityType('offer');
+            $em->persist($notification);
+        }
+
         $em->flush();
 
         $this->addFlash('success', 'Offer has been rejected.');
         return $this->returnToParentRequest($offer);
     }
 
-    #[Route('/offer/{id}/pending', name: 'individual_offer_pending', methods: ['POST'])]
-    public function revertOfferPending(Offer $offer, Request $request, EntityManagerInterface $em): Response
-    {
-        $quoteRequest = $offer->getQuoteRequest();
-        $directRequest = $offer->getDirectRequest();
-        $parentRequest = $quoteRequest ?? $directRequest;
-
-        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
-            throw $this->createAccessDeniedException('You do not have access to this offer.');
-        }
-
-        if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
-            $this->addFlash('danger', 'Invalid security token.');
-            return $this->returnToParentRequest($offer);
-        }
-
-        if (in_array($parentRequest->getStatus(), ['Closed', 'Accepted'])) {
-            $this->addFlash('warning', 'Cannot revert offer status on a closed or accepted request.');
-            return $this->returnToParentRequest($offer);
-        }
-
-        $offer->setStatus('PENDING');
-        $offer->setUpdatedAt(new \DateTime());
-        $em->flush();
-
-        $this->addFlash('success', 'Offer has been reverted to pending.');
-        return $this->returnToParentRequest($offer);
-    }
+    // Removed revertOfferPending as it is not part of the target workflow
 
     private function returnToParentRequest(Offer $offer): Response
     {

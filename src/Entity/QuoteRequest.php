@@ -16,7 +16,12 @@ class QuoteRequest
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+ 
+    public const STATUS_DRAFT = 'DRAFT';
+    public const STATUS_PUBLISHED = 'PUBLISHED';
+    public const STATUS_ACCEPTED = 'ACCEPTED';
+    public const STATUS_CLOSED = 'CLOSED';
+ 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -47,7 +52,7 @@ class QuoteRequest
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->status = 'Pending';
+        $this->status = self::STATUS_DRAFT;
         $this->offers = new ArrayCollection();
         $this->images = [];
     }

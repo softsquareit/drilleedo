@@ -43,14 +43,24 @@
                                 <span class="pro-text-muted">{{ request.creationDate|date('M d, Y') }}</span>
                             </td>
                             <td>
-                                <span class="pro-badge {{ request.status == 'Pending' ? 'warning' : (request.status in ['Completed', 'Accepted'] ? 'success' : (request.status in ['Closed', 'Rejected'] ? 'danger' : 'secondary')) }}">
-                                    {{ request.status }}
-                                </span>
+                                {% if request.status == 'PUBLISHED' %}
+                                    <span class="pro-badge info"><i class="feather-globe" style="font-size:0.65rem;"></i> Published</span>
+                                {% elseif request.status in ['Accepted'] %}
+                                    <span class="pro-badge success"><i class="feather-check-circle" style="font-size:0.65rem;"></i> Accepted</span>
+                                {% elseif request.status in ['Closed'] %}
+                                    <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Closed</span>
+                                {% else %}
+                                    <span class="pro-badge secondary">{{ request.status }}</span>
+                                {% endif %}
                             </td>
                             <td>
+                                {% if request.status == 'Pending' %}
                                     <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="pro-action-badge view">
                                         <i class="feather-send"></i> Submit Offer
                                     </a>
+                                {% else %}
+                                    <span class="pro-text-muted small">No actions</span>
+                                {% endif %}
                             </td>
                         </tr>
                     {% else %}

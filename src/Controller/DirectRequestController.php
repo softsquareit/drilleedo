@@ -56,7 +56,7 @@ class DirectRequestController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $directRequest->setIndividual($user);
-            $directRequest->setStatus('Pending');
+            $directRequest->setStatus(DirectRequest::STATUS_PUBLISHED);
 
             // Handle Images
             $images = $form->get('images')->getData();

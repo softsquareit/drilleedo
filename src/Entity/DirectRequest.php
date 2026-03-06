@@ -22,8 +22,13 @@ class DirectRequest
     #[ORM\Column(type: 'text')]
     private ?string $description = null;
 
+    public const STATUS_DRAFT = 'DRAFT';
+    public const STATUS_PUBLISHED = 'PUBLISHED';
+    public const STATUS_ACCEPTED = 'ACCEPTED';
+    public const STATUS_CLOSED = 'CLOSED';
+
     #[ORM\Column(length: 50)]
-    private ?string $status = 'Pending';
+    private ?string $status = self::STATUS_DRAFT;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $images = [];
@@ -52,7 +57,7 @@ class DirectRequest
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->status = 'Pending';
+        $this->status = self::STATUS_DRAFT;
         $this->images = [];
         $this->offers = new ArrayCollection();
     }

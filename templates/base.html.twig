@@ -97,7 +97,36 @@
     <script src="{{ asset('assets/drilleedo/js/vendor/Sortable.min.js') }}"></script>
 
     <!-- Main JS -->
+    <script src="{{ asset('assets/drilleedo/js/vendor/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
+    <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
+    <script src="{{ asset('assets/drilleedo/js/confirm-modal.js') }}"></script>
+
+    {# ── Global Confirmation Modal ── #}
+    <div class="modal fade" id="globalConfirmModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4">
+                        <div class="pro-stat-icon warning mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                            <i class="feather-alert-triangle"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2" id="globalConfirmTitle">Confirm Action</h4>
+                    <p class="text-muted px-4 mb-4" id="globalConfirmMessage">Are you sure you want to proceed?</p>
+                    
+                    <div class="d-flex flex-column gap-3 mt-4">
+                        <button type="button" id="globalConfirmBtn" class="indiv-btn-primary w-100 py-3 justify-content-center" style="font-size: 1.15rem;">
+                            Confirm
+                        </button>
+                        <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% block javascripts %}{% endblock %}
 </body>

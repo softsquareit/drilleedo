@@ -91,7 +91,7 @@
                                         {% set status_class = 'bg-warning' %}
                                         {% if request.status == 'Accepted' %}{% set status_class = 'bg-success' %}
                                         {% elseif request.status == 'Closed' %}{% set status_class = 'bg-secondary' %}
-                                        {% elseif request.status == 'Pending' %}{% set status_class = 'bg-warning' %}
+                                        {% elseif request.status == 'PUBLISHED' %}{% set status_class = 'bg-info' %}
                                         {% endif %}
                                         <span class="badge {{ status_class }} bg-opacity-10 {{ status_class|replace({'bg-': 'text-'}) }} rounded-pill px-2">
                                             <i class="fas fa-dot-circle me-1 small"></i> {{ request.status }}

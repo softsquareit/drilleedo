@@ -88,6 +88,7 @@
     </div>
     <!-- End Dashboard Area -->
 
+
     {% include 'partials/_public_footer.html.twig' %}
 
     <!-- JS -->
@@ -101,7 +102,28 @@
     <script src="{{ asset('assets/drilleedo/js/vendor/imageloaded.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
     
-    {% block javascripts %}{% endblock %}
+    <!-- DataTables -->
+    <script src="{{ asset('assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            if ($('.pro-table').length > 0) {
+                $('.pro-table').DataTable({
+                    autoWidth: false,
+                    dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+                    language: {
+                        search: '<span class="me-3">Filter:</span> _INPUT_',
+                        searchPlaceholder: 'Type to filter...',
+                        lengthMenu: '<span class="me-3">Show:</span> _MENU_',
+                        paginate: { 'first': 'First', 'last': 'Last', 'next': document.dir == "rtl" ? '&larr;' : '&rarr;', 'previous': document.dir == "rtl" ? '&rarr;' : '&larr;' }
+                    }
+                });
+            }
+        });
+    </script>
+    
+    {% block javascripts %}
+        <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
+    {% endblock %}
     {% block modals %}
         {{ include('professional/partials/_dashboard_modals.html.twig') }}
     {% endblock %}

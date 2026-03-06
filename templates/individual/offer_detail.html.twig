@@ -93,9 +93,11 @@
                 <div class="pro-card-header border-bottom d-flex justify-content-between align-items-center">
                     <h5 class="pro-card-title"><i class="feather-file-text text-primary me-2"></i>Offer Quote</h5>
                     {% set offerStatusMap = {
-                        'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                        'DRAFT': {'class': 'secondary', 'label': 'Draft', 'icon': 'feather-file'},
+                        'PUBLISHED': {'class': 'info', 'label': 'Published', 'icon': 'feather-globe'},
                         'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                        'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
+                        'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'},
+                        'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'}
                     } %}
                     {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
                     <span class="pro-badge {{ offerInfo.class }} px-3 py-2">
@@ -117,7 +119,7 @@
                     </div>
 
                     <label class="pro-form-label">Message / Description</label>
-                    <div class="p-4 bg-light rounded-3 border mb-4" style="white-space: pre-line; color: #334155; font-size: 1.05rem; line-height: 1.6;">
+                    <div class="p-4 bg-light rounded-3 border mb-4" style="white-space: pre-line; color: #334155; font-size: 1.4rem; line-height: 1.6;">
                         {{ offer.description|default('No additional message provided.') }}
                     </div>
 
@@ -157,18 +159,18 @@
                         <hr class="my-5">
                         <h6 class="fw-bold text-dark mb-4"><i class="feather-zap text-warning me-2"></i>Available Actions</h6>
                         <div class="d-flex flex-wrap gap-3">
-                            {% if offer.status|upper == 'PENDING' %}
+                            {% if offer.status|upper == 'PUBLISHED' %}
                                 <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                      onsubmit="return confirm('Accept this offer? All other pending offers will be automatically rejected.');">
+                                      data-confirm="Accept this offer? All other pending offers will be automatically rejected.">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                     <button type="submit" class="indiv-btn-primary px-5">
                                         <i class="feather-check-circle"></i> Accept Offer
                                     </button>
                                 </form>
                                 <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                      onsubmit="return confirm('Reject this offer?');">
+                                      data-confirm="Reject this offer?">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="indiv-btn-secondary px-5" style="border-color: var(--indiv-danger); color: var(--indiv-danger);">
+                                    <button type="submit" class="indiv-btn-danger px-5" style="border-color: var(--indiv-danger); color: var(--indiv-danger);">
                                         <i class="feather-x-circle"></i> Reject Offer
                                     </button>
                                 </form>

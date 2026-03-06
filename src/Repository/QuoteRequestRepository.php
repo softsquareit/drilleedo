@@ -23,9 +23,7 @@ class QuoteRequestRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.category = :val')
-            ->andWhere('q.status = :status')
             ->setParameter('val', $category)
-            ->setParameter('status', 'Pending')
             ->orderBy('q.creationDate', 'DESC')
             ->getQuery()
             ->getResult()
@@ -39,9 +37,7 @@ class QuoteRequestRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.category IN (:categories)')
-            ->andWhere('q.status = :status')
             ->setParameter('categories', $categories)
-            ->setParameter('status', 'Pending')
             ->orderBy('q.creationDate', 'DESC')
             ->getQuery()
             ->getResult()

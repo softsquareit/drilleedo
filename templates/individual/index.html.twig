@@ -43,7 +43,7 @@
                                     <span class="pro-badge info">{{ quote.offers|length }} offers</span>
                                 </td>
                                 <td>
-                                    <span class="pro-badge {{ quote.status == 'Pending' ? 'warning' : 'success' }}">{{ quote.status }}</span>
+                                    <span class="pro-badge {{ quote.status == 'PUBLISHED' ? 'info' : (quote.status == 'ACCEPTED' ? 'success' : 'secondary') }}">{{ quote.status }}</span>
                                 </td>
                             </tr>
                         {% else %}

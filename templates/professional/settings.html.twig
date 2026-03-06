@@ -169,10 +169,28 @@
                             </div>
                             <div class="pro-card-body">
                                 {{ form_start(categoryForm) }}
-                                    <p class="pro-text-muted pro-mb-3">Select the primary service category for your profile.</p>
-                                    <div class="pro-form-group">
-                                        {{ form_widget(categoryForm.category, {'attr': {'class': 'pro-form-select'}}) }}
+                                    <p class="pro-text-muted mb-4">Select the primary service category for your profile.</p>
+                                    
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-6">
+                                            <div class="pro-form-group">
+                                                <label class="pro-form-label" for="{{ categoryForm.parentCategory.vars.id }}">Industry/Sector</label>
+                                                {{ form_widget(categoryForm.parentCategory, {'attr': {'class': 'pro-form-select form-select'}}) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="pro-form-group">
+                                                <label class="pro-form-label" for="{{ categoryForm.category.vars.id }}">Specific Service</label>
+                                                {{ form_widget(categoryForm.category, {
+                                                    'attr': {
+                                                        'class': 'pro-form-select form-select child-category-select',
+                                                        'data-selected-id': user.category ? user.category.id : ''
+                                                    }
+                                                }) }}
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <button type="submit" class="pro-btn pro-btn-primary">
                                         <i class="feather-tag"></i> Update Category
                                     </button>

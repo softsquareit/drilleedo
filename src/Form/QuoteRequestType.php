@@ -27,12 +27,30 @@ class QuoteRequestType extends AbstractType
                 'label' => 'Description',
                 'attr' => ['rows' => 5, 'placeholder' => 'Describe your request in detail...', 'class' => 'form-control']
             ])
+            ->add('parentCategory', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'label' => 'Industry/Sector',
+                'placeholder' => 'Select industry',
+                'mapped' => false,
+                'required' => false,
+                'query_builder' => function(\App\Repository\CategoryRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.parent IS NULL')
+                        ->orderBy('c.name', 'ASC');
+                },
+                'attr' => ['class' => 'form-select parent-category-select selectpicker', 'data-live-search' => 'true']
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'label' => 'Service Category',
-                'placeholder' => 'Select a category',
-                'attr' => ['class' => 'form-select']
+                'label' => 'Specific Service *',
+                'placeholder' => 'Select a sub-category',
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Please select a specific service'])
+                ],
+                'attr' => ['class' => 'form-select child-category-select selectpicker', 'data-live-search' => 'true']
             ])
             ->add('images', FileType::class, [
                 'label' => 'Upload Images',

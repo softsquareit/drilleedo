@@ -87,6 +87,7 @@
     </div>
     <!-- End Dashboard Area -->
 
+
     {% include 'partials/_public_footer.html.twig' %}
 
     <!-- JS -->
@@ -100,7 +101,9 @@
     <script src="{{ asset('assets/drilleedo/js/vendor/imageloaded.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
     
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
+    {% endblock %}
     {% block modals %}
         {{ include('individual/partials/_dashboard_modals.html.twig') }}
     {% endblock %}

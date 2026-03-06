@@ -433,7 +433,7 @@ h6,
     align-items: center;
     padding: 6px 16px;
     border-radius: var(--pro-radius-full);
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     /* Slightly larger for readability */
     font-weight: 600;
     line-height: 1.4;
@@ -659,7 +659,7 @@ h6,
 .pro-form-label {
     display: block;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--pro-slate-700);
     margin-bottom: 8px;
@@ -673,7 +673,7 @@ h6,
     padding: 14px 18px;
     border: 2px solid var(--pro-slate-200);
     border-radius: var(--pro-radius-md);
-    font-size: 1.05rem;
+    font-size: 1.4rem;
     font-family: 'Instrument Sans', sans-serif;
     color: var(--pro-slate-900);
     background: #ffffff;
@@ -1582,4 +1582,39 @@ h6,
 
 .project-link:hover {
     gap: 8px;
+}
+
+/* ==========================================================================
+   MODAL INTERACTIVITY SAFETY NET (Final Fix)
+   ========================================================================== */
+.modal {
+    z-index: 2050 !important;
+}
+
+.modal-backdrop {
+    z-index: 2040 !important;
+}
+
+/* Ensure modal content is clickable and backdrop is NOT covering it */
+.modal.show {
+    pointer-events: auto !important;
+    display: block !important;
+}
+
+.modal-dialog {
+    z-index: 2051 !important;
+    pointer-events: auto !important;
+}
+
+/* Prevent accidental click blocking by dashboard elements when modal is open */
+body.modal-open .pro-dashboard-body,
+body.modal-open .rbt-dashboard-area,
+body.modal-open .rbt-header,
+body.modal-open .rbt-footer {
+    pointer-events: none !important;
+}
+
+body.modal-open .modal,
+body.modal-open .modal-backdrop {
+    pointer-events: auto !important;
 }

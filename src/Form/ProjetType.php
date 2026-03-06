@@ -58,10 +58,6 @@ class ProjetType extends AbstractType
                 'label' => 'Published',
                 'required' => false,
                 'attr' => ['class' => 'form-check-input']
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Save Project',
-                'attr' => ['class' => 'pro-btn pro-btn-primary']
             ]);
     }
 

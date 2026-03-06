@@ -15,8 +15,10 @@
             <div class="pro-card pro-card-elevated mb-4">
                 <div class="pro-card-header">
                     <h4 class="pro-card-title">Your Offer</h4>
-                    {% if offer.status == 'PENDING' %}
-                        <span class="pro-badge warning">Pending</span>
+                    {% if offer.status == 'DRAFT' %}
+                        <span class="pro-badge secondary">Draft</span>
+                    {% elseif offer.status == 'PUBLISHED' %}
+                        <span class="pro-badge info">Sent</span>
                     {% elseif offer.status == 'ACCEPTED' %}
                         <span class="pro-badge success">Accepted</span>
                     {% elseif offer.status == 'REJECTED' %}
@@ -79,19 +81,17 @@
 
             {# ── Actions ── #}
             <div class="d-flex gap-2 flex-wrap">
-                {% if offer.status == 'PENDING' and offer.quoteRequest %}
-                    <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-btn pro-btn-primary">
-                        <i class="feather-edit-2"></i> Edit Offer
-                    </a>
-                    <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Delete this offer?');">
+                {# No edit button here anymore - Edit is only via modal in offers list #}
+                {% if offer.status == 'DRAFT' %}
+                    <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" style="display:inline;" data-confirm="Delete this offer?">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
                         <button type="submit" class="pro-btn" style="background:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.3);">
-                            <i class="feather-trash-2"></i> Delete
+                            <i class="feather-trash-2"></i> Delete Draft
                         </button>
                     </form>
                 {% endif %}
                 {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                    <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" style="display:inline;" onsubmit="return confirm('Mark this request as completed?');">
+                    <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" style="display:inline;" data-confirm="Mark this request as completed?">
                         <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                         <button type="submit" class="pro-btn pro-btn-success">
                             <i class="feather-check-circle"></i> Finalize Request

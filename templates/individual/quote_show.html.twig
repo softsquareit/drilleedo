@@ -6,7 +6,7 @@
     {{ parent() }}
     <style>
         .pro-detail-label {
-            font-size: 1rem;
+            font-size: 1.6rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #64748b;
@@ -14,7 +14,7 @@
             margin-bottom: 0.25rem;
         }
         .pro-detail-value {
-            font-size: 1rem;
+            font-size: 1.6rem;
             color: #1e293b;
             font-weight: 500;
             margin-bottom: 1.5rem;
@@ -71,8 +71,6 @@
         .offer-action-btn.accept:hover { background: #16a34a; }
         .offer-action-btn.reject { background: #ef4444; color: #fff; }
         .offer-action-btn.reject:hover { background: #dc2626; }
-        .offer-action-btn.pending-revert { background: #f59e0b; color: #fff; }
-        .offer-action-btn.pending-revert:hover { background: #d97706; }
         /* Closed banner */
         .closed-banner {
             background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
@@ -98,7 +96,7 @@
 
 {% block body %}
     {# ── Closed Banner ── #}
-    {% if quote.status == 'Closed' %}
+    {% if quote.status == 'CLOSED' %}
         <div class="closed-banner">
             <i class="feather-lock"></i>
             <div>
@@ -116,21 +114,15 @@
 
         {% if quote.status not in ['Closed'] %}
             <div class="d-flex align-items-center gap-2 flex-wrap">
-                {# Toggle Active/Inactive #}
-                {% if quote.status not in ['Accepted'] %}
-                    <form action="{{ path('individual_quote_toggle', {'id': quote.id}) }}" method="POST" class="d-inline">
-                        <input type="hidden" name="_token" value="{{ csrf_token('toggle-quote-' ~ quote.id) }}">
-                        {% if quote.status == 'Inactive' %}
-                            <button type="submit" class="indiv-btn-primary pro-btn-sm d-flex align-items-center gap-2">
-                                <i class="feather-eye"></i> Activate
-                            </button>
-                        {% else %}
-                            <button type="submit" class="indiv-btn-secondary pro-btn-sm d-flex align-items-center gap-2">
-                                <i class="feather-eye-off"></i> Deactivate
-                            </button>
-                        {% endif %}
-                    </form>
+                {# Publish Button (if Draft) #}
+                {% if quote.status == 'DRAFT' %}
+                    <button type="button" class="indiv-btn-primary pro-btn-sm d-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#publishQuoteModal" style="background: var(--pro-primary); border-color: var(--pro-primary);">
+                        <i class="feather-upload-cloud"></i> Publish Request
+                    </button>
                 {% endif %}
+
+                {# Toggle Active/Inactive removed #}
 
                 {# Edit Button #}
                 <button type="button" class="indiv-btn-secondary pro-btn-sm d-flex align-items-center gap-2"
@@ -139,7 +131,7 @@
                 </button>
 
                 {# Delete Button #}
-                <button type="button" class="indiv-btn-secondary pro-btn-sm d-flex align-items-center gap-2" style="border-color: var(--indiv-danger); color: var(--indiv-danger);"
+                <button type="button" class="indiv-btn-danger pro-btn-sm d-flex align-items-center gap-2"
                         data-bs-toggle="modal" data-bs-target="#deleteQuoteModal">
                     <i class="feather-trash-2"></i> Delete
                 </button>
@@ -158,15 +150,14 @@
                     </div>
                     <div>
                         {% set statusMap = {
-                            'Pending': {'class': 'warning', 'icon': 'feather-clock'},
-                            'Active': {'class': 'success', 'icon': 'feather-zap'},
-                            'Inactive': {'class': 'secondary', 'icon': 'feather-pause-circle'},
-                            'Accepted': {'class': 'success', 'icon': 'feather-check-circle'},
-                            'Closed': {'class': 'danger', 'icon': 'feather-lock'}
+                            'DRAFT': {'class': 'secondary', 'icon': 'feather-file', 'label': 'Draft'},
+                            'PUBLISHED': {'class': 'info', 'icon': 'feather-globe', 'label': 'Published'},
+                            'ACCEPTED': {'class': 'success', 'icon': 'feather-check-circle', 'label': 'Accepted'},
+                            'CLOSED': {'class': 'danger', 'icon': 'feather-lock', 'label': 'Closed'}
                         } %}
-                        {% set statusInfo = statusMap[quote.status]|default({'class': 'secondary', 'icon': 'feather-help-circle'}) %}
+                        {% set statusInfo = statusMap[quote.status]|default({'class': 'secondary', 'icon': 'feather-help-circle', 'label': quote.status}) %}
                         <span class="pro-badge {{ statusInfo.class }} px-4 py-2" style="font-size: 1.15rem;">
-                            <i class="{{ statusInfo.icon }} me-2"></i>{{ quote.status }}
+                            <i class="{{ statusInfo.icon }} me-2"></i>{{ statusInfo.label }}
                         </span>
                     </div>
                 </div>
@@ -198,35 +189,8 @@
                                                             <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Reference Image"
                                                                  style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid #dee2e6;">
                                                         </a>
-                                                        {% if quote.status not in ['Closed'] %}
-                                                            <button type="button" class="img-delete-btn" title="Remove image" data-bs-toggle="modal" data-bs-target="#deleteImageModal{{ loop.index0 }}">×</button>
-                                                            
-                                                            <div class="modal fade" id="deleteImageModal{{ loop.index0 }}" tabindex="-1" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered" style="z-index: 1060;">
-                                                                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
-                                                                        <div class="modal-body p-4 text-center">
-                                                                            <div class="mb-4">
-                                                                                <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: var(--indiv-danger);">
-                                                                                    <i class="feather-alert-triangle"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <h4 class="fw-bold text-dark mb-2">Remove Image?</h4>
-                                                                            <p class="text-muted px-4 mb-4">Are you sure you want to delete this attached photo from your request?</p>
-                                                                            <div class="d-flex flex-column gap-3 mt-4">
-                                                                                <form action="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}" method="POST" class="w-100">
-                                                                                    <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
-                                                                                    <button type="submit" class="indiv-btn-primary w-100 py-3 justify-content-center" style="background: var(--indiv-danger); font-size: 1.15rem;">
-                                                                                        <i class="feather-trash-2"></i> Yes, Remove Image
-                                                                                    </button>
-                                                                                </form>
-                                                                                <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
-                                                                                    Cancel
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        {% if quote.status not in ['CLOSED'] %}
+                                                            <button type="button" class="indiv-btn-danger" title="Remove image" data-bs-toggle="modal" data-bs-target="#deleteImageModal{{ loop.index0 }}" style="padding: 5px;"><i class="feather-trash-2"></i></button>
                                                         {% endif %}
                                                     </div>
                                             {% endfor %}
@@ -328,7 +292,7 @@
                                         {{ providerName|slice(0, 1)|upper }}
                                     </div>
                                     <div>
-                                        <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="fw-bold d-block text-dark text-decoration-none" style="font-size: 1.05rem;">
+                                        <a href="{{ path('individual_offer_show', {'id': offer.id}) }}" class="fw-bold d-block text-dark text-decoration-none" style="font-size: 1.4rem;">
                                             {{ providerName }}
                                         </a>
                                         <div class="d-flex align-items-center gap-2 mt-1">
@@ -357,9 +321,11 @@
                              </td>
                             <td>
                                 {% set offerStatusMap = {
-                                    'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                                    'DRAFT': {'class': 'secondary', 'label': 'Draft', 'icon': 'feather-file'},
+                                    'PUBLISHED': {'class': 'info', 'label': 'New', 'icon': 'feather-star'},
                                     'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                                    'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
+                                    'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'},
+                                    'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'}
                                 } %}
                                 {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
                                 <span class="pro-badge {{ offerInfo.class }}">
@@ -372,29 +338,16 @@
                                         <i class="feather-eye"></i> View
                                     </a>
                                     
-                                    {% if quote.status not in ['Closed'] %}
-                                        {% if offer.status|upper == 'PENDING' %}
-                                            <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                                  onsubmit="return confirm('Accept this offer? This will notify the provider and reject other pending offers.');">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="indiv-action-badge view" style="color: var(--indiv-success); background: var(--indiv-success-bg);">
-                                                    <i class="feather-check"></i> Accept
-                                                </button>
-                                            </form>
-                                            <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                                  onsubmit="return confirm('Reject this offer?');">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="indiv-action-badge delete">
-                                                    <i class="feather-x"></i> Reject
-                                                </button>
-                                            </form>
-                                        {% elseif offer.status|upper == 'REJECTED' and quote.status not in ['Accepted'] %}
-                                            <form action="{{ path('individual_offer_pending', {'id': offer.id}) }}" method="POST" class="d-inline">
-                                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                                <button type="submit" class="indiv-action-badge edit">
-                                                    <i class="feather-rotate-ccw"></i> Revert
-                                                </button>
-                                            </form>
+                                    {% if quote.status not in ['CLOSED'] %}
+                                        {% if offer.status|upper == 'PUBLISHED' %}
+                                            <button type="button" class="indiv-action-badge view" style="color: var(--indiv-success); background: var(--indiv-success-bg);"
+                                                    data-bs-toggle="modal" data-bs-target="#acceptOfferModal{{ offer.id }}">
+                                                <i class="feather-check"></i> Accept
+                                            </button>
+                                            <button type="button" class="indiv-action-badge delete"
+                                                    data-bs-toggle="modal" data-bs-target="#rejectOfferModal{{ offer.id }}">
+                                                <i class="feather-x"></i> Reject
+                                            </button>
                                         {% endif %}
                                     {% endif %}
                                 </div>
@@ -419,6 +372,38 @@
 
 {% block modals %}
     {{ parent() }}
+
+    {# ── Publish Quote Modal ── #}
+    <div class="modal fade" id="publishQuoteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4">
+                        <div class="pro-stat-icon primary mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: var(--pro-primary-light); color: var(--pro-primary);">
+                            <i class="feather-upload-cloud"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Publish your request?</h4>
+                    <p class="text-muted px-4 mb-4">
+                        Your request will become visible to all registered professionals in the <span class="fw-bold text-dark">{{ quote.category.name|default('selected') }}</span> category.
+                        They will be able to send you offers.
+                    </p>
+                    
+                    <div class="d-flex flex-column gap-3 mt-4">
+                        <form action="{{ path('individual_quote_publish', {'id': quote.id}) }}" method="POST" class="w-100">
+                            <input type="hidden" name="_token" value="{{ csrf_token('publish-quote-' ~ quote.id) }}">
+                            <button type="submit" class="indiv-btn-primary w-100 py-3 justify-content-center shadow-sm" style="background: var(--pro-primary); border-color: var(--pro-primary); font-size: 1.15rem;">
+                                <i class="feather-check"></i> Yes, Publish Now
+                            </button>
+                        </form>
+                        <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                            Not Yet, Keep Draft
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {# ── Edit Quote Modal (Modernized) ── #}
     <div class="modal fade" id="editQuoteModal" tabindex="-1" aria-labelledby="editQuoteModalLabel" aria-hidden="true">
@@ -446,12 +431,26 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.parentCategory.vars.id }}">
+                                        <i class="feather-grid me-2 text-primary"></i>Industry/Sector
+                                    </label>
+                                    {{ form_widget(form.parentCategory, {'attr': {'class': 'pro-form-select form-select parent-category-select'}}) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="pro-form-group">
                                     <label class="pro-form-label fw-bold text-dark mb-2" for="{{ form.category.vars.id }}">
-                                        <i class="feather-grid me-2 text-primary"></i>Service Category
+                                        <i class="feather-tag me-2 text-primary"></i>Specific Service *
                                     </label>
-                                    {{ form_widget(form.category, {'attr': {'class': 'pro-form-input'}}) }}
+                                    {{ form_widget(form.category, {
+                                        'attr': {
+                                            'class': 'pro-form-select form-select child-category-select',
+                                            'data-selected-id': quote.category ? quote.category.id : ''
+                                        }
+                                    }) }}
                                     <div class="text-danger small mt-1">{{ form_errors(form.category) }}</div>
                                 </div>
                             </div>
@@ -480,7 +479,7 @@
                                             <div class="d-flex flex-wrap gap-2">
                                                 {% for image in quote.images %}
                                                     <div class="position-relative">
-                                                        <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Existing Photo" 
+                                                        <img src="{{ asset('uploads/quote_requests/' ~ image) }}" 
                                                              style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
                                                     </div>
                                                 {% endfor %}
@@ -549,6 +548,102 @@
             </div>
         </div>
     </div>
+
+    {# ── Delete Image Modals ── #}
+    {% for image in quote.images %}
+        <div class="modal fade" id="deleteImageModal{{ loop.index0 }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
+                    <div class="modal-body p-4 text-center">
+                        <div class="mb-4">
+                            <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: var(--indiv-danger);">
+                                <i class="feather-alert-triangle"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Remove Image?</h4>
+                        <p class="text-muted px-4 mb-4">Are you sure you want to delete this attached photo from your request?</p>
+                        <div class="d-flex flex-column gap-3 mt-4">
+                            <form action="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}" method="POST" class="w-100">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
+                                <button type="submit" class="indiv-btn-primary w-100 py-3 justify-content-center" style="background: var(--indiv-danger); font-size: 1.15rem;">
+                                    <i class="feather-trash-2"></i> Yes, Remove Image
+                                </button>
+                            </form>
+                            <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for offer in quote.offers %}
+        {# Accept Offer Modal #}
+        <div class="modal fade" id="acceptOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                    <div class="modal-body p-4 text-center">
+                        <div class="mb-4">
+                            <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(34, 197, 94, 0.1); color: #22c55e;">
+                                <i class="feather-check-circle"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Accept this offer?</h4>
+                        <p class="text-muted px-4 mb-4">
+                            You are about to accept the offer from <span class="fw-bold text-dark">{{ offer.provider.companyName|default(offer.provider.email) }}</span> for <span class="fw-bold text-dark">{{ offer.price|number_format(2) }}$</span>.
+                            This will notify the professional and mark other pending offers as rejected.
+                        </p>
+                        
+                        <div class="d-flex flex-column gap-3 mt-4">
+                            <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="w-100">
+                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                <button type="submit" class="indiv-btn-primary w-100 py-3 justify-content-center" style="background: #22c55e; border-color: #22c55e; font-size: 1.15rem;">
+                                    <i class="feather-check"></i> Yes, Accept Offer
+                                </button>
+                            </form>
+                            <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Reject Offer Modal #}
+        <div class="modal fade" id="rejectOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                    <div class="modal-body p-4 text-center">
+                        <div class="mb-4">
+                            <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                                <i class="feather-x-circle"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Reject this offer?</h4>
+                        <p class="text-muted px-4 mb-4">
+                            Are you sure you want to reject the offer from <span class="fw-bold text-dark">{{ offer.provider.companyName|default(offer.provider.email) }}</span>? 
+                            The professional will be notified.
+                        </p>
+                        
+                        <div class="d-flex flex-column gap-3 mt-4">
+                            <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="w-100">
+                                <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                <button type="submit" class="indiv-btn-primary w-100 py-3 justify-content-center" style="background: #ef4444; border-color: #ef4444; font-size: 1.15rem;">
+                                    <i class="feather-x"></i> Yes, Reject Offer
+                                </button>
+                            </form>
+                            <button type="button" class="indiv-btn-secondary w-100 py-3 bg-light text-dark justify-content-center" style="border-color: #cbd5e1; font-size: 1.15rem;" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 
     <script>
         function previewImages(input) {

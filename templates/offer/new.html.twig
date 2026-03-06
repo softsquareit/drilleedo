@@ -8,7 +8,10 @@
     <div class="row g-4">
         <div class="col-lg-8">
             {# ── Request Details ── #}
-            <div class="pro-card pro-card-elevated mb-4">
+            <div class="pro-card pro-card-elevated mb-4"
+                 data-category="{{ parentRequest.category ? parentRequest.category.name : '' }}"
+                 data-request-title="{{ parentRequest.title }}"
+                 data-request-description="{{ parentRequest.description }}">
                 <div class="pro-card-header">
                     <h4 class="pro-card-title">{{ directRequest is defined ? 'Direct Request' : 'Quote Request' }} Details</h4>
                     {% if parentRequest.category %}
@@ -62,8 +65,17 @@
             {# ── Send/Edit Offer Form ── #}
             <div class="pro-card pro-card-elevated">
                 <div class="pro-card-header">
-                    <h4 class="pro-card-title">{{ isEdit|default(false) ? 'Update Your Offer' : 'Your Offer' }}</h4>
-                    <p class="pro-card-subtitle">Provide your best price and a detailed message</p>
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div>
+                            <h4 class="pro-card-title">{{ isEdit|default(false) ? 'Update Your Offer' : 'Your Offer' }}</h4>
+                            <p class="pro-card-subtitle">Provide your best price and a detailed message</p>
+                        </div>
+                        {% if offer is defined and offer.status %}
+                            <span class="pro-badge {{ offer.status == 'PUBLISHED' ? 'success' : 'secondary' }}">
+                                {{ offer.status }}
+                            </span>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="pro-card-body">
                     {{ form_start(form, {'attr': {'class': 'pro-form-row', 'novalidate': 'novalidate'}}) }}
@@ -77,9 +89,22 @@
                             </div>
                             <div class="col-12">
                                 <div class="pro-form-group">
-                                    <label class="pro-form-label">Message to Client <span class="pro-text-danger">*</span></label>
-                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'placeholder': 'Describe your approach, availability, and why you are the best fit...', 'required': 'required'}}) }}
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="pro-form-label mb-0">Message to Client <span class="pro-text-danger">*</span></label>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" id="aiShowPromptBtn" class="pro-btn pro-btn-sm pro-btn-outline" style="gap: 6px; display: inline-flex; align-items: center; font-size: 0.82rem; padding: 6px 14px; border-radius: 20px; cursor: pointer;">
+                                                <span>🔍</span>
+                                                <span>Voir le Prompt</span>
+                                            </button>
+                                            <button type="button" id="aiImproveBtn" class="pro-btn pro-btn-sm" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; gap: 6px; display: inline-flex; align-items: center; font-size: 0.82rem; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: opacity 0.2s;">
+                                                <span id="aiBtnIcon">✨</span>
+                                                <span id="aiBtnText">Improve with AI</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'id': 'offer_description', 'placeholder': 'Describe your approach, availability, and why you are the best fit...', 'required': 'required', 'rows': '6'}}) }}
                                     {{ form_errors(form.description) }}
+                                    <small class="pro-form-help mt-1 d-block" id="aiHint" style="color: #6366f1; display: none !important;">✨ AI can improve clarity and tone while respecting your intent.</small>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -92,11 +117,21 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex gap-3">
-                                    <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg">
-                                        <i class="feather-send"></i> {{ isEdit|default(false) ? 'Update Offer' : 'Send Offer' }}
-                                    </button>
+                                    {% if offer is not defined or offer.status != 'PUBLISHED' %}
+                                        <button type="submit" name="action" value="publish" class="pro-btn pro-btn-primary pro-btn-lg">
+                                            <i class="feather-send"></i> Publish Offer
+                                        </button>
+                                        <button type="submit" name="action" value="draft" class="pro-btn pro-btn-outline pro-btn-lg">
+                                            <i class="feather-save"></i> Save as Draft
+                                        </button>
+                                    {% else %}
+                                        <div class="pro-alert success w-100">
+                                            <i class="feather-check-circle"></i>
+                                            This offer is published and cannot be modified.
+                                        </div>
+                                    {% endif %}
                                     <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-lg">
-                                        Cancel
+                                        Back
                                     </a>
                                 </div>
                             </div>
@@ -122,8 +157,349 @@
                         <i class="feather-info"></i>
                         <p class="mb-0">Your contact information will only be shared if the client accepts your offer.</p>
                     </div>
+                    {# AI Tip card #}
+                    <div class="mt-3 p-3 rounded-3" style="background: linear-gradient(135deg, #ede9fe, #f5f3ff); border: 1px solid #c4b5fd;">
+                        <p class="mb-1" style="font-size: 0.82rem; font-weight: 600; color: #5b21b6;">✨ AI Writing Assistant</p>
+                        <p class="mb-0" style="font-size: 0.78rem; color: #6d28d9;">Use the <strong>Improve with AI</strong> button to get a professional, client-aligned version of your message. You stay in control — apply or discard.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block modals %}
+{{ parent() }}
+{# ── AI Preview Modal — placed at root body level to avoid overflow clipping ── #}
+<div class="modal fade" id="aiPreviewModal" tabindex="-1" aria-labelledby="aiPreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 25px 60px rgba(0,0,0,0.15);">
+            <div class="modal-header" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 16px 16px 0 0; padding: 1.25rem 1.5rem;">
+                <h5 class="modal-title text-white d-flex align-items-center gap-2" id="aiPreviewModalLabel">
+                    <span>✨</span> AI Writing Assistant
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                {# Loading State #}
+                <div id="aiLoadingState" class="text-center py-5">
+                    <div class="mb-3">
+                        <div class="spinner-border" role="status" style="width: 2.5rem; height: 2.5rem; color: #6366f1; border-width: 3px;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <p class="fw-semibold mb-1" style="color: #6366f1;">Generating your improved description…</p>
+                    <small class="text-muted">Analyzing request context and category</small>
+                </div>
+
+                {# Error State #}
+                <div id="aiErrorState" style="display: none;">
+                    <div class="pro-alert" style="background: #fef2f2; border-color: #fca5a5; color: #991b1b; border-radius: 10px;">
+                        <i class="feather-alert-circle"></i>
+                        <span id="aiErrorMessage">An error occurred. Please try again.</span>
+                    </div>
+                </div>
+
+                {# Result State #}
+                <div id="aiResultState" style="display: none;">
+                    <div class="mb-3 p-3 rounded-3" style="background: #f5f3ff; border: 1px solid #ddd6fe;">
+                        <p class="mb-1" style="font-size: 0.78rem; font-weight: 600; color: #5b21b6;">Context used by the AI</p>
+                        <div id="aiContextSummary" style="font-size: 0.75rem; color: #6d28d9;"></div>
+                    </div>
+                    <label class="pro-form-label mb-2">AI Suggestion <span class="text-muted" style="font-weight: normal;">(you can edit before applying)</span></label>
+                    <textarea id="aiSuggestionTextarea" class="pro-form-textarea" rows="8" style="border-color: #a78bfa; resize: vertical;"></textarea>
+                    <p class="mt-2 mb-0" style="font-size: 0.75rem; color: #6b7280;">
+                        <i class="feather-shield" style="font-size: 0.7rem;"></i>
+                        This suggestion will NOT be saved until you click <strong>Apply</strong>.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid #ede9fe; padding: 1rem 1.5rem;">
+                <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">
+                    <i class="feather-x"></i> Cancel
+                </button>
+                <button type="button" id="aiRegenerateBtn" class="pro-btn" style="display: none; background: #f5f3ff; color: #6366f1; border: 1px solid #c4b5fd;">
+                    <i class="feather-refresh-cw"></i> Regenerate
+                </button>
+                <button type="button" id="aiApplyBtn" class="pro-btn" style="display: none; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none;">
+                    <i class="feather-check"></i> Apply Suggestion
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+(function () {
+    'use strict';
+
+    const GEMINI_API_KEY = '{{ app.request.server.get("GEMINI_API_KEY")|default("") }}';
+    const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent';
+    const MAX_CHARS = 2000;
+    const COOLDOWN_KEY = 'ai_assistant_cooldown';
+    const COOLDOWN_DURATION = 5 * 60 * 1000; // 5 minutes
+
+    // Auto-clear expired cooldowns on page load
+    (function cleanStaleCooldown() {
+        const until = sessionStorage.getItem(COOLDOWN_KEY);
+        if (until && Date.now() >= parseInt(until)) {
+            sessionStorage.removeItem(COOLDOWN_KEY);
+        }
+    })();
+
+    // Helper: remaining cooldown in seconds (0 if not active)
+    function getCooldownRemainingSeconds() {
+        const until = sessionStorage.getItem(COOLDOWN_KEY);
+        if (!until) return 0;
+        const remaining = parseInt(until) - Date.now();
+        return remaining > 0 ? Math.ceil(remaining / 1000) : 0;
+    }
+
+    // Gather request context from the data card
+    function getRequestContext() {
+        const card = document.querySelector('[data-request-title]');
+        // Sanitize inputs to prevent breaking the prompt structure or JSON
+        const clean = (val) => (val || '').toString().trim().replace(/[\{\}]/g, ''); 
+        
+        return {
+            category: clean(card?.dataset.category) || 'General Services',
+            requestTitle: clean(card?.dataset.requestTitle),
+            requestDescription: clean(card?.dataset.requestDescription),
+        };
+    }
+
+    // Build Gemini prompt
+    function buildPrompt(ctx, offerText) {
+        return `You are a professional service writing assistant for a home improvement marketplace.
+
+Context:
+- Service category: ${ctx.category}
+- Client request title: ${ctx.requestTitle}
+- Client request description: ${ctx.requestDescription}
+
+Task:
+- Improve and rewrite the professional's offer description below
+- Keep the same meaning, scope and price intentions
+- Align the language with the client's specific request
+- Use clear, professional, and reassuring language (max 300 words)
+- Do not add new services, prices, timelines or commitments that are not already in the draft
+- Do not use aggressive marketing language
+- Write in a warm, direct, first-person style
+
+Professional draft:
+${offerText}
+
+Return ONLY the improved description text, no preamble, no explanation.`;
+    }
+
+    // Call Gemini API
+    async function callGemini(prompt) {
+        // Local quota safeguard — check BEFORE calling the API
+        const cooldownSecs = getCooldownRemainingSeconds();
+        if (cooldownSecs > 0) {
+            const mins = Math.floor(cooldownSecs / 60);
+            const secs = cooldownSecs % 60;
+            const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+            const err = new Error(`LOCAL_COOLDOWN:${timeStr}`);
+            err.type = 'LOCAL_COOLDOWN';
+            err.remaining = timeStr;
+            throw err;
+        }
+
+        // Gemini API expects a specific JSON structure. 
+        // JSON.stringify handles all character escaping (newlines, quotes, backslashes) correctly.
+        const payload = {
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { 
+                maxOutputTokens: 512, // Reduced to save quota/tokens
+                temperature: 0.7, 
+                topP: 0.95,
+                topK: 40
+            }
+        };
+
+        const response = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errBody = await response.json().catch(() => ({}));
+            const status = response.status;
+            const code = errBody?.error?.status;
+            const message = errBody?.error?.message || `API error ${status}`;
+            
+            const error = new Error(message);
+            error.status = status;
+            error.code = code;
+            
+            // Critical Quota Handling
+            if (status === 429 || code === 'RESOURCE_EXHAUSTED') {
+                sessionStorage.setItem(COOLDOWN_KEY, Date.now() + COOLDOWN_DURATION);
+            }
+            throw error;
+        }
+
+        const data = await response.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error('AI returned an empty response.');
+        return text.trim();
+    }
+
+    // UI state helpers
+    function showState(state) {
+        document.getElementById('aiLoadingState').style.display = state === 'loading' ? 'block' : 'none';
+        document.getElementById('aiErrorState').style.display   = state === 'error'   ? 'block' : 'none';
+        document.getElementById('aiResultState').style.display  = state === 'result'  ? 'block' : 'none';
+        document.getElementById('aiApplyBtn').style.display     = state === 'result'  ? 'inline-flex' : 'none';
+        document.getElementById('aiRegenerateBtn').style.display = state === 'result' ? 'inline-flex' : 'none';
+    }
+
+    // Open (or reuse) the modal — getOrCreateInstance prevents duplicate Bootstrap instances
+    function openModal() {
+        const el = document.getElementById('aiPreviewModal');
+        if (!el) return;
+        const modal = bootstrap.Modal.getOrCreateInstance(el);
+        modal.show();
+    }
+
+    // Main trigger for AI improvement
+    async function triggerAI() {
+        const textarea = document.getElementById('offer_description');
+        const offerText = textarea ? textarea.value.trim() : '';
+
+        // Guard: missing API key
+        if (!GEMINI_API_KEY) {
+            document.getElementById('aiErrorMessage').textContent =
+                'AI assistant is not configured. Please add your GEMINI_API_KEY to .env.local.';
+            showState('error');
+            openModal();
+            return;
+        }
+
+        // Guard: empty or too short
+        if (offerText.length < 10) {
+            document.getElementById('aiErrorMessage').textContent =
+                'Please write at least a few words in the description before using the AI assistant.';
+            showState('error');
+            openModal();
+            return;
+        }
+
+        showState('loading');
+        openModal();
+
+        try {
+            const ctx = getRequestContext();
+            const prompt = buildPrompt(ctx, offerText.substring(0, MAX_CHARS));
+
+            // Show context summary
+            document.getElementById('aiContextSummary').innerHTML =
+                `<strong>Category:</strong> ${ctx.category} &nbsp;|&nbsp; <strong>Request:</strong> ${ctx.requestTitle}`;
+            document.getElementById('aiContextSummary').parentElement.style.display = 'block';
+
+            const suggestion = await callGemini(prompt);
+            document.getElementById('aiSuggestionTextarea').value = suggestion;
+            document.querySelector('#aiResultState label').textContent = 'AI Suggestion (you can edit before applying)';
+            showState('result');
+        } catch (err) {
+            let userMsg;
+
+            if (err.type === 'LOCAL_COOLDOWN') {
+                // Cooldown active — show with retry button
+                userMsg = `<strong>Please wait before retrying.</strong><br>
+                    A previous quota limit was reached. Retry available in <strong>${err.remaining}</strong>.<br>
+                    <button class="pro-btn pro-btn-sm pro-btn-outline mt-2" onclick="sessionStorage.removeItem('${COOLDOWN_KEY}'); bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal')).hide(); document.getElementById('aiImproveBtn').click();" style="font-size:0.78rem;">
+                        ↩ Force Retry Now
+                    </button>`;
+            } else if (err.status === 429 || err.code === 'RESOURCE_EXHAUSTED') {
+                // Real quota from API
+                userMsg = '<strong>AI quota exceeded</strong> (Gemini free tier limit).<br>Please wait a few minutes and try again. Your text has not been modified.';
+            } else if (err.status === 401 || err.status === 403) {
+                userMsg = '<strong>AI Configuration Error</strong>.<br>The API key is missing or invalid. Please check your .env settings.';
+            } else if (err.message === 'Failed to fetch') {
+                userMsg = '<strong>Network Error</strong>.<br>Please check your internet connection.';
+            } else {
+                userMsg = 'AI assistant is currently unavailable. You can continue writing manually.';
+                console.error('AI Error (unhandled):', err);
+            }
+
+            document.getElementById('aiErrorMessage').innerHTML = userMsg;
+            showState('error');
+        }
+    }
+
+    // Trigger to ONLY show the prompt (requested by user)
+    function showExactPrompt() {
+        const textarea = document.getElementById('offer_description');
+        const offerText = textarea ? textarea.value.trim() : '';
+
+        if (offerText.length < 1) {
+            alert('Please enter some text to generate the prompt.');
+            return;
+        }
+
+        const ctx = getRequestContext();
+        const prompt = buildPrompt(ctx, offerText.substring(0, MAX_CHARS));
+
+        // Display exactly as requested: NO additions, NO explanation.
+        const displayArea = document.getElementById('aiSuggestionTextarea');
+        displayArea.value = prompt;
+        
+        // Hide UI elements that add complexity/labels
+        document.getElementById('aiContextSummary').parentElement.style.display = 'none';
+        
+        const labelEl = document.querySelector('#aiResultState label');
+        labelEl.innerHTML = `PROMPT EXACT <button class="pro-btn pro-btn-sm pro-btn-outline ms-2" onclick="navigator.clipboard.writeText(document.getElementById('aiSuggestionTextarea').value); alert('Copied to clipboard!');" style="font-size: 0.7rem; padding: 2px 8px;">📋 Copy</button>`;
+        
+        showState('result');
+        document.getElementById('aiApplyBtn').style.display = 'none';
+        document.getElementById('aiRegenerateBtn').style.display = 'none';
+        
+        openModal();
+    }
+
+    // Wire up button
+    document.addEventListener('DOMContentLoaded', function () {
+        const btn = document.getElementById('aiImproveBtn');
+        if (btn) {
+            btn.addEventListener('click', triggerAI);
+        }
+
+        const showBtn = document.getElementById('aiShowPromptBtn');
+        if (showBtn) {
+            showBtn.addEventListener('click', showExactPrompt);
+        }
+
+        // Apply button
+        document.getElementById('aiApplyBtn')?.addEventListener('click', function () {
+            const suggestion = document.getElementById('aiSuggestionTextarea').value.trim();
+            const textarea = document.getElementById('offer_description');
+            if (textarea && suggestion) {
+                textarea.value = suggestion;
+                textarea.dispatchEvent(new Event('input'));
+            }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal'))?.hide();
+        });
+
+        // Regenerate button
+        document.getElementById('aiRegenerateBtn')?.addEventListener('click', triggerAI);
+
+        // Show hint on focus
+        const textarea = document.getElementById('offer_description');
+        if (textarea && document.getElementById('aiHint')) {
+            textarea.addEventListener('focus', function () {
+                document.getElementById('aiHint').style.setProperty('display', 'block', 'important');
+            });
+            textarea.addEventListener('blur', function () {
+                document.getElementById('aiHint').style.setProperty('display', 'none', 'important');
+            });
+        }
+    });
+})();
+</script>
 {% endblock %}

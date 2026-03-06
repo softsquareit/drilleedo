@@ -1,0 +1,65 @@
+================================================================================
+DOCUMENTATION FONCTIONNELLE : WORKFLOW DES DEMANDES ET OFFRES
+================================================================================
+Ce document décrit le cycle de vie et les règles de gestion appliquées aux
+demandes (QuoteRequest & DirectRequest) et aux offres (Offer) sur Drilleedo.
+
+--------------------------------------------------------------------------------
+1. WORKFLOW DES DEMANDES (CÔTÉ PARTICULIER)
+--------------------------------------------------------------------------------
+
+1. BROUILLON (DRAFT)
+- État initial après création.
+- Visible uniquement par le Particulier.
+- Actions possibles : Modifier, Supprimer, Publier.
+
+2. PUBLIÉE (PUBLISHED)
+- État après publication par le Particulier.
+- Visible par les Professionnels concernés.
+- VERROUILLAGE : La demande n'est plus modifiable.
+- Peut recevoir des offres de la part des Professionnels.
+
+3. ACCEPTÉE (ACCEPTED)
+- Passage automatique dès qu'une offre est acceptée par le Particulier.
+- Indique qu'un accord est trouvé avec un prestataire spécifique.
+
+4. CLÔTURÉE (CLOSED)
+- État final déclenché automatiquement quand l'offre acceptée est clôturée.
+- ❌ Ne peut plus recevoir de nouvelles offres.
+- ❌ Aucune action ultérieure n'est possible sur cette demande.
+
+--------------------------------------------------------------------------------
+2. WORKFLOW DES OFFRES (CÔTÉ PROFESSIONNEL)
+--------------------------------------------------------------------------------
+
+1. BROUILLON (DRAFT)
+- État privé, non visible par le Particulier.
+- Actions possibles : Modifier, Supprimer, Publier.
+
+2. PUBLIÉE (PUBLISHED)
+- Envoyée officiellement au Particulier.
+- IMMUTABILITÉ : L'offre ne peut plus être modifiée une fois publiée.
+- En attente de la décision du Particulier.
+
+3. REJECTÉE (REJECTED)
+- L'offre est refusée par le Particulier.
+- État final pour cette offre spécifique.
+
+4. ACCEPTÉE (ACCEPTED)
+- L'offre est acceptée par le Particulier.
+- La demande parente passe immédiatement en état "ACCEPTED".
+- Débloque l'action "Finaliser" pour le Professionnel.
+
+5. CLÔTURÉE (CLOSED)
+- Déclenché par le Professionnel après la réalisation du service (Action "Finaliser").
+- CLÔTURE AUTOMATIQUE : Entraîne la clôture automatique de la demande parente.
+- État final.
+
+--------------------------------------------------------------------------------
+3. RÈGLES CŒUR ET SÉCURITÉ
+--------------------------------------------------------------------------------
+- Une offre CLÔTURÉE clôture toujours sa demande parente.
+- Une demande CLÔTURÉE ne doit jamais accepter de nouvelles offres.
+- L'immutabilité est appliquée dès la publication pour garantir la traçabilité.
+- Les transitions d'état sont définitives pour les états terminaux (REJECTED, CLOSED).
+================================================================================

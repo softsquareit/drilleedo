@@ -94,12 +94,20 @@
                                         <span class="pro-text-primary pro-fw-bold">{{ offer.price|number_format(2) }} $</span>
                                     </td>
                                     <td>
-                                        {% if offer.status == 'PENDING' %}
-                                            <span class="pro-badge warning">Pending</span>
-                                        {% elseif offer.status == 'ACCEPTED' %}
-                                            <span class="pro-badge success">Accepted</span>
+                                        {% if offer.status == 'DRAFT' %}
+                                            <span class="pro-badge secondary"><i class="feather-file" style="font-size:0.65rem;"></i> Draft</span>
+                                        {% elseif offer.status == 'PUBLISHED' %}
+                                            <span class="pro-badge info"><i class="feather-send" style="font-size:0.65rem;"></i> Sent</span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="pro-badge danger">Rejected</span>
+                                            <span class="pro-badge warning"><i class="feather-clock" style="font-size:0.65rem;"></i> In Review</span>
+                                        {% elseif offer.status == 'ACCEPTED' %}
+                                            {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
+                                                <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Completed</span>
+                                            {% else %}
+                                                <span class="pro-badge success"><i class="feather-check-circle" style="font-size:0.65rem;"></i> Accepted</span>
+                                            {% endif %}
+                                        {% elseif offer.status == 'REJECTED' %}
+                                            <span class="pro-badge danger"><i class="feather-x-circle" style="font-size:0.65rem;"></i> Rejected</span>
                                         {% else %}
                                             <span class="pro-badge secondary">{{ offer.status }}</span>
                                         {% endif %}
@@ -113,33 +121,6 @@
                                                 <i class="feather-check-circle"></i> Finalize
                                             </button>
 
-                                            <!-- Finalize Modal -->
-                                            <div class="modal fade" id="finalizeModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
-                                                        <div class="modal-body p-4 text-center">
-                                                            <div class="mb-4">
-                                                                <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(16, 185, 129, 0.1); color: var(--pro-success);">
-                                                                    <i class="feather-check-circle"></i>
-                                                                </div>
-                                                            </div>
-                                                            <h4 class="fw-bold text-dark mb-2">Finalize Request?</h4>
-                                                            <p class="text-muted px-4 mb-4">Mark this request as completed? The individual will be notified that the work is successfully done.</p>
-                                                            <div class="d-flex flex-column gap-3 mt-4">
-                                                                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
-                                                                    <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                                                                    <button type="submit" class="pro-btn pro-btn-primary w-100 py-3 justify-content-center">
-                                                                        <i class="feather-check-circle"></i> Yes, Mark as Completed
-                                                                    </button>
-                                                                </form>
-                                                                <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
-                                                                    No, Not Yet
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         {% elseif offer.quoteRequest %}
                                             <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-action-badge view">
                                                 <i class="feather-eye"></i> View
@@ -181,7 +162,7 @@
                         <h4 class="pro-card-title">
                             Notifications
                             {% if unreadCount > 0 %}
-                                <span class="pro-badge danger" style="font-size:0.7rem; vertical-align:middle; margin-left:6px;">{{ unreadCount }}</span>
+                                <span class="pro-badge danger" style="font-size:1rem; vertical-align:middle; margin-left:6px;">{{ unreadCount }}</span>
                             {% endif %}
                         </h4>
                     </div>
@@ -212,7 +193,7 @@
                                 <p class="mb-1 {{ not notification.read ? 'pro-fw-semibold' : '' }}" style="font-size:1rem; line-height:1.4; color:var(--pro-text-dark,#1e293b);">
                                     {{ notification.title }}
                                 </p>
-                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:1.4rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
+                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:1.1rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
                                 <small class="pro-text-muted" style="font-size:1rem;">{{ notification.createdAt|date('M d, H:i') }}</small>
                             </div>
                         </div>
@@ -228,4 +209,39 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    {% for offer in recentOffers %}
+        {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
+            <!-- Finalize Modal -->
+            <div class="modal fade" id="finalizeModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
+                        <div class="modal-body p-4 text-center">
+                            <div class="mb-4">
+                                <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(16, 185, 129, 0.1); color: var(--pro-success);">
+                                    <i class="feather-check-circle"></i>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">Finalize Request?</h4>
+                            <p class="text-muted px-4 mb-4">Mark this request as completed? The individual will be notified that the work is successfully done.</p>
+                            <div class="d-flex flex-column gap-3 mt-4">
+                                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                                    <button type="submit" class="pro-btn pro-btn-primary w-100 py-3 justify-content-center">
+                                        <i class="feather-check-circle"></i> Yes, Mark as Completed
+                                    </button>
+                                </form>
+                                <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
+                                    No, Not Yet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

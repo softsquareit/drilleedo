@@ -15,6 +15,12 @@ class Offer
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+ 
+    public const STATUS_DRAFT = 'DRAFT';
+    public const STATUS_PUBLISHED = 'PUBLISHED';
+    public const STATUS_REJECTED = 'REJECTED';
+    public const STATUS_ACCEPTED = 'ACCEPTED';
+    public const STATUS_CLOSED = 'CLOSED';
 
     #[ORM\Column]
     private ?float $price = null;
@@ -49,7 +55,7 @@ class Offer
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->status = 'PENDING';
+        $this->status = self::STATUS_DRAFT;
     }
 
     public function getId(): ?int

@@ -104,11 +104,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show success toast/alert could be added here
             } else {
-                alert('Error: ' + (result.error || 'Unknown error occurred'));
+                globalAlert('Error: ' + (result.error || 'Unknown error occurred'), 'Upload Failed');
             }
         } catch (error) {
             console.error('Upload failed:', error);
-            alert('An error occurred during upload.');
+            globalAlert('An error occurred during upload.', 'Network Error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnText;

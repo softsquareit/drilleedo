@@ -34,8 +34,8 @@ class ProfessionalController extends AbstractController
         $quoteCount = 0;
         $availableQuotes = [];
         if ($user instanceof \App\Entity\Professional && $user->getCategory()) {
-            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
-            $availableQuotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), ['Pending', 'Active']));
+            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findBy(['category' => $user->getCategory()]);
+            $availableQuotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), [\App\Entity\QuoteRequest::STATUS_PUBLISHED]));
             $quoteCount = count($availableQuotes);
         }
 
@@ -45,7 +45,7 @@ class ProfessionalController extends AbstractController
             ['createdAt' => 'DESC']
         );
         $offerCount = count($allOffers);
-        $acceptedCount = count(array_filter($allOffers, fn($o) => $o->getStatus() === 'ACCEPTED'));
+        $acceptedCount = count(array_filter($allOffers, fn($o) => $o->getStatus() === \App\Entity\Offer::STATUS_ACCEPTED));
         $recentOffers = array_slice($allOffers, 0, 5);
 
         // Notifications — recent, ordered newest first
@@ -76,10 +76,14 @@ class ProfessionalController extends AbstractController
         $quotes = [];
         $myOfferQuoteIds = [];
         if ($user->getCategory()) {
-            //$allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
-            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findAll();
-            // Filter: only show Active/Pending requests
-            $quotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), ['Pending', 'Active', 'Accepted']));
+            $allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findByCategory($user->getCategory());
+            //$allQuotes = $em->getRepository(\App\Entity\QuoteRequest::class)->findAll();
+            // Filter: only show Published or Accepted requests
+            $quotes = array_filter($allQuotes, fn($q) => in_array($q->getStatus(), [
+                \App\Entity\QuoteRequest::STATUS_PUBLISHED, 
+                \App\Entity\QuoteRequest::STATUS_ACCEPTED,
+                \App\Entity\QuoteRequest::STATUS_CLOSED
+            ]));
             $quotes = array_values($quotes);
             // Find which quotes this provider already sent an offer to
             $myOffers = $em->getRepository(\App\Entity\Offer::class)->findBy(['provider' => $user]);
@@ -112,10 +116,26 @@ class ProfessionalController extends AbstractController
     #[Route('/offers', name: 'professional_offers')]
     public function offers(EntityManagerInterface $em): Response
     {
-        $offers = $em->getRepository(\App\Entity\Offer::class)->findByProvider($this->getUser());
+        $offers = $em->getRepository(\App\Entity\Offer::class)->findBy(['provider' => $this->getUser()], ['createdAt' => 'DESC']);
+
+        $editForms = [];
+        foreach ($offers as $offer) {
+            if ($offer->getStatus() === \App\Entity\Offer::STATUS_DRAFT) {
+                if ($offer->getQuoteRequest()) {
+                    $editForms[$offer->getId()] = $this->createForm(\App\Form\OfferType::class, $offer, [
+                        'action' => $this->generateUrl('offer_send', ['id' => $offer->getQuoteRequest()->getId()]),
+                    ])->createView();
+                } elseif ($offer->getDirectRequest()) {
+                    $editForms[$offer->getId()] = $this->createForm(\App\Form\OfferType::class, $offer, [
+                        'action' => $this->generateUrl('offer_send_direct', ['id' => $offer->getDirectRequest()->getId()]),
+                    ])->createView();
+                }
+            }
+        }
 
         return $this->render('professional/offers.html.twig', [
             'offers' => $offers,
+            'editForms' => $editForms,
         ]);
     }
 

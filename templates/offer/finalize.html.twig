@@ -38,7 +38,7 @@
 
             {# Actions #}
             <div class="d-flex flex-column gap-3">
-                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" onsubmit="return confirm('Are you sure? This will close the request permanently.');">
+                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" data-confirm="Are you sure? This will close the request permanently.">
                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                     <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg w-100">
                         <i class="feather-check"></i> Mark as Completed

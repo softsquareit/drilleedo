@@ -15,7 +15,7 @@
     /* Orange from index */
     --indiv-secondary-hover: #e65a2b;
     /* Darker Orange */
-    --indiv-accent: #4fc3f7;
+    --indiv-accent: #0690cd;
     /* Light Blue Button from index */
     --indiv-accent-hover: #29b6f6;
 
@@ -86,7 +86,7 @@ h6,
 .pro-btn-primary,
 .btn-primary,
 .indiv-btn-primary {
-    background: var(--indiv-secondary);
+    background: var(--indiv-primary);
     color: var(--indiv-bg-white);
     border: none;
     border-radius: var(--indiv-radius-full);
@@ -109,7 +109,40 @@ h6,
 .pro-btn-primary:hover,
 .btn-primary:hover,
 .indiv-btn-primary:hover {
-    background: var(--indiv-secondary-hover);
+    background: var(--indiv-primary-hover);
+    box-shadow: var(--indiv-shadow-hover);
+    color: var(--indiv-bg-white);
+}
+
+
+
+.pro-btn-primary-light,
+.btn-primary-light,
+.indiv-btn-primary-light {
+    background: var(--indiv-accent);
+    color: var(--indiv-bg-white);
+    border: none;
+    border-radius: var(--indiv-radius-full);
+    padding: 14px 28px;
+    /* Increased padding for comfortable size */
+    font-weight: 600;
+    font-size: 1.3rem;
+    /* Larger text for actions */
+    font-family: 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--indiv-shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.pro-btn-primary-light:hover,
+.btn-primary-light:hover,
+.indiv-btn-primary-light:hover {
+    background: var(--indiv-accent-hover);
     box-shadow: var(--indiv-shadow-hover);
     color: var(--indiv-bg-white);
 }
@@ -143,6 +176,70 @@ h6,
     background: var(--indiv-primary);
     color: var(--indiv-bg-white);
 }
+
+
+/* Secondary Action Button (Blue) */
+.pro-btn-outline,
+.btn-outline,
+.indiv-btn-danger {
+    background: transparent;
+    color: var(--indiv-danger);
+    border: 2px solid var(--indiv-danger);
+    border-radius: var(--indiv-radius-full);
+    padding: 12px 26px;
+    /* Accounting for border */
+    font-weight: 600;
+    font-size: 1.1rem;
+    /* Larger text */
+    font-family: 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.pro-btn-outline:hover,
+.btn-outline:hover,
+.indiv-btn-danger:hover {
+    background: var(--indiv-danger);
+    color: var(--indiv-bg-white);
+}
+
+
+.pro-btn-success,
+.btn-success,
+.indiv-btn-success {
+    background: var(--indiv-success);
+    color: var(--indiv-bg-white);
+    border: none;
+    border-radius: var(--indiv-radius-full);
+    padding: 14px 28px;
+    /* Increased padding for comfortable size */
+    font-weight: 600;
+    font-size: 1.3rem;
+    /* Larger text for actions */
+    font-family: 'Instrument Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--indiv-shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.pro-btn-success:hover,
+.btn-success:hover,
+.indiv-btn-success:hover {
+    background: var(--indiv-primary-hover);
+    box-shadow: var(--indiv-shadow-hover);
+    color: var(--indiv-bg-white);
+}
+
 
 .pro-btn-sm {
     padding: 10px 20px;
@@ -448,7 +545,7 @@ h6,
     align-items: center;
     padding: 4px 12px;
     border-radius: var(--indiv-radius-full);
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 600;
     line-height: 1.2;
 }
@@ -549,7 +646,7 @@ h6,
     border: 1px solid var(--indiv-border);
     border-radius: var(--indiv-radius-md);
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: var(--indiv-text-main);
     background-color: var(--indiv-bg-white);
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -677,4 +774,39 @@ h6,
 .pro-empty-text {
     color: var(--indiv-text-muted);
     font-size: 1rem;
+}
+
+/* ==========================================================================
+   MODAL INTERACTIVITY SAFETY NET (Final Fix)
+   ========================================================================== */
+.modal {
+    z-index: 2050 !important;
+}
+
+.modal-backdrop {
+    z-index: 2040 !important;
+}
+
+/* Ensure modal content is clickable and backdrop is NOT covering it */
+.modal.show {
+    pointer-events: auto !important;
+    display: block !important;
+}
+
+.modal-dialog {
+    z-index: 2051 !important;
+    pointer-events: auto !important;
+}
+
+/* Prevent accidental click blocking by dashboard elements when modal is open */
+body.modal-open .pro-dashboard-body,
+body.modal-open .rbt-dashboard-area,
+body.modal-open .rbt-header,
+body.modal-open .rbt-footer {
+    pointer-events: none !important;
+}
+
+body.modal-open .modal,
+body.modal-open .modal-backdrop {
+    pointer-events: auto !important;
 }

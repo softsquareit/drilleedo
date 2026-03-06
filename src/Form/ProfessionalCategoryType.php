@@ -14,14 +14,29 @@ class ProfessionalCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('parentCategory', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'label' => 'Industry/Sector',
+                'placeholder' => 'Select industry',
+                'mapped' => false,
+                'required' => false,
+                'query_builder' => function(\App\Repository\CategoryRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.parent IS NULL')
+                        ->orderBy('c.name', 'ASC');
+                },
+                'attr' => ['class' => 'form-select parent-category-select']
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name', 
                 'multiple' => false,
                 'expanded' => false,
-                'placeholder' => 'Select a category',
-                'label' => false,
-                'attr' => ['class' => 'form-select form-select-lg']
+                'placeholder' => 'Select a sub-category',
+                'label' => 'Specific Service',
+                'required' => true,
+                'attr' => ['class' => 'form-select child-category-select']
             ]);
     }
 

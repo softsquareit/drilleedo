@@ -350,7 +350,7 @@
                 confirmPassBtn.addEventListener('click', function() {
                     const password = newPasswordInput.value;
                     if(!password) {
-                        alert('Please enter a password');
+                        globalAlert('Please enter a password', 'Validation Error');
                         return;
                     }
                     
@@ -853,7 +853,7 @@
                 </div>
                  <div class="modal-footer">
                     <button type="button" class="btn btn-zen-secondary" data-bs-dismiss="modal">Cancel</button>
-                    {{ form_widget(projectForm.save, {'attr': {'class': 'btn btn-zen-primary'}}) }}
+                    <button type="submit" class="btn btn-zen-primary">Save</button>
                 </div>
                 {{ form_end(projectForm) }}
              </div>

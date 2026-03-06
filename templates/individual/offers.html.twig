@@ -44,7 +44,7 @@
                                         {{ providerName|slice(0, 1)|upper }}
                                     </div>
                                     <div>
-                                        <span class="fw-bold d-block text-dark" style="font-size: 1.05rem;">{{ providerName }}</span>
+                                        <span class="fw-bold d-block text-dark" style="font-size: 1.4rem;">{{ providerName }}</span>
                                         <span class="text-muted small" style="font-size: 1rem;">{{ offer.provider.getType() }}</span>
                                     </div>
                                 </div>
@@ -55,9 +55,11 @@
                             </td>
                             <td>
                                 {% set offerStatusMap = {
-                                    'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                                    'DRAFT': {'class': 'secondary', 'label': 'Draft', 'icon': 'feather-file'},
+                                    'PUBLISHED': {'class': 'info', 'label': 'New', 'icon': 'feather-star'},
                                     'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                                    'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'}
+                                    'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'},
+                                    'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'}
                                 } %}
                                 {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
                                 <span class="pro-badge {{ offerInfo.class }}">
@@ -71,16 +73,16 @@
                                     </a>
 
                                     {% if parentRequest.status not in ['Closed'] %}
-                                        {% if offer.status|upper == 'PENDING' %}
+                                        {% if offer.status|upper == 'PUBLISHED' %}
                                             <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                                  onsubmit="return confirm('Accept this offer? This will notify the provider.');">
+                                                  data-confirm="Accept this offer? All other pending offers will be automatically rejected.">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                                 <button type="submit" class="indiv-action-badge view" style="color: var(--indiv-success); background: var(--indiv-success-bg);">
                                                     <i class="feather-check"></i> Accept
                                                 </button>
                                             </form>
                                             <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                                  onsubmit="return confirm('Reject this offer?');">
+                                                  data-confirm="Reject this offer?">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                                 <button type="submit" class="indiv-action-badge delete">
                                                     <i class="feather-x"></i> Reject

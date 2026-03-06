@@ -34,7 +34,7 @@
                         <tr>
                             <td>
                                 <div>
-                                    <span class="fw-bold d-block text-dark" style="font-size: 1.05rem;">{{ request.title }}</span>
+                                    <span class="fw-bold d-block text-dark" style="font-size: 1.4rem;">{{ request.title }}</span>
                                     <div class="text-muted small mt-1" style="font-size: 1rem;">
                                         <i class="feather-calendar me-1"></i>Sent {{ request.creationDate|date('M d, Y') }}
                                     </div>
@@ -75,7 +75,7 @@
                             </td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="pro-stat-icon info m-0" style="width: 32px; height: 32px; font-size: 1rem;">
+                                    <div class="pro-stat-icon info m-0" style="width: 32px; height: 32px; font-size: 1.4rem;">
                                         {{ request.offers|length }}
                                     </div>
                                     <span class="text-muted small" style="font-size: 1rem;">Offer{{ request.offers|length != 1 ? 's' : '' }}</span>
@@ -84,14 +84,14 @@
                             <td>
                                 {% set stField = request.status|upper %}
                                 {% set statusInfo = {
-                                    'PENDING': {'class': 'warning', 'label': 'Pending', 'icon': 'feather-clock'},
+                                    'DRAFT': {'class': 'secondary', 'label': 'Draft', 'icon': 'feather-file'},
+                                    'PUBLISHED': {'class': 'info', 'label': 'Published', 'icon': 'feather-globe'},
                                     'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                                    'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'},
-                                    'ACCEPTÉ': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                    'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'}
                                 } %}
                                 {% set st = statusInfo[stField]|default({'class': 'secondary', 'label': request.status, 'icon': 'feather-help-circle'}) %}
                                 <span class="pro-badge {{ st.class }}">
-                                    <i class="{{ st.icon }} me-1"></i>{{ st.label }}
+                                    <i class="{{ st.icon }} me-1" style="font-size:0.65rem;"></i>{{ st.label }}
                                 </span>
                             </td>
                             <td class="text-end">
@@ -108,7 +108,7 @@
                                 </div>
                                 <h5 class="fw-bold text-dark">No direct requests sent</h5>
                                 <p class="text-muted mb-4">You haven't sent any direct requests to professionals or companies yet.</p>
-                                <a href="{{ path('professionals_list') }}" class="indiv-btn-primary px-4">
+                                <a href="{{ path('professionals_list') }}" class="indiv-btn-primary-light px-4">
                                     <i class="feather-search me-2"></i> Find Professionals
                                 </a>
                             </td>

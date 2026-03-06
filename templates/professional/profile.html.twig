@@ -13,7 +13,7 @@
                 <h4 class="pro-card-title">My Profile</h4>
                 <p class="pro-card-subtitle">View and manage your professional information</p>
             </div>
-            <button type="button" class="pro-btn pro-btn-primary pro-btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+            <button type="button" class="pro-btn pro-btn-primary-light pro-btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                 <i class="feather-edit"></i> Edit Profile
             </button>
         </div>
@@ -219,8 +219,19 @@
 
                         <div class="col-lg-6">
                             <div class="pro-form-group">
-                                <label class="pro-form-label" for="{{ form.category.vars.id }}">Business Category</label>
-                                {{ form_widget(form.category, {'attr': {'class': 'pro-form-select form-select'}}) }}
+                                <label class="pro-form-label" for="{{ form.parentCategory.vars.id }}">Industry/Sector</label>
+                                {{ form_widget(form.parentCategory, {'attr': {'class': 'pro-form-select form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
+                                {{ form_errors(form.parentCategory) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="pro-form-label" for="{{ form.category.vars.id }}">Specific Service</label>
+                                {{ form_widget(form.category, {
+                                    'attr': {
+                                        'class': 'pro-form-select form-select child-category-select selectpicker',
+                                        'data-selected-id': app.user.category ? app.user.category.id : '',
+                                        'data-live-search': 'true'
+                                    }
+                                }) }}
                                 {{ form_errors(form.category) }}
                             </div>
                         </div>
@@ -278,7 +289,7 @@
                     <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">
                         <i class="feather-x"></i> Cancel
                     </button>
-                    <button type="submit" form="profileUpdateForm" class="pro-btn pro-btn-primary">
+                    <button type="submit" form="profileUpdateForm" class="pro-btn pro-btn-success">
                         <i class="feather-save"></i> Save Changes
                     </button>
                 </div>

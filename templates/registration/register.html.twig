@@ -2,6 +2,11 @@
 
 {% block title %}Register{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <!-- Start breadcrumb Area -->
     <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
@@ -75,10 +80,17 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold text-dark">Category <span class="text-danger">*</span></label>
-                                        {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select form-select-lg py-3'}}) }}
-                                        <div class="text-danger small mt-1">{{ form_errors(professionalForm.category) }}</div>
+                                    <div class="row mb-4">
+                                        <div class="col-lg-6 mb-4 mb-lg-0">
+                                            <label class="form-label fw-bold text-dark">Industry/Sector <span class="text-danger">*</span></label>
+                                            {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select form-select-lg py-3'}}) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.parentCategory) }}</div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="form-label fw-bold text-dark">Specific Service <span class="text-danger">*</span></label>
+                                            {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select form-select-lg py-3'}}) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.category) }}</div>
+                                        </div>
                                     </div>
 
                                     <div class="row mb-4">
@@ -107,7 +119,7 @@
                                     </div>
 
                                     <div class="form-submit-group mt-4">
-                                        <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100 fs-5 rounded-3">
+                                        <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100 fs-5 rounded-3 pro-submit-btn">
                                             <span class="icon-reverse-wrapper">
                                                 <span class="btn-text">Create my professional account</span>
                                                 <span class="btn-icon"><i class="feather-arrow-right"></i></span>

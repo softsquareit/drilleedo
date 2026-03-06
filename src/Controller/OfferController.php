@@ -26,14 +26,26 @@ class OfferController extends AbstractController
             throw $this->createAccessDeniedException('Only businesses can send offers.');
         }
 
+        // Check if parent request is closed
+        if ($quote->getStatus() === QuoteRequest::STATUS_CLOSED) {
+            $this->addFlash('error', 'This request is closed and no longer accepts offers.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
         // Check if offer already sent
         $offer = $em->getRepository(Offer::class)->findOneBy(['quoteRequest' => $quote, 'provider' => $user]);
         
+        if ($offer && $offer->getStatus() !== Offer::STATUS_DRAFT) {
+            $this->addFlash('warning', 'Only draft offers can be edited.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
         $isEdit = (bool) $offer;
         if (!$offer) {
             $offer = new Offer();
             $offer->setQuoteRequest($quote);
             $offer->setProvider($user);
+            $offer->setStatus(Offer::STATUS_DRAFT);
         }
 
         $form = $this->createForm(OfferType::class, $offer);
@@ -54,11 +66,23 @@ class OfferController extends AbstractController
                 $offer->setUpdatedAt(new \DateTime());
             }
 
+            // Handle Transitions
+            $shouldNotify = false;
+            $action = $request->request->get('action'); // draft or publish
+
+            if ($action === 'publish' && $offer->getStatus() === Offer::STATUS_DRAFT) {
+                $offer->setStatus(Offer::STATUS_PUBLISHED);
+                $shouldNotify = true;
+            } elseif ($offer->getStatus() === Offer::STATUS_PUBLISHED) {
+                 // In theory forbidden by the controller check above, but for consistency:
+                 $shouldNotify = $isEdit; 
+            }
+
             $em->persist($offer);
             
-            // Notification for Individual
+            // Notification for Individual (only if published/updated)
             $individual = $quote->getIndividual();
-            if ($individual) {
+            if ($individual && $shouldNotify) {
                 $providerName = $user->getCompanyName() ?? $user->getTradeName() ?? 'a provider';
                 $notification = new Notification();
                 $notification->setUser($individual);
@@ -108,6 +132,11 @@ class OfferController extends AbstractController
             throw $this->createNotFoundException('Direct request not found');
         }
 
+        if ($directRequest->getStatus() === \App\Entity\DirectRequest::STATUS_CLOSED) {
+            $this->addFlash('error', 'This request is closed and no longer accepts offers.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
         $offer = new Offer();
         $offer->setDirectRequest($directRequest);
         $offer->setProvider($user);
@@ -126,6 +155,7 @@ class OfferController extends AbstractController
                 $offer->setDocuments($docPaths);
             }
 
+            $offer->setStatus(Offer::STATUS_PUBLISHED);
             $em->persist($offer);
             
             // Notification for Individual
@@ -163,7 +193,7 @@ class OfferController extends AbstractController
     }
 
     /**
-     * Professional deletes their own PENDING offer
+     * Professional deletes their own DRAFT offer
      */
     #[Route('/{id}/delete', name: 'offer_delete', methods: ['POST'])]
     #[IsGranted('ROLE_BUSINESS')]
@@ -174,8 +204,8 @@ class OfferController extends AbstractController
             throw $this->createAccessDeniedException('This is not your offer.');
         }
 
-        if ($offer->getStatus() !== 'PENDING') {
-            $this->addFlash('error', 'Only pending offers can be deleted.');
+        if ($offer->getStatus() !== Offer::STATUS_DRAFT) {
+            $this->addFlash('error', 'Only draft offers can be deleted.');
             return $this->redirectToRoute('professional_offers');
         }
 
@@ -230,31 +260,37 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('professional_offers');
         }
 
-        // Mark the QuoteRequest as Closed
+        // Mark the Parent Request as Closed
         $quote = $offer->getQuoteRequest();
-        if ($quote) {
-            $quote->setStatus('Closed');
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quote ?? $directRequest;
+
+        if ($parentRequest) {
+            $parentRequest->setStatus($parentRequest instanceof QuoteRequest ? QuoteRequest::STATUS_CLOSED : \App\Entity\DirectRequest::STATUS_CLOSED);
         }
 
+        // Mark the Offer as Closed
+        $offer->setStatus(Offer::STATUS_CLOSED);
+
         // Notify the Individual
-        if ($quote && $quote->getIndividual()) {
+        if ($parentRequest && $parentRequest->getIndividual()) {
             $notification = new Notification();
-            $notification->setUser($quote->getIndividual());
+            $notification->setUser($parentRequest->getIndividual());
             $notification->setTitle('Request Completed');
             $notification->setMessage(sprintf(
-                'Good news! %s has marked your request "%s" as completed.',
+                'Good news! %s has confirmed the work for your request "%s" as completed and closed.',
                 $user->getCompanyName() ?? 'Your provider',
-                $quote->getTitle()
+                $parentRequest->getTitle()
             ));
-            $notification->setRelatedEntityId($quote->getId());
-            $notification->setRelatedEntityType('quote');
+            $notification->setRelatedEntityId($parentRequest->getId());
+            $notification->setRelatedEntityType($quote ? 'quote' : 'direct_request');
             $notification->setRead(false);
             $em->persist($notification);
         }
 
         $em->flush();
 
-        $this->addFlash('success', 'Request finalized! The individual has been notified that the work is complete.');
+        $this->addFlash('success', 'Request finalized and closed. Thank you for your service!');
 
         if ($this->isGranted('ROLE_COMPANY')) {
             return $this->redirectToRoute('company_dashboard');
