@@ -1,0 +1,231 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+
+{% block body %}
+  <a class="close_side_menu" href="javascript:void(0);"></a>
+
+    <div class="rbt-page-banner-wrapper">
+        <!-- Start Banner BG Image  -->
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/companies.png') }}');"></div>
+        <!-- End Banner BG Image  -->
+        <div class="rbt-banner-content">
+
+            <!-- Start Banner Content Top  -->
+            <div class="rbt-banner-content-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- Start Breadcrumb Area  -->
+                            <ul class="page-list">
+                                <li class="rbt-breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li>
+                                    <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                                </li>
+                                <li class="rbt-breadcrumb-item active">All Companies</li>
+                            </ul>
+                            <!-- End Breadcrumb Area  -->
+
+                            <div class="title-wrapper">
+                                <h1 class="hero-main-title" style="font-size: var(--h1);">Professionals Near You</h1>
+                                <a href="#" class="rbt-badge-2">
+                                    {{ activeFilters.categories is not empty or activeFilters.cities is not empty ? companies|length ~ ' Results' : 'Companies listed' }}
+                                </a>
+                            </div>
+
+
+<span class="hero-tagline-orange">Professional companies for every project.</span>
+<p class="description"><b>
+ Discover verified companies offering renovation, construction, and home improvement services.
+</b></p>
+<div class="hero-service-icons">
+<!-- Using simple SVGs for icons as placeholders for now -->
+
+
+<div class="hero-service-icon" title="Plants">
+<i class="fas fa-leaf"></i>
+</div>
+
+
+<div class="hero-service-icon" title="Light">
+<i class="fas fa-lightbulb"></i>
+</div>
+
+
+<div class="hero-service-icon" title="Wrench">
+<i class="fas fa-wrench"></i>
+</div>
+
+<div class="hero-service-icon" title="Hammer">
+<i class="fas fa-hammer"></i>
+</div>
+<div class="about-buttons-row">
+<button class="about-pill-btn btn-solid-blue">  Request a Quote</button>
+</div>
+
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Banner Content Top  -->
+        </div>
+    </div>
+
+    <div class="rbt-counterup-area rbt-section-overlayping-top rbt-section-gapBottom">
+        <div class="container">
+            <div class="row row--30 gy-5">
+                <div class="col-lg-4 col-xl-3 order-2 order-lg-1">
+                    <aside class="rbt-sidebar-widget-wrapper rbt-gradient-border">
+                        <form action="{{ path('companies_list') }}" method="GET">
+
+                        <!-- Start Category Filter -->
+                        <div class="rbt-single-widget rbt-widget-categories has-show-more">
+                            <div class="inner">
+                                <h4 class="rbt-widget-title">Service Categories</h4>
+                                <ul class="rbt-sidebar-list-wrapper categories-list-check has-show-more-inner-content">
+                                    {% for cat in allCategories %}
+                                    <li class="rbt-check-group">
+                                        <input id="cat-{{ cat.id }}" type="checkbox" name="categories[]" value="{{ cat.id }}"
+                                            {% if cat.id in activeFilters.categories %}checked{% endif %}
+                                            onchange="this.form.submit()">
+                                        <label for="cat-{{ cat.id }}">{{ cat.name }} <span class="rbt-lable count">{{ categoryCounts[cat.id] ?? 0 }}</span></label>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="rbt-show-more-btn">Show More</div>
+                        </div>
+                        <!-- End Category Filter -->
+
+                        <!-- Start Location Filter -->
+                        <div class="rbt-single-widget rbt-widget-categories">
+                            <div class="inner">
+                                <h4 class="rbt-widget-title">Location</h4>
+                                <ul class="rbt-sidebar-list-wrapper categories-list-check">
+                                    {% for city in allCities %}
+                                    <li class="rbt-check-group">
+                                        <input id="city-{{ loop.index }}" type="checkbox" name="cities[]" value="{{ city }}"
+                                            {% if city in activeFilters.cities %}checked{% endif %}
+                                            onchange="this.form.submit()">
+                                        <label for="city-{{ loop.index }}">{{ city }} <span class="rbt-lable count">{{ cityCounts[city] ?? 0 }}</span></label>
+                                    </li>
+                                    {% else %}
+                                    <li>No cities available</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End Location Filter -->
+
+                        <!-- Start Tags -->
+                        <div class="rbt-single-widget rbt-widget-tag">
+                            <div class="inner">
+                                <div class="mt-4">
+                                    <button type="submit" class="rbt-btn btn-gradient btn-sm w-100">Apply Filters</button>
+                                    {% if activeFilters.categories is not empty or activeFilters.cities is not empty %}
+                                        <a href="{{ path('companies_list') }}" class="rbt-btn btn-border btn-sm w-100 mt-2 text-center">Clear Filters</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Tags -->
+
+                        </form>
+                    </aside>
+                </div>
+
+                <div class="col-lg-8 col-xl-9 order-1 order-lg-2">
+                    <div class="row g-5">
+
+                        <!-- Start Single Company Loop -->
+                        {% for company in companies %}
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                            <div class="rbt-card event-grid-card variation-01 rbt-hover">
+                                <div class="rbt-card-img">
+                                    <a href="{{ path('company_details', {'id': company.id}) }}">
+                                        <img src="{{ company.banner ? asset('uploads/banners/' ~ company.banner) : asset('assets/images/event/grid-type-01.jpg') }}" alt="Banner image" style="height: 200px; object-fit: cover;">
+                                    </a>
+                                </div>
+                                <div class="rbt-card-body">
+                                    <ul class="rbt-meta border-bottom pb-3 mb-3">
+                                        <li><i class="feather-map-pin"></i>{{ company.Adresse|first.city|default('Location not set') }}</li>
+                                        {% if company.foundationYear %}
+                                        <li><i class="feather-clock"></i>Est. {{ company.foundationYear }}</li>
+                                        {% endif %}
+                                    </ul>
+                                    
+                                    <div class="d-flex align-items-center mb-3">
+                                        {% if company.logo %}
+                                            <img src="{{ asset('uploads/logos/' ~ company.logo) }}" alt="Logo" class="rounded-circle me-3 border shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% endif %}
+                                        <h4 class="rbt-card-title mb-0">
+                                            <a href="{{ path('company_details', {'id': company.id}) }}">
+                                                {{ company.companyName ?? company.email }}
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    {% if company.categories is not empty %}
+                                    <p class="mb-3 text-muted" style="font-size: 14px;"><i class="feather-tag me-1"></i>{{ company.categories|first.name }}</p>
+                                    {% endif %}
+
+                                    <div class="read-more-btn mt-4">
+                                        <a class="rbt-btn btn-border hover-icon-reverse btn-sm radius-round w-100 text-center" href="{{ path('company_details', {'id': company.id}) }}">
+                                            <span class="icon-reverse-wrapper">
+                                                <span class="btn-text">View Details</span>
+                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-info">Aucune entreprise trouvée.</div>
+                        </div>
+                        {% endfor %}
+                        <!-- End Single Company Loop -->
+
+            </div>
+                    </div>
+                    
+                    {% if totalPages > 1 %}
+                    <div class="row">
+                        <div class="col-lg-12 mt--60">
+                            <nav>
+                                <ul class="rbt-pagination">
+                                    {% if currentPage > 1 %}
+                                    <li><a href="{{ path('companies_list', app.request.query.all|merge({'page': currentPage - 1})) }}" aria-label="Previous"><i class="feather-chevron-left"></i></a></li>
+                                    {% endif %}
+                                    
+                                    {% for i in 1..totalPages %}
+                                    <li class="{% if i == currentPage %}active{% endif %}">
+                                        <a href="{{ path('companies_list', app.request.query.all|merge({'page': i})) }}">{{ i }}</a>
+                                    </li>
+                                    {% endfor %}
+                                    
+                                    {% if currentPage < totalPages %}
+                                    <li><a href="{{ path('companies_list', app.request.query.all|merge({'page': currentPage + 1})) }}" aria-label="Next"><i class="feather-chevron-right"></i></a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rbt-separator-mid">
+        <div class="container">
+            <hr class="rbt-separator m-0">
+        </div>
+    </div>
+    <!-- Start Footer aera -->
+
+{% endblock %}

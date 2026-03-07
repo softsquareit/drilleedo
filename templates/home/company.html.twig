@@ -7,10 +7,11 @@
     <!-- Menus are handled by base.html.twig -->
 
 <!-- Start breadcrumb Area -->
-<div class="rbt-breadcrumb-default rbt-breadcrumb-style-3">
-    <div class="breadcrumb-inner breadcrumb-dark">
-        <img src="https://softsquareit.com/drilleedo/assets/images/bg/bg-image-10.jpg" alt="Professional Background">
-    </div>
+    <div class="rbt-page-banner-wrapper">
+        <!-- Start Banner BG Image  -->
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/companies.png') }}');"></div>
+        <!-- End Banner BG Image  -->
+
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -30,10 +31,6 @@
                         {{ company.categories|map(c => c.name)|join(', ') ?: 'Company Services' }}
                     </h2>
 
-                    <p class="description">
-                        <strong>{{ company.companyName }}</strong> is a professional company providing excellent services.
-                        Trusted, verified, and committed to delivering high-quality results for every project.
-                    </p>
 
                     <div class="d-flex align-items-center mb--20 flex-wrap rbt-course-details-feature">
 
@@ -63,21 +60,6 @@
                             <span>616 completed projects</span>
                         </div>
 
-                    </div>
-
-                    <div class="rbt-author-meta mb--20">
-                        <div class="rbt-avater">
-                            <a href="#">
-                                {% if company.logo %}
-                                    <img src="{{ asset('uploads/logos/' ~ company.logo) }}" alt="Company Logo">
-                                {% else %}
-                                    <img src="{{ asset('assets/images/client/avatar-02.png') }}" alt="Company Logo">
-                                {% endif %}
-                            </a>
-                        </div>
-                        <div class="rbt-author-info">
-                            By <a href="#">{{ company.companyName }}</a> In <a href="#">{{ company.categories|first.name|default('Services') }}</a>
-                        </div>
                     </div>
 
                     <ul class="rbt-meta">
