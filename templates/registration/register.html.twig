@@ -8,217 +8,269 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Start breadcrumb Area -->
-    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-inner text-center">
-                        <h2 class="title">Create Account</h2>
-                         <p class="description paragraph-large md-px-2">Join our community to find professionals or grow your business.</p>
-                        <ul class="page-list">
-                            <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                            <li>
-                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                            </li>
-                            <li class="rbt-breadcrumb-item active">Register</li>
-                        </ul>
+    <div class="rbt-page-banner-wrapper">
+        <!-- Banner BG Image -->
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/login.png') }}');"></div>
+
+        <div class="rbt-banner-content">
+            <div class="rbt-banner-content-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="hero-main-title text-center text-white mb-2" style="font-size: 3.5rem; text-shadow: 0 4px 15px rgba(0,0,0,0.4);">Create Your Account</h1>
+                            <p class="text-center text-white fs-4 mb-5" style="text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-weight: 500;">Join our community to find projects or grow your business.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pb-5">
+                    <div class="row gy-5 row--30 justify-content-center">
+                        <div class="col-lg-8 col-xl-7">
+                            <div class="rbt-contact-form contact-form-style-1 max-width-auto shadow-lg p-5 rounded-4 bg-white" style="border-top: 6px solid var(--color-primary); box-shadow: 0 20px 50px rgba(0,0,0,0.2) !important;">
+                                <div class="text-center mb-5">
+                                    <h3 class="title mb-3 text-dark fw-bold" style="font-size: 2rem;">Welcome to Drilleedo</h3>
+                                    <p class="text-muted fs-5">Choose your account type below to get started</p>
+                                </div>
+                                
+                                <!-- Tabs navs -->
+                                <ul class="nav nav-pills nav-justified mb-5 bg-light p-2 rounded-4" id="registerTab" role="tablist" style="border: 1px solid rgba(0,0,0,0.05);">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active fw-bold rounded-3 py-3 w-100 fs-5" id="professional-tab" data-bs-toggle="tab" data-bs-target="#tab-professional" type="button" role="tab" aria-controls="tab-professional" aria-selected="true" style="transition: all 0.3s ease;">
+                                            <i class="feather-briefcase me-2"></i> Professional
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link fw-bold rounded-3 py-3 w-100 fs-5" id="individual-tab" data-bs-toggle="tab" data-bs-target="#tab-individual" type="button" role="tab" aria-controls="tab-individual" aria-selected="false" style="transition: all 0.3s ease;">
+                                            <i class="feather-user me-2"></i> Individual
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <!-- Tabs content -->
+                                <div class="tab-content" id="registerTabContent">
+                                    <!-- Professional Form Tab -->
+                                    <div class="tab-pane fade show active" id="tab-professional" role="tabpanel" aria-labelledby="professional-tab">
+                                        <div class="alert alert-primary bg-primary-opacity mb-5 border-0 rounded-3 d-flex align-items-center p-4">
+                                            <div class="icon-circle bg-primary text-white me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 50%; min-width: 48px;"><i class="feather-info fs-4"></i></div>
+                                            <p class="mb-0 fs-5 text-dark"><strong>For businesses & freelancers:</strong> Offer services, respond to requests, and grow.</p>
+                                        </div>
+                                        {{ form_start(professionalForm, {'attr': {'class': 'max-width-auto', 'novalidate': 'novalidate'}}) }}
+                                            {% if not professionalForm.vars.valid %}
+                                                <div class="alert alert-danger mb-4 rounded-3 p-3">Please correct the errors below.</div>
+                                            {% endif %}
+
+                                            <div class="row mb-4">
+                                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                                    <div class="form-group">
+                                                        {{ form_widget(professionalForm.email, {'attr': {'class': 'form-control', 'placeholder': 'contact@company.com'}}) }}
+                                                        <label>Professional Email <span class="text-danger">*</span></label>
+                                                        <span class="focus-border"></span>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.email) }}</div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(professionalForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Minimum 8 characters'}}) }}
+                                                        <label>Password <span class="text-danger">*</span></label>
+                                                        <span class="focus-border"></span>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.plainPassword) }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                                    <div class="form-group">
+                                                        {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select py-3 text-muted border-0 bg-light rounded-3'}}) }}
+                                                        <label>Industry/Sector <span class="text-danger">*</span></label>
+                                                        <span class="focus-border"></span>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.parentCategory) }}</div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select py-3 text-muted border-0 bg-light rounded-3'}}) }}
+                                                        <label>Specific Service <span class="text-danger">*</span></label>
+                                                        <span class="focus-border"></span>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.category) }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                                    <div class="form-group">
+                                                        {{ form_widget(professionalForm.city, {'attr': {'class': 'form-control', 'placeholder': 'Your city'}}) }}
+                                                        <label>City <span class="text-danger">*</span></label>
+                                                        <span class="focus-border"></span>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.city) }}</div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        {{ form_widget(professionalForm.expYears, {'attr': {'class': 'form-control', 'placeholder': 'e.g., 5'}}) }}
+                                                        <label>Years of experience <span class="text-danger">*</span></label>
+                                                        <span class="focus-border"></span>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.expYears) }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-5 mt-4">
+                                                <div class="col-lg-12">
+                                                    <div class="rbt-checkbox d-flex align-items-center">
+                                                        {{ form_widget(professionalForm.agreeTerms, {'attr': {'id': 'pro-terms'}}) }}
+                                                        <label for="pro-terms" class="ms-2 mb-0 fs-6">
+                                                            I accept the <a href="#" class="text-primary fw-bold text-decoration-none border-bottom border-primary">terms of use</a>
+                                                        </label>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.agreeTerms) }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-submit-group mt-4">
+                                                <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100 fs-4 rounded-3 pro-submit-btn shadow-sm py-4" style="background: var(--color-primary); color: white;">
+                                                    <span class="icon-reverse-wrapper">
+                                                        <span class="btn-text">Create Professional Account</span>
+                                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        {{ form_end(professionalForm) }}
+                                    </div>
+
+                                    <!-- Individual Form Tab -->
+                                    <div class="tab-pane fade" id="tab-individual" role="tabpanel" aria-labelledby="individual-tab">
+                                        <div class="alert alert-secondary bg-color-secondary-opacity mb-5 border-0 rounded-3 d-flex align-items-center p-4">
+                                            <div class="icon-circle bg-secondary text-white me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 50%; min-width: 48px;"><i class="feather-home fs-4"></i></div>
+                                            <p class="mb-0 fs-5 text-dark"><strong>For clients:</strong> Find qualified professionals, request quotes, and realize your projects.</p>
+                                        </div>
+                                        {{ form_start(individualForm, {'attr': {'class': 'max-width-auto', 'novalidate': 'novalidate'}}) }}
+                                            {% if not individualForm.vars.valid %}
+                                                <div class="alert alert-danger mb-4 rounded-3 p-3">Please correct the errors below.</div>
+                                            {% endif %}
+
+                                            <div class="form-group mb-4">
+                                                {{ form_widget(individualForm.email, {'attr': {'class': 'form-control', 'placeholder': 'your@email.com'}}) }}
+                                                <label>Email address <span class="text-danger">*</span></label>
+                                                <span class="focus-border"></span>
+                                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(individualForm.email) }}</div>
+                                            </div>
+
+                                            <div class="form-group mb-4">
+                                                {{ form_widget(individualForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Minimum 8 characters'}}) }}
+                                                <label>Password <span class="text-danger">*</span></label>
+                                                <span class="focus-border"></span>
+                                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(individualForm.plainPassword) }}</div>
+                                            </div>
+
+                                            <div class="row mb-5 mt-4">
+                                                <div class="col-lg-12">
+                                                    <div class="rbt-checkbox d-flex align-items-center">
+                                                        {{ form_widget(individualForm.agreeTerms, {'attr': {'id': 'ind-terms'}}) }}
+                                                        <label for="ind-terms" class="ms-2 mb-0 fs-6">
+                                                            I accept the <a href="#" class="text-primary fw-bold text-decoration-none border-bottom border-primary">terms of use</a>
+                                                        </label>
+                                                    </div>
+                                                    <div class="text-danger small mt-1 fw-bold">{{ form_errors(individualForm.agreeTerms) }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-submit-group mt-5">
+                                                <button type="submit" class="rbt-btn btn-md hover-icon-reverse w-100 fs-4 rounded-3 shadow-sm py-4" style="background: var(--color-secondary); color: white; transition: 0.3s all ease;">
+                                                    <span class="icon-reverse-wrapper">
+                                                        <span class="btn-text">Create Individual Account</span>
+                                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        {{ form_end(individualForm) }}
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-5 pt-4 border-top">
+                                    <span class="text-muted fs-5">Already have an account?</span> <a href="{{ path('app_login') }}" class="text-primary fw-bold fs-5 ms-1 text-decoration-none hover-underline" style="border-bottom: 2px solid var(--color-primary);">Log in securely</a>
+                                </div>
+                                
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const proTab = document.getElementById('professional-tab');
+                                        const indTab = document.getElementById('individual-tab');
+                                        
+                                        function updateTabStyles() {
+                                            if (proTab.classList.contains('active')) {
+                                                proTab.style.backgroundColor = 'var(--color-primary)';
+                                                proTab.style.color = '#fff';
+                                                proTab.style.boxShadow = '0 5px 15px rgba(37,99,235,0.3)';
+                                                
+                                                indTab.style.backgroundColor = 'transparent';
+                                                indTab.style.color = 'var(--color-body)';
+                                                indTab.style.boxShadow = 'none';
+                                            } else {
+                                                indTab.style.backgroundColor = 'var(--color-secondary)';
+                                                indTab.style.color = '#fff';
+                                                indTab.style.boxShadow = '0 5px 15px rgba(249,115,22,0.3)';
+                                                
+                                                proTab.style.backgroundColor = 'transparent';
+                                                proTab.style.color = 'var(--color-body)';
+                                                proTab.style.boxShadow = 'none';
+                                            }
+                                        }
+                                        
+                                        // Initial Style
+                                        updateTabStyles();
+                                        
+                                        // Event Listeners
+                                        proTab.addEventListener('show.bs.tab', function () {
+                                            setTimeout(updateTabStyles, 10);
+                                        });
+                                        indTab.addEventListener('show.bs.tab', function () {
+                                            setTimeout(updateTabStyles, 10);
+                                        });
+                                        
+                                        // Fix checkboxes to match IDs
+                                        const forms = document.querySelectorAll('form');
+                                        forms.forEach(form => {
+                                            const termsCheckboxGroup = form.querySelector('.rbt-checkbox');
+                                            if (termsCheckboxGroup) {
+                                                const originalCheckbox = form.querySelector('input[type="checkbox"][name$="[agreeTerms]"]');
+                                                if (originalCheckbox) {
+                                                    originalCheckbox.classList.remove('form-check-input');
+                                                    const newId = termsCheckboxGroup.querySelector('label').getAttribute('for');
+                                                    if(newId) originalCheckbox.id = newId;
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Breadcrumb Area -->
-
-    <div class="rbt-elements-area bg-color-white rbt-section-gap">
-        <div class="container">
-            <div class="row gy-5 row--30 justify-content-center">
-                <div class="col-lg-8 col-xl-7">
-                    <div class="rbt-contact-form max-width-auto shadow-lg p-5 rounded-4 bg-white" style="border-top: 5px solid var(--color-primary);">
-                        <div class="text-center mb-5">
-                            <h3 class="title mb-2">Create an Account</h3>
-                            <p class="text-muted">Join us in a few clicks</p>
-                        </div>
-                        
-                        <!-- Tabs navs -->
-                        <ul class="nav nav-pills nav-justified mb-5" id="registerTab" role="tablist">
-                            <li class="nav-item me-2" role="presentation">
-                                <button class="nav-link active fw-bold border rounded-3 p-3 w-100" id="professional-tab" data-bs-toggle="tab" data-bs-target="#tab-professional" type="button" role="tab" aria-controls="tab-professional" aria-selected="true" style="transition: all 0.3s ease;">
-                                    <i class="feather-briefcase fs-5 d-block mb-1"></i> Professional
-                                </button>
-                            </li>
-                            <li class="nav-item ms-2" role="presentation">
-                                <button class="nav-link fw-bold border rounded-3 p-3 w-100" id="individual-tab" data-bs-toggle="tab" data-bs-target="#tab-individual" type="button" role="tab" aria-controls="tab-individual" aria-selected="false" style="transition: all 0.3s ease;">
-                                    <i class="feather-user fs-5 d-block mb-1"></i> Individual
-                                </button>
-                            </li>
-                        </ul>
-
-                        <!-- Tabs content -->
-                        <div class="tab-content" id="registerTabContent">
-                            <!-- Professional Form Tab -->
-                            <div class="tab-pane fade show active" id="tab-professional" role="tabpanel" aria-labelledby="professional-tab">
-                                <div class="alert alert-primary bg-primary-opacity mb-5 border-0 rounded-3 d-flex align-items-center">
-                                    <i class="feather-info fs-3 me-3 text-primary"></i>
-                                    <p class="mb-0 fs-6"><strong>For businesses and freelancers:</strong> Offer your services, respond to requests, and grow your business.</p>
-                                </div>
-                                {{ form_start(professionalForm, {'attr': {'class': 'max-width-auto', 'novalidate': 'novalidate'}}) }}
-                                    {% if not professionalForm.vars.valid %}
-                                        <div class="alert alert-danger mb-4">Please correct the errors below.</div>
-                                    {% endif %}
-
-                                    <div class="row mb-4">
-                                        <div class="col-lg-6 mb-4 mb-lg-0">
-                                            <label class="form-label fw-bold text-dark">Professional Email <span class="text-danger">*</span></label>
-                                            {{ form_widget(professionalForm.email, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'contact@company.com'}}) }}
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.email) }}</div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label class="form-label fw-bold text-dark">Password <span class="text-danger">*</span></label>
-                                            {{ form_widget(professionalForm.plainPassword, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Minimum 8 characters'}}) }}
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.plainPassword) }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-4">
-                                        <div class="col-lg-6 mb-4 mb-lg-0">
-                                            <label class="form-label fw-bold text-dark">Industry/Sector <span class="text-danger">*</span></label>
-                                            {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select form-select-lg py-3'}}) }}
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.parentCategory) }}</div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label class="form-label fw-bold text-dark">Specific Service <span class="text-danger">*</span></label>
-                                            {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select form-select-lg py-3'}}) }}
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.category) }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-4">
-                                        <div class="col-lg-6 mb-4 mb-lg-0">
-                                            <label class="form-label fw-bold text-dark">City <span class="text-danger">*</span></label>
-                                            {{ form_widget(professionalForm.city, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Your city'}}) }}
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.city) }}</div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label class="form-label fw-bold text-dark">Years of experience <span class="text-danger">*</span></label>
-                                            {{ form_widget(professionalForm.expYears, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'e.g., 5'}}) }}
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.expYears) }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-5">
-                                        <div class="col-lg-12">
-                                            <div class="form-check d-flex align-items-center">
-                                                {{ form_widget(professionalForm.agreeTerms, {'attr': {'class': 'form-check-input border-secondary shadow-none me-3 mt-0', 'style': 'width: 24px; height: 24px;'}}) }}
-                                                <label class="form-check-label ms-1" for="{{ professionalForm.agreeTerms.vars.id }}">
-                                                    I accept the <a href="#" class="text-primary fw-bold text-decoration-none">terms of use</a>
-                                                </label>
-                                            </div>
-                                            <div class="text-danger small mt-1">{{ form_errors(professionalForm.agreeTerms) }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-submit-group mt-4">
-                                        <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100 fs-5 rounded-3 pro-submit-btn">
-                                            <span class="icon-reverse-wrapper">
-                                                <span class="btn-text">Create my professional account</span>
-                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                {{ form_end(professionalForm) }}
-                            </div>
-
-                            <!-- Individual Form Tab -->
-                            <div class="tab-pane fade" id="tab-individual" role="tabpanel" aria-labelledby="individual-tab">
-                                <div class="alert alert-info bg-info-opacity mb-5 border-0 rounded-3 d-flex align-items-center">
-                                    <i class="feather-info fs-3 me-3 text-info"></i>
-                                    <p class="mb-0 fs-6"><strong>For clients:</strong> Find qualified professionals, request quotes, and realize your projects.</p>
-                                </div>
-                                {{ form_start(individualForm, {'attr': {'class': 'max-width-auto', 'novalidate': 'novalidate'}}) }}
-                                    {% if not individualForm.vars.valid %}
-                                        <div class="alert alert-danger mb-4">Please correct the errors below.</div>
-                                    {% endif %}
-
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold text-dark">Email address <span class="text-danger">*</span></label>
-                                        {{ form_widget(individualForm.email, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'your@email.com'}}) }}
-                                        <div class="text-danger small mt-1">{{ form_errors(individualForm.email) }}</div>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold text-dark">Password <span class="text-danger">*</span></label>
-                                        {{ form_widget(individualForm.plainPassword, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Minimum 8 characters'}}) }}
-                                        <div class="text-danger small mt-1">{{ form_errors(individualForm.plainPassword) }}</div>
-                                    </div>
-
-                                    <div class="row mb-5">
-                                        <div class="col-lg-12">
-                                            <div class="form-check d-flex align-items-center">
-                                                {{ form_widget(individualForm.agreeTerms, {'attr': {'class': 'form-check-input border-secondary shadow-none me-3 mt-0', 'style': 'width: 24px; height: 24px;'}}) }}
-                                                <label class="form-check-label ms-1" for="{{ individualForm.agreeTerms.vars.id }}">
-                                                    I accept the <a href="#" class="text-primary fw-bold text-decoration-none">terms of use</a>
-                                                </label>
-                                            </div>
-                                            <div class="text-danger small mt-1">{{ form_errors(individualForm.agreeTerms) }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-submit-group mt-4">
-                                        <button type="submit" class="rbt-btn btn-md btn-secondary hover-icon-reverse w-100 fs-5 rounded-3">
-                                            <span class="icon-reverse-wrapper">
-                                                <span class="btn-text">Create my individual account</span>
-                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                {{ form_end(individualForm) }}
-                            </div>
-                        </div>
-
-                        <div class="text-center mt-5">
-                            <span class="text-muted fs-6">Already have an account?</span> <a href="{{ path('app_login') }}" class="text-primary fw-bold fs-6 ms-1 text-decoration-underline">Log in</a>
-                        </div>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const proTab = document.getElementById('professional-tab');
-                                const indTab = document.getElementById('individual-tab');
-                                
-                                function updateTabStyles() {
-                                    if (proTab.classList.contains('active')) {
-                                        proTab.classList.add('bg-primary', 'text-white');
-                                        proTab.classList.remove('bg-light', 'text-muted');
-                                        
-                                        indTab.classList.remove('bg-primary', 'text-white');
-                                        indTab.classList.add('bg-light', 'text-muted');
-                                    } else {
-                                        indTab.classList.add('bg-primary', 'text-white');
-                                        indTab.classList.remove('bg-light', 'text-muted');
-                                        
-                                        proTab.classList.remove('bg-primary', 'text-white');
-                                        proTab.classList.add('bg-light', 'text-muted');
-                                    }
-                                }
-                                
-                                // Initial Style
-                                updateTabStyles();
-                                
-                                // Event Listeners
-                                proTab.addEventListener('show.bs.tab', function () {
-                                    setTimeout(updateTabStyles, 10);
-                                });
-                                indTab.addEventListener('show.bs.tab', function () {
-                                    setTimeout(updateTabStyles, 10);
-                                });
-                            });
-                        </script>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <style>
+        .hover-underline:hover {
+            color: var(--color-primary-dark) !important;
+            border-bottom-color: var(--color-primary-dark) !important;
+        }
+        .form-select {
+            padding-left: 0;
+            padding-right: 0;
+            border-bottom: 2px solid rgba(0,0,0,0.1) !important;
+            border-radius: 0 !important;
+            background-color: transparent !important;
+            color: var(--color-body);
+        }
+        .form-select:focus {
+            border-bottom: 2px solid var(--color-primary) !important;
+            box-shadow: none !important;
+        }
+    </style>
 {% endblock %}
 
 

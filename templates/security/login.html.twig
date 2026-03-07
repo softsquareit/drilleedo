@@ -3,34 +3,26 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <!-- Start breadcrumb Area -->
-    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-inner text-center">
-                        <h2 class="title">Welcome Back</h2>
-                        <p class="description paragraph-large md-px-2">Log in to access your account and manage your projects.</p>
-                        <ul class="page-list">
-                            <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                            <li>
-                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                            </li>
-                            <li class="rbt-breadcrumb-item active">Login</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Breadcrumb Area -->
 
-    <div class="rbt-elements-area bg-color-white rbt-section-gap">
-        <div class="container">
+
+
+    <div class="rbt-page-banner-wrapper">
+    <!-- Banner BG Image -->
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/login.png') }}');"></div>
+
+    <div class="rbt-banner-content">
+        <div class="rbt-banner-content-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                           <h1 class="hero-main-title  text-center " style="font-size: var(--h1);">Welcome back! Quick access</h1>
+                        <br><br>
+                    </div>
+                    <div class="container">
             <div class="row gy-5 row--30">
                 <div class="col-lg-6 offset-lg-3">
                     <div class="rbt-contact-form contact-form-style-1 max-width-auto shadow-lg p-5 rounded-3 border-top-4 border-primary">
-                        <h3 class="title text-center mb-4">Login</h3>
+                        <h3 class="title text-center mb-4 hero-main-title">Login</h3>
                         <form method="post">
                             {% if error %}
                                 <div class="alert alert-danger rbt-alert-danger mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -87,5 +79,11 @@
                 </div>
             </div>
         </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+
 {% endblock %}

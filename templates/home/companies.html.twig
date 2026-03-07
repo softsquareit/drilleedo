@@ -7,7 +7,7 @@
 
     <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
-        <div class="rbt-banner-image"></div>
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/companies.png') }}');"></div>
         <!-- End Banner BG Image  -->
         <div class="rbt-banner-content">
 
@@ -27,15 +27,44 @@
                             <!-- End Breadcrumb Area  -->
 
                             <div class="title-wrapper">
-                                <h1 class="title mb--0">All Companies</h1>
+                                <h1 class="hero-main-title" style="font-size: var(--h1);">Professionals Near You</h1>
                                 <a href="#" class="rbt-badge-2">
                                     {{ activeFilters.categories is not empty or activeFilters.cities is not empty ? companies|length ~ ' Results' : 'Companies listed' }}
                                 </a>
                             </div>
 
-                            <p class="description">
-                                Discover verified companies offering renovation, construction, and home improvement services.
-                            </p>
+
+<span class="hero-tagline-orange">Professional companies for every project.</span>
+<p class="description"><b>
+ Discover verified companies offering renovation, construction, and home improvement services.
+</b></p>
+<div class="hero-service-icons">
+<!-- Using simple SVGs for icons as placeholders for now -->
+
+
+<div class="hero-service-icon" title="Plants">
+<i class="fas fa-leaf"></i>
+</div>
+
+
+<div class="hero-service-icon" title="Light">
+<i class="fas fa-lightbulb"></i>
+</div>
+
+
+<div class="hero-service-icon" title="Wrench">
+<i class="fas fa-wrench"></i>
+</div>
+
+<div class="hero-service-icon" title="Hammer">
+<i class="fas fa-hammer"></i>
+</div>
+<div class="about-buttons-row">
+<button class="about-pill-btn btn-solid-blue">  Request a Quote</button>
+</div>
+
+</div>
+
                         </div>
                     </div>
                 </div>

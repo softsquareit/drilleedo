@@ -3,13 +3,52 @@
 {% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
 
 {% block body %}
-    <div class="rbt-overlay-page-wrapper">
-        <div class="breadcrumb-image-container breadcrumb-style-max-width">
-            <div class="breadcrumb-image-wrapper">
-                <div class="breadcrumb-dark">
-                   <img src="{{ idea.mainImg ? (idea.mainImg starts with 'http' ? idea.mainImg : asset('uploads/blog/' ~ idea.mainImg)) : 'https://softsquareit.com/drilleedo/assets/images/bg/bg-image-10.jpg' }}" alt="{{ idea.title }}">
+
+<div class="rbt-page-banner-wrapper">
+    <!-- Banner BG Image -->
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/smartideas.png') }}');"></div>
+
+    <div class="rbt-banner-content">
+        <div class="rbt-banner-content-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <!-- Breadcrumb -->
+                        <ul class="page-list">
+                            <li class="rbt-breadcrumb-item">
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <div class="icon-right">
+                                    <i class="feather-chevron-right"></i>
+                                </div>
+                            </li>
+                            <li class="rbt-breadcrumb-item active">
+                                Inspiration & Ideas
+                            </li>
+                        </ul>
+
+                        <div class="title-wrapper">
+                           <h1 class="hero-main-title" style="font-size: var(--h1);">Home Inspiration & Ideas</h1>
+                            <a href="#" class="rbt-badge-2">
+                               50+ Ideas
+                            </a>
+                        </div>
+                        <span class="hero-tagline-orange">Smart ideas for better living</span>  
+                        <p class="description"><b>
+                            Discover renovation and decoration ideas to inspire your next home project.</b>
+                        </p>
+                    </div>
                 </div>
             </div>
+        </div>
+
+    </div>
+
+    <div class="rbt-overlay-page-wrapper">
+        <div class="breadcrumb-image-container breadcrumb-style-max-width">
+
             <div class="breadcrumb-content-top text-center">
                 <ul class="meta-list justify-content-center mb--10">
                     <li class="list-item">
@@ -165,5 +204,8 @@
             </div>
         </div>
     </div>
+
+
+</div>
 
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block body %}
     <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
-        <div class="rbt-banner-image"></div>
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/professionels.png') }}');"></div>
         <!-- End Banner BG Image  -->
         <div class="rbt-banner-content">
             <!-- Start Banner Content Top  -->
@@ -30,15 +30,42 @@
                             <!-- End Breadcrumb Area -->
 
                             <div class="title-wrapper">
-                                <h1 class="title mb--0">Professionals Near You</h1>
-                                <a href="#" class="rbt-badge-2">
-                                   120+ Results
+                                <h1 class="hero-main-title" style="font-size: var(--h1);">Professionals Near You</h1>
+                                <a href="#" class="rbt-badge-2"> 
+                                   120+ Results 
                                 </a>
                             </div>
+<span class="hero-tagline-orange">Connect with trusted professionals</span>
+<p class="description">
+<b>Browse trusted professionals for renovation, decoration, and home improvement projects.</b>
+</p>
+<div class="hero-service-icons">
+<!-- Using simple SVGs for icons as placeholders for now -->
 
-                            <p class="description">
-                                Browse trusted professionals for renovation, decoration, and home improvement projects.
-                            </p>
+
+<div class="hero-service-icon" title="Plants">
+<i class="fas fa-leaf"></i>
+</div>
+
+
+<div class="hero-service-icon" title="Light">
+<i class="fas fa-lightbulb"></i>
+</div>
+
+
+<div class="hero-service-icon" title="Wrench">
+<i class="fas fa-wrench"></i>
+</div>
+
+<div class="hero-service-icon" title="Hammer">
+<i class="fas fa-hammer"></i>
+</div>
+<div class="about-buttons-row">
+<button class="about-pill-btn btn-solid-blue">  Request a Quote</button>
+</div>
+
+</div>
+                            
                         </div>
 
                     </div>
@@ -146,11 +173,14 @@
                                     {{ pro.email }}
                                 {% endif %}
                             </a>
+                            
                         </h4>
                     </div>
 
                     {% if pro.category %}
-                    <p class="mb-3 text-muted" style="font-size: 14px;"><i class="feather-tag me-1"></i>{{ pro.category.name }}</p>
+                    <p class="mb-3 text-muted" style="font-size: 14px;">
+    <i class="fas fa-wrench"></i>
+{{ pro.category.name }}</p>
                     {% endif %}
 
                     <div class="read-more-btn mt-4">
