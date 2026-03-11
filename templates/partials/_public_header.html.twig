@@ -1,138 +1,101 @@
-<header class="rbt-header rbt-header-4 rbt-header-4-container-var">
+{# Skip-to-content — first focusable element on page for keyboard users #}
+<a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+<header class="rbt-header rbt-header-4 rbt-header-4-container-var" role="banner">
     <div class="rbt-sticky-placeholder"></div>
     
-    <style>
-        /* Header Custom Overrides to match design exactly */
-        .rbt-header-wrapper {
-            height: 90px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-        }
-
-
-        
-        .mainmenu-nav .mainmenu > li > a {
-            font-size: 15px;
-            font-weight: bold !important; 
-            color: #17456eff !important; 
-            padding: 30px 15px;
-            text-transform: none; 
-            letter-spacing: -0.3px;
-        }
-        
-        .mainmenu-nav .mainmenu > li > a:hover {
-            color: #2b9eff; 
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .quick-access {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .login-link {
-            font-family: 'Euclid Circular A', sans-serif;
-            font-weight: 700;
-            color: #003666;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .login-link:hover {
-            color: #2b9eff;
-        }
-        
-        .login-link i {
-            font-size: 18px; /* Slightly larger icon */
-            color: #003666;
-        }
-
-        .pro-signin-btn {
-            font-family: 'Euclid Circular A', sans-serif;
-            border: 2px solid #2b9eff; /* Thicker blue border */
-            color: #2b9eff; /* Match border color (Blue) */
-            background: white;
-            padding: 10px 24px;
-            border-radius: 6px; 
-            font-weight: 700;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .pro-signin-btn i {
-            font-size: 18px;
-            background: #2b9eff;
-            color: white;
-            border-radius: 3px;
-            padding: 1px;
-        }
-
-        .pro-signin-btn:hover {
-            background: #f0f7ff;
-            border-color: #0077cc;
-            color: #0077cc;
-            transform: translateY(-1px);
-        }
-        
-        .header-left .logo img {
-            max-height: 40px; /* Adjust logo size */
-        }
-    </style>
+    {# Header styles → drilleedo.css (section: Public Header) #}
 
     <div class="rbt-header-wrapper header-space-betwween shadow-none bg-color-white header-sticky">
         <div class="container">
             <div class="mainbar-row rbt-navigation-start align-items-center">
+                {# Logo #}
                 <div class="header-left">
                     <div class="logo logo-dark">
-                        <a href="{{ path('app_home') }}">
-                            <img src="{{ asset('assets/drilleedo/images/logo/logo-black.png') }}" alt="Drilleedo Logo">
+                        <a href="{{ path('app_home') }}" aria-label="Drilleedo — Home">
+                            <img src="{{ asset('assets/drilleedo/images/logo/logo-black.png') }}" alt="Drilleedo">
                         </a>
                     </div>
                 </div>
+
+                {# Desktop Navigation #}
                 <div class="rbt-main-navigation d-none d-xl-block">
                     <nav class="mainmenu-nav">
-                        <ul class="mainmenu menudrilleedo">
-                            <li><a href="{{ path('professionals_list') }}">Hire a Pro</a></li>
-                            <li><a href="{{ path('companies_list') }}">Leading Companies</a></li>
-                            <li><a href="{{ path('smartideas') }}">Smart Ideas</a></li>
-                            <li><a href="{{ path('packages') }}">Pro Packages</a></li>
-                            <li><a href="{{ path('contact') }}">Contact Us</a></li>
+                        <ul class="mainmenu">
+                            <li class="has-dropdown has-menu-child-item">
+                                <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>How It Works <i class="feather-chevron-down"></i></a>
+                                <ul class="submenu">
+                                    <li><a href="{{ path('individual_quote_new') }}">Post Your Project</a></li>
+                                    <li><a href="{{ path('professionals_list') }}">Find Trusted Professionals</a></li>
+                                    <li><a href="{{ path('app_receive_quotes') }}">Receive Quotes</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="with-megamenu has-menu-child-item position-static">
+                                <a href="{{ path('professionals_list') }}" {% if app.request.attributes.get('_route') == 'professionals_list' %}class="active"{% endif %}>Find Professionals <i class="feather-chevron-down"></i></a>
+                                <div class="rbt-megamenu grid-item-4">
+                                    <div class="wrapper">
+                                        <div class="row row--15">
+                                            {{ render(controller('App\\Controller\\MenuController::categoryMegaMenu')) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="has-dropdown has-menu-child-item">
+                                <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}class="active"{% endif %}>Smart Ideas <i class="feather-chevron-down"></i></a>
+                                <ul class="submenu">
+                                    <li><a href="{{ path('app_project_photos') }}">Project Photos</a></li>
+                                    <li><a href="{{ path('app_decoration_ideas') }}">Decoration Ideas</a></li>
+                                    <li><a href="{{ path('app_completed_projects') }}">Completed Projects</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}class="active"{% endif %}>About Us</a></li>
+
+                            <li class="has-dropdown has-menu-child-item">
+                                <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}class="active"{% endif %}>For Professionals <i class="feather-chevron-down"></i></a>
+                                <ul class="submenu">
+                                    <li><a href="{{ path('packages') }}">Why Join Drilleedo</a></li>
+                                    <li><a href="{{ path('app_register_pro') }}">Create Your Profile</a></li>
+                                    <li><a href="{{ path('app_grow_business') }}">Grow Your Business</a></li>
+                                    <li><a href="{{ path('app_how_it_works_pros') }}">How It Works for Pros</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}class="active"{% endif %}>Blog</a></li>
                         </ul>
                     </nav>
                 </div>
 
+                
+
+
+                {# Header Right (Auth + Hamburger) #}
                 <div class="header-right">
-                    <!-- Navbar Icons -->
-                    <ul class="quick-access">
-                         {% if app.user %}
+                    <ul class="quick-access" role="list">
+                        <li class="access-icon">
+                            <button class="search-trigger-active rbt-round-btn" id="drl-search-toggle" aria-label="Open search">
+                                <i class="feather-search" aria-hidden="true"></i>
+                            </button>
+                        </li>
+                        {% if app.user %}
                             <li class="access-icon rbt-user-wrapper right-align-dropdown">
-                                <a class="rbt-round-btn" href="#">
-                                    <i class="feather-user"></i>
+                                <a class="rbt-round-btn"
+                                   href="#"
+                                   aria-haspopup="true"
+                                   aria-expanded="false"
+                                   aria-label="My account menu">
+                                    <i class="feather-user" aria-hidden="true"></i>
                                 </a>
-                                <div class="rbt-user-menu-list-wrapper">
+                                <div class="rbt-user-menu-list-wrapper" role="menu" aria-label="User menu">
                                     <div class="inner">
                                         <div class="rbt-admin-profile">
                                             <div class="admin-thumbnail">
-                                                 {% if app.user.logo is defined and app.user.logo %}
-                                                    <img src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="User Image">
+                                                {% if app.user.logo is defined and app.user.logo %}
+                                                    <img src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="Your profile picture">
                                                 {% else %}
-                                                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="User Image">
+                                                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Default avatar">
                                                 {% endif %}
                                             </div>
                                             <div class="admin-info">
@@ -148,43 +111,24 @@
                                                 <a class="rbt-btn-link color-primary" href="{{ path('app_logout') }}">Log Out</a>
                                             </div>
                                         </div>
-                                        <ul class="user-list-wrapper">
-                                            <li>
+                                        <ul class="user-list-wrapper" role="menu">
+                                            <li role="none">
                                                 {% if is_granted('ROLE_ADMIN') %}
-                                                    <a href="{{ path('admin_dashboard') }}"><i class="feather-home"></i> <span>Admin Dashboard</span></a>
+                                                    <a href="{{ path('admin_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>Admin Dashboard</span></a>
                                                 {% elseif is_granted('ROLE_COMPANY') %}
-                                                    <a href="{{ path('company_dashboard') }}"><i class="feather-home"></i> <span>Company Dashboard</span></a>
+                                                    <a href="{{ path('company_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>Company Dashboard</span></a>
                                                 {% elseif is_granted('ROLE_PROFESSIONAL') %}
-                                                    <a href="{{ path('professional_dashboard') }}"><i class="feather-home"></i> <span>Pro Dashboard</span></a>
+                                                    <a href="{{ path('professional_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>Pro Dashboard</span></a>
                                                 {% elseif is_granted('ROLE_INDIVIDUAL') %}
-                                                    <a href="{{ path('individual_dashboard') }}"><i class="feather-home"></i> <span>My Dashboard</span></a>
+                                                    <a href="{{ path('individual_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>My Dashboard</span></a>
                                                 {% endif %}
                                             </li>
-                                            
-                                            {% if is_granted('ROLE_INDIVIDUAL') %}
-                                                 <li>
-                                                    <a href="{{ path('individual_profile') }}">
-                                                        <i class="feather-settings"></i>
-                                                        <span>Settings</span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            
-                                            {% if is_granted('ROLE_BUSINESS') %}
-                                                 <li>
-                                                    <a href="{{ path('professional_profile') }}">
-                                                        <i class="feather-settings"></i>
-                                                        <span>Settings</span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-
                                         </ul>
                                         <hr class="mt--10 mb--10">
-                                        <ul class="user-list-wrapper">
-                                            <li>
-                                                <a href="{{ path('app_logout') }}">
-                                                    <i class="feather-log-out"></i>
+                                        <ul class="user-list-wrapper" role="menu">
+                                            <li role="none">
+                                                <a href="{{ path('app_logout') }}" role="menuitem">
+                                                    <i class="feather-log-out" aria-hidden="true"></i>
                                                     <span>Log Out</span>
                                                 </a>
                                             </li>
@@ -193,28 +137,279 @@
                                 </div>
                             </li>
                         {% else %}
-                            <li class="access-icon">
-                                <a class="login-link" href="{{ path('app_login') }}">
-                                    <i class="fas fa-user-alt"></i> Log in
+                            <li class="access-icon d-none d-xl-flex">
+                                <a class="login-link" href="{{ path('app_login') }}" aria-label="Log in to your account">
+                                    <i class="fas fa-user-alt" aria-hidden="true"></i> Log in
                                 </a>
                             </li>
-                             <li class="access-icon">
-                                <a class="pro-signin-btn" href="{{ path('app_register') }}">
-                                    <i class="far fa-check-square"></i> Sign in
+                            <li class="access-icon d-none d-xl-flex">
+                                <a class="pro-signin-btn" href="{{ path('app_register') }}" aria-label="Create a new Drilleedo account">
+                                    <i class="far fa-check-square" aria-hidden="true"></i> Sign Up
                                 </a>
                             </li>
                         {% endif %}
-                    </ul>
-                    <!-- Start Mobile-Menu-Bar -->
-                    <div class="mobile-menu-bar d-block d-xl-none">
-                        <div class="hamberger">
-                            <button class="hamberger-button rbt-round-btn">
-                                <i class="feather-menu"></i>
+                        <li class="access-icon d-block d-xl-none">
+                            <button class="hamberger-button rbt-round-btn" id="drl-menu-toggle" aria-label="Open mobile menu">
+                                <i class="feather-menu" aria-hidden="true"></i>
                             </button>
+                        </li>
+                    </ul>
+
+                    {# Global Actions per Role #}
+                    {% if is_granted('ROLE_INDIVIDUAL') %}
+                        <div class="rbt-btn-wrapper d-none d-xl-block ms-4 me-2">
+                            <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none" href="{{ path('individual_quote_new') }}">
+                                <span data-text="Post Request">Post Request</span>
+                            </a>
                         </div>
-                    </div>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
     </div>
-</header>
+
+    {# ── Mobile Drawer ── #}
+    <div class="drl-mobile-drawer" id="drl-mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+        {# Overlay #}
+        <div class="drl-drawer-overlay" id="drl-drawer-overlay" tabindex="-1"></div>
+
+        {# Panel #}
+        <div class="drl-drawer-panel" role="document">
+            <div class="drl-drawer-header">
+                <a href="{{ path('app_home') }}" class="logo" aria-label="Drilleedo Home">
+                    <img src="{{ asset('assets/drilleedo/images/logo/logo-black.png') }}" alt="Drilleedo">
+                </a>
+                <button class="drl-drawer-close"
+                        id="drl-drawer-close"
+                        aria-label="Close navigation menu">
+                    <i class="feather-x" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <nav class="drl-mobile-nav" aria-label="Mobile navigation">
+                <ul role="list">
+                    <li>
+                        <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}aria-current="page"{% endif %}><i class="feather-info" aria-hidden="true"></i> How It Works</a>
+                        <ul style="padding-left: 1rem;">
+                            <li><a href="{{ path('individual_quote_new') }}">Post Your Project</a></li>
+                            <li><a href="{{ path('professionals_list') }}">Find Trusted Professionals</a></li>
+                            <li><a href="{{ path('app_receive_quotes') }}">Receive Quotes</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('professionals_list') }}" {% if app.request.attributes.get('_route') == 'professionals_list' %}aria-current="page"{% endif %}>
+                        <i class="feather-users" aria-hidden="true"></i> Find Professionals
+                    </a></li>
+                    <li>
+                        <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}aria-current="page"{% endif %}>
+                            <i class="feather-book-open" aria-hidden="true"></i> Smart Ideas
+                        </a>
+                        <ul style="padding-left: 1rem;">
+                            <li><a href="{{ path('app_project_photos') }}">Project Photos</a></li>
+                            <li><a href="{{ path('app_decoration_ideas') }}">Decoration Ideas</a></li>
+                            <li><a href="{{ path('app_completed_projects') }}">Completed Projects</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}aria-current="page"{% endif %}>
+                        <i class="feather-info" aria-hidden="true"></i> About Us
+                    </a></li>
+                    <li>
+                        <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}aria-current="page"{% endif %}><i class="feather-briefcase" aria-hidden="true"></i> For Professionals</a>
+                        <ul style="padding-left: 1rem;">
+                            <li><a href="{{ path('packages') }}">Why Join Drilleedo</a></li>
+                            <li><a href="{{ path('app_register_pro') }}">Create Your Profile</a></li>
+                            <li><a href="{{ path('app_grow_business') }}">Grow Your Business</a></li>
+                            <li><a href="{{ path('app_how_it_works_pros') }}">How It Works for Pros</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}aria-current="page"{% endif %}>
+                        <i class="feather-file-text" aria-hidden="true"></i> Blog
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div class="drl-drawer-auth">
+                {% if app.user %}
+                    {% if is_granted('ROLE_PROFESSIONAL') %}
+                        <a href="{{ path('professional_dashboard') }}" class="drl-btn-primary-fill">
+                            <i class="feather-home" aria-hidden="true"></i> My Dashboard
+                        </a>
+                    {% elseif is_granted('ROLE_INDIVIDUAL') %}
+                        <a href="{{ path('individual_dashboard') }}" class="drl-btn-primary-fill">
+                            <i class="feather-home" aria-hidden="true"></i> My Dashboard
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}" class="drl-btn-danger-outline">
+                        <i class="feather-log-out" aria-hidden="true"></i> Log Out
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="drl-btn-primary-outline">
+                        <i class="fas fa-user-alt" aria-hidden="true"></i> Log In
+                    </a>
+                    <a href="{{ path('app_register') }}" class="drl-btn-primary-fill">
+                        <i class="far fa-check-square" aria-hidden="true"></i> Sign Up
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# ── Search Overlay ── #}
+    <div class="drl-search-overlay" id="drl-search-overlay" role="dialog" aria-modal="true" aria-label="Search Drilleedo">
+        <div class="drl-search-header">
+            <div class="container">
+                <div class="drl-search-input-wrapper">
+                    <i class="feather-search search-icon" aria-hidden="true"></i>
+                    <input type="text" 
+                           id="drl-search-input" 
+                           placeholder="Search for professionals, services, or cities..." 
+                           autocomplete="off"
+                           aria-label="Search query">
+                    <button class="drl-search-close" id="drl-search-close" aria-label="Close search">
+                        <i class="feather-x" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="drl-search-body">
+            <div class="container">
+                <div id="drl-search-results" class="drl-search-results-grid">
+                    <div class="drl-search-hint">Type at least 2 characters to search...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const toggle   = document.getElementById('drl-menu-toggle');
+        const drawer   = document.getElementById('drl-mobile-drawer');
+        const overlay  = document.getElementById('drl-drawer-overlay');
+        const closeBtn = document.getElementById('drl-drawer-close');
+
+        if (!toggle || !drawer) return;
+
+        const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+        function openDrawer() {
+            drawer.classList.add('is-open');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+            // Focus first element in drawer
+            setTimeout(() => {
+                const first = drawer.querySelector(focusableSelectors);
+                if (first) first.focus();
+            }, 50);
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('is-open');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+            toggle.focus(); // Return focus to trigger
+        }
+
+        toggle.addEventListener('click', () => {
+            drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
+        });
+
+        overlay.addEventListener('click', closeDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+
+        // Keyboard: Escape to close, Tab trap inside drawer
+        drawer.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') { closeDrawer(); return; }
+            if (e.key !== 'Tab') return;
+
+            const focusables = [...drawer.querySelectorAll(focusableSelectors)];
+            const first = focusables[0];
+            const last  = focusables[focusables.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        });
+
+        /* ── Search Functionality ── */
+        const sToggle  = document.getElementById('drl-search-toggle');
+        const sOverlay = document.getElementById('drl-search-overlay');
+        const sClose   = document.getElementById('drl-search-close');
+        const sInput   = document.getElementById('drl-search-input');
+        const sResults = document.getElementById('drl-search-results');
+        
+        if (!sToggle || !sOverlay) return;
+
+        function openSearch() {
+            sOverlay.classList.add('is-open');
+            sToggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => sInput.focus(), 100);
+        }
+
+        function closeSearch() {
+            sOverlay.classList.remove('is-open');
+            sToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+            sInput.value = '';
+            sResults.innerHTML = '<div class="drl-search-hint">Type at least 2 characters to search...</div>';
+        }
+
+        sToggle.addEventListener('click', openSearch);
+        sClose.addEventListener('click', closeSearch);
+        sOverlay.addEventListener('click', (e) => {
+            if (e.target === sOverlay) closeSearch();
+        });
+
+        // Search logic
+        let debounceTimer;
+        sInput.addEventListener('input', (e) => {
+            const q = e.target.value.trim();
+            clearTimeout(debounceTimer);
+            
+            if (q.length < 2) {
+                sResults.innerHTML = '<div class="drl-search-hint">Type at least 2 characters to search...</div>';
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch(`{{ path('api_search') }}?q=${encodeURIComponent(q)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.length === 0) {
+                            sResults.innerHTML = '<div class="drl-search-hint">No results found for "' + q + '"</div>';
+                            return;
+                        }
+                        
+                        sResults.innerHTML = data.map(item => `
+                            <a href="${item.url}" class="drl-search-result-item">
+                                ${item.logo 
+                                    ? `<img src="${item.logo}" alt="" class="drl-search-result-logo">`
+                                    : `<div class="drl-search-result-logo-placeholder"><i class="feather-user"></i></div>`
+                                }
+                                <div class="drl-search-result-info">
+                                    <div class="drl-search-result-name">${item.label}</div>
+                                    <div class="drl-search-result-meta">${item.category} ${item.city ? '• ' + item.city : ''}</div>
+                                </div>
+                                <span class="drl-search-type-badge ${item.type}">${item.type === 'pro' ? 'Pro' : 'Company'}</span>
+                            </a>
+                        `).join('');
+                    });
+            }, 300);
+        });
+
+        // Global hotkey: Cmd/Ctrl + K to search
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+            if (e.key === 'Escape' && sOverlay.classList.contains('is-open')) {
+                closeSearch();
+            }
+        });
+    })();
+    </script>

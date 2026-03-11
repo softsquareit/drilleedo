@@ -4,6 +4,69 @@
 
 {% block body %}
 
+    {# ── CTA Banner: nudge the user to post their first request ── #}
+    {% if publishedCount == 0 %}
+    <div class="pro-card mb-4" style="background: linear-gradient(135deg,#00509e,#0077cc); color:#fff; border-radius:16px; padding: 28px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+        <div>
+            <h4 class="mb-1" style="color:#fff; font-weight:800;">Ready to find the right professional?</h4>
+            <p class="mb-0" style="color:rgba(255,255,255,0.85); font-size:0.95rem;">
+                Post your first renovation request in under 2 minutes and receive free quotes from verified pros.
+            </p>
+        </div>
+        <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-sm" style="background:#fff; color:#00509e; font-weight:700; border-radius:10px; padding:10px 22px; text-decoration:none; white-space:nowrap;">
+            <i class="feather-plus me-1"></i> Post a Request
+        </a>
+    </div>
+    {% endif %}
+
+    {# ── KPI Cards ── #}
+    <div class="row g-4 mb-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-stat-card primary">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon"><i class="feather-file-text"></i></div>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ totalRequests }}</h3>
+                    <p class="pro-stat-label">Total Requests</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-stat-card info">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon"><i class="feather-send"></i></div>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ publishedCount }}</h3>
+                    <p class="pro-stat-label">Published</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-stat-card warning">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon"><i class="feather-message-square"></i></div>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ receivedOffersCount }}</h3>
+                    <p class="pro-stat-label">Offers Received</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="pro-stat-card success">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon"><i class="feather-check-circle"></i></div>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value">{{ acceptedOffersCount }}</h3>
+                    <p class="pro-stat-label">Accepted</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content Grid -->
     <div class="row g-4 mt-1">
         <!-- Recent Quotes -->
@@ -40,7 +103,12 @@
                                     <span class="pro-text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
                                 </td>
                                 <td>
-                                    <span class="pro-badge info">{{ quote.offers|length }} offers</span>
+                                    {% set offerCount = quote.offers|length %}
+                                    {% if offerCount > 0 %}
+                                        <span class="pro-badge success">{{ offerCount }} {{ offerCount == 1 ? 'offer' : 'offers' }}</span>
+                                    {% else %}
+                                        <span class="pro-badge secondary">No offers yet</span>
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <span class="pro-badge {{ quote.status == 'PUBLISHED' ? 'info' : (quote.status == 'ACCEPTED' ? 'success' : 'secondary') }}">{{ quote.status }}</span>

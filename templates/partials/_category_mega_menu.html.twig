@@ -1,0 +1,26 @@
+{# templates/partials/_category_mega_menu.html.twig #}
+{% for parent in categoriesData %}
+    <div class="col-lg-12 col-xl-3 col-xxl-3 single-mega-item">
+        <h3 class="rbt-short-title d-flex align-items-center gap-2">
+            <span class="category-icon-wrapper" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">
+                {% if parent.icon %}
+                    <img src="{{ asset('uploads/categories/' ~ parent.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+                {% else %}
+                    <i class="feather-folder" style="font-size: 20px; color: var(--color-body);"></i>
+                {% endif %}
+            </span>
+            <span>{{ parent.name }}</span>
+        </h3>
+        {% if parent.children|length > 0 %}
+            <ul class="mega-menu-item">
+                {% for child in parent.children %}
+                    <li>
+                        <a href="{{ path('service_category_landing', {'categorySlug': child.slug}) }}">
+                            {{ child.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endfor %}

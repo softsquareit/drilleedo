@@ -3,6 +3,36 @@
 {% block title %}Dashboard - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
+    {# ── Profile Completion Banner ── #}
+    {% if profileCompletion < 100 %}
+    <div class="pro-alert pro-alert-warning d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" role="alert" style="padding: 16px 20px;">
+        <div class="d-flex align-items-center gap-3">
+            <i class="feather-user-check" style="font-size:1.4rem;"></i>
+            <div>
+                <strong>Complete your profile</strong> — {{ profileCompletion }}% done.
+                A complete profile gets <strong>3× more quote requests</strong> from clients.
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-3" style="flex-shrink:0;">
+            <div class="progress" style="width:160px; height:8px; background:rgba(255,255,255,0.4); border-radius:999px;">
+                <div class="progress-bar bg-white" role="progressbar" style="width:{{ profileCompletion }}%; border-radius:999px;"></div>
+            </div>
+            <a href="{{ path('professional_profile') }}" class="pro-btn pro-btn-sm" style="background:#fff; color:var(--pro-warning,#f59e0b); border-radius:8px; padding:6px 14px; font-weight:700; text-decoration:none; flex-shrink:0;">Complete now →</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ── Pending Direct Requests Alert ── #}
+    {% if pendingDirectRequestsCount > 0 %}
+    <div class="pro-alert pro-alert-info d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" role="alert" style="padding: 14px 20px;">
+        <div class="d-flex align-items-center gap-2">
+            <i class="feather-bell" style="font-size:1.2rem;"></i>
+            <span>You have <strong>{{ pendingDirectRequestsCount }} direct {{ pendingDirectRequestsCount == 1 ? 'request' : 'requests' }}</strong> waiting for your response.</span>
+        </div>
+        <a href="{{ path('professional_direct_requests') }}" class="pro-btn pro-btn-primary pro-btn-sm">View Requests →</a>
+    </div>
+    {% endif %}
+
     {# ── KPI Cards ── #}
     <div class="row g-4 mb-4">
         <div class="col-md-3 col-sm-6">
@@ -54,6 +84,19 @@
                 <div class="pro-stat-info">
                     <h3 class="pro-stat-value">{{ projectCount }}</h3>
                     <p class="pro-stat-label">Projects</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-6">
+            <div class="pro-stat-card" style="background: linear-gradient(135deg,#7c3aed,#a78bfa); color:#fff;">
+                <div class="pro-stat-header">
+                    <div class="pro-stat-icon" style="background:rgba(255,255,255,0.2); color:#fff;">
+                        <i class="feather-trending-up"></i>
+                    </div>
+                </div>
+                <div class="pro-stat-info">
+                    <h3 class="pro-stat-value" style="color:#fff;">{{ conversionRate }}%</h3>
+                    <p class="pro-stat-label" style="color:rgba(255,255,255,0.85);">Conversion</p>
                 </div>
             </div>
         </div>

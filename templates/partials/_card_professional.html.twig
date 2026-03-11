@@ -1,0 +1,103 @@
+{# 
+   Expected variables:
+   - pro: Professional entity object 
+#}
+
+<div class="drl-pro-card-new">
+    {# Badge - Top Rated (Static for now as per mockup) #}
+    <div class="pro-badge-top-rated">
+        <i class="fas fa-star" aria-hidden="true"></i> Top Rated
+    </div>
+
+    <!-- Image Area -->
+    <div class="pro-card-img-wrapper">
+        <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}">
+            <img src="{{ pro.banner ? asset('uploads/banners/' ~ pro.banner) : asset('assets/drilleedo/images/team/plumber.png') }}"
+                 alt="{{ pro.companyName ?? 'Professional' }} — verified renovation pro on Drilleedo"
+                 loading="lazy">
+        </a>
+    </div>
+
+    <!-- Body Area -->
+    <div class="pro-card-body">
+        
+        {# Verified Status #}
+        <div class="pro-verified-status">
+            <i class="fas fa-check-circle text-success" aria-hidden="true"></i> <strong>Verified</strong> by Drilleedo
+        </div>
+
+        {# Title #}
+        <h3 class="pro-card-title">
+            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}">
+                {% if pro.personalInfos %}
+                    {{ pro.personalInfos.firstName }} {{ pro.personalInfos.lastName }}
+                {% elseif pro.companyName %}
+                    {{ pro.companyName }}
+                {% else %}
+                    {{ pro.email }}
+                {% endif %}
+            </a>
+        </h3>
+
+        {# Details List (Icon + Text) #}
+        <ul class="pro-card-details-list">
+            {# Category #}
+            <li>
+                <span class="category-icon-wrapper me-1" style="width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">
+                    {% if pro.category and pro.category.icon %}
+                        <img src="{{ asset('uploads/categories/' ~ pro.category.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+                    {% else %}
+                        <i class="feather-tool" aria-hidden="true"></i>
+                    {% endif %}
+                </span>
+                <span class="detail-text">{{ pro.category ? pro.category.name : 'Renovation Expert' }}</span>
+            </li>
+            
+            {# Location #}
+            <li>
+                <i class="feather-map-pin" aria-hidden="true"></i>
+                <span class="detail-text">{{ pro.city ?? 'Canada' }}</span>
+            </li>
+            
+            {# Experience #}
+            <li>
+                <i class="feather-briefcase" aria-hidden="true"></i>
+                <span class="detail-text">{{ pro.expYears ?? '5' }} years experience</span>
+            </li>
+        </ul>
+
+        {# Ratings & Response Time Header #}
+        <div class="pro-card-ratings-row">
+            <div class="pro-stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+            </div>
+            <span class="pro-rating-number">4.8</span>
+             {# Optional generic badge or location identifier based on mockup #}
+            <i class="fas fa-globe pro-rating-icon mx-2" style="color: #64748b;"></i> <span style="font-size:14px; color:#475569; font-weight:500;">FN</span>
+        </div>
+
+        <ul class="pro-card-details-list mt-2">
+            <li>
+                <i class="feather-message-circle" aria-hidden="true"></i>
+                <span class="detail-text">Replies within <strong>2 hours</strong></span>
+            </li>
+            <li>
+                <i class="feather-calendar" aria-hidden="true"></i>
+                <span class="detail-text">Available this week</span>
+            </li>
+        </ul>
+
+        {# Action Buttons (Two Buttons side by side) #}
+        <div class="pro-card-actions">
+            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}" 
+               class="btn-pro-outline">
+                View Profile <i class="feather-chevron-right" aria-hidden="true"></i>
+            </a>
+            
+            <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" 
+               class="btn-pro-solid">
+                Request <i class="feather-chevron-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</div>

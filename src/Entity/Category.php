@@ -27,6 +27,12 @@ class Category
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Category::class)]
     private Collection $childs;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $icon = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $color = null;
+
     /**
      * @var Collection<int, Professional>
      */
@@ -163,6 +169,46 @@ class Category
             $company->removeCategory($this);
         }
 
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        if ($this->icon) {
+            return $this->icon;
+        }
+
+        return $this->parent?->getIcon();
+    }
+
+    public function getRawIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): static
+    {
+        $this->icon = $icon;
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        if ($this->color) {
+            return $this->color;
+        }
+
+        return $this->parent?->getColor();
+    }
+
+    public function getRawColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
         return $this;
     }
 }

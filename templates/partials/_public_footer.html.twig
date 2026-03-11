@@ -1,259 +1,4 @@
-<style>
-/* ==========================================================================
-   DRILLEEDO FOOTER – Maquette-exact · Scoped CSS (footer only)
-   ========================================================================== */
-
-/* --- Scoped reset — affects ONLY .drld-footer --- */
-.drld-footer,
-.drld-footer *,
-.drld-footer *::before,
-.drld-footer *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-.drld-footer ul,
-.drld-footer ol {
-    list-style: none;
-}
-.drld-footer a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* --- Footer wrapper --- */
-.drld-footer {
-    background-color: #14568c;
-    color: #ffffff;
-    font-family: 'Euclid Circular A', 'Instrument Sans', sans-serif;
-    position: relative;
-    overflow: hidden;
-}
-
-/* ── CTA Section ──────────────────────────────────── */
-.drld-footer .f-cta {
-    padding: 56px 0 48px;
-}
-.drld-footer .f-cta-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-/* CTA text image (footer-text.png) */
-.drld-footer .f-cta-img {
-    display: block;
-    max-width: 480px;
-    width: 100%;
-    height: auto;
-}
-
-/* Cream pill button */
-.drld-footer .f-cta-btn {
-    display: inline-block;
-    background-color: #fffbeb;
-    color: #1a3a6b;
-    font-size: 1.6rem;
-    width: 400px;
-    font-weight: 600;
-    padding: 16px 56px;
-    border-radius: 50px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: background-color 0.2s, transform 0.15s;
-    cursor: pointer;
-    text-align: center;
-}
-.drld-footer .f-cta-btn:hover {
-    background-color: #fff3c4;
-    color: #1a3a6b;
-    transform: translateY(-1px);
-}
-.drld-footer .f-cta-btn:focus,
-.drld-footer .f-cta-btn:focus-visible {
-    outline: 3px solid #ffffff !important;
-    outline-offset: 4px;
-    background-color: #fff3c4;
-}
-
-/* ── Divider ──────────────────────────────────────── */
-.drld-footer .f-divider {
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.22);
-    margin: 0;
-}
-
-/* ── 4-Column Links Grid ──────────────────────────── */
-.drld-footer .f-links {
-    padding: 36px 0 24px;
-}
-.drld-footer .f-grid {
-    display: grid;
-    grid-template-columns: 2fr 1.1fr 1.1fr 1.6fr;
-    gap: 32px;
-    align-items: start;
-}
-
-/* Column 1 description */
-.drld-footer .f-desc {
-    font-size: 14px;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.72);
-    max-width: 340px;
-}
-
-/* Column titles */
-.drld-footer .f-col-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 14px;
-    letter-spacing: 0.02em;
-    line-height: 1.2;
-}
-
-/* Link lists */
-.drld-footer .f-col-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.drld-footer .f-col-list li {
-    font-size: 14px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.68);
-}
-.drld-footer .f-col-list li a {
-    color: rgba(255, 255, 255, 0.68);
-    transition: color 0.2s, outline 0.1s;
-    border-radius: 2px;
-}
-.drld-footer .f-col-list li a:focus,
-.drld-footer .f-col-list li a:focus-visible {
-    outline: 2px solid #fffbeb !important;
-    outline-offset: 3px;
-    color: #ffffff;
-}
-.drld-footer .f-col-list li a:hover {
-    color: #ffffff;
-}
-
-/* ── Large centered wordmark ──────────────────────── */
-.drld-footer .f-wordmark {
-    display: block;
-    text-align: center;
-    padding: 12px 0 0;
-    overflow: hidden;
-    line-height: 0;
-}
-.drld-footer .f-wordmark img {
-    width: 82%;
-    max-width: 900px;
-    height: auto;
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-/* ── Bottom bar: social icons + copyright ─────────── */
-.drld-footer .f-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    padding: 18px 0 28px;
-}
-.drld-footer .f-bottom-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-/* Social icons */
-.drld-footer .f-social {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.drld-footer .f-social li a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.30);
-    color: #ffffff;
-    transition: background-color 0.2s, border-color 0.2s, outline 0.1s;
-}
-.drld-footer .f-social li a:focus,
-.drld-footer .f-social li a:focus-visible {
-    outline: 2px solid #fffbeb !important;
-    outline-offset: 3px;
-    background-color: rgba(255, 255, 255, 0.12);
-}
-.drld-footer .f-social li a:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.55);
-}
-.drld-footer .f-social li a svg {
-    width: 14px;
-    height: 14px;
-    fill: #ffffff;
-    display: block;
-    flex-shrink: 0;
-}
-
-/* Copyright */
-.drld-footer .f-copyright {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.60);
-    line-height: 1.4;
-}
-
-/* ==========================================================================
-   RESPONSIVE
-   ========================================================================== */
-@media (max-width: 991px) {
-    .drld-footer .f-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-    }
-    .drld-footer .f-cta-img {
-        max-width: 360px;
-    }
-    .drld-footer .f-wordmark img {
-        width: 92%;
-    }
-}
-
-@media (max-width: 767px) {
-    .drld-footer .f-cta-row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .drld-footer .f-cta-img {
-        max-width: 100%;
-    }
-    .drld-footer .f-cta-btn {
-        width: 100%;
-        text-align: center;
-        padding: 14px 32px;
-    }
-    .drld-footer .f-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-    .drld-footer .f-wordmark img {
-        width: 100%;
-    }
-    .drld-footer .f-bottom-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-}
-</style>
+{# Footer styles -> drilleedo.css (section: Footer) #}
 
 <footer class="drld-footer" style="background-color: #04487e;">
     <div class="container" style="margin:auto ;">
@@ -266,7 +11,7 @@
                     alt="We connect Drilleedos to people who need help."
                     class="f-cta-img"
                 >
-                <a href="{{ path('app_login') }}" class="f-cta-btn">Sign in now</a>
+                <a href="{{ path('professionals_list') }}" class="f-cta-btn">Get Free Quotes</a>
             </div>
         </div>
 
@@ -290,11 +35,25 @@
                     <h5 class="f-col-title">Useful Links</h5>
                     <nav aria-label="Useful Links navigation">
                         <ul class="f-col-list">
-                            <li><a href="#">Services</a></li>
+                            <li><a href="{{ path('professionals_list') }}">Services</a></li>
                             <li><a href="{{ path('professionals_list') }}">Find Professionals</a></li>
-                            <li><a href="#">How It Works</a></li>
-                            <li><a href="#">Pricing</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="{{ path('app_home') }}#how-it-works">How It Works</a></li>
+                            <li><a href="{{ path('packages') }}">Pricing</a></li>
+                            <li><a href="{{ path('contact') }}">FAQ</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {# Col 3: Top Cities #}
+                <div>
+                    <h5 class="f-col-title">Top Cities</h5>
+                    <nav aria-label="Top Cities navigation">
+                        <ul class="f-col-list">
+                            <li><a href="{{ path('city_seo_landing', {citySlug: 'toronto'}) }}">Toronto</a></li>
+                            <li><a href="{{ path('city_seo_landing', {citySlug: 'montreal'}) }}">Montreal</a></li>
+                            <li><a href="{{ path('city_seo_landing', {citySlug: 'vancouver'}) }}">Vancouver</a></li>
+                            <li><a href="{{ path('city_seo_landing', {citySlug: 'calgary'}) }}">Calgary</a></li>
+                            <li><a href="{{ path('city_seo_landing', {citySlug: 'ottawa'}) }}">Ottawa</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -304,11 +63,11 @@
                     <h5 class="f-col-title">Company</h5>
                     <nav aria-label="Company navigation">
                         <ul class="f-col-list">
-                            <li><a href="#">About Us</a></li>
+                            <li><a href="{{ path('app_about') }}">About Us</a></li>
                             <li><a href="{{ path('app_register') }}">Join as a Pro</a></li>
                             <li><a href="{{ path('public_blog_list') }}">Blog</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Support</a></li>
+                            <li><a href="{{ path('app_careers') }}">Careers</a></li>
+                            <li><a href="{{ path('contact') }}">Support</a></li>
                         </ul>
                     </nav>
                 </div>

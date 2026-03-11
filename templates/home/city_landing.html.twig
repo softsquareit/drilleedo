@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Renovation Professionals in {{ cityName }} | Drilleedo{% endblock %}
+{% block meta_description %}Find and compare the best home renovation professionals and contractors in {{ cityName }}. Get free local quotes for plumbing, electrical, and remodeling services on Drilleedo.{% endblock %}
+{% block meta_keywords %}renovation {{ cityName }}, contractors {{ cityName }}, hire professional {{ cityName }}, home improvement {{ cityName }}, {{ cityName }} plumbers, {{ cityName }} electricians{% endblock %}
+{% block og_title %}Top Home Renovation Professionals in {{ cityName }} | Drilleedo{% endblock %}
+{% block og_description %}Get free quotes from verified local professionals in {{ cityName }}. Read reviews and compare top-rated contractors for your next home project.{% endblock %}
+
+{% block structured_data %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Home Renovation Professionals in {{ cityName|escape('html_attr') }}",
+    "description": "Directory of verified home improvement pros operating in {{ cityName|escape('html_attr') }}, Canada.",
+    "url": "{{ url('city_seo_landing', {citySlug: citySlug})|escape('html_attr') }}"
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('app_home')|escape('html_attr') }}"},
+        {"@type": "ListItem", "position": 2, "name": "Cities", "item": "{{ url('professionals_list')|escape('html_attr') }}"},
+        {"@type": "ListItem", "position": 3, "name": "Renovations in {{ cityName|escape('html_attr') }}"}
+    ]
+}
+</script>
+{% endblock %}
+
+{% block body %}
+    <div class="rbt-page-banner-wrapper">
+        <!-- Start Banner BG Image  -->
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/professionels.png') }}');"></div>
+        <!-- End Banner BG Image  -->
+        <div class="rbt-banner-content">
+            <div class="rbt-banner-content-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- Start Breadcrumb Area -->
+                            <ul class="page-list">
+                                <li class="rbt-breadcrumb-item">
+                                    <a href="{{ path('app_home') }}">Home</a>
+                                </li>
+                                <li>
+                                    <div class="icon-right">
+                                        <i class="feather-chevron-right"></i>
+                                    </div>
+                                </li>
+                                <li class="rbt-breadcrumb-item active">
+                                    {{ cityName }} Professionals
+                                </li>
+                            </ul>
+                            <!-- End Breadcrumb Area -->
+
+                            <div class="title-wrapper mb-3">
+                                <h1 class="hero-main-title" style="font-size: var(--h1);">Top Renovation Experts in <span class="theme-gradient">{{ cityName }}</span></h1>
+                            </div>
+                            <span class="hero-tagline-orange">Connect with {{ totalResults >= 12 ? '12+' : totalResults }} trusted professionals</span>
+                            <p class="description">
+                                <b>Browse verified contractors, read real client reviews, and get free quotes for your next home project in {{ cityName }}.</b>
+                            </p>
+                            
+                            <div class="about-buttons-row mt-4 d-flex flex-wrap gap-3">
+                                <a href="#pro-grid" class="about-pill-btn btn-solid-blue">Browse {{ cityName }} Pros</a>
+                                <a href="{{ path('app_register') }}" class="about-pill-btn" style="background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.6); color:#fff; backdrop-filter:blur(4px);">
+                                    <i class="feather-briefcase me-1"></i> Join as a Pro in {{ cityName }}
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professionals Grid -->
+    <div class="rbt-section-gap" id="pro-grid">
+        <div class="container">
+            <div class="row g-5">
+                {% for pro in professionals %}
+                <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                    {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
+                </div>
+                {% else %}
+                <div class="col-12 text-center py-5">
+                    <div class="d-flex flex-column align-items-center" style="gap:20px; max-width:520px; margin:0 auto;">
+                        <div style="width:72px;height:72px;background:rgba(20,86,140,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                            <i class="feather-map-pin" style="font-size:2rem;color:var(--color-primary);"></i>
+                        </div>
+                        <h4 style="font-weight:700;color:#1e293b;">Coming soon to {{ cityName }}</h4>
+                        <p class="text-muted" style="font-size:1rem;line-height:1.6;">
+                            We're actively growing our network in {{ cityName }}. In the meantime, browse
+                            professionals across all of Canada or be the first pro in your city.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center">
+                            <a href="{{ path('professionals_list') }}" class="rbt-btn btn-gradient">Browse All Professionals</a>
+                            <a href="{{ path('app_register') }}" class="rbt-btn btn-border">Join as a Pro in {{ cityName }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if totalResults > 0 %}
+            <div class="row mt--60">
+                <div class="col-12 text-center">
+                    <p class="mb-4">Looking for someone specific or need a different location?</p>
+                    <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border">Search All of Canada</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

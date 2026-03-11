@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/jodit.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/styles.css') }}">
     
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/drilleedo.css') }}">
     <!-- Individual Space Dashboard Styles (Harmonized with Index) -->
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/individual-dashboard.css') }}">
     
@@ -41,18 +42,45 @@
     <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
         <div class="rbt-banner-image"></div>
-        <!-- End Banner BG Image  -->
     </div>
 
     <!-- Start Dashboard Area -->
     <div class="rbt-dashboard-area rbt-section-overlayping-top rbt-section-gapBottom">
         <div class="container">
+           <div class="pro-dashboard-header">
+    <div class="pro-header-cover" style="height: 320px;background-image:url('{{ asset('uploads/banners/individual.png')}}') ">
+        <div class="pro-header-overlay" style="background: rgba(0,0,0,0.1);"></div>
+    </div>
+    
+    <div class="pro-header-content">
+        <div class="pro-header-profile">
+            <div class="pro-avatar-wrapper">
+                <div class="pro-avatar-img d-flex align-items-center justify-content-center" style="background: var(--indiv-primary); color: white; font-size: 3.5rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    {{ (app.user.personalInfos ? app.user.personalInfos.firstName|first : app.user.email|first)|upper }}
+                </div>
+            </div>
+            
+            <div class="pro-header-info">
+                <h3 class="pro-header-name">{{ app.user.personalInfos ? (app.user.personalInfos.firstName ~ ' ' ~ app.user.personalInfos.lastName) : app.user.email }}</h3>
+                <div class="pro-header-meta">
+                    <span class="pro-badge secondary">Individual</span>
+                    <span class="pro-divider"></span>
+                    <span class="pro-text-muted">
+                        <i class="feather-mail"></i> {{ app.user.email }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pro-header-actions">
+            <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary">
+                <i class="feather-plus"></i> Post New Request
+            </a>
+        </div>
+    </div>
+</div>
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- Start Dashboard Top  -->
-                    {{ include('individual/partials/_dashboard_header.html.twig') }} 
-                    <!-- End Dashboard Top  -->
-
                     <div class="row g-5">
                         <!-- Start Dashboard Sidebar  -->
                         <div class="col-lg-3">

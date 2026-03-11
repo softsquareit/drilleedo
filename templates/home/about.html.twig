@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us | Drilleedo – Building Trust in Canadian Home Improvement{% endblock %}
+{% block meta_description %}Learn about Drilleedo's mission to connect Canadian homeowners with trusted, verified renovation professionals and companies.{% endblock %}
+
+{% block og_title %}About Us | Drilleedo{% endblock %}
+{% block og_description %}Connecting Canadian homeowners with trusted, verified renovation professionals.{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumb Area -->
+    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-color-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="title">About Drilleedo</h1>
+                    <ul class="page-list" aria-label="Breadcrumbs">
+                        <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
+                        <li>
+                            <div class="icon-right"><i class="feather-chevron-right" aria-hidden="true"></i></div>
+                        </li>
+                        <li class="rbt-breadcrumb-item active" aria-current="page">About Us</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Content Area -->
+    <div class="rbt-about-area pb--100 pb_md--50 pb_sm--30" style="background-color: #f8fafc;">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <!-- Image Section -->
+                <div class="col-lg-6">
+                    <div class="content">
+                        <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}" 
+                             alt="Drilleedo founders and team members"
+                             class="w-100 radius-10 shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Text Section -->
+                <div class="col-lg-6">
+                    <div class="inner pl--50 pl_sm--0 pl_md--0">
+                        <div class="section-title text-start">
+                            <span class="subtitle bg-primary-opacity">OUR MISSION</span>
+                            <h2 class="title">Building Trust in Home Improvement</h2>
+                            <p class="description mt--20">
+                                At Drilleedo, we believe that renovating your home shouldn't be stressful. Our platform was founded here in Canada with a simple goal: to seamlessly connect homeowners with the most reliable, skilled, and verified professionals in their local area.
+                            </p>
+                            <p class="description mt--15">
+                                Whether you're planning a massive kitchen overhaul, seeking a specialized contractor, or just need a quick electrical fix, Drilleedo brings transparency, competitive pricing, and peace of mind directly to your fingertips. 
+                            </p>
+                        </div>
+                        
+                        <div class="row mt--30 g-5">
+                            <div class="col-sm-6">
+                                <div class="rbt-feature-wrapper">
+                                    <div class="rbt-feature feature-style-1 align-items-center">
+                                        <div class="icon bg-primary-opacity text-primary">
+                                            <i class="feather-shield"></i>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h6 class="feature-title mb-0">Verified Pros</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="rbt-feature-wrapper">
+                                    <div class="rbt-feature feature-style-1 align-items-center">
+                                        <div class="icon bg-secondary-opacity text-secondary">
+                                            <i class="feather-heart"></i>
+                                        </div>
+                                        <div class="feature-content">
+                                            <h6 class="feature-title mb-0">Trusted Platform</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt--40">
+                            <a href="{{ path('professionals_list') }}" class="rbt-btn btn-gradient radius-round">
+                                Find a Professional <i class="feather-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

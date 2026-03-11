@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+{% block title %}Find Renovation Professionals Near You | Drilleedo Canada{% endblock %}
+{% block meta_description %}Browse and compare verified home renovation professionals in your area. Filter by service category and location. Get free quotes from trusted contractors on Drilleedo.{% endblock %}
+{% block meta_keywords %}find renovation professionals, hire contractor near me, plumber Toronto, electrician Montreal, home renovation services Canada{% endblock %}
+{% block og_title %}Find Renovation Professionals Near You | Drilleedo{% endblock %}
+{% block og_description %}Browse verified professionals for renovation, plumbing, electrical and more. Filter by category and city.{% endblock %}
 
 {% block body %}
     <div class="rbt-page-banner-wrapper">
@@ -16,7 +20,7 @@
                             <!-- Start Breadcrumb Area -->
                             <ul class="page-list">
                                 <li class="rbt-breadcrumb-item">
-                                    <a href="index.html">Home</a>
+                                    <a href="{{ path('app_home') }}">Home</a>
                                 </li>
                                 <li>
                                     <div class="icon-right">
@@ -32,7 +36,7 @@
                             <div class="title-wrapper">
                                 <h1 class="hero-main-title" style="font-size: var(--h1);">Professionals Near You</h1>
                                 <a href="#" class="rbt-badge-2"> 
-                                   120+ Results 
+                                   {{ professionals|length }} {{ professionals|length == 1 ? 'Result' : 'Results' }}
                                 </a>
                             </div>
 <span class="hero-tagline-orange">Connect with trusted professionals</span>
@@ -42,26 +46,8 @@
 <div class="hero-service-icons">
 <!-- Using simple SVGs for icons as placeholders for now -->
 
-
-<div class="hero-service-icon" title="Plants">
-<i class="fas fa-leaf"></i>
-</div>
-
-
-<div class="hero-service-icon" title="Light">
-<i class="fas fa-lightbulb"></i>
-</div>
-
-
-<div class="hero-service-icon" title="Wrench">
-<i class="fas fa-wrench"></i>
-</div>
-
-<div class="hero-service-icon" title="Hammer">
-<i class="fas fa-hammer"></i>
-</div>
 <div class="about-buttons-row">
-<button class="about-pill-btn btn-solid-blue">  Request a Quote</button>
+<a href="{{ path('app_register') }}" class="about-pill-btn btn-solid-blue"><i class="feather-plus me-1"></i> Post a Project</a>
 </div>
 
 </div>
@@ -85,119 +71,101 @@
 
         <!-- Start Category Filter -->
         <div class="rbt-single-widget rbt-widget-categories has-show-more">
+            <fieldset style="border: none; padding: 0; margin: 0;">
+            <legend class="sr-only">Filter professionals by service category</legend>
             <div class="inner">
-                <h4 class="rbt-widget-title">Service Categories</h4>
-                <ul class="rbt-sidebar-list-wrapper categories-list-check has-show-more-inner-content">
+                <h4 class="rbt-widget-title" aria-hidden="true">Service Categories</h4>
+                <ul class="rbt-sidebar-list-wrapper categories-list-check has-show-more-inner-content" role="list">
                     {% for cat in allCategories %}
-                    <li class="rbt-check-group">
+                    <li class="rbt-check-group" role="listitem">
                         <input id="cat-{{ cat.id }}" type="checkbox" name="categories[]" value="{{ cat.id }}"
                             {% if cat.id in activeFilters.categories %}checked{% endif %}
-                            onchange="this.form.submit()">
-                        <label for="cat-{{ cat.id }}">{{ cat.name }} <span class="rbt-lable count">{{ categoryCounts[cat.id] ?? 0 }}</span></label>
+                            onchange="this.form.submit()"
+                            aria-label="{{ cat.name }} ({{ categoryCounts[cat.id] ?? 0 }} professionals)">
+                        <label for="cat-{{ cat.id }}" class="d-flex align-items-center gap-2">
+                            <span class="category-icon-wrapper" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                                {% if cat.icon %}
+                                    <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+                                {% else %}
+                                    <i class="fas fa-folder-open small text-muted"></i>
+                                {% endif %}
+                            </span>
+                            {{ cat.name }} 
+                            <span class="rbt-lable count" aria-hidden="true">{{ categoryCounts[cat.id] ?? 0 }}</span>
+                        </label>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
-            <div class="rbt-show-more-btn">Show More</div>
+            <div class="rbt-show-more-btn" role="button" aria-expanded="false" aria-label="Show more service categories">Show More</div>
+            </fieldset>
         </div>
         <!-- End Category Filter -->
 
         <!-- Start Location Filter -->
         <div class="rbt-single-widget rbt-widget-categories">
+            <fieldset style="border: none; padding: 0; margin: 0;">
+            <legend class="sr-only">Filter professionals by city or region</legend>
             <div class="inner">
-                <h4 class="rbt-widget-title">Location</h4>
-                <ul class="rbt-sidebar-list-wrapper categories-list-check">
+                <h4 class="rbt-widget-title" aria-hidden="true">Location</h4>
+                <ul class="rbt-sidebar-list-wrapper categories-list-check" role="list">
                     {% for city in allCities %}
-                    <li class="rbt-check-group">
+                    <li class="rbt-check-group" role="listitem">
                         <input id="city-{{ loop.index }}" type="checkbox" name="cities[]" value="{{ city }}"
                             {% if city in activeFilters.cities %}checked{% endif %}
-                            onchange="this.form.submit()">
-                        <label for="city-{{ loop.index }}">{{ city }} <span class="rbt-lable count">{{ cityCounts[city] ?? 0 }}</span></label>
+                            onchange="this.form.submit()"
+                            aria-label="{{ city }} ({{ cityCounts[city] ?? 0 }} professionals)">
+                        <label for="city-{{ loop.index }}">{{ city }} <span class="rbt-lable count" aria-hidden="true">{{ cityCounts[city] ?? 0 }}</span></label>
                     </li>
                     {% else %}
                     <li>No cities available</li>
                     {% endfor %}
                 </ul>
             </div>
+            </fieldset>
         </div>
         <!-- End Location Filter -->
 
-        <!-- Start Tags -->
+        <!-- Start Actions -->
         <div class="rbt-single-widget rbt-widget-tag">
             <div class="inner">
                 <div class="mt-4">
-                    <button type="submit" class="rbt-btn btn-gradient btn-sm w-100">Apply Filters</button>
+                    <button type="submit" class="rbt-btn btn-gradient btn-sm w-100" aria-label="Apply selected service and location filters">Apply Filters</button>
                     {% if activeFilters.categories is not empty or activeFilters.cities is not empty %}
-                        <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border btn-sm w-100 mt-2 text-center">Clear Filters</a>
+                        <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border btn-sm w-100 mt-2 text-center" aria-label="Clear all active filters and show all professionals">Clear Filters</a>
                     {% endif %}
                 </div>
             </div>
         </div>
-        <!-- End Tags -->
+        <!-- End Actions -->
 
         </form>
     </aside>
 </div>
 
                 <div class="col-lg-8 col-xl-9 order-1 order-lg-2">
+                    <!-- Trust Bar -->
+           
+
     <div class="row g-5">
 
-        <!-- Start Single Professional Loop -->
-        {% for pro in professionals %}
+        <!-- Start Single Professional Loop ! -->
+        {% for pro in professionals %} 
         <div class="col-xl-4 col-lg-6 col-md-6 col-12">
-            <div class="rbt-card event-grid-card variation-01 rbt-hover">
-                <div class="rbt-card-img">
-                    <a href="#">
-                        <img src="{{ pro.banner ? asset('uploads/banners/' ~ pro.banner) : asset('assets/images/event/grid-type-01.jpg') }}" alt="Banner image" style="height: 200px; object-fit: cover;">
-                    </a>
-                </div>
-                <div class="rbt-card-body">
-                    <ul class="rbt-meta border-bottom pb-3 mb-3">
-                        <li><i class="feather-map-pin"></i>{{ pro.city ?? 'Location not set' }}</li>
-                        {% if pro.expYears %}
-                        <li><i class="feather-briefcase"></i>{{ pro.expYears }} years exp.</li>
-                        {% endif %}
-                    </ul>
-                    
-                    <div class="d-flex align-items-center mb-3">
-                        {% if pro.logo %}
-                            <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="Logo" class="rounded-circle me-3 border shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
-                        {% endif %}
-                        <h4 class="rbt-card-title mb-0">
-                            <a href="#">
-                                {% if pro.primaryContact %}
-                                    {{ pro.primaryContact.firstName }} {{ pro.primaryContact.lastName }}
-                                {% elseif pro.companyName %}
-                                    {{ pro.companyName }}
-                                {% else %}
-                                    {{ pro.email }}
-                                {% endif %}
-                            </a>
-                            
-                        </h4>
-                    </div>
-
-                    {% if pro.category %}
-                    <p class="mb-3 text-muted" style="font-size: 14px;">
-    <i class="fas fa-wrench"></i>
-{{ pro.category.name }}</p>
-                    {% endif %}
-
-                    <div class="read-more-btn mt-4">
-                        <a class="rbt-btn btn-border hover-icon-reverse btn-sm radius-round w-100 text-center" href="{{ path('professional_details', {'id': pro.id}) }}">
-                            <span class="icon-reverse-wrapper">
-                                <span class="btn-text">View Profile</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
         </div>
         {% else %}
-        <div class="col-12">
-            <div class="alert alert-info">Aucun professionnel trouvé.</div>
+        <div class="col-12 text-center py-5">
+            <div class="d-flex flex-column align-items-center" style="gap:20px; max-width:520px; margin:0 auto;">
+                <div style="width:72px;height:72px;background:rgba(20,86,140,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                    <i class="feather-search" style="font-size:2rem;color:var(--color-primary);"></i>
+                </div>
+                <h4 style="font-weight:700;color:#1e293b;">No professionals found</h4>
+                <p class="text-muted" style="font-size:1rem;line-height:1.6;">
+                    Try adjusting your filters, or browse all professionals across Canada.
+                </p>
+                <a href="{{ path('professionals_list') }}" class="rbt-btn btn-gradient">Browse All Professionals</a>
+            </div>
         </div>
         {% endfor %}
         <!-- End Single Professional Loop -->

@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+{% block title %}Pro Packages & Pricing | Drilleedo – Grow Your Renovation Business{% endblock %}
+{% block meta_description %}Explore Drilleedo's professional plans. Get featured placement, priority support, and increased visibility for your renovation business in Canada.{% endblock %}
+{% block og_title %}Pro Packages & Pricing | Drilleedo{% endblock %}
+{% block og_description %}Explore Drilleedo's professional plans for renovation businesses.{% endblock %}
 
 {% block body %}
 
@@ -47,9 +50,9 @@
                     </div>
 
                     <div class="pricing-btn">
-                        <a class="rbt-btn bg-primary-opacity hover-icon-reverse w-100" href="#">
+                        <a class="rbt-btn bg-primary-opacity hover-icon-reverse w-100" href="{{ path('app_register') }}">
                             <span class="icon-reverse-wrapper">
-                                <span class="btn-text">Get Started</span>
+                                <span class="btn-text">Get Started Free</span>
                                 <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                 <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                             </span>
@@ -88,9 +91,9 @@
                     </div>
 
                     <div class="pricing-btn">
-                        <a class="rbt-btn bg-secondary-opacity hover-icon-reverse w-100" href="#">
+                        <a class="rbt-btn bg-secondary-opacity hover-icon-reverse w-100" href="{{ path('app_register') }}">
                             <span class="icon-reverse-wrapper">
-                                <span class="btn-text">Upgrade Plan</span>
+                                <span class="btn-text">Start Growing</span>
                                 <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                 <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                             </span>
@@ -128,7 +131,7 @@
                     </div>
 
                     <div class="pricing-btn">
-                        <a class="rbt-btn bg-pink-opacity hover-icon-reverse w-100" href="#">
+                        <a class="rbt-btn bg-pink-opacity hover-icon-reverse w-100" href="{{ path('app_register') }}">
                             <span class="icon-reverse-wrapper">
                                 <span class="btn-text">Go Premium</span>
                                 <span class="btn-icon"><i class="feather-arrow-right"></i></span>
@@ -223,7 +226,7 @@
                                 <div id="collapseThree" class="accordion-collapse collapse"
                                      data-bs-parent="#accordionDrilleedo">
                                     <div class="accordion-body card-body">
-                                        You can reach our support team through the contact page at any time.
+                                        You can reach our support team through the <a href="{{ path('contact') }}">contact page</a> at any time.
                                         Priority assistance is available with selected plans.
                                     </div>
                                 </div>

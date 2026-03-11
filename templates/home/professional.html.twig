@@ -1,12 +1,60 @@
    {% extends 'base.html.twig' %}
 
-{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+{% block title %}{{ professional.companyName|default('Professional') }} – {{ professional.category|default('Services') }} in {{ professional.city|default('Canada') }} | Drilleedo{% endblock %}
+{% block meta_description %}Hire {{ professional.companyName|default('a trusted professional') }} for {{ professional.category|default('renovation') }} services in {{ professional.city|default('Canada') }}. {{ professional.expYears|default(0) }}+ years of experience. Get a free quote on Drilleedo.{% endblock %}
+{% block meta_keywords %}{{ professional.category|default('renovation') }} {{ professional.city|default('Canada') }}, {{ professional.companyName|default('contractor') }}, hire {{ professional.category|default('professional') }} near me{% endblock %}
+{% block og_title %}{{ professional.companyName|default('Professional') }} – {{ professional.category|default('Services') }} | Drilleedo{% endblock %}
+{% block og_description %}{{ professional.expYears|default(0) }}+ years of experience in {{ professional.category|default('home renovation') }}. View profile, projects and get a free quote.{% endblock %}
+{% block og_type %}profile{% endblock %}
+{% block og_image %}{% if professional.logo %}{{ absolute_url(asset('uploads/logos/' ~ professional.logo)) }}{% else %}{{ absolute_url(asset('assets/drilleedo/images/logo/logo-black.png')) }}{% endif %}{% endblock %}
+
+{% block structured_data %}
+{{ parent() }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "{{ professional.category|default('Home Renovation')|e('js') }}",
+    "provider": {
+        "@type": "LocalBusiness",
+        "name": "{{ professional.companyName|default('Professional')|e('js') }}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "{{ professional.city|default('')|e('js') }}",
+            "addressCountry": "CA"
+        }
+    },
+    "areaServed": {
+        "@type": "City",
+        "name": "{{ professional.city|default('Canada')|e('js') }}"
+    }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('app_home') }}"},
+        {"@type": "ListItem", "position": 2, "name": "Professionals", "item": "{{ url('professionals_list') }}"},
+        {"@type": "ListItem", "position": 3, "name": "{{ professional.companyName|default('Professional')|e('js') }}"}
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {"@type": "Question", "name": "How can I request a quote?", "acceptedAnswer": {"@type": "Answer", "text": "You can request a quote by contacting directly through the platform and providing basic project details."}},
+        {"@type": "Question", "name": "What type of projects do you handle?", "acceptedAnswer": {"@type": "Answer", "text": "Projects range from minor renovations to full residential remodeling."}},
+        {"@type": "Question", "name": "Are you licensed and insured?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, all work is completed under valid certifications and insurance."}}
+    ]
+}
+</script>
+{% endblock %}
 
 {% block body %}
-
-    <!-- Menus are handled by base.html.twig -->
-
-<!-- Start breadcrumb Area -->
  <div class="rbt-page-banner-wrapper">
         <!-- Start Banner BG Image  -->
         <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/professionels.png') }}');"></div>
@@ -17,7 +65,7 @@
             <div class="col-lg-8">
                  <div class="content text-start">
                     <ul class="page-list">
-                        <li class="rbt-breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
                         <li>
                             <div class="icon-right"><i class="feather-chevron-right"></i></div>
                         </li>
@@ -33,30 +81,28 @@
                     <div class="d-flex align-items-center mb--20 flex-wrap rbt-course-details-feature">
 
                         <div class="feature-sin best-seller-badge">
-                            <span class="rbt-badge-2">
-                                <span class="image">
-                                    <img src="{{ asset('assets/drilleedo/images/icons/card-icon-1.png') }}" alt="Top Rated Icon">
-                                </span>
-                                Top Rated
+                            <span class="rbt-badge-2" style="background-color: rgba(37, 99, 235, 0.1); color: #2563eb; font-weight: 700;">
+                                <i class="fas fa-check-circle me-1"></i> Verified Pro
+                            </span>
+                        </div>
+                        
+                        <div class="feature-sin best-seller-badge">
+                            <span class="rbt-badge-2" style="background-color: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: 700;">
+                                <i class="fas fa-shield-alt me-1"></i> Licensed & Insured
                             </span>
                         </div>
 
-                        <div class="feature-sin rating">
-                            <a href="#">4.8</a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                        </div>
-
-                        <div class="feature-sin total-rating">
-                            <a class="rbt-badge-4" href="#">215 verified reviews</a>
-                        </div>
-
+                        {% if professional.projets is defined and professional.projets|length > 0 %}
                         <div class="feature-sin total-student">
-                            <span>616 completed projects</span>
+                            <span>{{ professional.projets|length }} completed project{{ professional.projets|length != 1 ? 's' : '' }}</span>
                         </div>
+                        {% endif %}
+
+                        {% if professional.expYears %}
+                        <div class="feature-sin total-student">
+                            <span>{{ professional.expYears }}+ years experience</span>
+                        </div>
+                        {% endif %}
 
                     </div>
 
@@ -116,28 +162,49 @@
                                 <div class="section-title">
                                     <h4 class="title mb--20">About the Professional</h4>
                                 </div>
-                                <p>
-                                    {{ professional.companyName }} is a trusted specialist known for delivering
-                                    reliable, high-quality results. Their work ranges from small upgrades to full
-                                    projects, always focusing on precision and durability.
-                                </p>
-                                <p>
-                                    With a strong commitment to communication and transparency, John ensures that every
-                                    project meets client expectations from start to finish.
-                                </p>
+                                {% if professional.about %}
+                                    <p>{{ professional.about|nl2br }}</p>
+                                {% else %}
+                                    <p>
+                                        {{ professional.companyName }} is a trusted specialist known for delivering
+                                        reliable, high-quality results. Their work ranges from small upgrades to full
+                                        projects, always focusing on precision and durability.
+                                    </p>
+                                    <p>With a strong commitment to communication and transparency, the team ensures
+                                        every project meets client expectations from start to finish.
+                                    </p>
+                                {% endif %}
                             </div>
 
+                            {% if professional.category %}
                             <div class="col-lg-6">
                                 <div class="section-title">
                                     <h4 class="title mb--20">Services Offered</h4>
                                 </div>
                                 <ul class="rbt-list-style-1">
-                                    <li><i class="feather-check"></i>Home renovation & remodeling</li>
-                                    <li><i class="feather-check"></i>Kitchen and bathroom upgrades</li>
-                                    <li><i class="feather-check"></i>Flooring, painting, and finishing</li>
-                                    <li><i class="feather-check"></i>Custom renovation solutions</li>
+                                    <li><i class="feather-check"></i>{{ professional.category.name }}</li>
+                                    {% if professional.categories is defined and professional.categories|length > 0 %}
+                                        {% for cat in professional.categories %}
+                                            {% if cat.id != professional.category.id %}
+                                            <li><i class="feather-check"></i>{{ cat.name }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
                             </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Client Reviews Section -->
+                    <div class="rbt-feature-box rbt-shadow-box mt--60">
+                        <div class="section-title">
+                            <h4 class="title mb--20">Client Reviews</h4>
+                        </div>
+
+                        <div class="text-center py-4">
+                            <i class="feather-message-square" style="font-size:2.5rem;color:var(--color-primary);opacity:0.4;"></i>
+                            <p class="text-muted mt-3 mb-0">No reviews yet — hire this professional and be the first to share your experience!</p>
                         </div>
                     </div>
 
@@ -205,8 +272,8 @@
     <div class="row">
         <div class="col-lg-12 mb--40">
             <div class="section-title text-start">
-                <span class="subtitle bg-secondary-opacity">Similar Works</span>
-                <h2 class="title">Similar Projects</h2>
+                <span class="subtitle bg-secondary-opacity">Works & Experience</span>
+                <h2 class="title">Portfolio Gallery</h2>
             </div>
         </div>
     </div>
@@ -220,13 +287,29 @@
              data-sal-duration="800">
             <div class="rbt-card event-grid-card variation-01 rbt-hover">
                 <div class="rbt-card-img">
-                    <a href="#">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#projectModal{{ loop.index }}">
                         {% if project.mainPhoto %}
-                            <img src="{{ asset('uploads/images/' ~ project.mainPhoto) }}" alt="Project image">
+                            <img src="{{ asset('uploads/images/' ~ project.mainPhoto) }}" alt="{{ project.name }}" class="w-100">
                         {% else %}
-                            <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Project image">
+                            <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Default project image" class="w-100">
                         {% endif %}
                     </a>
+                    
+                    <!-- Modal for Lightbox -->
+                    <div class="modal fade" id="projectModal{{ loop.index }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content bg-transparent border-0">
+                                <div class="modal-body p-0 position-relative">
+                                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-index-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <img src="{{ project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="{{ project.name }}" class="w-100 rounded">
+                                    <div class="p-4 bg-white rounded-bottom">
+                                        <h4 class="mb-1">{{ project.name }}</h4>
+                                        <p class="text-muted mb-0">{{ project.description|default('No description provided for this project.') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="rbt-card-body">
                     <ul class="rbt-meta">
@@ -273,6 +356,36 @@
     </div>
 </div>
 
+                    <!-- Contact Section Target -->
+                    <div id="contact-pro" class="rbt-feature-box rbt-shadow-box mt--60 mb--60">
+                        <div class="section-title">
+                            <h4 class="title mb--20">Request a Quote from {{ professional.companyName }}</h4>
+                        </div>
+                        <div class="rbt-contact-form">
+                            <p class="mb--30">Send a direct message to this professional to discuss your project requirements and get a free estimate.</p>
+                            <form action="#" class="row g-5">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input name="con_name" type="text" placeholder="Your Name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input name="con_email" type="email" placeholder="Your Email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <textarea name="con_message" placeholder="Describe your project..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button class="rbt-btn btn-gradient w-100">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -291,7 +404,7 @@
                         </a>
 
                         <div class="content pt--30">
-                            <a class="rbt-btn btn-gradient w-100 mb--15 text-center" href="#">
+                            <a class="rbt-btn btn-gradient w-100 mb--15 text-center" href="#contact-pro">
                                 <span class="btn-text">Request a Quote</span>
                             </a>
 

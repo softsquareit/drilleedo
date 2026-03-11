@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}</title>
     <meta name="robots" content="index, follow">
-    <meta name="description" content="Drilleedo connects homeowners with trusted professionals for renovations, repairs, and home improvement services in Canada. Fast, reliable, and easy to use.">
+    <meta name="description" content="{% block meta_description %}Drilleedo connects Canadian homeowners with trusted renovation professionals. Get free quotes from verified contractors near you.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}home renovation Canada, find contractors, renovation quotes, home improvement marketplace{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {# ── Open Graph ── #}
+    <meta property="og:title" content="{% block og_title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Find trusted home renovation professionals across Canada. Get free quotes today.{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta property="og:image" content="{% block og_image %}{{ absolute_url(asset('assets/drilleedo/images/logo/logo-black.png')) }}{% endblock %}">
+    <meta property="og:locale" content="en_CA">
+    <meta property="og:site_name" content="Drilleedo">
+
+    {# ── Twitter Card ── #}
+    <meta name="twitter:card" content="summary_large_image">
+
+    {# ── Canonical URL ── #}
+    <link rel="canonical" href="{% block canonical %}{{ app.request.uri }}{% endblock %}">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/drilleedo/images/favicon.png') }}">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    {# ── Google Fonts (localized) ── #}
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/dm-serif-display.css') }}">
 
     <!-- CSS
 	============================================ -->
@@ -32,13 +48,28 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/magnigy-popup.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/plyr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/jodit.min.css') }}">
-	
-    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/styles.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/drilleedo.css') }}">
- <style>
-</style>
     {% block stylesheets %}{% endblock %}
+
+    {# ── Structured Data (JSON-LD) ── #}
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Drilleedo",
+        "url": "{{ url('app_home') }}",
+        "description": "Canadian home improvement marketplace connecting homeowners with trusted professionals.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ url('professionals_list') }}?q={search_term}",
+            "query-input": "required name=search_term"
+        }
+    }
+    </script>
+    {% endblock %}
 </head>
 
 <body class="rbt-header-sticky dm-serif-display-regular">
@@ -60,6 +91,8 @@
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
         </svg>
     </div>
+
+
 
     <!-- JS
 ============================================ -->
@@ -97,7 +130,6 @@
     <script src="{{ asset('assets/drilleedo/js/vendor/Sortable.min.js') }}"></script>
 
     <!-- Main JS -->
-    <script src="{{ asset('assets/drilleedo/js/vendor/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/confirm-modal.js') }}"></script>

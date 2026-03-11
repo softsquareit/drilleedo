@@ -67,10 +67,10 @@
                             <tr>
                                 <th class="border-0 px-4 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 5%;">#</th>
                                 <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">ID</th>
-                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 30%;">Category Name</th>
-                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 25%;">Hierarchy</th>
+                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 25%;">Category Name</th>
+                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Visuals</th>
+                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Hierarchy</th>
                                 <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Related</th>
-                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">Status</th>
                                 <th class="border-0 px-4 py-3 text-end text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 5%;">Actions</th>
                             </tr>
                         </thead>
@@ -81,12 +81,23 @@
                                 <td><span class="badge bg-light text-secondary border rounded-2 px-2 py-1 user-select-all">#{{ category.id }}</span></td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <div class="bg-warning bg-opacity-10 text-warning rounded-3 p-2 me-3 d-flex align-items-center justify-content-center border border-warning-subtle" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-folder-open small"></i>
+                                        <div class="bg-light rounded-3 p-2 me-3 d-flex align-items-center justify-content-center border" 
+                                             style="width: 40px; height: 40px; border-color: {{ category.color|default('#ffc107') }} !important; background-color: {{ category.color|default('#ffc107') }}1a !important;">
+                                            {% if category.icon %}
+                                                <img src="{{ asset('uploads/categories/' ~ category.icon) }}" alt="" style="width: 24px; height: 24px; object-fit: contain;">
+                                            {% else %}
+                                                <i class="fas fa-folder-open small" style="color: {{ category.color|default('#ffc107') }}"></i>
+                                            {% endif %}
                                         </div>
                                         <div>
                                             <span class="fw-bold text-dark d-block">{{ category.name }}</span>
                                         </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle border shadow-sm" style="width: 20px; height: 20px; background-color: {{ category.color|default('#eee') }};" title="Category Color"></div>
+                                        <span class="small text-muted font-monospace">{{ category.color|default('None') }}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -104,11 +115,6 @@
                                         {{ category.companies|length }} Companies
                                     </span>
                                 </td>
-                                <td>
-                                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
-                                        <i class="fas fa-dot-circle me-1 small"></i> Active
-                                     </span>
-                                </td>
                                 <td class="px-4 text-end">
                                     <div class="d-flex justify-content-end gap-2">
                                         <button class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" type="button" 
@@ -117,16 +123,17 @@
                                                 data-id="{{ category.id }}"
                                                 data-name="{{ category.name }}"
                                                 data-parent="{{ category.parent ? category.parent.id : '' }}"
+                                                data-color="{{ category.rawColor|default('#ffc107') }}"
                                                 title="Edit Details"
                                                 style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
                                         </button>
-                                        <a href="#" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" 
-                                           data-confirm="Are you sure?">
+                                        <button class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" 
+                                           onclick="if(confirm('Are you sure?')) document.getElementById('delete-form-{{ category.id }}').submit();"
                                            title="Delete Category"
                                            style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-trash-alt small"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                     
                                     <form id="delete-form-{{ category.id }}" action="{{ path('admin_category_delete', {'id': category.id}) }}" method="POST" style="display: none;">
@@ -165,11 +172,11 @@
                 <h5 class="modal-title fw-bold text-dark" id="addCategoryLabel">New Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-             <form action="{{ path('admin_category_create') }}" method="POST" enctype="multipart/form-data">
+             <form action="{{ path('admin_category_create') }}" method="POST" enctype="multipart/form-data" id="addCategoryForm">
                 <div class="modal-body p-4 pt-0">
                      <div class="mb-4">
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Category Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[Category]" required placeholder="e.g. Construction">
+                        <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[name]" required placeholder="e.g. Construction">
                     </div>
                     <div class="mb-4">
                          <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Parent Category</label>
@@ -182,7 +189,16 @@
                                 {% endfor %}
                             </select>
                         </div>
-                         <div class="form-text mt-2"><i class="fas fa-info-circle me-1"></i> Select a parent to make this a sub-category.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Icon (Image)</label>
+                            <input type="file" class="form-control bg-light border-0 rounded-3" name="category[iconFile]">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Color</label>
+                            <input type="color" class="form-control form-control-color w-100 border-0 bg-light rounded-3" name="category[color]" value="#ffc107" style="height: 48px;">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-light bg-opacity-50 border-0 py-3 px-4 rounded-bottom-4 justify-content-between">
@@ -201,11 +217,12 @@
                 <h5 class="modal-title fw-bold text-dark" id="editCategoryLabel">Edit Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-             <form action="" method="POST" id="editCategoryForm">
+             <form action="" method="POST" id="editCategoryForm" enctype="multipart/form-data">
                  <div class="modal-body p-4 pt-0">
                      <div class="mb-4">
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Category Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[name]" id="editCategoryName" required>
+                        <input type="hidden" name="category[_token]" value="{{ csrf_token('category') }}">
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Parent Category</label>
@@ -217,6 +234,16 @@
                                     <option value="{{ cat.id }}">{{ cat.name }}</option>
                                 {% endfor %}
                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Icon (Image)</label>
+                            <input type="file" class="form-control bg-light border-0 rounded-3" name="category[iconFile]">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Color</label>
+                            <input type="color" class="form-control form-control-color w-100 border-0 bg-light rounded-3" name="category[color]" id="editCategoryColor" style="height: 48px;">
                         </div>
                     </div>
                 </div>
@@ -242,12 +269,65 @@
                 const categoryId = button.getAttribute('data-id');
                 const categoryName = button.getAttribute('data-name');
                 const categoryParent = button.getAttribute('data-parent');
+                const categoryColor = button.getAttribute('data-color');
                 
                 document.getElementById('editCategoryName').value = categoryName;
                 document.getElementById('editCategoryParent').value = categoryParent;
+                document.getElementById('editCategoryColor').value = categoryColor;
                 document.getElementById('editCategoryForm').action = `/admin/categories/${categoryId}/edit`;
             });
         }
+
+        // AJAX Form Submission
+        const handleAjaxForm = (formId, modalId) => {
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Success feedback
+                        const modal = bootstrap.Modal.getInstance(document.getElementById(modalId));
+                        modal.hide();
+                        
+                        // Show success message (using simple alert for now, could be toast)
+                        alert(data.message);
+                        
+                        // Reload the page to reflect changes
+                        window.location.reload();
+                    } else {
+                        alert('Error: ' + data.message + (data.errors ? '\n' + data.errors : ''));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An unexpected error occurred.');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                });
+            });
+        };
+
+        handleAjaxForm('addCategoryForm', 'addCategoryModal');
+        handleAjaxForm('editCategoryForm', 'editCategoryModal');
     });
 </script>
 

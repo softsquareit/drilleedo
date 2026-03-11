@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Create Your Account | Join Drilleedo as a Pro or Homeowner{% endblock %}
+{% block meta_description %}Register on Drilleedo to connect with Canada's best renovation professionals, post projects, and receive competitive quotes — or join as a verified professional to grow your business.{% endblock %}
+{% block meta_keywords %}register Drilleedo, create account, join renovation platform, sign up professional contractor, homeowner registration Canada{% endblock %}
+{% block og_title %}Join Drilleedo | Canada's Home Renovation Marketplace{% endblock %}
+{% block og_description %}Create a free account to connect with verified renovation professionals or showcase your business to thousands of Canadian homeowners.{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -116,7 +120,7 @@
                                                 <div class="rbt-checkbox d-flex align-items-center modern-checkbox-area">
                                                     {{ form_widget(professionalForm.agreeTerms, {'attr': {'id': 'pro-terms', 'class': 'modern-checkbox'}}) }}
                                                     <label for="pro-terms" class="ms-3 mb-0 fs-6 cursor-pointer">
-                                                        I agree to the <a href="#" class="text-primary fw-bold text-decoration-none border-bottom border-primary">Terms & Conditions</a>
+                                                        I agree to the <a href="{{ path('contact') }}?subject=Terms" class="text-primary fw-bold text-decoration-none border-bottom border-primary">Terms & Conditions</a>
                                                     </label>
                                                 </div>
                                                 <div class="text-danger small mt-2 fw-medium">{{ form_errors(professionalForm.agreeTerms) }}</div>
@@ -163,7 +167,7 @@
                                                 <div class="rbt-checkbox d-flex align-items-center modern-checkbox-area">
                                                     {{ form_widget(individualForm.agreeTerms, {'attr': {'id': 'ind-terms', 'class': 'modern-checkbox'}}) }}
                                                     <label for="ind-terms" class="ms-3 mb-0 fs-6 cursor-pointer">
-                                                        I agree to the <a href="#" class="text-primary fw-bold text-decoration-none border-bottom border-primary">Terms & Conditions</a>
+                                                        I agree to the <a href="{{ path('contact') }}?subject=Terms" class="text-primary fw-bold text-decoration-none border-bottom border-primary">Terms & Conditions</a>
                                                     </label>
                                                 </div>
                                                 <div class="text-danger small mt-2 fw-medium">{{ form_errors(individualForm.agreeTerms) }}</div>
@@ -194,76 +198,7 @@
         </div>
     </div>
     
-    <style>
-        .hover-scale:hover {
-            transform: scale(1.05);
-            color: var(--color-primary-dark) !important;
-            border-bottom-color: var(--color-primary) !important;
-        }
-        
-        /* Modernized Styles for Forms */
-        .rbt-form-modern .form-control-modern, 
-        .rbt-form-modern .form-select-modern {
-            width: 100%;
-            padding: 16px 20px !important;
-            border: 1.5px solid #e0e6ed !important;
-            border-radius: 12px !important;
-            background-color: #f8fafc !important;
-            color: #1e293b !important;
-            font-size: 16px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            height: auto !important;
-            line-height: normal !important;
-        }
-        
-        .rbt-form-modern .form-control-modern:focus, 
-        .rbt-form-modern .form-select-modern:focus {
-            background-color: #fff !important;
-            border-color: var(--color-primary) !important;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
-            outline: none !important;
-        }
-        
-        .rbt-form-modern .form-select-modern {
-            cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: right 15px center !important;
-            background-size: 18px !important;
-            padding-right: 45px !important;
-        }
-        
-        .modern-checkbox-area:hover .modern-checkbox {
-            border-color: var(--color-primary) !important;
-        }
-        
-        .modern-checkbox {
-            width: 24px !important;
-            height: 24px !important;
-            border: 2px solid #cbd5e1 !important;
-            border-radius: 6px !important;
-            cursor: pointer !important;
-            margin-top: 0 !important;
-            transition: all 0.2s ease !important;
-        }
-        
-        .modern-checkbox:checked {
-            background-color: var(--color-primary) !important;
-            border-color: var(--color-primary) !important;
-        }
-
-        /* Custom Hover Effect for Primary Buttons */
-        .transition-all:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        .ms-3 { margin-left: 1rem !important; }
-        .mt-n4 { margin-top: -1.5rem !important; }
-        .cursor-pointer { cursor: pointer; }
-        .pt--120 { padding-top: 120px !important; }
-        .pb--100 { padding-bottom: 100px !important; }
-    </style>
+    {# Registration page styles → drilleedo.css (section: Registration Page) #}
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {

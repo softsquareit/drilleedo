@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}
+{% block title %}Home Renovation Ideas & Inspiration | Drilleedo Canada{% endblock %}
+{% block meta_description %}Browse home renovation and decoration ideas to inspire your next project. Kitchen, bathroom, landscaping and more – find smart ideas on Drilleedo.{% endblock %}
+{% block meta_keywords %}home renovation ideas, renovation inspiration, kitchen remodel ideas, bathroom renovation, home improvement tips Canada{% endblock %}
+{% block og_title %}Home Renovation Ideas & Inspiration | Drilleedo{% endblock %}
+{% block og_description %}Browse renovation and decoration ideas to inspire your next project. Smart ideas for better living.{% endblock %}
 
 {% block body %}
     <!-- End Side Vav -->
@@ -19,7 +23,7 @@
                         <!-- Breadcrumb -->
                         <ul class="page-list">
                             <li class="rbt-breadcrumb-item">
-                                <a href="index.html">Home</a>
+                                <a href="{{ path('app_home') }}">Home</a>
                             </li>
                             <li>
                                 <div class="icon-right">
@@ -32,19 +36,20 @@
                         </ul>
 
                         <div class="title-wrapper">
-                           <h1 class="hero-main-title" style="font-size: var(--h1);">Home Inspiration & Ideas</h1>
+                            <h1 class="hero-main-title" style="font-size: var(--h1);">Home Inspiration &amp; Ideas</h1>
                             <a href="#" class="rbt-badge-2">
-                               50+ Ideas
+                                {{ totalIdeas is defined ? totalIdeas : ideas|length }}+ Ideas
                             </a>
                         </div>
-                        <span class="hero-tagline-orange">Smart ideas for better living</span>  
-                        <p class="description"><b>
+                        <span class="hero-tagline-orange">Smart ideas for better living</span>
+                        <p class="description mb-4"><b>
                             Discover renovation and decoration ideas to inspire your next home project.</b>
                         </p>
-                        </br>
-                        </br>
-                        </br>
-                        </br>
+                        <div class="about-buttons-row mt-3">
+                            <a href="{{ path('app_register') }}" class="about-pill-btn btn-solid-blue">
+                                <i class="feather-edit me-1"></i> Share Your Idea
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

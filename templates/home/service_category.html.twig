@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.name }} Services | Hire Verified Professionals in Canada | Drilleedo{% endblock %}
+{% block meta_description %}Find verified {{ category.name }} professionals across Canada on Drilleedo. Compare quotes, read reviews, and hire the best specialist for your home renovation project.{% endblock %}
+{% block meta_keywords %}{{ category.name }} Canada, hire {{ category.name }} professional, {{ category.name }} contractor, home renovation {{ category.name }}{% endblock %}
+{% block og_title %}{{ category.name }} Services in Canada | Drilleedo{% endblock %}
+{% block og_description %}Browse {{ totalResults }} verified {{ category.name }} specialists. Get free quotes and hire the best pros in your city.{% endblock %}
+
+{% block body %}
+<main id="main-content">
+
+    {# ── Hero Banner ── #}
+    <section class="svc-hero-section" aria-labelledby="svc-hero-heading">
+        <div class="svc-hero-overlay"></div>
+        <div class="container svc-hero-content">
+            <nav aria-label="Breadcrumb" class="svc-breadcrumb">
+                <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
+                        <a href="{{ path('app_home') }}" itemprop="item"><span itemprop="name">Home</span></a>
+                        <meta itemprop="position" content="1">
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
+                        <a href="{{ path('professionals_list') }}" itemprop="item"><span itemprop="name">Find Professionals</span></a>
+                        <meta itemprop="position" content="2">
+                    </li>
+                    <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+                        <span itemprop="name">{{ category.name }}</span>
+                        <meta itemprop="position" content="3">
+                    </li>
+                </ol>
+            </nav>
+            <h1 id="svc-hero-heading" class="svc-hero-title d-flex align-items-center gap-3 justify-content-center">
+                <span class="svc-hero-icon" aria-hidden="true" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                    {% if category.icon %}
+                        <img src="{{ asset('uploads/categories/' ~ category.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+                    {% else %}
+                        🔧
+                    {% endif %}
+                </span>
+                <span>{{ category.name }} <span class="svc-hero-highlight">Professionals</span></span>
+            </h1>
+            <p class="svc-hero-subtitle">
+                {{ totalResults }} verified specialist{{ totalResults != 1 ? 's' : '' }} ready to help with your {{ category.name|lower }} project across Canada
+            </p>
+            <div class="svc-hero-actions">
+                <a href="{{ path('professionals_list') }}?categories[]={{ category.id }}" class="svc-btn-primary">
+                    View All {{ category.name }} Pros
+                </a>
+                {% if is_granted('ROLE_INDIVIDUAL') %}
+                    <a href="{{ path('individual_new_quote') }}" class="svc-btn-secondary">
+                        Post a Request — It's Free
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_register') }}" class="svc-btn-secondary">
+                        Get Free Quotes
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    {# ── Trust Strip ── #}
+    <section class="svc-trust-strip" aria-label="Trust signals">
+        <div class="container">
+            <ul class="svc-trust-list" role="list">
+                <li><span class="trust-icon" aria-hidden="true">✅</span> <strong>Verified Professionals</strong> — ID & insurance checked</li>
+                <li><span class="trust-icon" aria-hidden="true">💬</span> <strong>Free Quotes</strong> — No obligation</li>
+                <li><span class="trust-icon" aria-hidden="true">⭐</span> <strong>Real Reviews</strong> — From verified homeowners</li>
+                <li><span class="trust-icon" aria-hidden="true">🇨🇦</span> <strong>Canadian Platform</strong> — Local specialists near you</li>
+            </ul>
+        </div>
+    </section>
+
+    {# ── Sub-Services ── #}
+    {% if subServices|length > 0 %}
+    <section class="svc-sub-section" aria-labelledby="sub-services-heading">
+        <div class="container">
+            <h2 id="sub-services-heading" class="svc-section-title">Specialized {{ category.name }} Services</h2>
+            <div class="svc-sub-grid" role="list">
+                {% for sub in subServices %}
+                <a href="{{ path('service_category_landing', {'categorySlug': sub.name|lower|replace({' ': '-'}) }) }}"
+                   class="svc-sub-card"
+                   role="listitem">
+                    <span class="svc-sub-name">{{ sub.name }}</span>
+                    <span class="svc-sub-arrow" aria-hidden="true">→</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ── Professional Listings ── #}
+    <section class="svc-pros-section" aria-labelledby="pros-heading">
+        <div class="container">
+            <div class="svc-pros-header">
+                <h2 id="pros-heading" class="svc-section-title">
+                    Top {{ category.name }} Professionals
+                </h2>
+                <p class="svc-pros-count">{{ totalResults }} specialist{{ totalResults != 1 ? 's' : '' }} available</p>
+            </div>
+
+            {% if professionals|length > 0 %}
+            <div class="row row--30 gy-5" role="list" aria-label="{{ category.name }} professionals">
+                {% for pro in professionals %}
+                <div class="col-lg-4 col-md-6 col-12" role="listitem">
+                    {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="svc-cta-bar mt-5">
+                <a href="{{ path('professionals_list') }}?categories[]={{ category.id }}" class="svc-btn-primary">
+                    See All {{ category.name }} Professionals
+                </a>
+            </div>
+
+            {% else %}
+            <div class="svc-empty-state" role="status">
+                <i class="feather-search svc-empty-icon" aria-hidden="true"></i>
+                <h3>No professionals found yet for {{ category.name }}</h3>
+                <p>Be the first to register as a {{ category.name }} specialist, or try searching for a related service.</p>
+                <a href="{{ path('app_register') }}" class="svc-btn-primary mt-4">Join as a Professional</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    {# ── How It Works (compact version) ── #}
+    <section class="svc-how-section" aria-labelledby="how-heading">
+        <div class="container">
+            <h2 id="how-heading" class="svc-section-title text-center">How Drilleedo Works</h2>
+            <div class="svc-how-grid" role="list">
+                <div class="svc-how-step" role="listitem">
+                    <div class="svc-step-num" aria-hidden="true">1</div>
+                    <h3 class="svc-step-title">Post Your Project</h3>
+                    <p class="svc-step-desc">Describe your {{ category.name|lower }} project for free. No account needed to browse.</p>
+                </div>
+                <div class="svc-how-step" role="listitem">
+                    <div class="svc-step-num" aria-hidden="true">2</div>
+                    <h3 class="svc-step-title">Receive Quotes</h3>
+                    <p class="svc-step-desc">Verified {{ category.name|lower }} professionals send you competitive quotes within 24–48 hours.</p>
+                </div>
+                <div class="svc-how-step" role="listitem">
+                    <div class="svc-step-num" aria-hidden="true">3</div>
+                    <h3 class="svc-step-title">Hire with Confidence</h3>
+                    <p class="svc-step-desc">Compare profiles, reviews & pricing. Choose the best {{ category.name|lower }} pro for your budget.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+{# ── JSON-LD Structured Data ── #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": {{ category.name|json_encode|raw }},
+  "provider": {
+    "@type": "Organization",
+    "name": "Drilleedo",
+    "url": "https://drilleedo.com"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Canada"
+  },
+  "description": "Find verified {{ category.name|escape('js') }} professionals across Canada on Drilleedo.",
+  "url": "{{ url('service_category_landing', {'categorySlug': categorySlug}) }}"
+}
+</script>
+
+{# Service category page styles → drilleedo.css (section: Service Category Page) #}
+{% endblock %}

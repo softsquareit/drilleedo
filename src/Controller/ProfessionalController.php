@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\ChangePasswordType;
 
-#[Route('/professional')]
+#[Route('/professional-compte')]
 #[IsGranted('ROLE_PROFESSIONAL')]
 class ProfessionalController extends AbstractController
 {
@@ -48,6 +48,32 @@ class ProfessionalController extends AbstractController
         $acceptedCount = count(array_filter($allOffers, fn($o) => $o->getStatus() === \App\Entity\Offer::STATUS_ACCEPTED));
         $recentOffers = array_slice($allOffers, 0, 5);
 
+        // Conversion Rate (accepted ÷ total published/accepted offers × 100)
+        $publishedOrAccepted = array_filter($allOffers, fn($o) => in_array($o->getStatus(), [
+            \App\Entity\Offer::STATUS_PUBLISHED,
+            \App\Entity\Offer::STATUS_ACCEPTED,
+        ]));
+        $conversionRate = count($publishedOrAccepted) > 0
+            ? round(($acceptedCount / count($publishedOrAccepted)) * 100)
+            : 0;
+
+        // Profile Completion Score (0–100)
+        $completionFields = [
+            'getCompanyName'    => (bool) $user->getCompanyName(),
+            'getLogo'           => (bool) $user->getLogo(),
+            'getBanner'         => (bool) $user->getBanner(),
+            'getAbout'          => (bool) $user->getAbout(),
+            'getCategory'       => $user instanceof \App\Entity\Professional && (bool) $user->getCategory(),
+            'getPrimaryContact' => (bool) $user->getPrimaryContact(),
+        ];
+        $filled = count(array_filter($completionFields));
+        $profileCompletion = (int) round(($filled / count($completionFields)) * 100);
+
+        // Pending Direct Requests (not yet responded to)
+        $pendingDirectRequestsCount = $em->getRepository(\App\Entity\DirectRequest::class)->count([
+            'targetProfessional' => $user,
+        ]);
+
         // Notifications — recent, ordered newest first
         $notifications = $em->getRepository(\App\Entity\Notification::class)->findBy(
             ['user' => $user],
@@ -57,13 +83,16 @@ class ProfessionalController extends AbstractController
         $unreadCount = count(array_filter($notifications, fn($n) => !$n->isRead()));
 
         return $this->render('professional/index.html.twig', [
-            'projectCount' => $projectCount,
-            'quoteCount' => $quoteCount,
-            'offerCount' => $offerCount,
-            'acceptedCount' => $acceptedCount,
-            'recentOffers' => $recentOffers,
-            'notifications' => $notifications,
-            'unreadCount' => $unreadCount,
+            'projectCount'               => $projectCount,
+            'quoteCount'                 => $quoteCount,
+            'offerCount'                 => $offerCount,
+            'acceptedCount'              => $acceptedCount,
+            'conversionRate'             => $conversionRate,
+            'profileCompletion'          => $profileCompletion,
+            'pendingDirectRequestsCount' => $pendingDirectRequestsCount,
+            'recentOffers'               => $recentOffers,
+            'notifications'              => $notifications,
+            'unreadCount'                => $unreadCount,
         ]);
     }
 

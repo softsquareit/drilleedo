@@ -44,6 +44,7 @@ use App\Form\ProfessionalType;
 use App\Form\TypeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -875,17 +876,38 @@ class AdminController extends AbstractController
 
     #[Route('/admin/categories/create', name: 'admin_category_create')]
     #[IsGranted('ROLE_ADMIN')]
-    public function createCategory(Request $request): Response
+    public function createCategory(Request $request, \App\Service\FileUploader $fileUploader): Response
     {
         $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category, ['csrf_protection' => false]);
+        $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $iconFile = $form->get('iconFile')->getData();
+            if ($iconFile) {
+                try {
+                    $newFilename = $fileUploader->upload($iconFile, 'categories');
+                    $category->setIcon($newFilename);
+                } catch (\Exception $e) {
+                    if ($request->isXmlHttpRequest()) {
+                        return new JsonResponse(['success' => false, 'message' => 'Error uploading icon'], 400);
+                    }
+                    $this->addFlash('error', 'Error uploading icon');
+                }
+            }
             $this->em->persist($category);
             $this->em->flush();
 
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(['success' => true, 'message' => 'Category created successfully.']);
+            }
+
+            $this->addFlash('success', 'Category created successfully.');
             return $this->redirectToRoute('admin_category_index');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid() && $request->isXmlHttpRequest()) {
+            return new JsonResponse(['success' => false, 'message' => 'Validation error', 'errors' => (string) $form->getErrors(true, false)], 400);
         }
 
         return $this->render('admin/category/create.html.twig', [
@@ -895,7 +917,7 @@ class AdminController extends AbstractController
 
     #[Route('/admin/categories/{id}/edit', name: 'admin_category_edit')]
     #[IsGranted('ROLE_ADMIN')]
-    public function editCategory(int $id, Request $request): Response
+    public function editCategory(int $id, Request $request, \App\Service\FileUploader $fileUploader): Response
     {
         $category = $this->em->getRepository(Category::class)->find($id);
         if (!$category) {
@@ -906,9 +928,30 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $iconFile = $form->get('iconFile')->getData();
+            if ($iconFile) {
+                try {
+                    $newFilename = $fileUploader->upload($iconFile, 'categories');
+                    $category->setIcon($newFilename);
+                } catch (\Exception $e) {
+                    if ($request->isXmlHttpRequest()) {
+                        return new JsonResponse(['success' => false, 'message' => 'Error uploading icon'], 400);
+                    }
+                    $this->addFlash('error', 'Error uploading icon');
+                }
+            }
             $this->em->flush();
+
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(['success' => true, 'message' => 'Category updated successfully.']);
+            }
+
             $this->addFlash('success', 'Category updated successfully.');
             return $this->redirectToRoute('admin_category_index');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid() && $request->isXmlHttpRequest()) {
+            return new JsonResponse(['success' => false, 'message' => 'Validation error', 'errors' => (string) $form->getErrors(true, false)], 400);
         }
 
         return $this->render('admin/category/edit.html.twig', [

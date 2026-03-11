@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\ChangePasswordType;
 
-#[Route('/individual')]
+#[Route('/individual-compte')]
 #[IsGranted('ROLE_INDIVIDUAL')]
 class IndividualController extends AbstractController
 {
@@ -36,11 +36,37 @@ class IndividualController extends AbstractController
             'isRead' => false
         ]);
 
+        // KPI metrics
+        $quotes = $user->getQuoteRequests();
+        $totalRequests = count($quotes);
+
+        $publishedCount = 0;
+        $receivedOffersCount = 0;
+        $acceptedOffersCount = 0;
+
+        foreach ($quotes as $q) {
+            if ($q->getStatus() === QuoteRequest::STATUS_PUBLISHED) {
+                $publishedCount++;
+            }
+            foreach ($q->getOffers() as $offer) {
+                if ($offer->getStatus() !== Offer::STATUS_DRAFT) {
+                    $receivedOffersCount++;
+                }
+                if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                    $acceptedOffersCount++;
+                }
+            }
+        }
+
         return $this->render('individual/index.html.twig', [
-            'user' => $user,
-            'quotes' => $user->getQuoteRequests(),
-            'notifications' => $notifications,
-            'unreadCount' => $unreadCount,
+            'user'                => $user,
+            'quotes'              => $quotes,
+            'notifications'       => $notifications,
+            'unreadCount'         => $unreadCount,
+            'totalRequests'       => $totalRequests,
+            'publishedCount'      => $publishedCount,
+            'receivedOffersCount' => $receivedOffersCount,
+            'acceptedOffersCount' => $acceptedOffersCount,
         ]);
     }
 

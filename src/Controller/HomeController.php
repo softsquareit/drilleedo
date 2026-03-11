@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,7 +15,7 @@ final class HomeController extends AbstractController
         \App\Repository\ProfessionalRepository $professionalRepository,
         \App\Repository\TestimonialRepository $testimonialRepository
     ): Response {
-        $featuredProfessionals = $professionalRepository->findTopRatedByDifferentCategories(3);
+        $featuredProfessionals = $professionalRepository->findTopRatedByDifferentCategories(4);
         $activeTestimonials = $testimonialRepository->findActiveTestimonials(10);
 
         return $this->render('home/index.html.twig', [
@@ -23,8 +24,68 @@ final class HomeController extends AbstractController
             'testimonials' => $activeTestimonials,
         ]);
     }
+
+    #[Route('/about-us', name: 'app_about')]
+    public function about(): Response
+    {
+        return $this->render('home/about.html.twig');
+    }
+
+    #[Route('/careers', name: 'app_careers')]
+    public function careers(): Response
+    {
+        return $this->render('home/careers.html.twig');
+    }
+
+    #[Route('/how-it-works', name: 'app_how_it_works')]
+    public function howItWorks(): Response
+    {
+        return $this->render('home/how_it_works.html.twig');
+    }
+
+    #[Route('/receive-quotes', name: 'app_receive_quotes')]
+    public function receiveQuotes(): Response
+    {
+        return $this->render('home/receive_quotes.html.twig');
+    }
+
+    #[Route('/project-photos', name: 'app_project_photos')]
+    public function projectPhotos(): Response
+    {
+        return $this->render('home/project_photos.html.twig');
+    }
+
+    #[Route('/decoration-ideas', name: 'app_decoration_ideas')]
+    public function decorationIdeas(): Response
+    {
+        return $this->render('home/decoration_ideas.html.twig');
+    }
+
+    #[Route('/completed-projects', name: 'app_completed_projects')]
+    public function completedProjects(): Response
+    {
+        return $this->render('home/completed_projects.html.twig');
+    }
+
+    #[Route('/for-professionals', name: 'app_for_professionals')]
+    public function forProfessionals(): Response
+    {
+        return $this->render('home/for_professionals.html.twig');
+    }
+
+    #[Route('/grow-your-business', name: 'app_grow_business')]
+    public function growBusiness(): Response
+    {
+        return $this->render('home/grow_business.html.twig');
+    }
+
+    #[Route('/how-it-works-for-pros', name: 'app_how_it_works_pros')]
+    public function howItWorksPros(): Response
+    {
+        return $this->render('home/how_it_works_pros.html.twig');
+    }
     
-    #[Route('/professionals', name: 'professionals_list')]
+    #[Route('/find-professionals', name: 'professionals_list')]
     public function professionals(
         \Symfony\Component\HttpFoundation\Request $request,
         \App\Repository\ProfessionalRepository $professionalRepository,
@@ -62,7 +123,7 @@ final class HomeController extends AbstractController
             'totalPages' => $totalPages,
         ]);
     }
-    #[Route('/companies-list', name: 'companies_list')]
+    #[Route('/renovation-companies', name: 'companies_list')]
     public function companies(
         \Symfony\Component\HttpFoundation\Request $request,
         \App\Repository\CompanyRepository $companyRepository,
@@ -115,7 +176,7 @@ final class HomeController extends AbstractController
         return $this->render('home/contact.html.twig');
     }
 
-    #[Route('/professional-details/{id}', name: 'professional_details')]
+    #[Route('/professional/{id}/{slug}', name: 'professional_details', defaults: ['slug' => ''])]
     public function professionalDetails(Professional $professional): Response
     {
         // $professional is automatically fetched by Doctrine ParamConverter
@@ -126,7 +187,7 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-    #[Route('/smartideas', name: 'smartideas')]
+    #[Route('/home-renovation-ideas', name: 'smartideas')]
     public function smartideas(Request $request, \App\Repository\BlogRepository $blogRepository): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -172,7 +233,7 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-    #[Route('/public-blog-list', name: 'public_blog_list')]
+    #[Route('/blog', name: 'public_blog_list')]
     public function publicBlogList(): Response
     {
         return $this->render('home/index.html.twig', [
@@ -193,7 +254,7 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-    #[Route('/smartideas/{slug}', name: 'ideas_details')]
+    #[Route('/ideas/{slug}', name: 'ideas_details')]
     public function ideasDetails(string $slug, \App\Repository\BlogRepository $blogRepository): Response
     {
         $idea = $blogRepository->findOneBy(['slug' => $slug, 'type' => 'Idea']);
@@ -209,5 +270,50 @@ final class HomeController extends AbstractController
             'similarIdeas' => $similarIdeas,
             'controller_name' => 'HomeController',
         ]);
+    }
+
+    /**
+     * Autocomplete search API for the header search overlay.
+     * Returns a JSON array of matched professionals and companies.
+     */
+    #[Route('/api/search', name: 'api_search', methods: ['GET'])]
+    public function search(
+        Request $request,
+        \App\Repository\ProfessionalRepository $proRepo,
+        \App\Repository\CompanyRepository $coRepo
+    ): JsonResponse {
+        $q = trim($request->query->getString('q', ''));
+
+        if (strlen($q) < 2) {
+            return new JsonResponse([]);
+        }
+
+        $results = [];
+
+        $professionals = $proRepo->searchByKeyword($q, 4);
+        foreach ($professionals as $pro) {
+            $results[] = [
+                'type'     => 'pro',
+                'label'    => $pro->getCompanyName() ?? $pro->getEmail(),
+                'category' => $pro->getCategory()?->getName() ?? '',
+                'city'     => $pro->getCity() ?? '',
+                'url'      => $this->generateUrl('professional_details', ['id' => $pro->getId()]),
+                'logo'     => $pro->getLogo() ? '/uploads/logos/' . $pro->getLogo() : null,
+            ];
+        }
+
+        $companies = $coRepo->searchByKeyword($q, 4);
+        foreach ($companies as $co) {
+            $results[] = [
+                'type'     => 'company',
+                'label'    => $co->getCompanyName() ?? $co->getEmail(),
+                'category' => 'Company',
+                'city'     => '',
+                'url'      => $this->generateUrl('company_details', ['id' => $co->getId()]),
+                'logo'     => $co->getLogo() ? '/uploads/logos/' . $co->getLogo() : null,
+            ];
+        }
+
+        return new JsonResponse(array_slice($results, 0, 8));
     }
 }

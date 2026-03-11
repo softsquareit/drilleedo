@@ -97,4 +97,25 @@ class CompanyRepository extends ServiceEntityRepository
         }
         return $counts;
     }
+
+    /**
+     * Search companies by keyword across name and city.
+     *
+     * @param string $q The search keyword
+     * @param int $limit Max results to return
+     * @return array
+     */
+    public function searchByKeyword(string $q, int $limit = 6): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.Adresse', 'a')
+            ->where('c.company_name LIKE :q')
+            ->orWhere('c.email LIKE :q')
+            ->orWhere('a.city LIKE :q')
+            ->setParameter('q', '%' . $q . '%')
+            ->setMaxResults($limit)
+            ->orderBy('c.id', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
 }

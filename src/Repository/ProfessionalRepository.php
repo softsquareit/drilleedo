@@ -143,4 +143,25 @@ class ProfessionalRepository extends ServiceEntityRepository
 
         return $featured;
     }
+
+    /**
+     * Search professionals by keyword across name, category, and city.
+     *
+     * @param string $q The search keyword
+     * @param int $limit Max results to return
+     * @return array
+     */
+    public function searchByKeyword(string $q, int $limit = 6): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
+            ->where('p.company_name LIKE :q')
+            ->orWhere('c.name LIKE :q')
+            ->orWhere('p.city LIKE :q')
+            ->setParameter('q', '%' . $q . '%')
+            ->setMaxResults($limit)
+            ->orderBy('p.id', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
 }
