@@ -43,14 +43,14 @@
         <ul class="pro-card-details-list">
             {# Category #}
             <li>
-                <span class="category-icon-wrapper me-1" style="width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">
+                <span class="category-icon-wrapper me-1" style="width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;">
                     {% if pro.category and pro.category.icon %}
                         <img src="{{ asset('uploads/categories/' ~ pro.category.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
                     {% else %}
                         <i class="feather-tool" aria-hidden="true"></i>
                     {% endif %}
                 </span>
-                <span class="detail-text">{{ pro.category ? pro.category.name : 'Renovation Expert' }}</span>
+                <span class="detail-text"><b>{{ pro.category ? pro.category.name : 'Renovation Expert' }}</b></span>
             </li>
             
             {# Location #}

@@ -1065,6 +1065,64 @@ h6,
     gap: 8px;
 }
 
+@media (max-width: 991px) {
+    .pro-sidebar-wrapper {
+        position: static;
+        padding: 5px;
+        margin-bottom: 20px;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .pro-sidebar-nav-container {
+        gap: 0;
+    }
+
+    .pro-sidebar-list {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 8px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 10px 5px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Hide scrollbar Firefox */
+    }
+
+    .pro-sidebar-list::-webkit-scrollbar {
+        display: none;
+        /* Hide scrollbar Chrome/Safari */
+    }
+
+    .pro-sidebar-link {
+        padding: 8px 16px;
+        font-size: 1.1rem;
+        flex: 0 0 auto;
+        justify-content: center;
+        min-width: max-content;
+        background: #ffffff;
+        border: 1px solid var(--pro-slate-200);
+        border-radius: 99px;
+        white-space: nowrap;
+    }
+
+    .pro-sidebar-section {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom: none;
+        width: auto;
+    }
+
+    /* Allow multiple sections to flow together in the horizontal scroll */
+    .pro-sidebar-nav-container {
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+        padding-bottom: 5px;
+    }
+}
+
 .pro-sidebar-link {
     display: flex;
     align-items: center;
@@ -1139,6 +1197,7 @@ h6,
     background-size: cover;
     background-position: center;
     position: relative;
+    border-radius: var(--pro-radius-lg) var(--pro-radius-lg) 0 0;
 }
 
 .pro-header-overlay {
@@ -1163,6 +1222,10 @@ h6,
     justify-content: space-between;
     flex-wrap: wrap;
     gap: var(--pro-spacing-lg);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .pro-header-profile {
@@ -1309,11 +1372,13 @@ h6,
 
 @media (max-width: 768px) {
     .pro-stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on tablet */
+        gap: var(--pro-spacing-md);
     }
 
     .pro-stat-value {
-        font-size: 2.25rem;
+        font-size: 2rem;
     }
 
     .pro-card-header {

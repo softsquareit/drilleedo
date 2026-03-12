@@ -87,19 +87,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 col-sm-6">
-            <div class="pro-stat-card" style="background: linear-gradient(135deg,#7c3aed,#a78bfa); color:#fff;">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon" style="background:rgba(255,255,255,0.2); color:#fff;">
-                        <i class="feather-trending-up"></i>
-                    </div>
-                </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value" style="color:#fff;">{{ conversionRate }}%</h3>
-                    <p class="pro-stat-label" style="color:rgba(255,255,255,0.85);">Conversion</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="row g-4">
@@ -164,12 +151,8 @@
                                                 <i class="feather-check-circle"></i> Finalize
                                             </button>
 
-                                        {% elseif offer.quoteRequest %}
-                                            <a href="{{ path('offer_send', {id: offer.quoteRequest.id}) }}" class="pro-action-badge view">
-                                                <i class="feather-eye"></i> View
-                                            </a>
-                                        {% elseif offer.directRequest %}
-                                            <a href="{{ path('offer_send_direct', {id: offer.directRequest.id}) }}" class="pro-action-badge view">
+                                        {% elseif offer.quoteRequest or offer.directRequest %}
+                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="pro-action-badge view">
                                                 <i class="feather-eye"></i> View
                                             </a>
                                         {% endif %}

@@ -411,5 +411,43 @@
                 closeSearch();
             }
         });
+        /* ── User Dropdown Toggle ── */
+        const userWrapper = document.querySelector('.rbt-user-wrapper');
+        const userBtn     = userWrapper ? userWrapper.querySelector('.rbt-round-btn') : null;
+        
+        if (userWrapper && userBtn) {
+            userBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                userWrapper.classList.toggle('active');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!userWrapper.contains(e.target)) {
+                    userWrapper.classList.remove('active');
+                }
+            });
+        }
     })();
     </script>
+    
+    <style>
+        /* Ensure the dropdown is visible when 'active' class is present (for mobile/click) */
+        .rbt-user-wrapper.active .rbt-user-menu-list-wrapper {
+            visibility: visible !important;
+            opacity: 1 !important;
+            clip: rect(0px, 100vw, 200vh, -30px) !important;
+            top: 100% !important;
+        }
+        
+        /* Fix for layout overlap on small viewports */
+        @media only screen and (max-width: 1199px) {
+            .rbt-section-overlayping-top {
+                margin-top: 0 !important;
+            }
+            .rbt-page-banner-wrapper {
+                min-height: 200px !important;
+            }
+        }
+    </style>
+</header>

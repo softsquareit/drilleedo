@@ -313,6 +313,7 @@ class OfferController extends AbstractController
         return $this->render('offer/view.html.twig', [
             'offer' => $offer,
             'quote' => $offer->getQuoteRequest(),
+            'directRequest' => $offer->getDirectRequest(),
         ]);
     }
 
