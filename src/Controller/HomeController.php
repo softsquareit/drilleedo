@@ -177,14 +177,58 @@ final class HomeController extends AbstractController
     }
 
     #[Route('/professional/{id}/{slug}', name: 'professional_details', defaults: ['slug' => ''])]
-    public function professionalDetails(Professional $professional): Response
-    {
-        // $professional is automatically fetched by Doctrine ParamConverter
-        // If not found, a 404 is thrown automatically
+    public function professionalDetails(
+        Professional $professional,
+        Request $request,
+        \Doctrine\ORM\EntityManagerInterface $em,
+        \App\Service\FileUploader $fileUploader
+    ): Response {
+        $user = $this->getUser();
+        $directRequest = new \App\Entity\DirectRequest();
+        $directRequest->setTargetProfessional($professional);
+        
+        $form = $this->createForm(\App\Form\DirectRequestType::class, $directRequest);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isGranted('ROLE_INDIVIDUAL')) {
+                $this->addFlash('error', 'You must be logged in as an individual to send requests.');
+                return $this->redirectToRoute('professional_details', ['id' => $professional->getId()]);
+            }
+
+            $directRequest->setIndividual($user);
+            $directRequest->setStatus(\App\Entity\DirectRequest::STATUS_PUBLISHED);
+
+            // Handle Images
+            $images = $form->get('images')->getData();
+            if ($images) {
+                $imagePaths = [];
+                foreach ($images as $image) {
+                    $imagePaths[] = $fileUploader->upload($image, 'quote_requests');
+                }
+                $directRequest->setImages($imagePaths);
+            }
+
+            $em->persist($directRequest);
+
+            // Notification for the professional
+            $notification = new \App\Entity\Notification();
+            $notification->setUser($professional);
+            $notification->setMessage('New direct request from ' . ($user->getPersonalInfos()?->getFirstName() ?? 'an individual') . ': ' . $directRequest->getTitle());
+            $notification->setRelatedEntityId($directRequest->getId());
+            $notification->setRelatedEntityType('direct_request');
+            $em->persist($notification);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Your request has been sent successfully to ' . $professional->getCompanyName());
+            return $this->redirectToRoute('professional_details', ['id' => $professional->getId()]);
+        }
 
         return $this->render('home/professional.html.twig', [
             'professional' => $professional,
             'controller_name' => 'HomeController',
+            'directRequestForm' => $form->createView(),
         ]);
     }
     #[Route('/home-renovation-ideas', name: 'smartideas')]

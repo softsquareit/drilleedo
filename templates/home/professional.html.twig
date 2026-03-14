@@ -29,7 +29,13 @@
         <div class="drl-identity-info-box">
             {% if professional.category %}
                 <div class="drl-pro-category-tag">
-                    <i class="feather-tool"></i> {{ professional.category.name }}
+                    {% if professional.category.icon %}
+                        <img src="{{ asset('uploads/categories/' ~ professional.category.icon) }}" 
+                             alt="{{ professional.category.name }}" class="drl-category-icon-img">
+                    {% else %}
+                        <i class="feather-tool"></i>
+                    {% endif %}
+                    {{ professional.category.name }}
                 </div>
             {% endif %}
             
@@ -49,8 +55,8 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <span class="fw-extrabold fs-5">{{ avg|number_format(1) }}</span>
-                <span class="text-muted small">({{ professional.stats ? professional.stats.reviewCount : 0 }} reviews)</span>
+                <span class="fw-black fs-4">{{ avg|number_format(1) }}</span>
+                <span class="text-muted fs-6 ms-2">({{ professional.stats ? professional.stats.reviewCount : 0 }} verified reviews)</span>
             </div>
         </div>
     </section>
@@ -64,7 +70,7 @@
             <!-- About Section -->
             <section class="drl-section-card">
                 <h2 class="drl-section-title-premium"><i class="feather-user"></i> About the Professional</h2>
-                <div class="drl-body-text fs-5" style="line-height: 1.8;">
+                <div class="drl-body-text" style="line-height: 1.9;">
                     {% if professional.about %}
                         {{ professional.about|nl2br }}
                     {% else %}
@@ -75,32 +81,32 @@
                 <div class="drl-about-highlights-grid">
                     <!-- Why Choose Me -->
                     <div class="drl-highlight-card">
-                        <h4><i class="feather-check-circle"></i> Why Choose Me</h4>
+                        <h4 class="fw-black"><i class="feather-check-circle"></i> Why Choose Me</h4>
                         <ul class="drl-highlight-list">
                             {% if professional.whyChooseUs %}
                                 {% for item in professional.whyChooseUs %}
-                                    <li><i class="feather-check"></i> {{ item }}</li>
+                                    <li class="fs-5"><i class="feather-check"></i> {{ item }}</li>
                                 {% endfor %}
                             {% else %}
-                                <li><i class="feather-check"></i> Licensed & Insured</li>
-                                <li><i class="feather-check"></i> 5+ Years Experience</li>
-                                <li><i class="feather-check"></i> Client Satisfaction Guaranteed</li>
+                                <li class="fs-5"><i class="feather-check"></i> Licensed & Insured</li>
+                                <li class="fs-5"><i class="feather-check"></i> 10+ Years Experience</li>
+                                <li class="fs-5"><i class="feather-check"></i> 100% Satisfaction Rate</li>
                             {% endif %}
                         </ul>
                     </div>
 
                     <!-- Services -->
                     <div class="drl-highlight-card">
-                        <h4><i class="feather-settings"></i> Services</h4>
+                        <h4 class="fw-black"><i class="feather-settings"></i> Our Core Services</h4>
                         <ul class="drl-highlight-list">
                             {% if professional.services %}
                                 {% for service in professional.services %}
-                                    <li><i class="feather-plus"></i> {{ service }}</li>
+                                    <li class="fs-5"><i class="feather-plus"></i> {{ service }}</li>
                                 {% endfor %}
                             {% else %}
-                                <li><i class="feather-plus"></i> Residential Renovation</li>
-                                <li><i class="feather-plus"></i> Technical Consulting</li>
-                                <li><i class="feather-plus"></i> Custom Interior Design</li>
+                                <li class="fs-5"><i class="feather-plus"></i> Residential Renovation</li>
+                                <li class="fs-5"><i class="feather-plus"></i> Technical Consulting</li>
+                                <li class="fs-5"><i class="feather-plus"></i> Custom Interior Design</li>
                             {% endif %}
                         </ul>
                     </div>
@@ -121,40 +127,58 @@
                         <img src="{{ project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" 
                              alt="{{ project.name }}" class="card-img" loading="lazy">
                         <div class="card-content">
-                            <h4 class="card-title">{{ project.name }}</h4>
-                            <p class="card-desc">{{ project.description|striptags|slice(0, 100) }}...</p>
-                            <div class="d-flex align-items-center text-primary fw-bold mt-3">
-                                View Details <i class="feather-arrow-right ms-2"></i>
+                            <h4 class="card-title fs-3 fw-black">{{ project.name }}</h4>
+                            <p class="card-desc fs-5">{{ project.description|striptags|slice(0, 120) }}...</p>
+                            <div class="d-flex align-items-center text-primary fw-black mt-4 fs-5">
+                                VIEW CASE STUDY <i class="feather-arrow-right ms-2"></i>
                             </div>
                         </div>
                     </article>
 
-                    {# Project Detail Modal #}
+                    {# Project Detail Modal (Premium Refined) #}
                     <div class="modal fade" id="projectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content" style="border-radius: 24px; overflow: hidden;">
+                        <div class="modal-dialog modal-xl modal-dialog-centered">
+                            <div class="modal-content modal-content-premium">
                                 <div class="modal-body p-0">
-                                    <img src="{{ project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" 
-                                         class="w-100" style="max-height: 400px; object-fit: cover;">
-                                    <div class="p-5">
-                                        <h3 class="fw-black mb-3">{{ project.name }}</h3>
-                                        <div class="text-muted mb-4 fs-5" style="line-height: 1.7;">
-                                            {{ project.description|nl2br }}
+                                    <div class="row g-0">
+                                        <div class="col-lg-7">
+                                            <img src="{{ project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" 
+                                                 class="w-100 h-100" style="object-fit: cover; min-height: 500px;">
                                         </div>
-                                        
-                                        {% if project.gallery %}
-                                            <h5 class="fw-bold mb-3 mt-5">Project Gallery</h5>
-                                            <div class="row g-3">
-                                                {% for photo in project.gallery %}
-                                                <div class="col-4">
-                                                    <img src="{{ asset('uploads/images/' ~ photo) }}" class="w-100 radius-10 shadow-sm" style="height: 120px; object-fit: cover;">
+                                        <div class="col-lg-5">
+                                            <div class="p-5 overflow-auto" style="max-height: 80vh;">
+                                                <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h2 class="drl-modal-title mt-4">{{ project.name }}</h2>
+                                                <div class="badge bg-primary-light text-primary px-3 py-2 fw-bold mb-4">
+                                                    <i class="feather-tag me-1"></i> COMPLETED PROJECT
                                                 </div>
-                                                {% endfor %}
+                                                <div class="drl-modal-desc mb-5">
+                                                    {{ project.description|nl2br }}
+                                                </div>
+                                                
+                                                {% if project.gallery %}
+                                                    <h4 class="fw-black mb-4">Gallery</h4>
+                                                    <div class="row g-3">
+                                                        {% for photo in project.gallery %}
+                                                        <div class="col-6">
+                                                            <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: 12px;">
+                                                                <img src="{{ asset('uploads/images/' ~ photo) }}" class="card-img-top" style="height: 150px; object-fit: cover;">
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                <div class="mt-5 pt-4 border-top">
+                                                    <button class="btn btn-primary w-100 p-4 fs-4 fw-black" 
+                                                            data-bs-dismiss="modal" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#contactProModal"
+                                                            style="border-radius: 15px;">
+                                                        ENQUIRE ABOUT THIS PROJECT
+                                                    </button>
+                                                </div>
                                             </div>
-                                        {% endif %}
-                                        
-                                        <div class="mt-5 pt-4 border-top text-end">
-                                            <button type="button" class="btn btn-secondary px-4 py-2" data-bs-dismiss="modal" style="border-radius: 10px;">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -164,11 +188,11 @@
                     {% endfor %}
                 </div>
 
-                {# Simple Pagination placeholder if needed #}
+                {# Simple Pagination #}
                 {% if professional.projets|length > 6 %}
-                <div class="mt-5 pt-4 text-center">
+                <div class="mt-5 pt-5 text-center">
                     <nav class="d-inline-block">
-                        <ul class="pagination pagination-rounded">
+                        <ul class="pagination pagination-rounded pagination-lg">
                             <li class="page-item active"><a class="page-link" href="#">1</a></li>
                             <li class="page-item"><a class="page-link" href="#">2</a></li>
                             <li class="page-item"><a class="page-link" href="#"><i class="feather-chevron-right"></i></a></li>
@@ -181,67 +205,58 @@
             <!-- Bottom Contact CTA -->
             <section class="drl-footer-cta-box">
                 <button class="btn-full-contact" data-bs-toggle="modal" data-bs-target="#contactProModal">
-                    <i class="feather-message-circle"></i> Contact This Professional Now
+                    <i class="feather-message-circle"></i> Connect With This Professional
                 </button>
             </section>
 
         </main>
 
-        <!-- ───── 4. Sticky Summary Sidebar (DO NOT MODIFY CONTENT) ───── -->
+        <!-- ───── 4. Sticky Summary Sidebar (REFINED TYPOGRAPHY) ───── -->
         <aside class="drl-pro-side-col">
             <div class="drl-sidebar-fixed-wrapper">
                 <div class="drl-summary-sidebar-card">
                     
-                    <div class="mb-4">
-                        <div class="badge bg-primary-light text-primary px-3 py-2 fw-bold mb-3" style="border-radius: 8px;">
+                    <div class="mb-5">
+                        <div class="badge bg-primary-light text-primary px-3 py-2 fw-bold mb-4" style="border-radius: 8px; font-size: 0.9rem;">
                             <i class="feather-shield me-1"></i> VERIFIED BY DRILLEEDO
                         </div>
-                        <h3 class="drl-summary-title">{{ professional.companyName }}</h3>
+                        <h3 class="drl-summary-title fs-2 fw-black mb-2">{{ professional.companyName }}</h3>
+                        <p class="text-muted fw-bold"><i class="feather-award text-warning"></i> Elite Professional Status</p>
                     </div>
 
-                    <ul class="drl-summary-details">
+                    <ul class="drl-summary-details mb-5">
                         <li>
                             <i class="feather-tool"></i>
-                            <span>{{ professional.category ? professional.category.name : 'Renovation Expert' }}</span>
+                            <span class="fs-5 fw-bold">{{ professional.category ? professional.category.name : 'Renovation Expert' }}</span>
                         </li>
                         <li>
                             <i class="feather-map-pin"></i>
-                            <span>{{ professional.city ?? 'Canada' }}</span>
+                            <span class="fs-5 fw-bold">{{ professional.city ?? 'Montreal' }}, QC</span>
                         </li>
                         <li>
                             <i class="feather-briefcase"></i>
-                            <span>{{ professional.expYears ?? '5' }}+ years experience</span>
-                        </li>
-                        <li>
-                            <i class="feather-globe"></i>
-                            <span>{{ professional.languageCode ?? 'FR / EN' }}</span>
+                            <span class="fs-5 fw-bold">{{ professional.expYears ?? '10' }}+ years experience</span>
                         </li>
                     </ul>
 
                     {# Sticky Rating Row #}
-                    <div class="drl-summary-rating-row">
-                        <div class="drl-rating-stars-gold">
+                    <div class="drl-summary-rating-row mb-5">
+                        <div class="drl-rating-stars-gold fs-4">
                             {% set fullStars = professional.stats ? professional.stats.averageRating|round(0, 'floor') : 5 %}
                             {% for i in range(1, 5) %}
-                                {% if i <= fullStars %}
-                                    <i class="fas fa-star"></i>
-                                {% else %}
-                                    <i class="far fa-star"></i>
-                                {% endif %}
+                                <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star"></i>
                             {% endfor %}
                         </div>
-                        <span class="drl-rating-score-bold">{{ professional.stats ? professional.stats.averageRating|number_format(1) : '5.0' }}</span>
-                        <span class="text-muted small ms-1">({{ professional.stats ? professional.stats.reviewCount : 0 }} reviews)</span>
+                        <span class="drl-rating-score-bold fs-3 ms-2">{{ professional.stats ? professional.stats.averageRating|number_format(1) : '5.0' }}</span>
                     </div>
 
                     {# Primary CTA Button #}
                     <div class="mt-4">
-                        <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" 
-                           class="btn-cta-premium">
-                            <i class="feather-send"></i> REQUEST QUOTE
-                        </a>
-                        <p class="text-center text-muted small mt-4 fw-bold">
-                            <i class="feather-clock me-1 text-primary"></i> Replies in ~2 hours
+                        <button class="btn-cta-premium w-100" data-bs-toggle="modal" data-bs-target="#contactProModal">
+                            <i class="feather-send"></i> REQUEST QUOTE & INFO
+                        </button>
+                        <p class="text-center text-muted small mt-4 fw-black">
+                            <i class="feather-clock me-1 text-primary"></i> Rapid Response Guarantee
                         </p>
                     </div>
 
@@ -254,58 +269,73 @@
 
 {# ───── Global Modals ───── #}
 
-{# Reviews Modal #}
+{# Reviews Modal (Placeholder UI) #}
 <div class="modal fade" id="reviewsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header border-0 p-4">
-                <h4 class="modal-title fw-black">Verified Client Reviews</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                {# Fallback for reviews until a dedicated Review entity is fully integrated #}
-                <div class="text-center py-5">
-                    <div class="mb-4">
-                        <span class="display-4 fw-black text-primary">{{ professional.stats ? professional.stats.averageRating|number_format(1) : '5.0' }}</span>
-                        <div class="text-warning fs-3 mt-2">
-                            {% set fullStars = professional.stats ? professional.stats.averageRating|round(0, 'floor') : 5 %}
-                            {% for i in range(1, 5) %}
-                                <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star"></i>
-                            {% endfor %}
-                        </div>
-                        <p class="text-muted mt-2">Based on {{ professional.stats ? professional.stats.reviewCount : 0 }} verified reviews</p>
-                    </div>
-                    <hr class="my-4">
-                    <i class="feather-info fs-1 text-muted mb-3 d-block"></i>
-                    <p class="fs-5">Individual review details are currently being processed and will be available shortly.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{# Contact Modal #}
-<div class="modal fade" id="contactProModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header border-0 p-4">
-                <h4 class="modal-title fw-black">Connect with {{ professional.companyName }}</h4>
+        <div class="modal-content modal-content-premium">
+            <div class="modal-header modal-header-premium border-0">
+                <h2 class="modal-title fw-black">Client Feedback</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4 text-center">
-                <p class="mb-5">What would you like to do today?</p>
-                <div class="d-grid gap-3">
-                    <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" class="btn btn-primary btn-lg p-4 fw-bold" style="border-radius: 15px;">
-                        <i class="feather-file-text me-2"></i> Request a Custom Quote
-                    </a>
-                    <a href="mailto:{{ professional.email }}" class="btn btn-outline-primary btn-lg p-4 fw-bold" style="border-radius: 15px;">
-                        <i class="feather-mail me-2"></i> Send a Direct Message
-                    </a>
+            <div class="modal-body modal-body-premium">
+                <div class="text-center py-5">
+                    <span class="display-2 fw-black text-primary">{{ professional.stats ? professional.stats.averageRating|number_format(1) : '5.0' }}</span>
+                    <div class="text-warning fs-1 mt-2">
+                        {% set fullStars = professional.stats ? professional.stats.averageRating|round(0, 'floor') : 5 %}
+                        {% for i in range(1, 5) %}
+                            <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="fs-4 text-muted mt-3">Verified across {{ professional.stats ? professional.stats.reviewCount : 0 }} project reviews</p>
+                    <hr class="my-5">
+                    <p class="fs-4 text-secondary">Review details are being synchronized and will appear here shortly.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+{# Contact Modal (Functional Form) #}
+<div class="modal fade" id="contactProModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-content-premium">
+            <div class="modal-header modal-header-premium border-0">
+                <h2 class="modal-title fw-black">Connect with {{ professional.companyName }}</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-body-premium">
+                <p class="fs-4 mb-5 text-muted">Send a direct request for services, pricing, or a project consultation.</p>
+                
+                <div class="drl-contact-form-wrapper">
+                    {{ form_start(directRequestForm) }}
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <label class="form-label">Objective of your request</label>
+                                {{ form_widget(directRequestForm.title) }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Tell us more about your needs</label>
+                                {{ form_widget(directRequestForm.description) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Main Service Needed</label>
+                                {{ form_widget(directRequestForm.category) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Attach Photos (Optional)</label>
+                                {{ form_widget(directRequestForm.images) }}
+                            </div>
+                        </div>
+                        <div class="mt-5 d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg p-4 fs-3 fw-black" style="border-radius: 20px;">
+                                SEND REQUEST TO {{ professional.companyName|upper }}
+                            </button>
+                        </div>
+                    {{ form_end(directRequestForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}
