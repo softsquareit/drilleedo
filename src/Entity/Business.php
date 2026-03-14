@@ -61,6 +61,15 @@ class Business extends User
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $services = null; // Stored as array of strings
 
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isVerified = false;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isTopRated = false;
+
+    #[ORM\OneToOne(mappedBy: 'business', targetEntity: BusinessStats::class, cascade: ['persist', 'remove'])]
+    private ?BusinessStats $stats = null;
+
     public function __construct()
     {
         $this->Adresse = new ArrayCollection();
@@ -320,6 +329,52 @@ class Business extends User
     public function setServices(?array $services): static
     {
         $this->services = $services;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function isTopRated(): bool
+    {
+        return $this->isTopRated;
+    }
+
+    public function setIsTopRated(bool $isTopRated): static
+    {
+        $this->isTopRated = $isTopRated;
+
+        return $this;
+    }
+
+    public function getStats(): ?BusinessStats
+    {
+        return $this->stats;
+    }
+
+    public function setStats(?BusinessStats $stats): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($stats === null && $this->stats !== null) {
+            $this->stats->setBusiness(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($stats !== null && $stats->getBusiness() !== $this) {
+            $stats->setBusiness($this);
+        }
+
+        $this->stats = $stats;
 
         return $this;
     }

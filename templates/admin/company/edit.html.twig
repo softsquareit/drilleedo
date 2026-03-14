@@ -441,6 +441,22 @@
                                             <span class="stat-value">{{ company.EmpNum ?: 0 }}</span>
                                         </div>
                                         <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                            <span class="stat-label">Verified</span>
+                                            {% if company.isVerified %}
+                                                <span class="badge bg-success bg-opacity-10 text-success small fw-bold"><i class="fas fa-check-circle me-1"></i>Yes</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary bg-opacity-10 text-secondary small fw-bold">No</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="sidebar-stat d-flex justify-content-between align-items-center">
+                                            <span class="stat-label">Top Rated</span>
+                                            {% if company.isTopRated %}
+                                                <span class="badge bg-warning bg-opacity-10 text-warning small fw-bold"><i class="fas fa-star me-1"></i>Yes</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary bg-opacity-10 text-secondary small fw-bold">No</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="sidebar-stat d-flex justify-content-between align-items-center">
                                             <span class="stat-label">Type</span>
                                             <span class="badge-zen">{{ company.entrepreneurType ? company.entrepreneurType.type : 'Standard' }}</span>
                                         </div>
@@ -705,6 +721,16 @@
                             <label class="form-label small fw-bold text-uppercase text-muted">Services</label>
                              <small class="d-block text-muted mb-1" style="font-size: 1rem;">Enter one item per line</small>
                             {{ form_widget(form1.services, {'attr': {'class': 'form-control zen-input'}}) }}
+                        </div>
+                        <div class="col-md-12 d-flex align-items-center gap-4 pt-2">
+                            <div class="form-check">
+                                {{ form_widget(form1.isVerified) }}
+                                {{ form_label(form1.isVerified) }}
+                            </div>
+                            <div class="form-check">
+                                {{ form_widget(form1.isTopRated) }}
+                                {{ form_label(form1.isTopRated) }}
+                            </div>
                         </div>
                     </div>
                 </div>

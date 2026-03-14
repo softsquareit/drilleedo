@@ -18,6 +18,13 @@ class Professional extends Business
     #[ORM\Column]
     private ?int $expYears = null;
 
+    public const AVAILABILITY_AVAILABLE = 'AVAILABLE';
+    public const AVAILABILITY_BUSY = 'BUSY';
+    public const AVAILABILITY_UNAVAILABLE = 'UNAVAILABLE';
+
+    #[ORM\Column(length: 20, options: ['default' => self::AVAILABILITY_AVAILABLE])]
+    private string $availabilityStatus = self::AVAILABILITY_AVAILABLE;
+
 
 
     public function getCity(): ?string
@@ -54,5 +61,17 @@ class Professional extends Business
         $this->expYears = $expYears;
 
         return $this;
-    }   
+    }
+
+    public function getAvailabilityStatus(): string
+    {
+        return $this->availabilityStatus;
+    }
+
+    public function setAvailabilityStatus(string $availabilityStatus): static
+    {
+        $this->availabilityStatus = $availabilityStatus;
+
+        return $this;
+    }
 }

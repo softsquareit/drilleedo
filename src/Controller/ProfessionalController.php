@@ -93,7 +93,24 @@ class ProfessionalController extends AbstractController
             'recentOffers'               => $recentOffers,
             'notifications'              => $notifications,
             'unreadCount'                => $unreadCount,
+            'stats'                      => $user instanceof \App\Entity\Professional ? $user->getStats() : null,
         ]);
+    }
+
+    #[Route('/update-availability', name: 'professional_update_availability', methods: ['POST'])]
+    public function updateAvailability(Request $request, EntityManagerInterface $em): Response
+    {
+        /** @var \App\Entity\Professional $user */
+        $user = $this->getUser();
+        $status = $request->request->get('status');
+
+        if (in_array($status, [\App\Entity\Professional::AVAILABILITY_AVAILABLE, \App\Entity\Professional::AVAILABILITY_BUSY, \App\Entity\Professional::AVAILABILITY_UNAVAILABLE])) {
+            $user->setAvailabilityStatus($status);
+            $em->flush();
+            $this->addFlash('success', 'Availability status updated to ' . strtolower($status) . '.');
+        }
+
+        return $this->redirectToRoute('professional_dashboard');
     }
 
     #[Route('/quotes', name: 'professional_quotes')]

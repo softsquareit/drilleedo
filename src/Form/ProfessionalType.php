@@ -10,8 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ProfessionalType extends AbstractType
 {
@@ -61,6 +63,27 @@ class ProfessionalType extends AbstractType
                 'required' => false,
                 'label' => 'Services (One item per line)',
                 'attr' => ['rows' => 5, 'placeholder' => "Repair\nMaintainance\nInstallation"]
+            ])
+            ->add('availabilityStatus', ChoiceType::class, [
+                'choices'  => [
+                    'Available' => Professional::AVAILABILITY_AVAILABLE,
+                    'Busy' => Professional::AVAILABILITY_BUSY,
+                    'Unavailable' => Professional::AVAILABILITY_UNAVAILABLE,
+                ],
+                'label' => 'Availability Status',
+                'attr' => ['class' => 'form-select']
+            ])
+            ->add('isVerified', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Verified by Drilleedo',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('isTopRated', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Top Rated Professional',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
             ]);
 
         $builder->get('whyChooseUs')->addModelTransformer(new CallbackTransformer(

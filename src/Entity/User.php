@@ -51,6 +51,9 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?PersonalInfos $personal_infos = null;
 
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $languageCode = null;
+
     
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, cascade: ['persist', 'remove'])]
     private Collection $notifications;
@@ -103,6 +106,17 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPersonalInfos(?PersonalInfos $personal_infos): static
     {
         $this->personal_infos = $personal_infos;
+        return $this;
+    }
+
+    public function getLanguageCode(): ?string
+    {
+        return $this->languageCode;
+    }
+
+    public function setLanguageCode(?string $languageCode): static
+    {
+        $this->languageCode = $languageCode;
         return $this;
     }
 

@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -62,6 +63,18 @@ class CompanyBasicType extends AbstractType
                 'required' => false,
                 'label' => 'Services (One item per line)',
                 'attr' => ['rows' => 5, 'placeholder' => "Renovation\nPlumbing\nConsultation"]
+            ])
+            ->add('isVerified', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Verified Agency',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('isTopRated', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Top Rated Agency',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
             ]);
 
         $builder->get('whyChooseUs')->addModelTransformer(new \Symfony\Component\Form\CallbackTransformer(

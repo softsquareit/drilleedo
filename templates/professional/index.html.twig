@@ -89,6 +89,59 @@
         </div>
     </div>
 
+    {# ── Reputation & Availability ── #}
+    <div class="row g-4 mb-4">
+        <div class="col-lg-8">
+            <div class="pro-card pro-card-elevated px-4 py-3">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="text-center border-end pe-4">
+                            <div class="pro-text-muted small text-uppercase fw-bold mb-1">Reputation</div>
+                            <div class="d-flex align-items-baseline gap-1">
+                                <span class="fs-3 fw-bold">{{ stats ? stats.averageRating|number_format(1) : '5.0' }}</span>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <div class="small text-muted">{{ stats ? stats.reviewCount : 0 }} reviews</div>
+                        </div>
+                        <div class="text-center border-end pe-4 px-2">
+                            <div class="pro-text-muted small text-uppercase fw-bold mb-1">Response</div>
+                            <div class="fs-4 fw-bold">{{ stats and stats.avgResponseTime ? stats.avgResponseTime|format_response_time : 'Instant' }}</div>
+                            <div class="small text-muted">Average time</div>
+                        </div>
+                        <div class="text-center px-2">
+                            <div class="pro-text-muted small text-uppercase fw-bold mb-1">Completion</div>
+                            <div class="fs-4 fw-bold">{{ stats ? (stats.completionRate * 100)|round : 100 }}%</div>
+                            <div class="small text-muted">Project success</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ms-auto border-start ps-4 py-1">
+                        <div class="pro-text-muted small text-uppercase fw-bold mb-2">My Availability</div>
+                        <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex gap-2">
+                            <input type="hidden" name="status" id="availability_status_input">
+                            <div class="btn-group pro-btn-group" role="group">
+                                <button type="submit" class="pro-btn pro-btn-sm {{ app.user.availabilityStatus == 'AVAILABLE' ? 'pro-btn-success' : 'pro-btn-outline' }}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'">Available</button>
+                                <button type="submit" class="pro-btn pro-btn-sm {{ app.user.availabilityStatus == 'BUSY' ? 'pro-btn-warning' : 'pro-btn-outline' }}" onclick="document.getElementById('availability_status_input').value='BUSY'">Busy</button>
+                                <button type="submit" class="pro-btn pro-btn-sm {{ app.user.availabilityStatus == 'UNAVAILABLE' ? 'pro-btn-danger' : 'pro-btn-outline' }}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'">Off</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="pro-card pro-card-elevated h-100 d-flex align-items-center justify-content-center p-3 text-center">
+                <div>
+                    <div class="fs-2 fw-bold text-primary mb-0">{{ conversionRate }}%</div>
+                    <div class="small text-muted text-uppercase fw-bold">Lead Conversion</div>
+                    <div class="progress mt-2" style="height: 4px; border-radius: 99px; width: 80px; margin: 0 auto;">
+                        <div class="progress-bar" style="width: {{ conversionRate }}%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row g-4">
         {# ── Recent Offers ── #}
         <div class="col-lg-8">

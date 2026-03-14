@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class IndividualType extends AbstractType
 {
@@ -15,6 +16,11 @@ class IndividualType extends AbstractType
     {
         $builder
             ->add('email')
+            ->add('languageCode', TextType::class, [
+                'required' => false,
+                'label' => 'Language/Region Code (e.g. FR, EN, FN)',
+                'attr' => ['placeholder' => 'FN']
+            ])
             ->add('personal_infos', PersonalInfosType::class, [
                 'required' => false,
                 'label' => false,
