@@ -15,7 +15,21 @@
              alt="Cover Image" class="drl-pro-banner-img">
         
         <div class="drl-banner-content-box">
+            {% if professional.category %}
+                <div class="drl-pro-category-tag"  style="color:white">
+                    {% if professional.category.icon %}
+                        <img src="{{ asset('uploads/categories/' ~ professional.category.icon) }}" 
+                             alt="{{ professional.category.name }}" class="drl-category-icon-img">
+                    {% else %}
+                        <div class="drl-category-icon-img d-flex align-items-center justify-content-center">
+                            <i class="feather-tool fs-1"></i>
+                        </div>
+                    {% endif %}
+                    {{ professional.category.name }}
+                </div>
+            {% endif %}
             <h1 class="drl-banner-name-expert" style="color:white">{{ professional.companyName }}</h1>
+            
         </div>
     </header>
 
@@ -27,24 +41,13 @@
         </div>
 
         <div class="drl-identity-info-box">
-            {% if professional.category %}
-                <div class="drl-pro-category-tag">
-                    {% if professional.category.icon %}
-                        <img src="{{ asset('uploads/categories/' ~ professional.category.icon) }}" 
-                             alt="{{ professional.category.name }}" class="drl-category-icon-img">
-                    {% else %}
-                        <i class="feather-tool"></i>
-                    {% endif %}
-                    {{ professional.category.name }}
-                </div>
-            {% endif %}
             
             <div class="drl-pro-location-tag">
-                <i class="feather-map-pin"></i> {{ professional.city ?? 'Montreal' }}, QC
+                <i class="feather-map-pin me-2"></i> {{ professional.city ?? 'Montreal' }}, QC
             </div>
 
             <div class="drl-rating-interactive" data-bs-toggle="modal" data-bs-target="#reviewsModal">
-                <div class="drl-rating-stars-gold">
+                <div class="text-warning fs-2 me-3">
                     {% set avg = professional.stats ? professional.stats.averageRating : 5 %}
                     {% set fullStars = avg|round(0, 'floor') %}
                     {% for i in range(1, 5) %}
@@ -55,8 +58,8 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <span class="fw-black fs-4">{{ avg|number_format(1) }}</span>
-                <span class="text-muted fs-6 ms-2">({{ professional.stats ? professional.stats.reviewCount : 0 }} verified reviews)</span>
+                <span class="drl-rating-score-bold">{{ avg|number_format(1) }}</span>
+                <span class="text-muted fs-4 ms-3">({{ professional.stats ? professional.stats.reviewCount : 0 }} verified reviews)</span>
             </div>
         </div>
     </section>
@@ -70,7 +73,7 @@
             <!-- About Section -->
             <section class="drl-section-card">
                 <h2 class="drl-section-title-premium"><i class="feather-user"></i> About the Professional</h2>
-                <div class="drl-body-text" style="line-height: 1.9;">
+                <div class="drl-body-text">
                     {% if professional.about %}
                         {{ professional.about|nl2br }}
                     {% else %}
@@ -78,35 +81,35 @@
                     {% endif %}
                 </div>
 
-                <div class="drl-about-highlights-grid">
+                <div class="drl-about-highlights-grid mt-5">
                     <!-- Why Choose Me -->
                     <div class="drl-highlight-card">
-                        <h4 class="fw-black"><i class="feather-check-circle"></i> Why Choose Me</h4>
+                        <h4 class="fw-black"><i class="feather-check-circle text-primary me-2"></i> Why Choose Me</h4>
                         <ul class="drl-highlight-list">
                             {% if professional.whyChooseUs %}
                                 {% for item in professional.whyChooseUs %}
-                                    <li class="fs-5"><i class="feather-check"></i> {{ item }}</li>
+                                    <li class="fs-4 py-2"><i class="feather-check text-success me-2"></i> {{ item }}</li>
                                 {% endfor %}
                             {% else %}
-                                <li class="fs-5"><i class="feather-check"></i> Licensed & Insured</li>
-                                <li class="fs-5"><i class="feather-check"></i> 10+ Years Experience</li>
-                                <li class="fs-5"><i class="feather-check"></i> 100% Satisfaction Rate</li>
+                                <li class="fs-4 py-2"><i class="feather-check text-success me-2"></i> Licensed & Insured</li>
+                                <li class="fs-4 py-2"><i class="feather-check text-success me-2"></i> 10+ Years Experience</li>
+                                <li class="fs-4 py-2"><i class="feather-check text-success me-2"></i> 100% Satisfaction Rate</li>
                             {% endif %}
                         </ul>
                     </div>
 
                     <!-- Services -->
                     <div class="drl-highlight-card">
-                        <h4 class="fw-black"><i class="feather-settings"></i> Our Core Services</h4>
+                        <h4 class="fw-black"><i class="feather-settings text-primary me-2"></i> Our Core Services</h4>
                         <ul class="drl-highlight-list">
                             {% if professional.services %}
                                 {% for service in professional.services %}
-                                    <li class="fs-5"><i class="feather-plus"></i> {{ service }}</li>
+                                    <li class="fs-4 py-2"><i class="feather-plus text-primary me-2"></i> {{ service }}</li>
                                 {% endfor %}
                             {% else %}
-                                <li class="fs-5"><i class="feather-plus"></i> Residential Renovation</li>
-                                <li class="fs-5"><i class="feather-plus"></i> Technical Consulting</li>
-                                <li class="fs-5"><i class="feather-plus"></i> Custom Interior Design</li>
+                                <li class="fs-4 py-2"><i class="feather-plus text-primary me-2"></i> Residential Renovation</li>
+                                <li class="fs-4 py-2"><i class="feather-plus text-primary me-2"></i> Technical Consulting</li>
+                                <li class="fs-4 py-2"><i class="feather-plus text-primary me-2"></i> Custom Interior Design</li>
                             {% endif %}
                         </ul>
                     </div>
@@ -126,11 +129,11 @@
                              data-bs-target="#projectModal{{ project.id }}">
                         <img src="{{ project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" 
                              alt="{{ project.name }}" class="card-img" loading="lazy">
-                        <div class="card-content">
-                            <h4 class="card-title fs-3 fw-black">{{ project.name }}</h4>
-                            <p class="card-desc fs-5">{{ project.description|striptags|slice(0, 120) }}...</p>
-                            <div class="d-flex align-items-center text-primary fw-black mt-4 fs-5">
-                                VIEW CASE STUDY <i class="feather-arrow-right ms-2"></i>
+                        <div class="card-content p-5">
+                            <h4 class="card-title fs-2 fw-black mb-3">{{ project.name }}</h4>
+                            <p class="card-desc fs-4">{{ project.description|striptags|slice(0, 140) }}...</p>
+                            <div class="d-flex align-items-center text-primary fw-black mt-5 fs-4">
+                                VIEW CASE STUDY <i class="feather-arrow-right ms-2 scale-1-2"></i>
                             </div>
                         </div>
                     </article>
@@ -143,38 +146,38 @@
                                     <div class="row g-0">
                                         <div class="col-lg-7">
                                             <img src="{{ project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" 
-                                                 class="w-100 h-100" style="object-fit: cover; min-height: 500px;">
+                                                 class="w-100 h-100" style="object-fit: cover; min-height: 600px;">
                                         </div>
                                         <div class="col-lg-5">
-                                            <div class="p-5 overflow-auto" style="max-height: 80vh;">
+                                            <div class="p-5 overflow-auto" style="max-height: 85vh;">
                                                 <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                <h2 class="drl-modal-title mt-4">{{ project.name }}</h2>
-                                                <div class="badge bg-primary-light text-primary px-3 py-2 fw-bold mb-4">
-                                                    <i class="feather-tag me-1"></i> COMPLETED PROJECT
+                                                <h2 class="drl-modal-title mt-5">{{ project.name }}</h2>
+                                                <div class="badge bg-primary-light text-primary px-4 py-3 fw-black fs-5 mb-5" style="border-radius: 12px;">
+                                                    <i class="feather-tag me-2"></i> COMPLETED PROJECT
                                                 </div>
                                                 <div class="drl-modal-desc mb-5">
                                                     {{ project.description|nl2br }}
                                                 </div>
                                                 
                                                 {% if project.gallery %}
-                                                    <h4 class="fw-black mb-4">Gallery</h4>
-                                                    <div class="row g-3">
+                                                    <h4 class="fw-black mb-4 fs-3">Gallery</h4>
+                                                    <div class="row g-4">
                                                         {% for photo in project.gallery %}
                                                         <div class="col-6">
-                                                            <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: 12px;">
-                                                                <img src="{{ asset('uploads/images/' ~ photo) }}" class="card-img-top" style="height: 150px; object-fit: cover;">
+                                                            <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: 15px;">
+                                                                <img src="{{ asset('uploads/images/' ~ photo) }}" class="card-img-top" style="height: 180px; object-fit: cover;">
                                                             </div>
                                                         </div>
                                                         {% endfor %}
                                                     </div>
                                                 {% endif %}
                                                 
-                                                <div class="mt-5 pt-4 border-top">
-                                                    <button class="btn btn-primary w-100 p-4 fs-4 fw-black" 
+                                                <div class="mt-5 pt-5 border-top">
+                                                    <button class="btn btn-primary w-100 p-4 fs-2 fw-black" 
                                                             data-bs-dismiss="modal" 
                                                             data-bs-toggle="modal" 
                                                             data-bs-target="#contactProModal"
-                                                            style="border-radius: 15px;">
+                                                            style="border-radius: 20px;">
                                                         ENQUIRE ABOUT THIS PROJECT
                                                     </button>
                                                 </div>
@@ -205,7 +208,7 @@
             <!-- Bottom Contact CTA -->
             <section class="drl-footer-cta-box">
                 <button class="btn-full-contact" data-bs-toggle="modal" data-bs-target="#contactProModal">
-                    <i class="feather-message-circle"></i> Connect With This Professional
+                    <i class="feather-message-circle me-3"></i> Connect With This Professional
                 </button>
             </section>
 
@@ -214,49 +217,51 @@
         <!-- ───── 4. Sticky Summary Sidebar (REFINED TYPOGRAPHY) ───── -->
         <aside class="drl-pro-side-col">
             <div class="drl-sidebar-fixed-wrapper">
-                <div class="drl-summary-sidebar-card">
+                <div class="drl-summary-sidebar-card p-5">
                     
                     <div class="mb-5">
-                        <div class="badge bg-primary-light text-primary px-3 py-2 fw-bold mb-4" style="border-radius: 8px; font-size: 0.9rem;">
-                            <i class="feather-shield me-1"></i> VERIFIED BY DRILLEEDO
+                        <div class="badge bg-primary-light text-primary px-4 py-3 fw-black mb-4" style="border-radius: 10px; font-size: 1.1rem;">
+                            <i class="feather-shield me-2"></i> VERIFIED BY DRILLEEDO
                         </div>
-                        <h3 class="drl-summary-title fs-2 fw-black mb-2">{{ professional.companyName }}</h3>
-                        <p class="text-muted fw-bold"><i class="feather-award text-warning"></i> Elite Professional Status</p>
+                        <h3 class="drl-summary-title fs-1 fw-black mb-3">{{ professional.companyName }}</h3>
+                        <p class="text-muted fw-black fs-5"><i class="feather-award text-warning me-2"></i> Elite Professional Status</p>
                     </div>
 
                     <ul class="drl-summary-details mb-5">
-                        <li>
-                            <i class="feather-tool"></i>
-                            <span class="fs-5 fw-bold">{{ professional.category ? professional.category.name : 'Renovation Expert' }}</span>
+                        <li class="py-3">
+                            <i class="feather-tool me-3 text-primary"></i>
+                            <span class="fs-4 fw-black">{{ professional.category ? professional.category.name : 'Renovation Expert' }}</span>
                         </li>
-                        <li>
-                            <i class="feather-map-pin"></i>
-                            <span class="fs-5 fw-bold">{{ professional.city ?? 'Montreal' }}, QC</span>
+                        <li class="py-3">
+                            <i class="feather-map-pin me-3 text-primary"></i>
+                            <span class="fs-4 fw-black">{{ professional.city ?? 'Montreal' }}, QC</span>
                         </li>
-                        <li>
-                            <i class="feather-briefcase"></i>
-                            <span class="fs-5 fw-bold">{{ professional.expYears ?? '10' }}+ years experience</span>
+                        <li class="py-3">
+                            <i class="feather-briefcase me-3 text-primary"></i>
+                            <span class="fs-4 fw-black">{{ professional.expYears ?? '10' }}+ years experience</span>
                         </li>
                     </ul>
 
                     {# Sticky Rating Row #}
-                    <div class="drl-summary-rating-row mb-5">
-                        <div class="drl-rating-stars-gold fs-4">
+                    <div class="drl-summary-rating-row mb-5 border-top border-bottom py-4">
+                        <div class="drl-rating-stars-gold fs-3">
                             {% set fullStars = professional.stats ? professional.stats.averageRating|round(0, 'floor') : 5 %}
                             {% for i in range(1, 5) %}
                                 <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star"></i>
                             {% endfor %}
                         </div>
-                        <span class="drl-rating-score-bold fs-3 ms-2">{{ professional.stats ? professional.stats.averageRating|number_format(1) : '5.0' }}</span>
+                        <span class="drl-rating-score-bold fs-2 ms-3">{{ professional.stats ? professional.stats.averageRating|number_format(1) : '5.0' }}</span>
                     </div>
 
                     {# Primary CTA Button #}
-                    <div class="mt-4">
-                        <button class="btn-cta-premium w-100" data-bs-toggle="modal" data-bs-target="#contactProModal">
-                            <i class="feather-send"></i> REQUEST QUOTE & INFO
+                    <div class="mt-5">
+                        <button class="btn btn-primary w-100 p-4 fs-3 fw-black shadow-lg" 
+                                data-bs-toggle="modal" data-bs-target="#contactProModal"
+                                style="border-radius: 18px;">
+                            <i class="feather-send me-2"></i> REQUEST QUOTE & INFO
                         </button>
-                        <p class="text-center text-muted small mt-4 fw-black">
-                            <i class="feather-clock me-1 text-primary"></i> Rapid Response Guarantee
+                        <p class="text-center text-muted fs-5 mt-4 fw-black">
+                            <i class="feather-clock me-2 text-primary"></i> Rapid Response Guarantee
                         </p>
                     </div>
 
