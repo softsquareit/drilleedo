@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageTitle }} – Drilleedo{% endblock %}
+
+{% block body %}
+    <!-- Start Banner -->
+    <div class="rbt-page-banner-wrapper">
+        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/smartideas.png') }}');"></div>
+        <div class="rbt-banner-content">
+            <div class="rbt-banner-content-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="page-list">
+                                <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
+                                <li><div class="icon-right"><i class="feather-chevron-right"></i></div></li>
+                                <li class="rbt-breadcrumb-item active">{{ pageTitle }}</li>
+                            </ul>
+                            <div class="title-wrapper">
+                                <h1 class="hero-main-title">{{ pageTitle }}</h1>
+                                <span class="rbt-badge-2">{{ totalItems }} Items</span>
+                            </div>
+                            <p class="description">Discover the latest {{ pageTitle|lower }} and inspiration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rbt-section-gapBottom mt--80">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <div class="row g-5">
+                        {% for item in items %}
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="rbt-card variation-02 rbt-hover">
+                                    <div class="rbt-card-img">
+                                        <a href="{{ path('public_blog_show', {id: item.id}) }}">
+                                            <img src="{{ item.mainImg ? (item.mainImg starts with 'http' ? item.mainImg : asset('uploads/blog/' ~ item.mainImg)) : asset('assets/drilleedo/images/bg/bg-image-1.jpg') }}" alt="{{ item.title }}">
+                                        </a>
+                                    </div>
+                                    <div class="rbt-card-body">
+                                        <h4 class="rbt-card-title">
+                                            <a href="{{ path('public_blog_show', {id: item.id}) }}">{{ item.title }}</a>
+                                        </h4>
+                                        <p class="rbt-card-text">{{ item.shortDesc }}</p>
+                                        <div class="rbt-card-bottom">
+                                            <a class="transparent-button" href="{{ path('public_blog_show', {id: item.id}) }}">Read More<i><i class="feather-arrow-right"></i></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12 text-center">
+                                <p>No items found.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if totalPages > 1 %}
+                        <div class="row">
+                            <div class="col-lg-12 mt--60">
+                                <nav>
+                                    <ul class="rbt-pagination">
+                                        {% if currentPage > 1 %}
+                                            <li><a href="{{ path(pageRoute, {page: currentPage - 1}) }}"><i class="feather-chevron-left"></i></a></li>
+                                        {% endif %}
+                                        {% for p in 1..totalPages %}
+                                            <li class="{{ p == currentPage ? 'active' : '' }}"><a href="{{ path(pageRoute, {page: p}) }}">{{ p }}</a></li>
+                                        {% endfor %}
+                                        {% if currentPage < totalPages %}
+                                            <li><a href="{{ path(pageRoute, {page: currentPage + 1}) }}"><i class="feather-chevron-right"></i></a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-4">
+                    <aside class="rbt-sidebar-widget-wrapper">
+                        <div class="rbt-single-widget rbt-widget-categories">
+                            <h4 class="title">Categories</h4>
+                            <nav class="mainmenu-nav">
+                                <ul class="mainmenu">
+                                    <li class="{% if not currentCategory %}active{% endif %}">
+                                        <a href="{{ path(pageRoute) }}">All Categories</a>
+                                    </li>
+                                    {% for cat in categories %}
+                                        <li class="{% if currentCategory == cat.id %}active{% endif %}">
+                                            <a href="{{ path(pageRoute, {category: cat.id}) }}">{{ cat.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
