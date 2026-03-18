@@ -1,0 +1,67 @@
+{# templates/home/_how_it_works.html.twig #}
+<section id="how-drilleedo-works" class="how-it-works-modern" aria-labelledby="how-it-works-heading">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title" id="how-it-works-heading">How Drilleedo Works</h2>
+            <p class="section-subtitle">
+                Finding the right professional for your home improvement project has never been easier. Just 4 simple steps to get started.
+            </p>
+        </div>
+
+        <div class="steps-grid">
+            {# Step 1 #}
+            <div class="step-card" style="--delay: 0ms;">
+                <div class="step-badge">Step 01</div>
+                <div class="icon-wrapper">
+                    <i class="feather-edit-3" aria-hidden="true"></i>
+                </div>
+                <h3 class="step-title">Post Your Project</h3>
+                <p class="step-desc">
+                    Describe your renovation project, location, and budget. It only takes a few minutes.
+                </p>
+            </div>
+
+            {# Step 2 #}
+            <div class="step-card" style="--delay: 150ms;">
+                <div class="step-badge">Step 02</div>
+                <div class="icon-wrapper">
+                    <i class="feather-users" aria-hidden="true"></i>
+                </div>
+                <h3 class="step-title">Compare Professionals</h3>
+                <p class="step-desc">
+                    Review profiles, portfolios, and verified ratings of contractors near you.
+                </p>
+            </div>
+
+            {# Step 3 #}
+            <div class="step-card" style="--delay: 300ms;">
+                <div class="step-badge">Step 03</div>
+                <div class="icon-wrapper">
+                    <i class="feather-message-square" aria-hidden="true"></i>
+                </div>
+                <h3 class="step-title">Receive Quotes</h3>
+                <p class="step-desc">
+                    Get competitive, no-obligation quotes from interested specialists.
+                </p>
+            </div>
+
+            {# Step 4 #}
+            <div class="step-card" style="--delay: 450ms;">
+                <div class="step-badge">Step 04</div>
+                <div class="icon-wrapper">
+                    <i class="feather-check-circle" aria-hidden="true"></i>
+                </div>
+                <h3 class="step-title">Start Your Project</h3>
+                <p class="step-desc">
+                    Hire the best professional and bring your renovation vision to life.
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ path('professionals_list') }}" class="btn-view-services">
+                View All Services <i class="feather-chevron-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>

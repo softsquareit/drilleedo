@@ -47,7 +47,7 @@
     <div class="hero-left-side">
         <div class="hero-content-card">
             <h1 class="hero-main-title" id="hero-heading">Find Trusted Renovation Professionals
-            <div style="background: linear-gradient(90deg, rgb(255 57 0) 0%, rgb(255 52 0) 100%) text;">for Every Project in Canada.</div></h1>
+            <div style="background: linear-gradient(90deg, rgb(255 57 0) 0%, rgb(255 52 0) 100%) text;">For Every Project in Canada.</div></h1>
             
             <p class="hero-subtitle-text">
                 Join thousands of Canadians who have successfully renovated their homes. Get free quotes from verified contractors, plumbers, and electricians near you.
@@ -132,41 +132,8 @@
 {# ── /Hero ── #}
 
 {# ── How It Works ── #}
-<section id="how-it-works" class="how-it-works-section" aria-labelledby="how-it-works-heading">
-    <div class="how-it-works-header">
-        <h2 class="how-it-works-title" id="how-it-works-heading">How Drilleedo Works</h2>
-        <p class="how-it-works-subtitle">
-            Finding the right professional for your home improvement project has never been easier. Just 3 simple steps to get started.
-        </p>
-    </div>
-
-    <ol class="how-it-works-steps" aria-label="Steps to find a professional on Drilleedo">
-        <li class="how-it-works-step">
-            <div class="step-number" aria-hidden="true">1</div>
-            <i class="feather-edit-3 step-icon" aria-hidden="true"></i>
-            <h3 class="step-title">Tell Us What You Need</h3>
-            <p class="step-desc">
-                Describe your renovation project, location, and budget. It only takes a few minutes to submit your request.
-            </p>
-        </li>
-        <li class="how-it-works-step">
-            <div class="step-number" aria-hidden="true">2</div>
-            <i class="feather-users step-icon" aria-hidden="true"></i>
-            <h3 class="step-title">Receive Free Quotes</h3>
-            <p class="step-desc">
-                Verified renovation professionals in your area will review your project and send competitive, no-obligation quotes.
-            </p>
-        </li>
-        <li class="how-it-works-step">
-            <div class="step-number" aria-hidden="true">3</div>
-            <i class="feather-check-circle step-icon" aria-hidden="true"></i>
-            <h3 class="step-title">Hire the Best Pro</h3>
-            <p class="step-desc">
-                Compare profiles, read verified reviews, and choose the most qualified certified professional for your renovation.
-            </p>
-        </li>
-    </ol>
-</section>
+{% include 'home/_how_it_works.html.twig' %}
+{# ── /How It Works ── #}
 {# ── /How It Works ── #}
 
 {# ── About Section ── #}
@@ -302,8 +269,8 @@
                         <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}"
                              alt="Search for verified renovation professionals and certified contractors across Canada"
                              loading="lazy" width="400" height="220">
-                        <div class="icon-square-overlay" style="border-color: #00509e;" aria-hidden="true">
-                            <i class="fas fa-hard-hat" style="color: #00509e;"></i>
+                        <div class="icon-square-overlay"  aria-hidden="true">
+                            <i class="fa fa-box"></i>
                         </div>
                     </div>
                     <h3 class="discovery-card-title">Renovation Professionals</h3>
