@@ -3525,6 +3525,316 @@ body {
     }
 }
 
+/* ==========================================================================
+   ABOUT PAGE — Redesign Styles
+   ========================================================================== */
+.about-page {
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+.about-hero {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%), url('../images/bg/bg-image-0.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.about-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+}
+
+.about-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.about-hero .hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #00509e;
+    margin-bottom: 1.5rem;
+}
+
+.about-hero .hero-subtitle {
+    font-size: 1.25rem;
+    color: #555555;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+@media (max-width: 991px) {
+    .about-hero .hero-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .about-hero .hero-title {
+        font-size: 1.5rem;
+    }
+}
+
+.about-section {
+    padding: 70px 0;
+}
+
+@media (max-width: 991px) {
+    .about-section {
+        padding: 40px 0;
+    }
+}
+
+@media (max-width: 575px) {
+    .about-section {
+        padding: 40px 0;
+    }
+}
+
+.about-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 3rem;
+}
+
+.about-card.secondary-bg {
+    background-color: #f8fbff;
+}
+
+.bg-light-blue {
+    background-color: #f8fbff;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #00509e;
+    margin-bottom: 1.5rem;
+}
+
+.text-content-wrapper {
+    max-width: 700px;
+}
+
+.section-text {
+    font-size: 1.1rem;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+.icon-badge {
+    width: 60px;
+    height: 60px;
+    background: #e6f7ff;
+    color: #00509e;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.icon-badge.accent-icon {
+    background: #fff7ed;
+    color: #f97316;
+}
+
+.card-image-wrapper {
+    height: 100%;
+    min-height: 400px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.expert-shadow {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Stats */
+.stats-section {
+    padding: 70px 40px;
+    background: #ffffff;
+    border-radius: 20px;
+    color: #333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+}
+
+@media (max-width: 768px) {
+    .stats-section {
+        padding: 40px 20px;
+    }
+}
+
+.stat-icon {
+    font-size: 2.8rem;
+}
+
+.stat-blue {
+    color: #00509e;
+}
+
+.stat-green {
+    color: #00b894;
+}
+
+.stat-yellow {
+    color: #f6c23e;
+}
+
+.stat-number {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #003366;
+}
+
+.stat-label {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Team */
+.team-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    border: 1px solid #f1f5f9;
+    height: 100%;
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.team-image-box {
+    overflow: hidden;
+    height: 280px;
+    width: 280px;
+    margin: 30px auto 10px;
+    border-radius: 50% !important;
+    border: 5px solid #00509e;
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-image-box {
+    transform: scale(1.05);
+}
+
+.team-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #00509e;
+    margin-bottom: 0.5rem;
+}
+
+.team-role {
+    color: #666666;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+/* Animations */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease-out;
+}
+
+.fade-in-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.grayscale-hover {
+    transition: filter 0.3s ease;
+    filter: grayscale(0.5);
+}
+
+.grayscale-hover:hover {
+    filter: grayscale(0);
+}
+
+.team-bio {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* CTA */
+.about-cta {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+    border-top: 1px solid #e2e8f0;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #003366;
+    margin-bottom: 1.5rem;
+}
+
+.cta-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.btn-cta {
+    background: #00509e;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(0, 80, 158, 0.3);
+}
+
+.btn-cta:hover {
+    background: #003366;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 80, 158, 0.4);
+}
+
+@media (max-width: 768px) {
+    .about-hero .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .stats-section {
+        padding: 40px 20px;
+    }
+
+    .stat-item {
+        border: none !important;
+        margin-bottom: 2rem;
+    }
+}
+
 
 .how-it-works-modern {
     background-color: #f8f9fa;
