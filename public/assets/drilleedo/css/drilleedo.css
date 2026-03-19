@@ -3458,6 +3458,73 @@ body {
     }
 }
 
+/* ==========================================================================
+   APP BANNER BUTTONS
+   ========================================================================== */
+.app-store-btn {
+    background: #000000 !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    transition: all 0.3s ease !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.app-store-btn:hover {
+    background: #333333 !important;
+    transform: translateY(-2px);
+}
+
+.google-play-btn {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    transition: all 0.3s ease !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.google-play-btn:hover {
+    background: #f8fafc !important;
+    border-color: #00509e !important;
+    transform: translateY(-2px);
+}
+
+.app-store-btn .btn-icon i,
+.google-play-btn .btn-icon i {
+    font-size: 2rem !important;
+    vertical-align: middle;
+}
+
+.app-store-btn .btn-text,
+.google-play-btn .btn-text {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    margin-left: 0.75rem;
+}
+
+/* Responsive adjustment for app buttons */
+@media (max-width: 767px) {
+    .rbt-button-group {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 1rem !important;
+        width: 100% !important;
+    }
+
+    .app-store-btn,
+    .google-play-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
 
 .how-it-works-modern {
     background-color: #f8f9fa;

@@ -236,63 +236,84 @@
 
   <!-- Start Inspiration Area -->
 <!-- Start Discovery Area -->
-<div class="discovery-section-container">
-    <div class="container">
-        <!-- Header -->
-        <div class="text-center">
-            <span class="discovery-pill">Do more with Drilleedo</span>
-            <h2 class="discovery-title">Design, Renovate & Build Better.</h2>
-            <p class="discovery-subtitle">
-                Discover inspiring ideas, connect with trusted professionals, and find the right company for your project.
-            </p>
-        </div>
-
-
-
-        <div class="row g-4">
-            <article class="col-lg-4 col-md-6">
-                <a href="{{ path('smartideas') }}" class="discovery-card d-block text-decoration-none">
-                    <div class="img-overlay-box">
-                        <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}"
-                             alt="Browse thousands of Canadian home renovation and interior design ideas"
-                             loading="lazy" width="400" height="220">
-                        <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-home"></i></div>
-                    </div>
-                    <h3 class="discovery-card-title">Discover Design Ideas</h3>
-                    <p class="discovery-card-desc">Browse thousands of interior, exterior, and renovation ideas to inspire your next project.</p>
-                </a>
-            </article>
-
-            <article class="col-lg-4 col-md-6">
-                <a href="{{ path('professionals_list') }}" class="discovery-card d-block text-decoration-none">
-                    <div class="img-overlay-box" style="background: #e6f7ff;">
-                        <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}"
-                             alt="Search for verified renovation professionals and certified contractors across Canada"
-                             loading="lazy" width="400" height="220">
-                        <div class="icon-square-overlay"  aria-hidden="true">
-                            <i class="fa fa-box"></i>
-                        </div>
-                    </div>
-                    <h3 class="discovery-card-title">Renovation Professionals</h3>
-                    <p class="discovery-card-desc">Connect with architects, interior designers, and contractors near you.</p>
-                </a>
-            </article>
-
-            <article class="col-lg-4 col-md-6">
-                <a href="{{ path('companies_list') }}" class="discovery-card d-block text-decoration-none">
-                    <div class="img-overlay-box">
-                        <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}"
-                             alt="Browse specialized renovation companies — kitchens, bathrooms, roofing, and landscaping in Canada"
-                             loading="lazy" width="400" height="220"
-                             style="filter: hue-rotate(45deg);">
-                        <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-building"></i></div>
-                    </div>
-                    <h3 class="discovery-card-title">Specialized Companies</h3>
-                    <p class="discovery-card-desc">Explore trusted companies by specialty: kitchens, bathrooms, roofing, landscaping, and more.</p>
-                </a>
-            </article>
-        </div>
+<section class="discovery-section-container ">
+   <div class="container">
+    <!-- Header -->
+    <div class="text-center">
+        <span class="discovery-pill">Do more with Drilleedo</span>
+        <h2 class="discovery-title">Design, Renovate & Build Better.</h2>
+        <p class="discovery-subtitle">
+            Discover inspiring ideas, connect with trusted professionals, and find the right company for your project.
+        </p>
     </div>
+
+    <div class="row g-4 rbt-section-gapBottom">
+        <!-- Card 1: Ideas -->
+        <article class="col-lg-4 col-md-6">
+            <a href="{{ path('smartideas') }}" class="discovery-card d-block text-decoration-none">
+                <div class="img-overlay-box">
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}"
+                         alt="Browse thousands of Canadian home renovation and interior design ideas"
+                         loading="lazy" width="400" height="220">
+                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-home"></i></div>
+                </div>
+                <h3 class="discovery-card-title">Discover Design Ideas</h3>
+                <p class="discovery-card-desc">
+                    Browse thousands of interior, exterior, and renovation ideas to inspire your next project.
+                </p>
+                <!-- Statistique avec couleur charte -->
+                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>30k+ Inspirations</span>
+                </div>
+            </a>
+        </article>
+
+        <!-- Card 2: Professionals -->
+        <article class="col-lg-4 col-md-6">
+            <a href="{{ path('professionals_list') }}" class="discovery-card d-block text-decoration-none">
+                <div class="img-overlay-box" style="background: #e6f7ff;">
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}"
+                         alt="Search for verified renovation professionals and certified contractors across Canada"
+                         loading="lazy" width="400" height="220">
+                    <div class="icon-square-overlay" aria-hidden="true">
+                        <i class="fas fa-box"></i>
+                    </div>
+                </div>
+                <h3 class="discovery-card-title">Renovation Professionals</h3>
+                <p class="discovery-card-desc">
+                    Connect with architects, interior designers, and contractors near you.
+                </p>
+                <!-- Statistique avec couleur charte -->
+                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-success">
+                    <i class="fas fa-user-tie"></i>
+                    <span>1.5k+ Verified Professionals</span>
+                </div>
+            </a>
+        </article>
+
+        <!-- Card 3: Companies -->
+        <article class="col-lg-4 col-md-6">
+            <a href="{{ path('companies_list') }}" class="discovery-card d-block text-decoration-none">
+                <div class="img-overlay-box">
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}"
+                         alt="Browse specialized renovation companies — kitchens, bathrooms, roofing, and landscaping in Canada"
+                         loading="lazy" width="400" height="220" style="filter: hue-rotate(45deg);">
+                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-building"></i></div>
+                </div>
+                <h3 class="discovery-card-title">Specialized Companies</h3>
+                <p class="discovery-card-desc">
+                    Explore trusted companies by specialty: kitchens, bathrooms, roofing, landscaping, and more.
+                </p>
+                <!-- Statistique avec couleur charte -->
+                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-warning">
+                    <i class="fas fa-building"></i>
+                    <span>800+ Companies</span>
+                </div>
+            </a>
+        </article>
+    </div>
+</div>
 </section>
 {# ── /Discovery ── #}
 
@@ -316,15 +337,6 @@
                                 <span class="meta-text d-flex align-items-center">
                                     Mobile App Available
                                 </span>
-
-                                <a href="#" class="rbt-badge-2" aria-label="Download Drilleedo on Google Play">
-                                    <div class="image">
-                                        <img src="assets/drilleedo/images/icon_google.png"
-                                             alt="Google Play store icon"
-                                             loading="lazy" width="32" height="32">
-                                    </div>
-                                    Download our <strong>Mobile App</strong>
-                                </a>
                             </div>
 
                             <!-- Title -->
@@ -339,21 +351,23 @@
 
                             <!-- App Buttons -->
                             <div class="slider-btn rbt-button-group justify-content-start">
-                                <!-- App Store -->
-                                <a class="rbt-btn app-store-btn radius-round hover-icon-reverse" href="#">
-                                    <span class="icon-reverse-wrapper d-flex align-items-center gap-2">
-                                        <span class="btn-icon"><i class="fab fa-apple fa-lg"></i></span>
+
+                                <a class="rbt-btn   radius-round hover-icon-reverse" href="#">
+                                    <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Download on App Store</span>
+                                        <span class="btn-icon"><i class="fab fa-apple"></i></span>
+                                        <span class="btn-icon"><i class="feather-arrow-down"></i></span>
                                     </span>
                                 </a>
 
-                                <!-- Google Play -->
-                                <a class="rbt-btn google-play-btn radius-round hover-icon-reverse btn-white" href="#">
-                                    <span class="icon-reverse-wrapper d-flex align-items-center gap-2">
-                                        <span class="btn-icon"><i class="fab fa-google-play fa-lg"></i></span>
+                                <a class="rbt-btn radius-round hover-icon-reverse btn-white" href="#">
+                                    <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Get it on Google Play</span>
+                                        <span class="btn-icon"><i class="fab fa-google-play"></i></span>
+                                        <span class="btn-icon"><i class="feather-arrow-down"></i></span>
                                     </span>
                                 </a>
+
                             </div>
 
                         </div>

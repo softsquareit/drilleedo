@@ -1,0 +1,124 @@
+{# 
+   Expected variables:
+   - pro: Professional entity object 
+#}
+
+<div class="drl-pro-card-new">
+    {% if pro.isTopRated %}
+    <div class="pro-badge-top-rated">
+        <i class="fas fa-star" aria-hidden="true"></i> Top Rated
+    </div>
+    {% endif %}
+
+    <!-- Image Area -->
+    <div class="pro-card-img-wrapper">
+        <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}">
+            <img src="{{ pro.banner ? asset('uploads/banners/' ~ pro.banner) : asset('assets/drilleedo/images/team/plumber.png') }}"
+                 alt="{{ pro.companyName ?? 'Professional' }} — verified renovation pro on Drilleedo"
+                 loading="lazy">
+        </a>
+    </div>
+
+    <!-- Body Area -->
+    <div class="pro-card-body">
+        
+        {# Verified Status #}
+        {% if pro.isVerified %}
+        <div class="pro-verified-status">
+            <i class="fas fa-check-circle text-success" aria-hidden="true"></i> <strong>Verified</strong> by Drilleedo
+        </div>
+        {% endif %}
+
+        {# Title #}
+        <h3 class="pro-card-title">
+            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}">
+                {% if pro.personalInfos %}
+                    {{ pro.personalInfos.firstName }} {{ pro.personalInfos.lastName }}
+                {% elseif pro.companyName %}
+                    {{ pro.companyName }}
+                {% else %}
+                    {{ pro.email }}
+                {% endif %}
+            </a>
+        </h3>
+
+        {# Details List (Icon + Text) #}
+        <ul class="pro-card-details-list">
+            {# Category #}
+            <li>
+                <span class="category-icon-wrapper me-1" style="width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;">
+                   
+                </span>
+            </li>
+            
+            {# Location #}
+            <li>
+                <i class="feather-map-pin" aria-hidden="true"></i>
+                <span class="detail-text">{{ pro.city ?? 'Canada' }}</span>
+            </li>
+            
+            {# Experience #}
+            <li>
+                <i class="feather-briefcase" aria-hidden="true"></i>
+                <span class="detail-text">{{ pro.expYears ?? '5' }} years experience</span>
+            </li>
+        </ul>
+
+        {# Ratings & Response Time Header #}
+        <div class="pro-card-ratings-row">
+            <div class="pro-stars">
+                {% set fullStars = pro.stats ? pro.stats.averageRating|round(0, 'floor') : 0 %}
+                {% set halfStar = pro.stats and (pro.stats.averageRating - fullStars) >= 0.5 ? 1 : 0 %}
+                {% set emptyStars = 5 - fullStars - halfStar %}
+                
+                {% if fullStars > 0 %}{% for i in range(1, fullStars) %}<i class="fas fa-star"></i>{% endfor %}{% endif %}
+                {% if halfStar %}<i class="fas fa-star-half-alt"></i>{% endif %}
+                {% if emptyStars > 0 %}{% for i in range(1, emptyStars) %}<i class="far fa-star"></i>{% endfor %}{% endif %}
+            </div>
+            <span class="pro-rating-number">{{ pro.stats ? pro.stats.averageRating|number_format(1) : '5.0' }}</span>
+            <span class="pro-review-count text-muted small ms-1">({{ pro.stats ? pro.stats.reviewCount : 0 }})</span>
+             {# Language/Region identifier #}
+            <i class="fas fa-globe pro-rating-icon mx-2" style="color: #64748b;"></i> 
+            <span style="font-size:14px; color:#475569; font-weight:500;">{{ pro.languageCode ?? 'FR' }}</span>
+        </div>
+
+        <ul class="pro-card-details-list mt-2">
+            <li>
+                <i class="feather-message-circle" aria-hidden="true"></i>
+                <span class="detail-text">
+                    Replies within 
+                    <strong>
+                        {% if pro.stats and pro.stats.avgResponseTime %}
+                            {% if pro.stats.avgResponseTime < 3600 %}
+                                {{ (pro.stats.avgResponseTime / 60)|round }} minutes
+                            {% else %}
+                                {{ (pro.stats.avgResponseTime / 3600)|round }} hours
+                            {% endif %}
+                        {% else %}
+                            24 hours
+                        {% endif %}
+                    </strong>
+                </span>
+            </li>
+            <li>
+                <i class="feather-calendar" aria-hidden="true"></i>
+                <span class="detail-text">
+                    
+                </span>
+            </li>
+        </ul>
+
+        {# Action Buttons (Two Buttons side by side) #}
+        <div class="pro-card-actions">
+            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}" 
+               class="btn-pro-outline">
+                View Profile <i class="feather-chevron-right" aria-hidden="true"></i>
+            </a>
+            
+            <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" 
+               class="btn-pro-solid">
+                Request <i class="feather-chevron-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</div>
