@@ -144,6 +144,65 @@
 </div>
 
                 <div class="col-lg-8 col-xl-9 order-1 order-lg-2">
+                    <!-- Start Search & CTA Area -->
+                    <div class="pro-list-header mb-5">
+                        <div class="row align-items-center gy-4">
+                            <div class="col-md-8">
+                                <form action="{{ path('professionals_list') }}" method="GET" class="search-form-modern">
+                                    <div class="input-group-modern">
+                                        <i class="feather-search search-icon"></i>
+                                        <input type="text" name="keyword" class="form-control-modern" placeholder="Search by name, service or city..." value="{{ activeFilters.keyword }}">
+                                        {#{% if activeFilters.category %}
+                                            <input type="hidden" name="category" value="{{ activeFilters.category }}">
+                                        {% endif %}#}
+                                        <button type="submit" class="rbt-btn btn-gradient btn-sm-modern">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <a href="{{ path('app_register') }}" class="rbt-btn btn-solid-blue radius-round w-100 w-md-auto py-3 px-4">
+                                    <i class="feather-plus me-1"></i> Post a Project
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Start Category Tabs -->
+                    <div class="category-tabs-wrapper mb-4">
+                        <div class="category-tabs-container">
+                            <button class="category-tab active" data-category="all">
+                                <i class="fas fa-th-large me-2"></i> All
+                            </button>
+                            {% for cat in allCategories %}
+                                <button class="category-tab" data-category="{{ cat.id }}">
+                                    {% if cat.icon %}
+                                        <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" class="tab-icon">
+                                    {% else %}
+                                        <i class="fas fa-tools me-2"></i>
+                                    {% endif %}
+                                    {{ cat.name }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Start Sort & Stats -->
+                    <div class="pro-list-meta d-flex justify-content-between align-items-center mb-4">
+                        <div class="results-count">
+                            <span class="text-muted"><span id="filtered-count">{{ professionals|length }}</span> {{ professionals|length == 1 ? 'professional' : 'professionals' }} found</span>
+                        </div>
+                        <div class="sort-wrapper">
+                            <form action="{{ path('professionals_list') }}" method="GET" id="sort-form">
+                                {% if activeFilters.keyword %}<input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">{% endif %}
+                                {% if activeFilters.category %}<input type="hidden" name="category" value="{{ activeFilters.category }}">{% endif %}
+                                <select name="sort" class="form-select-modern" onchange="this.form.submit()">
+                                    <option value="newest" {% if activeFilters.sort == 'newest' %}selected{% endif %}>Newest first</option>
+                                    <option value="rating" {% if activeFilters.sort == 'rating' %}selected{% endif %}>Top Rated</option>
+                                    <option value="experience" {% if activeFilters.sort == 'experience' %}selected{% endif %}>Most Experienced</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
                     <!-- Trust Bar -->
            
 
@@ -151,7 +210,7 @@
 
         <!-- Start Single Professional Loop ! -->
         {% for pro in professionals %} 
-        <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-12 pro-card-item" data-category="{{ pro.category ? pro.category.id : '' }}">
             {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
         </div>
         {% else %}
@@ -207,4 +266,47 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.category-tab');
+    const cards = document.querySelectorAll('.pro-card-item');
+    const countDisplay = document.getElementById('filtered-count');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+
+            // Update active tab UI
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filter cards
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const cardCat = card.dataset.category;
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'block';
+                    // Optional: Add a fade-in animation
+                    card.style.opacity = '0';
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.3s ease';
+                        card.style.opacity = '1';
+                    }, 50);
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update count
+            if (countDisplay) {
+                countDisplay.textContent = visibleCount;
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

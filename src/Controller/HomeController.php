@@ -91,17 +91,14 @@ final class HomeController extends AbstractController
         \App\Repository\ProfessionalRepository $professionalRepository,
         \App\Repository\CategoryRepository $categoryRepository
     ): Response {
-        $filters = [
-            'categories' => $request->query->all('categories'),
-            'cities' => $request->query->all('cities'),
-        ];
-        
+        $keyword = $request->query->get('keyword');
+        $category = $request->query->get('category');
+        $sort = $request->query->get('sort');
         $page = $request->query->getInt('page', 1);
-        $limit = 6; // 6 professionals per page (2 rows of 3)
+        $limit = 6;
 
-        $professionals = $professionalRepository->findByFilters($filters, $page, $limit);
+        $professionals = $professionalRepository->search($keyword, $category, $sort, $page, $limit);
         
-        // Paginator object counts the total items correctly
         $totalProfessionals = count($professionals); 
         $totalPages = ceil($totalProfessionals / $limit);
 
@@ -116,7 +113,13 @@ final class HomeController extends AbstractController
             'professionals' => $professionals,
             'allCategories' => $allCategories,
             'allCities' => $allCities,
-            'activeFilters' => $filters,
+            'activeFilters' => [
+                'keyword' => $keyword,
+                'category' => $category,
+                'sort' => $sort,
+                'categories' => $request->query->all('categories'),
+                'cities' => $request->query->all('cities'),
+            ],
             'categoryCounts' => $categoryCounts,
             'cityCounts' => $cityCounts,
             'currentPage' => $page,

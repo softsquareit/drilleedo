@@ -164,4 +164,37 @@ class ProfessionalRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Unified search for professionals with filters and sorting.
+     */
+    public function search(?string $keyword, ?string $category = null, ?string $sort = null, int $page = 1, int $limit = 6): \Doctrine\ORM\Tools\Pagination\Paginator
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
+            ->leftJoin('p.stats', 's');
+
+        if ($keyword) {
+            $qb->andWhere('p.company_name LIKE :keyword OR c.name LIKE :keyword OR p.city LIKE :keyword')
+               ->setParameter('keyword', '%' . $keyword . '%');
+        }
+
+        if ($category && $category !== 'all') {
+            $qb->andWhere('c.slug = :category OR c.id = :category')
+               ->setParameter('category', $category);
+        }
+
+        if ($sort === 'rating') {
+            $qb->orderBy('s.averageRating', 'DESC');
+        } elseif ($sort === 'experience') {
+            $qb->orderBy('p.expYears', 'DESC');
+        } else {
+            $qb->orderBy('p.id', 'DESC');
+        }
+
+        $qb->setFirstResult(($page - 1) * $limit)
+           ->setMaxResults($limit);
+
+        return new \Doctrine\ORM\Tools\Pagination\Paginator($qb->getQuery());
+    }
 }
