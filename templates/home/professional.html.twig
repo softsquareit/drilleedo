@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.name : 'Professionnel' }} à {{ professional.city ?? 'Montréal' }} | Drilleedo{% endblock %}
-
-{% block meta_description %}Professionnel {{ professional.category ? professional.category.name : 'services' }} à {{ professional.city ?? 'Montréal' }} par {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'Consultez services, projets et avis clients.' }}...{% endblock %}
-
-{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.name : '' }}, {{ professional.city ?? '' }}, rénovation, services professionnels, Drilleedo{% endblock %}
+{% block meta_description %}{{ professional.category ? professional.category.name : 'Services professionnels' }} à {{ professional.city ?? 'Montréal' }} par {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'Consultez services, projets et avis clients.' }}...{% endblock %}
+{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.name : '' }}, {{ professional.city ?? '' }}, rénovation, Drilleedo{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_profile.css') }}">
@@ -13,545 +11,491 @@
 {% block structured_data %}
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "{{ professional.companyName }}",
-    "image": "{{ absolute_url(professional.logo ? asset('uploads/logos/' ~ professional.logo) : asset('assets/drilleedo/images/team/plumber.png')) }}",
-    "@id": "{{ app.request.uri }}",
-    "url": "{{ app.request.uri }}",
-    "telephone": "{{ professional.phoneNum ?? '' }}",
-    "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "{{ professional.city ?? 'Montréal' }}",
-        "addressRegion": "QC",
-        "addressCountry": "CA"
-    },
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "{{ professional.stats ? professional.stats.averageRating : 5 }}",
-        "reviewCount": "{{ professional.stats ? professional.stats.reviewCount : 1 }}"
-    },
-    "description": "{{ professional.about ? professional.about|striptags|slice(0, 200) : 'Services professionnels experts sur Drilleedo.' }}"
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "{{ professional.companyName }}",
+  "image": "{{ absolute_url(professional.logo ? asset('uploads/logos/' ~ professional.logo) : asset('assets/drilleedo/images/team/plumber.png')) }}",
+  "@id": "{{ app.request.uri }}",
+  "url": "{{ app.request.uri }}",
+  "telephone": "{{ professional.phoneNum ?? '' }}",
+  "address": { "@type": "PostalAddress", "addressLocality": "{{ professional.city ?? 'Montréal' }}", "addressRegion": "QC", "addressCountry": "CA" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "{{ professional.stats ? professional.stats.averageRating : 5 }}", "reviewCount": "{{ professional.stats ? professional.stats.reviewCount : 1 }}" },
+  "description": "{{ professional.about ? professional.about|striptags|slice(0, 200) : 'Services professionnels sur Drilleedo.' }}"
 }
 </script>
 {% endblock %}
 
 {% block body %}
-{# ─── Variables ─────────────────────────────────────────────────────────── #}
-{% set avg        = professional.stats ? professional.stats.averageRating : 5 %}
-{% set fullStars  = avg|round(0, 'floor') %}
+{# ── Variables ──────────────────────────────────────────────────────────── #}
+{% set avg         = professional.stats ? professional.stats.averageRating : 5 %}
+{% set fullStars   = avg|round(0, 'floor') %}
 {% set reviewCount = professional.stats ? professional.stats.reviewCount : 0 %}
-{% set initials   = professional.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2) %}
+{% set initials    = professional.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2) %}
+
+{# SVG star path (reusable) #}
+{% set starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' %}
 
 <div class="drl-page">
 
-  {# ══════════════════════════════════════════════════════════════════════
-     1. HERO BANNER
-     ══════════════════════════════════════════════════════════════════════ #}
-  <header class="drl-hero" role="banner">
-
-    <img src="{{ professional.banner
-            ? asset('uploads/banners/' ~ professional.banner)
-            : asset('uploads/banners/professionels.png') }}"
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO BANNER
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="drl-hero-banner">
+  {% if professional.banner %}
+    <img src="{{ asset('uploads/banners/' ~ professional.banner) }}"
          alt="Bannière {{ professional.companyName }}"
-         class="drl-hero__img">
+         class="drl-hero-banner__img">
+  {% else %}
+    <img src="{{ asset('uploads/banners/professionels.png') }}"
+         alt="Bannière professionnelle"
+         class="drl-hero-banner__img">
+  {% endif %}
+</div>
 
-    <div class="drl-hero__overlay" aria-hidden="true"></div>
+{# ══════════════════════════════════════════════════════════════════════════
+   2. PROFILE CARD (floats over banner)
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="drl-wrap">
 
-    <div class="drl-hero__content">
-      {% if professional.category %}
-        <div class="drl-hero__category-badge">
-          {% if professional.category.icon %}
-            <img src="{{ asset('uploads/categories/' ~ professional.category.icon) }}"
-                 alt="{{ professional.category.name }}"
-                 class="drl-hero__category-icon">
-          {% else %}
-            <i class="feather-tool" aria-hidden="true"></i>
-          {% endif %}
-          {{ professional.category.name }}
-        </div>
-      {% endif %}
+  <div class="drl-profile-card drl-fade d1">
 
-      <h1 class="drl-hero__title">{{ professional.companyName }}</h1>
-    </div>
-
-  </header>
-
-  {# ══════════════════════════════════════════════════════════════════════
-     2. IDENTITY BAR
-     ══════════════════════════════════════════════════════════════════════ #}
-  <section class="drl-identity-bar" aria-label="Identité du professionnel">
-    <div class="drl-identity-bar__inner">
+    {# ── Profile top row ── #}
+    <div class="drl-profile-top">
 
       {# Avatar #}
       <div class="drl-avatar-wrap">
-        {% if professional.logo %}
-          <img src="{{ asset('uploads/logos/' ~ professional.logo) }}"
-               alt="Logo {{ professional.companyName }}"
-               class="drl-avatar">
-        {% else %}
-          <div class="drl-avatar--initials" aria-label="{{ professional.companyName }}">
+        <div class="drl-avatar-img">
+          {% if professional.logo %}
+            <img src="{{ asset('uploads/logos/' ~ professional.logo) }}"
+                 alt="Logo {{ professional.companyName }}">
+          {% else %}
             {{ initials }}
-          </div>
-        {% endif %}
-        <div class="drl-avatar-verified" title="Profil vérifié" aria-label="Profil vérifié">
-          <i class="feather-check" aria-hidden="true"></i>
+          {% endif %}
         </div>
+        <div class="drl-verified-dot" title="Profil vérifié">✔</div>
       </div>
 
       {# Info #}
-      <div class="drl-identity-info">
-        <h2 class="drl-identity-info__name">{{ professional.companyName }}</h2>
-
-        <div class="drl-identity-info__meta">
-          {% if professional.category %}
-            <span><i class="feather-briefcase" aria-hidden="true"></i> {{ professional.category.name }}</span>
-          {% endif %}
-          <span><i class="feather-map-pin" aria-hidden="true"></i> {{ professional.city ?? 'Montréal' }}, QC</span>
+      <div class="drl-profile-info">
+        <div class="drl-company-row">
+          <span class="drl-company-name">{{ professional.companyName }}</span>
+          <span class="drl-fast-badge">⚡ Réponse rapide</span>
         </div>
 
-        <div class="drl-identity-info__meta drl-meta-mb">
-          <div class="drl-identity-info__stars"
-               data-bs-toggle="modal"
-               data-bs-target="#reviewsModal"
-               role="button"
-               tabindex="0"
-               aria-label="Voir les avis — note {{ avg|number_format(1) }}">
+        <div class="drl-category-row">
+          {{ professional.category ? professional.category.name : 'Professionnel' }}
+          · {{ professional.city ?? 'Montréal' }}
+        </div>
+
+        <div class="drl-rating-row">
+          <div class="drl-stars-row" aria-label="Note {{ avg|number_format(1) }} sur 5">
             {% for i in range(1, 5) %}
-              <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star" aria-hidden="true"></i>
+              <svg class="drl-star-svg {{ i <= fullStars ? '' : 'drl-star-svg--empty' }}" viewBox="0 0 20 20">
+                <path d="{{ starPath }}"/>
+              </svg>
             {% endfor %}
-            <span>{{ avg|number_format(1) }}</span>
-            <small>({{ reviewCount }} avis)</small>
           </div>
+          <span class="drl-rating-num">{{ avg|number_format(1) }}</span>
+          <span class="drl-rating-cnt"
+                data-bs-toggle="modal"
+                data-bs-target="#reviewsModal"
+                role="button"
+                tabindex="0">
+            {{ reviewCount }} avis vérifiés
+          </span>
         </div>
 
-        <div class="drl-identity-info__badges">
-          <span class="drl-badge drl-badge--green">
-            <i class="feather-shield" aria-hidden="true"></i> Vérifié
-          </span>
-          <span class="drl-badge drl-badge--blue">
-            <i class="feather-award" aria-hidden="true"></i> Premium
-          </span>
-          <span class="drl-badge drl-badge--orange">
-            <i class="feather-zap" aria-hidden="true"></i> Réponse rapide
-          </span>
+        <div class="drl-badges-row">
+          <span class="drl-chip drl-chip-green">✔ Vérifié</span>
+          <span class="drl-chip drl-chip-orange">⭐ Premium vérifié</span>
+          <span class="drl-chip drl-chip-blue">⚡ Réponse rapide</span>
         </div>
       </div>
 
-      {# CTA column #}
-      <div class="drl-identity-cta">
-        <button class="drl-btn-quote"
+      {# CTA #}
+      <div class="drl-profile-cta">
+        <button class="drl-btn-contact"
                 type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#contactProModal"
                 aria-haspopup="dialog">
-          <i class="feather-file-text" aria-hidden="true"></i>
-          Obtenir un devis
+          Contactez-moi →
         </button>
-        {% if professional.phoneNum %}
-          <div class="drl-phone-pill">
-            <i class="feather-phone" aria-hidden="true"></i>
-            {{ professional.phoneNum }}
-          </div>
-        {% else %}
-          <div class="drl-phone-pill">
-            <i class="feather-phone" aria-hidden="true"></i>
-            +1 514-555-0000
-          </div>
-        {% endif %}
+        <a href="tel:{{ professional.phoneNum ?? '+15145550000' }}"
+           class="drl-phone-btn">
+          📞 {{ professional.phoneNum ?? '+1 514-555-0000' }}
+        </a>
       </div>
 
-    </div>
-  </section>
+    </div>{# /profile-top #}
 
-  {# ══════════════════════════════════════════════════════════════════════
-     3. STATS STRIP
-     ══════════════════════════════════════════════════════════════════════ #}
-  <div class="drl-stats-strip" role="complementary" aria-label="Statistiques">
-    <div class="drl-stats-strip__inner">
-
-      <div class="drl-stat-item">
-        <span class="drl-stat-item__label">Catégorie</span>
-        <span class="drl-stat-item__value">{{ professional.category ? professional.category.name : 'Rénovation' }}</span>
-      </div>
-
-      <div class="drl-stat-item">
-        <span class="drl-stat-item__label">Expérience</span>
-        <span class="drl-stat-item__value">{{ professional.expYears ?? '10' }}+ ans</span>
-      </div>
-
-      <div class="drl-stat-item">
-        <span class="drl-stat-item__label">Employés</span>
-        <span class="drl-stat-item__value">6 à 10</span>
-      </div>
-
-      <div class="drl-stat-item">
-        <span class="drl-stat-item__label">Langues</span>
-        <span class="drl-stat-item__value">🇫🇷 FR · 🇬🇧 EN</span>
-      </div>
-
-      <div class="drl-stat-item">
-        <span class="drl-stat-item__label">Projets</span>
-        <span class="drl-stat-item__value">{{ professional.projets|length > 0 ? professional.projets|length : '—' }}</span>
-      </div>
-
-    </div>
-  </div>
-
-  {# ══════════════════════════════════════════════════════════════════════
-     4. MAIN LAYOUT
-     ══════════════════════════════════════════════════════════════════════ #}
-  <div class="drl-layout">
-
-    {# ── Main Column ── #}
-    <main class="drl-main" id="main-content">
-
-      {# ── About ── #}
-      <section class="drl-card drl-anim-fadeup" aria-labelledby="drl-about-heading">
-        <h2 class="drl-card__title" id="drl-about-heading">
-          <i class="feather-user" aria-hidden="true"></i>
-          À propos
-        </h2>
-
-        <p class="drl-about-text">
-          {% if professional.about %}
-            {{ professional.about|nl2br }}
-          {% else %}
-            {{ professional.companyName }} est un professionnel de confiance engagé à fournir des services de qualité supérieure et une satisfaction client exceptionnelle.
-            Chaque chantier est traité avec le même niveau d'exigence et de professionnalisme.
-          {% endif %}
-        </p>
-
-        <div class="drl-highlights">
-
-          {# Why Choose Me #}
-          <div class="drl-highlight-panel">
-            <p class="drl-highlight-panel__title">
-              <i class="feather-check-circle" aria-hidden="true"></i>
-              Pourquoi nous choisir
-            </p>
-            <ul class="drl-highlight-list" aria-label="Avantages">
-              {% if professional.whyChooseUs and professional.whyChooseUs|length > 0 %}
-                {% for item in professional.whyChooseUs %}
-                  <li><i class="feather-check" aria-hidden="true"></i> {{ item }}</li>
-                {% endfor %}
-              {% else %}
-                <li><i class="feather-check" aria-hidden="true"></i> Rayon d'intervention 40 km</li>
-                <li><i class="feather-check" aria-hidden="true"></i> Intervention rapide garantie</li>
-                <li><i class="feather-check" aria-hidden="true"></i> Devis gratuits et sans engagement</li>
-                <li><i class="feather-check" aria-hidden="true"></i> Assuré RBQ</li>
-                <li><i class="feather-check" aria-hidden="true"></i> Travaux garantis</li>
-              {% endif %}
-            </ul>
-          </div>
-
-          {# Services #}
-          <div class="drl-highlight-panel">
-            <p class="drl-highlight-panel__title">
-              <i class="feather-settings" aria-hidden="true"></i>
-              Nos services
-            </p>
-            <ul class="drl-highlight-list drl-highlight-list--blue" aria-label="Services proposés">
-              {% if professional.services and professional.services|length > 0 %}
-                {% for service in professional.services %}
-                  <li><i class="feather-plus-circle" aria-hidden="true"></i> {{ service }}</li>
-                {% endfor %}
-              {% else %}
-                <li><i class="feather-plus-circle" aria-hidden="true"></i> Rénovation résidentielle</li>
-                <li><i class="feather-plus-circle" aria-hidden="true"></i> Consultation technique</li>
-                <li><i class="feather-plus-circle" aria-hidden="true"></i> Aménagement intérieur</li>
-              {% endif %}
-            </ul>
-          </div>
-
+    {# ── Stats Strip ── #}
+    <div class="drl-stats-strip">
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">🏗️</div>
+        <div>
+          <div class="drl-stat-label">Catégorie</div>
+          <div class="drl-stat-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
         </div>
-      </section>
+      </div>
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">📅</div>
+        <div>
+          <div class="drl-stat-label">Expérience</div>
+          <div class="drl-stat-val">{{ professional.expYears ?? '10' }} ans</div>
+        </div>
+      </div>
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">👥</div>
+        <div>
+          <div class="drl-stat-label">Employés</div>
+          <div class="drl-stat-val">6 à 10</div>
+        </div>
+      </div>
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">💬</div>
+        <div>
+          <div class="drl-stat-label">Langues parlées</div>
+          <div class="drl-stat-val">🇫🇷 Français &nbsp;🇬🇧 Anglais</div>
+        </div>
+      </div>
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">✅</div>
+        <div>
+          <div class="drl-stat-label">Projets réalisés</div>
+          <div class="drl-stat-val">
+            {% if professional.projets|length > 0 %}
+              {{ professional.projets|length }} projet{{ professional.projets|length > 1 ? 's' : '' }}
+            {% else %}
+              —
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
 
-      {# ── Portfolio ── #}
-      <section class="drl-card drl-anim-fadeup" aria-labelledby="drl-portfolio-heading">
-        <h2 class="drl-card__title" id="drl-portfolio-heading">
-          <i class="feather-grid" aria-hidden="true"></i>
-          Portfolio de projets
-        </h2>
+  </div>{# /profile-card #}
 
-        <div class="drl-portfolio-grid">
+
+  {# ══════════════════════════════════════════════════════════════════════════
+     3. MAIN LAYOUT
+  ══════════════════════════════════════════════════════════════════════════ #}
+  <div class="drl-main-layout">
+
+    {# ── LEFT COLUMN ── #}
+    <div class="drl-left-col">
+
+      {# About / Présentation des projets #}
+      <div class="drl-s-card drl-fade d2">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            Présentation des projets
+          </div>
+        </div>
+        <div class="drl-s-body">
+
+          {# About text #}
+          {% if professional.about %}
+            <p style="font-size:14px;color:#64748b;line-height:1.7;margin-bottom:16px;">
+              {{ professional.about|nl2br }}
+            </p>
+          {% endif %}
+
+          {# Portfolio 2×2 grid #}
           {% if professional.projets|length > 0 %}
-            {% for project in professional.projets %}
-              <article class="drl-project-card"
-                       data-bs-toggle="modal"
-                       data-bs-target="#projectModal{{ project.id }}"
-                       role="button"
-                       tabindex="0"
-                       aria-haspopup="dialog"
-                       aria-label="Voir le projet {{ project.name }}">
-                <div class="drl-project-card__img-wrap">
+            <div class="drl-pres-grid">
+              {% for project in professional.projets|slice(0, 4) %}
+                <div class="drl-pres-item"
+                     data-bs-toggle="modal"
+                     data-bs-target="#projectModal{{ project.id }}"
+                     role="button"
+                     tabindex="0"
+                     aria-haspopup="dialog"
+                     aria-label="Voir {{ project.name }}">
                   <img src="{{ project.mainPhoto
                           ? asset('uploads/images/' ~ project.mainPhoto)
                           : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
                        alt="{{ project.name }}"
-                       class="drl-project-card__img"
                        loading="lazy">
-                  <div class="drl-project-card__overlay" aria-hidden="true">
-                    <span class="drl-project-card__overlay-label">Voir le projet →</span>
-                  </div>
+                  <div class="drl-pres-caption">{{ project.name }}</div>
                 </div>
-                <div class="drl-project-card__body">
-                  <h3 class="drl-project-card__name">{{ project.name }}</h3>
-                  <p class="drl-project-card__desc">{{ project.description|striptags }}</p>
-                </div>
-              </article>
-            {% endfor %}
-          {% else %}
-            <div class="drl-portfolio-empty">
-              <i class="feather-image drl-empty-icon" aria-hidden="true"></i>
-              Aucun projet publié pour l'instant.
-            </div>
-          {% endif %}
-        </div>
-      </section>
-
-      {# ── Reviews ── #}
-      <section class="drl-card drl-anim-fadeup" aria-labelledby="drl-reviews-heading">
-        <h2 class="drl-card__title" id="drl-reviews-heading">
-          <i class="feather-star" aria-hidden="true"></i>
-          Avis clients
-        </h2>
-
-        <div class="drl-reviews-score-row">
-          <div>
-            <div class="drl-reviews-big-score" aria-label="Note {{ avg|number_format(1) }} sur 5">
-              {{ avg|number_format(1) }}
-            </div>
-            <div class="drl-reviews-stars" aria-hidden="true">
-              {% for i in range(1, 5) %}
-                <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star"></i>
               {% endfor %}
             </div>
-            <p class="drl-reviews-count">{{ reviewCount }} avis vérifiés</p>
+          {% else %}
+            {# Fallback: static placeholder images #}
+            <div class="drl-pres-grid">
+              <div class="drl-pres-item">
+                <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Rénovation complète">
+                <div class="drl-pres-caption">🔨 Rénovation complète</div>
+              </div>
+              <div class="drl-pres-item">
+                <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Cuisine moderne">
+                <div class="drl-pres-caption">🍳 Cuisine moderne</div>
+              </div>
+            </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {# Avis clients #}
+      <div class="drl-s-card drl-fade d3">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            Avis clients
+          </div>
+          <button type="button"
+                  class="drl-s-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewsModal"
+                  aria-haspopup="dialog">
+            Voir tous les avis →
+          </button>
+        </div>
+        <div class="drl-s-body">
+
+          <div class="drl-review-summary">
+            <div>
+              <div class="drl-big-num" aria-label="Note {{ avg|number_format(1) }}">{{ avg|number_format(1) }}</div>
+              <div class="drl-big-stars" aria-hidden="true">
+                {% for i in range(1, 5) %}
+                  <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
+                {% endfor %}
+              </div>
+              <div class="drl-rev-count">sur {{ reviewCount }} avis vérifiés</div>
+            </div>
+            <div class="drl-bars" aria-label="Répartition des notes">
+              {% for stars, pct in {5: 85, 4: 10, 3: 4, 2: 1, 1: 0} %}
+                <div class="drl-bar-r">
+                  <span class="drl-bar-lbl">{{ stars }}</span>
+                  <div class="drl-bar-track" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100">
+                    <div class="drl-bar-fill" style="width:{{ pct }}%"></div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
           </div>
 
-          <div class="drl-reviews-bars" aria-label="Répartition des notes">
-            {% for stars in [5, 4, 3, 2, 1] %}
-              {% set pct = stars == 5 ? 78 : (stars == 4 ? 14 : (stars == 3 ? 5 : (stars == 2 ? 2 : 1))) %}
-              <div class="drl-bar-row">
-                <span class="drl-bar-row__label">{{ stars }}★</span>
-                <div class="drl-bar-track" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100">
-                  <div class="drl-bar-fill" style="width: {{ pct }}%"></div>
+          {# Static sample reviews #}
+          <div class="drl-review-item">
+            <div class="drl-rev-head">
+              <div class="drl-rev-ava" aria-hidden="true">SD</div>
+              <div>
+                <div class="drl-rev-name">Sophie Duhamel</div>
+                <div class="drl-rev-s" aria-label="5 étoiles">
+                  {% for i in range(1, 5) %}
+                    <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
+                  {% endfor %}
                 </div>
-                <span>{{ pct }}%</span>
+              </div>
+              <div class="drl-rev-tag">Rénovation cuisine</div>
+            </div>
+            <p class="drl-rev-text">
+              L'équipe a effectué une rénovation complète de ma cuisine et de mes finitions intérieures.
+              Travail impeccable, délais respectés et communication excellente tout au long du projet. Je recommande vivement !
+            </p>
+            <div class="drl-rev-date">29 avril 2025</div>
+          </div>
+
+          <div class="drl-review-item">
+            <div class="drl-rev-head">
+              <div class="drl-rev-ava" aria-hidden="true">TM</div>
+              <div>
+                <div class="drl-rev-name">Thomas Martin</div>
+                <div class="drl-rev-s" aria-label="5 étoiles">
+                  {% for i in range(1, 5) %}
+                    <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="drl-rev-tag">Rénovation complète</div>
+            </div>
+            <p class="drl-rev-text">
+              Équipe très professionnelle. Ils ont su s'adapter à nos besoins et livrer un résultat
+              à la hauteur de nos attentes. Rapport qualité-prix excellent et chantier toujours propre.
+            </p>
+            <div class="drl-rev-date">15 mars 2025</div>
+          </div>
+
+        </div>
+      </div>
+
+      {# Galerie de projets #}
+      {% if professional.projets|length > 0 %}
+      <div class="drl-s-card drl-fade d4">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            Galerie de projets
+            <span class="drl-count-badge">({{ professional.projets|length }})</span>
+          </div>
+          <span class="drl-s-link">Voir tous les projets →</span>
+        </div>
+        <div class="drl-s-body">
+          <div class="drl-gallery-grid">
+            {% for project in professional.projets %}
+              <div class="drl-gal-item"
+                   data-bs-toggle="modal"
+                   data-bs-target="#projectModal{{ project.id }}"
+                   role="button"
+                   tabindex="0"
+                   aria-haspopup="dialog"
+                   aria-label="{{ project.name }}">
+                <img src="{{ project.mainPhoto
+                        ? asset('uploads/images/' ~ project.mainPhoto)
+                        : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
+                     alt="{{ project.name }}"
+                     loading="lazy">
+                <div class="drl-gal-lbl">{{ project.name }}</div>
               </div>
             {% endfor %}
           </div>
         </div>
-
-        <hr class="drl-reviews-divider">
-
-        <div class="drl-reviews-list">
-          {# Avis statiques réalistes #}
-          <article class="drl-review-card">
-            <div class="drl-review-card__header">
-              <div class="drl-review-card__author">
-                <div class="drl-review-card__avatar" aria-hidden="true">MA</div>
-                <div>
-                  <p class="drl-review-card__name">Marie A.</p>
-                  <p class="drl-review-card__date">Février 2025</p>
-                </div>
-              </div>
-              <div class="drl-review-card__stars" aria-label="5 étoiles">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              </div>
-            </div>
-            <p class="drl-review-card__text">
-              Excellent travail, très professionnel et ponctuel. Les finitions sont impeccables et le respect du budget a été total.
-              Je recommande sans hésitation pour tous travaux de rénovation.
-            </p>
-          </article>
-
-          <article class="drl-review-card">
-            <div class="drl-review-card__header">
-              <div class="drl-review-card__author">
-                <div class="drl-review-card__avatar" aria-hidden="true">JL</div>
-                <div>
-                  <p class="drl-review-card__name">Jean-Luc B.</p>
-                  <p class="drl-review-card__date">Janvier 2025</p>
-                </div>
-              </div>
-              <div class="drl-review-card__stars" aria-label="5 étoiles">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              </div>
-            </div>
-            <p class="drl-review-card__text">
-              Très à l'écoute de nos besoins, réponse rapide et devis clair. Travaux réalisés dans les délais prévus.
-              Une entreprise sérieuse à qui je fais entièrement confiance.
-            </p>
-          </article>
-        </div>
-
-        <div class="mt-3 text-center">
-          <button class="drl-badge drl-badge--blue"
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#reviewsModal"
-                  class="drl-badge drl-badge--blue drl-see-all-btn"
-                  aria-haspopup="dialog">
-            Voir tous les avis
-          </button>
-        </div>
-
-      </section>
-
-      {# ── Bottom CTA ── #}
-      <div class="drl-cta-bottom drl-anim-fadeup">
-        <button class="drl-btn-cta-full"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#contactProModal"
-                aria-haspopup="dialog">
-          <i class="feather-message-circle" aria-hidden="true"></i>
-          Contacter ce professionnel
-        </button>
       </div>
+      {% endif %}
 
-    </main>
+    </div>{# /left-col #}
 
-    {# ── SIDEBAR ── #}
-    <aside class="drl-sidebar" aria-label="Informations pratiques">
+    {# ── RIGHT SIDEBAR ── #}
+    <div class="drl-right-col">
       <div class="drl-sidebar-sticky">
 
-        {# Card 1 : Demande de devis #}
-        <div class="drl-sidebar-card drl-anim-fadeup">
-          <div class="drl-sidebar-card__header">
-            <i class="feather-file-text" aria-hidden="true"></i>
-            <h3 class="drl-sidebar-card__header-title">Demande de devis</h3>
+        {# Devis card #}
+        <div class="drl-devis-card drl-fade d2">
+          <div class="drl-devis-header">
+            <h3>📋 Demandez un devis gratuit</h3>
+            <p>Réponse garantie sous 24h</p>
           </div>
-          <div class="drl-sidebar-card__body">
-            <button class="drl-btn-quote-sidebar"
+          <div class="drl-devis-body">
+            <button class="drl-btn-devis"
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#contactProModal"
                     aria-haspopup="dialog">
-              <i class="feather-send" aria-hidden="true"></i>
-              Obtenir un devis gratuit
+              Obtenir un devis gratuit →
             </button>
-
-            <ul class="drl-schedule-list" aria-label="Horaires d'ouverture">
-              <li class="drl-schedule-row">
-                <span class="drl-schedule-row__day">Lundi – Vendredi</span>
-                <span class="drl-schedule-row__hours">08:00 – 18:00</span>
-              </li>
-              <li class="drl-schedule-row">
-                <span class="drl-schedule-row__day">Samedi</span>
-                <span class="drl-schedule-row__hours">08:00 – 14:00</span>
-              </li>
-              <li class="drl-schedule-row">
-                <span class="drl-schedule-row__day">Dimanche</span>
-                <span class="drl-schedule-row__hours drl-schedule-row__hours--closed">Fermé</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {# Card 2 : Contact #}
-        <div class="drl-sidebar-card drl-anim-fadeup">
-          <div class="drl-sidebar-card__header">
-            <i class="feather-phone" aria-hidden="true"></i>
-            <h3 class="drl-sidebar-card__header-title">Coordonnées</h3>
-          </div>
-          <div class="drl-sidebar-card__body">
-            <ul class="drl-contact-list">
-              <li class="drl-contact-row">
-                <i class="feather-user" aria-hidden="true"></i>
-                <span>{{ professional.companyName }}</span>
-              </li>
-              <li class="drl-contact-row">
-                <i class="feather-map-pin" aria-hidden="true"></i>
-                <span>{{ professional.city ?? 'Montréal' }}, QC</span>
-              </li>
-              {% if professional.phoneNum %}
-                <li class="drl-contact-row">
-                  <i class="feather-phone" aria-hidden="true"></i>
-                  <a href="tel:{{ professional.phoneNum }}" class="drl-phone-link">
-                    {{ professional.phoneNum }}
-                  </a>
-                </li>
-              {% else %}
-                <li class="drl-contact-row">
-                  <i class="feather-phone" aria-hidden="true"></i>
-                  <span>+1 514-555-0000</span>
-                </li>
-              {% endif %}
-              {% if professional.category %}
-                <li class="drl-contact-row">
-                  <i class="feather-briefcase" aria-hidden="true"></i>
-                  <span>{{ professional.category.name }}</span>
-                </li>
-              {% endif %}
-              <li class="drl-contact-row">
-                <i class="feather-clock" aria-hidden="true"></i>
-                <span>{{ professional.expYears ?? '10' }}+ ans d'expérience</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {# Card 3 : Avantages #}
-        <div class="drl-sidebar-card drl-anim-fadeup">
-          <div class="drl-sidebar-card__header">
-            <i class="feather-check-circle" aria-hidden="true"></i>
-            <h3 class="drl-sidebar-card__header-title">Pourquoi nous choisir</h3>
-          </div>
-          <div class="drl-sidebar-card__body">
-            <ul class="drl-advantages-list">
-              {% if professional.whyChooseUs and professional.whyChooseUs|length > 0 %}
-                {% for item in professional.whyChooseUs %}
-                  <li>
-                    <span class="drl-adv-icon" aria-hidden="true">✅</span>
-                    <span>{{ item }}</span>
-                  </li>
-                {% endfor %}
-              {% else %}
-                <li><span class="drl-adv-icon" aria-hidden="true">📍</span><span>Rayon 40 km</span></li>
-                <li><span class="drl-adv-icon" aria-hidden="true">⚡</span><span>Intervention rapide</span></li>
-                <li><span class="drl-adv-icon" aria-hidden="true">💲</span><span>Prix min 150$</span></li>
-                <li><span class="drl-adv-icon" aria-hidden="true">📄</span><span>Devis gratuits</span></li>
-                <li><span class="drl-adv-icon" aria-hidden="true">🛡️</span><span>Assuré RBQ</span></li>
-                <li><span class="drl-adv-icon" aria-hidden="true">✅</span><span>Travaux garantis</span></li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-
-        {# Card 4 : Zone de service #}
-        <div class="drl-sidebar-card drl-anim-fadeup">
-          <div class="drl-sidebar-card__header">
-            <i class="feather-map" aria-hidden="true"></i>
-            <h3 class="drl-sidebar-card__header-title">Zone de service</h3>
-          </div>
-          <div class="drl-sidebar-card__body">
-            <div class="drl-zone-chips" role="list" aria-label="Villes desservies">
-              <span class="drl-zone-chip" role="listitem"><i class="feather-map-pin" aria-hidden="true"></i> Montréal</span>
-              <span class="drl-zone-chip" role="listitem"><i class="feather-map-pin" aria-hidden="true"></i> Laval</span>
-              <span class="drl-zone-chip" role="listitem"><i class="feather-map-pin" aria-hidden="true"></i> Longueuil</span>
-              <span class="drl-zone-chip" role="listitem"><i class="feather-map-pin" aria-hidden="true"></i> Brossard</span>
+            <div class="drl-hours-title">Horaires d'ouverture</div>
+            <div class="drl-hour-row">
+              <span class="drl-hour-day">Lundi – Vendredi</span>
+              <span class="drl-hour-time">08:00 – 18:00</span>
+            </div>
+            <div class="drl-hour-row">
+              <span class="drl-hour-day">Samedi</span>
+              <span class="drl-hour-time">08:00 – 14:00</span>
+            </div>
+            <div class="drl-hour-row">
+              <span class="drl-hour-day">Dimanche</span>
+              <span class="drl-hour-closed">Fermé</span>
             </div>
           </div>
         </div>
 
-      </div>
-    </aside>
+        {# Coordonnées #}
+        <div class="drl-contact-card drl-fade d3">
+          <div class="drl-contact-head">📞 Coordonnées</div>
+          <div class="drl-contact-body">
+            <div class="drl-c-item">
+              <div class="drl-c-ico">👤</div>
+              <div>
+                <div class="drl-c-lbl">Entreprise</div>
+                <div class="drl-c-val">{{ professional.companyName }}</div>
+              </div>
+            </div>
+            <div class="drl-c-item">
+              <div class="drl-c-ico">📍</div>
+              <div>
+                <div class="drl-c-lbl">Ville</div>
+                <div class="drl-c-val">{{ professional.city ?? 'Montréal' }}, QC</div>
+              </div>
+            </div>
+            {% if professional.phoneNum %}
+            <div class="drl-c-item">
+              <div class="drl-c-ico">📞</div>
+              <div>
+                <div class="drl-c-lbl">Téléphone</div>
+                <div class="drl-c-val">
+                  <a href="tel:{{ professional.phoneNum }}">{{ professional.phoneNum }}</a>
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <div class="drl-c-item">
+              <div class="drl-c-ico">📞</div>
+              <div>
+                <div class="drl-c-lbl">Téléphone</div>
+                <div class="drl-c-val">+1 514-555-0000</div>
+              </div>
+            </div>
+            {% endif %}
+            <hr class="drl-c-divider">
+            <div class="drl-c-item">
+              <div class="drl-c-ico">🏗️</div>
+              <div>
+                <div class="drl-c-lbl">Catégorie</div>
+                <div class="drl-c-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
+              </div>
+            </div>
+            <div class="drl-c-item">
+              <div class="drl-c-ico">📅</div>
+              <div>
+                <div class="drl-c-lbl">Expérience</div>
+                <div class="drl-c-val">{{ professional.expYears ?? '10' }}+ ans</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  </div>{# end drl-layout #}
+        {# Avantages #}
+        <div class="drl-adv-card drl-fade d3">
+          <div class="drl-adv-head">✅ Nos avantages</div>
+          <div class="drl-adv-body">
+            {% if professional.whyChooseUs and professional.whyChooseUs|length > 0 %}
+              {% for item in professional.whyChooseUs %}
+                <div class="drl-adv-item">
+                  <span class="drl-adv-ico">✔</span>
+                  <span class="drl-adv-txt">{{ item }}</span>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="drl-adv-item"><span class="drl-adv-ico">📍</span><span class="drl-adv-txt">Rayon d'intervention</span><span class="drl-adv-val">40 km</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">⚡</span><span class="drl-adv-txt">Intervention rapide</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">💲</span><span class="drl-adv-txt">Prix minimum</span><span class="drl-adv-val">150 $</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">📄</span><span class="drl-adv-txt">Devis 100% gratuits</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">🛡️</span><span class="drl-adv-txt">Assuré et certifié RBQ</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">✔</span><span class="drl-adv-txt">Travaux garantis</span></div>
+            {% endif %}
+          </div>
+          <a class="drl-btn-see-all" role="button" tabindex="0">Voir tous les avantages</a>
+        </div>
 
-</div>{# end drl-page #}
+        {# Zone card #}
+        <div class="drl-zone-card drl-fade d4">
+          <div class="drl-zone-title">📍 Zone de service : {{ professional.city ?? 'Montréal' }}</div>
+          <div class="drl-zone-sub">Ce professionnel intervient dans les zones suivantes :</div>
+          <div class="drl-zone-chips">
+            <span class="drl-zone-chip">🏙️ Montréal</span>
+            <span class="drl-zone-chip">Laval</span>
+            <span class="drl-zone-chip">Longueuil</span>
+            <span class="drl-zone-chip">Brossard</span>
+          </div>
+        </div>
+
+      </div>{# /sidebar-sticky #}
+    </div>{# /right-col #}
+
+  </div>{# /main-layout #}
+
+</div>{# /drl-wrap #}
+</div>{# /drl-page #}
 
 
 {# ══════════════════════════════════════════════════════════════════════════
    MODALS (preserved intact)
-   ══════════════════════════════════════════════════════════════════════════ #}
+══════════════════════════════════════════════════════════════════════════ #}
 
-{# ── Project Modals ── #}
+{# Project modals #}
 {% for project in professional.projets %}
 <div class="modal fade" id="projectModal{{ project.id }}" tabindex="-1" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -566,43 +510,33 @@
                  alt="{{ project.name }}">
           </div>
           <div class="col-lg-5">
-            <div class="p-5 drl-modal-scroll-pane">
-              <button type="button"
-                      class="btn-close float-end"
-                      data-bs-dismiss="modal"
-                      aria-label="Fermer"></button>
-              <h2 class="drl-modal-title mt-4">{{ project.name }}</h2>
-              <div class="mb-4">
-                <span class="drl-badge drl-badge--blue drl-modal-badge-sm">
-                  <i class="feather-tag" aria-hidden="true"></i> Projet réalisé
+            <div class="p-4 drl-modal-scroll-pane">
+              <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Fermer"></button>
+              <h2 class="drl-modal-title mt-3">{{ project.name }}</h2>
+              <div class="mb-3">
+                <span class="drl-chip drl-chip-blue drl-modal-badge-sm">
+                  Projet réalisé
                 </span>
               </div>
-              <div class="drl-modal-desc mb-4">
-                {{ project.description|nl2br }}
-              </div>
-
+              <div class="drl-modal-desc mb-3">{{ project.description|nl2br }}</div>
               {% if project.gallery %}
-                <h3 class="drl-modal-gallery-title">
-                  Galerie
-                </h3>
-                <div class="row g-3 mb-4">
+                <p class="drl-modal-gallery-title">Galerie</p>
+                <div class="row g-2 mb-3">
                   {% for photo in project.gallery %}
                     <div class="col-6">
                       <img src="{{ asset('uploads/images/' ~ photo) }}"
-                           alt="Photo du projet {{ project.name }}"
+                           alt="Photo {{ project.name }}"
                            class="drl-modal-gallery-img">
                     </div>
                   {% endfor %}
                 </div>
               {% endif %}
-
               <div class="drl-modal-action-row">
                 <button class="drl-btn-submit"
                         type="button"
                         data-bs-dismiss="modal"
                         data-bs-toggle="modal"
                         data-bs-target="#contactProModal">
-                  <i class="feather-send" aria-hidden="true"></i>
                   Demander un devis similaire
                 </button>
               </div>
@@ -615,46 +549,43 @@
 </div>
 {% endfor %}
 
-{# ── Reviews Modal ── #}
+{# Reviews modal #}
 <div class="modal fade" id="reviewsModal" tabindex="-1" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content drl-modal-content">
       <div class="drl-modal-header">
-        <h2 class="drl-modal-title">Avis clients</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        Avis clients
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="drl-modal-body">
-        <div class="text-center py-4">
-          <div class="drl-reviews-big-score">{{ avg|number_format(1) }}</div>
-          <div class="drl-reviews-stars justify-content-center mt-2" aria-hidden="true">
+        <div class="text-center py-3">
+          <div class="drl-big-num">{{ avg|number_format(1) }}</div>
+          <div class="drl-big-stars justify-content-center" aria-hidden="true">
             {% for i in range(1, 5) %}
-              <i class="{{ i <= fullStars ? 'fas' : 'far' }} fa-star"></i>
+              <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
             {% endfor %}
           </div>
-          <p class="drl-reviews-count mt-2">{{ reviewCount }} avis vérifiés</p>
+          <p class="drl-rev-count mt-1">{{ reviewCount }} avis vérifiés</p>
           <hr class="drl-modal-sep">
-          <p class="drl-reviews-note">
-            Les avis détaillés sont en cours de synchronisation et apparaîtront ici prochainement.
-          </p>
+          <p class="drl-reviews-note">Les avis détaillés apparaîtront ici prochainement.</p>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-{# ── Contact / Quote Modal ── #}
+{# Contact / Devis modal #}
 <div class="modal fade" id="contactProModal" tabindex="-1" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content drl-modal-content">
       <div class="drl-modal-header">
-        <h2 class="drl-modal-title">Contacter {{ professional.companyName }}</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        Contacter {{ professional.companyName }}
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="drl-modal-body">
         <p class="drl-modal-intro">
           Envoyez une demande directe pour un devis, des informations ou une consultation projet.
         </p>
-
         <div class="drl-modal-form">
           {{ form_start(directRequestForm) }}
             <div class="row g-3">
@@ -675,9 +606,8 @@
                 {{ form_widget(directRequestForm.images) }}
               </div>
             </div>
-            <div class="mt-4">
+            <div class="mt-3">
               <button type="submit" class="drl-btn-submit">
-                <i class="feather-send" aria-hidden="true"></i>
                 Envoyer ma demande à {{ professional.companyName }}
               </button>
             </div>
