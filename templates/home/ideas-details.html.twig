@@ -1,6 +1,6 @@
-   {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}{{ idea.title|default('Renovation Idea') }} | Home Improvement Ideas | Drilleedo{% endblock %}
+{% block title %}{{ idea.title|default('Renovation Idea') }} | Drilleedo{% endblock %}
 {% block meta_description %}{{ idea.shortDesc|default('Discover home renovation and decoration ideas on Drilleedo.')|slice(0, 160) }}{% endblock %}
 {% block meta_keywords %}{{ idea.title|default('renovation') }}, home improvement ideas, renovation inspiration Canada{% endblock %}
 {% block og_title %}{{ idea.title|default('Renovation Idea') }} | Drilleedo{% endblock %}
@@ -21,10 +21,7 @@
     "headline": "{{ idea.title|default('')|e('js') }}",
     "description": "{{ idea.shortDesc|default('')|e('js') }}",
     "datePublished": "{{ idea.createdAt|date('c') }}",
-    "publisher": {
-        "@type": "Organization",
-        "name": "Drilleedo"
-    }
+    "publisher": { "@type": "Organization", "name": "Drilleedo" }
 }
 </script>
 <script type="application/ld+json">
@@ -32,7 +29,7 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('app_home') }}"},
+        {"@type": "ListItem", "position": 1, "name": "Home",  "item": "{{ url('app_home') }}"},
         {"@type": "ListItem", "position": 2, "name": "Ideas", "item": "{{ url('smartideas') }}"},
         {"@type": "ListItem", "position": 3, "name": "{{ idea.title|default('Idea')|e('js') }}"}
     ]
@@ -41,200 +38,726 @@
 {% endblock %}
 
 {% block body %}
+<main id="main-content">
+<style>
+/* ══ IDEA DETAIL PAGE — design charter: index.html.twig ════════════════
+   navy #0d2151 · blue #00509e · orange #e8501a
+   ═══════════════════════════════════════════════════════════════════════ */
 
-<div class="rbt-page-banner-wrapper">
-    <!-- Banner BG Image -->
-        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/smartideas.png') }}');"></div>
+/* ── 1. Hero ── */
+.id-hero {
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
 
-    <div class="rbt-banner-content">
-        <div class="rbt-banner-content-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
+.id-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 8s ease;
+}
 
-                        <!-- Breadcrumb -->
-                        <ul class="page-list">
-                            <li class="rbt-breadcrumb-item">
-                                <a href="{{ path('app_home') }}">Home</a>
-                            </li>
-                            <li>
-                                <div class="icon-right">
-                                    <i class="feather-chevron-right"></i>
-                                </div>
-                            </li>
-                            <li class="rbt-breadcrumb-item active">
-                                Inspiration & Ideas
-                            </li>
-                        </ul>
+.id-hero:hover .id-hero__bg { transform: scale(1.04); }
 
-                        <div class="title-wrapper">
-                            <h1 class="hero-main-title" style="font-size: var(--h1);">{{ idea.title }}</h1>
-                        </div>
-                        <span class="hero-tagline-orange">{{ idea.shortDesc|slice(0,120) }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+.id-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13,33,81,0.2) 0%,
+    rgba(13,33,81,0.75) 70%,
+    rgba(13,33,81,0.92) 100%
+  );
+}
 
+.id-hero__content {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 36px;
+  width: 100%;
+}
+
+.id-breadcrumb {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.id-breadcrumb a { color: rgba(255,255,255,0.7); text-decoration: none; }
+.id-breadcrumb a:hover { color: #fff; }
+
+.id-hero__meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.id-cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.id-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  font-weight: 500;
+}
+
+.id-hero__title {
+  font-size: clamp(22px, 3.5vw, 38px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  max-width: 820px;
+}
+
+/* ── 2. Layout ── */
+.id-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 28px 80px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 36px;
+  align-items: start;
+}
+
+/* ── 3. Article content ── */
+.id-article {
+  min-width: 0;
+}
+
+/* Short desc banner */
+.id-intro {
+  background: linear-gradient(135deg, #f0f6ff, #e8eeff);
+  border-left: 4px solid #00509e;
+  border-radius: 0 12px 12px 0;
+  padding: 18px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0d2151;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* Main article image */
+.id-main-img {
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 24px rgba(13,33,81,0.1);
+}
+
+.id-main-img img {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Article prose */
+.id-prose {
+  font-size: 16px;
+  color: #334155;
+  line-height: 1.85;
+}
+
+.id-prose h1, .id-prose h2, .id-prose h3 {
+  font-weight: 900;
+  color: #0d2151;
+  margin: 32px 0 14px;
+}
+
+.id-prose h2 { font-size: 22px; }
+.id-prose h3 { font-size: 18px; }
+.id-prose p  { margin-bottom: 16px; }
+
+.id-prose img {
+  width: 100%;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.id-prose ul, .id-prose ol {
+  padding-left: 24px;
+  margin-bottom: 18px;
+}
+
+.id-prose li { margin-bottom: 8px; }
+
+.id-prose blockquote {
+  border-left: 4px solid #e8501a;
+  padding: 14px 20px;
+  margin: 24px 0;
+  background: #fff8f5;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #64748b;
+}
+
+/* Gallery */
+.id-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.id-gallery img {
+  border-radius: 10px;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.id-gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(13,33,81,0.15); }
+
+/* Category tag */
+.id-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 28px 0;
+}
+
+.id-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e8f4fd;
+  color: #00509e;
+  border: 1px solid rgba(0,80,158,0.2);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.id-tag:hover { background: #00509e; color: #fff; }
+
+/* Divider */
+.id-divider {
+  height: 1px;
+  background: linear-gradient(90deg, #e2e8f0 0%, transparent 100%);
+  margin: 32px 0;
+}
+
+/* Author card */
+.id-author {
+  background: linear-gradient(135deg, #f0f6ff, #e8eeff);
+  border: 1px solid #bfdbfe;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.id-author__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(13,33,81,0.15);
+}
+
+.id-author__avatar-fallback {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d2151, #00509e);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.id-author__label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.id-author__name {
+  font-size: 17px;
+  font-weight: 900;
+  color: #0d2151;
+  margin-bottom: 2px;
+}
+
+.id-author__name a { color: inherit; text-decoration: none; }
+.id-author__name a:hover { color: #00509e; }
+
+.id-author__role {
+  font-size: 13px;
+  color: #00509e;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.id-author__bio {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── 4. Sidebar ── */
+.id-sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+.id-sidebar-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.id-sidebar-card__head {
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #0d2151;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.id-sidebar-card__head i { color: #00509e; }
+
+.id-sidebar-card__body { padding: 16px 18px; }
+
+/* Pro CTA card */
+.id-pro-cta {
+  background: linear-gradient(135deg, #0d2151, #1a3a6b);
+  border: none;
+}
+
+.id-pro-cta__body {
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.id-pro-cta__ico {
+  width: 56px;
+  height: 56px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0 auto 14px;
+}
+
+.id-pro-cta__title { font-size: 17px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.id-pro-cta__sub   { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; line-height: 1.6; }
+
+.id-btn-orange {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  background: #e8501a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(232,80,26,0.35);
+  transition: background 0.15s, transform 0.15s;
+}
+
+.id-btn-orange:hover { background: #c43d10; color: #fff; transform: translateY(-1px); }
+
+/* Related idea row in sidebar */
+.id-rel-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: flex-start;
+}
+
+.id-rel-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.id-rel-thumb {
+  width: 64px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.id-rel-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.id-rel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0d2151;
+  line-height: 1.35;
+  margin: 0 0 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.id-rel-title a { color: inherit; text-decoration: none; }
+.id-rel-title a:hover { color: #00509e; }
+
+.id-rel-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e8501a;
+  text-decoration: none;
+}
+
+.id-rel-link:hover { color: #c43d10; }
+
+/* Share row */
+.id-share-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.id-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.id-share-btn:hover { opacity: 0.85; }
+.id-share-btn--fb  { background: #1877f2; color: #fff; }
+.id-share-btn--tw  { background: #000; color: #fff; }
+.id-share-btn--li  { background: #0a66c2; color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .id-body { grid-template-columns: 1fr; }
+  .id-sidebar { display: grid; grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .id-body { padding: 28px 16px 60px; }
+  .id-hero { height: 260px; }
+  .id-gallery { grid-template-columns: repeat(2, 1fr); }
+  .id-sidebar { grid-template-columns: 1fr; }
+  .id-author { flex-direction: column; }
+}
+</style>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO — article image as bg
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="id-hero" aria-labelledby="id-title">
+  <div class="id-hero__bg"
+       style="background-image: url('{{ idea.mainImg
+         ? (idea.mainImg starts with 'http' ? idea.mainImg : asset('uploads/blog/' ~ idea.mainImg))
+         : asset('uploads/banners/smartideas.png') }}');">
+  </div>
+  <div class="id-hero__overlay"></div>
+  <div class="container">
+    <div class="id-hero__content">
+
+      {# Breadcrumb #}
+      <div class="id-breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ path('app_home') }}">Home</a>
+        <i class="feather-chevron-right" aria-hidden="true" style="font-size:12px;"></i>
+        <a href="{{ path('smartideas') }}">Ideas</a>
+        <i class="feather-chevron-right" aria-hidden="true" style="font-size:12px;"></i>
+        <span style="color:rgba(255,255,255,0.5);">{{ idea.title|slice(0,40) }}…</span>
+      </div>
+
+      <div class="id-hero__meta">
+        {% if idea.category %}
+          <span class="id-cat-pill">
+            <i class="fas fa-tag" aria-hidden="true"></i>
+            {{ idea.category.name }}
+          </span>
+        {% endif %}
+        <span class="id-meta-item">
+          <i class="feather-clock" aria-hidden="true"></i>
+          {{ idea.createdAt|date('d M Y') }}
+        </span>
+        <span class="id-meta-item">
+          <i class="feather-user" aria-hidden="true"></i>
+          {% if idea.author %}
+            {{ idea.author.companyName ?: idea.author.email }}
+          {% else %}
+            Drilleedo Team
+          {% endif %}
+        </span>
+      </div>
+
+      <h1 class="id-hero__title" id="id-title">{{ idea.title }}</h1>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   2. MAIN LAYOUT (article + sidebar)
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="id-body">
+
+  {# ── ARTICLE COLUMN ── #}
+  <article class="id-article" aria-label="Article content">
+
+    {# Short desc intro block #}
+    {% if idea.shortDesc %}
+      <div class="id-intro">
+        {{ idea.shortDesc }}
+      </div>
+    {% endif %}
+
+    {# Main image (only if not already in hero) #}
+    {% if idea.mainImg and false %}{# hidden — already used in hero #}{% endif %}
+
+    {# Description body #}
+    <div class="id-prose">
+      {{ idea.description|raw }}
     </div>
 
-    <div class="rbt-overlay-page-wrapper">
-        <div class="breadcrumb-image-container breadcrumb-style-max-width">
+    {# Photo gallery #}
+    {% if idea.multipleImgs and idea.multipleImgs|length > 0 %}
+      <div class="id-gallery" role="list" aria-label="Project photo gallery">
+        {% for img in idea.multipleImgs %}
+          <img src="{{ asset('uploads/blog/' ~ img) }}"
+               alt="Project photo {{ loop.index }}"
+               loading="lazy"
+               role="listitem">
+        {% endfor %}
+      </div>
+    {% endif %}
 
-            <div class="breadcrumb-content-top text-center">
-                <ul class="meta-list justify-content-center mb--10">
-                    <li class="list-item">
-                        <div class="author-thumbnail">
-                            {% set authorImg = 'assets/images/testimonial/client-06.png' %}
-                            {% if idea.author %}
-                                {% if idea.author.type == 'Professional' or idea.author.type == 'Company' %}
-                                    {% if idea.author.logo %}
-                                        {% set authorImg = asset('uploads/logos/' ~ idea.author.logo) %}
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
-                            <img src="{{ authorImg }}" alt="blog-image">
-                        </div>
-                        <div class="author-info">
-                            {% if idea.author %}
-                                <strong>{{ idea.author.companyName ?: idea.author.email }}</strong>
-                            {% else %}
-                                <strong>Admin</strong>
-                            {% endif %}
-                            in <strong>{{ idea.category ? idea.category.name : 'General' }}</strong>
-                        </div>
-                    </li>
-                    <li class="list-item">
-                        <i class="feather-clock"></i>
-                        <span>{{ idea.createdAt|date('d M Y') }}</span>
-                    </li>
-                </ul>
-                <h1 class="title">{{ idea.title }}</h1>
-                <p>{{ idea.shortDesc }}</p>
-            </div>
-        </div>
+    {# Tags #}
+    {% if idea.category %}
+      <div class="id-tags">
+        <a href="{{ path('professionals_list') }}?categories[]={{ idea.category.id }}"
+           class="id-tag">
+          <i class="fas fa-tag" aria-hidden="true"></i>
+          {{ idea.category.name }}
+        </a>
+        <a href="{{ path('smartideas') }}" class="id-tag">
+          <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          All Ideas
+        </a>
+      </div>
+    {% endif %}
 
-        <div class="rbt-blog-details-area rbt-section-gapBottom breadcrumb-style-max-width">
-            <div class="blog-content-wrapper rbt-article-content-wrapper">
-                <div class="content">
-                    <div class="post-thumbnail mb--30 position-relative wp-block-image alignwide">
-                        <figure>
-                            <img src="{{ idea.mainImg ? (idea.mainImg starts with 'http' ? idea.mainImg : asset('uploads/blog/' ~ idea.mainImg)) : asset('assets/images/blog/blog-single-03.png') }}" alt="{{ idea.title }}">
-                        </figure>
-                    </div>
-                    
-                    {{ idea.description|raw }}
-
-                    {% if idea.multipleImgs %}
-                    <div class="wp-block-gallery columns-3 is-cropped">
-                        <ul class="blocks-gallery-grid">
-                            {% for img in idea.multipleImgs %}
-                            <li class="blocks-gallery-item">
-                                <figure>
-                                    <img class="radius-4" src="{{ asset('uploads/blog/' ~ img) }}" alt="Blog Gallery Image">
-                                </figure>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-
-                    <!-- Idea Tags -->
-                    {% if idea.category %}
-                    <div class="tagcloud">
-                        <a href="{{ path('professionals_list') }}?categories[]={{ idea.category.id }}">{{ idea.category.name }}</a>
-                    </div>
-                    {% endif %}
-
-           
-
-
-                    <!-- Blog Author  -->
-                    <div class="about-author">
-                        <div class="media">
-                            <div class="thumbnail">
-                                {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
-                                    {% set authorLink = idea.author.type == 'Professional' ? path('professional_details', {id: idea.author.id}) : path('company_details', {id: idea.author.id}) %}
-                                    <a href="{{ authorLink }}">
-                                        <img src="{{ idea.author.logo ? asset('uploads/logos/' ~ idea.author.logo) : asset('assets/images/testimonial/testimonial-4.jpg') }}" alt="Author Images">
-                                    </a>
-                                {% else %}
-                                    <img src="{{ asset('assets/images/testimonial/testimonial-4.jpg') }}" alt="Author Images">
-                                {% endif %}
-                            </div>
-                            <div class="media-body">
-                                <div class="author-info">
-                                    <h5 class="title">
-                                        {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
-                                            <a class="hover-flip-item-wrapper" href="{{ authorLink }}">
-                                                {{ idea.author.companyName ?: idea.author.email }}
-                                            </a>
-                                        {% else %}
-                                            <span class="hover-flip-item-wrapper">
-                                                Admin
-                                            </span>
-                                        {% endif %}
-                                    </h5>
-                                    <span class="b3 subtitle">
-                                        {% if idea.author %}
-                                            {% if idea.author.type == 'Professional' %}
-                                                {{ idea.author.category ? idea.author.category.name : 'Professional' }}
-                                            {% elseif idea.author.type == 'Company' %}
-                                                Company
-                                            {% else %}
-                                                Administrator
-                                            {% endif %}
-                                        {% else %}
-                                            Administrator
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <div class="content">
-                                    <p class="description">
-                                        {% if idea.author and idea.author.type in ['Professional', 'Company'] %}
-                                            {{ idea.author.about|default('Discover my projects and expertise in home improvement.')|slice(0, 200) }}{{ (idea.author.about|default('')|length > 200) ? '...' : '' }}
-                                        {% else %}
-                                            Drilleedo Team expert content.
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="related-post pt--60">
-                    <div class="section-title text-start mb--40">
-                        <span class="subtitle bg-primary-opacity">Related Post</span>
-                        <h4 class="title">Similar Post</h4>
-                    </div>
-
-                    {% for simIdea in similarIdeas %}
-                        <!-- Start Single Card  -->
-                        <div class="rbt-card card-list variation-02 rbt-hover mt--30">
-                            <div class="rbt-card-img">
-                                <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}">
-                                    <img src="{{ simIdea.mainImg ? (simIdea.mainImg starts with 'http' ? simIdea.mainImg : asset('uploads/blog/' ~ simIdea.mainImg)) : asset('assets/images/blog/blog-card-02.jpg') }}" alt="{{ simIdea.title }}"> </a>
-                            </div>
-                            <div class="rbt-card-body">
-                                <h5 class="rbt-card-title"><a href="{{ path('ideas_details', {slug: simIdea.slug}) }}">{{ simIdea.title }}</a>
-                                </h5>
-                                <div class="rbt-card-bottom">
-                                    <a class="transparent-button" href="{{ path('ideas_details', {slug: simIdea.slug}) }}">Read
-                                        Article<i><svg width="17" height="12" xmlns="http://www.w3.org/2000/svg"><g stroke="#27374D" fill="none" fill-rule="evenodd"><path d="M10.614 0l5.629 5.629-5.63 5.629"/><path stroke-linecap="square" d="M.663 5.572h14.594"/></g></svg></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Single Card  -->
-                    {% endfor %}
-
-                </div>
-            </div>
-        </div>
+    {# Share row #}
+    <div class="id-divider"></div>
+    <div style="margin-bottom:24px;">
+      <p style="font-size:13px;font-weight:700;color:#64748b;margin-bottom:10px;">Share this idea:</p>
+      <div class="id-share-row">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}"
+           target="_blank" rel="noopener" class="id-share-btn id-share-btn--fb">
+          <i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook
+        </a>
+        <a href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ idea.title|url_encode }}"
+           target="_blank" rel="noopener" class="id-share-btn id-share-btn--tw">
+          𝕏 Twitter
+        </a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri|url_encode }}"
+           target="_blank" rel="noopener" class="id-share-btn id-share-btn--li">
+          <i class="fab fa-linkedin-in" aria-hidden="true"></i> LinkedIn
+        </a>
+      </div>
     </div>
 
+    {# Author card #}
+    <div class="id-divider"></div>
+    <div class="id-author" aria-label="Article author">
+      {% set authorImg = null %}
+      {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
+        {% if idea.author.logo %}
+          {% set authorImg = asset('uploads/logos/' ~ idea.author.logo) %}
+        {% endif %}
+      {% endif %}
 
-</div>
+      {% if authorImg %}
+        <img src="{{ authorImg }}"
+             alt="{{ idea.author.companyName ?: idea.author.email }}"
+             class="id-author__avatar">
+      {% else %}
+        <div class="id-author__avatar-fallback" aria-hidden="true">
+          {{ idea.author ? (idea.author.companyName ?: idea.author.email)|slice(0,1)|upper : 'D' }}
+        </div>
+      {% endif %}
 
+      <div style="flex:1;min-width:0;">
+        <div class="id-author__label">Written by</div>
+        <div class="id-author__name">
+          {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
+            {% set authorLink = idea.author.type == 'Professional'
+              ? path('professional_details', {id: idea.author.id})
+              : path('company_details', {id: idea.author.id}) %}
+            <a href="{{ authorLink }}">{{ idea.author.companyName ?: idea.author.email }}</a>
+          {% else %}
+            Drilleedo Team
+          {% endif %}
+        </div>
+        <div class="id-author__role">
+          {% if idea.author %}
+            {% if idea.author.type == 'Professional' %}
+              {{ idea.author.category ? idea.author.category.name : 'Professional' }}
+            {% elseif idea.author.type == 'Company' %}
+              Renovation Company
+            {% else %}
+              Administrator
+            {% endif %}
+          {% else %}
+            Administrator
+          {% endif %}
+        </div>
+        <p class="id-author__bio">
+          {% if idea.author and idea.author.type in ['Professional', 'Company'] %}
+            {{ idea.author.about|default('Discover my projects and expertise in home improvement.')|slice(0, 200) }}{{ (idea.author.about|default('')|length > 200) ? '…' : '' }}
+          {% else %}
+            Expert content reviewed and published by the Drilleedo editorial team to inspire your next home renovation project.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+  </article>
+
+  {# ── SIDEBAR ── #}
+  <aside class="id-sidebar" aria-label="Sidebar">
+
+    {# Pro CTA #}
+    <div class="id-sidebar-card id-pro-cta">
+      <div class="id-pro-cta__body">
+        <div class="id-pro-cta__ico">🏠</div>
+        <div class="id-pro-cta__title">Ready to Start This Project?</div>
+        <p class="id-pro-cta__sub">Find a verified professional in your area and get a free quote today.</p>
+        <a href="{{ path('professionals_list') }}{% if idea.category %}?categories[]={{ idea.category.id }}{% endif %}"
+           class="id-btn-orange">
+          Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+
+    {# Related ideas #}
+    {% if similarIdeas|length > 0 %}
+    <div class="id-sidebar-card">
+      <div class="id-sidebar-card__head">
+        <i class="fas fa-lightbulb" aria-hidden="true"></i>
+        More Ideas to Explore
+      </div>
+      <div class="id-sidebar-card__body">
+        {% for simIdea in similarIdeas %}
+          <div class="id-rel-item">
+            <div class="id-rel-thumb">
+              <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}" tabindex="-1" aria-hidden="true">
+                <img src="{{ simIdea.mainImg
+                  ? (simIdea.mainImg starts with 'http' ? simIdea.mainImg : asset('uploads/blog/' ~ simIdea.mainImg))
+                  : asset('assets/images/blog/blog-card-02.jpg') }}"
+                     alt="{{ simIdea.title }}"
+                     loading="lazy">
+              </a>
+            </div>
+            <div>
+              <p class="id-rel-title">
+                <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}">{{ simIdea.title }}</a>
+              </p>
+              <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}" class="id-rel-link">
+                Read More →
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# Browse all categories #}
+    <div class="id-sidebar-card">
+      <div class="id-sidebar-card__head">
+        <i class="feather-grid" aria-hidden="true"></i>
+        Browse by Category
+      </div>
+      <div class="id-sidebar-card__body">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <a href="{{ path('smartideas') }}" class="id-tag">🏠 All Ideas</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">🍳 Kitchen</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">🛁 Bathroom</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">🌿 Landscaping</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">🎨 Painting</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">🔌 Electrical</a>
+        </div>
+      </div>
+    </div>
+
+    {# Share mini card #}
+    <div class="id-sidebar-card">
+      <div class="id-sidebar-card__head">
+        <i class="feather-share-2" aria-hidden="true"></i>
+        Share This Idea
+      </div>
+      <div class="id-sidebar-card__body">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}"
+             target="_blank" rel="noopener" class="id-share-btn id-share-btn--fb" style="justify-content:center;">
+            <i class="fab fa-facebook-f" aria-hidden="true"></i> Share on Facebook
+          </a>
+          <a href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ idea.title|url_encode }}"
+             target="_blank" rel="noopener" class="id-share-btn id-share-btn--tw" style="justify-content:center;">
+            𝕏 Share on Twitter
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+</div>{# /id-body #}
+
+</main>
 {% endblock %}
