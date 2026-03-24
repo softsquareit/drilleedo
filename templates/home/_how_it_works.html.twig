@@ -1,67 +1,365 @@
 {# templates/home/_how_it_works.html.twig #}
-<section id="how-drilleedo-works" class="how-it-works-modern" aria-labelledby="how-it-works-heading">
-    <div class="container">
-        <div class="section-header text-center mb-5">
-            <h2 class="section-title" id="how-it-works-heading">How Drilleedo Works</h2>
-            <p class="section-subtitle">
-                Finding the right professional for your home improvement project has never been easier. Just 4 simple steps to get started.
-            </p>
-        </div>
+<section id="how-drilleedo-works" class="hdw-section" aria-labelledby="how-it-works-heading">
+<style>
+/* ── HOW IT WORKS — adapted to index.html.twig design charter ────────────
+   Uses same color tokens, font patterns, spacing as the index page.
+   ── ──────────────────────────────────────────────────────────────────── */
+.hdw-section {
+  background: linear-gradient(170deg, #f0f6ff 0%, #e8eeff 100%);
+  padding: 80px 0 90px;
+  overflow: hidden;
+}
 
-        <div class="steps-grid">
-            {# Step 1 #}
-            <div class="step-card" style="--delay: 0ms;">
-                <div class="step-badge">Step 01</div>
-                <div class="icon-wrapper">
-                    <i class="feather-edit-3" aria-hidden="true"></i>
-                </div>
-                <h3 class="step-title">Post Your Project</h3>
-                <p class="step-desc">
-                    Describe your renovation project, location, and budget. It only takes a few minutes.
-                </p>
-            </div>
+/* ── Header ── */
+.hdw-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
 
-            {# Step 2 #}
-            <div class="step-card" style="--delay: 150ms;">
-                <div class="step-badge">Step 02</div>
-                <div class="icon-wrapper">
-                    <i class="feather-users" aria-hidden="true"></i>
-                </div>
-                <h3 class="step-title">Compare Professionals</h3>
-                <p class="step-desc">
-                    Review profiles, portfolios, and verified ratings of contractors near you.
-                </p>
-            </div>
+/* matches .discovery-pill pattern from index */
+.hdw-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8f4fd;
+  color: #00509e;
+  border: 1px solid rgba(0,80,158,0.18);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
 
-            {# Step 3 #}
-            <div class="step-card" style="--delay: 300ms;">
-                <div class="step-badge">Step 03</div>
-                <div class="icon-wrapper">
-                    <i class="feather-message-square" aria-hidden="true"></i>
-                </div>
-                <h3 class="step-title">Receive Quotes</h3>
-                <p class="step-desc">
-                    Get competitive, no-obligation quotes from interested specialists.
-                </p>
-            </div>
+/* matches .discovery-title from index */
+.hdw-title {
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 14px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
 
-            {# Step 4 #}
-            <div class="step-card" style="--delay: 450ms;">
-                <div class="step-badge">Step 04</div>
-                <div class="icon-wrapper">
-                    <i class="feather-check-circle" aria-hidden="true"></i>
-                </div>
-                <h3 class="step-title">Start Your Project</h3>
-                <p class="step-desc">
-                    Hire the best professional and bring your renovation vision to life.
-                </p>
-            </div>
-        </div>
+.hdw-title span { color: #00509e; }
 
-        <div class="text-center mt-5">
-            <a href="{{ path('professionals_list') }}" class="btn-view-services">
-                View All Services <i class="feather-chevron-right" aria-hidden="true"></i>
-            </a>
-        </div>
+/* matches .discovery-subtitle from index */
+.hdw-subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Steps grid 4-col ── */
+.hdw-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  position: relative;
+  margin-bottom: 50px;
+}
+
+/* Connector dashes between steps */
+.hdw-steps::before {
+  content: '';
+  position: absolute;
+  top: 42px;
+  left: calc(12.5% + 30px);
+  right: calc(12.5% + 30px);
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #bfdbfe 0px, #bfdbfe 8px,
+    transparent 8px, transparent 16px
+  );
+  z-index: 0;
+}
+
+/* ── Individual step ── */
+.hdw-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 18px 24px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  position: relative;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  z-index: 1;
+}
+
+.hdw-step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(13,33,81,0.12);
+  border-color: #bfdbfe;
+}
+
+/* Step number badge — matches about-stat-card circle style */
+.hdw-step-num {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: #fff;
+  border: 3px solid #f0f6ff;
+  box-shadow: 0 2px 8px rgba(13,33,81,0.2);
+}
+
+.hdw-step:nth-child(1) .hdw-step-num { background: #0d2151; }
+.hdw-step:nth-child(2) .hdw-step-num { background: #00509e; }
+.hdw-step:nth-child(3) .hdw-step-num { background: #16a34a; }
+.hdw-step:nth-child(4) .hdw-step-num { background: #e8501a; }
+
+/* Icon circle — matches stat-icon-circle style from index */
+.hdw-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 18px;
+  transition: transform 0.22s;
+}
+
+.hdw-step:hover .hdw-icon-circle { transform: scale(1.1) rotate(-4deg); }
+
+.hdw-step:nth-child(1) .hdw-icon-circle { background: linear-gradient(135deg, #0d2151, #1a3a6b); color: #fff; }
+.hdw-step:nth-child(2) .hdw-icon-circle { background: linear-gradient(135deg, #00509e, #2196f3); color: #fff; }
+.hdw-step:nth-child(3) .hdw-icon-circle { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
+.hdw-step:nth-child(4) .hdw-icon-circle { background: linear-gradient(135deg, #c73d0d, #e8501a); color: #fff; }
+
+/* Step label chip */
+.hdw-step-chip {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-bottom: 10px;
+}
+
+.hdw-step-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 8px;
+  line-height: 1.25;
+}
+
+.hdw-step-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Trust strip (same pattern as hero-trust-badges) ── */
+.hdw-trust-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.hdw-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  box-shadow: 0 1px 4px rgba(13,33,81,0.06);
+}
+
+.hdw-trust-item i { color: #00509e; }
+
+/* ── CTAs — mirrors hero-btn pattern ── */
+.hdw-cta {
+  text-align: center;
+}
+
+/* matches btn-primary-hero from index */
+.hdw-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #e8501a 0%, #f06030 100%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(232,80,26,0.28);
+  transition: opacity 0.18s, transform 0.15s;
+  margin-right: 10px;
+}
+
+.hdw-btn-primary:hover { opacity: 0.9; transform: translateY(-2px); color: #fff; }
+
+/* matches btn-secondary-hero from index */
+.hdw-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #00509e;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 2px solid #bfdbfe;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.hdw-btn-secondary:hover { background: #e8f4fd; border-color: #00509e; color: #00509e; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .hdw-steps { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .hdw-steps::before { display: none; }
+}
+
+@media (max-width: 540px) {
+  .hdw-steps { grid-template-columns: 1fr; }
+  .hdw-section { padding: 54px 0 60px; }
+  .hdw-btn-secondary { display: none; }
+}
+</style>
+
+<div class="container">
+
+  {# ── Header ── #}
+  <div class="hdw-header">
+    <div class="hdw-eyebrow">
+      <i class="fas fa-bolt" aria-hidden="true"></i>
+      Simple. Fast. Trusted.
     </div>
+    <h2 class="hdw-title" id="how-it-works-heading">
+      How <span>Drilleedo</span> Works
+    </h2>
+    <p class="hdw-subtitle">
+      Finding the right professional for your home renovation has never been easier.
+      Just 4 simple steps to get started.
+    </p>
+  </div>
+
+  {# ── Steps ── #}
+  <div class="hdw-steps" role="list">
+
+    {# Step 1 #}
+    <div class="hdw-step" role="listitem">
+      <span class="hdw-step-num" aria-label="Step 1">1</span>
+      <div class="hdw-icon-circle" aria-hidden="true">
+        <i class="feather-edit-3"></i>
+      </div>
+      <span class="hdw-step-chip">Step 01</span>
+      <h3 class="hdw-step-title">Post Your Project</h3>
+      <p class="hdw-step-desc">
+        Describe your renovation project, location, and budget. It only takes a few minutes — completely free.
+      </p>
+    </div>
+
+    {# Step 2 #}
+    <div class="hdw-step" role="listitem">
+      <span class="hdw-step-num" aria-label="Step 2">2</span>
+      <div class="hdw-icon-circle" aria-hidden="true">
+        <i class="feather-users"></i>
+      </div>
+      <span class="hdw-step-chip">Step 02</span>
+      <h3 class="hdw-step-title">Compare Professionals</h3>
+      <p class="hdw-step-desc">
+        Review verified profiles, portfolios, and customer ratings of contractors near you.
+      </p>
+    </div>
+
+    {# Step 3 #}
+    <div class="hdw-step" role="listitem">
+      <span class="hdw-step-num" aria-label="Step 3">3</span>
+      <div class="hdw-icon-circle" aria-hidden="true">
+        <i class="feather-message-square"></i>
+      </div>
+      <span class="hdw-step-chip">Step 03</span>
+      <h3 class="hdw-step-title">Receive Free Quotes</h3>
+      <p class="hdw-step-desc">
+        Get competitive, no-obligation quotes from interested, qualified specialists.
+      </p>
+    </div>
+
+    {# Step 4 #}
+    <div class="hdw-step" role="listitem">
+      <span class="hdw-step-num" aria-label="Step 4">4</span>
+      <div class="hdw-icon-circle" aria-hidden="true">
+        <i class="feather-check-circle"></i>
+      </div>
+      <span class="hdw-step-chip">Step 04</span>
+      <h3 class="hdw-step-title">Start Your Project</h3>
+      <p class="hdw-step-desc">
+        Hire the best professional and bring your renovation vision to life with confidence.
+      </p>
+    </div>
+
+  </div>{# /hdw-steps #}
+
+  {# ── Trust strip — mirrors hero-trust-badges ── #}
+  <div class="hdw-trust-strip" role="list" aria-label="Platform guarantees">
+    <span class="hdw-trust-item" role="listitem">
+      <i class="feather-check-circle" aria-hidden="true"></i> Verified Professionals
+    </span>
+    <span class="hdw-trust-item" role="listitem">
+      <i class="feather-file-text" aria-hidden="true"></i> 100% Free Quotes
+    </span>
+    <span class="hdw-trust-item" role="listitem">
+      <i class="fas fa-star" aria-hidden="true"></i> Certified Customer Reviews
+    </span>
+    <span class="hdw-trust-item" role="listitem">
+      <i class="feather-shield" aria-hidden="true"></i> RBQ Insured Contractors
+    </span>
+    <span class="hdw-trust-item" role="listitem">
+      <i class="feather-zap" aria-hidden="true"></i> Fast Response Guaranteed
+    </span>
+  </div>
+
+  {# ── CTAs ── #}
+  <div class="hdw-cta">
+    <a href="{{ path('professionals_list') }}" class="hdw-btn-primary">
+      Find a Professional <i class="feather-arrow-right" aria-hidden="true"></i>
+    </a>
+    <a href="{{ path('app_register') }}" class="hdw-btn-secondary">
+      List My Business <i class="feather-chevron-right" aria-hidden="true"></i>
+    </a>
+  </div>
+
+</div>
 </section>
