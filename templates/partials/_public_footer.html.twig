@@ -1,95 +1,305 @@
 {# Footer styles -> drilleedo.css (section: Footer) #}
+<style>
+/* ── Footer Redesign (Inner Blocks) ── */
+.df-cta {
+  background: linear-gradient(135deg, #00509e, #1a3a6b);
+  padding: 40px 32px;
+  border-radius: 16px;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
 
-<footer class="drld-footer" style="background-color: #04487e;">
-    <div class="container" style="margin:auto ;">
+.df-cta__text h3 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 8px;
+}
 
-        {# ── CTA Section ─────────────────────────────── #}
-        <div class="f-cta">
-            <div class="f-cta-row">
-                <img
-                    src="{{ asset('uploads/images/footer-text.png') }}"
-                    alt="We connect Drilleedos to people who need help."
-                    class="f-cta-img"
-                >
-                <a href="{{ path('professionals_list') }}" class="f-cta-btn">Get Free Quotes</a>
+.df-cta__text p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.df-cta__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.df-btn-orange {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(232,80,26,0.3);
+  transition: background 0.15s, transform 0.15s;
+}
+.df-btn-orange:hover { background: #c43d10; color: #fff; transform: translateY(-2px); }
+
+.df-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: background 0.15s, border-color 0.15s;
+}
+.df-btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); color: #fff; }
+
+/* ── 4 Columns ── */
+.df-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+/* Brand col */
+.df-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.65;
+  margin-bottom: 24px;
+  max-width: 300px;
+}
+
+.df-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.df-social {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s, color 0.15s;
+}
+
+.df-social:hover { transform: translateY(-3px); }
+.df-social--fb:hover { background: #1877f2; color: #fff; }
+.df-social--tw:hover { background: #000; color: #fff; }
+.df-social--in:hover { background: #e1306c; color: #fff; }
+.df-social--li:hover { background: #0a66c2; color: #fff; }
+
+/* Links cols */
+.df-col-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.df-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.df-links a {
+  color: rgba(255,255,255,0.65);
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.15s, padding-left 0.15s;
+}
+
+.df-links a:hover {
+  color: #f97316;
+  padding-left: 4px;
+}
+
+.df-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(255,255,255,0.65);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.df-contact-item i {
+  color: #f97316;
+  font-size: 15px;
+  margin-top: 3px;
+}
+
+.df-contact-item a { color: inherit; text-decoration: none; transition: color 0.15s; }
+.df-contact-item a:hover { color: #fff; }
+
+/* ── Bottom Bar ── */
+.df-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.15);
+  margin-top: 20px;
+}
+
+.df-bottom__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+}
+
+.df-bottom-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.df-bottom-links a {
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.df-bottom-links a:hover { color: #fff; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .df-main { grid-template-columns: 1fr 1fr 1fr; }
+  .df-desc { grid-column: 1 / -1; max-width: 500px; margin-bottom: 0; }
+  .df-socials { grid-column: 1 / -1; margin-bottom: 20px; }
+}
+
+@media (max-width: 768px) {
+  .df-main { grid-template-columns: 1fr 1fr; gap: 40px 20px; }
+  .df-cta { flex-direction: column; text-align: center; padding: 32px 20px; }
+  .df-cta__actions { justify-content: center; width: 100%; }
+  .df-bottom__inner { flex-direction: column; text-align: center; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .df-main { grid-template-columns: 1fr; gap: 32px; }
+  .df-btn-outline { width: 100%; justify-content: center; }
+  .df-btn-orange { width: 100%; justify-content: center; }
+}
+</style>
+
+<footer class="drld-footer" style="background-color: #0d2151; font-family: 'Nunito', sans-serif;">
+    <div class="container" style="margin:auto; padding-top: 40px;">
+
+        {# ── NEW CTA Section ── #}
+        <div class="df-cta">
+            <div class="df-cta__text">
+                <h3>Ready to Start Your Project?</h3>
+                <p>Connect with trusted professionals or grow your own renovation business across Canada.</p>
+            </div>
+            <div class="df-cta__actions">
+                <a href="{{ path('professionals_list') }}" class="df-btn-orange">
+                    Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="{{ path('app_register') }}" class="df-btn-outline">
+                    Join as a Pro
+                </a>
             </div>
         </div>
 
-        {# ── Divider ─────────────────────────────────── #}
-        <hr class="f-divider">
-
-        {# ── 4 Columns ───────────────────────────────── #}
-        <div class="f-links">
-            <div class="f-grid">
-
-                {# Col 1: Description #}
-                <div>
-                    <p class="f-desc">
-                        Drilleedo brings together homeowners and trusted professionals across Canada.
-                        Looking to collaborate or join the team? Reach out anytime!
-                    </p>
+        {# ── 4 Columns Redesigned ── #}
+        <div class="df-main">
+            
+            {# Col 1: Brand & Socials #}
+            <div>
+                <img src="{{ asset('uploads/images/Logo.png') }}" alt="Drilleedo" style="height: 34px; margin-bottom: 20px; display: block;" loading="lazy">
+                <p class="df-desc">
+                    Canada's trusted marketplace connecting homeowners with verified renovation professionals. We make home improvement easier, smarter, and more reliable.
+                </p>
+                <div class="df-socials">
+                    <a href="#" class="df-social df-social--fb" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                    <a href="#" class="df-social df-social--tw" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#" class="df-social df-social--in" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" class="df-social df-social--li" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
                 </div>
-
-                {# Col 2: Useful Links #}
-                <div>
-                    <h5 class="f-col-title">Useful Links</h5>
-                    <nav aria-label="Useful Links navigation">
-                        <ul class="f-col-list">
-                            <li><a href="{{ path('professionals_list') }}">Services</a></li>
-                            <li><a href="{{ path('professionals_list') }}">Find Professionals</a></li>
-                            <li><a href="{{ path('app_home') }}#how-it-works">How It Works</a></li>
-                            <li><a href="{{ path('packages') }}">Pricing</a></li>
-                            <li><a href="{{ path('contact') }}">FAQ</a></li>
-                        </ul>
-                    </nav>
-                </div>
-
-                {# Col 3: Top Cities #}
-                <div>
-                    <h5 class="f-col-title">Top Cities</h5>
-                    <nav aria-label="Top Cities navigation">
-                        <ul class="f-col-list">
-                            <li><a href="{{ path('city_seo_landing', {citySlug: 'toronto'}) }}">Toronto</a></li>
-                            <li><a href="{{ path('city_seo_landing', {citySlug: 'montreal'}) }}">Montreal</a></li>
-                            <li><a href="{{ path('city_seo_landing', {citySlug: 'vancouver'}) }}">Vancouver</a></li>
-                            <li><a href="{{ path('city_seo_landing', {citySlug: 'calgary'}) }}">Calgary</a></li>
-                            <li><a href="{{ path('city_seo_landing', {citySlug: 'ottawa'}) }}">Ottawa</a></li>
-                        </ul>
-                    </nav>
-                </div>
-
-                {# Col 3: Company #}
-                <div>
-                    <h5 class="f-col-title">Company</h5>
-                    <nav aria-label="Company navigation">
-                        <ul class="f-col-list">
-                            <li><a href="{{ path('app_about') }}">About Us</a></li>
-                            <li><a href="{{ path('app_register') }}">Join as a Pro</a></li>
-                            <li><a href="{{ path('public_blog_list') }}">Blog</a></li>
-                            <li><a href="{{ path('app_careers') }}">Careers</a></li>
-                            <li><a href="{{ path('contact') }}">Support</a></li>
-                        </ul>
-                    </nav>
-                </div>
-
-                {# Col 4: Get in Touch #}
-                <div>
-                    <h5 class="f-col-title">Get in Touch</h5>
-                    <nav aria-label="Contact information">
-                        <ul class="f-col-list">
-                            <li>Phone: <a href="tel:+14065550120">(406) 555-0120</a></li>
-                            <li>Email: <a href="mailto:contact@drilleedo.com">contact@drilleedo.com</a></li>
-                            <li>Location: Toronto, Canada</li>
-                        </ul>
-                    </nav>
-                </div>
-
             </div>
+
+            {# Col 2: For Homeowners #}
+            <div>
+                <h4 class="df-col-title">For Homeowners</h4>
+                <ul class="df-links">
+                    <li><a href="{{ path('professionals_list') }}">Find Professionals</a></li>
+                    <li><a href="{{ path('app_home') }}#how-it-works">How It Works</a></li>
+                    <li><a href="{{ path('smartideas') }}">Renovation Ideas</a></li>
+                    <li><a href="{{ path('packages') }}">Pricing</a></li>
+                    <li><a href="{{ path('contact') }}">Support</a></li>
+                </ul>
+            </div>
+
+            {# Col 3: Company & Cities #}
+            <div>
+                <h4 class="df-col-title">Top Cities</h4>
+                <ul class="df-links" style="margin-bottom: 20px;">
+                    <li><a href="{{ path('city_seo_landing', {citySlug: 'toronto'}) }}">Toronto</a></li>
+                    <li><a href="{{ path('city_seo_landing', {citySlug: 'montreal'}) }}">Montreal</a></li>
+                    <li><a href="{{ path('city_seo_landing', {citySlug: 'vancouver'}) }}">Vancouver</a></li>
+                </ul>
+                <h4 class="df-col-title" style="margin-bottom: 12px; font-size: 13px;">Company</h4>
+                <ul class="df-links">
+                    <li><a href="{{ path('app_about') }}">About Us</a></li>
+                    <li><a href="{{ path('public_blog_list') }}">Blog</a></li>
+                    <li><a href="{{ path('app_careers') }}">Careers</a></li>
+                </ul>
+            </div>
+
+            {# Col 4: Contact #}
+            <div>
+                <h4 class="df-col-title">Contact Us</h4>
+                <div class="df-contact-item">
+                    <i class="feather-phone" aria-hidden="true"></i>
+                    <span><a href="tel:+14065550120">(406) 555-0120</a><br><span style="font-size:12px;opacity:0.7;">Mon-Fri, 9am - 5pm EST</span></span>
+                </div>
+                <div class="df-contact-item">
+                    <i class="feather-mail" aria-hidden="true"></i>
+                    <a href="mailto:contact@drilleedo.com">contact@drilleedo.com</a>
+                </div>
+                <div class="df-contact-item">
+                    <i class="feather-map-pin" aria-hidden="true"></i>
+                    <span>Toronto, ON<br><span style="font-size:12px;opacity:0.7;">Canada</span></span>
+                </div>
+            </div>
+
         </div>
 
     </div>{# /container #}
 
     {# ── Large Drilleedo® wordmark ───────────────────── #}
+    {# DO NOT MODIFY THIS BLOCK - RETAINS ORIGINAL STYLING #}
     <div class="f-wordmark">
         <img
             src="{{ asset('uploads/images/Logo_bottom.png') }}"
@@ -97,6 +307,28 @@
             loading="lazy"
         >
     </div>
-
   
+    {# ── New Bottom Bar ── #}
+    <div class="df-bottom">
+        <div class="df-bottom__inner">
+            <div>
+                &copy; {{ 'now'|date('Y') }} Drilleedo Inc. All rights reserved.
+            </div>
+            <div class="df-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="df-made-in" style="display:flex;align-items:center;gap:6px;">
+                Proudly made in 
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:14px; height:14px;">
+                    <g fill="#e8501a">
+                        <path d="M470.83 234L351.62 254.19l32.12-101.4-96.16 63.48-31.54-216.27-31.42 216.27-96-63.48 31.95 101.4L41.31 234l67.62 50.8-108.93 69.85 137.47-5.07L167.92 462l88-69.85v119.85h.2v-119.85l87.89 69.85 30.54-112.43 137.37 5.07L403.07 284.8z"/>
+                    </g>
+                </svg>
+                Canada
+            </div>
+        </div>
+    </div>
+
 </footer>
