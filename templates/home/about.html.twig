@@ -1,205 +1,1087 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}About Drilleedo – Connecting Homeowners with Trusted Professionals{% endblock %}
+{% block title %}About Drilleedo – Canada's Trusted Home Renovation Marketplace{% endblock %}
+{% block meta_description %}Learn about Drilleedo's mission to connect Canadian homeowners with verified renovation professionals. Discover our story, values, and the team behind Canada's leading home improvement platform.{% endblock %}
 
 {% block body %}
-<main class="about-page">
-    {# 1. Header Hero #}
-    <section class="about-hero animate-on-scroll">
-        <div class="container d-flex align-items-center justify-content-center">
-            <div class="hero-content text-center">
-                <h1 class="hero-title">About Drilleedo</h1>
-                <p class="hero-subtitle">Connecting Homeowners with Trusted Professionals for every renovation need.</p>
-            </div>
-            <div class="hero-icon d-none d-lg-block ms-5">
-                <i class="fas fa-home-alt fa-5x text-primary-opacity" aria-hidden="true" style="opacity: 0.2;"></i>
-            </div>
+<main id="main-content">
+<style>
+/* ══ ABOUT PAGE — design charter matches index.html.twig ════════════════
+   Colours: #00509e (blue), #e8501a (orange), #0d2151 (navy), #1e293b (dark)
+   Patterns: discovery-pill, discovery-title, about-stat-card style, hero-btn
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hero Banner ── */
+.au-hero {
+  height: 280px;
+  background: linear-gradient(120deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.au-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.au-hero__content {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px;
+}
+
+.au-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.au-hero__title {
+  font-size: clamp(28px, 5vw, 50px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 14px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.au-hero__title span { color: #f97316; }
+
+.au-hero__sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.75);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Breadcrumb */
+.au-breadcrumb {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 16px;
+}
+
+.au-breadcrumb a { color: rgba(255,255,255,0.7); text-decoration: none; }
+.au-breadcrumb a:hover { color: #fff; }
+.au-breadcrumb span { margin: 0 8px; }
+
+/* ── 2. Stats Strip ── */
+.au-stats-strip {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(13,33,81,0.06);
+}
+
+.au-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.au-stat-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 20px;
+  border-right: 1px solid #f1f5f9;
+}
+
+.au-stat-cell:last-child { border-right: none; }
+
+.au-stat-ico {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.au-stat-ico.bg-navy  { background: linear-gradient(135deg, #0d2151, #1a3a6b); color: #fff; }
+.au-stat-ico.bg-blue  { background: linear-gradient(135deg, #00509e, #2196f3); color: #fff; }
+.au-stat-ico.bg-green { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
+.au-stat-ico.bg-orng  { background: linear-gradient(135deg, #c73d0d, #e8501a); color: #fff; }
+
+.au-stat-num {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0d2151;
+  line-height: 1;
+}
+
+.au-stat-lbl {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ── 3. Section utility ── */
+.au-section { padding: 80px 0; }
+.au-section--gray { background: #f8fafc; }
+.au-section--navy { background: linear-gradient(135deg, #0d2151 0%, #1a3a6b 100%); }
+.au-section--blue { background: linear-gradient(170deg, #f0f6ff 0%, #e8eeff 100%); }
+
+.au-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8f4fd;
+  color: #00509e;
+  border: 1px solid rgba(0,80,158,0.18);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.au-section-title {
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 900;
+  color: #1e293b;
+  margin: 0 0 14px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.au-section-title span { color: #00509e; }
+.au-section-sub {
+  font-size: 16px;
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── 4. Story section ── */
+.au-story-img {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(13,33,81,0.14);
+  height: 100%;
+  min-height: 400px;
+}
+
+.au-story-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.au-story-content { padding: 0 48px 0 0; }
+
+.au-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.au-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.au-feature-ico {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #00509e, #2196f3);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── 5. Values 3-col grid ── */
+.au-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.au-val-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 22px;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.au-val-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(13,33,81,0.1);
+}
+
+.au-val-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 18px;
+}
+
+.au-val-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 10px;
+}
+
+.au-val-desc {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── 6. Mission / Vision split ── */
+.au-mv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.au-mv-card {
+  border-radius: 16px;
+  padding: 36px 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.au-mv-card--mission {
+  background: linear-gradient(135deg, #0d2151 0%, #1a3a6b 100%);
+  color: #fff;
+}
+
+.au-mv-card--vision {
+  background: linear-gradient(135deg, #e8501a 0%, #f06030 100%);
+  color: #fff;
+}
+
+.au-mv-card__icon {
+  font-size: 40px;
+  opacity: 0.25;
+  position: absolute;
+  top: 20px;
+  right: 24px;
+}
+
+.au-mv-card__label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.au-mv-card__title {
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.au-mv-card__text {
+  font-size: 14px;
+  opacity: 0.85;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ── 7. Team ── */
+.au-team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.au-team-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.au-team-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(13,33,81,0.1); }
+
+.au-team-img {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.au-team-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.38s;
+}
+
+.au-team-card:hover .au-team-img img { transform: scale(1.06); }
+
+.au-team-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, rgba(13,33,81,0.6));
+}
+
+.au-team-body { padding: 20px 18px 22px; }
+
+.au-team-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d2151, #00509e);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  margin: -50px auto 12px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 12px rgba(13,33,81,0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.au-team-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 4px;
+}
+
+.au-team-role {
+  font-size: 13px;
+  font-weight: 700;
+  color: #00509e;
+  margin: 0 0 10px;
+}
+
+.au-team-bio {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── 8. Why Choose Us ── */
+.au-why-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.au-why-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 20px 18px;
+}
+
+.au-why-ico {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.au-why-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 5px;
+}
+
+.au-why-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── 9. FAQ ── */
+.au-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 40px;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.au-faq-item {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.au-faq-trigger {
+  width: 100%;
+  text-align: left;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0d2151;
+  transition: background 0.15s;
+}
+
+.au-faq-trigger:hover { background: #f8fafc; }
+.au-faq-trigger.open { color: #00509e; }
+.au-faq-trigger.open .au-faq-arrow { transform: rotate(45deg); }
+
+.au-faq-arrow {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s, background 0.15s;
+  line-height: 1;
+}
+
+.au-faq-trigger.open .au-faq-arrow { background: #00509e; color: #fff; }
+
+.au-faq-body {
+  display: none;
+  padding: 0 22px 18px;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.75;
+}
+
+.au-faq-body.open { display: block; }
+
+/* ── 10. CTA section ── */
+.au-cta {
+  background: linear-gradient(120deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
+  padding: 80px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.au-cta::before {
+  content: '';
+  position: absolute;
+  right: -100px;
+  top: -100px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.au-cta__title {
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.au-cta__sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.75);
+  max-width: 520px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+.au-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.18s, transform 0.15s;
+  box-shadow: 0 4px 18px rgba(232,80,26,0.35);
+  margin-right: 10px;
+}
+
+.au-btn-primary:hover { opacity: 0.9; transform: translateY(-2px); color: #fff; }
+
+.au-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.au-btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .au-values-grid { grid-template-columns: repeat(2, 1fr); }
+  .au-team-grid   { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .au-stats-grid  { grid-template-columns: repeat(2, 1fr); }
+  .au-mv-grid     { grid-template-columns: 1fr; }
+  .au-why-grid    { grid-template-columns: 1fr; }
+  .au-story-content { padding: 0; margin-bottom: 32px; }
+  .au-section     { padding: 54px 0; }
+  .au-hero        { height: 220px; }
+}
+
+@media (max-width: 540px) {
+  .au-stats-grid  { grid-template-columns: 1fr 1fr; }
+  .au-values-grid { grid-template-columns: 1fr; }
+  .au-team-grid   { grid-template-columns: 1fr; }
+  .au-btn-outline { display: none; }
+}
+
+.au-scroll { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.au-scroll.visible { opacity: 1; transform: none; }
+</style>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO BANNER
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-hero" aria-labelledby="au-hero-title">
+  <div class="au-hero__bg"></div>
+  <div class="au-hero__content">
+    <div class="au-breadcrumb">
+      <a href="{{ path('app_home') }}">Home</a>
+      <span>›</span>
+      <span>About Us</span>
+    </div>
+    <div class="au-hero__eyebrow">
+      <i class="feather-info" aria-hidden="true"></i>
+      Our Story
+    </div>
+    <h1 class="au-hero__title" id="au-hero-title">
+      About <span>Drilleedo</span>
+    </h1>
+    <p class="au-hero__sub">
+      Connecting Canadian homeowners with trusted, verified renovation professionals since day one.
+    </p>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   2. STATS STRIP
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="au-stats-strip">
+  <div class="au-stats-grid">
+    <div class="au-stat-cell">
+      <div class="au-stat-ico bg-navy"><i class="fas fa-users" aria-hidden="true"></i></div>
+      <div>
+        <div class="au-stat-num">10,000+</div>
+        <div class="au-stat-lbl">Canadian Homeowners</div>
+      </div>
+    </div>
+    <div class="au-stat-cell">
+      <div class="au-stat-ico bg-blue"><i class="fas fa-hard-hat" aria-hidden="true"></i></div>
+      <div>
+        <div class="au-stat-num">1,500+</div>
+        <div class="au-stat-lbl">Verified Professionals</div>
+      </div>
+    </div>
+    <div class="au-stat-cell">
+      <div class="au-stat-ico bg-green"><i class="fas fa-check-circle" aria-hidden="true"></i></div>
+      <div>
+        <div class="au-stat-num">35,000+</div>
+        <div class="au-stat-lbl">Projects Completed</div>
+      </div>
+    </div>
+    <div class="au-stat-cell">
+      <div class="au-stat-ico bg-orng"><i class="fas fa-star" aria-hidden="true"></i></div>
+      <div>
+        <div class="au-stat-num">4.8 / 5</div>
+        <div class="au-stat-lbl">Average Rating</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   3. OUR STORY
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-section au-scroll" aria-labelledby="story-heading">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-lg-2">
+        <div class="au-story-img">
+          <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}"
+               alt="Drilleedo team — verified renovation professionals working together"
+               loading="lazy">
         </div>
-    </section>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="au-story-content">
+          <div class="au-section-eyebrow">
+            <i class="fas fa-history" aria-hidden="true"></i>
+            Our Story
+          </div>
+          <h2 class="au-section-title" id="story-heading">
+            Why <span>Drilleedo</span> Was Created
+          </h2>
+          <p class="au-section-sub">
+            <strong>Finding a reliable renovation professional shouldn't be a gamble.</strong>
+            We saw firsthand the challenges homeowners face — uncertain quality, lack of transparent pricing, and no easy way to find verified experts who truly care.
+          </p>
+          <p class="au-section-sub mt-3">
+            Drilleedo was born to <strong>simplify this journey</strong>. We bridge the gap between ambitious home projects and the skilled professionals who bring them to life.
+          </p>
+          <ul class="au-feature-list">
+            <li class="au-feature-item">
+              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
+              All professionals verified and reviewed before listing
+            </li>
+            <li class="au-feature-item">
+              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
+              Transparent pricing — no hidden fees, ever
+            </li>
+            <li class="au-feature-item">
+              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
+              Free quotes from multiple qualified contractors
+            </li>
+            <li class="au-feature-item">
+              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
+              Dedicated support for every homeowner and professional
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="container">
-        {# 2. Section Our Story #}
-        <section class="about-section our-story animate-on-scroll">
-            <div class="about-card row g-0 align-items-center">
-                <div class="col-lg-6 p-5">
-                    <div class="text-content-wrapper">
-                        <h2 class="section-title">Why Drilleedo Was Created</h2>
-                        <p class="section-text">
-                            <strong>Finding a reliable renovation professional shouldn't be a gamble.</strong> We witnessed firsthand the challenges homeowners face: the uncertainty of quality, the lack of transparent pricing, and the difficulty of finding verified experts who truly care.
-                        </p>
-                        <p class="section-text">
-                            Drilleedo was born out of a desire to <strong>simplify this journey</strong>. We've built a platform that bridges the gap between ambitious home projects and the skilled hands that bring them to life. Our mission is to provide <strong>peace of mind through transparency and trust</strong>.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-6 px-lg-5 pb-5 pb-lg-0">
-                    <div class="card-image-wrapper expert-shadow">
-                        <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}" alt="Drilleedo professional team at work" class="img-fluid h-100 object-fit-cover rounded-3">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {# 3. Section Mission #}
-        <section class="about-section mission bg-light-blue animate-on-scroll">
-            <div class="about-card row g-0 align-items-center">
-                <div class="col-lg-6 order-lg-2 p-5 border-start-lg">
-                    <div class="text-content-wrapper">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="icon-badge me-3"><i class="fas fa-bullseye" aria-hidden="true"></i></div>
-                            <h2 class="section-title mb-0">Our Mission</h2>
-                        </div>
-                        <p class="section-text">
-                            <strong>Making Home Services Easier, Smarter & Reliable.</strong>
-                        </p>
-                        <p class="section-text">
-                            We are dedicated to providing a <strong>seamless experience</strong> for both homeowners and professionals, ensuring that every renovation project starts with confidence and ends with excellence.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-6 order-lg-1">
-                    <div class="card-image-wrapper expert-shadow">
-                        <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}" alt="Drilleedo Mission" class="img-fluid h-100 object-fit-cover">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {# 4. Section Vision #}
-        <section class="about-section vision animate-on-scroll">
-            <div class="about-card row g-0 align-items-center">
-                <div class="col-lg-6 p-5">
-                    <div class="text-content-wrapper">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="icon-badge me-3 accent-icon"><i class="fas fa-eye" aria-hidden="true"></i></div>
-                            <h2 class="section-title mb-0">Our Vision</h2>
-                        </div>
-                        <p class="section-text">
-                            <strong>Shaping the Future of Home Services.</strong>
-                        </p>
-                        <p class="section-text">
-                            To be the <strong>leading marketplace for home services in Canada</strong>, powered by innovative technology and driven by a community of trusted professionals and satisfied homeowners.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card-image-wrapper expert-shadow">
-                        <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}" alt="Drilleedo Vision" class="img-fluid h-100 object-fit-cover">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {# 6. Statistics (placed between Vision and Team as per instruction 6) #}
-        <section class="stats-section mb-5 animate-on-scroll">
-            <div class="row g-4 text-center">
-                <div class="col-md-4">
-                    <div class="stat-item">
-                        <i class="fas fa-lightbulb stat-icon mb-3 stat-blue" aria-hidden="true"></i>
-                        <h3 class="stat-number">30k+</h3>
-                        <p class="stat-label">Inspirations</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-item border-start border-end border-light">
-                        <i class="fas fa-hard-hat stat-icon mb-3 stat-green" aria-hidden="true"></i>
-                        <h3 class="stat-number">1.5k+</h3>
-                        <p class="stat-label">Professionals</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stat-item">
-                        <i class="fas fa-building stat-icon mb-3 stat-yellow" aria-hidden="true"></i>
-                        <h3 class="stat-number">800+</h3>
-                        <p class="stat-label">Companies</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {# 5. Section Team #}
-        <section class="team-section mb-5 mt-5">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Driven by Expertise and Innovation</h2>
-                <p class="section-subtitle">Meet the visionaries behind Drilleedo</p>
-            </div>
-            <div class="row g-4">
-                {# Profile 1 #}
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-card text-center">
-                        <div class="team-image-box">
-                            <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Gacem Laghouan" class="img-fluid">
-                        </div>
-                        <div class="team-info p-4">
-                            <h3 class="team-name">Gacem Laghouan</h3>
-                            <p class="team-role">Chief Operating Officer</p>
-                            <p class="team-bio">Leading our operations and ensuring excellence in every project we support.</p>
-                        </div>
-                    </div>
-                </div>
-                {# Profile 2 #}
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-card text-center">
-                        <div class="team-image-box">
-                            <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Rafaa Somai" class="img-fluid">
-                        </div>
-                        <div class="team-info p-4">
-                            <h3 class="team-name">Rafaa Somai</h3>
-                            <p class="team-role">Chief Business Officer</p>
-                            <p class="team-bio">Driving growth and building strategic partnerships across the industry.</p>
-                        </div>
-                    </div>
-                </div>
-                {# Profile 3 #}
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-card text-center">
-                        <div class="team-image-box">
-                            <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Oussama Ben Krima" class="img-fluid">
-                        </div>
-                        <div class="team-info p-4">
-                            <h3 class="team-name">Oussama Ben Krima</h3>
-                            <p class="team-role">Chief Technology Officer</p>
-                            <p class="team-bio">The architect of our platform, pushing the boundaries of technology in home services.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+{# ══════════════════════════════════════════════════════════════════════════
+   4. CORE VALUES
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-section au-section--gray au-scroll" aria-labelledby="values-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="au-section-eyebrow">
+        <i class="fas fa-gem" aria-hidden="true"></i>
+        What We Stand For
+      </div>
+      <h2 class="au-section-title" id="values-heading">Our Core Values</h2>
+      <p class="au-section-sub mx-auto">
+        Every decision we make is guided by these principles that define who we are.
+      </p>
     </div>
 
-    {# 7. Call-To-Action (CTA) #}
-    <section class="about-cta animate-on-scroll bg-light-blue">
-        <div class="container text-center">
-            <div class="text-content-wrapper m-auto">
-                <h2 class="cta-title">Ready to Start Your Next Home Project?</h2>
-                <p class="cta-subtitle mb-4">Connect with verified professionals and brands to bring your vision to life today.</p>
-                <div class="mt-4">
-                    <a href="{{ path('professionals_list') }}" class="rbt-btn btn-cta radius-round py-3 px-5 expert-btn">Explore Services</a>
-                </div>
-            </div>
+    <div class="au-values-grid">
+      <div class="au-val-card">
+        <div class="au-val-icon" style="background: linear-gradient(135deg,#0d2151,#1a3a6b);">
+          <i class="feather-shield" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-    </section>
+        <h3 class="au-val-title">Trust & Safety</h3>
+        <p class="au-val-desc">Every professional on our platform is manually verified and reviewed. Homeowners can hire with complete confidence.</p>
+      </div>
+      <div class="au-val-card">
+        <div class="au-val-icon" style="background: linear-gradient(135deg,#00509e,#2196f3);">
+          <i class="feather-eye" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+        </div>
+        <h3 class="au-val-title">Transparency</h3>
+        <p class="au-val-desc">No hidden fees, no surprises. Clear pricing, honest reviews, and open communication at every step.</p>
+      </div>
+      <div class="au-val-card">
+        <div class="au-val-icon" style="background: linear-gradient(135deg,#16a34a,#22c55e);">
+          <i class="feather-award" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+        </div>
+        <h3 class="au-val-title">Quality First</h3>
+        <p class="au-val-desc">We maintain rigorous standards for the professionals we list, ensuring every project is delivered to the highest quality.</p>
+      </div>
+      <div class="au-val-card">
+        <div class="au-val-icon" style="background: linear-gradient(135deg,#c73d0d,#e8501a);">
+          <i class="feather-zap" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+        </div>
+        <h3 class="au-val-title">Speed & Efficiency</h3>
+        <p class="au-val-desc">Get matched with the right professional fast. Most homeowners receive their first quote within 24 hours.</p>
+      </div>
+      <div class="au-val-card">
+        <div class="au-val-icon" style="background: linear-gradient(135deg,#7c3aed,#a855f7);">
+          <i class="feather-users" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+        </div>
+        <h3 class="au-val-title">Community</h3>
+        <p class="au-val-desc">We support both homeowners and professionals, building a thriving community around Canada's home improvement industry.</p>
+      </div>
+      <div class="au-val-card">
+        <div class="au-val-icon" style="background: linear-gradient(135deg,#0891b2,#06b6d4);">
+          <i class="feather-trending-up" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+        </div>
+        <h3 class="au-val-title">Innovation</h3>
+        <p class="au-val-desc">We constantly improve our platform with new tools and features to make home improvement easier, smarter, and more accessible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   5. MISSION & VISION
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-section au-scroll" aria-labelledby="mission-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="au-section-eyebrow">
+        <i class="fas fa-bullseye" aria-hidden="true"></i>
+        Mission & Vision
+      </div>
+      <h2 class="au-section-title" id="mission-heading">Driving the Future of Home Services</h2>
+    </div>
+    <div class="au-mv-grid">
+      <div class="au-mv-card au-mv-card--mission">
+        <i class="fas fa-bullseye au-mv-card__icon" aria-hidden="true"></i>
+        <div class="au-mv-card__label">Our Mission</div>
+        <h3 class="au-mv-card__title">Making Home Services Easier, Smarter & Reliable</h3>
+        <p class="au-mv-card__text">
+          We are dedicated to providing a seamless experience for both homeowners and professionals, ensuring every renovation project starts with confidence and ends with excellence. We believe every Canadian deserves access to quality, affordable home services.
+        </p>
+      </div>
+      <div class="au-mv-card au-mv-card--vision">
+        <i class="fas fa-eye au-mv-card__icon" aria-hidden="true"></i>
+        <div class="au-mv-card__label">Our Vision</div>
+        <h3 class="au-mv-card__title">Canada's #1 Marketplace for Home Services</h3>
+        <p class="au-mv-card__text">
+          To become the leading marketplace for home renovation and improvement services in Canada — powered by innovative technology, driven by a community of trusted professionals, and measured by the satisfaction of every homeowner we serve.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   6. WHY CHOOSE US (on dark navy bg)
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-section au-section--navy au-scroll" aria-labelledby="why-heading">
+  <div class="container">
+    <div class="row align-items-start g-5">
+      <div class="col-lg-5">
+        <div class="au-section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.2);">
+          <i class="fas fa-check-circle" aria-hidden="true"></i>
+          Why Drilleedo
+        </div>
+        <h2 class="au-section-title" id="why-heading" style="color:#fff;">
+          Why Thousands of Canadians <span style="color:#f97316;">Choose Us</span>
+        </h2>
+        <p class="au-section-sub" style="color:rgba(255,255,255,0.7);">
+          We go beyond connecting homeowners with contractors. We guarantee peace of mind from the first click to the final nail.
+        </p>
+        <div class="mt-4 d-flex gap-3 flex-wrap">
+          <a href="{{ path('professionals_list') }}" class="au-btn-primary">Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i></a>
+          <a href="{{ path('app_register') }}" class="au-btn-outline">Join as Pro</a>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="au-why-grid">
+          <div class="au-why-item">
+            <div class="au-why-ico"><i class="feather-check-circle" aria-hidden="true"></i></div>
+            <div>
+              <div class="au-why-name">100% Verified Pros</div>
+              <div class="au-why-desc">Every contractor is background-checked and manually reviewed before joining the platform.</div>
+            </div>
+          </div>
+          <div class="au-why-item">
+            <div class="au-why-ico"><i class="feather-file-text" aria-hidden="true"></i></div>
+            <div>
+              <div class="au-why-name">Free Quotes</div>
+              <div class="au-why-desc">Compare multiple quotes from verified professionals at no cost, no strings attached.</div>
+            </div>
+          </div>
+          <div class="au-why-item">
+            <div class="au-why-ico"><i class="feather-star" aria-hidden="true"></i></div>
+            <div>
+              <div class="au-why-name">Certified Reviews</div>
+              <div class="au-why-desc">Only verified clients can leave reviews, ensuring authenticity and reliability.</div>
+            </div>
+          </div>
+          <div class="au-why-item">
+            <div class="au-why-ico"><i class="feather-shield" aria-hidden="true"></i></div>
+            <div>
+              <div class="au-why-name">RBQ Insured</div>
+              <div class="au-why-desc">Professionals on our platform carry all required licenses and insurance for your protection.</div>
+            </div>
+          </div>
+          <div class="au-why-item">
+            <div class="au-why-ico"><i class="feather-clock" aria-hidden="true"></i></div>
+            <div>
+              <div class="au-why-name">Fast Response</div>
+              <div class="au-why-desc">Get your first quote within 24 hours from professionals available in your area.</div>
+            </div>
+          </div>
+          <div class="au-why-item">
+            <div class="au-why-ico"><i class="feather-headphones" aria-hidden="true"></i></div>
+            <div>
+              <div class="au-why-name">Dedicated Support</div>
+              <div class="au-why-desc">Our team is available to help homeowners and professionals at every stage of the project.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   7. TEAM
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-section au-section--blue au-scroll" aria-labelledby="team-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="au-section-eyebrow">
+        <i class="fas fa-users" aria-hidden="true"></i>
+        The Team
+      </div>
+      <h2 class="au-section-title" id="team-heading">Driven by Expertise &amp; Innovation</h2>
+      <p class="au-section-sub mx-auto">Meet the visionaries building Canada's most trusted renovation marketplace.</p>
+    </div>
+    <div class="au-team-grid">
+
+      <div class="au-team-card">
+        <div class="au-team-img">
+          <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Gacem Laghouan — Chief Operating Officer" loading="lazy">
+          <div class="au-team-overlay"></div>
+        </div>
+        <div class="au-team-body">
+          <div class="au-team-avatar" aria-hidden="true">GL</div>
+          <h3 class="au-team-name">Gacem Laghouan</h3>
+          <p class="au-team-role">Chief Operating Officer</p>
+          <p class="au-team-bio">Leading our operations and ensuring excellence in every project we support across Canada.</p>
+        </div>
+      </div>
+
+      <div class="au-team-card">
+        <div class="au-team-img">
+          <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Rafaa Somai — Chief Business Officer" loading="lazy">
+          <div class="au-team-overlay"></div>
+        </div>
+        <div class="au-team-body">
+          <div class="au-team-avatar" aria-hidden="true">RS</div>
+          <h3 class="au-team-name">Rafaa Somai</h3>
+          <p class="au-team-role">Chief Business Officer</p>
+          <p class="au-team-bio">Driving growth and building strategic partnerships across the home services industry.</p>
+        </div>
+      </div>
+
+      <div class="au-team-card">
+        <div class="au-team-img">
+          <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Oussama Ben Krima — Chief Technology Officer" loading="lazy">
+          <div class="au-team-overlay"></div>
+        </div>
+        <div class="au-team-body">
+          <div class="au-team-avatar" aria-hidden="true">OBK</div>
+          <h3 class="au-team-name">Oussama Ben Krima</h3>
+          <p class="au-team-role">Chief Technology Officer</p>
+          <p class="au-team-bio">The architect of our platform, pushing the boundaries of technology in home services.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   8. FAQ
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-section au-section--gray au-scroll" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="au-section-eyebrow">
+        <i class="feather-help-circle" aria-hidden="true"></i>
+        Questions
+      </div>
+      <h2 class="au-section-title" id="faq-heading">Frequently Asked Questions</h2>
+      <p class="au-section-sub mx-auto">Everything you need to know about Drilleedo.</p>
+    </div>
+
+    <div class="au-faq-list" role="list">
+
+      <div class="au-faq-item" role="listitem">
+        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
+          Is Drilleedo free to use for homeowners?
+          <span class="au-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="au-faq-body">
+          Yes, absolutely! Drilleedo is completely free for homeowners. You can post projects, compare professionals, and receive quotes at zero cost. We earn a small commission from professionals only when a project is successfully matched.
+        </div>
+      </div>
+
+      <div class="au-faq-item" role="listitem">
+        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
+          How are professionals verified on the platform?
+          <span class="au-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="au-faq-body">
+          Every professional goes through a manual verification process that includes identity check, license verification (RBQ where applicable), insurance confirmation, and a review of past work samples. Only then can they appear on the platform.
+        </div>
+      </div>
+
+      <div class="au-faq-item" role="listitem">
+        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
+          Can I compare multiple quotes before hiring?
+          <span class="au-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="au-faq-body">
+          Absolutely. In fact, we encourage it. When you post a project, qualified professionals in your area can send you quotes. You can review their profiles, ratings, and pricing before making any commitment.
+        </div>
+      </div>
+
+      <div class="au-faq-item" role="listitem">
+        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
+          What happens if I'm not satisfied with a professional?
+          <span class="au-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="au-faq-body">
+          Your satisfaction is our priority. If you experience any issues with a professional found on Drilleedo, our support team is available to mediate and help resolve disputes. All verified reviews are public and professionals are held to high standards.
+        </div>
+      </div>
+
+      <div class="au-faq-item" role="listitem">
+        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
+          How do I list my business on Drilleedo?
+          <span class="au-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="au-faq-body">
+          Simply create an account as a professional or company, complete your profile with your services and credentials, and submit for verification. Once approved, homeowners across Canada will be able to find and contact you directly.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   9. CTA
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="au-cta au-scroll" aria-labelledby="cta-heading">
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="text-center">
+      <div class="au-section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.2);margin-bottom:16px;display:inline-flex;">
+        <i class="fas fa-rocket" aria-hidden="true"></i>
+        Get Started Today
+      </div>
+      <h2 class="au-cta__title" id="cta-heading">Ready to Start Your Next Home Project?</h2>
+      <p class="au-cta__sub">Connect with verified professionals and bring your renovation vision to life. Free quotes, trusted experts, no commitment.</p>
+      <div>
+        <a href="{{ path('professionals_list') }}" class="au-btn-primary">
+          Find a Professional <i class="feather-arrow-right" aria-hidden="true"></i>
+        </a>
+        <a href="{{ path('app_register') }}" class="au-btn-outline">
+          Join as a Pro
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <script>
-    // Simple intersection observer for fade-in animations on scroll
-    document.addEventListener('DOMContentLoaded', function() {
-        const observerOptions = {
-            threshold: 0.1
-        };
+// FAQ accordion
+function auFaq(btn) {
+  const body  = btn.nextElementSibling;
+  const arrow = btn.querySelector('.au-faq-arrow');
+  const isOpen = body.classList.contains('open');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+  // Close all
+  document.querySelectorAll('.au-faq-body.open').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.au-faq-trigger.open').forEach(b => {
+    b.classList.remove('open');
+    b.setAttribute('aria-expanded', 'false');
+  });
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-    });
+  if (!isOpen) {
+    body.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+// Scroll animations
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.au-scroll').forEach(el => obs.observe(el));
 </script>
+
 {% endblock %}

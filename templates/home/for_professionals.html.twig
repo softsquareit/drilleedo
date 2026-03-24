@@ -1,41 +1,1196 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}For Professionals | Drilleedo{% endblock %}
+{% block title %}Grow Your Business with Drilleedo – List Your Renovation Services in Canada{% endblock %}
+{% block meta_description %}Join Canada's leading home renovation marketplace. List your professional services on Drilleedo and connect with thousands of homeowners looking for trusted contractors. Free to get started.{% endblock %}
 
 {% block body %}
 <main id="main-content">
-    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-inner text-center">
-                        <h2 class="title">For Professionals</h2>
-                        <ul class="page-list">
-                            <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                            <li>
-                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                            </li>
-                            <li class="rbt-breadcrumb-item active">For Professionals</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<style>
+/* ══ GROW YOUR BUSINESS PAGE ══════════════════════════════════════════════
+   Same design charter: navy #0d2151, blue #00509e, orange #e8501a
+   Patterns: eyebrow pills, gradient circles, card hover, feather+FA icons
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hero ── */
+.gyb-hero {
+  min-height: 360px;
+  background: linear-gradient(120deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.gyb-hero__pattern {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-4.5h5V30H15v-4h5v-5.5zm0 0V30H20v-4.5h5V30H15v-4h5v-5.5zM0 5h5v5H0V5zm15 0h5v5h-5V5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.gyb-hero::after {
+  content: '';
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,80,26,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.gyb-hero__inner {
+  position: relative;
+  z-index: 2;
+  padding: 70px 0;
+}
+
+.gyb-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.gyb-hero__title {
+  font-size: clamp(30px, 5vw, 54px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 16px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.gyb-hero__title span { color: #f97316; }
+
+.gyb-hero__sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.78);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.gyb-hero__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.gyb-btn-orange {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 14px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(232,80,26,0.4);
+  transition: background 0.18s, transform 0.15s;
+}
+.gyb-btn-orange:hover { background: #c43d10; transform: translateY(-2px); color: #fff; }
+
+.gyb-btn-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: background 0.15s, border-color 0.15s;
+}
+.gyb-btn-white:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.6); color: #fff; }
+
+/* Hero trust badges */
+.gyb-hero__trust {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  font-weight: 600;
+}
+.gyb-hero__trust span { display: flex; align-items: center; gap: 6px; }
+.gyb-hero__trust i   { color: #f97316; }
+
+/* Hero right card */
+.gyb-hero__card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 32px 28px;
+  backdrop-filter: blur(12px);
+}
+
+.gyb-hero__card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.gyb-prof-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.gyb-prof-stat__ico {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.gyb-prof-stat__num {
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.gyb-prof-stat__lbl {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 2px;
+}
+
+/* ── 2. Stats strip ── */
+.gyb-strip {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(13,33,81,0.05);
+}
+
+.gyb-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.gyb-strip__cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 18px;
+  border-right: 1px solid #f1f5f9;
+}
+
+.gyb-strip__cell:last-child { border-right: none; }
+
+.gyb-strip__ico {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.gyb-strip__num {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0d2151;
+  line-height: 1;
+}
+
+.gyb-strip__lbl {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ── 3. Common section utilities ── */
+.gyb-section { padding: 80px 0; }
+.gyb-section--gray { background: #f8fafc; }
+.gyb-section--blue { background: linear-gradient(170deg, #f0f6ff 0%, #e8eeff 100%); }
+
+.gyb-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8f4fd;
+  color: #00509e;
+  border: 1px solid rgba(0,80,158,0.18);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.gyb-section-title {
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 900;
+  color: #1e293b;
+  margin: 0 0 14px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.gyb-section-title span { color: #00509e; }
+
+.gyb-section-sub {
+  font-size: 16px;
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── 4. How to Join — Steps ── */
+.gyb-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 52px;
+  position: relative;
+}
+
+.gyb-steps::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: calc(12.5% + 28px);
+  right: calc(12.5% + 28px);
+  height: 2px;
+  background: repeating-linear-gradient(90deg, #bfdbfe 0, #bfdbfe 8px, transparent 8px, transparent 16px);
+}
+
+.gyb-step {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 20px 24px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+}
+
+.gyb-step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(13,33,81,0.1);
+  border-color: #bfdbfe;
+}
+
+.gyb-step__num {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: #fff;
+  border: 3px solid #f8fafc;
+  box-shadow: 0 2px 8px rgba(13,33,81,0.18);
+}
+
+.gyb-step:nth-child(1) .gyb-step__num { background: #0d2151; }
+.gyb-step:nth-child(2) .gyb-step__num { background: #00509e; }
+.gyb-step:nth-child(3) .gyb-step__num { background: #16a34a; }
+.gyb-step:nth-child(4) .gyb-step__num { background: #e8501a; }
+
+.gyb-step__ico {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin: 0 auto 18px;
+  transition: transform 0.22s;
+}
+
+.gyb-step:hover .gyb-step__ico { transform: scale(1.1) rotate(-4deg); }
+
+.gyb-step:nth-child(1) .gyb-step__ico { background: linear-gradient(135deg,#0d2151,#1a3a6b); color:#fff; }
+.gyb-step:nth-child(2) .gyb-step__ico { background: linear-gradient(135deg,#00509e,#2196f3); color:#fff; }
+.gyb-step:nth-child(3) .gyb-step__ico { background: linear-gradient(135deg,#16a34a,#22c55e); color:#fff; }
+.gyb-step:nth-child(4) .gyb-step__ico { background: linear-gradient(135deg,#c73d0d,#e8501a); color:#fff; }
+
+.gyb-step__chip {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.gyb-step__title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 8px;
+}
+
+.gyb-step__desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── 5. Benefits grid ── */
+.gyb-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.gyb-benefit-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 22px;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.gyb-benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(13,33,81,0.1);
+}
+
+.gyb-benefit-ico {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.gyb-benefit-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 10px;
+}
+
+.gyb-benefit-desc {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── 6. Pricing ── */
+.gyb-plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 52px;
+}
+
+.gyb-plan {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.gyb-plan:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(13,33,81,0.14);
+}
+
+.gyb-plan--popular {
+  border-color: #00509e;
+  box-shadow: 0 8px 32px rgba(0,80,158,0.15);
+}
+
+.gyb-plan__popular-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+}
+
+.gyb-plan__head {
+  padding: 30px 26px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.gyb-plan--popular .gyb-plan__head {
+  background: linear-gradient(135deg, #0d2151, #1a3a6b);
+}
+
+.gyb-plan__name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.gyb-plan--popular .gyb-plan__name { color: rgba(255,255,255,0.65); }
+
+.gyb-plan__price {
+  font-size: 38px;
+  font-weight: 900;
+  color: #0d2151;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.gyb-plan--popular .gyb-plan__price { color: #fff; }
+
+.gyb-plan__price-note {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.gyb-plan--popular .gyb-plan__price-note { color: rgba(255,255,255,0.55); }
+
+.gyb-plan__body { padding: 24px 26px; }
+
+.gyb-plan__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gyb-plan__feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #334155;
+  font-weight: 500;
+}
+
+.gyb-plan__feature i { color: #16a34a; font-size: 14px; }
+.gyb-plan__feature .gyb-no { color: #e2e8f0; }
+
+.gyb-plan__cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 13px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.18s;
+}
+
+.gyb-plan--basic .gyb-plan__cta {
+  background: #f1f5f9;
+  color: #0d2151;
+  border: 1.5px solid #e2e8f0;
+}
+
+.gyb-plan--basic .gyb-plan__cta:hover { background: #e2e8f0; color: #0d2151; }
+
+.gyb-plan--popular .gyb-plan__cta {
+  background: #e8501a;
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(232,80,26,0.28);
+}
+
+.gyb-plan--popular .gyb-plan__cta:hover { background: #c43d10; color: #fff; }
+
+.gyb-plan--enterprise .gyb-plan__cta {
+  background: #0d2151;
+  color: #fff;
+  border: none;
+}
+
+.gyb-plan--enterprise .gyb-plan__cta:hover { background: #00509e; color: #fff; }
+
+/* ── 7. Testimonials (pros) ── */
+.gyb-testimonials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.gyb-testimonial {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px 20px;
+  transition: box-shadow 0.22s;
+}
+
+.gyb-testimonial:hover { box-shadow: 0 8px 28px rgba(13,33,81,0.1); }
+
+.gyb-testimonial__stars {
+  display: flex;
+  gap: 2px;
+  color: #f59e0b;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.gyb-testimonial__text {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.75;
+  font-style: italic;
+  margin-bottom: 18px;
+}
+
+.gyb-testimonial__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gyb-testimonial__ava {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d2151, #00509e);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gyb-testimonial__name { font-size: 14px; font-weight: 800; color: #0d2151; }
+.gyb-testimonial__role { font-size: 12px; color: #64748b; }
+
+/* ── 8. FAQ ── */
+.gyb-faq-list {
+  max-width: 780px;
+  margin: 40px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gyb-faq-item {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.gyb-faq-btn {
+  width: 100%;
+  text-align: left;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0d2151;
+  transition: background 0.15s;
+}
+
+.gyb-faq-btn:hover { background: #f8fafc; }
+.gyb-faq-btn.open { color: #00509e; }
+
+.gyb-faq-arrow {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: transform 0.2s, background 0.15s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.gyb-faq-btn.open .gyb-faq-arrow { transform: rotate(45deg); background: #00509e; color: #fff; }
+
+.gyb-faq-body {
+  display: none;
+  padding: 0 22px 18px;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.75;
+}
+
+.gyb-faq-body.open { display: block; }
+
+/* ── 9. Final CTA ── */
+.gyb-final-cta {
+  background: linear-gradient(120deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
+  padding: 90px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gyb-final-cta::before {
+  content: '';
+  position: absolute;
+  left: -120px; bottom: -120px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.gyb-final-cta__title {
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 14px;
+  line-height: 1.15;
+}
+
+.gyb-final-cta__sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.73);
+  max-width: 550px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .gyb-plans { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .gyb-benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .gyb-testimonials { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .gyb-steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .gyb-steps::before { display: none; }
+  .gyb-strip__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .gyb-steps { grid-template-columns: 1fr; }
+  .gyb-benefits-grid { grid-template-columns: 1fr; }
+  .gyb-section { padding: 54px 0; }
+  .gyb-hero__card { display: none; }
+}
+
+/* Scroll animations */
+.gyb-scroll { opacity: 0; transform: translateY(22px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.gyb-scroll.visible { opacity: 1; transform: none; }
+</style>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-hero" aria-labelledby="gyb-hero-title">
+  <div class="gyb-hero__pattern"></div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="gyb-hero__inner">
+          <div class="gyb-eyebrow">
+            <i class="fas fa-rocket" aria-hidden="true"></i>
+            For Professionals
+          </div>
+          <h1 class="gyb-hero__title" id="gyb-hero-title">
+            Grow Your Business<br>with <span>Drilleedo</span>
+          </h1>
+          <p class="gyb-hero__sub">
+            Join Canada's #1 home renovation marketplace. Connect with thousands of homeowners actively looking for verified contractors — no cold calls, no marketing budget needed.
+          </p>
+          <div class="gyb-hero__actions">
+            <a href="{{ path('app_register') }}" class="gyb-btn-orange">
+              Get Started Free <i class="feather-arrow-right" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('professionals_list') }}" class="gyb-btn-white">
+              See How It Works
+            </a>
+          </div>
+          <div class="gyb-hero__trust">
+            <span><i class="feather-check-circle" aria-hidden="true"></i> Free to join</span>
+            <span><i class="feather-users"        aria-hidden="true"></i> 10,000+ homeowners</span>
+            <span><i class="feather-star"         aria-hidden="true"></i> Verified reviews</span>
+          </div>
         </div>
-    </div>
-    
-    <div class="rbt-about-area about-style-1 bg-color-white rbt-section-gap">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-12">
-                    <div class="inner pl--50 pl_sm--0 pl_md--0">
-                        <div class="section-title text-start">
-                            <h3 class="title">Coming Soon: For Professionals</h3>
-                            <p class="description mt--20">We are currently building this page. Please check back later.</p>
-                        </div>
-                    </div>
-                </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="gyb-hero__card">
+          <div class="gyb-hero__card-title">📊 Platform at a Glance</div>
+          <div class="gyb-prof-stat">
+            <div class="gyb-prof-stat__ico">👥</div>
+            <div>
+              <div class="gyb-prof-stat__num">10,000+</div>
+              <div class="gyb-prof-stat__lbl">Active Homeowners</div>
             </div>
+          </div>
+          <div class="gyb-prof-stat">
+            <div class="gyb-prof-stat__ico">📋</div>
+            <div>
+              <div class="gyb-prof-stat__num">35,000+</div>
+              <div class="gyb-prof-stat__lbl">Projects Posted</div>
+            </div>
+          </div>
+          <div class="gyb-prof-stat">
+            <div class="gyb-prof-stat__ico">💰</div>
+            <div>
+              <div class="gyb-prof-stat__num">$2,800</div>
+              <div class="gyb-prof-stat__lbl">Avg. Project Value</div>
+            </div>
+          </div>
+          <div class="gyb-prof-stat">
+            <div class="gyb-prof-stat__ico">⚡</div>
+            <div>
+              <div class="gyb-prof-stat__num">&lt; 24h</div>
+              <div class="gyb-prof-stat__lbl">Average Lead Time</div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</section>
+
+{# ── Stats strip ── #}
+<div class="gyb-strip">
+  <div class="gyb-strip__grid">
+    <div class="gyb-strip__cell">
+      <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#0d2151,#1a3a6b);color:#fff;">
+        <i class="fas fa-hard-hat" aria-hidden="true"></i>
+      </div>
+      <div>
+        <div class="gyb-strip__num">1,500+</div>
+        <div class="gyb-strip__lbl">Active Professionals</div>
+      </div>
+    </div>
+    <div class="gyb-strip__cell">
+      <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#00509e,#2196f3);color:#fff;">
+        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+      </div>
+      <div>
+        <div class="gyb-strip__num">35,000+</div>
+        <div class="gyb-strip__lbl">Projects Completed</div>
+      </div>
+    </div>
+    <div class="gyb-strip__cell">
+      <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;">
+        <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+      </div>
+      <div>
+        <div class="gyb-strip__num">$2,800</div>
+        <div class="gyb-strip__lbl">Avg. Contract Value</div>
+      </div>
+    </div>
+    <div class="gyb-strip__cell">
+      <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#c73d0d,#e8501a);color:#fff;">
+        <i class="fas fa-star" aria-hidden="true"></i>
+      </div>
+      <div>
+        <div class="gyb-strip__num">4.8 / 5</div>
+        <div class="gyb-strip__lbl">Professional Rating</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   2. HOW TO JOIN — 4 STEPS
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section gyb-section--blue gyb-scroll" aria-labelledby="join-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="gyb-section-eyebrow">
+        <i class="fas fa-list-ol" aria-hidden="true"></i>
+        Getting Started
+      </div>
+      <h2 class="gyb-section-title" id="join-heading">List Your Business in <span>4 Simple Steps</span></h2>
+      <p class="gyb-section-sub mx-auto">From signup to receiving your first project lead in minutes — no technical knowledge required.</p>
+    </div>
+
+    <div class="gyb-steps" role="list">
+      <div class="gyb-step" role="listitem">
+        <span class="gyb-step__num" aria-label="Step 1">1</span>
+        <div class="gyb-step__ico"><i class="feather-user-plus" aria-hidden="true"></i></div>
+        <span class="gyb-step__chip">Step 01</span>
+        <h3 class="gyb-step__title">Create Your Account</h3>
+        <p class="gyb-step__desc">Sign up free in under 2 minutes. Enter your name, email, and professional category.</p>
+      </div>
+      <div class="gyb-step" role="listitem">
+        <span class="gyb-step__num" aria-label="Step 2">2</span>
+        <div class="gyb-step__ico"><i class="feather-edit-2" aria-hidden="true"></i></div>
+        <span class="gyb-step__chip">Step 02</span>
+        <h3 class="gyb-step__title">Build Your Profile</h3>
+        <p class="gyb-step__desc">Add your services, portfolio, certifications, and service zone to stand out from the crowd.</p>
+      </div>
+      <div class="gyb-step" role="listitem">
+        <span class="gyb-step__num" aria-label="Step 3">3</span>
+        <div class="gyb-step__ico"><i class="feather-shield" aria-hidden="true"></i></div>
+        <span class="gyb-step__chip">Step 03</span>
+        <h3 class="gyb-step__title">Get Verified</h3>
+        <p class="gyb-step__desc">Our team reviews your credentials and licenses. Verified profiles receive priority in search results.</p>
+      </div>
+      <div class="gyb-step" role="listitem">
+        <span class="gyb-step__num" aria-label="Step 4">4</span>
+        <div class="gyb-step__ico"><i class="feather-briefcase" aria-hidden="true"></i></div>
+        <span class="gyb-step__chip">Step 04</span>
+        <h3 class="gyb-step__title">Receive Project Leads</h3>
+        <p class="gyb-step__desc">Homeowners find your profile, request quotes, and contact you directly — you control your pipeline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   3. BENEFITS
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section gyb-scroll" aria-labelledby="benefits-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="gyb-section-eyebrow">
+        <i class="fas fa-gem" aria-hidden="true"></i>
+        Benefits
+      </div>
+      <h2 class="gyb-section-title" id="benefits-heading">Everything You Need to <span>Win More Clients</span></h2>
+      <p class="gyb-section-sub mx-auto">Drilleedo gives you the tools to grow your renovation business without the usual headaches.</p>
+    </div>
+
+    <div class="gyb-benefits-grid">
+      <div class="gyb-benefit-card">
+        <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#0d2151,#1a3a6b);">
+          <i class="feather-users" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <h3 class="gyb-benefit-title">Targeted Leads</h3>
+        <p class="gyb-benefit-desc">Receive project leads from homeowners in your specific service area and trade category — no junk contacts.</p>
+      </div>
+      <div class="gyb-benefit-card">
+        <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#00509e,#2196f3);">
+          <i class="feather-trending-up" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <h3 class="gyb-benefit-title">Increased Visibility</h3>
+        <p class="gyb-benefit-desc">Your public profile appears in search results across Canada, building your online presence automatically.</p>
+      </div>
+      <div class="gyb-benefit-card">
+        <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);">
+          <i class="feather-star" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <h3 class="gyb-benefit-title">Verified Reviews</h3>
+        <p class="gyb-benefit-desc">Collect authentic reviews from your clients. A strong rating profile is your best sales tool.</p>
+      </div>
+      <div class="gyb-benefit-card">
+        <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#c73d0d,#e8501a);">
+          <i class="feather-layers" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <h3 class="gyb-benefit-title">Portfolio Showcase</h3>
+        <p class="gyb-benefit-desc">Upload photos of your best projects. A visual portfolio converts visitors into clients faster than any description.</p>
+      </div>
+      <div class="gyb-benefit-card">
+        <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">
+          <i class="feather-message-circle" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <h3 class="gyb-benefit-title">Direct Messaging</h3>
+        <p class="gyb-benefit-desc">Homeowners contact you directly through the platform. No intermediary, no delays, no commissions on contact.</p>
+      </div>
+      <div class="gyb-benefit-card">
+        <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#0891b2,#06b6d4);">
+          <i class="feather-bar-chart-2" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <h3 class="gyb-benefit-title">Dashboard Analytics</h3>
+        <p class="gyb-benefit-desc">Track views, leads, and quote requests on your personal dashboard. Understand what's working and grow strategically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   4. PRICING PLANS
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section gyb-section--gray gyb-scroll" aria-labelledby="pricing-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="gyb-section-eyebrow">
+        <i class="fas fa-tag" aria-hidden="true"></i>
+        Pricing
+      </div>
+      <h2 class="gyb-section-title" id="pricing-heading">Simple, <span>Transparent</span> Pricing</h2>
+      <p class="gyb-section-sub mx-auto">Start free and upgrade as you grow. No long-term contracts, cancel anytime.</p>
+    </div>
+
+    <div class="gyb-plans">
+      {# Free #}
+      <div class="gyb-plan gyb-plan--basic">
+        <div class="gyb-plan__head">
+          <div class="gyb-plan__name">Starter</div>
+          <div class="gyb-plan__price">Free</div>
+          <div class="gyb-plan__price-note">Forever, no credit card</div>
+        </div>
+        <div class="gyb-plan__body">
+          <ul class="gyb-plan__features">
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Public profile listing</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Up to 3 portfolio photos</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Receive quote requests</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Customer reviews</li>
+            <li class="gyb-plan__feature gyb-no"><i class="feather-x" aria-hidden="true"></i> Priority in search results</li>
+            <li class="gyb-plan__feature gyb-no"><i class="feather-x" aria-hidden="true"></i> Verified badge</li>
+            <li class="gyb-plan__feature gyb-no"><i class="feather-x" aria-hidden="true"></i> Analytics dashboard</li>
+          </ul>
+          <a href="{{ path('app_register') }}" class="gyb-plan__cta">Get Started Free</a>
+        </div>
+      </div>
+
+      {# Pro — Popular #}
+      <div class="gyb-plan gyb-plan--popular">
+        <div class="gyb-plan__popular-badge">Most Popular</div>
+        <div class="gyb-plan__head">
+          <div class="gyb-plan__name">Professional</div>
+          <div class="gyb-plan__price">$29<span style="font-size:18px;font-weight:600;">/mo</span></div>
+          <div class="gyb-plan__price-note">Billed monthly</div>
+        </div>
+        <div class="gyb-plan__body">
+          <ul class="gyb-plan__features">
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Everything in Starter</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Unlimited portfolio photos</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Priority in search results</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> ✅ Verified badge</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Analytics dashboard</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Featured on homepage</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Direct leads — no limits</li>
+          </ul>
+          <a href="{{ path('app_register') }}" class="gyb-plan__cta">Start 14-Day Free Trial</a>
+        </div>
+      </div>
+
+      {# Enterprise #}
+      <div class="gyb-plan gyb-plan--enterprise">
+        <div class="gyb-plan__head">
+          <div class="gyb-plan__name">Company</div>
+          <div class="gyb-plan__price">$79<span style="font-size:18px;font-weight:600;">/mo</span></div>
+          <div class="gyb-plan__price-note">For teams & companies</div>
+        </div>
+        <div class="gyb-plan__body">
+          <ul class="gyb-plan__features">
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Everything in Professional</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Company profile page</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Multiple team members</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Advanced analytics</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Dedicated account manager</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Custom service zones</li>
+            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Priority support</li>
+          </ul>
+          <a href="{{ path('app_register') }}" class="gyb-plan__cta">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   5. PRO TESTIMONIALS
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section gyb-scroll" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="gyb-section-eyebrow">
+        <i class="fas fa-quote-left" aria-hidden="true"></i>
+        Success Stories
+      </div>
+      <h2 class="gyb-section-title" id="testimonials-heading">What Professionals Say About <span>Drilleedo</span></h2>
+    </div>
+    <div class="gyb-testimonials">
+      <div class="gyb-testimonial">
+        <div class="gyb-testimonial__stars">★★★★★</div>
+        <p class="gyb-testimonial__text">"Since joining Drilleedo, I've tripled my monthly bookings. The leads are high-quality and the verification badge really builds trust with new clients."</p>
+        <div class="gyb-testimonial__author">
+          <div class="gyb-testimonial__ava" aria-hidden="true">MC</div>
+          <div>
+            <div class="gyb-testimonial__name">Marc Côté</div>
+            <div class="gyb-testimonial__role">Plumber · Montréal</div>
+          </div>
+        </div>
+      </div>
+      <div class="gyb-testimonial">
+        <div class="gyb-testimonial__stars">★★★★★</div>
+        <p class="gyb-testimonial__text">"I used to spend thousands on ads. Now Drilleedo sends me 8–10 qualified leads per week at a fraction of the cost. Best ROI I've ever seen."</p>
+        <div class="gyb-testimonial__author">
+          <div class="gyb-testimonial__ava" aria-hidden="true">SL</div>
+          <div>
+            <div class="gyb-testimonial__name">Sophie Lafleur</div>
+            <div class="gyb-testimonial__role">Interior Designer · Toronto</div>
+          </div>
+        </div>
+      </div>
+      <div class="gyb-testimonial">
+        <div class="gyb-testimonial__stars">★★★★★</div>
+        <p class="gyb-testimonial__text">"The platform is easy to use, the support team is responsive, and clients can see my full portfolio before calling. It's a game-changer for my business."</p>
+        <div class="gyb-testimonial__author">
+          <div class="gyb-testimonial__ava" aria-hidden="true">JT</div>
+          <div>
+            <div class="gyb-testimonial__name">Jean Tremblay</div>
+            <div class="gyb-testimonial__role">General Contractor · Québec City</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   6. FAQ
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section gyb-section--gray gyb-scroll" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="text-center">
+      <div class="gyb-section-eyebrow">
+        <i class="feather-help-circle" aria-hidden="true"></i>
+        FAQ
+      </div>
+      <h2 class="gyb-section-title" id="faq-heading">Questions from Professionals</h2>
+    </div>
+
+    <div class="gyb-faq-list" role="list">
+      <div class="gyb-faq-item" role="listitem">
+        <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
+          How much does it cost to list my business?
+          <span class="gyb-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="gyb-faq-body">Creating a Starter profile on Drilleedo is completely free and has no time limit. You can receive quote requests and reviews without paying anything. Our Professional plan at $29/month unlocks priority listing, the verified badge, and advanced analytics.</div>
+      </div>
+      <div class="gyb-faq-item" role="listitem">
+        <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
+          Do I pay a commission on every project I win?
+          <span class="gyb-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="gyb-faq-body">No. Drilleedo operates on a subscription model, not a commission model. Once a homeowner contacts you and you agree on a project, 100% of the contract value is yours. We never take a cut of your earnings.</div>
+      </div>
+      <div class="gyb-faq-item" role="listitem">
+        <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
+          How long does the verification process take?
+          <span class="gyb-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="gyb-faq-body">Most verification reviews are completed within 1–3 business days. You'll need to provide a valid government ID, your RBQ license number (if applicable), and proof of liability insurance. Once verified, the badge appears on your profile immediately.</div>
+      </div>
+      <div class="gyb-faq-item" role="listitem">
+        <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
+          Can I control which types of projects I receive?
+          <span class="gyb-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="gyb-faq-body">Yes. During profile setup you define your service categories, service zone radius, and the types of projects you accept. Homeowners who match your criteria will be able to find and contact you — you're always in control.</div>
+      </div>
+      <div class="gyb-faq-item" role="listitem">
+        <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
+          Do I need a website or portfolio to get started?
+          <span class="gyb-faq-arrow" aria-hidden="true">+</span>
+        </button>
+        <div class="gyb-faq-body">Not at all. Your Drilleedo profile acts as your professional website. You can upload project photos, write a bio, list your services, and collect reviews — all within the platform. Many professionals use Drilleedo as their primary online presence.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   7. FINAL CTA
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-final-cta gyb-scroll" aria-labelledby="final-cta-heading">
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="gyb-eyebrow" style="justify-content:center;display:inline-flex;margin-bottom:20px;">
+      <i class="fas fa-rocket" aria-hidden="true"></i>
+      Join 1,500+ Professionals
+    </div>
+    <h2 class="gyb-final-cta__title" id="final-cta-heading">
+      Ready to Grow Your Renovation Business?
+    </h2>
+    <p class="gyb-final-cta__sub">
+      Create your free profile today and start receiving leads from homeowners across Canada — no credit card required.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{{ path('app_register') }}" class="gyb-btn-orange">
+        Create Free Profile <i class="feather-arrow-right" aria-hidden="true"></i>
+      </a>
+      <a href="{{ path('professionals_list') }}" class="gyb-btn-white">
+        Browse Professionals
+      </a>
+    </div>
+  </div>
+</section>
+
 </main>
+
+<script>
+// FAQ accordion
+function gybFaq(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.gyb-faq-body.open').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.gyb-faq-btn.open').forEach(b => { b.classList.remove('open'); b.setAttribute('aria-expanded','false'); });
+  if (!isOpen) { body.classList.add('open'); btn.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.gyb-scroll').forEach(el => obs.observe(el));
+</script>
 {% endblock %}
