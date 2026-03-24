@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction Nova Plus – Drilleedo</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   DRILLEEDO DESIGN SYSTEM — Brand-accurate
+   ══════════════════════════════════════════ */
+:root {
+  /* Brand palette from screenshots */
+  --navy:        #0d2151;
+  --navy-mid:    #1a3a6b;
+  --blue:        #1976d2;
+  --blue-light:  #2196f3;
+  --blue-pale:   #e8f4fd;
+  --cyan:        #00b4d8;
+  --orange:      #e8501a;
+  --orange-pale: #fff3ef;
+  --green:       #16a34a;
+  --green-pale:  #e8faf1;
+  --gold:        #f59e0b;
+  --white:       #ffffff;
+  --bg:          #f0f6ff;
+  --bg-section:  #e8f0fb;
+  --gray-50:     #f8fafc;
+  --gray-100:    #f1f5f9;
+  --gray-200:    #e2e8f0;
+  --gray-400:    #94a3b8;
+  --gray-600:    #64748b;
+  --text:        #0d2151;
+
+  --radius:    12px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --shadow:    0 2px 12px rgba(13,33,81,0.08);
+  --shadow-md: 0 4px 24px rgba(13,33,81,0.12);
+  --shadow-lg: 0 8px 40px rgba(13,33,81,0.16);
+
+  --font-head: 'Nunito', sans-serif;
+  --font-body: 'Nunito Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--text); background: var(--bg); font-size: 15px; }
+
+/* ══ NAVBAR ══ */
+.navbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 1px 8px rgba(13,33,81,0.07);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 64px; gap: 24px;
+}
+.logo {
+  font-family: var(--font-head);
+  font-size: 22px; font-weight: 900;
+  color: var(--navy); text-decoration: none;
+  display: flex; flex-direction: column; line-height: 1;
+}
+.logo span { color: var(--blue-light); }
+.logo-tagline { font-size: 10px; font-weight: 400; color: var(--gray-400); letter-spacing: 0.04em; margin-top: 1px; }
+
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-links a {
+  font-family: var(--font-head); font-size: 14px; font-weight: 600;
+  color: var(--navy); text-decoration: none;
+  padding: 8px 12px; border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  display: flex; align-items: center; gap: 4px;
+}
+.nav-links a:hover { background: var(--blue-pale); color: var(--blue); }
+.nav-links a svg { opacity: 0.6; }
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.btn-login {
+  font-family: var(--font-head); font-size: 14px; font-weight: 700;
+  color: var(--navy); background: none; border: none; cursor: pointer;
+  padding: 8px 14px; border-radius: 8px; transition: background 0.15s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-login:hover { background: var(--gray-100); }
+.btn-signup {
+  font-family: var(--font-head); font-size: 14px; font-weight: 700;
+  color: var(--white); background: var(--navy);
+  border: none; cursor: pointer;
+  padding: 9px 18px; border-radius: 8px;
+  display: flex; align-items: center; gap: 6px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 10px rgba(13,33,81,0.2);
+}
+.btn-signup:hover { background: var(--blue); transform: translateY(-1px); }
+
+/* ══ BREADCRUMB ══ */
+.breadcrumb-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 10px 28px;
+}
+.breadcrumb-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--gray-600);
+}
+.breadcrumb-inner a { color: var(--blue); text-decoration: none; font-weight: 600; }
+.breadcrumb-inner a:hover { text-decoration: underline; }
+.breadcrumb-inner span { color: var(--gray-400); }
+.breadcrumb-inner .current { color: var(--navy); font-weight: 700; }
+
+/* ══ HERO ══ */
+.hero-banner {
+  height: 200px;
+  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-mid) 45%, var(--blue) 100%);
+  position: relative; overflow: hidden;
+}
+.hero-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=75') center/cover;
+  opacity: 0.22;
+}
+.hero-banner::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(13,33,81,0.7) 0%, rgba(13,33,81,0.2) 60%, transparent 100%);
+}
+/* geometric accent */
+.hero-banner::before { filter: brightness(0.8); }
+
+/* ══ WRAPPER ══ */
+.page { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+/* ══ PROFILE HEADER CARD ══ */
+.profile-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-top: -60px;
+  position: relative; z-index: 10;
+  overflow: visible;
+  border: 1px solid var(--gray-200);
+}
+.profile-top {
+  display: flex; align-items: flex-start; gap: 24px;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.avatar-wrap {
+  flex-shrink: 0; margin-top: -50px;
+  position: relative;
+}
+.avatar-img {
+  width: 130px; height: 130px; border-radius: 50%;
+  border: 5px solid var(--white);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--navy-mid), var(--blue-light));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-size: 46px; font-weight: 900;
+  color: var(--white);
+  overflow: hidden;
+}
+.avatar-img img { width: 100%; height: 100%; object-fit: cover; }
+.verified-dot {
+  position: absolute; bottom: 6px; right: 4px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--green); border: 3px solid var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+
+.profile-info { flex: 1; min-width: 0; }
+.company-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 5px; }
+.company-name {
+  font-family: var(--font-head);
+  font-size: 26px; font-weight: 900; color: var(--navy);
+}
+.fast-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fff8e1; color: #b45309;
+  font-family: var(--font-head); font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px; border: 1px solid #fcd34d;
+}
+.category-row {
+  font-size: 14px; color: var(--gray-600); margin-bottom: 10px;
+  font-weight: 600;
+}
+.rating-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.stars-row { display: flex; gap: 2px; }
+.stars-row svg { fill: var(--gold); }
+.rating-num { font-family: var(--font-head); font-size: 17px; font-weight: 800; color: var(--navy); }
+.rating-cnt { font-size: 13px; color: var(--gray-400); }
+.badges-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-head); font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+}
+.chip-green { background: var(--green-pale); color: var(--green); border: 1px solid #bbf7d0; }
+.chip-blue  { background: var(--blue-pale); color: var(--blue); border: 1px solid #bfdbfe; }
+.chip-orange{ background: var(--orange-pale); color: var(--orange); border: 1px solid #fed7aa; }
+
+.profile-cta { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; flex-shrink: 0; }
+.btn-contact {
+  font-family: var(--font-head); font-size: 15px; font-weight: 800;
+  background: var(--orange); color: var(--white);
+  border: none; border-radius: 10px;
+  padding: 13px 28px; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(232,80,26,0.3);
+  white-space: nowrap;
+}
+.btn-contact:hover { background: #c43d10; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,80,26,0.38); }
+.phone-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--white); border: 1.5px solid var(--gray-200);
+  border-radius: 10px; padding: 10px 16px;
+  font-family: var(--font-head); font-size: 14px; font-weight: 700;
+  color: var(--navy); cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
+  box-shadow: var(--shadow);
+}
+.phone-btn:hover { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(25,118,210,0.1); }
+
+/* ══ STATS STRIP ══ */
+.stats-strip {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--gray-100);
+}
+.stat-cell {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 20px;
+  border-right: 1px solid var(--gray-100);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-ico {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--blue-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.stat-label { font-size: 11px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-val { font-family: var(--font-head); font-size: 14px; font-weight: 800; color: var(--navy); margin-top: 1px; }
+
+/* ══ MAIN LAYOUT ══ */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 22px;
+  padding: 22px 0 40px;
+  align-items: start;
+}
+
+/* ══ LEFT ══ */
+.left-col { display: flex; flex-direction: column; gap: 18px; }
+
+/* ══ SECTION CARD ══ */
+.s-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+.s-head {
+  padding: 18px 22px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.s-title {
+  font-family: var(--font-head);
+  font-size: 17px; font-weight: 800; color: var(--navy);
+  display: flex; align-items: center; gap: 8px;
+}
+.s-title-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--blue-light);
+}
+.s-link { font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: none; }
+.s-link:hover { text-decoration: underline; }
+.s-body { padding: 16px 22px 20px; }
+
+/* ══ PRESENTATION GRID ══ */
+.pres-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pres-item {
+  border-radius: var(--radius-sm); overflow: hidden;
+  position: relative; aspect-ratio: 4/3;
+  background: var(--gray-100); cursor: pointer;
+}
+.pres-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
+.pres-item:hover img { transform: scale(1.06); }
+.pres-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(13,33,81,0.82));
+  padding: 24px 12px 10px;
+  color: var(--white); font-family: var(--font-head); font-size: 13px; font-weight: 700;
+}
+
+/* ══ REVIEWS ══ */
+.review-summary { display: flex; gap: 24px; align-items: center; margin-bottom: 20px; }
+.big-num {
+  font-family: var(--font-head); font-size: 56px; font-weight: 900;
+  color: var(--navy); line-height: 1;
+}
+.big-stars { display: flex; gap: 3px; margin: 4px 0; }
+.big-stars svg { fill: var(--gold); width: 22px; height: 22px; }
+.rev-count { font-size: 13px; color: var(--gray-400); font-weight: 600; }
+.bars { flex: 1; }
+.bar-r { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.bar-lbl { font-size: 12px; font-weight: 700; color: var(--gray-600); width: 14px; text-align: right; }
+.bar-track { flex: 1; height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold) 0%, #fbbf24 100%); }
+
+.review-item {
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-sm);
+  padding: 16px; margin-bottom: 12px;
+  transition: box-shadow 0.2s;
+}
+.review-item:hover { box-shadow: var(--shadow); }
+.rev-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.rev-ava {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy-mid), var(--blue-light));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-weight: 800; font-size: 15px; color: var(--white);
+  flex-shrink: 0;
+}
+.rev-name { font-family: var(--font-head); font-size: 15px; font-weight: 700; }
+.rev-s { display: flex; gap: 2px; margin-top: 2px; }
+.rev-s svg { fill: var(--gold); width: 13px; height: 13px; }
+.rev-tag { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--gray-400); background: var(--gray-100); padding: 3px 9px; border-radius: 20px; }
+.rev-text { font-size: 14px; color: var(--gray-600); line-height: 1.65; }
+.rev-date { font-size: 12px; color: var(--gray-400); margin-top: 8px; text-align: right; font-weight: 600; }
+
+/* ══ GALLERY ══ */
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.gal-item {
+  border-radius: var(--radius-sm); overflow: hidden;
+  aspect-ratio: 4/3; position: relative; cursor: pointer; background: var(--gray-100);
+}
+.gal-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+.gal-item:hover img { transform: scale(1.08); }
+.gal-lbl {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(13,33,81,0.8));
+  color: var(--white); font-family: var(--font-head); font-size: 12px; font-weight: 700;
+  padding: 18px 10px 8px;
+}
+
+/* ══ RIGHT SIDEBAR ══ */
+.right-col { display: flex; flex-direction: column; gap: 18px; }
+
+/* DEVIS CARD */
+.devis-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+.devis-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  padding: 18px 22px;
+}
+.devis-header h3 { font-family: var(--font-head); font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.devis-header p { font-size: 12px; color: rgba(255,255,255,0.65); }
+.devis-body { padding: 18px 22px; }
+.btn-devis {
+  display: block; width: 100%;
+  font-family: var(--font-head); font-size: 15px; font-weight: 800;
+  background: var(--orange); color: var(--white);
+  border: none; border-radius: 10px; padding: 13px;
+  cursor: pointer; text-align: center;
+  transition: background 0.2s, transform 0.15s;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(232,80,26,0.28);
+}
+.btn-devis:hover { background: #c43d10; transform: translateY(-1px); }
+
+.hours-title { font-family: var(--font-head); font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.hour-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--gray-100); font-size: 13px; }
+.hour-row:last-child { border-bottom: none; }
+.hour-day { font-weight: 600; color: var(--gray-600); }
+.hour-time { font-weight: 700; color: var(--navy); }
+.hour-closed { color: #ef4444; font-weight: 700; }
+
+/* CONTACT CARD */
+.contact-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+.contact-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  font-family: var(--font-head); font-size: 15px; font-weight: 800; color: var(--navy);
+}
+.contact-body { padding: 16px 20px; }
+.c-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.c-item:last-child { margin-bottom: 0; }
+.c-ico {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--blue-pale); display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.c-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400); font-weight: 700; margin-bottom: 1px; }
+.c-val { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--navy); }
+.c-val a { color: var(--blue); text-decoration: none; }
+.c-val a:hover { text-decoration: underline; }
+.c-divider { border: none; border-top: 1px solid var(--gray-100); margin: 12px 0; }
+
+/* AVANTAGES CARD */
+.adv-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+.adv-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  font-family: var(--font-head); font-size: 15px; font-weight: 800; color: var(--navy);
+}
+.adv-body { padding: 12px 20px 16px; }
+.adv-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--gray-100); }
+.adv-item:last-child { border-bottom: none; }
+.adv-ico { font-size: 17px; width: 24px; text-align: center; }
+.adv-txt { font-size: 13px; font-weight: 600; color: var(--navy); }
+.adv-val { margin-left: auto; font-family: var(--font-head); font-size: 13px; font-weight: 800; color: var(--blue); }
+.btn-see-all {
+  display: block; width: 100%;
+  font-family: var(--font-head); font-size: 13px; font-weight: 700;
+  color: var(--blue); background: var(--blue-pale);
+  border: 1.5px solid rgba(25,118,210,0.2);
+  border-radius: 8px; padding: 10px;
+  text-align: center; cursor: pointer; text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 12px; display: block;
+}
+.btn-see-all:hover { background: var(--blue); color: var(--white); }
+
+/* ZONE CARD */
+.zone-card {
+  background: linear-gradient(135deg, var(--blue-pale) 0%, #dbeafe 100%);
+  border-radius: var(--radius);
+  border: 1px solid rgba(25,118,210,0.15);
+  padding: 18px 20px;
+}
+.zone-title { font-family: var(--font-head); font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.zone-sub { font-size: 12px; color: var(--gray-600); margin-bottom: 12px; }
+.zone-chip { display: inline-flex; align-items: center; gap: 5px; background: var(--white); border: 1px solid rgba(25,118,210,0.2); border-radius: 20px; padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--blue); }
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade { animation: fadeUp 0.5s ease both; }
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.12s; }
+.d3 { animation-delay: 0.2s; }
+.d4 { animation-delay: 0.28s; }
+
+/* ══ FOOTER ══ */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+}
+footer strong { color: var(--blue-light); }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 900px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: repeat(3, 1fr); }
+  .profile-top { flex-wrap: wrap; }
+  .profile-cta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .page { padding: 0 16px; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .pres-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Star SVG helper */
+.star-svg { display: inline; width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      Drille<span>edo</span>
+      <span class="logo-tagline">easy help, fast solutions</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#">How It Works
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="#">Find Professionals
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="#">Smart Ideas
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="#">About Us</a>
+      <a href="#">For Professionals
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a href="#">Blog</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="btn-login">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Log in
+      </button>
+      <button class="btn-signup">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Sign Up
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb-bar">
+  <div class="breadcrumb-inner">
+    <a href="#">Accueil</a><span>›</span>
+    <a href="#">Trouver des Pros</a><span>›</span>
+    <a href="#">Entrepreneur général</a><span>›</span>
+    <a href="#">Montréal</a><span>›</span>
+    <span class="current">Construction Nova Plus</span>
+  </div>
+</div>
+
+<!-- ══ HERO BANNER ══ -->
+<div class="hero-banner"></div>
+
+<!-- ══ PAGE ══ -->
+<div class="page">
+
+  <!-- PROFILE CARD -->
+  <div class="profile-card fade d1">
+    <div class="profile-top">
+      <!-- Avatar -->
+      <div class="avatar-wrap">
+        <div class="avatar-img">TG</div>
+        <div class="verified-dot">✔</div>
+      </div>
+
+      <!-- Info -->
+      <div class="profile-info">
+        <div class="company-row">
+          <span class="company-name">Construction Nova Plus</span>
+          <span class="fast-badge">⚡ Réponse rapide</span>
+        </div>
+        <div class="category-row">Thomas Gagné · Entrepreneur général</div>
+        <div class="rating-row">
+          <div class="stars-row">
+            <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star-svg" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <span class="rating-num">4.9</span>
+          <span class="rating-cnt">34 avis vérifiés</span>
+        </div>
+        <div class="badges-row">
+          <span class="chip chip-green">✔ Vérifié</span>
+          <span class="chip chip-orange">⭐ Premium vérifié</span>
+          <span class="chip chip-blue">⚡ Réponse rapide</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="profile-cta">
+        <button class="btn-contact">Contactez-moi →</button>
+        <button class="phone-btn">
+          📞 +1 514-555-1234
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+      <div class="stat-cell">
+        <div class="stat-ico">🏗️</div>
+        <div>
+          <div class="stat-label">Catégorie</div>
+          <div class="stat-val">Entrepreneur général</div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">📅</div>
+        <div>
+          <div class="stat-label">Expérience</div>
+          <div class="stat-val">12 ans</div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">👥</div>
+        <div>
+          <div class="stat-label">Employés</div>
+          <div class="stat-val">6 à 10</div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">💬</div>
+        <div>
+          <div class="stat-label">Langues parlées</div>
+          <div class="stat-val">🇫🇷 Français &nbsp;🇬🇧 Anglais</div>
+        </div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-ico">✅</div>
+        <div>
+          <div class="stat-label">Projets réalisés</div>
+          <div class="stat-val">1 306+ projets</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /profile-card -->
+
+  <!-- ══ MAIN LAYOUT ══ -->
+  <div class="main-layout">
+
+    <!-- LEFT -->
+    <div class="left-col">
+
+      <!-- Présentation -->
+      <div class="s-card fade d2">
+        <div class="s-head">
+          <div class="s-title"><span class="s-title-dot"></span>Présentation des projets</div>
+        </div>
+        <div class="s-body">
+          <div class="pres-grid">
+            <div class="pres-item">
+              <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Rénovation complète">
+              <div class="pres-caption">🔨 Rénovation complète</div>
+            </div>
+            <div class="pres-item">
+              <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80" alt="Cuisine moderne">
+              <div class="pres-caption">🍳 Cuisine moderne</div>
+            </div>
+            <div class="pres-item">
+              <img src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?w=600&q=80" alt="Finition intérieure">
+              <div class="pres-caption">🏠 Finition intérieure</div>
+            </div>
+            <div class="pres-item">
+              <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80" alt="Aménagement salon">
+              <div class="pres-caption">🛋️ Aménagement salon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avis -->
+      <div class="s-card fade d3">
+        <div class="s-head">
+          <div class="s-title"><span class="s-title-dot"></span>Avis clients</div>
+          <a href="#" class="s-link">Voir tous les avis →</a>
+        </div>
+        <div class="s-body">
+          <div class="review-summary">
+            <div>
+              <div class="big-num">4.9</div>
+              <div class="big-stars">
+                <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              </div>
+              <div class="rev-count">sur 34 avis vérifiés</div>
+            </div>
+            <div class="bars">
+              <div class="bar-r"><span class="bar-lbl">5</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div></div>
+              <div class="bar-r"><span class="bar-lbl">4</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div></div>
+              <div class="bar-r"><span class="bar-lbl">3</span><div class="bar-track"><div class="bar-fill" style="width:4%"></div></div></div>
+              <div class="bar-r"><span class="bar-lbl">2</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div></div>
+              <div class="bar-r"><span class="bar-lbl">1</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div></div>
+            </div>
+          </div>
+
+          <div class="review-item">
+            <div class="rev-head">
+              <div class="rev-ava">SD</div>
+              <div>
+                <div class="rev-name">Sophie Duhamel</div>
+                <div class="rev-s">
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </div>
+              </div>
+              <div class="rev-tag">Rénovation cuisine</div>
+            </div>
+            <p class="rev-text">L'équipe Nova Plus a effectué une rénovation complète de ma cuisine et de mes finitions intérieures. Travail impeccable, délais respectés et communication excellente tout au long du projet. Je recommande vivement !</p>
+            <div class="rev-date">29 avril 2024</div>
+          </div>
+
+          <div class="review-item">
+            <div class="rev-head">
+              <div class="rev-ava" style="background: linear-gradient(135deg, #059669, #10b981);">TM</div>
+              <div>
+                <div class="rev-name">Thomas Martin</div>
+                <div class="rev-s">
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </div>
+              </div>
+              <div class="rev-tag">Rénovation complète</div>
+            </div>
+            <p class="rev-text">Équipe très professionnelle. Ils ont su s'adapter à nos besoins et livrer un résultat à la hauteur de nos attentes. Rapport qualité-prix excellent et chantier toujours propre.</p>
+            <div class="rev-date">15 mars 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Galerie -->
+      <div class="s-card fade d4">
+        <div class="s-head">
+          <div class="s-title"><span class="s-title-dot"></span>Galerie de projets <span style="font-size:13px;font-weight:600;color:var(--gray-400)">(6)</span></div>
+          <a href="#" class="s-link">Voir tous les projets →</a>
+        </div>
+        <div class="s-body">
+          <div class="gallery-grid">
+            <div class="gal-item"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80" alt=""><div class="gal-lbl">Pièces aménagées</div></div>
+            <div class="gal-item"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=500&q=80" alt=""><div class="gal-lbl">Projets en cours</div></div>
+            <div class="gal-item"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt=""><div class="gal-lbl">Façades extérieures</div></div>
+            <div class="gal-item"><img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=500&q=80" alt=""><div class="gal-lbl">Finition salon</div></div>
+            <div class="gal-item"><img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=500&q=80" alt=""><div class="gal-lbl">Cuisine rénovée</div></div>
+            <div class="gal-item"><img src="https://images.unsplash.com/photo-1560185007-5f0bb1866cab?w=500&q=80" alt=""><div class="gal-lbl">Chambre moderne</div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /left-col -->
+
+    <!-- RIGHT -->
+    <div class="right-col">
+
+      <!-- Devis -->
+      <div class="devis-card fade d2">
+        <div class="devis-header">
+          <h3>📋 Demandez un devis gratuit</h3>
+          <p>Réponse garantie sous 24h</p>
+        </div>
+        <div class="devis-body">
+          <button class="btn-devis">Obtenir un devis gratuit →</button>
+          <div class="hours-title">Horaires d'ouverture</div>
+          <div class="hour-row"><span class="hour-day">Lundi – Vendredi</span><span class="hour-time">08:00 – 18:00</span></div>
+          <div class="hour-row"><span class="hour-day">Samedi</span><span class="hour-time">08:00 – 14:00</span></div>
+          <div class="hour-row"><span class="hour-day">Dimanche</span><span class="hour-closed">Fermé</span></div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="contact-card fade d3">
+        <div class="contact-head">📞 Coordonnées</div>
+        <div class="contact-body">
+          <div class="c-item">
+            <div class="c-ico">👤</div>
+            <div>
+              <div class="c-lbl">Responsable</div>
+              <div class="c-val">Thomas Gagné</div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-ico">📞</div>
+            <div>
+              <div class="c-lbl">Téléphone principal</div>
+              <div class="c-val"><a href="tel:+15145551234">+1 514-555-1234</a></div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-ico">📞</div>
+            <div>
+              <div class="c-lbl">Téléphone secondaire</div>
+              <div class="c-val"><a href="tel:+15145557234">+1 514-555-7234</a></div>
+            </div>
+          </div>
+          <hr class="c-divider">
+          <div class="c-item">
+            <div class="c-ico">🌐</div>
+            <div>
+              <div class="c-lbl">Site web</div>
+              <div class="c-val"><a href="#">www.constructionnovaplus.ca</a></div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-ico">📋</div>
+            <div>
+              <div class="c-lbl">Licence RBQ</div>
+              <div class="c-val"># 1306-XXXX-XX</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avantages -->
+      <div class="adv-card fade d3">
+        <div class="adv-head">✅ Nos avantages</div>
+        <div class="adv-body">
+          <div class="adv-item"><span class="adv-ico">📍</span><span class="adv-txt">Rayon d'intervention</span><span class="adv-val">40 km</span></div>
+          <div class="adv-item"><span class="adv-ico">⚡</span><span class="adv-txt">Intervention rapide</span></div>
+          <div class="adv-item"><span class="adv-ico">💲</span><span class="adv-txt">Prix minimum</span><span class="adv-val">150 $</span></div>
+          <div class="adv-item"><span class="adv-ico">📄</span><span class="adv-txt">Devis 100% gratuits</span></div>
+          <div class="adv-item"><span class="adv-ico">🛡️</span><span class="adv-txt">Assuré et certifié RBQ</span></div>
+          <div class="adv-item"><span class="adv-ico">✔</span><span class="adv-txt">Travaux garantis</span></div>
+        </div>
+        <div style="padding: 0 20px 16px;">
+          <a href="#" class="btn-see-all">Voir tous les avantages</a>
+        </div>
+      </div>
+
+      <!-- Zone -->
+      <div class="zone-card fade d4">
+        <div class="zone-title">📍 Zone de service : Montréal</div>
+        <div class="zone-sub">Ce professionnel intervient dans les zones suivantes :</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="zone-chip">🏙️ Montréal</span>
+          <span class="zone-chip">Laval</span>
+          <span class="zone-chip">Longueuil</span>
+          <span class="zone-chip">Brossard</span>
+        </div>
+      </div>
+
+    </div><!-- /right-col -->
+  </div><!-- /main-layout -->
+</div><!-- /page -->
+
+<footer>
+  © 2024 <strong>Drilleedo</strong> — Plateforme de mise en relation avec des professionnels du bâtiment au Canada. Tous droits réservés.
+</footer>
+
+</body>
+</html>
