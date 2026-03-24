@@ -4,7 +4,7 @@
 #}
 
 <div class="drl-pro-card-new">
-    {% if pro.isTopRated %}
+    {% if pro.isTopRated or (pro.stats and pro.stats.averageRating >= 4.5) %}
     <div class="pro-badge-top-rated">
         <i class="fas fa-star" aria-hidden="true"></i> Top Rated
     </div>
@@ -32,12 +32,12 @@
         {# Title #}
         <h3 class="pro-card-title">
             <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}">
-                {% if pro.personalInfos %}
-                    {{ pro.personalInfos.firstName }} {{ pro.personalInfos.lastName }}
-                {% elseif pro.companyName %}
+                {% if pro.companyName %}
                     {{ pro.companyName }}
+                {% elseif pro.personalInfos %}
+                    {{ pro.personalInfos.firstName }} {{ pro.personalInfos.lastName }}
                 {% else %}
-                    {{ pro.email }}
+                    {{ pro.email|split('@')[0] }}
                 {% endif %}
             </a>
         </h3>
@@ -45,16 +45,18 @@
         {# Details List (Icon + Text) #}
         <ul class="pro-card-details-list">
             {# Category #}
+            {% if pro.category %}
             <li>
-                <span class="category-icon-wrapper me-1" style="width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;">
-                    {% if pro.category and pro.category.icon %}
+                <div class="category-icon-wrapper-sm">
+                    {% if pro.category.icon %}
                         <img src="{{ asset('uploads/categories/' ~ pro.category.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
                     {% else %}
-                        <i class="feather-tool" aria-hidden="true"></i>
+                        <i class="fas fa-tools small text-muted"></i>
                     {% endif %}
-                </span>
-                <span class="detail-text"><b>{{ pro.category ? pro.category.name : 'Renovation Expert' }}</b></span>
+                </div>
+                <span class="detail-text">{{ pro.category.name }}</span>
             </li>
+            {% endif %}
             
             {# Location #}
             <li>
@@ -65,70 +67,36 @@
             {# Experience #}
             <li>
                 <i class="feather-briefcase" aria-hidden="true"></i>
-                <span class="detail-text">{{ pro.expYears ?? '5' }} years experience</span>
+                <span class="detail-text">{{ pro.expYears ?? '5' }}+ years exp.</span>
             </li>
         </ul>
 
-        {# Ratings & Response Time Header #}
+        {# Ratings & Reviews #}
         <div class="pro-card-ratings-row">
             <div class="pro-stars">
-                {% set fullStars = pro.stats ? pro.stats.averageRating|round(0, 'floor') : 0 %}
-                {% set halfStar = pro.stats and (pro.stats.averageRating - fullStars) >= 0.5 ? 1 : 0 %}
+                {% set rating = pro.stats ? pro.stats.averageRating : 5.0 %}
+                {% set fullStars = rating|round(0, 'floor') %}
+                {% set halfStar = (rating - fullStars) >= 0.5 ? 1 : 0 %}
                 {% set emptyStars = 5 - fullStars - halfStar %}
                 
                 {% if fullStars > 0 %}{% for i in range(1, fullStars) %}<i class="fas fa-star"></i>{% endfor %}{% endif %}
                 {% if halfStar %}<i class="fas fa-star-half-alt"></i>{% endif %}
                 {% if emptyStars > 0 %}{% for i in range(1, emptyStars) %}<i class="far fa-star"></i>{% endfor %}{% endif %}
             </div>
-            <span class="pro-rating-number">{{ pro.stats ? pro.stats.averageRating|number_format(1) : '5.0' }}</span>
-            <span class="pro-review-count text-muted small ms-1">({{ pro.stats ? pro.stats.reviewCount : 0 }})</span>
-             {# Language/Region identifier #}
-            <i class="fas fa-globe pro-rating-icon mx-2" style="color: #64748b;"></i> 
-            <span style="font-size:14px; color:#475569; font-weight:500;">{{ pro.languageCode ?? 'FR' }}</span>
+            <span class="pro-rating-number">{{ rating|number_format(1) }}</span>
+            <span class="pro-review-count">({{ pro.stats ? pro.stats.reviewCount : 0 }})</span>
         </div>
 
-        <ul class="pro-card-details-list mt-2">
-            <li>
-                <i class="feather-message-circle" aria-hidden="true"></i>
-                <span class="detail-text">
-                    Replies within 
-                    <strong>
-                        {% if pro.stats and pro.stats.avgResponseTime %}
-                            {% if pro.stats.avgResponseTime < 3600 %}
-                                {{ (pro.stats.avgResponseTime / 60)|round }} minutes
-                            {% else %}
-                                {{ (pro.stats.avgResponseTime / 3600)|round }} hours
-                            {% endif %}
-                        {% else %}
-                            24 hours
-                        {% endif %}
-                    </strong>
-                </span>
-            </li>
-            <li>
-                <i class="feather-calendar" aria-hidden="true"></i>
-                <span class="detail-text">
-                    {% if pro.availabilityStatus == 'AVAILABLE' %}
-                        Available this week
-                    {% elseif pro.availabilityStatus == 'BUSY' %}
-                        Busy (available soon)
-                    {% else %}
-                        Unavailable
-                    {% endif %}
-                </span>
-            </li>
-        </ul>
-
-        {# Action Buttons (Two Buttons side by side) #}
+        {# Action Buttons #}
         <div class="pro-card-actions">
             <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.personalInfos ? pro.personalInfos.firstName ~ '-' ~ pro.personalInfos.lastName : pro.email)|trim|lower|replace({' ': '-'})}) }}" 
                class="btn-pro-outline">
-                View Profile <i class="feather-chevron-right" aria-hidden="true"></i>
+                View Profile
             </a>
             
             <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" 
                class="btn-pro-solid">
-                Request <i class="feather-chevron-right" aria-hidden="true"></i>
+                Get Quote
             </a>
         </div>
     </div>

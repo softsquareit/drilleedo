@@ -33,27 +33,13 @@
                             </ul>
                             <!-- End Breadcrumb Area -->
 
-                            <div class="title-wrapper">
-                                <h1 class="hero-main-title" style="font-size: var(--h1);">Professionals Near You</h1>
-                                <a href="#" class="rbt-badge-2"> 
-                                   {{ professionals|length }} {{ professionals|length == 1 ? 'Result' : 'Results' }}
-                                </a>
+                            <div class="title-wrapper text-center mt-4">
+                                <h1 class="hero-main-title mb-2" style="font-size: 3rem; color: #00509e;">Find Professionals Near You</h1>
+                                <p class="description mx-auto mb-0" style="max-width: 600px; color: #555;">
+                                    Browse trusted professionals for renovation, decoration, and home improvement projects across Canada.
+                                </p>
                             </div>
-<span class="hero-tagline-orange">Connect with trusted professionals</span>
-<p class="description">
-<b>Browse trusted professionals for renovation, decoration, and home improvement projects.</b>
-</p>
-<div class="hero-service-icons">
-<!-- Using simple SVGs for icons as placeholders for now -->
-
-<div class="about-buttons-row">
-<a href="{{ path('app_register') }}" class="about-pill-btn btn-solid-blue"><i class="feather-plus me-1"></i> Post a Project</a>
-</div>
-
-</div>
-                            
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -61,7 +47,7 @@
         </div>
     </div>
 
-    <div class="rbt-counterup-area rbt-section-overlayping-top rbt-section-gapBottom">
+    <div class="rbt-counterup-area rbt-section-overlayping-top rbt-section-gapBottom bg-soft-blue">
         <div class="container">
             <div class="row row--30 gy-5">
                 <div class="col-lg-4 col-xl-3 order-2 order-lg-1">
@@ -144,61 +130,60 @@
 </div>
 
                 <div class="col-lg-8 col-xl-9 order-1 order-lg-2">
-                    <!-- Start Search & CTA Area -->
-                    <div class="pro-list-header mb-5">
-                        <div class="row align-items-center gy-4">
-                            <div class="col-md-8">
-                                <form action="{{ path('professionals_list') }}" method="GET" class="search-form-modern">
-                                    <div class="input-group-modern">
-                                        <i class="feather-search search-icon"></i>
-                                        <input type="text" name="keyword" class="form-control-modern" placeholder="Search by name, service or city..." value="{{ activeFilters.keyword }}">
-                                        {#{% if activeFilters.category %}
-                                            <input type="hidden" name="category" value="{{ activeFilters.category }}">
-                                        {% endif %}#}
-                                        <button type="submit" class="rbt-btn btn-gradient btn-sm-modern">Search</button>
+                    <!-- Start Search Area -->
+                    <div class="pro-list-header-expert mb-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10">
+                                <div class="search-cta-group">
+                                    <form action="{{ path('professionals_list') }}" method="GET" class="search-form-expert">
+                                        <div class="input-group-expert">
+                                            <i class="feather-search search-icon-expert"></i>
+                                            <input type="text" name="keyword" class="form-control-expert" placeholder="Search by name, service or city..." value="{{ activeFilters.keyword }}">
+                                            <button type="submit" class="expert-search-btn">Search</button>
+                                        </div>
+                                    </form>
+                                    <div class="cta-wrapper-expert">
+                                        <a href="{{ path('app_register') }}" class="expert-cta-btn">
+                                            <i class="feather-plus me-1 shadow-none"></i> Post a Project
+                                        </a>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="col-md-4 text-md-end">
-                                <a href="{{ path('app_register') }}" class="rbt-btn btn-solid-blue radius-round w-100 w-md-auto py-3 px-4">
-                                    <i class="feather-plus me-1"></i> Post a Project
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Start Category Tabs -->
-                    <div class="category-tabs-wrapper mb-4">
-                        <div class="category-tabs-container">
-                            <button class="category-tab active" data-category="all">
-                                <i class="fas fa-th-large me-2"></i> All
+                    <div class="category-pills-wrapper mb-5">
+                        <div class="category-pills-container">
+                            <button class="expert-pill active" data-category="all">
+                                <i class="fas fa-th-large"></i> All
                             </button>
                             {% for cat in allCategories %}
-                                <button class="category-tab" data-category="{{ cat.id }}">
+                                <button class="expert-pill" data-category="{{ cat.id }}">
                                     {% if cat.icon %}
-                                        <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" class="tab-icon">
+                                        <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" class="pill-icon">
                                     {% else %}
-                                        <i class="fas fa-tools me-2"></i>
+                                        <i class="fas fa-tools"></i>
                                     {% endif %}
-                                    {{ cat.name }}
+                                    <span class="pill-text">{{ cat.name }}</span>
                                 </button>
                             {% endfor %}
                         </div>
                     </div>
 
-                    <!-- Start Sort & Stats -->
-                    <div class="pro-list-meta d-flex justify-content-between align-items-center mb-4">
-                        <div class="results-count">
-                            <span class="text-muted"><span id="filtered-count">{{ professionals|length }}</span> {{ professionals|length == 1 ? 'professional' : 'professionals' }} found</span>
+                    <!-- Start Sort & Stats Area -->
+                    <div class="pro-list-meta-expert d-flex justify-content-between align-items-center mb-4 px-2">
+                        <div class="results-info">
+                            <h5 class="mb-0 text-dark fw-bold"><span id="filtered-count">{{ professionals|length }}</span> Professionals available</h5>
                         </div>
-                        <div class="sort-wrapper">
+                        <div class="sort-dropdown-expert">
                             <form action="{{ path('professionals_list') }}" method="GET" id="sort-form">
                                 {% if activeFilters.keyword %}<input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">{% endif %}
                                 {% if activeFilters.category %}<input type="hidden" name="category" value="{{ activeFilters.category }}">{% endif %}
-                                <select name="sort" class="form-select-modern" onchange="this.form.submit()">
-                                    <option value="newest" {% if activeFilters.sort == 'newest' %}selected{% endif %}>Newest first</option>
-                                    <option value="rating" {% if activeFilters.sort == 'rating' %}selected{% endif %}>Top Rated</option>
-                                    <option value="experience" {% if activeFilters.sort == 'experience' %}selected{% endif %}>Most Experienced</option>
+                                <select name="sort" class="expert-sort-select" onchange="this.form.submit()">
+                                    <option value="newest" {% if activeFilters.sort == 'newest' %}selected{% endif %}>Sort by: Newest</option>
+                                    <option value="rating" {% if activeFilters.sort == 'rating' %}selected{% endif %}>Sort by: Top Rated</option>
+                                    <option value="experience" {% if activeFilters.sort == 'experience' %}selected{% endif %}>Sort by: Experience</option>
                                 </select>
                             </form>
                         </div>
@@ -271,7 +256,7 @@
 {% block javascripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.category-tab');
+    const tabs = document.querySelectorAll('.expert-pill');
     const cards = document.querySelectorAll('.pro-card-item');
     const countDisplay = document.getElementById('filtered-count');
 
@@ -283,27 +268,37 @@ document.addEventListener('DOMContentLoaded', function() {
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            // Filter cards
+            // Filter cards with smooth fade
             let visibleCount = 0;
             cards.forEach(card => {
                 const cardCat = card.dataset.category;
-                if (category === 'all' || cardCat === category) {
+                const shouldShow = (category === 'all' || cardCat === category);
+                
+                if (shouldShow) {
                     card.style.display = 'block';
-                    // Optional: Add a fade-in animation
-                    card.style.opacity = '0';
-                    setTimeout(() => {
-                        card.style.transition = 'opacity 0.3s ease';
-                        card.style.opacity = '1';
-                    }, 50);
+                    // Trigger reflow for animation
+                    void card.offsetWidth;
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
                     visibleCount++;
                 } else {
-                    card.style.display = 'none';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        if (card.style.opacity === '0') {
+                            card.style.display = 'none';
+                        }
+                    }, 300);
                 }
             });
 
-            // Update count
+            // Update count with animation
             if (countDisplay) {
-                countDisplay.textContent = visibleCount;
+                countDisplay.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    countDisplay.textContent = visibleCount;
+                    countDisplay.style.transform = 'scale(1)';
+                }, 150);
             }
         });
     });

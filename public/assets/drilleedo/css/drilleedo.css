@@ -3766,6 +3766,322 @@ body {
 }
 
 /* ==========================================================================
+   PROFESSIONALS LIST EXPERT UI
+   ========================================================================== */
+
+.bg-soft-blue {
+    background-color: #f8fbff !important;
+}
+
+/* Search Area Expert */
+.pro-list-header-expert {
+    margin-top: -30px;
+    position: relative;
+    z-index: 10;
+}
+
+.search-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-form-expert {
+    flex-grow: 1;
+    max-width: 650px;
+}
+
+.input-group-expert {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 50px;
+    padding: 8px 8px 8px 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-group-expert:focus-within {
+    border-color: #00509e;
+    box-shadow: 0 4px 25px rgba(0, 80, 158, 0.12);
+}
+
+.search-icon-expert {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    margin-right: 15px;
+}
+
+.form-control-expert {
+    border: none !important;
+    background: transparent !important;
+    padding: 10px 0 !important;
+    font-size: 1.1rem !important;
+    color: #334155 !important;
+    flex-grow: 1;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.expert-search-btn {
+    background: #00509e;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 28px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.expert-search-btn:hover {
+    background: #003f7d;
+    transform: scale(1.02);
+}
+
+/* CTA Expert */
+.expert-cta-btn {
+    background: #00509e;
+    color: #ffffff !important;
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 80, 158, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.expert-cta-btn:hover {
+    background: #003f7d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 80, 158, 0.3);
+}
+
+/* Category Pills Expert */
+.category-pills-wrapper {
+    overflow: hidden;
+}
+
+.category-pills-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 5px;
+    scrollbar-width: none;
+}
+
+.category-pills-container::-webkit-scrollbar {
+    display: none;
+}
+
+.expert-pill {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e6e9ef;
+    border-radius: 50px;
+    padding: 10px 22px;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.expert-pill:hover {
+    background: #f0f7ff;
+    border-color: #00509e;
+    color: #00509e;
+}
+
+.expert-pill.active {
+    background: #00509e;
+    color: #ffffff;
+    border-color: #00509e;
+    box-shadow: 0 4px 12px rgba(0, 80, 158, 0.2);
+}
+
+.expert-pill i,
+.pill-icon {
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.pill-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.expert-pill.active i,
+.expert-pill.active .pill-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* Sort Dropdown Expert */
+.expert-sort-select {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 50px;
+    padding: 10px 35px 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.expert-sort-select:hover {
+    border-color: #9ca3af;
+}
+
+/* Professional Card Expert */
+.drl-pro-card-new {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.drl-pro-card-new:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.09);
+    border-color: #00509e;
+}
+
+.pro-card-title a {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #003366 !important;
+    transition: color 0.2s ease;
+}
+
+.pro-card-title a:hover {
+    color: #00509e !important;
+}
+
+.pro-stars .fas,
+.pro-stars .far {
+    color: #f6c23e;
+}
+
+.btn-pro-outline {
+    border: 1px solid #00509e;
+    color: #00509e;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-pro-outline:hover {
+    background: #00509e;
+    color: #ffffff;
+}
+
+.btn-pro-solid {
+    background: #00509e;
+    color: #ffffff;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-pro-solid:hover {
+    background: #003f7d;
+}
+
+@media (max-width: 767px) {
+    .search-cta-group {
+        flex-direction: column;
+    }
+
+    .search-form-expert,
+    .cta-wrapper-expert,
+    .expert-cta-btn {
+        width: 100%;
+    }
+
+    .expert-pill {
+        padding: 8px 16px;
+    }
+}
+
+/* Category Icon Wrapper Small (for Cards) */
+.category-icon-wrapper-sm {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.category-icon-wrapper-sm i {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Expert Pill Refinement */
+.expert-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.expert-pill:hover {
+    border-color: #00509e;
+    color: #00509e;
+    background: #f0f7ff;
+}
+
+.expert-pill.active {
+    background: #00509e;
+    border-color: #00509e;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 80, 158, 0.2);
+}
+
+.expert-pill .pill-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.expert-pill.active .pill-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* ==========================================================================
    PROFESSIONALS LIST UPGRADE
    ========================================================================== */
 
@@ -3898,17 +4214,19 @@ body {
 
 .drl-pro-card-new {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
     border: 1px solid #f1f5f9;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .drl-pro-card-new:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     border-color: #00509e;
 }
 
@@ -4088,4 +4406,27 @@ body {
 .btn-view-services i {
     margin-left: 0.5rem;
     font-size: 1rem;
+}
+/* Category Pills Horizontal Scroll */
+.category-pills-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+    margin-bottom: 2rem;
+}
+
+.category-pills-container {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 4px;
+    min-width: max-content;
+}
+
+@media (max-width: 768px) {
+    .category-pills-wrapper {
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
