@@ -3,17 +3,17 @@
 {% block title %}Quote Requests - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header border-bottom">
+    <div class="drl-card">
+        <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="pro-card-title">Quote Requests</h4>
-                <p class="pro-card-subtitle">Opportunities from individuals in your service category</p>
+                <h4 class="drl-card-title">Quote Requests</h4>
+                <p class="drl-card-sub">Opportunities from individuals in your service category</p>
             </div>
-            <span class="pro-badge info">{{ quotes|length }} Available</span>
+            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ quotes|length }} Available</span>
         </div>
 
-        <div class="pro-table-wrapper">
-            <table class="pro-table">
+        <div class="table-responsive">
+            <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
                         <th>Request Details</th>
@@ -29,67 +29,65 @@
                         <tr>
                             <td>
                                 <div>
-                                    <span class="pro-fw-semibold d-block">{{ quote.title }}</span>
-                                    <span class="pro-text-muted">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
+                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ quote.title }}</span>
+                                    <span style="font-size: 13px; color: #64748b; margin-top: 4px;">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
                                 </div>
                             </td>
                             <td>
                                 {% if quote.category %}
-                                    <span class="pro-badge info" >{{ quote.category.name }}</span>
+                                    <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ quote.category.name }}</span>
                                 {% else %}
-                                    <span class="pro-text-muted">—</span>
+                                    <span style="color:#94a3b8;">—</span>
                                 {% endif %}
                             </td>
                             <td>
                                 {% set clientName = quote.individual.personalInfos ? (quote.individual.personalInfos.firstName|default('') ~ ' ' ~ quote.individual.personalInfos.lastName|default(''))|trim : '' %}
-                                <span>{{ clientName ?: quote.individual.email|default('Client') }}</span>
+                                <span style="color: #475569; font-weight: 600;">{{ clientName ?: quote.individual.email|default('Client') }}</span>
                             </td>
                             <td>
-                                <span class="pro-text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
+                                <span style="color: #64748b; font-size: 13px;">{{ quote.creationDate|date('M d, Y') }}</span>
                             </td>
                             <td>
                                 {# Show if this pro already sent an offer #}
                                 {% if quote.id in myOfferQuoteIds|keys %}
                                     {% set myStatus = myOfferQuoteIds[quote.id] %}
                                     {% if myStatus == 'PENDING' %}
-                                        <span class="pro-badge primary" ><i class="feather-check" ></i> Offer Sent</span>
+                                        <span class="drl-tag drl-tag--sent"><i class="feather-check" style="font-size: 11px;"></i> Offer Sent</span>
                                     {% elseif myStatus == 'ACCEPTED' %}
-                                        <span class="pro-badge success" ><i class="feather-check-circle" ></i> Accepted</span>
+                                        <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> Accepted</span>
                                     {% elseif myStatus == 'REJECTED' %}
-                                        <span class="pro-badge danger" ><i class="feather-x-circle" ></i> Rejected</span>
+                                        <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size: 11px;"></i> Rejected</span>
                                     {% endif %}
                                 {% else %}
                                     {% if quote.status == 'Accepted' %}
-                                        <span class="pro-badge secondary" ><i class="feather-lock" ></i> Taken</span>
+                                        <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> Taken</span>
                                     {% else %}
-                                        <span class="pro-badge success" ><i class="feather-zap" ></i> Open</span>
+                                        <span class="drl-tag drl-tag--success"><i class="feather-zap" style="font-size: 11px;"></i> Open</span>
                                     {% endif %}
                                 {% endif %}
                             </td>
                             <td>
                                 {% if quote.id in myOfferQuoteIds|keys %}
-                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-action-badge edit">
+                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="drl-act-btn drl-act-btn--view" style="text-decoration:none;">
                                         <i class="feather-edit-2"></i> Edit Offer
                                     </a>
                                 {% elseif quote.status != 'Accepted' %}
-                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="pro-action-badge view">
+                                    <a href="{{ path('offer_send', {id: quote.id}) }}" class="drl-act-btn drl-act-btn--view" style="text-decoration:none;">
                                         <i class="feather-send"></i> Submit Offer
                                     </a>
                                 {% else %}
-                                    <span class="pro-text-muted">—</span>
+                                    <span style="color:#cbd5e1;">—</span>
                                 {% endif %}
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="pro-table-empty">
-                                <div class="pro-empty-state">
-                                    <div class="pro-empty-icon">
-                                        <i class="feather-message-square"></i>
-                                    </div>
-                                    <h6 class="pro-empty-title">No quote requests</h6>
-                                    <p class="pro-empty-text">No active quote requests found in your category</p>
+                            <td colspan="6" class="text-center py-5">
+                                <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                    <i class="feather-message-square"></i>
                                 </div>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No quote requests</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">No active quote requests found in your category</p>
                             </td>
                         </tr>
                     {% endfor %}

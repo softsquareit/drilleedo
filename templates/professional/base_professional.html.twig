@@ -33,6 +33,7 @@
     <!-- Modern Professional Dashboard -->
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/modern-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/professional-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_dashboard_charter.css') }}">
     
     {% block stylesheets %}{% endblock %}
 </head>
@@ -40,94 +41,50 @@
 <body>
     {% include 'partials/_public_header.html.twig' %}
 
-    <div class="rbt-page-banner-wrapper">
-        <!-- Start Banner BG Image  -->
-        <div class="rbt-banner-image"></div>
-        <!-- End Banner BG Image  -->
+
+
+    <!-- Sleek Header Banner -->
+    <div class="dr-pro-header" style="background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}'); position: relative; height: 160px; background-size: cover; background-position: center; z-index: 1;">
+        <div class="dr-pro-header-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(13,33,81,0.1), rgba(13,33,81,0.6));"></div>
+        <button class="pro-btn-icon pro-header-edit-cover" data-bs-toggle="modal" data-bs-target="#editBannerModal" style="position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+            <i class="feather-camera"></i>
+        </button>
     </div>
 
     <!-- Start Dashboard Area -->
-    <div class="rbt-dashboard-area rbt-section-overlayping-top rbt-section-gapBottom pro-dashboard-body">
-        <div class="container">
-    <div class="pro-dashboard-header">
-        <div class="pro-header-cover" style="background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}');">
-            <div class="pro-header-overlay"></div>
-            <button class="pro-btn-icon pro-header-edit-cover" data-bs-toggle="modal" data-bs-target="#editBannerModal">
-                <i class="feather-camera"></i>
-            </button>
-        </div>
-        
-        <div class="pro-header-content">
-            <div class="pro-header-profile">
-                <div class="pro-avatar-wrapper">
-                    {% if app.user.logo %}
-                        <img src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="Professional" class="pro-avatar-img">
-                    {% else %}
-                        <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Professional" class="pro-avatar-img">
-                    {% endif %}
-                    <button class="pro-btn-icon pro-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal">
-                        <i class="feather-camera"></i>
-                    </button>
+    <div class="rbt-dashboard-area rbt-section-gapBottom" style="background: #f8fafc; padding-bottom: 80px; min-height: calc(100vh - 160px);">
+        <div class="container" style="margin-top: -60px; position: relative; z-index: 10;">
+            <div class="row g-5">
+                <!-- Start Dashboard Sidebar  -->
+                <div class="col-lg-3">
+                    {% include 'professional/partials/_sidebar.html.twig' %}
                 </div>
-                
-                <div class="pro-header-info">
-                    <h3 class="pro-header-name">{{ app.user.companyName|default(app.user.email) }}</h3>
-                    <div class="pro-header-meta">
-                        <span class="pro-badge primary">Professional</span>
-                        <span class="pro-divider"></span>
-                        <div class="pro-rating">
-                            <i class="fas fa-star text-warning"></i>
-                            <span class="pro-text-dark fw-bold">4.9</span>
-                            <span class="pro-text-muted">(15 Reviews)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="pro-header-actions">
-                <a href="{{ path('professional_projects') }}" class="pro-btn pro-btn-primary">
-                    <i class="feather-plus"></i> New Project
-                </a>
-            </div>
-        </div>
-    </div>
+                <!-- End Dashboard Sidebar  -->
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row g-5">
-                        <!-- Start Dashboard Sidebar  -->
-                        <div class="col-lg-3">
-                            {% include 'professional/partials/_sidebar.html.twig' %}
-                        </div>
-                        <!-- End Dashboard Sidebar  -->
+                <div class="col-lg-9" style="padding-top: 60px;">
+                     {% for label, messages in app.flashes %}
+                         {% for message in messages %}
+                             {% set alertType = label == 'error' ? 'danger' : label %}
+                             {% set alertIcon = 'feather-info' %}
+                             {% if label == 'success' %}{% set alertIcon = 'feather-check-circle' %}
+                             {% elseif label == 'error' or label == 'danger' %}{% set alertIcon = 'feather-alert-octagon' %}
+                             {% elseif label == 'warning' %}{% set alertIcon = 'feather-alert-triangle' %}
+                             {% endif %}
 
-                        <div class="col-lg-9">
-                             {% for label, messages in app.flashes %}
-                                 {% for message in messages %}
-                                     {% set alertType = label == 'error' ? 'danger' : label %}
-                                     {% set alertIcon = 'feather-info' %}
-                                     {% if label == 'success' %}{% set alertIcon = 'feather-check-circle' %}
-                                     {% elseif label == 'error' or label == 'danger' %}{% set alertIcon = 'feather-alert-octagon' %}
-                                     {% elseif label == 'warning' %}{% set alertIcon = 'feather-alert-triangle' %}
-                                     {% endif %}
-
-                                     <div class="pro-alert pro-alert-{{ alertType }} alert-dismissible fade show" role="alert">
-                                         <i class="{{ alertIcon }} alert-icon"></i>
-                                         <div class="alert-content">{{ message }}</div>
-                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                     </div>
-                                 {% endfor %}
-                             {% endfor %}
-                            
-                            {% block body %}{% endblock %}
-                        </div>
-                    </div>
+                             <div class="drl-alert drl-alert--{{ alertType }} alert-dismissible fade show" role="alert">
+                                 <i class="{{ alertIcon }} alert-icon"></i>
+                                 <div class="alert-content">{{ message }}</div>
+                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                             </div>
+                         {% endfor %}
+                     {% endfor %}
+                    
+                    {% block body %}{% endblock %}
                 </div>
             </div>
         </div>
     </div>
     <!-- End Dashboard Area -->
-
 
     {% include 'partials/_public_footer.html.twig' %}
 
@@ -146,8 +103,8 @@
     <script src="{{ asset('assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            if ($('.pro-table').length > 0) {
-                $('.pro-table').DataTable({
+            if ($('.drl-table').length > 0) {
+                $('.drl-table').DataTable({
                     autoWidth: false,
                     dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
                     language: {

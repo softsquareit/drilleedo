@@ -3,140 +3,138 @@
 {% block title %}Dashboard - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4 pb-3 border-bottom">
+        <div>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">Welcome back, {{ app.user.personalInfos.firstName|default('Pro') }}! 👋</h2>
+            <p style="font-size: 15px; color: #64748b; margin: 0;">Here is what's happening with your business today.</p>
+        </div>
+        <div>
+            <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex align-items-center gap-2 bg-white p-1" style="border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(13,33,81,0.02);">
+                <input type="hidden" name="status" id="availability_status_input">
+                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'AVAILABLE' %}active-avail{% endif %}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; margin-right:4px;"></span> Available
+                </button>
+                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'BUSY' %}active-busy{% endif %}" onclick="document.getElementById('availability_status_input').value='BUSY'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#f59e0b; margin-right:4px;"></span> Busy
+                </button>
+                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'UNAVAILABLE' %}active-off{% endif %}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#94a3b8; margin-right:4px;"></span> Off
+                </button>
+            </form>
+            <style>
+                .active-avail { background: #ecfdf5 !important; color: #047857 !important; border-bottom: none; }
+                .active-busy { background: #fffbeb !important; color: #b45309 !important; border-bottom: none; }
+                .active-off { background: #f1f5f9 !important; color: #475569 !important; border-bottom: none; }
+                .drl-avail-btn:hover { background: #f8fafc; color: #0d2151; }
+            </style>
+        </div>
+    </div>
+
     {# ── Profile Completion Banner ── #}
     {% if profileCompletion < 100 %}
-    <div class="pro-alert pro-alert-warning d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" role="alert" style="padding: 16px 20px;">
+    <div class="drl-card d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" style="padding: 20px 24px; border-left: 4px solid #f59e0b; border-radius: 12px; background: linear-gradient(to right, #ffffff, #fffdf8);">
         <div class="d-flex align-items-center gap-3">
-            <i class="feather-user-check" style="font-size:1.4rem;"></i>
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                <i class="feather-user-check"></i>
+            </div>
             <div>
-                <strong>Complete your profile</strong> — {{ profileCompletion }}% done.
-                A complete profile gets <strong>3× more quote requests</strong> from clients.
+                <h5 style="margin: 0 0 4px; font-size: 16px; font-weight: 800; color: #0d2151;">Complete your profile ({{ profileCompletion }}%)</h5>
+                <p style="margin: 0; font-size: 14px; color: #64748b;">A complete profile gets <strong>3× more quote requests</strong> from clients.</p>
             </div>
         </div>
-        <div class="d-flex align-items-center gap-3" style="flex-shrink:0;">
-            <div class="progress" style="width:160px; height:8px; background:rgba(255,255,255,0.4); border-radius:999px;">
-                <div class="progress-bar bg-white" role="progressbar" style="width:{{ profileCompletion }}%; border-radius:999px;"></div>
+        <div class="d-flex flex-column align-items-end gap-2" style="flex-shrink:0;">
+            <div class="drl-pro-warn-bar" style="width:160px; height:6px; border-radius:999px; background: #e2e8f0;">
+                <div class="drl-pro-warn-progress" style="width:{{ profileCompletion }}%; height:100%; border-radius:999px; background: #f59e0b;"></div>
             </div>
-            <a href="{{ path('professional_profile') }}" class="pro-btn pro-btn-sm" style="background:#fff; color:var(--pro-warning,#f59e0b); border-radius:8px; padding:6px 14px; font-weight:700; text-decoration:none; flex-shrink:0;">Complete now →</a>
+            <a href="{{ path('professional_profile') }}" style="font-size: 13px; font-weight: 800; color: #b45309; text-decoration: none;">Complete now →</a>
         </div>
     </div>
     {% endif %}
 
     {# ── Pending Direct Requests Alert ── #}
     {% if pendingDirectRequestsCount > 0 %}
-    <div class="pro-alert pro-alert-info d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" role="alert" style="padding: 14px 20px;">
-        <div class="d-flex align-items-center gap-2">
-            <i class="feather-bell" style="font-size:1.2rem;"></i>
-            <span>You have <strong>{{ pendingDirectRequestsCount }} direct {{ pendingDirectRequestsCount == 1 ? 'request' : 'requests' }}</strong> waiting for your response.</span>
+    <div class="drl-card d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" style="padding: 20px 24px; border-left: 4px solid #00509e; border-radius: 12px; background: linear-gradient(to right, #00509e, #0d2151); color: white;">
+        <div class="d-flex align-items-center gap-3">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                <i class="feather-bell"></i>
+            </div>
+            <div>
+                <h5 style="margin: 0 0 4px; font-size: 16px; font-weight: 800; color: white;">You have {{ pendingDirectRequestsCount }} pending direct {{ pendingDirectRequestsCount == 1 ? 'request' : 'requests' }}!</h5>
+                <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Clients are waiting for your quote proposal.</p>
+            </div>
         </div>
-        <a href="{{ path('professional_direct_requests') }}" class="pro-btn pro-btn-primary pro-btn-sm">View Requests →</a>
+        <a href="{{ path('professional_direct_requests') }}" class="drl-btn-orange" style="background: white; color: #0d2151; padding: 10px 20px;">
+            View Requests
+        </a>
     </div>
     {% endif %}
 
-    {# ── KPI Cards ── #}
+    {# ── KPI Metrics Cards ── #}
     <div class="row g-4 mb-4">
-        <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card primary">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon">
-                        <i class="feather-message-square"></i>
+        <div class="col-xl-3 col-md-6">
+            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Quotes Available</p>
+                        <h3 style="font-size: 32px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1;">{{ quoteCount }}</h3>
+                    </div>
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        <i class="feather-file-text"></i>
                     </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ quoteCount }}</h3>
-                    <p class="pro-stat-label">Available Quotes</p>
+                <div style="margin-top: 16px; font-size: 13px; color: #64748b;">
+                    <span style="color: #10b981; font-weight: 800;"><i class="feather-trending-up"></i> Explore</span> new clients
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card warning">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon">
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Offers Sent</p>
+                        <h3 style="font-size: 32px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1;">{{ offerCount }}</h3>
+                    </div>
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #fff7ed; color: #e8501a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                         <i class="feather-send"></i>
                     </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ offerCount }}</h3>
-                    <p class="pro-stat-label">Offers Sent</p>
+                <div style="margin-top: 16px; font-size: 13px; color: #64748b;">
+                    Awaiting client responses
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card success">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon">
-                        <i class="feather-check-circle"></i>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Win Rate</p>
+                        <h3 style="font-size: 32px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1;">{{ conversionRate }}<span style="font-size:20px; color:#94a3b8;">%</span></h3>
+                    </div>
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        <i class="feather-pie-chart"></i>
                     </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ acceptedCount }}</h3>
-                    <p class="pro-stat-label">Accepted</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card info">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon">
-                        <i class="feather-briefcase"></i>
-                    </div>
-                </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ projectCount }}</h3>
-                    <p class="pro-stat-label">Projects</p>
+                <div style="margin-top: 16px; font-size: 13px; color: #64748b;">
+                    <strong>{{ acceptedCount }}</strong> won from {{ offerCount }} offers
                 </div>
             </div>
         </div>
-    </div>
-
-    {# ── Reputation & Availability ── #}
-    <div class="row g-4 mb-4">
-        <div class="col-lg-8">
-            <div class="pro-card pro-card-elevated px-4 py-3">
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                    <div class="d-flex align-items-center gap-4">
-                        <div class="text-center border-end pe-4">
-                            <div class="pro-text-muted small text-uppercase fw-bold mb-1">Reputation</div>
-                            <div class="d-flex align-items-baseline gap-1">
-                                <span class="fs-3 fw-bold">{{ stats ? stats.averageRating|number_format(1) : '5.0' }}</span>
-                                <i class="fas fa-star text-warning"></i>
-                            </div>
-                            <div class="small text-muted">{{ stats ? stats.reviewCount : 0 }} reviews</div>
-                        </div>
-                        <div class="text-center border-end pe-4 px-2">
-                            <div class="pro-text-muted small text-uppercase fw-bold mb-1">Response</div>
-                            <div class="fs-4 fw-bold">{{ stats and stats.avgResponseTime ? stats.avgResponseTime|format_response_time : 'Instant' }}</div>
-                            <div class="small text-muted">Average time</div>
-                        </div>
-                        <div class="text-center px-2">
-                            <div class="pro-text-muted small text-uppercase fw-bold mb-1">Completion</div>
-                            <div class="fs-4 fw-bold">{{ stats ? (stats.completionRate * 100)|round : 100 }}%</div>
-                            <div class="small text-muted">Project success</div>
-                        </div>
+        
+        <div class="col-xl-3 col-md-6">
+            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Avg Response</p>
+                        <h3 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1.2;">{{ stats and stats.avgResponseTime ? stats.avgResponseTime|format_response_time : 'Instant' }}</h3>
                     </div>
-                    
-                    <div class="ms-auto border-start ps-4 py-1">
-                        <div class="pro-text-muted small text-uppercase fw-bold mb-2">My Availability</div>
-                        <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex gap-2">
-                            <input type="hidden" name="status" id="availability_status_input">
-                            <div class="btn-group pro-btn-group" role="group">
-                                <button type="submit" class="pro-btn pro-btn-sm {{ app.user.availabilityStatus == 'AVAILABLE' ? 'pro-btn-success' : 'pro-btn-outline' }}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'">Available</button>
-                                <button type="submit" class="pro-btn pro-btn-sm {{ app.user.availabilityStatus == 'BUSY' ? 'pro-btn-warning' : 'pro-btn-outline' }}" onclick="document.getElementById('availability_status_input').value='BUSY'">Busy</button>
-                                <button type="submit" class="pro-btn pro-btn-sm {{ app.user.availabilityStatus == 'UNAVAILABLE' ? 'pro-btn-danger' : 'pro-btn-outline' }}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'">Off</button>
-                            </div>
-                        </form>
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f8fafc; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        <i class="feather-clock"></i>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="pro-card pro-card-elevated h-100 d-flex align-items-center justify-content-center p-3 text-center">
-                <div>
-                    <div class="fs-2 fw-bold text-primary mb-0">{{ conversionRate }}%</div>
-                    <div class="small text-muted text-uppercase fw-bold">Lead Conversion</div>
-                    <div class="progress mt-2" style="height: 4px; border-radius: 99px; width: 80px; margin: 0 auto;">
-                        <div class="progress-bar" style="width: {{ conversionRate }}%"></div>
-                    </div>
+                <div style="margin-top: 24px; font-size: 13px; color: #64748b;">
+                    Fast replies = <strong>More wins</strong>
                 </div>
             </div>
         </div>
@@ -145,85 +143,85 @@
     <div class="row g-4">
         {# ── Recent Offers ── #}
         <div class="col-lg-8">
-            <div class="pro-card pro-card-elevated">
-                <div class="pro-card-header">
+            <div class="drl-card">
+                <div class="drl-card-head border-bottom">
                     <div>
-                        <h4 class="pro-card-title">Recent Offers</h4>
-                        <p class="pro-card-subtitle">Your latest submitted offers</p>
+                        <h4 class="drl-card-title">Recent Offers Actions</h4>
+                        <p class="drl-card-sub" style="margin: 0;">Track the status of your latest submitted quotes</p>
                     </div>
-                    <a href="{{ path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-sm">
+                    <a href="{{ path('professional_offers') }}" class="drl-btn-outline" style="font-size:13px; font-weight:700; color:#0d2151; text-decoration:none; padding:6px 14px; border:1px solid #cbd5e1; border-radius:8px; transition:all 0.15s; background: white;">
                         View All <i class="feather-arrow-right"></i>
                     </a>
                 </div>
 
-                <div class="pro-table-wrapper">
-                    <table class="pro-table">
-                        <thead>
+                <div class="table-responsive">
+                    <table class="table mb-0 drl-table">
+                        <thead style="background: #f8fafc;">
                             <tr>
-                                <th>Quote Request</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Action</th>
+                                <th style="border-bottom: 1px solid #e2e8f0;">Quote Request</th>
+                                <th style="border-bottom: 1px solid #e2e8f0;">Amount</th>
+                                <th style="border-bottom: 1px solid #e2e8f0;">Status</th>
+                                <th style="border-bottom: 1px solid #e2e8f0;">Date</th>
+                                <th style="border-bottom: 1px solid #e2e8f0; width: 100px; text-align: right;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for offer in recentOffers %}
                                 <tr>
                                     <td>
-                                        <span class="pro-fw-semibold">{{ offer.quoteRequest ? offer.quoteRequest.title : 'Direct Request' }}</span>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 36px; height: 36px; border-radius: 8px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center;">
+                                                <i class="feather-{% if offer.quoteRequest %}file-text{% else %}user{% endif %}"></i>
+                                            </div>
+                                            <strong style="color: #0d2151; font-size: 14px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,40) ~ '...' : 'Direct Request' }}</strong>
+                                        </div>
                                     </td>
                                     <td>
-                                        <span class="pro-text-primary pro-fw-bold">{{ offer.price|number_format(2) }} $</span>
+                                        <strong style="color: #00509e; font-size: 14px;">{{ offer.price|number_format(2) }} $</strong>
                                     </td>
                                     <td>
                                         {% if offer.status == 'DRAFT' %}
-                                            <span class="pro-badge secondary"><i class="feather-file" style="font-size:0.65rem;"></i> Draft</span>
+                                            <span class="drl-tag drl-tag--draft"><i class="feather-edit-2" style="font-size:11px;"></i> Draft</span>
                                         {% elseif offer.status == 'PUBLISHED' %}
-                                            <span class="pro-badge info"><i class="feather-send" style="font-size:0.65rem;"></i> Sent</span>
+                                            <span class="drl-tag drl-tag--sent"><i class="feather-send" style="font-size:11px;"></i> Sent</span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="pro-badge warning"><i class="feather-clock" style="font-size:0.65rem;"></i> In Review</span>
+                                            <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size:11px;"></i> Rejected</span>
                                         {% elseif offer.status == 'ACCEPTED' %}
                                             {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                                <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Completed</span>
+                                                <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size:11px;"></i> Completed</span>
                                             {% else %}
-                                                <span class="pro-badge success"><i class="feather-check-circle" style="font-size:0.65rem;"></i> Accepted</span>
+                                                <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size:11px;"></i> Accepted</span>
                                             {% endif %}
-                                        {% elseif offer.status == 'REJECTED' %}
-                                            <span class="pro-badge danger"><i class="feather-x-circle" style="font-size:0.65rem;"></i> Rejected</span>
                                         {% else %}
-                                            <span class="pro-badge secondary">{{ offer.status }}</span>
+                                            <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
                                         {% endif %}
                                     </td>
-                                    <td>
-                                        <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                                    <td style="color: #64748b; font-size: 14px;">
+                                        {{ offer.createdAt|date('M d, Y') }}
                                     </td>
-                                    <td>
+                                    <td style="text-align: right;">
                                         {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                                            <button type="button" class="pro-action-badge success" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
-                                                <i class="feather-check-circle"></i> Finalize
+                                            <button type="button" class="drl-act-btn drl-act-btn--finalize" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}" title="Finalize Request">
+                                                <i class="feather-check-circle"></i> Complete
                                             </button>
-
                                         {% elseif offer.quoteRequest or offer.directRequest %}
-                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="pro-action-badge view">
-                                                <i class="feather-eye"></i> View
+                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" title="View Offer details">
+                                                View
                                             </a>
                                         {% endif %}
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="pro-table-empty">
-                                        <div class="pro-empty-state">
-                                            <div class="pro-empty-icon">
-                                                <i class="feather-send"></i>
-                                            </div>
-                                            <h6 class="pro-empty-title">No offers yet</h6>
-                                            <p class="pro-empty-text">Browse quote requests to start submitting offers</p>
-                                            <a href="{{ path('professional_quotes') }}" class="pro-btn pro-btn-primary pro-btn-sm mt-2">
-                                                <i class="feather-search"></i> Browse Quotes
-                                            </a>
+                                    <td colspan="5" class="text-center py-5">
+                                        <div style="width:64px; height:64px; border-radius:50%; background:#f8fafc; color:#cbd5e1; font-size:28px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                                            <i class="feather-folder"></i>
                                         </div>
+                                        <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No recent offers</h6>
+                                        <p style="font-size:14px; color:#64748b; margin:0 0 20px;">When you submit offers to clients, they will appear here to easily track their status.</p>
+                                        <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="display:inline-block; padding: 10px 24px;">
+                                            <i class="feather-search"></i> Find Quote Requests
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -235,53 +233,52 @@
 
         {# ── Notifications Panel ── #}
         <div class="col-lg-4">
-            <div class="pro-card pro-card-elevated">
-                <div class="pro-card-header">
-                    <div>
-                        <h4 class="pro-card-title">
-                            Notifications
-                            {% if unreadCount > 0 %}
-                                <span class="pro-badge danger" style="font-size:1rem; vertical-align:middle; margin-left:6px;">{{ unreadCount }}</span>
-                            {% endif %}
-                        </h4>
+            <div class="drl-card h-100">
+                <div class="drl-card-head border-bottom">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <h4 class="drl-card-title">Notifications</h4>
+                        {% if unreadCount > 0 %}
+                            <span class="drl-tag drl-tag--danger" style="padding:2px 8px; font-size:11px;">{{ unreadCount }} new</span>
+                        {% endif %}
                     </div>
                     {% if unreadCount > 0 %}
-                        <form method="post" action="{{ path('notification_mark_all_read') }}" style="display:inline;">
+                        <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
                             <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
-                            <button type="submit" class="pro-btn pro-btn-outline pro-btn-sm" style="font-size:1rem;">
+                            <button type="submit" style="background:transparent; border:none; color:#00509e; font-size:12px; font-weight:700; padding:0; cursor:pointer; text-decoration: underline;">
                                 Mark all read
                             </button>
                         </form>
                     {% endif %}
                 </div>
 
-                <div class="pro-card-body" style="max-height: 420px; overflow-y: auto; padding: 0;">
+                <div style="max-height: 480px; overflow-y: auto;">
                     {% for notification in notifications %}
-                        <div class="d-flex align-items-start gap-3 px-3 py-3 {{ not notification.read ? 'bg-light' : '' }}" style="border-bottom: 1px solid rgba(0,0,0,0.06);">
-                            <div style="min-width: 36px; width: 36px; height: 36px; border-radius: 50%; display:flex; align-items:center; justify-content:center;
-                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}background:rgba(16,185,129,0.12);{% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}background:rgba(239,68,68,0.12);{% else %}background:rgba(67,97,238,0.12);{% endif %}">
+                        <div class="drl-noti-item {{ not notification.read ? 'unread' : '' }}" style="padding: 16px 20px; border-bottom: 1px solid #f1f5f9; display: flex; gap: 16px; transition: background 0.2s; {% if not notification.read %}background: #f8fafc;{% endif %}">
+                            <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;
+                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}background: #f0fdf4; color: #16a34a;
+                                {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}background: #fef2f2; color: #ef4444;
+                                {% else %}background: #eff6ff; color: #00509e;{% endif %}">
+                                
                                 {% if 'Accepted' in notification.title or 'Completed' in notification.title %}
-                                    <i class="feather-check-circle" style="font-size:0.85rem; color:#10b981;"></i>
+                                    <i class="feather-check-circle"></i>
                                 {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}
-                                    <i class="feather-x-circle" style="font-size:0.85rem; color:#ef4444;"></i>
+                                    <i class="feather-x-circle"></i>
                                 {% else %}
-                                    <i class="feather-bell" style="font-size:0.85rem; color:#4361ee;"></i>
+                                    <i class="feather-bell"></i>
                                 {% endif %}
                             </div>
-                            <div class="flex-grow-1" style="min-width:0;">
-                                <p class="mb-1 {{ not notification.read ? 'pro-fw-semibold' : '' }}" style="font-size:1rem; line-height:1.4; color:var(--pro-text-dark,#1e293b);">
-                                    {{ notification.title }}
-                                </p>
-                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:1.1rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
-                                <small class="pro-text-muted" style="font-size:1rem;">{{ notification.createdAt|date('M d, H:i') }}</small>
+                            <div style="flex:1; min-width:0;">
+                                <p style="font-size: 14px; font-weight: {% if not notification.read %}800{% else %}700{% endif %}; color: #0d2151; margin: 0 0 4px; line-height: 1.3;">{{ notification.title }}</p>
+                                <p style="font-size: 13px; color: #64748b; margin: 0 0 6px; line-height: 1.4;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}…{% endif %}</p>
+                                <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">{{ notification.createdAt|date('M d, H:i') }}</div>
                             </div>
                         </div>
                     {% else %}
-                        <div class="text-center py-5 px-3">
-                            <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(67,97,238,0.1); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                <i class="feather-bell-off" style="font-size:1.2rem; color:var(--pro-primary,#4361ee);"></i>
+                        <div class="text-center py-5 px-4">
+                            <div style="width:48px; height:48px; border-radius:50%; background:#f8fafc; color:#cbd5e1; font-size:20px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                <i class="feather-bell-off"></i>
                             </div>
-                            <p class="pro-text-muted mb-0" style="font-size:1rem;">No notifications yet</p>
+                            <p style="font-size:14px; color:#64748b; margin:0;">No notifications yet</p>
                         </div>
                     {% endfor %}
                 </div>
@@ -297,24 +294,22 @@
             <!-- Finalize Modal -->
             <div class="modal fade" id="finalizeModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
-                        <div class="modal-body p-4 text-center">
-                            <div class="mb-4">
-                                <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(16, 185, 129, 0.1); color: var(--pro-success);">
-                                    <i class="feather-check-circle"></i>
-                                </div>
+                    <div class="modal-content border-0 shadow-lg text-center" style="border-radius: 16px;">
+                        <div class="modal-body p-5">
+                            <div style="width:64px; height:64px; border-radius:50%; background:#f0fdf4; color:#16a34a; font-size:28px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:20px;">
+                                <i class="feather-check-circle"></i>
                             </div>
-                            <h4 class="fw-bold text-dark mb-2">Finalize Request?</h4>
-                            <p class="text-muted px-4 mb-4">Mark this request as completed? The individual will be notified that the work is successfully done.</p>
-                            <div class="d-flex flex-column gap-3 mt-4">
+                            <h4 style="font-size:22px; font-weight:800; color:#0d2151; margin-bottom:12px;">Finalize Request?</h4>
+                            <p style="font-size:15px; color:#64748b; margin-bottom:32px;">Mark this request as completed? The individual will be notified that the work is successfully done.</p>
+                            <div class="d-flex flex-column gap-3">
                                 <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                                    <button type="submit" class="pro-btn pro-btn-primary w-100 py-3 justify-content-center">
+                                    <button type="submit" class="drl-btn-orange" style="width:100%; justify-content:center; padding:14px; background:#16a34a; box-shadow:0 4px 16px rgba(22,163,74,0.3); border:none;">
                                         <i class="feather-check-circle"></i> Yes, Mark as Completed
                                     </button>
                                 </form>
-                                <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
-                                    No, Not Yet
+                                <button type="button" style="width:100%; justify-content:center; padding:12px; border-radius:8px; border:1px solid #cbd5e1; background:transparent; color:#64748b; font-weight:700; font-size:14px; transition: all 0.2s;" data-bs-dismiss="modal">
+                                    Cancel
                                 </button>
                             </div>
                         </div>

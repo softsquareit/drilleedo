@@ -3,22 +3,22 @@
 {% block title %}My Offers - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header border-bottom">
+    <div class="drl-card">
+        <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="pro-card-title">My Offers</h4>
-                <p class="pro-card-subtitle">Track and manage all offers you've sent to potential clients</p>
+                <h4 class="drl-card-title">My Offers</h4>
+                <p class="drl-card-sub">Track and manage all offers you've sent to potential clients</p>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <span class="pro-badge primary">{{ offers|length }} Total</span>
-                <a href="{{ path('professional_quotes') }}" class="pro-btn pro-btn-primary pro-btn-sm">
+                <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ offers|length }} Total</span>
+                <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px; text-decoration: none;">
                     <i class="feather-plus"></i> New Offer
                 </a>
             </div>
         </div>
 
-        <div class="pro-table-wrapper">
-            <table class="pro-table">
+        <div class="table-responsive">
+            <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
                         <th>Quote Request</th>
@@ -35,82 +35,82 @@
                             <td>
                                 {% if offer.quoteRequest %}
                                     <div>
-                                        <span class="pro-fw-semibold d-block">{{ offer.quoteRequest.title }}</span>
-                                        <small class="pro-text-muted">
+                                        <span style="font-weight: 800; color: #0d2151; display: block;">{{ offer.quoteRequest.title }}</span>
+                                        <small style="color: #64748b; font-size: 12px;">
                                             <i class="feather-tag" ></i>
                                             {{ offer.quoteRequest.category ? offer.quoteRequest.category.name : 'N/A' }}
                                         </small>
                                     </div>
                                 {% elseif offer.directRequest is defined and offer.directRequest %}
-                                    <span class="pro-fw-semibold">{{ offer.directRequest.title|default('Direct Request') }}</span>
+                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ offer.directRequest.title|default('Direct Request') }}</span>
                                 {% else %}
-                                    <span class="pro-text-muted">—</span>
+                                    <span style="color: #94a3b8;">—</span>
                                 {% endif %}
                             </td>
                             <td>
-                                <span class="pro-fw-bold" style="color:#10b981; font-size:1rem;">{{ offer.price|number_format(2) }} $</span>
+                                <span style="font-weight: 800; color: #16a34a; font-size: 15px;">{{ offer.price|number_format(2) }} $</span>
                             </td>
                             <td>
-                                <span class="pro-text-muted" style="font-size:1rem;">{{ offer.description|slice(0, 50) }}{% if offer.description|length > 50 %}...{% endif %}</span>
+                                <span style="color: #64748b; font-size: 13px;">{{ offer.description|slice(0, 50) }}{% if offer.description|length > 50 %}...{% endif %}</span>
                             </td>
                             <td>
-                                <span class="pro-text-muted">{{ offer.createdAt|date('M d, Y') }}</span>
+                                <span style="color: #64748b; font-size: 13px;">{{ offer.createdAt|date('M d, Y') }}</span>
                                 {% if offer.updatedAt %}
-                                    <br><small class="pro-text-muted" ><i class="feather-edit-3" style="font-size:0.65rem;"></i> {{ offer.updatedAt|date('M d') }}</small>
+                                    <br><small style="color: #94a3b8; font-size: 11px;" ><i class="feather-edit-3"></i> {{ offer.updatedAt|date('M d') }}</small>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if offer.status == 'DRAFT' %}
-                                    <span class="pro-badge secondary"><i class="feather-file" style="font-size:0.65rem;"></i> Draft</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="feather-file" style="font-size: 11px;"></i> Draft</span>
                                 {% elseif offer.status == 'PUBLISHED' %}
-                                    <span class="pro-badge info"><i class="feather-send" style="font-size:0.65rem;"></i> Sent</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="feather-send" style="font-size: 11px;"></i> Sent</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
                                     {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                        <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Completed</span>
+                                        <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> Completed</span>
                                     {% else %}
-                                        <span class="pro-badge success"><i class="feather-check-circle" style="font-size:0.65rem;"></i> Accepted</span>
+                                        <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> Accepted</span>
                                     {% endif %}
                                 {% elseif offer.status == 'REJECTED' %}
-                                    <span class="pro-badge danger"><i class="feather-x-circle" style="font-size:0.65rem;"></i> Rejected</span>
+                                    <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size: 11px;"></i> Rejected</span>
                                 {% else %}
-                                    <span class="pro-badge secondary">{{ offer.status }}</span>
+                                    <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
                                 <div class="d-flex gap-1 flex-wrap">
                                     {# View button — ALWAYS available #}
-                                    <a href="{{ path('offer_view', {id: offer.id}) }}" class="pro-action-badge view" title="View Offer">
+                                    <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" title="View Offer" style="text-decoration:none;">
                                         <i class="feather-eye"></i>
                                     </a>
 
                                     {# Edit button — only for DRAFT offers, opens modal #}
                                     {% if offer.status == 'DRAFT' %}
-                                        <button type="button" class="pro-action-badge edit" data-bs-toggle="modal" data-bs-target="#editOfferModal{{ offer.id }}" title="Edit Offer">
+                                        <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" data-bs-toggle="modal" data-bs-target="#editOfferModal{{ offer.id }}" title="Edit Offer">
                                             <i class="feather-edit-2"></i>
                                         </button>
                                     {% else %}
-                                        <span class="pro-action-badge view disabled" style="opacity: 0.5; cursor: not-allowed;" title="Published offers cannot be edited">
+                                        <span class="drl-act-btn drl-act-btn--view" style="opacity: 0.5; cursor: not-allowed; border:none;" title="Published offers cannot be edited">
                                             <i class="feather-edit-2"></i>
                                         </span>
                                     {% endif %}
 
                                     {# Finalize button — only for ACCEPTED offers where request is not yet Closed #}
                                     {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                                        <button type="button" class="pro-action-badge view" style="background: rgba(16, 185, 129, 0.1); color: var(--pro-success-dark);" data-bs-toggle="modal" data-bs-target="#finalizeOfferModal{{ offer.id }}" title="Finalize Request">
+                                        <button type="button" class="drl-act-btn" style="background: rgba(22, 163, 74, 0.1); color: #16a34a; border:none;" data-bs-toggle="modal" data-bs-target="#finalizeOfferModal{{ offer.id }}" title="Finalize Request">
                                             <i class="feather-check-circle"></i>
                                         </button>
                                     {% endif %}
 
                                     {# Delete button — only for DRAFT offers #}
                                     {% if offer.status == 'DRAFT' %}
-                                        <button type="button" class="pro-action-badge delete" data-bs-toggle="modal" data-bs-target="#deleteOfferModal{{ offer.id }}" title="Delete Offer">
+                                        <button type="button" class="drl-act-btn" style="background: #fef2f2; color: #ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteOfferModal{{ offer.id }}" title="Delete Offer">
                                             <i class="feather-trash-2"></i>
                                         </button>
                                     {% endif %}
 
                                     {# Completed indicator #}
                                     {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                        <span class="d-inline-flex align-items-center gap-1" style="color:#10b981; font-size:0.75rem;" title="Completed">
+                                        <span class="d-inline-flex align-items-center gap-1" style="color: #16a34a; font-size: 13px;" title="Completed">
                                             <i class="feather-award" ></i>
                                         </span>
                                     {% endif %}
@@ -119,17 +119,15 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="pro-table-empty">
-                                <div class="pro-empty-state">
-                                    <div class="pro-empty-icon">
-                                        <i class="feather-send"></i>
-                                    </div>
-                                    <h6 class="pro-empty-title">No offers sent yet</h6>
-                                    <p class="pro-empty-text">Browse available quote requests and submit your best offer</p>
-                                    <a href="{{ path('professional_quotes') }}" class="pro-btn pro-btn-primary pro-btn-sm mt-2">
-                                        <i class="feather-search"></i> Browse Quotes
-                                    </a>
+                            <td colspan="6" class="text-center py-5">
+                                <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                    <i class="feather-send"></i>
                                 </div>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No offers sent yet</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">Browse available quote requests and submit your best offer</p>
+                                <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px; text-decoration:none;">
+                                    <i class="feather-search"></i> Browse Quotes
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -146,23 +144,23 @@
             <!-- Finalize Modal -->
             <div class="modal fade" id="finalizeOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
-                        <div class="modal-body p-4 text-center">
+                    <div class="modal-content text-center" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
+                        <div class="modal-body pt-5 px-4 pb-4">
                             <div class="mb-4">
-                                <div class="pro-stat-icon success mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(16, 185, 129, 0.1); color: var(--pro-success);">
+                                <div style="width: 72px; height: 72px; border-radius: 50%; background: #f0fdf4; color: #16a34a; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto;">
                                     <i class="feather-check-circle"></i>
                                 </div>
                             </div>
-                            <h4 class="fw-bold text-dark mb-2">Finalize Request?</h4>
-                            <p class="text-muted px-4 mb-4">Mark this request as completed? The client will be notified that the work is successfully done.</p>
+                            <h4 style="font-size: 20px; font-weight: 800; color: #0d2151; margin-bottom: 12px;">Finalize Request?</h4>
+                            <p style="font-size: 14px; color: #64748b; margin-bottom: 32px;">Mark this request as completed? The client will be notified that the work is successfully done.</p>
                             <div class="d-flex flex-column gap-3 mt-4">
                                 <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                                    <button type="submit" class="pro-btn pro-btn-primary w-100 py-3 justify-content-center">
+                                    <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25); padding: 14px;">
                                         <i class="feather-check-circle"></i> Yes, Mark as Completed
                                     </button>
                                 </form>
-                                <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
+                                <button type="button" style="width: 100%; justify-content: center; padding: 14px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;" data-bs-dismiss="modal">
                                     No, Not Yet
                                 </button>
                             </div>
@@ -176,43 +174,41 @@
             <!-- Edit Modal -->
             <div class="modal fade" id="editOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content pro-modal-content">
-                        <div class="modal-header pro-modal-header border-bottom p-4">
+                    <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
+                        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0; padding: 20px 24px;">
                             <div>
-                                <h5 class="modal-title fw-bold" style="font-size: 1.8rem;">Edit Your Offer</h5>
-                                <p class="pro-text-muted mb-0" style="font-size: 1.1rem;">Update your proposal for: <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'Request')) }}</strong></p>
+                                <h5 class="modal-title" style="font-weight: 800; color: #0d2151; margin: 0;">Edit Your Offer</h5>
+                                <p style="font-size: 13px; color: #64748b; margin: 4px 0 0;">Update your proposal for: <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'Request')) }}</strong></p>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body pro-modal-body p-4">
+                        <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
                             {% set editForm = editForms[offer.id] %}
-                            {{ form_start(editForm, {'attr': {'class': 'pro-form-row', 'id': 'editOfferForm' ~ offer.id, 'novalidate': 'novalidate'}}) }}
+                            {{ form_start(editForm, {'attr': {'id': 'editOfferForm' ~ offer.id, 'novalidate': 'novalidate'}}) }}
                                 <div class="row g-4">
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Proposed Price ($) <span class="pro-text-danger">*</span></label>
-                                            {{ form_widget(editForm.price, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. 500'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Proposed Price ($) <span style="color:#ef4444;">*</span></label>
+                                            {{ form_widget(editForm.price, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'e.g. 500'}}) }}
                                             {{ form_errors(editForm.price) }}
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Message to Client <span class="pro-text-danger">*</span></label>
-                                            {{ form_widget(editForm.description, {'attr': {'class': 'pro-form-textarea', 'rows': '6', 'placeholder': 'Explain your offer...'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Message to Client <span style="color:#ef4444;">*</span></label>
+                                            {{ form_widget(editForm.description, {'attr': {'class': 'drl-form-control w-100', 'rows': '6', 'placeholder': 'Explain your offer...'}}) }}
                                             {{ form_errors(editForm.description) }}
                                         </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Supporting Documents <span class="pro-text-muted">(Optional)</span></label>
-                                            {{ form_widget(editForm.documents, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div class="mt-4">
+                                            <label class="drl-form-label">Supporting Documents <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional)</span></label>
+                                            {{ form_widget(editForm.documents, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                             {{ form_errors(editForm.documents) }}
                                             {% if offer.documents|length > 0 %}
                                                 <div class="mt-2">
-                                                    <p class="small text-muted mb-1">Current documents:</p>
-                                                    <div class="d-flex flex-wrap gap-1">
+                                                    <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Current documents:</p>
+                                                    <div class="d-flex flex-wrap gap-2">
                                                         {% for doc in offer.documents %}
-                                                            <span class="badge bg-light text-dark border">{{ doc|slice(0, 20) }}...</span>
+                                                            <span style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 12px;">{{ doc|slice(0, 20) }}...</span>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -220,12 +216,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-4 d-flex gap-2">
-                                    <button type="submit" name="action" value="publish" class="pro-btn pro-btn-primary flex-grow-1 py-3">
-                                        <i class="feather-send"></i> Publish Offer
-                                    </button>
-                                    <button type="submit" name="action" value="draft" class="pro-btn pro-btn-outline flex-grow-1 py-3">
+                                <div class="mt-4 pt-4 border-top d-flex gap-3">
+                                    <button type="submit" name="action" value="draft" style="width: 50%; justify-content: center; padding: 12px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;">
                                         <i class="feather-save"></i> Update Draft
+                                    </button>
+                                    <button type="submit" name="action" value="publish" class="drl-btn-orange" style="width: 50%; justify-content: center; padding: 12px;">
+                                        <i class="feather-send"></i> Publish Offer
                                     </button>
                                 </div>
                             {{ form_end(editForm) }}
@@ -237,23 +233,23 @@
             <!-- Delete Modal -->
             <div class="modal fade" id="deleteOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow-lg text-start" style="border-radius: 16px;">
-                        <div class="modal-body p-4 text-center">
+                    <div class="modal-content text-center" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
+                        <div class="modal-body pt-5 px-4 pb-4">
                             <div class="mb-4">
-                                <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px; background: rgba(239, 68, 68, 0.1); color: var(--pro-danger);">
+                                <div style="width: 72px; height: 72px; border-radius: 50%; background: #fef2f2; color: #ef4444; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto;">
                                     <i class="feather-alert-triangle"></i>
                                 </div>
                             </div>
-                            <h4 class="fw-bold text-dark mb-2">Delete this offer?</h4>
-                            <p class="text-muted px-4 mb-4">Are you sure you want to permanently delete this draft offer? This action cannot be undone.</p>
+                            <h4 style="font-size: 20px; font-weight: 800; color: #0d2151; margin-bottom: 12px;">Delete this offer?</h4>
+                            <p style="font-size: 14px; color: #64748b; margin-bottom: 32px;">Are you sure you want to permanently delete this draft offer? This action cannot be undone.</p>
                             <div class="d-flex flex-column gap-3 mt-4">
                                 <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
                                      <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
-                                    <button type="submit" class="pro-btn pro-btn-danger w-100 py-3 justify-content-center">
+                                    <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25); padding: 14px;">
                                         <i class="feather-trash-2"></i> Yes, Delete Permanently
                                     </button>
                                 </form>
-                                <button type="button" class="pro-btn pro-btn-outline w-100 py-3 justify-content-center" data-bs-dismiss="modal">
+                                <button type="button" style="width: 100%; justify-content: center; padding: 14px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;" data-bs-dismiss="modal">
                                     Cancel
                                 </button>
                             </div>

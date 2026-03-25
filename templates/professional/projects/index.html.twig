@@ -3,19 +3,19 @@
 {% block title %}My Projects - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header">
+    <div class="drl-card">
+        <div class="drl-card-head">
             <div>
-                <h4 class="pro-card-title">My Projects</h4>
-                <p class="pro-card-subtitle">Showcase your portfolio and track your completed work</p>
+                <h4 class="drl-card-title">My Projects</h4>
+                <p class="drl-card-sub">Showcase your portfolio and track your completed work</p>
             </div>
-            <button type="button" class="pro-btn pro-btn-primary" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+            <button type="button" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#newProjectModal">
                 <i class="feather-plus"></i> Add Project
             </button>
         </div>
 
-        <div class="pro-table-wrapper">
-            <table class="pro-table">
+        <div class="table-responsive">
+            <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
                         <th>Project Name</th>
@@ -28,38 +28,38 @@
                 <tbody>
                     {% for project in projects %}
                         <tr>
-                            <th>
-                                <span class="pro-fw-semibold">{{ project.name }}</span>
-                                <p class="pro-text-muted" style="font-size: 1rem; margin-top: 4px;">{{ project.description|slice(0, 60) }}...</p>
-                            </th>
                             <td>
-                                <div class="pro-text-muted" style="font-size: 1.4rem;">
-                                    <div>Start: {{ project.startDate|date('M d, Y') }}</div>
+                                <span style="font-weight: 800; color: #0d2151;">{{ project.name }}</span>
+                                <p style="font-size: 13px; color: #64748b; margin: 4px 0 0;">{{ project.description|slice(0, 60) }}...</p>
+                            </td>
+                            <td>
+                                <div style="font-size: 13px; color: #64748b; line-height: 1.6;">
+                                    <div><strong style="color: #94a3b8; font-size: 11px; text-transform: uppercase;">Start:</strong> {{ project.startDate|date('M d, Y') }}</div>
                                     {% if project.EndDate %}
-                                        <div>End: {{ project.EndDate|date('M d, Y') }}</div>
+                                        <div><strong style="color: #94a3b8; font-size: 11px; text-transform: uppercase;">End:</strong> {{ project.EndDate|date('M d, Y') }}</div>
                                     {% endif %}
                                 </div>
                             </td>
                             <td>
                                 {% if project.isState %}
-                                    <span class="pro-badge success"><i class="feather-eye"></i> Published</span>
+                                    <span class="drl-tag drl-tag--success"><i class="feather-eye" style="font-size: 11px;"></i> Published</span>
                                 {% else %}
-                                    <span class="pro-badge pro-badge-outline"><i class="feather-eye-off"></i> Draft</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="feather-eye-off" style="font-size: 11px;"></i> Draft</span>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if project.EndDate %}
-                                    <span class="pro-badge info">Completed</span>
+                                    <span class="drl-tag drl-tag--success"><i class="feather-flag" style="font-size: 11px;"></i> Completed</span>
                                 {% else %}
-                                    <span class="pro-badge primary">In Progress</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="feather-loader" style="font-size: 11px;"></i> In Progress</span>
                                 {% endif %}
                             </td>
                             <td>
                                 <div class="d-flex gap-2">
-                                    <button type="button" class="pro-action-badge edit" title="Edit" data-bs-toggle="modal" data-bs-target="#editProjectModal{{ project.id }}">
+                                    <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" title="Edit" data-bs-toggle="modal" data-bs-target="#editProjectModal{{ project.id }}">
                                         <i class="feather-edit-2"></i> Edit
                                     </button>
-                                    <button type="button" class="pro-action-badge delete" data-bs-toggle="modal" data-bs-target="#deleteProjectModal{{ project.id }}" title="Delete">
+                                    <button type="button" class="drl-act-btn" style="background:#fef2f2; color:#ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteProjectModal{{ project.id }}" title="Delete">
                                         <i class="feather-trash-2"></i> Delete
                                     </button>
                                 </div>
@@ -67,14 +67,12 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5" class="pro-table-empty">
-                                <div class="pro-empty-state">
-                                    <div class="pro-empty-icon">
-                                        <i class="feather-briefcase"></i>
-                                    </div>
-                                    <h6 class="pro-empty-title">No projects yet</h6>
-                                    <p class="pro-empty-text">Add your first project to showcase your work</p>
+                            <td colspan="5" class="text-center py-5">
+                                <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                    <i class="feather-briefcase"></i>
                                 </div>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No projects yet</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">Add your first project to showcase your work</p>
                             </td>
                         </tr>
                     {% endfor %}
@@ -86,223 +84,223 @@
 
 {% block modals %}
     {{ parent() }}
+    <!-- Add Project Modal -->
     <div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content pro-modal-content">
-            <div class="modal-header pro-modal-header">
-                <div>
-                    <h5 class="modal-title fw-bold" style="font-size: 2rem;">Add New Project</h5>
-                    <p class="pro-text-muted mb-0" style="font-size: 1.3rem;">Showcase your latest work to potential clients</p>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pro-modal-body">
-                {{ form_start(projectForm, {'attr': {'class': 'pro-form-row', 'id': 'addProjectForm'}}) }}
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="pro-form-group">
-                                <label class="pro-form-label">Project Name <span class="pro-text-danger">*</span></label>
-                                {{ form_widget(projectForm.name, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. Modern Kitchen Renovation'}}) }}
-                                {{ form_errors(projectForm.name) }}
-                            </div>
-                        </div>
-                         <div class="col-12">
-                             <div class="pro-form-group">
-                                 <label class="pro-form-label">Description <span class="pro-text-danger">*</span></label>
-                                 {{ form_widget(projectForm.description, {'attr': {'class': 'pro-form-textarea', 'rows': 4, 'placeholder': 'Describe the scope, challenges, and results of this project...'}}) }}
-                                 {{ form_errors(projectForm.description) }}
-                             </div>
-                         </div>
-                        <div class="col-md-6">
-                             <div class="pro-form-group">
-                                <label class="pro-form-label">Start Date</label>
-                                {{ form_widget(projectForm.startDate, {'attr': {'class': 'pro-form-input'}}) }}
-                                {{ form_errors(projectForm.startDate) }}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                             <div class="pro-form-group">
-                                <label class="pro-form-label">End Date <span class="pro-text-muted">(Optional)</span></label>
-                                {{ form_widget(projectForm.EndDate, {'attr': {'class': 'pro-form-input'}}) }}
-                                {{ form_errors(projectForm.EndDate) }}
-                                <p class="pro-form-help">Leave empty if project is ongoing</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Drag & Drop Photo -->
-                        <div class="col-12">
-                            <div class="pro-form-group">
-                                <label class="pro-form-label">Main Project Photo <span class="pro-text-danger">*</span></label>
-                                <div class="pro-upload-zone" id="mainPhotoZone">
-                                    <i class="feather-image pro-upload-icon"></i>
-                                    <p class="pro-upload-text">Drag & drop or Click to upload</p>
-                                    <p class="pro-upload-hint">PNG, JPG, or WEBP (Max 5MB)</p>
-                                    {{ form_widget(projectForm.mainPhoto, {'attr': {'class': 'd-none', 'accept': 'image/*'}}) }}
-                                </div>
-                                <div id="mainPhotoPreview" class="pro-preview-grid" style="display: none;"></div>
-                                {{ form_errors(projectForm.mainPhoto) }}
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="pro-form-group">
-                                <label class="pro-form-label">Project Gallery <span class="pro-text-muted">(Optional multiple images)</span></label>
-                                <div class="pro-upload-zone" id="galleryZone">
-                                    <i class="feather-grid pro-upload-icon"></i>
-                                    <p class="pro-upload-text">Upload multiple gallery photos</p>
-                                    <p class="pro-upload-hint">Highlight different angles or details</p>
-                                    {{ form_widget(projectForm.gallery, {'attr': {'class': 'd-none', 'accept': 'image/*', 'multiple': 'multiple'}}) }}
-                                </div>
-                                <div id="galleryPreview" class="pro-preview-grid"></div>
-                                {{ form_errors(projectForm.gallery) }}
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="d-flex align-items-center gap-3 p-3 rounded" style="background: var(--pro-slate-50); border: 1px solid var(--pro-slate-200);">
-                                <div class="form-check form-switch mb-0">
-                                    {{ form_widget(projectForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
-                                </div>
-                                <div>
-                                    <label class="pro-form-label mb-0" for="{{ projectForm.state.vars.id }}">Publish Immediately</label>
-                                    <p class="pro-text-muted mb-0" style="font-size: 1.1rem;">Making this public will show it on your profile</p>
-                                </div>
-                            </div>
-                        </div>
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
+                <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0; padding: 20px 24px;">
+                    <div>
+                        <h5 class="modal-title" style="font-weight: 800; color: #0d2151; margin: 0;">Add New Project</h5>
+                        <p style="font-size: 13px; color: #64748b; margin: 4px 0 0;">Showcase your latest work to potential clients</p>
                     </div>
-                {{ form_end(projectForm) }}
-            </div>
-                <div class="modal-footer pro-modal-footer">
-                    <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" form="addProjectForm" class="pro-btn pro-btn-primary">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
+                    {{ form_start(projectForm, {'attr': {'id': 'addProjectForm'}}) }}
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <div>
+                                    <label class="drl-form-label">Project Name <span style="color:#ef4444;">*</span></label>
+                                    {{ form_widget(projectForm.name, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'e.g. Modern Kitchen Renovation'}}) }}
+                                    {{ form_errors(projectForm.name) }}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div>
+                                    <label class="drl-form-label">Description <span style="color:#ef4444;">*</span></label>
+                                    {{ form_widget(projectForm.description, {'attr': {'class': 'drl-form-control w-100', 'rows': 4, 'placeholder': 'Describe the scope, challenges, and results of this project...'}}) }}
+                                    {{ form_errors(projectForm.description) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <label class="drl-form-label">Start Date <span style="color:#ef4444;">*</span></label>
+                                    {{ form_widget(projectForm.startDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                    {{ form_errors(projectForm.startDate) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <label class="drl-form-label">End Date <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional)</span></label>
+                                    {{ form_widget(projectForm.EndDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                    {{ form_errors(projectForm.EndDate) }}
+                                    <p style="font-size: 11px; color: #64748b; margin-top: 4px;">Leave empty if project is ongoing</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Drag & Drop Photo -->
+                            <div class="col-12">
+                                <div>
+                                    <label class="drl-form-label">Main Project Photo <span style="color:#ef4444;">*</span></label>
+                                    <div class="pro-upload-zone" id="mainPhotoZone" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
+                                        <i class="feather-image pro-upload-icon" style="color: #94a3b8;"></i>
+                                        <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">Drag & drop or Click to upload</p>
+                                        <p class="pro-upload-hint" style="color: #64748b;">PNG, JPG, or WEBP (Max 5MB)</p>
+                                        {{ form_widget(projectForm.mainPhoto, {'attr': {'class': 'd-none', 'accept': 'image/*'}}) }}
+                                    </div>
+                                    <div id="mainPhotoPreview" class="pro-preview-grid" style="display: none; margin-top: 16px;"></div>
+                                    {{ form_errors(projectForm.mainPhoto) }}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div>
+                                    <label class="drl-form-label">Project Gallery <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional multiple images)</span></label>
+                                    <div class="pro-upload-zone" id="galleryZone" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
+                                        <i class="feather-grid pro-upload-icon" style="color: #94a3b8;"></i>
+                                        <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">Upload multiple gallery photos</p>
+                                        <p class="pro-upload-hint" style="color: #64748b;">Highlight different angles or details</p>
+                                        {{ form_widget(projectForm.gallery, {'attr': {'class': 'd-none', 'accept': 'image/*', 'multiple': 'multiple'}}) }}
+                                    </div>
+                                    <div id="galleryPreview" class="pro-preview-grid" style="margin-top: 16px;"></div>
+                                    {{ form_errors(projectForm.gallery) }}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-flex align-items-center gap-3 p-3 rounded" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                    <div class="form-check form-switch mb-0">
+                                        {{ form_widget(projectForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
+                                    </div>
+                                    <div>
+                                        <label class="drl-form-label mb-0" for="{{ projectForm.state.vars.id }}">Publish Immediately</label>
+                                        <p style="font-size: 13px; color: #64748b; margin: 0;">Making this public will show it on your profile immediately</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{ form_end(projectForm) }}
+                </div>
+                <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px; padding: 16px 24px;">
+                    <button type="button" style="padding: 10px 20px; font-size: 14px; font-weight: 700; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b;" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="addProjectForm" class="drl-btn-orange">
                         <i class="feather-save"></i> Create Project
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Edit and Delete Modals for Each Project -->
-{% for project in projects %}
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content pro-modal-content">
-                <div class="modal-header pro-modal-header">
-                    <div>
-                        <h5 class="modal-title fw-bold" style="font-size: 2rem;">Edit Project</h5>
-                        <p class="pro-text-muted mb-0" style="font-size: 1.3rem;">Modify your project details and images</p>
+    <!-- Edit and Delete Modals for Each Project -->
+    {% for project in projects %}
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
+                    <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0; padding: 20px 24px;">
+                        <div>
+                            <h5 class="modal-title" style="font-weight: 800; color: #0d2151; margin: 0;">Edit Project</h5>
+                            <p style="font-size: 13px; color: #64748b; margin: 4px 0 0;">Modify your project details and images</p>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body pro-modal-body">
-                    {% set editForm = editForms[project.id] %}
-                    {{ form_start(editForm, {'attr': {'class': 'pro-form-row', 'id': 'editProjectForm' ~ project.id}}) }}
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">Project Name <span class="pro-text-danger">*</span></label>
-                                    {{ form_widget(editForm.name, {'attr': {'class': 'pro-form-input'}}) }}
-                                    {{ form_errors(editForm.name) }}
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">Description <span class="pro-text-danger">*</span></label>
-                                    {{ form_widget(editForm.description, {'attr': {'class': 'pro-form-textarea', 'rows': 4}}) }}
-                                    {{ form_errors(editForm.description) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">Start Date</label>
-                                    {{ form_widget(editForm.startDate, {'attr': {'class': 'pro-form-input'}}) }}
-                                    {{ form_errors(editForm.startDate) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">End Date</label>
-                                    {{ form_widget(editForm.EndDate, {'attr': {'class': 'pro-form-input'}}) }}
-                                    {{ form_errors(editForm.EndDate) }}
-                                </div>
-                            </div>
-
-                            <!-- Main Photo Edit -->
-                            <div class="col-12">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">Main Project Photo</label>
-                                    <div class="pro-upload-zone mb-3" id="mainPhotoZone{{ project.id }}">
-                                        <i class="feather-image pro-upload-icon"></i>
-                                        <p class="pro-upload-text">Replace current photo</p>
-                                        {{ form_widget(editForm.mainPhoto, {'attr': {'class': 'd-none', 'accept': 'image/*'}}) }}
-                                    </div>
-                                    <div id="mainPhotoPreview{{ project.id }}" class="pro-preview-grid">
-                                        {% if project.mainPhoto %}
-                                            <div class="pro-preview-item">
-                                                <img src="{{ asset('uploads/projects/' ~ project.mainPhoto) }}" alt="Current">
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="d-flex align-items-center gap-3 p-3 rounded" style="background: var(--pro-slate-50); border: 1px solid var(--pro-slate-200);">
-                                    <div class="form-check form-switch mb-0">
-                                        {{ form_widget(editForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
-                                    </div>
+                    <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
+                        {% set editForm = editForms[project.id] %}
+                        {{ form_start(editForm, {'attr': {'id': 'editProjectForm' ~ project.id}}) }}
+                            <div class="row g-4">
+                                <div class="col-12">
                                     <div>
-                                        <label class="pro-form-label mb-0" for="{{ editForm.state.vars.id }}">Published</label>
+                                        <label class="drl-form-label">Project Name <span style="color:#ef4444;">*</span></label>
+                                        {{ form_widget(editForm.name, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                        {{ form_errors(editForm.name) }}
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div>
+                                        <label class="drl-form-label">Description <span style="color:#ef4444;">*</span></label>
+                                        {{ form_widget(editForm.description, {'attr': {'class': 'drl-form-control w-100', 'rows': 4}}) }}
+                                        {{ form_errors(editForm.description) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="drl-form-label">Start Date</label>
+                                        {{ form_widget(editForm.startDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                        {{ form_errors(editForm.startDate) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="drl-form-label">End Date</label>
+                                        {{ form_widget(editForm.EndDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                        {{ form_errors(editForm.EndDate) }}
+                                    </div>
+                                </div>
+
+                                <!-- Main Photo Edit -->
+                                <div class="col-12">
+                                    <div>
+                                        <label class="drl-form-label">Main Project Photo</label>
+                                        <div class="pro-upload-zone mb-3" id="mainPhotoZone{{ project.id }}" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
+                                            <i class="feather-image pro-upload-icon" style="color: #94a3b8;"></i>
+                                            <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">Replace current photo</p>
+                                            {{ form_widget(editForm.mainPhoto, {'attr': {'class': 'd-none', 'accept': 'image/*'}}) }}
+                                        </div>
+                                        <div id="mainPhotoPreview{{ project.id }}" class="pro-preview-grid">
+                                            {% if project.mainPhoto %}
+                                                <div class="pro-preview-item" style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                                    <img src="{{ asset('uploads/projects/' ~ project.mainPhoto) }}" alt="Current">
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center gap-3 p-3 rounded" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                        <div class="form-check form-switch mb-0">
+                                            {{ form_widget(editForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
+                                        </div>
+                                        <div>
+                                            <label class="drl-form-label mb-0" for="{{ editForm.state.vars.id }}">Published</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {# We skip gallery in simple edit for now to avoid complexity, but usually ProjetType handles it #}
-                        {{ form_row(editForm.gallery, {'attr': {'class': 'd-none'}}) }}
-                    {{ form_end(editForm) }}
-                </div>
-                <div class="modal-footer pro-modal-footer">
-                    <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" form="editProjectForm{{ project.id }}" class="pro-btn pro-btn-success">
-                        <i class="feather-save"></i> Save Changes
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content pro-modal-content text-center">
-                <div class="modal-body pro-modal-body pt-5">
-                    <div class="mb-4">
-                        <div class="pro-stat-icon danger mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
-                            <i class="feather-alert-triangle"></i>
-                        </div>
+                            {# Skip gallery in simple edit modal for now #}
+                            {{ form_row(editForm.gallery, {'attr': {'class': 'd-none'}}) }}
+                        {{ form_end(editForm) }}
                     </div>
-                    <h4 class="fw-bold text-dark mb-2" style="font-size: 2rem;">Delete Project?</h4>
-                    <p class="pro-text-muted px-4 mb-4" style="font-size: 1.4rem;">
-                        Are you sure you want to permanently delete <strong>"{{ project.name }}"</strong>? This action cannot be undone.
-                    </p>
-                    <div class="d-flex flex-column gap-3 mt-2">
-                        <form method="post" action="{{ path('professional_project_delete', {id: project.id}) }}" class="w-100">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.id) }}">
-                            <button type="submit" class="pro-btn pro-btn-danger w-100 py-3">
-                                <i class="feather-trash-2"></i> Yes, Delete Permanently
-                            </button>
-                        </form>
-                        <button type="button" class="pro-btn pro-btn-outline w-100 py-3" data-bs-dismiss="modal">
-                            Cancel
+                    <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px; padding: 16px 24px;">
+                        <button type="button" style="padding: 10px 20px; font-size: 14px; font-weight: 700; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b;" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" form="editProjectForm{{ project.id }}" class="drl-btn-orange" style="background: #16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
+                            <i class="feather-save"></i> Save Changes
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-{% endfor %}
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
+                    <div class="modal-body pt-5 px-4 pb-4">
+                        <div class="mb-4">
+                            <div style="width: 72px; height: 72px; border-radius: 50%; background: #fef2f2; color: #ef4444; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <i class="feather-alert-triangle"></i>
+                            </div>
+                        </div>
+                        <h4 style="font-size: 20px; font-weight: 800; color: #0d2151; margin-bottom: 12px;">Delete Project?</h4>
+                        <p style="font-size: 14px; color: #64748b; margin-bottom: 32px;">
+                            Are you sure you want to permanently delete <strong>"{{ project.name }}"</strong>? This action cannot be undone.
+                        </p>
+                        <div class="d-flex flex-column gap-3 mt-2">
+                            <form method="post" action="{{ path('professional_project_delete', {id: project.id}) }}" class="w-100">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.id) }}">
+                                <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25); padding: 14px;">
+                                    <i class="feather-trash-2"></i> Yes, Delete Permanently
+                                </button>
+                            </form>
+                            <button type="button" style="width: 100%; justify-content: center; padding: 14px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -317,16 +315,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         zone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            zone.classList.add('dragover');
+            zone.style.borderColor = '#00509e';
+            zone.style.backgroundColor = '#eff6ff';
         });
 
         ['dragleave', 'dragend'].forEach(type => {
-            zone.addEventListener(type, () => zone.classList.remove('dragover'));
+            zone.addEventListener(type, () => {
+                zone.style.borderColor = '#cbd5e1';
+                zone.style.backgroundColor = '#f8fafc';
+            });
         });
 
         zone.addEventListener('drop', (e) => {
             e.preventDefault();
-            zone.classList.remove('dragover');
+            zone.style.borderColor = '#cbd5e1';
+            zone.style.backgroundColor = '#f8fafc';
             if (e.dataTransfer.files.length) {
                 input.files = e.dataTransfer.files;
                 updatePreviews(e.dataTransfer.files, preview, multiple);
@@ -348,7 +351,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 reader.onload = (e) => {
                     const item = document.createElement('div');
                     item.className = 'pro-preview-item';
-                    item.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    item.style = 'border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 10px;';
+                    item.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width:100%; height:auto;">`;
                     previewContainer.appendChild(item);
                 };
                 reader.readAsDataURL(file);

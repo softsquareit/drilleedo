@@ -3,41 +3,41 @@
 {% block title %}Settings - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header">
+    <div class="drl-card">
+        <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="pro-card-title">Account Settings</h4>
-                <p class="pro-card-subtitle">Manage your account preferences, contact information, and business details</p>
+                <h4 class="drl-card-title">Account Settings</h4>
+                <p class="drl-card-sub">Manage your account preferences, contact information, and business details</p>
             </div>
         </div>
 
         <div class="row g-4 p-4">
             <div class="col-lg-3">
-                <div class="pro-sidebar sticky-top">
+                <div class="sticky-top" style="top: 20px;">
                     <nav>
-                        <ul class="pro-sidebar-nav">
-                            <li class="pro-sidebar-item">
-                                <a class="pro-sidebar-link active" data-bs-toggle="list" href="#contact" role="tab">
+                        <ul class="nav flex-column" style="gap: 8px;">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="list" href="#contact" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
                                     <i class="feather-user"></i> Contact Info
                                 </a>
                             </li>
-                            <li class="pro-sidebar-item">
-                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#address" role="tab">
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="list" href="#address" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
                                     <i class="feather-map-pin"></i> Address Book
                                 </a>
                             </li>
-                            <li class="pro-sidebar-item">
-                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#categories" role="tab">
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="list" href="#categories" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
                                     <i class="feather-tag"></i> Service Category
                                 </a>
                             </li>
-                            <li class="pro-sidebar-item">
-                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#links" role="tab">
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="list" href="#links" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
                                     <i class="feather-link"></i> Social Links
                                 </a>
                             </li>
-                            <li class="pro-sidebar-item">
-                                <a class="pro-sidebar-link" data-bs-toggle="list" href="#security" role="tab">
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="list" href="#security" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
                                     <i class="feather-lock"></i> Security
                                 </a>
                             </li>
@@ -51,38 +51,38 @@
                     
                     <!-- Contact Info -->
                     <div class="tab-pane fade show active" id="contact" role="tabpanel">
-                        <div class="pro-card">
-                            <div class="pro-card-header">
-                                <h6 class="pro-card-title">Contact Information</h6>
+                        <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
+                            <div class="drl-card-head border-bottom">
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Contact Information</h6>
                             </div>
-                            <div class="pro-card-body">
+                            <div class="p-4">
                                 {{ form_start(contactForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-lg-6">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">First Name</label>
-                                            {{ form_widget(contactForm.firstName, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">First Name</label>
+                                            {{ form_widget(contactForm.firstName, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Last Name</label>
-                                            {{ form_widget(contactForm.lastName, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Last Name</label>
+                                            {{ form_widget(contactForm.lastName, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Email</label>
-                                            {{ form_widget(contactForm.email, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Email</label>
+                                            {{ form_widget(contactForm.email, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Phone</label>
-                                            {{ form_widget(contactForm.phone, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Phone</label>
+                                            {{ form_widget(contactForm.phone, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
-                                     <div class="col-12">
-                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                     <div class="col-12 mt-4 pt-3 border-top">
+                                        <button type="submit" class="drl-btn-orange">
                                             <i class="feather-save"></i> {{ contactForm.save.vars.label|default('Save Changes') }}
                                         </button>
                                     </div>
@@ -93,32 +93,32 @@
 
                      <!-- Address -->
                     <div class="tab-pane fade" id="address" role="tabpanel">
-                        <div class="pro-card pro-mb-4">
-                            <div class="pro-card-header">
-                                <h6 class="pro-card-title">Add New Address</h6>
+                        <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
+                            <div class="drl-card-head border-bottom">
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Add New Address</h6>
                             </div>
-                            <div class="pro-card-body">
+                            <div class="p-4">
                                 {{ form_start(addressForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Street</label>
-                                            {{ form_widget(addressForm.street, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Street</label>
+                                            {{ form_widget(addressForm.street, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">City</label>
-                                            {{ form_widget(addressForm.city, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">City</label>
+                                            {{ form_widget(addressForm.city, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Postal Code</label>
-                                            {{ form_widget(addressForm.postalCode, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Postal Code</label>
+                                            {{ form_widget(addressForm.postalCode, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                    <div class="col-12 mt-4 pt-3 border-top">
+                                        <button type="submit" class="drl-btn-orange">
                                             <i class="feather-plus"></i> {{ addressForm.save.vars.label|default('Add Address') }}
                                         </button>
                                     </div>
@@ -126,12 +126,12 @@
                             </div>
                         </div>
                         
-                        <div class="pro-card">
-                            <div class="pro-card-header">
-                                <h6 class="pro-card-title">Addresses</h6>
+                        <div class="drl-card" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
+                            <div class="drl-card-head border-bottom">
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Saved Addresses</h6>
                             </div>
-                            <div class="pro-table-wrapper">
-                                <table class="pro-table">
+                            <div class="table-responsive">
+                                <table class="table mb-0 drl-table">
                                     <thead>
                                         <tr>
                                             <th>Address</th>
@@ -143,17 +143,24 @@
                                     <tbody>
                                         {% for addr in user.adresse %}
                                             <tr>
-                                                <td>{{ addr.street }}</td>
-                                                <td>{{ addr.city }}</td>
-                                                <td>{{ addr.postalCode }}</td>
+                                                <td style="font-weight: 700; color: #0d2151;">{{ addr.street }}</td>
+                                                <td style="color: #475569;">{{ addr.city }}</td>
+                                                <td style="color: #64748b;">{{ addr.postalCode }}</td>
                                                 <td>
-                                                    <a href="#" class="pro-action-badge delete" title="Delete Address">
+                                                    <a href="#" class="drl-act-btn" style="background: #fef2f2; color: #ef4444;" title="Delete Address">
                                                         <i class="feather-trash-2"></i> Delete
                                                     </a>
                                                 </td>
                                             </tr>
                                         {% else %}
-                                             <tr><td colspan="4" class="pro-table-empty">No addresses saved.</td></tr>
+                                             <tr>
+                                                 <td colspan="4" class="text-center py-5">
+                                                     <div style="width:48px; height:48px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:20px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                                         <i class="feather-map-pin"></i>
+                                                     </div>
+                                                     <p style="font-size:14px; color:#64748b; margin:0;">No addresses saved.</p>
+                                                 </td>
+                                             </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -163,27 +170,27 @@
 
                      <!-- Categories -->
                     <div class="tab-pane fade" id="categories" role="tabpanel">
-                        <div class="pro-card">
-                            <div class="pro-card-header">
-                                <h6 class="pro-card-title">Select Service Category</h6>
+                        <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
+                            <div class="drl-card-head border-bottom">
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Select Service Category</h6>
                             </div>
-                            <div class="pro-card-body">
+                            <div class="p-4">
                                 {{ form_start(categoryForm) }}
-                                    <p class="pro-text-muted mb-4">Select the primary service category for your profile.</p>
+                                    <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">Select the primary service category for your profile.</p>
                                     
                                     <div class="row g-4 mb-4">
                                         <div class="col-md-6">
-                                            <div class="pro-form-group">
-                                                <label class="pro-form-label" for="{{ categoryForm.parentCategory.vars.id }}">Industry/Sector</label>
-                                                {{ form_widget(categoryForm.parentCategory, {'attr': {'class': 'pro-form-select form-select'}}) }}
+                                            <div>
+                                                <label class="drl-form-label" for="{{ categoryForm.parentCategory.vars.id }}">Industry/Sector</label>
+                                                {{ form_widget(categoryForm.parentCategory, {'attr': {'class': 'drl-form-control form-select w-100'}}) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="pro-form-group">
-                                                <label class="pro-form-label" for="{{ categoryForm.category.vars.id }}">Specific Service</label>
+                                            <div>
+                                                <label class="drl-form-label" for="{{ categoryForm.category.vars.id }}">Specific Service</label>
                                                 {{ form_widget(categoryForm.category, {
                                                     'attr': {
-                                                        'class': 'pro-form-select form-select child-category-select',
+                                                        'class': 'drl-form-control form-select w-100 child-category-select',
                                                         'data-selected-id': user.category ? user.category.id : ''
                                                     }
                                                 }) }}
@@ -191,9 +198,11 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="pro-btn pro-btn-primary">
-                                        <i class="feather-tag"></i> Update Category
-                                    </button>
+                                    <div class="mt-4 pt-3 border-top">
+                                        <button type="submit" class="drl-btn-orange">
+                                            <i class="feather-tag"></i> Update Category
+                                        </button>
+                                    </div>
                                 {{ form_end(categoryForm) }}
                             </div>
                         </div>
@@ -201,50 +210,50 @@
 
                     <!-- Links -->
                     <div class="tab-pane fade" id="links" role="tabpanel">
-                        <div class="pro-card">
-                            <div class="pro-card-header">
-                                <h6 class="pro-card-title">Social Profile</h6>
+                        <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
+                            <div class="drl-card-head border-bottom">
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Social Profile</h6>
                             </div>
-                            <div class="pro-card-body">
+                            <div class="p-4">
                                 {{ form_start(socialLinksForm, {'attr': {'class': 'row g-4'}}) }}
                                     
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label"><i class="feather-facebook"></i> Facebook</label>
-                                            {{ form_widget(socialLinksForm.facebook, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label"><i class="feather-facebook" style="color: #1877f2;"></i> Facebook</label>
+                                            {{ form_widget(socialLinksForm.facebook, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label"><i class="feather-twitter"></i> Twitter</label>
-                                            {{ form_widget(socialLinksForm.twitter, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label"><i class="feather-twitter" style="color: #1da1f2;"></i> Twitter</label>
+                                            {{ form_widget(socialLinksForm.twitter, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label"><i class="feather-linkedin"></i> LinkedIn</label>
-                                            {{ form_widget(socialLinksForm.linkedin, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label"><i class="feather-linkedin" style="color: #0a66c2;"></i> LinkedIn</label>
+                                            {{ form_widget(socialLinksForm.linkedin, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label"><i class="feather-globe"></i> Website</label>
-                                            {{ form_widget(socialLinksForm.website, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label"><i class="feather-globe" style="color: #64748b;"></i> Website</label>
+                                            {{ form_widget(socialLinksForm.website, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
                                     
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label"><i class="feather-instagram"></i> Instagram</label>
-                                            {{ form_widget(socialLinksForm.instagram, {'attr': {'class': 'pro-form-input'}}) }}
+                                        <div>
+                                            <label class="drl-form-label"><i class="feather-instagram" style="color: #e1306c;"></i> Instagram</label>
+                                            {{ form_widget(socialLinksForm.instagram, {'attr': {'class': 'drl-form-control w-100'}}) }}
                                         </div>
                                     </div>
 
-                                    <div class="col-12">
-                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                    <div class="col-12 mt-4 pt-3 border-top">
+                                        <button type="submit" class="drl-btn-orange">
                                             <i class="feather-link"></i> Update Social Links
                                         </button>
                                     </div>
@@ -255,28 +264,28 @@
 
                     <!-- Security -->
                     <div class="tab-pane fade" id="security" role="tabpanel">
-                        <div class="pro-card">
-                            <div class="pro-card-header">
-                                <h6 class="pro-card-title">Change Password</h6>
+                        <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
+                            <div class="drl-card-head border-bottom">
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Change Password</h6>
                             </div>
-                            <div class="pro-card-body">
+                            <div class="p-4">
                                 {{ form_start(passwordForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">New Password</label>
-                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'pro-form-input', 'placeholder': 'Enter new password...'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">New Password</label>
+                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'Enter new password...'}}) }}
                                             {{ form_errors(passwordForm.plainPassword.first) }}
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="pro-form-group">
-                                            <label class="pro-form-label">Confirm New Password</label>
-                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'pro-form-input', 'placeholder': 'Repeat new password...'}}) }}
+                                        <div>
+                                            <label class="drl-form-label">Confirm New Password</label>
+                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'Repeat new password...'}}) }}
                                             {{ form_errors(passwordForm.plainPassword.second) }}
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="pro-btn pro-btn-primary">
+                                    <div class="col-12 mt-4 pt-3 border-top">
+                                        <button type="submit" class="drl-btn-orange">
                                             <i class="feather-shield"></i> Update Password
                                         </button>
                                     </div>
@@ -292,6 +301,20 @@
 {% endblock %}
 
 {% block javascripts %}
+<style>
+    /* Add some specific styles for the tab nav to mimic pro-sidebar */
+    .nav-link {
+        transition: all 0.2s ease;
+    }
+    .nav-link:hover {
+        background: #f8fafc;
+        color: #00509e !important;
+    }
+    .nav-link.active {
+        background: #eff6ff;
+        color: #00509e !important;
+    }
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Handle tab switching
@@ -324,4 +347,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-

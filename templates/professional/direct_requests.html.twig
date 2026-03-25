@@ -3,17 +3,17 @@
 {% block title %}Direct Requests - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header">
+    <div class="drl-card">
+        <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="pro-card-title">Direct Requests</h4>
-                <p class="pro-card-subtitle">Requests sent directly to you by individuals</p>
+                <h4 class="drl-card-title">Direct Requests</h4>
+                <p class="drl-card-sub">Requests sent directly to you by individuals</p>
             </div>
-            <span class="pro-badge info">{{ directRequests|length }} Total</span>
+            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ directRequests|length }} Total</span>
         </div>
 
-        <div class="pro-table-wrapper">
-            <table class="pro-table">
+        <div class="table-responsive">
+            <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
                         <th>Request Details</th>
@@ -29,50 +29,48 @@
                         <tr>
                             <td>
                                 <div>
-                                    <span class="pro-fw-semibold d-block">{{ request.title }}</span>
-                                    <span class="pro-text-muted">{{ request.description|slice(0, 70) }}...</span>
+                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ request.title }}</span>
+                                    <span style="font-size: 13px; color: #64748b; margin-top: 4px;">{{ request.description|slice(0, 70) }}...</span>
                                 </div>
                             </td>
                             <td>
-                                <span>{{ request.individual.personalInfos.firstName|default('User') }} {{ request.individual.personalInfos.lastName|default('') }}</span>
+                                <span style="font-weight: 600; color: #475569;">{{ request.individual.personalInfos.firstName|default('User') }} {{ request.individual.personalInfos.lastName|default('') }}</span>
                             </td>
                             <td>
-                                <span class="pro-badge secondary">{{ request.category.name|default('General') }}</span>
+                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.name|default('General') }}</span>
                             </td>
                             <td>
-                                <span class="pro-text-muted">{{ request.creationDate|date('M d, Y') }}</span>
+                                <span style="font-size: 13px; color: #64748b;">{{ request.creationDate|date('M d, Y') }}</span>
                             </td>
                             <td>
                                 {% if request.status == 'PUBLISHED' %}
-                                    <span class="pro-badge info"><i class="feather-globe" style="font-size:0.65rem;"></i> Published</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="feather-globe" style="font-size: 11px;"></i> Published</span>
                                 {% elseif request.status in ['Accepted'] %}
-                                    <span class="pro-badge success"><i class="feather-check-circle" style="font-size:0.65rem;"></i> Accepted</span>
+                                    <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> Accepted</span>
                                 {% elseif request.status in ['Closed'] %}
-                                    <span class="pro-badge secondary"><i class="feather-lock" style="font-size:0.65rem;"></i> Closed</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> Closed</span>
                                 {% else %}
-                                    <span class="pro-badge secondary">{{ request.status }}</span>
+                                    <span class="drl-tag drl-tag--draft">{{ request.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if request.status == 'Pending' %}
-                                    <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="pro-action-badge view">
+                                    <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="drl-act-btn drl-act-btn--view" style="text-decoration:none;">
                                         <i class="feather-send"></i> Submit Offer
                                     </a>
                                 {% else %}
-                                    <span class="pro-text-muted small">No actions</span>
+                                    <span style="font-size: 13px; color: #94a3b8;">No actions</span>
                                 {% endif %}
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="pro-table-empty">
-                                <div class="pro-empty-state">
-                                    <div class="pro-empty-icon">
-                                        <i class="feather-inbox"></i>
-                                    </div>
-                                    <h6 class="pro-empty-title">No direct requests</h6>
-                                    <p class="pro-empty-text">No direct requests have been sent to you yet</p>
+                            <td colspan="6" class="text-center py-5">
+                                <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                                    <i class="feather-inbox"></i>
                                 </div>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No direct requests</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0;">No direct requests have been sent to you yet</p>
                             </td>
                         </tr>
                     {% endfor %}
