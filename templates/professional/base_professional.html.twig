@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/magnigy-popup.min.css') }}">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/plyr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/jodit.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/styles.css') }}">
@@ -97,23 +101,33 @@
     <script src="{{ asset('assets/drilleedo/js/vendor/backtotop.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/vendor/isotop.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/vendor/imageloaded.js') }}"></script>
+    <script src="{{ asset('assets/drilleedo/js/vendor/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
     
     <!-- DataTables -->
-    <script src="{{ asset('assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
             if ($('.drl-table').length > 0) {
                 $('.drl-table').DataTable({
                     autoWidth: false,
-                    dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+                    responsive: true,
+                    dom: '<"d-flex justify-content-between align-items-center mb-3"fl>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
                     language: {
-                        search: '<span class="me-3">Filter:</span> _INPUT_',
-                        searchPlaceholder: 'Type to filter...',
-                        lengthMenu: '<span class="me-3">Show:</span> _MENU_',
-                        paginate: { 'first': 'First', 'last': 'Last', 'next': document.dir == "rtl" ? '&larr;' : '&rarr;', 'previous': document.dir == "rtl" ? '&rarr;' : '&larr;' }
+                        search: '',
+                        searchPlaceholder: 'Search...',
+                        lengthMenu: '_MENU_',
+                        paginate: { 
+                            'next': '<i class="feather-chevron-right"></i>', 
+                            'previous': '<i class="feather-chevron-left"></i>' 
+                        }
                     }
                 });
+                
+                // Style the search input
+                $('.dataTables_filter input').addClass('drl-form-control').css('width', '240px');
+                $('.dataTables_length select').addClass('form-select form-select-sm').css('width', '80px');
             }
         });
     </script>

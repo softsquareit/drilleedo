@@ -6,188 +6,203 @@
 {% block og_title %}Top Renovation Companies in Canada | Drilleedo{% endblock %}
 {% block og_description %}Discover verified construction and renovation companies. Filter by specialty and location.{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
+{% endblock %}
+
 {% block body %}
-  <a class="close_side_menu" href="javascript:void(0);"></a>
+<div class="fp-page">
 
-    <div class="rbt-page-banner-wrapper">
-        <!-- Start Banner BG Image  -->
-        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/companies.png') }}');"></div>
-        <!-- End Banner BG Image  -->
-        <div class="rbt-banner-content">
+{# ── HERO BANNER ── #}
+<div class="fp-hero">
+    <img src="{{ asset('uploads/banners/companies.png') }}"
+         alt="Renovation Companies Drilleedo"
+         class="fp-hero__img">
+    <div class="fp-hero__content">
+        <h1 class="fp-hero__title">Companies Near You</h1>
+        <p class="fp-hero__sub">
+            Discover verified companies offering renovation, construction, and home improvement services across Canada.
+        </p>
+        <div class="fp-hero__search">
+            <form action="{{ path('companies_list') }}" method="GET" class="fp-search-bar">
+                <span class="fp-search-bar__icon">
+                    <i class="feather-search"></i>
+                </span>
+                <input type="text"
+                       name="keyword"
+                       class="fp-search-bar__input"
+                       placeholder="Company name, service, city..."
+                       value="{{ app.request.query.get('keyword') }}"
+                       aria-label="Search companies">
+                <button type="submit" class="fp-search-bar__btn">Search</button>
+            </form>
+        </div>
+        <div class="fp-hero__stats">
+            <span>✅ {{ companies|length }}+ verified companies</span>
+            <span class="fp-hero__stat-dot">·</span>
+            <span>⭐ Local Expertise</span>
+            <span class="fp-hero__stat-dot">·</span>
+            <span>📋 Free Quotes</span>
+        </div>
+    </div>
+</div>
 
-            <!-- Start Banner Content Top  -->
-            <div class="rbt-banner-content-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!-- Start Breadcrumb Area  -->
-                            <ul class="page-list">
-                                <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                                <li>
-                                    <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                                </li>
-                                <li class="rbt-breadcrumb-item active">All Companies</li>
-                            </ul>
-                            <!-- End Breadcrumb Area  -->
+{# ── CATEGORY PILLS (horizontal scroll) ── #}
+<div class="fp-cat-bar" role="navigation" aria-label="Filter by category">
+    <div class="fp-cat-bar__inner">
+        <button class="fp-cat-pill active" data-category="all" aria-pressed="true">
+            <i class="feather-grid"></i>
+            All
+            <span class="fp-cat-pill__count">{{ companies|length }}</span>
+        </button>
 
-                            <div class="title-wrapper">
-                                <h1 class="hero-main-title" style="font-size: var(--h1);">Companies Near You</h1>
-                                <a href="#" class="rbt-badge-2">
-                                    {{ companies|length }} {{ companies|length == 1 ? 'Result' : 'Results' }}
-                                </a>
-                            </div>
+        {% for cat in allCategories %}
+            {% if cat.parent is null %}
+            <button class="fp-cat-pill" data-category="{{ cat.id }}" aria-pressed="false">
+                {% if cat.icon %}
+                    <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" class="fp-cat-pill__icon">
+                {% else %}
+                    <i class="feather-briefcase"></i>
+                {% endif %}
+                {{ cat.name }}
+                <span class="fp-cat-pill__count">{{ categoryCounts[cat.id] ?? 0 }}</span>
+            </button>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
 
+{# ── MAIN LAYOUT (sidebar + cards) ── #}
+<div class="fp-wrap">
+    <div class="fp-layout">
 
-<span class="hero-tagline-orange">Professional companies for every project.</span>
-<p class="description"><b>
- Discover verified companies offering renovation, construction, and home improvement services.
-</b></p>
-<div class="hero-service-icons">
-<!-- Using simple SVGs for icons as placeholders for now -->
+        {# ── SIDEBAR ── #}
+        <aside class="fp-sidebar" aria-label="Filters">
+            <form action="{{ path('companies_list') }}" method="GET" id="filters-form">
+                
+                <div class="fp-sidebar-card">
+                    <div class="fp-sidebar-card__header">
+                        <i class="feather-map-pin"></i>
+                        Location
+                    </div>
+                    <div class="fp-sidebar-card__body">
+                        <ul class="fp-city-list" role="list">
+                            {% for city in allCities %}
+                            <li class="fp-city-row {{ city in activeFilters.cities ? 'active' : '' }}">
+                                <label for="city-{{ loop.index }}">
+                                    <input id="city-{{ loop.index }}" type="checkbox" name="cities[]" value="{{ city }}"
+                                           {{ city in activeFilters.cities ? 'checked' : '' }}
+                                           onchange="this.form.submit()">
+                                    {{ city }}
+                                </label>
+                                <span class="fp-city-count">{{ cityCounts[city] ?? 0 }}</span>
+                            </li>
+                            {% else %}
+                            <li style="font-size:13px;color:#94a3b8;padding:8px 0;">No locations available</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
 
+                <button type="submit" class="fp-btn-apply">Apply Filters</button>
+                {% if activeFilters.cities is not empty or activeFilters.categories is not empty %}
+                    <a href="{{ path('companies_list') }}" class="fp-btn-clear">Clear Filters</a>
+                {% endif %}
+            </form>
 
-<div class="about-buttons-row">
-<a href="{{ path('app_register') }}" class="about-pill-btn btn-solid-blue"><i class="feather-plus me-1"></i> Post a Project</a>
+            <div class="mt-4">
+                <a href="{{ path('app_register') }}" class="fp-btn-solid w-100" style="text-align:center; display:block;">
+                    <i class="feather-plus me-1"></i> Post a Project
+                </a>
+            </div>
+        </aside>
+
+        {# ── MAIN CONTENT ── #}
+        <div class="fp-content">
+            <div class="fp-meta-row">
+                <p class="fp-meta-count">
+                    <span id="filtered-count">{{ companies|length }}</span> compan{{ companies|length > 1 ? 'ies' : 'y' }} found
+                </p>
+            </div>
+
+            <div class="fp-pro-grid" id="company-grid">
+                {% for company in companies %}
+                    {% include 'partials/_card_company.html.twig' with {'pro': company} %}
+                {% else %}
+                    <div class="fp-empty">
+                        <div class="fp-empty__icon">🔍</div>
+                        <h4>No companies found</h4>
+                        <p>Try adjusting your search or filters.</p>
+                        <a href="{{ path('companies_list') }}" class="fp-btn-browse">Browse All Companies</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if totalPages > 1 %}
+            <nav class="fp-pagination" aria-label="Page navigation">
+                {% if currentPage > 1 %}
+                <a href="{{ path('companies_list', app.request.query.all|merge({'page': currentPage - 1})) }}">
+                    <i class="feather-chevron-left"></i>
+                </a>
+                {% endif %}
+                
+                {% for i in 1..totalPages %}
+                {% if i == currentPage %}
+                    <span class="active">{{ i }}</span>
+                {% else %}
+                    <a href="{{ path('companies_list', app.request.query.all|merge({'page': i})) }}">{{ i }}</a>
+                {% endif %}
+                {% endfor %}
+                
+                {% if currentPage < totalPages %}
+                <a href="{{ path('companies_list', app.request.query.all|merge({'page': currentPage + 1})) }}">
+                    <i class="feather-chevron-right"></i>
+                </a>
+                {% endif %}
+            </nav>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
 </div>
+{% endblock %}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Banner Content Top  -->
-        </div>
-    </div>
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pills = document.querySelectorAll('.fp-cat-pill');
+    const cards = document.querySelectorAll('.pro-card-item');
+    const count = document.getElementById('filtered-count');
 
-    <div class="rbt-counterup-area rbt-section-overlayping-top rbt-section-gapBottom">
-        <div class="container">
-            <div class="row row--30 gy-5">
-                <div class="col-lg-4 col-xl-3 order-2 order-lg-1">
-                    <aside class="rbt-sidebar-widget-wrapper rbt-gradient-border">
-                        <form action="{{ path('companies_list') }}" method="GET">
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            const cat = pill.dataset.category;
+            pills.forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+            pill.classList.add('active');
+            pill.setAttribute('aria-pressed', 'true');
 
-                        <!-- Start Category Filter -->
-                        <div class="rbt-single-widget rbt-widget-categories has-show-more">
-                            <fieldset style="border: none; padding: 0; margin: 0;">
-                            <legend class="sr-only">Filter companies by service category</legend>
-                            <div class="inner">
-                                <h4 class="rbt-widget-title" aria-hidden="true">Service Categories</h4>
-                                <ul class="rbt-sidebar-list-wrapper categories-list-check has-show-more-inner-content" role="list">
-                                    {% for cat in allCategories %}
-                                    <li class="rbt-check-group" role="listitem">
-                                        <input id="co-cat-{{ cat.id }}" type="checkbox" name="categories[]" value="{{ cat.id }}"
-                                            {% if cat.id in activeFilters.categories %}checked{% endif %}
-                                            onchange="this.form.submit()"
-                                            aria-label="{{ cat.name }} ({{ categoryCounts[cat.id] ?? 0 }} companies)">
-                                        <label for="co-cat-{{ cat.id }}">{{ cat.name }} <span class="rbt-lable count" aria-hidden="true">{{ categoryCounts[cat.id] ?? 0 }}</span></label>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="rbt-show-more-btn" role="button" aria-expanded="false" aria-label="Show more service categories">Show More</div>
-                            </fieldset>
-                        </div>
-                        <!-- End Category Filter -->
-
-                        <!-- Start Location Filter -->
-                        <div class="rbt-single-widget rbt-widget-categories">
-                            <div class="inner">
-                                <h4 class="rbt-widget-title">Location</h4>
-                                <ul class="rbt-sidebar-list-wrapper categories-list-check">
-                                    {% for city in allCities %}
-                                    <li class="rbt-check-group">
-                                        <input id="city-{{ loop.index }}" type="checkbox" name="cities[]" value="{{ city }}"
-                                            {% if city in activeFilters.cities %}checked{% endif %}
-                                            onchange="this.form.submit()">
-                                        <label for="city-{{ loop.index }}">{{ city }} <span class="rbt-lable count">{{ cityCounts[city] ?? 0 }}</span></label>
-                                    </li>
-                                    {% else %}
-                                    <li>No cities available</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End Location Filter -->
-
-                        <!-- Start Tags -->
-                        <div class="rbt-single-widget rbt-widget-tag">
-                            <div class="inner">
-                                <div class="mt-4">
-                                    <button type="submit" class="rbt-btn btn-gradient btn-sm w-100">Apply Filters</button>
-                                    {% if activeFilters.categories is not empty or activeFilters.cities is not empty %}
-                                        <a href="{{ path('companies_list') }}" class="rbt-btn btn-border btn-sm w-100 mt-2 text-center">Clear Filters</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Tags -->
-
-                        </form>
-                    </aside>
-                </div>
-
-                <div class="col-lg-8 col-xl-9 order-1 order-lg-2">
-                    <!-- Trust Bar -->
-                    <div class="row g-5">
-
-                        <!-- Start Single Company Loop -->
-                        {% for company in companies %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-12">
-                            {% include 'partials/_card_company.html.twig' with {'pro': company} %}
-                        </div>
-                        {% else %}
-                        <div class="col-12 text-center py-5">
-                            <div class="d-flex flex-column align-items-center" style="gap:20px; max-width:520px; margin:0 auto;">
-                                <div style="width:72px;height:72px;background:rgba(20,86,140,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-                                    <i class="feather-search" style="font-size:2rem;color:var(--color-primary);"></i>
-                                </div>
-                                <h4 style="font-weight:700;color:#1e293b;">No companies found</h4>
-                                <p class="text-muted" style="font-size:1rem;line-height:1.6;">
-                                    Try adjusting your filters, or browse all companies across Canada.
-                                </p>
-                                <a href="{{ path('companies_list') }}" class="rbt-btn btn-gradient">Browse All Companies</a>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        <!-- End Single Company Loop -->
-
-            </div>
-                    </div>
-                    
-                    {% if totalPages > 1 %}
-                    <div class="row">
-                        <div class="col-lg-12 mt--60">
-                            <nav>
-                                <ul class="rbt-pagination">
-                                    {% if currentPage > 1 %}
-                                    <li><a href="{{ path('companies_list', app.request.query.all|merge({'page': currentPage - 1})) }}" aria-label="Previous"><i class="feather-chevron-left"></i></a></li>
-                                    {% endif %}
-                                    
-                                    {% for i in 1..totalPages %}
-                                    <li class="{% if i == currentPage %}active{% endif %}">
-                                        <a href="{{ path('companies_list', app.request.query.all|merge({'page': i})) }}">{{ i }}</a>
-                                    </li>
-                                    {% endfor %}
-                                    
-                                    {% if currentPage < totalPages %}
-                                    <li><a href="{{ path('companies_list', app.request.query.all|merge({'page': currentPage + 1})) }}" aria-label="Next"><i class="feather-chevron-right"></i></a></li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="rbt-separator-mid">
-        <div class="container">
-            <hr class="rbt-separator m-0">
-        </div>
-    </div>
-    <!-- Start Footer aera -->
-
+            let visible = 0;
+            cards.forEach(card => {
+                const show = cat === 'all' || card.dataset.category === cat;
+                if (show) {
+                    card.style.display = 'flex';
+                    void card.offsetWidth;
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                    visible++;
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(12px)';
+                    setTimeout(() => { if (card.style.opacity === '0') card.style.display = 'none'; }, 280);
+                }
+            });
+            if (count) {
+                count.style.transform = 'scale(1.15)';
+                setTimeout(() => { count.textContent = visible; count.style.transform = 'scale(1)'; }, 140);
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

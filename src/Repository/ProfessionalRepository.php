@@ -168,7 +168,7 @@ class ProfessionalRepository extends ServiceEntityRepository
     /**
      * Unified search for professionals with filters and sorting.
      */
-    public function search(?string $keyword, ?string $category = null, ?string $sort = null, int $page = 1, int $limit = 6): \Doctrine\ORM\Tools\Pagination\Paginator
+    public function search(?string $keyword, ?string $category = null, ?array $cities = [], ?array $categories = [], ?string $sort = null, int $page = 1, int $limit = 6): \Doctrine\ORM\Tools\Pagination\Paginator
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.category', 'c')
@@ -179,9 +179,22 @@ class ProfessionalRepository extends ServiceEntityRepository
                ->setParameter('keyword', '%' . $keyword . '%');
         }
 
+        // Single category filter (from top pills)
         if ($category && $category !== 'all') {
             $qb->andWhere('c.slug = :category OR c.id = :category')
                ->setParameter('category', $category);
+        }
+
+        // Plural category filter (from sidebar)
+        if (!empty($categories)) {
+            $qb->andWhere('c.id IN (:sidebar_categories)')
+               ->setParameter('sidebar_categories', $categories);
+        }
+
+        // Plural city filter (from sidebar)
+        if (!empty($cities)) {
+            $qb->andWhere('p.city IN (:cities)')
+               ->setParameter('cities', $cities);
         }
 
         if ($sort === 'rating') {

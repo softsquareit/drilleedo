@@ -97,7 +97,10 @@ final class HomeController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $limit = 6;
 
-        $professionals = $professionalRepository->search($keyword, $category, $sort, $page, $limit);
+        $cities = $request->query->all('cities');
+        $categoriesFilter = $request->query->all('categories');
+
+        $professionals = $professionalRepository->search($keyword, $category, $cities, $categoriesFilter, $sort, $page, $limit);
         
         $totalProfessionals = count($professionals); 
         $totalPages = ceil($totalProfessionals / $limit);
@@ -135,6 +138,8 @@ final class HomeController extends AbstractController
         $filters = [
             'categories' => $request->query->all('categories'),
             'cities' => $request->query->all('cities'),
+            'keyword' => $request->query->get('keyword'),
+            'category' => $request->query->get('category'),
         ];
         
         $page = $request->query->getInt('page', 1);

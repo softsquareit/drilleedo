@@ -33,10 +33,7 @@ class AdressType extends AbstractType
                     'placeholder' => 'Enter postal code'
                 ]
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Save Address',
-                'attr' => ['class' => 'btn btn-primary']
-            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

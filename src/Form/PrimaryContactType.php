@@ -40,10 +40,7 @@ class PrimaryContactType extends AbstractType
                     'placeholder' => '+1 (555) 123-4567'
                 ]
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Save Contact',
-                'attr' => ['class' => 'btn btn-primary']
-            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

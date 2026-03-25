@@ -88,12 +88,14 @@
     <div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
-                <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0; padding: 20px 24px;">
+                <div class="modal-header" style="background: #0d2151; border-bottom: none; border-radius: 16px 16px 0 0; padding: 24px 32px;">
                     <div>
-                        <h5 class="modal-title" style="font-weight: 800; color: #0d2151; margin: 0;">Add New Project</h5>
-                        <p style="font-size: 13px; color: #64748b; margin: 4px 0 0;">Showcase your latest work to potential clients</p>
+                        <h5 class="modal-title" style="font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 12px;">
+                            <i class="feather-plus-circle"></i> Add New Project
+                        </h5>
+                        <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin: 4px 0 0;">Showcase your latest work to potential clients</p>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
                     {{ form_start(projectForm, {'attr': {'id': 'addProjectForm'}}) }}
@@ -187,12 +189,14 @@
         <div class="modal fade" id="editProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
-                    <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 16px 16px 0 0; padding: 20px 24px;">
+                    <div class="modal-header" style="background: #0d2151; border-bottom: none; border-radius: 16px 16px 0 0; padding: 24px 32px;">
                         <div>
-                            <h5 class="modal-title" style="font-weight: 800; color: #0d2151; margin: 0;">Edit Project</h5>
-                            <p style="font-size: 13px; color: #64748b; margin: 4px 0 0;">Modify your project details and images</p>
+                            <h5 class="modal-title" style="font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 12px;">
+                                <i class="feather-edit"></i> Edit Project Details
+                            </h5>
+                            <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin: 4px 0 0;">Modify your project information and gallery</p>
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
                         {% set editForm = editForms[project.id] %}

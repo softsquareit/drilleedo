@@ -17,24 +17,36 @@ class CompanyRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $filters An array of filters (e.g., ['categories' => [1, 2], 'cities' => ['Montreal']])
+     * @param array $filters An array of filters (e.g., ['categories' => [1, 2], 'cities' => ['Montreal'], 'keyword' => '...', 'category' => '...'])
      * @param int $page The current page number
      * @param int $limit The maximum number of results per page
      * @return \Doctrine\ORM\Tools\Pagination\Paginator Returns a Paginator object
      */
     public function findByFilters(array $filters, int $page = 1, int $limit = 6): \Doctrine\ORM\Tools\Pagination\Paginator
     {
-        $qb = $this->createQueryBuilder('c');
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.categories', 'cat')
+            ->leftJoin('c.Adresse', 'a');
         
+        if (!empty($filters['keyword'])) {
+            $qb->andWhere('c.company_name LIKE :keyword OR cat.name LIKE :keyword OR a.city LIKE :keyword')
+               ->setParameter('keyword', '%' . $filters['keyword'] . '%');
+        }
+
+        // Single category (from top pills)
+        if (!empty($filters['category']) && $filters['category'] !== 'all') {
+            $qb->andWhere('cat.slug = :single_cat OR cat.id = :single_cat')
+               ->setParameter('single_cat', $filters['category']);
+        }
+
+        // Multiple categories (from sidebar)
         if (!empty($filters['categories'])) {
-            $qb->innerJoin('c.categories', 'cat')
-               ->andWhere('cat.id IN (:categories)')
-               ->setParameter('categories', $filters['categories']);
+            $qb->andWhere('cat.id IN (:sidebar_categories)')
+               ->setParameter('sidebar_categories', $filters['categories']);
         }
 
         if (!empty($filters['cities'])) {
-            $qb->innerJoin('c.Adresse', 'a')
-               ->andWhere('a.city IN (:cities)')
+            $qb->andWhere('a.city IN (:cities)')
                ->setParameter('cities', $filters['cities']);
         }
 

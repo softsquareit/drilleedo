@@ -6,6 +6,111 @@
 {% block og_title %}Sign In to Drilleedo | Your Renovation Hub{% endblock %}
 {% block og_description %}Access your Drilleedo account to manage projects and get in touch with verified renovation professionals.{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        :root {
+            --drl-navy: #0d2151;
+            --drl-blue: #00509e;
+            --drl-orange: #e8501a;
+            --drl-orange-hover: #c43d10;
+        }
+
+        .login-card {
+            border-top: 5px solid var(--drl-navy) !important;
+            box-shadow: 0 15px 45px rgba(13, 33, 81, 0.12) !important;
+            border-radius: 16px !important;
+        }
+
+        .hero-main-title {
+            color: var(--drl-navy) !important;
+            letter-spacing: -1px;
+        }
+
+        .hero-tagline-orange {
+            color: var(--drl-orange) !important;
+            font-weight: 700;
+        }
+
+        .drl-btn-orange {
+            background: var(--drl-orange) !important;
+            border: none;
+            color: white !important;
+            font-weight: 800;
+            padding: 18px 30px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(232, 80, 26, 0.2);
+        }
+
+        .drl-btn-orange:hover {
+            background: var(--drl-orange-hover) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(232, 80, 26, 0.3);
+        }
+
+        .form-group-custom {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group-custom input {
+            width: 100%;
+            padding: 25px 0 10px;
+            border: none;
+            border-bottom: 2px solid #e2e8f0;
+            background: transparent;
+            outline: none;
+            transition: border-color 0.3s;
+            font-size: 16px;
+            color: var(--drl-navy);
+            font-weight: 500;
+        }
+
+        .form-group-custom input:focus {
+            border-bottom-color: var(--drl-blue);
+        }
+
+        .form-group-custom label {
+            position: absolute;
+            left: 0;
+            top: 25px;
+            color: #94a3b8;
+            pointer-events: none;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .form-group-custom input:focus ~ label,
+        .form-group-custom input:valid ~ label {
+            top: 0;
+            font-size: 12px;
+            color: var(--drl-blue);
+            font-weight: 700;
+        }
+
+        .rbt-checkbox-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .rbt-checkbox-custom input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--drl-orange);
+        }
+
+        .rbt-checkbox-custom label {
+            margin: 0;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
 
 
@@ -20,16 +125,16 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center mb-5 pb-5">
-                            <h1 class="hero-main-title mb-3" style="font-size: 4.25rem;font-weight: 800;">Welcome back! Quick access</h1>
-                            <h4 class="hero-tagline-orange fs-4 mx-auto">We're glad you're back</h4>
+                            <h1 class="hero-main-title mb-3" style="font-size: 4.25rem;font-weight: 800;">Welcome Back to <span style="color: var(--drl-orange);">Drilleedo</span></h1>
+                            <h4 class="hero-tagline-orange fs-4 mx-auto">Access your professional dashboard or project hub</h4>
                         </div>
                     </div>
                 </div>
 
                 <div class="row gy-5 row--30">
-                    <div class="col-lg-6 offset-lg-3">
-                    <div class="rbt-contact-form contact-form-style-1 max-width-auto shadow-lg p-5 rounded-3 border-top-4 border-primary">
-                        <h3 class="title text-center mb-4 hero-main-title">Login</h3>
+                    <div class="col-lg-5 offset-lg-3.5 mx-auto">
+                    <div class="rbt-contact-form contact-form-style-1 max-width-auto login-card p-5 bg-white">
+                        <h3 class="title text-center mb-5 hero-main-title" style="font-size: 2rem;">Secure Sign In</h3>
                         <form method="post">
                             {% if error %}
                                 <div class="alert alert-danger rbt-alert-danger mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -41,38 +146,35 @@
                                 </div>
                             {% endif %}
 
-                            <div class="form-group">
-                                <input name="_username" value="{{ last_username }}" type="email" required autofocus />
-                                <label>Email address *</label>
-                                <span class="focus-border"></span>
+                            <div class="form-group-custom">
+                                <input name="_username" id="username" value="{{ last_username }}" type="email" required autofocus />
+                                <label for="username">Email Address</label>
                             </div>
-                            <div class="form-group">
-                                <input name="_password" type="password" required>
-                                <label>Password *</label>
-                                <span class="focus-border"></span>
+                            <div class="form-group-custom">
+                                <input name="_password" id="password" type="password" required>
+                                <label for="password">Password</label>
                             </div>
 
                             <div class="row mb--30 align-items-center">
-                                <div class="col-lg-6">
-                                    <div class="rbt-checkbox">
+                                <div class="col-6">
+                                    <div class="rbt-checkbox-custom">
                                         <input type="checkbox" id="rememberme" name="_remember_me">
                                         <label for="rememberme">Remember me</label>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-6">
                                     <div class="rbt-lost-password text-end">
-                                        <a class="rbt-btn-link" href="{{ path('contact') }}?subject=Password+Reset">Lost your password?</a>
+                                        <a class="rbt-btn-link text-primary fw-bold" href="{{ path('contact') }}?subject=Password+Reset" style="font-size: 14px;">Forgot Password?</a>
                                     </div>
                                 </div>
                             </div>
 
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                            <div class="form-submit-group mt-4">
-                                <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
+                            <div class="form-submit-group mt-5">
+                                <button type="submit" class="drl-btn-orange w-100">
                                     <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Log In</span>
-                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                        <span class="btn-text">Sign In Now</span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     </span>
                                 </button>

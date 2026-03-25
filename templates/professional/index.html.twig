@@ -72,13 +72,13 @@
     {# ── KPI Metrics Cards ── #}
     <div class="row g-4 mb-4">
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+            <div class="drl-card drl-card--hover h-100 p-4" style="border-radius: 16px; transition: all 0.3s ease;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
                         <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Quotes Available</p>
                         <h3 style="font-size: 32px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1;">{{ quoteCount }}</h3>
                     </div>
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid #dbeafe;">
                         <i class="feather-file-text"></i>
                     </div>
                 </div>
@@ -89,13 +89,13 @@
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+            <div class="drl-card drl-card--hover h-100 p-4" style="border-radius: 16px; transition: all 0.3s ease;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
                         <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Offers Sent</p>
                         <h3 style="font-size: 32px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1;">{{ offerCount }}</h3>
                     </div>
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #fff7ed; color: #e8501a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #fff7ed; color: #e8501a; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid #ffedd5;">
                         <i class="feather-send"></i>
                     </div>
                 </div>
@@ -106,35 +106,35 @@
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+            <div class="drl-card drl-card--hover h-100 p-4" style="border-radius: 16px; transition: all 0.3s ease;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
                         <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Win Rate</p>
                         <h3 style="font-size: 32px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1;">{{ conversionRate }}<span style="font-size:20px; color:#94a3b8;">%</span></h3>
                     </div>
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid #dcfce7;">
                         <i class="feather-pie-chart"></i>
                     </div>
                 </div>
                 <div style="margin-top: 16px; font-size: 13px; color: #64748b;">
-                    <strong>{{ acceptedCount }}</strong> won from {{ offerCount }} offers
+                    <strong style="color: #16a34a;">{{ acceptedCount }}</strong> won from {{ offerCount }} offers
                 </div>
             </div>
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card h-100 p-4" style="border-radius: 16px;">
+            <div class="drl-card drl-card--hover h-100 p-4" style="border-radius: 16px; transition: all 0.3s ease;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
                         <p style="font-size: 13px; font-weight: 700; color: #64748b; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">Avg Response</p>
-                        <h3 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1.2;">{{ stats and stats.avgResponseTime ? stats.avgResponseTime|format_response_time : 'Instant' }}</h3>
+                        <h3 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0; line-height: 1.2;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instant' }}</h3>
                     </div>
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f8fafc; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f8fafc; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid #e2e8f0;">
                         <i class="feather-clock"></i>
                     </div>
                 </div>
                 <div style="margin-top: 24px; font-size: 13px; color: #64748b;">
-                    Fast replies = <strong>More wins</strong>
+                    Fast replies = <strong style="color: #0d2151;">More wins</strong>
                 </div>
             </div>
         </div>
