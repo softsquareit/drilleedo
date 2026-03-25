@@ -88,52 +88,52 @@
     <div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
-                <div class="modal-header" style="background: #0d2151; border-bottom: none; border-radius: 16px 16px 0 0; padding: 24px 32px;">
+                <div class="modal-header drl-modal-header">
                     <div>
-                        <h5 class="modal-title" style="font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 12px;">
-                            <i class="feather-plus-circle"></i> Add New Project
+                        <h5 class="modal-title drl-modal-title">
+                            <i class="feather-plus-circle me-2"></i>Add New Project
                         </h5>
-                        <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin: 4px 0 0;">Showcase your latest work to potential clients</p>
+                        <p class="mb-0 opacity-75 small mt-1">Showcase your latest work to potential clients</p>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
+                <div class="modal-body drl-modal-body" style="max-height: 75vh; overflow-y: auto;">
                     {{ form_start(projectForm, {'attr': {'id': 'addProjectForm'}}) }}
                         <div class="row g-4">
                             <div class="col-12">
                                 <div>
-                                    <label class="drl-form-label">Project Name <span style="color:#ef4444;">*</span></label>
-                                    {{ form_widget(projectForm.name, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'e.g. Modern Kitchen Renovation'}}) }}
+                                    <label class="drl-label">Project Name <span class="text-danger">*</span></label>
+                                    {{ form_widget(projectForm.name, {'attr': {'class': 'drl-input', 'placeholder': 'e.g. Modern Kitchen Renovation'}}) }}
                                     {{ form_errors(projectForm.name) }}
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div>
-                                    <label class="drl-form-label">Description <span style="color:#ef4444;">*</span></label>
-                                    {{ form_widget(projectForm.description, {'attr': {'class': 'drl-form-control w-100', 'rows': 4, 'placeholder': 'Describe the scope, challenges, and results of this project...'}}) }}
+                                    <label class="drl-label">Description <span class="text-danger">*</span></label>
+                                    {{ form_widget(projectForm.description, {'attr': {'class': 'drl-input', 'rows': 4, 'placeholder': 'Describe the scope, challenges, and results of this project...'}}) }}
                                     {{ form_errors(projectForm.description) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <label class="drl-form-label">Start Date <span style="color:#ef4444;">*</span></label>
-                                    {{ form_widget(projectForm.startDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                    <label class="drl-label">Start Date <span class="text-danger">*</span></label>
+                                    {{ form_widget(projectForm.startDate, {'attr': {'class': 'drl-input'}}) }}
                                     {{ form_errors(projectForm.startDate) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <label class="drl-form-label">End Date <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional)</span></label>
-                                    {{ form_widget(projectForm.EndDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                    <label class="drl-label">End Date <span class="small opacity-50 fw-normal">(Optional)</span></label>
+                                    {{ form_widget(projectForm.EndDate, {'attr': {'class': 'drl-input'}}) }}
                                     {{ form_errors(projectForm.EndDate) }}
-                                    <p style="font-size: 11px; color: #64748b; margin-top: 4px;">Leave empty if project is ongoing</p>
+                                    <p class="small text-muted mb-0 mt-1">Leave empty if project is ongoing</p>
                                 </div>
                             </div>
                             
                             <!-- Drag & Drop Photo -->
                             <div class="col-12">
                                 <div>
-                                    <label class="drl-form-label">Main Project Photo <span style="color:#ef4444;">*</span></label>
+                                    <label class="drl-label">Main Project Photo <span class="text-danger">*</span></label>
                                     <div class="pro-upload-zone" id="mainPhotoZone" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
                                         <i class="feather-image pro-upload-icon" style="color: #94a3b8;"></i>
                                         <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">Drag & drop or Click to upload</p>
@@ -147,7 +147,7 @@
 
                             <div class="col-12">
                                 <div>
-                                    <label class="drl-form-label">Project Gallery <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional multiple images)</span></label>
+                                    <label class="drl-label">Project Gallery <span class="small opacity-50 fw-normal">(Optional multiple images)</span></label>
                                     <div class="pro-upload-zone" id="galleryZone" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
                                         <i class="feather-grid pro-upload-icon" style="color: #94a3b8;"></i>
                                         <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">Upload multiple gallery photos</p>
@@ -165,18 +165,18 @@
                                         {{ form_widget(projectForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
                                     </div>
                                     <div>
-                                        <label class="drl-form-label mb-0" for="{{ projectForm.state.vars.id }}">Publish Immediately</label>
-                                        <p style="font-size: 13px; color: #64748b; margin: 0;">Making this public will show it on your profile immediately</p>
+                                        <label class="drl-label mb-0" for="{{ projectForm.state.vars.id }}">Publish Immediately</label>
+                                        <p class="small text-muted mb-0">Making this public will show it on your profile immediately</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {{ form_end(projectForm) }}
                 </div>
-                <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px; padding: 16px 24px;">
-                    <button type="button" style="padding: 10px 20px; font-size: 14px; font-weight: 700; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b;" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" form="addProjectForm" class="drl-btn-orange">
-                        <i class="feather-save"></i> Create Project
+                <div class="modal-footer drl-modal-footer">
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="addProjectForm" class="drl-btn-orange px-5">
+                        <i class="feather-save me-2"></i> Create Project
                     </button>
                 </div>
             </div>
@@ -188,45 +188,45 @@
         <!-- Edit Modal -->
         <div class="modal fade" id="editProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
-                    <div class="modal-header" style="background: #0d2151; border-bottom: none; border-radius: 16px 16px 0 0; padding: 24px 32px;">
+                <div class="modal-content drl-modal-content">
+                    <div class="modal-header drl-modal-header">
                         <div>
-                            <h5 class="modal-title" style="font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 12px;">
-                                <i class="feather-edit"></i> Edit Project Details
+                            <h5 class="modal-title drl-modal-title">
+                                <i class="feather-edit me-2"></i>Edit Project Details
                             </h5>
-                            <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin: 4px 0 0;">Modify your project information and gallery</p>
+                            <p class="mb-0 opacity-75 small mt-1">Modify your project information and gallery</p>
                         </div>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" style="padding: 32px; max-height: 75vh; overflow-y: auto;">
+                    <div class="modal-body drl-modal-body" style="max-height: 75vh; overflow-y: auto;">
                         {% set editForm = editForms[project.id] %}
                         {{ form_start(editForm, {'attr': {'id': 'editProjectForm' ~ project.id}}) }}
                             <div class="row g-4">
                                 <div class="col-12">
                                     <div>
-                                        <label class="drl-form-label">Project Name <span style="color:#ef4444;">*</span></label>
-                                        {{ form_widget(editForm.name, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                        <label class="drl-label">Project Name <span class="text-danger">*</span></label>
+                                        {{ form_widget(editForm.name, {'attr': {'class': 'drl-input'}}) }}
                                         {{ form_errors(editForm.name) }}
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div>
-                                        <label class="drl-form-label">Description <span style="color:#ef4444;">*</span></label>
-                                        {{ form_widget(editForm.description, {'attr': {'class': 'drl-form-control w-100', 'rows': 4}}) }}
+                                        <label class="drl-label">Description <span class="text-danger">*</span></label>
+                                        {{ form_widget(editForm.description, {'attr': {'class': 'drl-input', 'rows': 4}}) }}
                                         {{ form_errors(editForm.description) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="drl-form-label">Start Date</label>
-                                        {{ form_widget(editForm.startDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                        <label class="drl-label">Start Date</label>
+                                        {{ form_widget(editForm.startDate, {'attr': {'class': 'drl-input'}}) }}
                                         {{ form_errors(editForm.startDate) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="drl-form-label">End Date</label>
-                                        {{ form_widget(editForm.EndDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                        <label class="drl-label">End Date</label>
+                                        {{ form_widget(editForm.EndDate, {'attr': {'class': 'drl-input'}}) }}
                                         {{ form_errors(editForm.EndDate) }}
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@
                                 <!-- Main Photo Edit -->
                                 <div class="col-12">
                                     <div>
-                                        <label class="drl-form-label">Main Project Photo</label>
+                                        <label class="drl-label">Main Project Photo</label>
                                         <div class="pro-upload-zone mb-3" id="mainPhotoZone{{ project.id }}" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
                                             <i class="feather-image pro-upload-icon" style="color: #94a3b8;"></i>
                                             <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">Replace current photo</p>
@@ -256,7 +256,7 @@
                                             {{ form_widget(editForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
                                         </div>
                                         <div>
-                                            <label class="drl-form-label mb-0" for="{{ editForm.state.vars.id }}">Published</label>
+                                            <label class="drl-label mb-0" for="{{ editForm.state.vars.id }}">Published</label>
                                         </div>
                                     </div>
                                 </div>
@@ -265,10 +265,10 @@
                             {{ form_row(editForm.gallery, {'attr': {'class': 'd-none'}}) }}
                         {{ form_end(editForm) }}
                     </div>
-                    <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px; padding: 16px 24px;">
-                        <button type="button" style="padding: 10px 20px; font-size: 14px; font-weight: 700; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b;" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" form="editProjectForm{{ project.id }}" class="drl-btn-orange" style="background: #16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
-                            <i class="feather-save"></i> Save Changes
+                    <div class="modal-footer drl-modal-footer">
+                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" form="editProjectForm{{ project.id }}" class="drl-btn-orange px-5" style="background: #16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
+                            <i class="feather-save me-2"></i> Save Changes
                         </button>
                     </div>
                 </div>
@@ -278,25 +278,25 @@
         <!-- Delete Modal -->
         <div class="modal fade" id="deleteProjectModal{{ project.id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content text-center" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
-                    <div class="modal-body pt-5 px-4 pb-4">
+                <div class="modal-content drl-modal-content text-center">
+                    <div class="modal-body drl-modal-body py-5 px-4 text-center">
                         <div class="mb-4">
-                            <div style="width: 72px; height: 72px; border-radius: 50%; background: #fef2f2; color: #ef4444; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            <div class="drl-stat-icon drl-stat-icon--2 mx-auto shadow-sm" style="width: 72px; height: 72px; font-size: 32px; background: #fef2f2; color: #ef4444; border-color: #fee2e2;">
                                 <i class="feather-alert-triangle"></i>
                             </div>
                         </div>
-                        <h4 style="font-size: 20px; font-weight: 800; color: #0d2151; margin-bottom: 12px;">Delete Project?</h4>
-                        <p style="font-size: 14px; color: #64748b; margin-bottom: 32px;">
+                        <h4 class="drl-card-title mb-2" style="font-size: 20px;">Delete Project?</h4>
+                        <p class="text-muted mb-4">
                             Are you sure you want to permanently delete <strong>"{{ project.name }}"</strong>? This action cannot be undone.
                         </p>
-                        <div class="d-flex flex-column gap-3 mt-2">
+                        <div class="d-flex flex-column gap-2 mt-4">
                             <form method="post" action="{{ path('professional_project_delete', {id: project.id}) }}" class="w-100">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.id) }}">
-                                <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25); padding: 14px;">
-                                    <i class="feather-trash-2"></i> Yes, Delete Permanently
+                                <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25);">
+                                    <i class="feather-trash-2 me-2"></i> Yes, Delete Permanently
                                 </button>
                             </form>
-                            <button type="button" style="width: 100%; justify-content: center; padding: 14px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
                                 Cancel
                             </button>
                         </div>

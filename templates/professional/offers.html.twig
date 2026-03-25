@@ -145,22 +145,22 @@
             <div class="modal fade" id="finalizeOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content drl-modal-content text-center">
-                        <div class="modal-body drl-modal-body pt-5 px-4 pb-4">
+                        <div class="modal-body drl-modal-body py-5 px-4 text-center">
                             <div class="mb-4">
-                                <div style="width: 80px; height: 80px; border-radius: 50%; background: #f0fdf4; color: #16a34a; font-size: 36px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 12px rgba(22,163,74,0.1);">
+                                <div class="drl-stat-icon drl-stat-icon--3 mx-auto shadow-sm" style="width: 80px; height: 80px; font-size: 36px;">
                                     <i class="feather-check-circle"></i>
                                 </div>
                             </div>
-                            <h4 style="font-size: 22px; font-weight: 800; color: #0d2151; margin-bottom: 12px;">Finalize Request?</h4>
-                            <p style="font-size: 14px; color: #64748b; margin-bottom: 32px;">Mark this request as completed? The client will be notified that the work is successfully done.</p>
-                            <div class="d-flex flex-column gap-3 mt-4">
+                            <h4 class="drl-card-title mb-2" style="font-size: 22px;">Finalize Request?</h4>
+                            <p class="text-muted mb-4">Mark this request as completed? The client will be notified that the work is successfully done.</p>
+                            <div class="d-flex flex-column gap-2 mt-4">
                                 <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                                    <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25); padding: 14px;">
-                                        <i class="feather-check-circle"></i> Yes, Mark as Completed
+                                    <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
+                                        <i class="feather-check-circle me-2"></i> Yes, Mark as Completed
                                     </button>
                                 </form>
-                                <button type="button" style="width: 100%; justify-content: center; padding: 14px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;" data-bs-dismiss="modal">
+                                <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
                                     No, Not Yet
                                 </button>
                             </div>
@@ -175,14 +175,14 @@
             <div class="modal fade" id="editOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content drl-modal-content">
-                        <div class="modal-header" style="background: #0d2151; border-bottom: none; border-radius: 16px 16px 0 0; padding: 24px 32px;">
+                        <div class="modal-header drl-modal-header">
                             <div>
-                                <h5 class="modal-title" style="font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 12px;">
+                                <h5 class="modal-title drl-modal-title">
                                     <i class="feather-edit-3"></i> Edit Your Offer
                                 </h5>
-                                <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin: 4px 0 0;">Update your proposal for: <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'Request')) }}</strong></p>
+                                <p class="mb-0 opacity-75 small mt-1">Update your proposal for: <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'Request')) }}</strong></p>
                             </div>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body drl-modal-body" style="max-height: 75vh; overflow-y: auto;">
                             {% set editForm = editForms[offer.id] %}
@@ -190,20 +190,20 @@
                                 <div class="row g-4">
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label">Proposed Price ($) <span style="color:#ef4444;">*</span></label>
-                                            {{ form_widget(editForm.price, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'e.g. 500'}}) }}
+                                            <label class="drl-label">Proposed Price ($) <span class="text-danger">*</span></label>
+                                            {{ form_widget(editForm.price, {'attr': {'class': 'drl-input', 'placeholder': 'e.g. 500'}}) }}
                                             {{ form_errors(editForm.price) }}
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label">Message to Client <span style="color:#ef4444;">*</span></label>
-                                            {{ form_widget(editForm.description, {'attr': {'class': 'drl-form-control w-100', 'rows': '6', 'placeholder': 'Explain your offer...'}}) }}
+                                            <label class="drl-label">Message to Client <span class="text-danger">*</span></label>
+                                            {{ form_widget(editForm.description, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'Explain your offer...'}}) }}
                                             {{ form_errors(editForm.description) }}
                                         </div>
                                         <div class="mt-4">
-                                            <label class="drl-form-label">Supporting Documents <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional)</span></label>
-                                            {{ form_widget(editForm.documents, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">Supporting Documents <span class="small opacity-50 fw-normal">(Optional)</span></label>
+                                            {{ form_widget(editForm.documents, {'attr': {'class': 'drl-input pt-2'}}) }}
                                             {{ form_errors(editForm.documents) }}
                                             {% if offer.documents|length > 0 %}
                                                 <div class="mt-2">
@@ -218,12 +218,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-4 pt-4 border-top d-flex gap-3">
-                                    <button type="submit" name="action" value="draft" style="width: 50%; justify-content: center; padding: 12px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;">
-                                        <i class="feather-save"></i> Update Draft
+                                <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-3">
+                                    <button type="submit" name="action" value="draft" class="btn btn-link text-muted text-decoration-none fw-bold">
+                                        <i class="feather-save me-1"></i> Update Draft
                                     </button>
-                                    <button type="submit" name="action" value="publish" class="drl-btn-orange" style="width: 50%; justify-content: center; padding: 12px;">
-                                        <i class="feather-send"></i> Publish Offer
+                                    <button type="submit" name="action" value="publish" class="drl-btn-orange px-5">
+                                        <i class="feather-send me-1"></i> Publish Offer
                                     </button>
                                 </div>
                             {{ form_end(editForm) }}
@@ -236,22 +236,22 @@
             <div class="modal fade" id="deleteOfferModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content drl-modal-content text-center">
-                        <div class="modal-body drl-modal-body pt-5 px-4 pb-4">
+                        <div class="modal-body drl-modal-body py-5 px-4 text-center">
                             <div class="mb-4">
-                                <div style="width: 72px; height: 72px; border-radius: 50%; background: #fef2f2; color: #ef4444; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <div class="drl-stat-icon drl-stat-icon--2 mx-auto shadow-sm" style="width: 72px; height: 72px; font-size: 32px; background: #fef2f2; color: #ef4444; border-color: #fee2e2;">
                                     <i class="feather-alert-triangle"></i>
                                 </div>
                             </div>
-                            <h4 style="font-size: 20px; font-weight: 800; color: #0d2151; margin-bottom: 12px;">Delete this offer?</h4>
-                            <p style="font-size: 14px; color: #64748b; margin-bottom: 32px;">Are you sure you want to permanently delete this draft offer? This action cannot be undone.</p>
-                            <div class="d-flex flex-column gap-3 mt-4">
+                            <h4 class="drl-card-title mb-2" style="font-size: 20px;">Delete this offer?</h4>
+                            <p class="text-muted mb-4">Are you sure you want to permanently delete this draft offer? This action cannot be undone.</p>
+                            <div class="d-flex flex-column gap-2 mt-4">
                                 <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
                                      <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
-                                    <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25); padding: 14px;">
-                                        <i class="feather-trash-2"></i> Yes, Delete Permanently
+                                    <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25);">
+                                        <i class="feather-trash-2 me-2"></i> Yes, Delete Permanently
                                     </button>
                                 </form>
-                                <button type="button" style="width: 100%; justify-content: center; padding: 14px; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b; font-weight: 700; font-size: 14px;" data-bs-dismiss="modal">
+                                <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
                                     Cancel
                                 </button>
                             </div>

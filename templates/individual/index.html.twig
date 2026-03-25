@@ -6,64 +6,72 @@
 
     {# ── CTA Banner: nudge the user to post their first request ── #}
     {% if publishedCount == 0 %}
-    <div class="pro-card mb-4" style="background: linear-gradient(135deg,#00509e,#0077cc); color:#fff; border-radius:16px; padding: 28px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+    <div class="drl-pro-info p-4 mb-5 d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div>
-            <h4 class="mb-1" style="color:#fff; font-weight:800;">Ready to find the right professional?</h4>
-            <p class="mb-0" style="color:rgba(255,255,255,0.85); font-size:0.95rem;">
+            <h4 class="mb-1 text-white fw-bold">Ready to find the right professional?</h4>
+            <p class="mb-0 text-white opacity-75">
                 Post your first renovation request in under 2 minutes and receive free quotes from verified pros.
             </p>
         </div>
-        <a href="{{ path('individual_quote_new') }}" class="pro-btn pro-btn-sm" style="background:#fff; color:#00509e; font-weight:700; border-radius:10px; padding:10px 22px; text-decoration:none; white-space:nowrap;">
-            <i class="feather-plus me-1"></i> Post a Request
+        <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange shadow-lg" style="background: white !important; color: var(--drl-navy) !important;">
+            <i class="feather-plus me-2"></i> Post a Request
         </a>
     </div>
     {% endif %}
 
     {# ── KPI Cards ── #}
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-5">
         <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card primary">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon"><i class="feather-file-text"></i></div>
+            <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
+                <div class="drl-stat">
+                    <div class="drl-stat-icon drl-stat-icon--1">
+                        <i class="feather-file-text"></i>
+                    </div>
+                    <div>
+                        <h3 class="drl-stat-val">{{ totalRequests }}</h3>
+                        <p class="drl-stat-lbl">Total Requests</p>
+                    </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ totalRequests }}</h3>
-                    <p class="pro-stat-label">Total Requests</p>
-                </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card info">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon"><i class="feather-send"></i></div>
+            <a href="{{ path('individual_quotes') }}?status=PUBLISHED" class="d-block text-decoration-none h-100">
+                <div class="drl-stat">
+                    <div class="drl-stat-icon drl-stat-icon--2" style="background: #eff6ff; color: #00509e; border-color: #dbeafe;">
+                        <i class="feather-send"></i>
+                    </div>
+                    <div>
+                        <h3 class="drl-stat-val">{{ publishedCount }}</h3>
+                        <p class="drl-stat-lbl">Published</p>
+                    </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ publishedCount }}</h3>
-                    <p class="pro-stat-label">Published</p>
-                </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card warning">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon"><i class="feather-message-square"></i></div>
+            <a href="{{ path('individual_offers') }}" class="d-block text-decoration-none h-100">
+                <div class="drl-stat">
+                    <div class="drl-stat-icon drl-stat-icon--3">
+                        <i class="feather-message-square"></i>
+                    </div>
+                    <div>
+                        <h3 class="drl-stat-val">{{ receivedOffersCount }}</h3>
+                        <p class="drl-stat-lbl">Offers Received</p>
+                    </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ receivedOffersCount }}</h3>
-                    <p class="pro-stat-label">Offers Received</p>
-                </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="pro-stat-card success">
-                <div class="pro-stat-header">
-                    <div class="pro-stat-icon"><i class="feather-check-circle"></i></div>
+            <a href="{{ path('individual_quotes') }}?status=ACCEPTED" class="d-block text-decoration-none h-100">
+                <div class="drl-stat">
+                    <div class="drl-stat-icon drl-stat-icon--4">
+                        <i class="feather-check-circle"></i>
+                    </div>
+                    <div>
+                        <h3 class="drl-stat-val">{{ acceptedOffersCount }}</h3>
+                        <p class="drl-stat-lbl">Accepted</p>
+                    </div>
                 </div>
-                <div class="pro-stat-info">
-                    <h3 class="pro-stat-value">{{ acceptedOffersCount }}</h3>
-                    <p class="pro-stat-label">Accepted</p>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -71,17 +79,17 @@
     <div class="row g-4 mt-1">
         <!-- Recent Quotes -->
         <div class="col-lg-8">
-            <div class="pro-card pro-card-elevated h-100">
-            <div class="pro-card-header">
+            <div class="drl-card h-100">
+            <div class="drl-card-head">
                 <div>
-                    <h5 class="pro-card-title">Recent Requests</h5>
-                    <p class="pro-card-subtitle">Your latest quote requests and their status</p>
+                    <h5 class="drl-card-title">Recent Requests</h5>
+                    <p class="drl-card-sub">Your latest quote requests and their status</p>
                 </div>
-                <a href="{{ path('individual_quotes') }}" class="indiv-btn-secondary pro-btn-sm">View all</a>
+                <a href="{{ path('individual_quotes') }}" class="drl-act-btn drl-act-btn--view">View all</a>
             </div>
 
-            <div class="pro-table-wrapper">
-                <table class="pro-table">
+            <div class="table-responsive">
+                <table class="drl-table w-100">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -93,25 +101,25 @@
                     <tbody>
                         {% for quote in quotes|slice(0, 5) %}
                             <tr>
-                                <td>
+                                 <td>
                                     <div>
-                                        <span class="pro-fw-semibold d-block" style="color:var(--indiv-primary);">{{ quote.title }}</span>
-                                        <span class="pro-text-muted" style="font-size: 0.95rem; font-weight: 400;">{{ quote.description|slice(0, 50) }}...</span>
+                                        <span class="fw-bold d-block text-dark">{{ quote.title }}</span>
+                                        <span class="text-muted small">{{ quote.description|slice(0, 50) }}...</span>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="pro-text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
+                                    <span class="text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
                                 </td>
                                 <td>
                                     {% set offerCount = quote.offers|length %}
                                     {% if offerCount > 0 %}
-                                        <span class="pro-badge success">{{ offerCount }} {{ offerCount == 1 ? 'offer' : 'offers' }}</span>
+                                        <span class="drl-tag drl-tag--success">{{ offerCount }} {{ offerCount == 1 ? 'offer' : 'offers' }}</span>
                                     {% else %}
-                                        <span class="pro-badge secondary">No offers yet</span>
+                                        <span class="drl-tag drl-tag--draft">No offers yet</span>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <span class="pro-badge {{ quote.status == 'PUBLISHED' ? 'info' : (quote.status == 'ACCEPTED' ? 'success' : 'secondary') }}">{{ quote.status }}</span>
+                                    <span class="drl-tag {{ quote.status == 'PUBLISHED' ? 'drl-tag--sent' : (quote.status == 'ACCEPTED' ? 'drl-tag--success' : 'drl-tag--draft') }}">{{ quote.status }}</span>
                                 </td>
                             </tr>
                         {% else %}
@@ -123,8 +131,8 @@
                                         </div>
                                         <h6 class="pro-empty-title">No requests yet</h6>
                                         <p class="pro-empty-text">Post your first quote request to get started</p>
-                                        <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary pro-btn-sm style="margin-top: 1rem;">
-                                            <i class="feather-plus"></i> Post Request
+                                        <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange mt-3">
+                                            <i class="feather-plus me-2"></i> Post Request
                                         </a>
                                     </div>
                                 </td>
@@ -138,20 +146,20 @@
 
         {# ── Notifications Panel ── #}
         <div class="col-lg-4">
-            <div class="pro-card pro-card-elevated h-100">
-                <div class="pro-card-header">
+            <div class="drl-card h-100">
+                <div class="drl-card-head">
                     <div>
-                        <h4 class="pro-card-title">
+                        <h4 class="drl-card-title">
                             Notifications
                             {% if unreadCount > 0 %}
-                                <span class="pro-badge danger" style="font-size:0.7rem; vertical-align:middle; margin-left:6px;">{{ unreadCount }}</span>
+                                <span class="drl-tag drl-tag--danger ms-2">{{ unreadCount }}</span>
                             {% endif %}
                         </h4>
                     </div>
                     {% if unreadCount > 0 %}
                         <form method="post" action="{{ path('notification_mark_all_read') }}" style="display:inline;">
                             <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
-                            <button type="submit" class="indiv-btn-secondary pro-btn-sm" style="font-size:0.9rem;">
+                            <button type="submit" class="drl-act-btn drl-act-btn--view border-0" style="font-size: 12px;">
                                 Mark all read
                             </button>
                         </form>
@@ -160,23 +168,20 @@
 
                 <div class="pro-card-body" style="max-height: 420px; overflow-y: auto; padding: 0;">
                     {% for notification in notifications %}
-                        <div class="d-flex align-items-start gap-3 px-3 py-3 {{ not notification.read ? 'bg-light' : '' }}" style="border-bottom: 1px solid var(--indiv-border);">
-                            <div style="min-width: 36px; width: 36px; height: 36px; border-radius: 50%; display:flex; align-items:center; justify-content:center;
-                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}background:var(--indiv-success-bg);{% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}background:var(--indiv-danger-bg);{% else %}background:rgba(0, 80, 158, 0.1);{% endif %}">
+                        <div class="drl-noti-item {{ not notification.read ? 'unread' : '' }}">
+                            <div class="drl-noti-icon {% if 'Accepted' in notification.title or 'Completed' in notification.title %}drl-noti-icon--success{% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}drl-noti-icon--danger{% else %}drl-noti-icon--info{% endif %}">
                                 {% if 'Accepted' in notification.title or 'Completed' in notification.title %}
-                                    <i class="feather-check-circle" style="font-size:0.85rem; color:var(--indiv-success);"></i>
+                                    <i class="feather-check-circle"></i>
                                 {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}
-                                    <i class="feather-x-circle" style="font-size:0.85rem; color:var(--indiv-danger);"></i>
+                                    <i class="feather-x-circle"></i>
                                 {% else %}
-                                    <i class="feather-bell" style="font-size:0.85rem; color:var(--indiv-primary);"></i>
+                                    <i class="feather-bell"></i>
                                 {% endif %}
                             </div>
-                            <div class="flex-grow-1" style="min-width:0;">
-                                <p class="mb-1 {{ not notification.read ? 'pro-fw-semibold' : '' }}" style="font-size:1rem; line-height:1.4; color:var(--indiv-text-main);">
-                                    {{ notification.title }}
-                                </p>
-                                <p class="mb-0 pro-text-muted text-truncate" style="font-size:0.95rem;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}...{% endif %}</p>
-                                <small class="pro-text-muted" style="font-size:0.85rem;">{{ notification.createdAt|date('M d, H:i') }}</small>
+                            <div class="flex-grow-1">
+                                <h6 class="drl-noti-title {{ not notification.read ? 'unread' : '' }}">{{ notification.title }}</h6>
+                                <p class="drl-noti-p text-truncate" style="max-width: 250px;">{{ notification.message }}</p>
+                                <span class="drl-noti-time">{{ notification.createdAt|date('M d, H:i') }}</span>
                             </div>
                         </div>
                     {% else %}

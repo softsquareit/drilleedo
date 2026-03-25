@@ -29,9 +29,14 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/jodit.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/styles.css') }}">
     
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/drilleedo.css') }}">
     <!-- Individual Space Dashboard Styles (Harmonized with Index) -->
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/individual-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_dashboard_charter.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/drilleedo_components.css') }}">
     
     {% block stylesheets %}{% endblock %}
 </head>
@@ -47,38 +52,30 @@
     <!-- Start Dashboard Area -->
     <div class="rbt-dashboard-area rbt-section-overlayping-top rbt-section-gapBottom">
         <div class="container">
-           <div class="pro-dashboard-header">
-    <div class="pro-header-cover" style="height: 320px;background-image:url('{{ asset('uploads/banners/individual.png')}}') ">
-        <div class="pro-header-overlay" style="background: rgba(0,0,0,0.1);"></div>
-    </div>
-    
-    <div class="pro-header-content">
-        <div class="pro-header-profile">
-            <div class="pro-avatar-wrapper">
-                <div class="pro-avatar-img d-flex align-items-center justify-content-center" style="background: var(--indiv-primary); color: white; font-size: 3.5rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    {{ (app.user.personalInfos ? app.user.personalInfos.firstName|first : app.user.email|first)|upper }}
+            <div class="dr-pro-header mb-5" style="background-image: url('{{ asset('uploads/banners/individual.png') }}'); position: relative; height: 160px; background-size: cover; background-position: center; border-radius: 16px; overflow: hidden;">
+                <div class="dr-pro-header-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(13,33,81,0.1), rgba(13,33,81,0.6));"></div>
+                
+                <div class="d-flex align-items-center h-100 px-4 position-relative" style="z-index: 2;">
+                    <div class="pro-avatar-wrapper me-4">
+                        <div class="pro-avatar-img d-flex align-items-center justify-content-center shadow-lg" style="width: 80px; height: 80px; border-radius: 50%; background: var(--drl-orange); color: white; font-size: 2rem; font-weight: 800; border: 4px solid rgba(255,255,255,0.2);">
+                            {{ (app.user.personalInfos ? app.user.personalInfos.firstName|first : app.user.email|first)|upper }}
+                        </div>
+                    </div>
+                    <div class="text-white">
+                        <h3 class="mb-1 fw-bold text-white">{{ app.user.personalInfos ? (app.user.personalInfos.firstName ~ ' ' ~ app.user.personalInfos.lastName) : app.user.email }}</h3>
+                        <div class="d-flex align-items-center gap-2 opacity-75">
+                            <span class="badge bg-white text-dark fw-bold px-3 py-1">Individual Account</span>
+                            <span class="text-white small">/ {{ app.user.email }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ms-auto">
+                        <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange">
+                            <i class="feather-plus me-2"></i> Post New Request
+                        </a>
+                    </div>
                 </div>
             </div>
-            
-            <div class="pro-header-info">
-                <h3 class="pro-header-name">{{ app.user.personalInfos ? (app.user.personalInfos.firstName ~ ' ' ~ app.user.personalInfos.lastName) : app.user.email }}</h3>
-                <div class="pro-header-meta">
-                    <span class="pro-badge secondary">Individual</span>
-                    <span class="pro-divider"></span>
-                    <span class="pro-text-muted">
-                        <i class="feather-mail"></i> {{ app.user.email }}
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="pro-header-actions">
-            <a href="{{ path('individual_quote_new') }}" class="indiv-btn-primary">
-                <i class="feather-plus"></i> Post New Request
-            </a>
-        </div>
-    </div>
-</div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row g-5">
@@ -98,7 +95,7 @@
                                      {% elseif label == 'warning' %}{% set alertIcon = 'feather-alert-triangle' %}
                                      {% endif %}
 
-                                     <div class="pro-alert pro-alert-{{ alertType }} alert-dismissible fade show" role="alert">
+                                     <div class="drl-alert drl-alert--{{ alertType }} alert-dismissible fade show shadow-sm" role="alert">
                                          <i class="{{ alertIcon }} alert-icon"></i>
                                          <div class="alert-content">{{ message }}</div>
                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -127,7 +124,37 @@
     <script src="{{ asset('assets/drilleedo/js/vendor/backtotop.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/vendor/isotop.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/vendor/imageloaded.js') }}"></script>
+    <script src="{{ asset('assets/drilleedo/js/vendor/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            if ($('.drl-table').length > 0) {
+                $('.drl-table').DataTable({
+                    autoWidth: false,
+                    responsive: true,
+                    dom: '<"d-flex justify-content-between align-items-center mb-0"fl>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
+                    language: {
+                        search: '',
+                        searchPlaceholder: 'Search anything...',
+                        lengthMenu: '_MENU_',
+                        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                        paginate: { 
+                            'next': '<i class="feather-chevron-right"></i>', 
+                            'previous': '<i class="feather-chevron-left"></i>' 
+                        }
+                    },
+                    drawCallback: function() {
+                        $('.dataTables_paginate > .paginate_button').addClass('shadow-sm');
+                    }
+                });
+            }
+        });
+    </script>
     
     {% block javascripts %}
         <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>

@@ -3,22 +3,22 @@
 {% block title %}My Direct Requests - {{ app.user.firstname|default('Individual') }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated">
-        <div class="pro-card-header border-bottom">
+    <div class="drl-card">
+        <div class="drl-card-head">
             <div>
-                <h4 class="pro-card-title">My Direct Requests</h4>
-                <p class="pro-card-subtitle">Inquiries sent specifically to professionals or companies</p>
+                <h4 class="drl-card-title">My Direct Requests</h4>
+                <p class="drl-card-sub">Inquiries sent specifically to professionals or companies</p>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <span class="pro-badge info">{{ directRequests|length }} Total</span>
-                <a href="{{ path('professionals_list') }}" class="indiv-btn-primary pro-btn-sm d-flex align-items-center gap-2">
-                    <i class="feather-search"></i> Find Professionals
+                <span class="drl-tag drl-tag--sent">{{ directRequests|length }} Total</span>
+                <a href="{{ path('professionals_list') }}" class="drl-btn-orange shadow-lg">
+                    <i class="feather-search me-2"></i> Find Professionals
                 </a>
             </div>
         </div>
 
-        <div class="pro-table-wrapper border-0">
-            <table class="pro-table align-middle">
+        <div class="table-responsive">
+            <table class="drl-table w-100">
                 <thead>
                     <tr>
                         <th style="width: 35%">Request Details</th>
@@ -26,42 +26,42 @@
                         <th>Category</th>
                         <th>Offers</th>
                         <th>Status</th>
-                        <th style="width: 10%" class="text-end">Actions</th>
+                        <th style="width: 10%" class="text-end px-4">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for request in directRequests %}
                         <tr>
                             <td>
-                                <div>
-                                    <span class="fw-bold d-block text-dark" style="font-size: 1.4rem;">{{ request.title }}</span>
-                                    <div class="text-muted small mt-1" style="font-size: 1rem;">
-                                        <i class="feather-calendar me-1"></i>Sent {{ request.creationDate|date('M d, Y') }}
+                                <div class="px-2">
+                                    <span class="fw-bold d-block text-dark mb-1" style="font-size: 1.15rem;">{{ request.title }}</span>
+                                    <div class="text-muted small d-flex align-items-center gap-1">
+                                        <i class="feather-calendar"></i> Sent {{ request.creationDate|date('M d, Y') }}
                                     </div>
-                                    <div class="text-muted mt-2 small text-truncate" style="max-width: 300px; font-size: 1rem;">
+                                    <div class="text-muted mt-2 small text-truncate" style="max-width: 300px;">
                                         {{ request.description|slice(0, 100) }}...
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 {% if request.targetProfessional %}
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="pro-stat-icon primary m-0" style="width: 40px; height: 40px; font-size: 1rem;">
+                                    <div class="d-flex align-items-center gap-3 px-2">
+                                        <div class="drl-stat-icon drl-stat-icon--1 m-0 shadow-sm" style="width: 36px; height: 36px; font-size: 14px;">
                                             <i class="feather-user"></i>
                                         </div>
                                         <div>
-                                            <span class="fw-bold d-block text-dark">{{ request.targetProfessional.tradeName ?: request.targetProfessional.userIdentifier }}</span>
-                                            <span class="pro-badge info p-0 px-2" style="font-size: 1rem;">Professional</span>
+                                            <span class="fw-bold d-block text-dark small">{{ request.targetProfessional.tradeName ?: request.targetProfessional.userIdentifier }}</span>
+                                            <span class="drl-tag drl-tag--sent p-0 px-2 mt-1" style="font-size: 10px;">Professional</span>
                                         </div>
                                     </div>
                                 {% elseif request.targetCompany %}
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="pro-stat-icon purple m-0" style="width: 40px; height: 40px; font-size: 1rem;">
+                                    <div class="d-flex align-items-center gap-3 px-2">
+                                        <div class="drl-stat-icon drl-stat-icon--2 m-0 shadow-sm" style="width: 36px; height: 36px; font-size: 14px; background: #faf5ff; color: #6b21a8; border-color: #f3e8ff;">
                                             <i class="feather-briefcase"></i>
                                         </div>
                                         <div>
-                                            <span class="fw-bold d-block text-dark">{{ request.targetCompany.companyName }}</span>
-                                            <span class="pro-badge purple p-0 px-2" style="font-size: 1rem;">Company</span>
+                                            <span class="fw-bold d-block text-dark small">{{ request.targetCompany.companyName }}</span>
+                                            <span class="drl-tag p-0 px-2 mt-1" style="font-size: 10px; background: #f3e8ff; color: #6b21a8;">Company</span>
                                         </div>
                                     </div>
                                 {% else %}
@@ -69,46 +69,46 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <span class="pro-badge secondary">
+                                <span class="drl-tag drl-tag--sent">
                                     <i class="feather-tag me-1"></i>{{ request.category.name|default('General') }}
                                 </span>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="pro-stat-icon info m-0" style="width: 32px; height: 32px; font-size: 1.4rem;">
+                                    <div class="drl-stat-icon drl-stat-icon--1 m-0" style="width: 32px; height: 32px; font-size: 14px;">
                                         {{ request.offers|length }}
                                     </div>
-                                    <span class="text-muted small" style="font-size: 1rem;">Offer{{ request.offers|length != 1 ? 's' : '' }}</span>
+                                    <span class="text-muted small">Offer{{ request.offers|length != 1 ? 's' : '' }}</span>
                                 </div>
                             </td>
                             <td>
                                 {% set stField = request.status|upper %}
                                 {% set statusInfo = {
-                                    'DRAFT': {'class': 'secondary', 'label': 'Draft', 'icon': 'feather-file'},
-                                    'PUBLISHED': {'class': 'info', 'label': 'Published', 'icon': 'feather-globe'},
-                                    'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                                    'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'}
+                                    'DRAFT': {'class': 'drl-tag--draft', 'label': 'Draft', 'icon': 'feather-file'},
+                                    'PUBLISHED': {'class': 'drl-tag--sent', 'label': 'Published', 'icon': 'feather-globe'},
+                                    'ACCEPTED': {'class': 'drl-tag--success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
+                                    'CLOSED': {'class': 'drl-tag--danger', 'label': 'Closed', 'icon': 'feather-lock'}
                                 } %}
-                                {% set st = statusInfo[stField]|default({'class': 'secondary', 'label': request.status, 'icon': 'feather-help-circle'}) %}
-                                <span class="pro-badge {{ st.class }}">
-                                    <i class="{{ st.icon }} me-1" style="font-size:0.65rem;"></i>{{ st.label }}
+                                {% set st = statusInfo[stField]|default({'class': 'drl-tag--draft', 'label': request.status, 'icon': 'feather-help-circle'}) %}
+                                <span class="drl-tag {{ st.class }}">
+                                    <i class="{{ st.icon }} me-1" style="font-size: 10px;"></i>{{ st.label }}
                                 </span>
                             </td>
-                            <td class="text-end">
-                                <a href="{{ path('individual_offers') }}" class="indiv-action-badge view">
-                                    <i class="feather-inbox"></i> Offers
+                            <td class="text-end px-3">
+                                <a href="{{ path('individual_offers') }}" class="drl-act-btn drl-act-btn--view shadow-sm">
+                                    <i class="feather-inbox me-1"></i> Offers
                                 </a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
                             <td colspan="6" class="py-5 text-center">
-                                <div class="mb-4 text-muted">
-                                    <i class="feather-send" style="font-size: 4rem; opacity: 0.1;"></i>
+                                <div class="mb-4 text-muted opacity-25">
+                                    <i class="feather-send" style="font-size: 5rem;"></i>
                                 </div>
                                 <h5 class="fw-bold text-dark">No direct requests sent</h5>
-                                <p class="text-muted mb-4">You haven't sent any direct requests to professionals or companies yet.</p>
-                                <a href="{{ path('professionals_list') }}" class="indiv-btn-primary-light px-4">
+                                <p class="text-muted mb-4 px-5">You haven't sent any direct requests to professionals or companies yet.</p>
+                                <a href="{{ path('professionals_list') }}" class="drl-btn-orange px-5 shadow-lg">
                                     <i class="feather-search me-2"></i> Find Professionals
                                 </a>
                             </td>

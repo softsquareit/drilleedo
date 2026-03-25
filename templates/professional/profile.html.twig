@@ -201,20 +201,20 @@
     <!-- Edit Profile Modal -->
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content" style="border: none; border-radius: 16px; box-shadow: 0 10px 40px rgba(13,33,81,0.2);">
-                <div class="modal-header" style="background: #0d2151; border-bottom: none; border-radius: 16px 16px 0 0; padding: 24px 32px;">
-                    <h5 class="modal-title" style="font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 12px;">
-                        <i class="feather-image"></i> Update Profile Photo
+            <div class="modal-content drl-modal-content">
+                <div class="modal-header drl-modal-header">
+                    <h5 class="modal-title drl-modal-title">
+                        <i class="feather-user me-2"></i>Update Profile Information
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="max-height: 75vh; overflow-y: auto; padding: 32px;">
+                <div class="modal-body drl-modal-body" style="max-height: 75vh; overflow-y: auto;">
                     {{ form_start(form, {'attr': {'class': 'row g-4', 'id': 'profileUpdateForm'}}) }}
                    
                         <div class="col-lg-6">
                             <div>
-                                <label class="drl-form-label" for="{{ form.company_name.vars.id }}">Professional Name</label>
-                                {{ form_widget(form.company_name, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'John Doe Construction'}}) }}
+                                <label class="drl-label" for="{{ form.company_name.vars.id }}">Professional Name</label>
+                                {{ form_widget(form.company_name, {'attr': {'class': 'drl-input', 'placeholder': 'John Doe Construction'}}) }}
                                 {{ form_errors(form.company_name) }}
                             </div>
                         </div>
@@ -222,15 +222,15 @@
                         <div class="col-lg-6">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="drl-form-label" for="{{ form.parentCategory.vars.id }}">Industry/Sector</label>
-                                    {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-form-control w-100 form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
+                                    <label class="drl-label" for="{{ form.parentCategory.vars.id }}">Industry/Sector</label>
+                                    {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
                                     {{ form_errors(form.parentCategory) }}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="drl-form-label" for="{{ form.category.vars.id }}">Specific Service</label>
+                                    <label class="drl-label" for="{{ form.category.vars.id }}">Specific Service</label>
                                     {{ form_widget(form.category, {
                                         'attr': {
-                                            'class': 'drl-form-control w-100 form-select child-category-select selectpicker',
+                                            'class': 'drl-input form-select child-category-select selectpicker',
                                             'data-selected-id': app.user.category ? app.user.category.id : '',
                                             'data-live-search': 'true'
                                         }
@@ -242,59 +242,59 @@
 
                         <div class="col-lg-6">
                             <div>
-                                <label class="drl-form-label" for="{{ form.email.vars.id }}">Email</label>
-                                {{ form_widget(form.email, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'contact@example.com'}}) }}
+                                <label class="drl-label" for="{{ form.email.vars.id }}">Email</label>
+                                {{ form_widget(form.email, {'attr': {'class': 'drl-input', 'placeholder': 'contact@example.com'}}) }}
                                 {{ form_errors(form.email) }}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div>
-                                <label class="drl-form-label" for="{{ form.city.vars.id }}">City</label>
-                                {{ form_widget(form.city, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'Montreal'}}) }}
+                                <label class="drl-label" for="{{ form.city.vars.id }}">City</label>
+                                {{ form_widget(form.city, {'attr': {'class': 'drl-input', 'placeholder': 'Montreal'}}) }}
                                 {{ form_errors(form.city) }}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div>
-                                <label class="drl-form-label" for="{{ form.exp_years.vars.id }}">Years of Experience</label>
-                                {{ form_widget(form.exp_years, {'attr': {'class': 'drl-form-control w-100', 'placeholder': '5'}}) }}
+                                <label class="drl-label" for="{{ form.exp_years.vars.id }}">Years of Experience</label>
+                                {{ form_widget(form.exp_years, {'attr': {'class': 'drl-input', 'placeholder': '5'}}) }}
                                 {{ form_errors(form.exp_years) }}
                             </div>
                         </div>
 
                         <div class="col-12 mt-4 pt-3 border-top">
                             <div>
-                                <label class="drl-form-label">About Me</label>
-                                {{ form_widget(form.about, {'attr': {'class': 'drl-form-control w-100', 'rows': '4', 'placeholder': 'Tell clients about your business...'}}) }}
+                                <label class="drl-label">About Me</label>
+                                {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': 'Tell clients about your business...'}}) }}
                                 {{ form_errors(form.about) }}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div>
-                                <label class="drl-form-label">Why Choose Me <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(One item per line)</span></label>
-                                {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-form-control w-100', 'rows': '5'}}) }}
+                                <label class="drl-label">Why Choose Me <span class="small opacity-50 fw-normal">(One item per line)</span></label>
+                                {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5'}}) }}
                                 {{ form_errors(form.whyChooseUs) }}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div>
-                                <label class="drl-form-label">Services <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(One item per line)</span></label>
-                                {{ form_widget(form.services, {'attr': {'class': 'drl-form-control w-100', 'rows': '5'}}) }}
+                                <label class="drl-label">Services <span class="small opacity-50 fw-normal">(One item per line)</span></label>
+                                {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5'}}) }}
                                 {{ form_errors(form.services) }}
                             </div>
                         </div>
                     {{ form_end(form) }}
                 </div>
-                <div class="modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px; padding: 16px 24px;">
-                    <button type="button" style="padding: 10px 20px; font-size: 14px; font-weight: 700; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; color: #64748b;" data-bs-dismiss="modal">
+                <div class="modal-footer drl-modal-footer">
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
                         Cancel
                     </button>
-                    <button type="submit" form="profileUpdateForm" class="drl-btn-orange">
-                        <i class="feather-save"></i> Save Changes
+                    <button type="submit" form="profileUpdateForm" class="drl-btn-orange px-5">
+                        <i class="feather-save me-2"></i> Save Changes
                     </button>
                 </div>
             </div>

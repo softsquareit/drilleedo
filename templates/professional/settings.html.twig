@@ -15,29 +15,29 @@
             <div class="col-lg-3">
                 <div class="sticky-top" style="top: 20px;">
                     <nav>
-                        <ul class="nav flex-column" style="gap: 8px;">
+                        <ul class="nav flex-column drl-sidebar-nav" style="gap: 4px;">
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="list" href="#contact" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
+                                <a class="nav-link active" data-bs-toggle="list" href="#contact" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
                                     <i class="feather-user"></i> Contact Info
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="list" href="#address" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
+                                <a class="nav-link" data-bs-toggle="list" href="#address" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
                                     <i class="feather-map-pin"></i> Address Book
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="list" href="#categories" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
+                                <a class="nav-link" data-bs-toggle="list" href="#categories" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
                                     <i class="feather-tag"></i> Service Category
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="list" href="#links" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
+                                <a class="nav-link" data-bs-toggle="list" href="#links" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
                                     <i class="feather-link"></i> Social Links
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="list" href="#security" role="tab" style="color: #475569; font-weight: 700; border-radius: 8px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
+                                <a class="nav-link" data-bs-toggle="list" href="#security" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
                                     <i class="feather-lock"></i> Security
                                 </a>
                             </li>
@@ -59,26 +59,26 @@
                                 {{ form_start(contactForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-form-label">First Name</label>
-                                            {{ form_widget(contactForm.firstName, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">First Name</label>
+                                            {{ form_widget(contactForm.firstName, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-form-label">Last Name</label>
-                                            {{ form_widget(contactForm.lastName, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">Last Name</label>
+                                            {{ form_widget(contactForm.lastName, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-form-label">Email</label>
-                                            {{ form_widget(contactForm.email, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">Email</label>
+                                            {{ form_widget(contactForm.email, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-form-label">Phone</label>
-                                            {{ form_widget(contactForm.phone, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">Phone</label>
+                                            {{ form_widget(contactForm.phone, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-12 mt-4 pt-3 border-top">
@@ -101,20 +101,20 @@
                                 {{ form_start(addressForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label">Street</label>
-                                            {{ form_widget(addressForm.street, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">Street</label>
+                                            {{ form_widget(addressForm.street, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-form-label">City</label>
-                                            {{ form_widget(addressForm.city, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">City</label>
+                                            {{ form_widget(addressForm.city, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-form-label">Postal Code</label>
-                                            {{ form_widget(addressForm.postalCode, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label">Postal Code</label>
+                                            {{ form_widget(addressForm.postalCode, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-12 mt-4 pt-3 border-top">
@@ -181,16 +181,16 @@
                                     <div class="row g-4 mb-4">
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="drl-form-label" for="{{ categoryForm.parentCategory.vars.id }}">Industry/Sector</label>
-                                                {{ form_widget(categoryForm.parentCategory, {'attr': {'class': 'drl-form-control form-select w-100'}}) }}
+                                                <label class="drl-label" for="{{ categoryForm.parentCategory.vars.id }}">Industry/Sector</label>
+                                                {{ form_widget(categoryForm.parentCategory, {'attr': {'class': 'drl-input'}}) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="drl-form-label" for="{{ categoryForm.category.vars.id }}">Specific Service</label>
+                                                <label class="drl-label" for="{{ categoryForm.category.vars.id }}">Specific Service</label>
                                                 {{ form_widget(categoryForm.category, {
                                                     'attr': {
-                                                        'class': 'drl-form-control form-select w-100 child-category-select',
+                                                        'class': 'drl-input child-category-select',
                                                         'data-selected-id': user.category ? user.category.id : ''
                                                     }
                                                 }) }}
@@ -219,36 +219,36 @@
                                     
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label"><i class="feather-facebook" style="color: #1877f2;"></i> Facebook</label>
-                                            {{ form_widget(socialLinksForm.facebook, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label"><i class="feather-facebook" style="color: #1877f2;"></i> Facebook</label>
+                                            {{ form_widget(socialLinksForm.facebook, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label"><i class="feather-twitter" style="color: #1da1f2;"></i> Twitter</label>
-                                            {{ form_widget(socialLinksForm.twitter, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label"><i class="feather-twitter" style="color: #1da1f2;"></i> Twitter</label>
+                                            {{ form_widget(socialLinksForm.twitter, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label"><i class="feather-linkedin" style="color: #0a66c2;"></i> LinkedIn</label>
-                                            {{ form_widget(socialLinksForm.linkedin, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label"><i class="feather-linkedin" style="color: #0a66c2;"></i> LinkedIn</label>
+                                            {{ form_widget(socialLinksForm.linkedin, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label"><i class="feather-globe" style="color: #64748b;"></i> Website</label>
-                                            {{ form_widget(socialLinksForm.website, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label"><i class="feather-globe" style="color: #64748b;"></i> Website</label>
+                                            {{ form_widget(socialLinksForm.website, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label"><i class="feather-instagram" style="color: #e1306c;"></i> Instagram</label>
-                                            {{ form_widget(socialLinksForm.instagram, {'attr': {'class': 'drl-form-control w-100'}}) }}
+                                            <label class="drl-label"><i class="feather-instagram" style="color: #e1306c;"></i> Instagram</label>
+                                            {{ form_widget(socialLinksForm.instagram, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
@@ -272,15 +272,15 @@
                                 {{ form_start(passwordForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label">New Password</label>
-                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'Enter new password...'}}) }}
+                                            <label class="drl-label">New Password</label>
+                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'drl-input', 'placeholder': 'Enter new password...'}}) }}
                                             {{ form_errors(passwordForm.plainPassword.first) }}
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-form-label">Confirm New Password</label>
-                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'drl-form-control w-100', 'placeholder': 'Repeat new password...'}}) }}
+                                            <label class="drl-label">Confirm New Password</label>
+                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'drl-input', 'placeholder': 'Repeat new password...'}}) }}
                                             {{ form_errors(passwordForm.plainPassword.second) }}
                                         </div>
                                     </div>
@@ -302,17 +302,24 @@
 
 {% block javascripts %}
 <style>
-    /* Add some specific styles for the tab nav to mimic pro-sidebar */
+    .tab-pane { transition: all 0.3s ease; }
+    
     .nav-link {
+        color: #64748b !important;
+        border: 1px solid transparent !important;
         transition: all 0.2s ease;
     }
+    
     .nav-link:hover {
-        background: #f8fafc;
-        color: #00509e !important;
+        background: #f8fafc !important;
+        color: #0d2151 !important;
     }
+    
     .nav-link.active {
-        background: #eff6ff;
-        color: #00509e !important;
+        background: white !important;
+        color: #e8501a !important;
+        border-color: #e2e8f0 !important;
+        box-shadow: 0 4px 12px rgba(13,33,81,0.06) !important;
     }
 </style>
 <script>

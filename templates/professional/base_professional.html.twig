@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/modern-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/professional-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_dashboard_charter.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/drilleedo_components.css') }}">
     
     {% block stylesheets %}{% endblock %}
 </head>
@@ -113,21 +114,21 @@
                 $('.drl-table').DataTable({
                     autoWidth: false,
                     responsive: true,
-                    dom: '<"d-flex justify-content-between align-items-center mb-3"fl>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
+                    dom: '<"d-flex justify-content-between align-items-center mb-0"fl>rt<"d-flex justify-content-between align-items-center mt-3"ip>',
                     language: {
                         search: '',
-                        searchPlaceholder: 'Search...',
+                        searchPlaceholder: 'Search anything...',
                         lengthMenu: '_MENU_',
+                        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
                         paginate: { 
                             'next': '<i class="feather-chevron-right"></i>', 
                             'previous': '<i class="feather-chevron-left"></i>' 
                         }
+                    },
+                    drawCallback: function() {
+                        $('.dataTables_paginate > .paginate_button').addClass('shadow-sm');
                     }
                 });
-                
-                // Style the search input
-                $('.dataTables_filter input').addClass('drl-form-control').css('width', '240px');
-                $('.dataTables_length select').addClass('form-select form-select-sm').css('width', '80px');
             }
         });
     </script>

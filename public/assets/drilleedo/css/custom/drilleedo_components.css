@@ -1,0 +1,365 @@
+/* ══════════════════════════════════════════════════════════════════════
+   DRILLEEDO MODERN COMPONENTS SYSTEM
+   Navy: #0d2151 · Orange: #e8501a · Blue: #00509e
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+    --drl-navy: #0d2151;
+    --drl-orange: #e8501a;
+    --drl-blue: #00509e;
+    --drl-gray-50: #f8fafc;
+    --drl-gray-100: #f1f5f9;
+    --drl-gray-200: #e2e8f0;
+    --drl-gray-300: #cbd5e1;
+    --drl-gray-400: #94a3b8;
+    --drl-gray-500: #64748b;
+    --drl-radius-sm: 6px;
+    --drl-radius-md: 10px;
+    --drl-radius-lg: 16px;
+    --drl-shadow-sm: 0 1px 3px rgba(13, 33, 81, 0.05);
+    --drl-shadow-md: 0 4px 12px rgba(13, 33, 81, 0.08);
+    --drl-shadow-lg: 0 10px 30px rgba(13, 33, 81, 0.12);
+}
+
+/* ── 1. Modern Tables (drl-table) ── */
+.drl-table-container {
+    background: #fff;
+    border-radius: var(--drl-radius-md);
+    border: 1px solid var(--drl-gray-200);
+    overflow: hidden;
+    box-shadow: var(--drl-shadow-sm);
+}
+
+.drl-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.drl-table th {
+    background: var(--drl-gray-50);
+    padding: 16px 20px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--drl-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--drl-gray-200);
+}
+
+.drl-table td {
+    padding: 18px 20px;
+    font-size: 14px;
+    color: var(--drl-navy);
+    border-bottom: 1px solid var(--drl-gray-100);
+    vertical-align: middle;
+}
+
+.drl-table tr:last-child td {
+    border-bottom: none;
+}
+
+.drl-table tr:hover td {
+    background-color: #fcfdfe;
+}
+
+/* ── 2. DataTables Premium Styling ── */
+.dataTables_wrapper .dataTables_filter {
+    float: left;
+    margin-bottom: 1.5rem;
+}
+
+.dataTables_wrapper .dataTables_filter label {
+    position: relative;
+    font-size: 0;
+    /* Hide 'Search:' text */
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    width: 280px !important;
+    height: 42px;
+    padding-left: 40px !important;
+    border: 1px solid var(--drl-gray-300);
+    border-radius: 20px;
+    background: var(--drl-gray-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 14px center;
+    background-size: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-left: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    background-color: #fff;
+    border-color: var(--drl-blue);
+    box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.08);
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: right;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding: 6px 30px 6px 12px;
+    border: 1px solid var(--drl-gray-300);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--drl-gray-500);
+}
+
+.dataTables_wrapper .dataTables_info {
+    font-size: 13px;
+    color: var(--drl-gray-500);
+    font-weight: 500;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding-top: 5px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px !important;
+    margin: 0 3px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--drl-gray-200) !important;
+    background: #fff !important;
+    color: var(--drl-gray-500) !important;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.15s;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--drl-navy) !important;
+    color: #fff !important;
+    border-color: var(--drl-navy) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) {
+    background: var(--drl-gray-50) !important;
+    color: var(--drl-blue) !important;
+    border-color: var(--drl-gray-300) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    opacity: 0.5;
+    background: #f8fafc !important;
+}
+
+/* ── 3. Modern Forms (drl-forms) ── */
+.drl-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--drl-navy);
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+}
+
+.drl-input {
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
+    border: 1px solid var(--drl-gray-300);
+    border-radius: var(--drl-radius-md);
+    background: var(--drl-gray-50);
+    color: var(--drl-navy);
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+textarea.drl-input {
+    height: auto;
+    padding: 16px;
+}
+
+.drl-input:focus {
+    background: #fff;
+    border-color: var(--drl-blue);
+    box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.1);
+    outline: none;
+}
+
+/* Custom Checkboxes */
+.drl-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.drl-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.drl-checkmark {
+    height: 20px;
+    width: 20px;
+    background-color: var(--drl-gray-100);
+    border: 2px solid var(--drl-gray-300);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.drl-checkbox:hover input~.drl-checkmark {
+    border-color: var(--drl-blue);
+}
+
+.drl-checkbox input:checked~.drl-checkmark {
+    background-color: var(--drl-blue);
+    border-color: var(--drl-blue);
+}
+
+.drl-checkmark:after {
+    content: "";
+    display: none;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+    margin-bottom: 2px;
+}
+
+.drl-checkbox input:checked~.drl-checkmark:after {
+    display: block;
+}
+
+/* ── 4. Premium Modals (drl-modal) ── */
+.drl-modal-content {
+    border: none;
+    border-radius: var(--drl-radius-lg);
+    box-shadow: var(--drl-shadow-lg);
+    overflow: hidden;
+    background: #fff;
+}
+
+.drl-modal-header {
+    padding: 24px 32px;
+    background: var(--drl-navy);
+    color: #fff;
+    border-bottom: none;
+    position: relative;
+}
+
+.drl-modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.drl-modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    background-size: 14px;
+}
+
+.drl-modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+.drl-modal-body {
+    padding: 32px;
+}
+
+.drl-modal-footer {
+    padding: 24px 32px;
+    background: var(--drl-gray-50);
+    border-top: 1px solid var(--drl-gray-200);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* ── 5. Standard Primary Button (drl-btn-orange) ── */
+.drl-btn-orange {
+    height: 48px;
+    padding: 0 28px;
+    background: var(--drl-orange);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    border-radius: var(--drl-radius-md);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(232, 80, 26, 0.25);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-decoration: none;
+}
+
+.drl-btn-orange:hover {
+    background: #c43d10;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(232, 80, 26, 0.35);
+}
+
+.drl-btn-orange:active {
+    transform: translateY(0);
+}
+
+/* ── 6. Semantic Tags (drl-tag) ── */
+.drl-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.drl-tag i {
+    font-size: 10px;
+}
+
+.drl-tag--sent {
+    background: #eff6ff;
+    color: #00509e;
+}
+
+.drl-tag--success {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.drl-tag--draft {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.drl-tag--danger {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.drl-tag--warning {
+    background: #fffbeb;
+    color: #d97706;
+}
