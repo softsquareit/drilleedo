@@ -1,41 +1,613 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}How It Works | Drilleedo{% endblock %}
+{% block title %}How It Works | Drilleedo Canada{% endblock %}
+{% block meta_description %}Learn how Drilleedo connects homeowners with trusted renovation professionals. Post a request, compare quotes, and hire the best contractor for your project.{% endblock %}
 
 {% block body %}
 <main id="main-content">
-    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-inner text-center">
-                        <h2 class="title">How It Works</h2>
-                        <ul class="page-list">
-                            <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                            <li>
-                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                            </li>
-                            <li class="rbt-breadcrumb-item active">How It Works</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+<style>
+/* ══ UNIFIED HOW IT WORKS PAGE ═════════════════════════════════════════════
+   Design charter based on Drilleedo Pro & Smart Ideas.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hero ── */
+.hiw-hero {
+  min-height: 480px;
+  background: linear-gradient(135deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 80px 0;
+}
+
+.hiw-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hiw-hero::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -150px;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,80,26,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hiw-hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hiw-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.hiw-eyebrow i { color: #f97316; }
+
+.hiw-hero__title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 20px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.hiw-hero__title span {
+  background: linear-gradient(90deg, #f97316, #e8501a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hiw-hero__sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+  margin-bottom: 36px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hiw-hero__actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hiw-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 16px 36px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(232,80,26,0.3);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.hiw-btn-primary:hover {
+  background: #c43d10;
+  transform: translateY(-3px);
+  color: #fff;
+}
+
+/* ── 2. Sticky Navigation ── */
+.hiw-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.hiw-nav__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.hiw-nav__list::-webkit-scrollbar { display: none; }
+
+.hiw-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+  text-decoration: none;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.hiw-nav__link:hover,
+.hiw-nav__link.active {
+  background: #0d2151;
+  color: #fff;
+  border-color: #0d2151;
+}
+
+/* ── 3. General Section Styling ── */
+.hiw-section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.hiw-section--alt {
+  background: linear-gradient(170deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.hiw-section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hiw-section-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e8501a;
+  background: rgba(232,80,26,0.1);
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.hiw-section-title {
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 900;
+  color: #0d2151;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+
+.hiw-section-desc {
+  font-size: 18px;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── 4. Process Grid (Overview) ── */
+.hiw-process {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  position: relative;
+}
+
+.hiw-process::before {
+  content: '';
+  position: absolute;
+  top: 45px;
+  left: 12%;
+  right: 12%;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, #cbd5e1 0, #cbd5e1 10px, transparent 10px, transparent 20px);
+  z-index: 0;
+}
+
+.hiw-step-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 10px 30px rgba(13,33,81,0.03);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hiw-step-card:hover {
+  transform: translateY(-10px);
+  border-color: #bfdbfe;
+  box-shadow: 0 20px 40px rgba(13,33,81,0.08);
+}
+
+.hiw-step-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.hiw-step-card:nth-child(1) .hiw-step-icon { background: linear-gradient(135deg, #0d2151, #1a3a6b); color:#fff; }
+.hiw-step-card:nth-child(2) .hiw-step-icon { background: linear-gradient(135deg, #00509e, #3b82f6); color:#fff; }
+.hiw-step-card:nth-child(3) .hiw-step-icon { background: linear-gradient(135deg, #e8501a, #f97316); color:#fff; }
+.hiw-step-card:nth-child(4) .hiw-step-icon { background: linear-gradient(135deg, #16a34a, #22c55e); color:#fff; }
+
+.hiw-step-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.hiw-step-text {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* ── 5. Split Sections ── */
+.hiw-split {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.hiw-split--reverse {
+  flex-direction: row-reverse;
+}
+
+.hiw-split__content { flex: 1; }
+.hiw-split__image {
+  flex: 1;
+  position: relative;
+}
+
+.hiw-split__image img {
+  width: 100%;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(13,33,81,0.15);
+}
+
+.hiw-split__image::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: #f1f5f9;
+  z-index: -1;
+}
+
+.hiw-split--reverse .hiw-split__image::before {
+  left: auto;
+  right: -20px;
+}
+
+.hiw-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hiw-feature-item {
+  display: flex;
+  gap: 16px;
+}
+
+.hiw-feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #e8f4fd;
+  color: #00509e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.hiw-feature-text h4 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 6px;
+}
+
+.hiw-feature-text p {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .hiw-process { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .hiw-process::before { display: none; }
+  .hiw-split { flex-direction: column; text-align: center; gap: 40px; }
+  .hiw-split--reverse { flex-direction: column; }
+  .hiw-feature-item { text-align: left; }
+  .hiw-split__image::before { display: none; }
+}
+
+@media (max-width: 540px) {
+  .hiw-process { grid-template-columns: 1fr; }
+  .hiw-hero { padding: 60px 0; }
+  .hiw-section { padding: 60px 0; }
+  .hiw-btn-primary { width: 100%; justify-content: center; }
+}
+
+html { scroll-behavior: smooth; }
+</style>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="hiw-hero">
+  <div class="container hiw-hero__inner">
+    <div class="hiw-eyebrow">
+      <i class="fas fa-home"></i> Drilleedo For Homeowners
     </div>
-    
-    <div class="rbt-about-area about-style-1 bg-color-white rbt-section-gap">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-12">
-                    <div class="inner pl--50 pl_sm--0 pl_md--0">
-                        <div class="section-title text-start">
-                            <h3 class="title">Coming Soon: How It Works</h3>
-                            <p class="description mt--20">We are currently building this page. Please check back later.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <h1 class="hiw-hero__title">
+      Your Renovation Journey, <span>Simplified.</span>
+    </h1>
+    <p class="hiw-hero__sub">
+      Drilleedo makes it effortless to find, compare, and hire the most reliable verified professionals in Canada for any home improvement project.
+    </p>
+    <div class="hiw-hero__actions">
+      <a href="{{ path('app_register') }}" class="hiw-btn-primary">
+        Post Your Project Now <i class="feather-arrow-right"></i>
+      </a>
     </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   2. STICKY NAVIGATION
+══════════════════════════════════════════════════════════════════════════ #}
+<nav class="hiw-nav">
+  <ul class="hiw-nav__list">
+    <li><a href="#overview" class="hiw-nav__link active"><i class="feather-grid"></i> Overview</a></li>
+    <li><a href="#post-request" class="hiw-nav__link"><i class="feather-edit-3"></i> Post a Request</a></li>
+    <li><a href="#receive-quotes" class="hiw-nav__link"><i class="feather-message-square"></i> Receive Quotes</a></li>
+    <li><a href="#find-pro" class="hiw-nav__link"><i class="feather-users"></i> Find a Pro</a></li>
+  </ul>
+</nav>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   3. OVERVIEW SECTION (4 Steps)
+══════════════════════════════════════════════════════════════════════════ #}
+<section id="overview" class="hiw-section">
+  <div class="container">
+    <div class="hiw-section-header">
+      <span class="hiw-section-label">The Process</span>
+      <h2 class="hiw-section-title">How It Works in 4 Steps</h2>
+      <p class="hiw-section-desc">From idea to completion, we streamline every step so you can focus on building your dream home.</p>
+    </div>
+
+    <div class="hiw-process">
+      <div class="hiw-step-card">
+        <div class="hiw-step-icon"><i class="feather-edit-2"></i></div>
+        <h3 class="hiw-step-title">1. Post a Request</h3>
+        <p class="hiw-step-text">Describe what you need securely and completely free of charge.</p>
+      </div>
+
+      <div class="hiw-step-card">
+        <div class="hiw-step-icon"><i class="feather-mail"></i></div>
+        <h3 class="hiw-step-title">2. Receive Quotes</h3>
+        <p class="hiw-step-text">Get competitive estimates directly from interested professionals.</p>
+      </div>
+
+      <div class="hiw-step-card">
+        <div class="hiw-step-icon"><i class="feather-search"></i></div>
+        <h3 class="hiw-step-title">3. Find a Pro</h3>
+        <p class="hiw-step-text">Compare verified profiles, read reviews, and scrutinize past work portfolios.</p>
+      </div>
+
+      <div class="hiw-step-card">
+        <div class="hiw-step-icon"><i class="feather-check-circle"></i></div>
+        <h3 class="hiw-step-title">4. Build & Relax</h3>
+        <p class="hiw-step-text">Hire confidently. Enjoy high-quality work protected by verified standards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   4. POST A REQUEST
+══════════════════════════════════════════════════════════════════════════ #}
+<section id="post-request" class="hiw-section hiw-section--alt">
+  <div class="container">
+    <div class="hiw-split">
+      <div class="hiw-split__content">
+        <span class="hiw-section-label" style="color:#00509e; background:#e8f4fd;">Phase 01</span>
+        <h2 class="hiw-section-title">Post a New Request</h2>
+        <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
+          Getting started is entirely free. Just tell us about your project, and our intelligent matching engine will instantly broadcast your needs to top-rated contractors in your city.
+        </p>
+
+        <ul class="hiw-feature-list">
+          <li class="hiw-feature-item">
+            <div class="hiw-feature-icon"><i class="feather-image"></i></div>
+            <div class="hiw-feature-text">
+              <h4>Add Photos & Details</h4>
+              <p>Upload images of your current space and describe your vision thoroughly.</p>
+            </div>
+          </li>
+          <li class="hiw-feature-item">
+            <div class="hiw-feature-icon"><i class="feather-map-pin"></i></div>
+            <div class="hiw-feature-text">
+              <h4>Set Location & Budget</h4>
+              <p>Define your geographic constraints and financial limits so pros know what to expect.</p>
+            </div>
+          </li>
+        </ul>
+
+        <a href="{{ path('app_register') }}" class="hiw-btn-primary" style="margin-top:20px;">
+          Create a Request
+        </a>
+      </div>
+      <div class="hiw-split__image">
+        <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}" alt="Homeowner posting a renovation request on Drilleedo">
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   5. RECEIVE QUOTES
+══════════════════════════════════════════════════════════════════════════ #}
+<section id="receive-quotes" class="hiw-section">
+  <div class="container">
+    <div class="hiw-split hiw-split--reverse">
+      <div class="hiw-split__content">
+        <span class="hiw-section-label" style="color:#16a34a; background:#f0fdf4;">Phase 02</span>
+        <h2 class="hiw-section-title">Receive Quotes</h2>
+        <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
+          Instead of chasing down unresponsive contractors, Drilleedo brings the quotes to you. Interested professionals will review your request and submit their estimates.
+        </p>
+
+        <ul class="hiw-feature-list">
+          <li class="hiw-feature-item">
+            <div class="hiw-feature-icon" style="background:#f0fdf4; color:#16a34a;"><i class="feather-dollar-sign"></i></div>
+            <div class="hiw-feature-text">
+              <h4>100% Free & No Obligation</h4>
+              <p>You never pay to receive quotes, and you are never forced to hire.</p>
+            </div>
+          </li>
+          <li class="hiw-feature-item">
+            <div class="hiw-feature-icon" style="background:#f0fdf4; color:#16a34a;"><i class="feather-inbox"></i></div>
+            <div class="hiw-feature-text">
+              <h4>Centralized Dashboard</h4>
+              <p>Organize, compare, and message professionals safely within your Drilleedo inbox.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="hiw-split__image">
+        <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}" alt="Comparing quotes and chatting">
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   6. FIND A PRO
+══════════════════════════════════════════════════════════════════════════ #}
+<section id="find-pro" class="hiw-section hiw-section--alt">
+  <div class="container">
+    <div class="hiw-split">
+      <div class="hiw-split__content">
+        <span class="hiw-section-label" style="color:#f97316; background:#fff7ed;">Phase 03</span>
+        <h2 class="hiw-section-title">Find a Professional</h2>
+        <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
+          Browse our extensive directory of Canadian professionals. Review their Drilleedo profiles safely before making any hiring decisions.
+        </p>
+
+        <ul class="hiw-feature-list">
+          <li class="hiw-feature-item">
+            <div class="hiw-feature-icon" style="background:#fff7ed; color:#f97316;"><i class="feather-shield"></i></div>
+            <div class="hiw-feature-text">
+              <h4>Verified Badges</h4>
+              <p>Look for the 'Verified Pro' badge meaning we validated their business credentials and RBQ status.</p>
+            </div>
+          </li>
+          <li class="hiw-feature-item">
+            <div class="hiw-feature-icon" style="background:#fff7ed; color:#f97316;"><i class="feather-star"></i></div>
+            <div class="hiw-feature-text">
+              <h4>Real Customer Reviews</h4>
+              <p>Read transparent, untampered feedback from other Drilleedo homeowners who hired them.</p>
+            </div>
+          </li>
+        </ul>
+        
+        <a href="{{ path('professionals_list') }}" class="hiw-btn-primary" style="margin-top:20px; background:#0d2151;">
+          Browse Professionals Directory
+        </a>
+      </div>
+      <div class="hiw-split__image">
+        <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}" alt="Directory of verified professionals">
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   7. FINAL CTA
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="hiw-section" style="background:#0d2151; text-align:center; padding: 120px 0;">
+  <div class="container">
+    <h2 class="hiw-hero__title" style="margin-bottom:24px;">Ready to transform your home?</h2>
+    <p class="hiw-hero__sub" style="margin-bottom:40px;">Join thousands of Canadians finding trusted professionals daily.</p>
+    <a href="{{ path('app_register') }}" class="hiw-btn-primary" style="font-size:18px; padding:18px 48px; border-radius:999px;">
+      Start Free <i class="feather-arrow-right"></i>
+    </a>
+  </div>
+</section>
+
 </main>
+
+<script>
+// Simple script to handle active state on sticky nav based on scrolling
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.hiw-nav__link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (scrollY >= (sectionTop - 150)) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').includes(current)) {
+        link.classList.add('active');
+      }
+    });
+  });
+});
+</script>
 {% endblock %}

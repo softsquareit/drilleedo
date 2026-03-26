@@ -23,12 +23,7 @@
                     <nav class="mainmenu-nav">
                         <ul class="mainmenu">
                             <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>How It Works <i class="feather-chevron-down"></i></a>
-                                <ul class="submenu">
-                                    <li><a href="{{ path('individual_quote_new') }}">Post Your Project</a></li>
-                                    <li><a href="{{ path('professionals_list') }}">Find Trusted Professionals</a></li>
-                                    <li><a href="{{ path('app_receive_quotes') }}">Receive Quotes</a></li>
-                                </ul>
+                                <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>How It Works</a>
                             </li>
 
                             <li class="with-megamenu has-menu-child-item position-static">
@@ -43,12 +38,7 @@
                             </li>
 
                             <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}class="active"{% endif %}>Smart Ideas <i class="feather-chevron-down"></i></a>
-                                <ul class="submenu">
-                                    <li><a href="{{ path('app_project_photos') }}">Project Photos</a></li>
-                                    <li><a href="{{ path('app_decoration_ideas') }}">Decoration Ideas</a></li>
-                                    <li><a href="{{ path('app_completed_projects') }}">Completed Projects</a></li>
-                                </ul>
+                                <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}class="active"{% endif %}>Smart Ideas</a>
                             </li>
 
                             <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}class="active"{% endif %}>About Us</a></li>
