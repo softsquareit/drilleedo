@@ -4,11 +4,11 @@
  * Strictly enforces business rules: child is mandatory, disabled until parent is picked.
  */
 document.addEventListener('DOMContentLoaded', function () {
-    const parentSelects = document.querySelectorAll('.parent-category-select');
+    const parentSelects = document.querySelectorAll('select.parent-category-select');
 
     parentSelects.forEach(parentSelect => {
         const form = parentSelect.closest('form') || parentSelect.parentElement;
-        const childSelect = form.querySelector('.child-category-select');
+        const childSelect = form.querySelector('select.child-category-select');
 
         if (!childSelect) return;
 
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle form submission loading state for all forms with category selects
     const formsWithCategories = document.querySelectorAll('form');
     formsWithCategories.forEach(form => {
-        if (form.querySelector('.child-category-select')) {
+        if (form.querySelector('select.child-category-select')) {
             form.addEventListener('submit', function (e) {
                 if (!this.checkValidity()) return;
 
