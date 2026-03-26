@@ -1,41 +1,588 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}How It Works For Pros | Drilleedo{% endblock %}
+{% block title %}How It Works for Professionals | Drilleedo{% endblock %}
+{% block meta_description %}Learn exactly how Drilleedo connects Canadian renovation professionals with high-value homeowners. A step-by-step guide to growing your business on our platform.{% endblock %}
 
 {% block body %}
 <main id="main-content">
-    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-7">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-inner text-center">
-                        <h2 class="title">How It Works For Pros</h2>
-                        <ul class="page-list">
-                            <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                            <li>
-                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                            </li>
-                            <li class="rbt-breadcrumb-item active">How It Works For Pros</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+<style>
+/* ══ HOW IT WORKS PAGE ════════════════════════════════════════════════════
+   Follows the Drilleedo brand charter: navy #0d2151, blue #00509e, orange #e8501a
+   Reuses the .gyb- prefix structural system.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Hero ── */
+.gyb-hero {
+  min-height: 480px;
+  background: linear-gradient(135deg, #0d2151 0%, #00509e 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.gyb-hero__pattern {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-4.5h5V30H15v-4h5v-5.5zm0 0V30H20v-4.5h5V30H15v-4h5v-5.5zM0 5h5v5H0V5zm15 0h5v5h-5V5z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.gyb-hero::before {
+  content: '';
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,80,26,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.gyb-hero__inner {
+  position: relative;
+  z-index: 2;
+  padding: 80px 0;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.gyb-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.gyb-eyebrow i { color: #16a34a; }
+
+.gyb-hero__title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 20px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.gyb-hero__title span {
+  color: #e8501a;
+  position: relative;
+  display: inline-block;
+}
+
+.gyb-hero__title span::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: rgba(232,80,26,0.3);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.gyb-hero__sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+/* ── 2. Sections ── */
+.gyb-section { padding: 100px 0; }
+.gyb-section--gray { background: #f8fafc; }
+.gyb-section--blue { background: linear-gradient(170deg, #f0f6ff 0%, #e8eeff 100%); }
+
+.gyb-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8f4fd;
+  color: #00509e;
+  border: 1px solid rgba(0,80,158,0.15);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.gyb-section-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  color: #0d2151;
+  margin: 0 0 16px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.gyb-section-title span { color: #e8501a; }
+
+.gyb-section-sub {
+  font-size: 17px;
+  color: #64748b;
+  line-height: 1.75;
+  max-width: 650px;
+}
+
+/* ── 3. Vertical Timeline (The Process) ── */
+.gyb-timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 60px auto 0;
+  padding: 20px 0;
+}
+
+.gyb-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: #e2e8f0;
+  transform: translateX(-50%);
+}
+
+.gyb-timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
+  position: relative;
+  width: 100%;
+}
+
+.gyb-timeline-item:last-child { margin-bottom: 0; }
+
+.gyb-timeline-item:nth-child(even) { flex-direction: row-reverse; }
+
+.gyb-timeline-content {
+  width: calc(50% - 50px);
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.gyb-timeline-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(13,33,81,0.08);
+  border-color: #bfdbfe;
+}
+
+/* Timeline pointer arrow */
+.gyb-timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  width: 0; height: 0;
+  border-style: solid;
+}
+
+.gyb-timeline-item:nth-child(odd) .gyb-timeline-content::before {
+  right: -12px;
+  border-width: 12px 0 12px 12px;
+  border-color: transparent transparent transparent #e2e8f0;
+}
+.gyb-timeline-item:nth-child(even) .gyb-timeline-content::before {
+  left: -12px;
+  border-width: 12px 12px 12px 0;
+  border-color: transparent #e2e8f0 transparent transparent;
+}
+
+/* Timeline pointer arrow Inner (white) */
+.gyb-timeline-content::after {
+  content: '';
+  position: absolute;
+  top: 33px;
+  width: 0; height: 0;
+  border-style: solid;
+}
+
+.gyb-timeline-item:nth-child(odd) .gyb-timeline-content::after {
+  right: -10px;
+  border-width: 11px 0 11px 11px;
+  border-color: transparent transparent transparent #fff;
+}
+.gyb-timeline-item:nth-child(even) .gyb-timeline-content::after {
+  left: -10px;
+  border-width: 11px 11px 11px 0;
+  border-color: transparent #fff transparent transparent;
+}
+
+.gyb-timeline-icon {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  width: 56px;
+  height: 56px;
+  transform: translateX(-50%);
+  background: #0d2151;
+  border: 4px solid #f8fafc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(13,33,81,0.15);
+}
+
+.gyb-timeline-item:nth-child(1) .gyb-timeline-icon { background: linear-gradient(135deg, #0d2151, #1a3a6b); }
+.gyb-timeline-item:nth-child(2) .gyb-timeline-icon { background: linear-gradient(135deg, #00509e, #2196f3); }
+.gyb-timeline-item:nth-child(3) .gyb-timeline-icon { background: linear-gradient(135deg, #16a34a, #22c55e); }
+.gyb-timeline-item:nth-child(4) .gyb-timeline-icon { background: linear-gradient(135deg, #e8501a, #f97316); }
+
+.gyb-timeline-step {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.gyb-timeline-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+
+.gyb-timeline-desc {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── 4. Lead Breakdown Block ── */
+.gyb-anatomy {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 20px 40px rgba(13,33,81,0.05);
+  margin-top: 50px;
+}
+
+.gyb-anatomy__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.gyb-anatomy__title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0d2151;
+  margin: 0 0 12px;
+}
+
+.gyb-anatomy__sub {
+  font-size: 15px;
+  color: #64748b;
+}
+
+.gyb-anatomy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.gyb-anatomy-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.gyb-anatomy-card i {
+  font-size: 28px;
+  color: #00509e;
+  margin-bottom: 16px;
+}
+
+.gyb-anatomy-card h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0d2151;
+  margin: 0 0 8px;
+}
+
+.gyb-anatomy-card p {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── 5. Final CTA ── */
+.gyb-final {
+  background: #0d2151;
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
+}
+
+.gyb-final__title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 24px;
+}
+
+.gyb-btn-orange {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8501a;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 16px 36px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 6px 24px rgba(232,80,26,0.35);
+  transition: all 0.2s ease;
+}
+.gyb-btn-orange:hover { background: #c43d10; transform: translateY(-3px); color: #fff; box-shadow: 0 8px 32px rgba(232,80,26,0.45); }
+
+.gyb-btn-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.4);
+  transition: all 0.2s ease;
+}
+.gyb-btn-white:hover { background: #fff; color: #0d2151; border-color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .gyb-timeline::before { left: 30px; }
+  .gyb-timeline-icon { left: 30px; transform: translateX(-50%); }
+  .gyb-timeline-content { width: calc(100% - 80px); margin-left: auto; }
+  .gyb-timeline-item:nth-child(even) { flex-direction: row; }
+  
+  /* Fix arrows for mobile (all left side) */
+  .gyb-timeline-item:nth-child(odd) .gyb-timeline-content::before,
+  .gyb-timeline-item:nth-child(even) .gyb-timeline-content::before {
+    left: -12px; right: auto;
+    border-width: 12px 12px 12px 0;
+    border-color: transparent #e2e8f0 transparent transparent;
+  }
+  .gyb-timeline-item:nth-child(odd) .gyb-timeline-content::after,
+  .gyb-timeline-item:nth-child(even) .gyb-timeline-content::after {
+    left: -10px; right: auto;
+    border-width: 11px 11px 11px 0;
+    border-color: transparent #fff transparent transparent;
+  }
+  
+  .gyb-anatomy-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .gyb-anatomy { padding: 32px 20px; }
+  .gyb-section { padding: 60px 0; }
+}
+
+/* Scroll Animations */
+.gyb-scroll { opacity: 0; transform: translateY(24px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.gyb-scroll.visible { opacity: 1; transform: none; }
+</style>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-hero" aria-labelledby="hero-title">
+  <div class="gyb-hero__pattern"></div>
+  <div class="container">
+    <div class="gyb-hero__inner gyb-scroll">
+      <div class="gyb-eyebrow">
+        <i class="feather-check-circle"></i> Clear Process
+      </div>
+      <h1 class="gyb-hero__title" id="hero-title">
+        How Drilleedo Works for <span>Professionals</span>
+      </h1>
+      <p class="gyb-hero__sub">
+        A straightforward process designed to strip away the complex marketing jargon and focus on exactly what you want: connecting with homeowners who need your expertise.
+      </p>
     </div>
-    
-    <div class="rbt-about-area about-style-1 bg-color-white rbt-section-gap">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-12">
-                    <div class="inner pl--50 pl_sm--0 pl_md--0">
-                        <div class="section-title text-start">
-                            <h3 class="title">Coming Soon: How It Works For Pros</h3>
-                            <p class="description mt--20">We are currently building this page. Please check back later.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   2. TIMELINE PROCESS
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section bg-color-white">
+  <div class="container">
+    <div class="text-center gyb-scroll">
+      <div class="gyb-section-eyebrow">
+        <i class="fas fa-route"></i> Step by Step
+      </div>
+      <h2 class="gyb-section-title">The Path to <span>More Projects</span></h2>
+      <p class="gyb-section-sub mx-auto">
+        Join in minutes, get verified, and watch your project pipeline grow organically without cold calling or heavy ad spend.
+      </p>
     </div>
+
+    <div class="gyb-timeline">
+      
+      {# Step 1 #}
+      <div class="gyb-timeline-item gyb-scroll">
+        <div class="gyb-timeline-icon"><i class="feather-edit-3"></i></div>
+        <div class="gyb-timeline-content">
+          <span class="gyb-timeline-step">Step 01</span>
+          <h3 class="gyb-timeline-title">Build Your Professional Profile</h3>
+          <p class="gyb-timeline-desc">
+            Sign up and create your virtual storefront. You'll define your specific service categories (e.g., Plumbing, Kitchen Demo), set your operating radius, and upload photos to a high-quality portfolio. This ensures you only attract the work you actually want to do.
+          </p>
+        </div>
+      </div>
+
+      {# Step 2 #}
+      <div class="gyb-timeline-item gyb-scroll">
+        <div class="gyb-timeline-icon"><i class="feather-shield"></i></div>
+        <div class="gyb-timeline-content">
+          <span class="gyb-timeline-step">Step 02</span>
+          <h3 class="gyb-timeline-title">Complete Verification (Badge)</h3>
+          <p class="gyb-timeline-desc">
+            Our team reviews your submission. By uploading a government ID and confirming business licenses (like RBQ), you earn the authoritative <em>Drilleedo Verified Badge</em>. High-trust profiles receive up to 3x more direct quotes from site visitors.
+          </p>
+        </div>
+      </div>
+
+      {# Step 3 #}
+      <div class="gyb-timeline-item gyb-scroll">
+        <div class="gyb-timeline-icon"><i class="feather-bell"></i></div>
+        <div class="gyb-timeline-content">
+          <span class="gyb-timeline-step">Step 03</span>
+          <h3 class="gyb-timeline-title">Receive Direct Requests</h3>
+          <p class="gyb-timeline-desc">
+            Homeowners browse the marketplace and find your profile in local search results. When your work matches their vision, they click "Request Quote" to message you directly. You get an instant notification via your dashboard and email.
+          </p>
+        </div>
+      </div>
+
+      {# Step 4 #}
+      <div class="gyb-timeline-item gyb-scroll">
+        <div class="gyb-timeline-icon"><i class="feather-briefcase"></i></div>
+        <div class="gyb-timeline-content">
+          <span class="gyb-timeline-step">Step 04</span>
+          <h3 class="gyb-timeline-title">Quote, Hire, and Review</h3>
+          <p class="gyb-timeline-desc">
+            Discuss the project specifics, visit the site, and secure the contract on your own terms (we take absolutely zero commission). After completion, we help collect a certified review to continuously boost your ranking.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   3. LEAD ANATOMY
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-section gyb-section--blue">
+  <div class="container">
+    <div class="text-center gyb-scroll">
+      <div class="gyb-section-eyebrow">
+        <i class="feather-target"></i> Lead Quality
+      </div>
+      <h2 class="gyb-section-title">What Does a Drilleedo Lead <span>Look Like?</span></h2>
+      <p class="gyb-section-sub mx-auto">
+        Not all leads are created equal. We pre-filter user intent so you only spend time talking to clients ready to hire.
+      </p>
+    </div>
+
+    <div class="gyb-anatomy gyb-scroll">
+      <div class="gyb-anatomy__header">
+        <h3 class="gyb-anatomy__title">The Anatomy of a Perfect Request</h3>
+        <p class="gyb-anatomy__sub">Every direct message you receive includes vital project context.</p>
+      </div>
+      <div class="gyb-anatomy-grid">
+        <div class="gyb-anatomy-card">
+          <i class="feather-map-pin"></i>
+          <h4>Location Match</h4>
+          <p>We verify the project postal code sits securely inside the active service radius you defined in your dashboard.</p>
+        </div>
+        <div class="gyb-anatomy-card">
+          <i class="feather-align-left"></i>
+          <h4>Clear Description</h4>
+          <p>Clients are prompted to provide project specifics, preventing vague requests. You'll know if it's a quick fix or a total overhaul.</p>
+        </div>
+        <div class="gyb-anatomy-card">
+          <i class="feather-lock"></i>
+          <h4>Direct Connection</h4>
+          <p>You own the relationship immediately. No blind bidding wars. The client specifically chose your profile based on your work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   4. FINAL CTA
+══════════════════════════════════════════════════════════════════════════ #}
+<section class="gyb-final gyb-scroll">
+  <div class="container">
+    <div class="gyb-eyebrow" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
+      <i class="feather-power" style="color: #f97316;"></i> Launch Today
+    </div>
+    <h2 class="gyb-final__title">Put Your Network on Autopilot</h2>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{{ path('app_register_pro') }}" class="gyb-btn-orange">
+        Create Your Professional Account
+      </a>
+      <a href="{{ path('packages') }}" class="gyb-btn-white">
+        Explore Pro Packages
+      </a>
+    </div>
+  </div>
+</section>
+
 </main>
+
+<script>
+// Scroll reveal animation
+document.addEventListener('DOMContentLoaded', () => {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { 
+      if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        obs.unobserve(e.target); 
+      } 
+    });
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.gyb-scroll').forEach(el => obs.observe(el));
+});
+</script>
 {% endblock %}

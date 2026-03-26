@@ -274,7 +274,7 @@ final class HomeController extends AbstractController
     #[Route('/register-pro', name: 'app_register_pro')]
     public function registerPro(): Response
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/register_pro.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
