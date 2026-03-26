@@ -1,98 +1,131 @@
-<div class="drl-mega-container">
-    {# LEFT COLUMN: Parent Categories (Tabs) #}
-    <div class="drl-mega-sidebar">
-        <div class="drl-mega-title">Categories</div>
-        <div class="drl-mega-nav">
+<div class="drl-mega-wrapper">
+    <div class="drl-mega-container">
+        {# LEFT COLUMN: Parent Categories (Tabs) #}
+        <div class="drl-mega-sidebar">
+            <div class="drl-mega-title">Catégories</div>
+            <div class="drl-mega-nav">
+                {% for parent in categoriesData %}
+                    <button class="drl-mega-nav-btn {% if loop.first %}active{% endif %}" 
+                            data-category-id="{{ parent.id }}"
+                            type="button">
+                        <span class="drl-mega-nav-icon">
+                            {% if parent.icon %}
+                                <img src="{{ asset('uploads/categories/' ~ parent.icon) }}" alt="">
+                            {% else %}
+                                <i class="feather-folder"></i>
+                            {% endif %}
+                        </span>
+                        <span class="drl-mega-nav-text">{{ parent.name }}</span>
+                        <i class="feather-chevron-right drl-mega-nav-arrow"></i>
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# CENTER COLUMN: Children Grid (Dynamic) #}
+        <div class="drl-mega-content" id="drl-mega-content-area">
             {% for parent in categoriesData %}
-                <button class="drl-mega-nav-btn {% if loop.first %}active{% endif %}" 
-                        data-category-id="{{ parent.id }}"
-                        type="button">
-                    <span class="drl-mega-nav-icon">
-                        {% if parent.icon %}
-                            <img src="{{ asset('uploads/categories/' ~ parent.icon) }}" alt="">
-                        {% else %}
-                            <i class="feather-folder"></i>
-                        {% endif %}
-                    </span>
-                    <span class="drl-mega-nav-text">{{ parent.name }}</span>
-                    <i class="feather-chevron-right drl-mega-nav-arrow"></i>
-                </button>
+                <div class="drl-mega-category-pane {% if loop.first %}active{% endif %}" id="pane-{{ parent.id }}">
+                    <div class="drl-pane-header">
+                        <div class="drl-pane-icon">
+                             {% if parent.icon %}
+                                <img src="{{ asset('uploads/categories/' ~ parent.icon) }}" alt="">
+                            {% else %}
+                                <i class="feather-grid"></i>
+                            {% endif %}
+                        </div>
+                        <div class="drl-pane-info">
+                            <h3>{{ parent.name }}</h3>
+                            <p>Découvrez les services spécialisés en {{ parent.name|lower }} au Canada</p>
+                        </div>
+                    </div>
+
+                    {% if parent.children|length > 0 %}
+                        <div class="drl-mega-grid">
+                            {% for child in parent.children %}
+                                <a href="{{ path('service_category_landing', {'categorySlug': child.slug}) }}" class="drl-mega-grid-item">
+                                    <span class="dot"></span>
+                                    {{ child.name }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="drl-mega-empty">
+                            <p>Explorez tous les professionnels en {{ parent.name|lower }}</p>
+                            <a href="{{ path('app_home') }}" class="rbt-btn btn-xs bdr-gradient">Voir tout</a>
+                        </div>
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
-    </div>
 
-    {# CENTER COLUMN: Children Grid (Dynamic) #}
-    <div class="drl-mega-content" id="drl-mega-content-area">
-        {% for parent in categoriesData %}
-            <div class="drl-mega-category-pane {% if loop.first %}active{% endif %}" id="pane-{{ parent.id }}">
-                <div class="drl-pane-header">
-                    <div class="drl-pane-icon">
-                         {% if parent.icon %}
-                            <img src="{{ asset('uploads/categories/' ~ parent.icon) }}" alt="">
-                        {% else %}
-                            <i class="feather-grid"></i>
-                        {% endif %}
-                    </div>
-                    <div class="drl-pane-info">
-                        <h3>{{ parent.name }}</h3>
-                        <p>Discover specialized {{ parent.name|lower }} services in Canada</p>
-                    </div>
+        {# RIGHT COLUMN: Enhanced Directory CTAs #}
+        <div class="drl-mega-cta-side">
+            <div class="drl-mega-cta-card-v2 pro" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}')">
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-icon"><i class="feather-users"></i></div>
+                    <h4>Cherchez un professionnel</h4>
+                    <p>Connectez-vous avec des experts en rénovation vérifiés dans tout le pays.</p>
+                    <a href="{{ path('professionals_list') }}" class="btn-cta">Explorer les Pros <i class="feather-arrow-right"></i></a>
                 </div>
-
-                {% if parent.children|length > 0 %}
-                    <div class="drl-mega-grid">
-                        {% for child in parent.children %}
-                            <a href="{{ path('service_category_landing', {'categorySlug': child.slug}) }}" class="drl-mega-grid-item">
-                                <span class="dot"></span>
-                                {{ child.name }}
-                            </a>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="drl-mega-empty">
-                        <p>Explore all {{ parent.name|lower }} professionals</p>
-                        <a href="{{ path('app_home') }}" class="rbt-btn btn-xs bdr-gradient">View All</a>
-                    </div>
-                {% endif %}
             </div>
-        {% endfor %}
+
+            <div class="drl-mega-cta-card-v2 company" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}')">
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-icon"><i class="feather-briefcase"></i></div>
+                    <h4>Cherchez une entreprise</h4>
+                    <p>Explorez les entreprises de rénovation et les équipes les mieux notées.</p>
+                    <a href="{{ path('companies_list') }}" class="btn-cta">Voir les Entreprises <i class="feather-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="drl-mega-promo-v2">
+                <div class="promo-content">
+                    <strong>Vous êtes un Pro ?</strong>
+                    <span>Rejoignez Drilleedo dès aujourd'hui.</span>
+                </div>
+                <a href="{{ path('app_register_pro') }}" class="rbt-btn btn-white btn-sm">Commencer</a>
+            </div>
+        </div>
     </div>
-
-    {# RIGHT COLUMN: Directory CTAs #}
-    <div class="drl-mega-cta-side">
-        <div class="drl-mega-cta-card pro">
-            <div class="drl-mega-cta-icon"><i class="feather-users"></i></div>
-            <h4>Professionals Directory</h4>
-            <p>Connect with verified renovation experts nationwide.</p>
-            <a href="{{ path('professionals_list') }}" class="drl-mega-cta-link">Browse Pros <i class="feather-arrow-right"></i></a>
-        </div>
-
-        <div class="drl-mega-cta-card company">
-            <div class="drl-mega-cta-icon"><i class="feather-briefcase"></i></div>
-            <h4>Company Directory</h4>
-            <p>Explore top-rated renovation companies and teams.</p>
-            <a href="{{ path('companies_list') }}" class="drl-mega-cta-link">Browse Companies <i class="feather-arrow-right"></i></a>
-        </div>
-
-        <div class="drl-mega-promo">
-            <div class="promo-text">
-                <strong>Are you a Pro?</strong>
-                <span>Join Drilleedo today.</span>
+    
+    {# BOTTOM AREA: Illustrative Image Section #}
+    <div class="drl-mega-bottom">
+        <div class="bottom-banner-container">
+            <img src="{{ asset('assets/drilleedo/images/bg/top-banner.png') }}" alt="Drilleedo Banner" class="bottom-banner-img">
+            <div class="bottom-banner-overlay">
+                <p>Trouvez le professionnel idéal pour vos projets de rénovation en un clic.</p>
             </div>
-            <a href="{{ path('app_register_pro') }}" class="rbt-btn btn-white btn-sm">Get Started</a>
         </div>
     </div>
 </div>
 
 <style>
-    /* Mega Menu Layout */
+    /* Mega Menu Layout Overhaul */
+    :root {
+        --drl-blue: #00497f;
+        --drl-navy: #0a1d37;
+        --drl-orange: #f97316;
+        --drl-light-blue: #f0f9ff;
+        --drl-gray: #64748b;
+        --radius-lg: 16px;
+    }
+
+    .drl-mega-wrapper {
+        background: #fff;
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 1140px;
+    }
+
     .drl-mega-container {
         display: grid;
-        grid-template-columns: 320px 1fr 280px;
-        background: #fff;
-        min-height: 520px;
-        border-radius: 0 0 16px 16px;
-        overflow: hidden;
+        grid-template-columns: 280px 1fr 320px;
+        min-height: 500px;
     }
 
     /* Sidebar (Left Column) */
@@ -115,26 +148,25 @@
     .drl-mega-nav {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
     }
 
     .drl-mega-nav-btn {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 12px 14px;
+        padding: 10px 14px;
         background: transparent;
         border: 1px solid transparent;
-        border-radius: 12px;
+        border-radius: 10px;
         text-align: left;
         width: 100%;
-        transition: all 0.2s;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
     }
 
     .drl-mega-nav-btn:hover {
-        background: #fff;
-        border-color: #e2e8f0;
+        background: rgba(0, 73, 127, 0.04);
         transform: translateX(4px);
     }
 
@@ -156,22 +188,28 @@
     }
 
     .drl-mega-nav-icon {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: #fff;
         border-radius: 8px;
         border: 1px solid #f1f5f9;
-        font-size: 16px;
+        font-size: 15px;
         color: #64748b;
         flex-shrink: 0;
+        transition: all 0.3s;
+    }
+
+    .drl-mega-nav-btn:hover .drl-mega-nav-icon {
+        border-color: var(--drl-blue);
+        color: var(--drl-blue);
     }
     
     .drl-mega-nav-icon img {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         object-fit: contain;
     }
 
@@ -183,7 +221,7 @@
     }
 
     .drl-mega-nav-arrow {
-        font-size: 14px;
+        font-size: 12px;
         opacity: 0;
         transform: translateX(-5px);
         transition: all 0.2s;
@@ -194,12 +232,12 @@
     .drl-mega-content {
         padding: 40px;
         overflow-y: auto;
-        position: relative;
+        max-height: 600px;
     }
 
     .drl-mega-category-pane {
         display: none;
-        animation: fadeIn 0.3s ease-out;
+        animation: fadeIn 0.4s ease-out;
     }
 
     .drl-mega-category-pane.active {
@@ -207,7 +245,7 @@
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(5px); }
+        from { opacity: 0; transform: translateY(8px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
@@ -215,69 +253,67 @@
         display: flex;
         align-items: center;
         gap: 20px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
         padding-bottom: 20px;
         border-bottom: 1px solid #f1f5f9;
     }
 
     .drl-pane-icon {
-        width: 56px;
-        height: 56px;
-        background: #f0f9ff;
-        border-radius: 16px;
+        width: 50px;
+        height: 50px;
+        background: var(--drl-light-blue);
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 28px;
+        font-size: 24px;
         color: var(--drl-blue);
     }
     
     .drl-pane-icon img {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
         object-fit: contain;
     }
 
     .drl-pane-info h3 {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 800;
         color: var(--drl-navy);
         margin: 0;
-        line-height: 1;
     }
 
     .drl-pane-info p {
-        font-size: 14px;
+        font-size: 13px;
         color: #64748b;
-        margin: 5px 0 0 0;
+        margin: 4px 0 0 0;
     }
 
-    /* Grid for children */
     .drl-mega-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px 30px;
+        gap: 10px 24px;
     }
 
     .drl-mega-grid-item {
         display: flex;
         align-items: center;
-        gap: 10px;
-        font-size: 15px;
+        gap: 8px;
+        font-size: 14px;
         font-weight: 500;
         color: #475569;
-        padding: 8px 0;
+        padding: 6px 0;
         transition: all 0.2s;
     }
 
     .drl-mega-grid-item:hover {
         color: var(--drl-blue);
-        transform: translateX(5px);
+        transform: translateX(4px);
     }
 
     .drl-mega-grid-item .dot {
-        width: 6px;
-        height: 6px;
+        width: 5px;
+        height: 5px;
         background: #cbd5e1;
         border-radius: 50%;
         transition: all 0.2s;
@@ -285,104 +321,151 @@
 
     .drl-mega-grid-item:hover .dot {
         background: var(--drl-blue);
-        transform: scale(1.5);
+        transform: scale(1.4);
     }
 
-    /* CTA Side (Right Column) */
+    /* CTA Side (Right Column) - Upgraded */
     .drl-mega-cta-side {
-        background: #fafafa;
+        background: #fcfcfc;
         border-left: 1px solid #e2e8f0;
-        padding: 30px;
+        padding: 24px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 16px;
     }
 
-    .drl-mega-cta-card {
-        padding: 24px;
-        border-radius: 16px;
-        color: #fff;
+    .drl-mega-cta-card-v2 {
         position: relative;
+        height: 180px;
+        border-radius: 16px;
+        background-size: cover;
+        background-position: center;
         overflow: hidden;
-        transition: all 0.3s;
+        transition: transform 0.3s;
+        cursor: pointer;
     }
 
-    .drl-mega-cta-card:hover {
-        transform: translateY(-5px);
+    .drl-mega-cta-card-v2:hover {
+        transform: translateY(-4px);
     }
 
-    .drl-mega-cta-card.pro {
-        background: linear-gradient(135deg, var(--drl-navy) 0%, var(--drl-blue) 100%);
+    .card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(10, 29, 55, 0.4) 0%, rgba(10, 29, 55, 0.85) 100%);
+        transition: opacity 0.3s;
     }
 
-    .drl-mega-cta-card.company {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    .drl-mega-cta-card-v2:hover .card-overlay {
+        opacity: 0.95;
     }
 
-    .drl-mega-cta-icon {
-        font-size: 24px;
-        margin-bottom: 12px;
-        opacity: 0.9;
+    .card-content {
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
     }
 
-    .drl-mega-cta-card h4 {
+    .card-icon {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: var(--drl-orange);
+    }
+
+    .card-content h4 {
         font-size: 16px;
         font-weight: 700;
         color: #fff;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+        line-height: 1.2;
     }
 
-    .drl-mega-cta-card p {
-        font-size: 13px;
+    .card-content p {
+        font-size: 12px;
         color: rgba(255, 255, 255, 0.8);
         line-height: 1.4;
-        margin-bottom: 16px;
+        margin-bottom: auto;
     }
 
-    .drl-mega-cta-link {
+    .btn-cta {
         font-size: 12px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
         color: #fff;
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
+        margin-top: 10px;
     }
 
-    .drl-mega-cta-link i {
-        transition: transform 0.2s;
-    }
+    .btn-cta i { transition: transform 0.2s; }
+    .drl-mega-cta-card-v2:hover .btn-cta i { transform: translateX(4px); }
 
-    .drl-mega-cta-card:hover .drl-mega-cta-link i {
-        transform: translateX(5px);
-    }
-
-    .drl-mega-promo {
-        margin-top: auto;
-        padding: 20px;
-        background: var(--drl-orange);
-        border-radius: 16px;
+    .drl-mega-promo-v2 {
+        background: var(--drl-navy);
+        padding: 16px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 15px;
+        gap: 12px;
+        margin-top: auto;
     }
 
-    .drl-mega-promo .promo-text {
+    .promo-content {
         display: flex;
         flex-direction: column;
         color: #fff;
     }
 
-    .drl-mega-promo .promo-text strong { font-size: 14px; }
-    .drl-mega-promo .promo-text span { font-size: 12px; opacity: 0.9; }
+    .promo-content strong { font-size: 13px; }
+    .promo-content span { font-size: 11px; opacity: 0.8; }
+
+    /* Bottom Banner Section */
+    .drl-mega-bottom {
+        padding: 0 24px 24px;
+        background: #fff;
+    }
+
+    .bottom-banner-container {
+        position: relative;
+        height: 80px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .bottom-banner-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.15;
+        filter: grayscale(1);
+    }
+
+    .bottom-banner-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(90deg, rgba(248, 250, 252, 0) 0%, rgba(248, 250, 252, 0.8) 50%, rgba(248, 250, 252, 0) 100%);
+    }
+
+    .bottom-banner-overlay p {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--drl-navy);
+        margin: 0;
+    }
 
     /* Responsive adjustments */
     @media (max-width: 1200px) {
-        .drl-mega-container {
-            grid-template-columns: 260px 1fr 240px;
-        }
+        .drl-mega-wrapper { min-width: 960px; }
+        .drl-mega-container { grid-template-columns: 240px 1fr 280px; }
     }
 </style>
 
