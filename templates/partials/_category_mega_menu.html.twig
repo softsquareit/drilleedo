@@ -49,6 +49,15 @@
                                 </a>
                             {% endfor %}
                         </div>
+
+                        {# Pane Footer to fill space and provide CTA #}
+                        <div class="drl-pane-footer-v2">
+                            <img src="{{ asset('assets/drilleedo/images/mega-banners/' ~ parent.slug ~ '.png') }}" alt="{{ parent.name }}" class="pane-banner-img">
+                            <div class="pane-banner-overlay">
+                                <span>{{ parent.name }} Experts</span>
+                                <i class="feather-arrow-right"></i>
+                            </div>
+                        </div>
                     {% else %}
                         <div class="drl-mega-empty">
                             <p>Explorez tous les professionnels en {{ parent.name|lower }}</p>
@@ -80,26 +89,20 @@
                     <a href="{{ path('companies_list') }}" class="btn-cta">Voir les Entreprises <i class="feather-arrow-right"></i></a>
                 </div>
             </div>
-
-            <div class="drl-mega-promo-v2">
+            
+           {#  <div class="drl-mega-promo-v2">
                 <div class="promo-content">
                     <strong>Vous êtes un Pro ?</strong>
                     <span>Rejoignez Drilleedo dès aujourd'hui.</span>
                 </div>
                 <a href="{{ path('app_register_pro') }}" class="rbt-btn btn-white btn-sm">Commencer</a>
-            </div>
+            </div> #}
+            
         </div>
     </div>
     
     {# BOTTOM AREA: Illustrative Image Section #}
-    <div class="drl-mega-bottom">
-        <div class="bottom-banner-container">
-            <img src="{{ asset('assets/drilleedo/images/bg/top-banner.png') }}" alt="Drilleedo Banner" class="bottom-banner-img">
-            <div class="bottom-banner-overlay">
-                <p>Trouvez le professionnel idéal pour vos projets de rénovation en un clic.</p>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 <style>
@@ -322,6 +325,64 @@
     .drl-mega-grid-item:hover .dot {
         background: var(--drl-blue);
         transform: scale(1.4);
+    }
+
+    /* Pane Footer V2 (Category Banners) */
+    .drl-pane-footer-v2 {
+        margin-top: 30px;
+        position: relative;
+        height: 140px;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .drl-pane-footer-v2:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .pane-banner-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .drl-pane-footer-v2:hover .pane-banner-img {
+        transform: scale(1.05);
+    }
+
+    .pane-banner-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(10, 29, 55, 0.1) 0%, rgba(10, 29, 55, 0.6) 100%);
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 20px;
+        color: #fff;
+    }
+
+    .pane-banner-overlay span {
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .pane-banner-overlay i {
+        font-size: 18px;
+        transform: translateX(-10px);
+        opacity: 0;
+        transition: all 0.3s;
+    }
+
+    .drl-pane-footer-v2:hover .pane-banner-overlay i {
+        transform: translateX(0);
+        opacity: 1;
     }
 
     /* CTA Side (Right Column) - Upgraded */
