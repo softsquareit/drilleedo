@@ -28,11 +28,9 @@
 
                             <li class="with-megamenu has-menu-child-item position-static">
                                 <a href="{{ path('professionals_list') }}" {% if app.request.attributes.get('_route') == 'professionals_list' %}class="active"{% endif %}>Find Professionals <i class="feather-chevron-down"></i></a>
-                                <div class="rbt-megamenu grid-item-4">
+                                <div class="rbt-megamenu drl-full-width-mega">
                                     <div class="wrapper">
-                                        <div class="row row--15">
-                                            {{ render(controller('App\\Controller\\MenuController::categoryMegaMenu')) }}
-                                        </div>
+                                        {{ render(controller('App\\Controller\\MenuController::categoryMegaMenu')) }}
                                     </div>
                                 </div>
                             </li>
@@ -422,6 +420,22 @@
             top: 100% !important;
         }
         
+        /* Full-width mega menu overrides */
+        .rbt-megamenu.drl-full-width-mega {
+            width: 1140px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            padding: 0 !important;
+            border-radius: 0 0 20px 20px !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+            border: 1px solid #e2e8f0 !important;
+            border-top: 3px solid var(--drl-blue) !important;
+        }
+
+        .rbt-megamenu.drl-full-width-mega .wrapper {
+            padding: 0 !important;
+        }
+
         /* Fix for layout overlap on small viewports */
         @media only screen and (max-width: 1199px) {
             .rbt-section-overlayping-top {
