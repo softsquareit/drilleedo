@@ -374,10 +374,10 @@
         <div class="reg-form-side">
             <!-- Account Type Switcher -->
             <div class="reg-type-toggle" role="tablist">
-                <button class="reg-type-btn active pro" id="professional-tab" data-bs-toggle="tab" data-bs-target="#tab-professional" type="button" role="tab">
+                <button class="reg-type-btn active pro" id="professional-tab" type="button">
                     <i class="feather-briefcase"></i> Professional
                 </button>
-                <button class="reg-type-btn ind" id="individual-tab" data-bs-toggle="tab" data-bs-target="#tab-individual" type="button" role="tab">
+                <button class="reg-type-btn ind" id="individual-tab" type="button">
                     <i class="feather-user"></i> Individual
                 </button>
             </div>
@@ -409,12 +409,12 @@
                         <div class="form-row">
                             <div class="form-group-premium">
                                 <label>Industry Sector *</label>
-                                {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select-premium parent-category-select'}}) }}
+                                {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select-premium parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.parentCategory) }}</div>
                             </div>
                             <div class="form-group-premium">
                                 <label>Specialized Service *</label>
-                                {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select-premium child-category-select'}}) }}
+                                {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select-premium child-category-select selectpicker', 'data-live-search': 'true'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.category) }}</div>
                             </div>
                         </div>
@@ -486,37 +486,55 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const proTab = document.getElementById('professional-tab');
-        const indTab = document.getElementById('individual-tab');
+        // Optimized Manual Tab Switching Logic
+        const proBtn = document.getElementById('professional-tab');
+        const indBtn = document.getElementById('individual-tab');
+        const proPane = document.getElementById('tab-professional');
+        const indPane = document.getElementById('tab-individual');
         
-        function updateTabStyles() {
-            if (proTab.classList.contains('active')) {
-                proTab.classList.add('pro');
-                indTab.classList.remove('ind');
+        function switchTo(type) {
+            if (type === 'pro') {
+                // Button styles
+                proBtn.classList.add('active', 'pro');
+                indBtn.classList.remove('active', 'ind');
+                // Pane visibility
+                proPane.classList.add('show', 'active');
+                indPane.classList.remove('show', 'active');
             } else {
-                indTab.classList.add('ind');
-                proTab.classList.remove('pro');
+                // Button styles
+                indBtn.classList.add('active', 'ind');
+                proBtn.classList.remove('active', 'pro');
+                // Pane visibility
+                indPane.classList.add('show', 'active');
+                proPane.classList.remove('show', 'active');
             }
         }
-        
-        // Listen to Bootstrap's native events
-        proTab.addEventListener('click', function() { updateTabStyles(); });
-        indTab.addEventListener('click', function() { updateTabStyles(); });
-        
-        // Also listen to the 'shown.bs.tab' for safety
-        proTab.addEventListener('shown.bs.tab', updateTabStyles);
-        indTab.addEventListener('shown.bs.tab', updateTabStyles);
-        
-        // Initial call
-        updateTabStyles();
 
-        // Fix logic for checkbox IDs if symphony changes them
+        proBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            switchTo('pro');
+        });
+        
+        indBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            switchTo('ind');
+        });
+        
+        // Ensure initial state is correct (default to Pro if active or if nothing is set)
+        if (indBtn.classList.contains('active')) {
+            switchTo('ind');
+        } else {
+            switchTo('pro');
+        }
+
+        // Logic for checkbox IDs and labels association
         const checkWrappers = document.querySelectorAll('.modern-checkbox-area');
         checkWrappers.forEach(wrapper => {
             const label = wrapper.querySelector('label');
             const checkbox = wrapper.querySelector('input[type="checkbox"]');
             if (checkbox && label) {
-                checkbox.id = label.getAttribute('for');
+                const id = label.getAttribute('for');
+                if (id) checkbox.id = id;
             }
         });
     });
