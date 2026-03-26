@@ -2,9 +2,6 @@
 
 {% block title %}Sign In to Drilleedo | Access Your Account{% endblock %}
 {% block meta_description %}Log in to your Drilleedo account to manage your renovation projects, receive quotes from professionals, and communicate with contractors across Canada.{% endblock %}
-{% block meta_keywords %}Drilleedo login, sign in, renovation platform account, contractor portal{% endblock %}
-{% block og_title %}Sign In to Drilleedo | Your Renovation Hub{% endblock %}
-{% block og_description %}Access your Drilleedo account to manage projects and get in touch with verified renovation professionals.{% endblock %}
 
 {% block stylesheets %}
     <style>
@@ -13,184 +10,343 @@
             --drl-blue: #00509e;
             --drl-orange: #e8501a;
             --drl-orange-hover: #c43d10;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
-        .login-card {
-            border-top: 5px solid var(--drl-navy) !important;
-            box-shadow: 0 15px 45px rgba(13, 33, 81, 0.12) !important;
-            border-radius: 16px !important;
+        body {
+            background: #f8fafc;
         }
 
-        .hero-main-title {
-            color: var(--drl-navy) !important;
-            letter-spacing: -1px;
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: stretch;
+            background: #fff;
         }
 
-        .hero-tagline-orange {
-            color: var(--drl-orange) !important;
-            font-weight: 700;
+        /* Left Side: Immersive Brand Side */
+        .auth-side-brand {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(135deg, var(--drl-navy) 0%, var(--drl-blue) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            color: #fff;
+            overflow: hidden;
         }
 
-        .drl-btn-orange {
-            background: var(--drl-orange) !important;
-            border: none;
-            color: white !important;
+        .auth-side-brand::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('{{ asset('uploads/banners/login.png') }}') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .auth-side-brand::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(232, 80, 26, 0.2) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .auth-brand-content {
+            position: relative;
+            z-index: 10;
+            max-width: 500px;
+        }
+
+        .auth-logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 40px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .auth-logo span { color: var(--drl-orange); }
+
+        .auth-brand-title {
+            font-size: 48px;
             font-weight: 800;
-            padding: 18px 30px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 16px rgba(232, 80, 26, 0.2);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+            color: #fff;
         }
 
-        .drl-btn-orange:hover {
-            background: var(--drl-orange-hover) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(232, 80, 26, 0.3);
+        .auth-brand-text {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 40px;
         }
 
-        .form-group-custom {
-            margin-bottom: 25px;
+        .auth-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .auth-stat-item h4 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff9d66; /* Lighter orange for better contrast on navy */
+            margin-bottom: 4px;
+        }
+
+        .auth-stat-item p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+
+        /* Right Side: Form Side */
+        .auth-side-form {
+            width: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            background: #fff;
             position: relative;
         }
 
-        .form-group-custom input {
-            width: 100%;
-            padding: 25px 0 10px;
-            border: none;
-            border-bottom: 2px solid #e2e8f0;
-            background: transparent;
-            outline: none;
-            transition: border-color 0.3s;
-            font-size: 16px;
+        .auth-form-header {
+            margin-bottom: 40px;
+        }
+
+        .auth-form-header h2 {
+            font-size: 32px;
+            font-weight: 800;
             color: var(--drl-navy);
-            font-weight: 500;
+            margin-bottom: 8px;
         }
 
-        .form-group-custom input:focus {
-            border-bottom-color: var(--drl-blue);
-        }
-
-        .form-group-custom label {
-            position: absolute;
-            left: 0;
-            top: 25px;
-            color: #94a3b8;
-            pointer-events: none;
-            transition: all 0.3s;
+        .auth-form-header p {
+            color: #64748b;
             font-size: 16px;
         }
 
-        .form-group-custom input:focus ~ label,
-        .form-group-custom input:valid ~ label {
-            top: 0;
-            font-size: 12px;
-            color: var(--drl-blue);
-            font-weight: 700;
+        /* Premium Inputs */
+        .form-group-premium {
+            margin-bottom: 24px;
+            position: relative;
         }
 
-        .rbt-checkbox-custom {
+        .form-group-premium label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--drl-navy);
+            margin-bottom: 8px;
+            transition: color 0.2s;
+        }
+
+        .form-control-premium {
+            width: 100%;
+            height: 56px;
+            background: #f8fafc;
+            border: 2px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--drl-navy);
+            transition: all 0.2s;
+        }
+
+        .form-control-premium:focus {
+            background: #fff;
+            border-color: var(--drl-blue);
+            box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.1);
+            outline: none;
+        }
+
+        .form-control-premium:focus + label {
+            color: var(--drl-blue);
+        }
+
+        /* Remember & Forgot */
+        .auth-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .auth-checkbox {
             display: flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
+            user-select: none;
         }
 
-        .rbt-checkbox-custom input {
+        .auth-checkbox input {
             width: 20px;
             height: 20px;
-            cursor: pointer;
             accent-color: var(--drl-orange);
+            cursor: pointer;
         }
 
-        .rbt-checkbox-custom label {
-            margin: 0;
+        .auth-checkbox span {
+            font-size: 14px;
             font-weight: 600;
             color: #475569;
+        }
+
+        .forgot-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--drl-blue);
+            text-decoration: none;
+        }
+
+        .forgot-link:hover { text-decoration: underline; }
+
+        /* Login Button */
+        .btn-auth {
+            width: 100%;
+            height: 56px;
+            background: var(--drl-orange);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(232, 80, 26, 0.2);
+        }
+
+        .btn-auth:hover {
+            background: var(--drl-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(232, 80, 26, 0.3);
+        }
+
+        .auth-footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 15px;
+            color: #64748b;
+        }
+
+        .auth-footer a {
+            font-weight: 700;
+            color: var(--drl-blue);
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .auth-side-brand { display: none; }
+            .auth-side-form { width: 100%; padding: 40px; align-items: center; }
+            .auth-side-form > div, .auth-side-form form { width: 100%; max-width: 450px; }
+        }
+
+        @media (max-width: 576px) {
+            .auth-side-form { padding: 30px 20px; }
+            .auth-brand-title { font-size: 32px; }
         }
     </style>
 {% endblock %}
 
 {% block body %}
-
-
-
-    <div class="rbt-page-banner-wrapper">
-    <!-- Banner BG Image -->
-        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/login.png') }}');"></div>
-
-    <div class="rbt-banner-content">
-        <div class="rbt-banner-content-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center mb-5 pb-5">
-                            <h1 class="hero-main-title mb-3" style="font-size: 4.25rem;font-weight: 800;">Welcome Back to <span style="color: var(--drl-orange);">Drilleedo</span></h1>
-                            <h4 class="hero-tagline-orange fs-4 mx-auto">Access your professional dashboard or project hub</h4>
-                        </div>
-                    </div>
+<div class="auth-wrapper">
+    <!-- Left Side: Brand Immersive -->
+    <div class="auth-side-brand">
+        <div class="auth-brand-content">
+            <a href="{{ path('app_home') }}" class="auth-logo">Drilleedo<span>.</span></a>
+            <h1 class="auth-brand-title">The Future of Home <br>Renovation in Canada.</h1>
+            <p class="auth-brand-text">Join thousands of homeowners and professionals connecting daily to build something great.</p>
+            
+            <div class="auth-stats">
+                <div class="auth-stat-item">
+                    <h4>1.5k+</h4>
+                    <p>Verified Pros</p>
                 </div>
-
-                <div class="row gy-5 row--30">
-                    <div class="col-lg-5 offset-lg-3.5 mx-auto">
-                    <div class="rbt-contact-form contact-form-style-1 max-width-auto login-card p-5 bg-white">
-                        <h3 class="title text-center mb-5 hero-main-title" style="font-size: 2rem;">Secure Sign In</h3>
-                        <form method="post">
-                            {% if error %}
-                                <div class="alert alert-danger rbt-alert-danger mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                            {% endif %}
-
-                            {% if app.user %}
-                                <div class="mb-3 text-center">
-                                    You are logged in as <span class="fw-bold">{{ app.user.userIdentifier }}</span>, <a href="{{ logout_path() }}" class="text-danger">Logout</a>
-                                </div>
-                            {% endif %}
-
-                            <div class="form-group-custom">
-                                <input name="_username" id="username" value="{{ last_username }}" type="email" required autofocus />
-                                <label for="username">Email Address</label>
-                            </div>
-                            <div class="form-group-custom">
-                                <input name="_password" id="password" type="password" required>
-                                <label for="password">Password</label>
-                            </div>
-
-                            <div class="row mb--30 align-items-center">
-                                <div class="col-6">
-                                    <div class="rbt-checkbox-custom">
-                                        <input type="checkbox" id="rememberme" name="_remember_me">
-                                        <label for="rememberme">Remember me</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="rbt-lost-password text-end">
-                                        <a class="rbt-btn-link text-primary fw-bold" href="{{ path('contact') }}?subject=Password+Reset" style="font-size: 14px;">Forgot Password?</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                            <div class="form-submit-group mt-5">
-                                <button type="submit" class="drl-btn-orange w-100">
-                                    <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Sign In Now</span>
-                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                    </span>
-                                </button>
-                            </div>
-
-                            <div class="text-center mt-4 text-muted">
-                                Don't have an account? <a href="{{ path('app_register') }}" class="text-primary fw-bold">Register Now</a>
-                            </div>
-                        </form>
-                    </div>
+                <div class="auth-stat-item">
+                    <h4>10k+</h4>
+                    <p>Projects Posted</p>
                 </div>
+                <div class="auth-stat-item">
+                    <h4>4.9/5</h4>
+                    <p>User Rating</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Right Side: Login Form -->
+    <div class="auth-side-form">
+        <div>
+            <div class="auth-form-header">
+                <h2>Welcome back</h2>
+                <p>Please enter your details to sign in.</p>
+            </div>
+
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger border-0 rounded-4 p-3 mb-4" style="background: #fff1f2; color: #e11d48; font-size: 14px; font-weight: 600;">
+                        <i class="feather-alert-circle me-2"></i> {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="alert alert-info border-0 rounded-4 p-3 mb-4" style="background: #f0f9ff; color: #0369a1; font-size: 14px;">
+                        You are logged in as <strong>{{ app.user.userIdentifier }}</strong>, <a href="{{ path('app_logout') }}" class="text-danger fw-bold">Logout</a>
+                    </div>
+                {% endif %}
+
+                <div class="form-group-premium">
+                    <label for="username">Email Address</label>
+                    <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control-premium" placeholder="name@company.com" required autofocus autocomplete="email">
+                </div>
+
+                <div class="form-group-premium">
+                    <label for="password">Password</label>
+                    <input type="password" name="_password" id="password" class="form-control-premium" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <div class="auth-flex">
+                    <label class="auth-checkbox">
+                        <input type="checkbox" name="_remember_me" checked>
+                        <span>Remember me</span>
+                    </label>
+                    <a href="{{ path('contact') }}?subject=Password+Reset" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn-auth">
+                    Sign In <i class="feather-arrow-right"></i>
+                </button>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="{{ path('app_register') }}">Create an account</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
-
 {% endblock %}

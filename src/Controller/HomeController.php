@@ -257,6 +257,11 @@ final class HomeController extends AbstractController
         ]);
     }
 
+    /* 
+       Removing duplicate placeholder routes that were causing 500 errors 
+       by intercepting real controller routes and failing to provide data.
+    */
+    /*
     #[Route('/login', name: 'app_login')]
     public function login(): Response
     {
@@ -271,6 +276,8 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    */
+
     #[Route('/register-pro', name: 'app_register_pro')]
     public function registerPro(): Response
     {
@@ -278,6 +285,7 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
     #[Route('/register-company', name: 'app_register_company')]
     public function registerCompany(): Response
     {
@@ -285,6 +293,8 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    /*
     #[Route('/blog', name: 'public_blog_list')]
     public function publicBlogList(): Response
     {
@@ -292,6 +302,8 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    */
+
     #[Route('/public-blog-details', name: 'public_blog_details')]
     public function publicBlogDetails(): Response
     {
@@ -299,6 +311,7 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    
     #[Route('/packages', name: 'packages')]
     public function packages(): Response
     {
