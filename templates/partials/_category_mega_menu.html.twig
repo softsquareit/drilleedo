@@ -2,7 +2,7 @@
     <div class="drl-mega-container">
         {# LEFT COLUMN: Parent Categories (Tabs) #}
         <div class="drl-mega-sidebar">
-            <div class="drl-mega-title">Catégories</div>
+            <div class="drl-mega-title">Categories</div>
             <div class="drl-mega-nav">
                 {% for parent in categoriesData %}
                     <button class="drl-mega-nav-btn {% if loop.first %}active{% endif %}" 
@@ -36,7 +36,7 @@
                         </div>
                         <div class="drl-pane-info">
                             <h3>{{ parent.name }}</h3>
-                            <p>Découvrez les services spécialisés en {{ parent.name|lower }} au Canada</p>
+                            <p>Discover specialized {{ parent.name|lower }} services in Canada</p>
                         </div>
                     </div>
 
@@ -60,8 +60,8 @@
                         </div>
                     {% else %}
                         <div class="drl-mega-empty">
-                            <p>Explorez tous les professionnels en {{ parent.name|lower }}</p>
-                            <a href="{{ path('app_home') }}" class="rbt-btn btn-xs bdr-gradient">Voir tout</a>
+                            <p>Explore all {{ parent.name|lower }} professionals</p>
+                            <a href="{{ path('app_home') }}" class="rbt-btn btn-xs bdr-gradient">View All</a>
                         </div>
                     {% endif %}
                 </div>
@@ -74,9 +74,9 @@
                 <div class="card-overlay"></div>
                 <div class="card-content">
                     <div class="card-icon"><i class="feather-users"></i></div>
-                    <h4>Cherchez un professionnel</h4>
-                    <p>Connectez-vous avec des experts en rénovation vérifiés dans tout le pays.</p>
-                    <a href="{{ path('professionals_list') }}" class="btn-cta">Explorer les Pros <i class="feather-arrow-right"></i></a>
+                    <h4>Find a Professional</h4>
+                    <p>Connect with verified renovation experts across the country.</p>
+                    <a href="{{ path('professionals_list') }}" class="btn-cta">Explore Pros <i class="feather-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -84,20 +84,19 @@
                 <div class="card-overlay"></div>
                 <div class="card-content">
                     <div class="card-icon"><i class="feather-briefcase"></i></div>
-                    <h4>Cherchez une entreprise</h4>
-                    <p>Explorez les entreprises de rénovation et les équipes les mieux notées.</p>
-                    <a href="{{ path('companies_list') }}" class="btn-cta">Voir les Entreprises <i class="feather-arrow-right"></i></a>
+                    <h4>Find a Company</h4>
+                    <p>Explore top-rated renovation companies and teams.</p>
+                    <a href="{{ path('companies_list') }}" class="btn-cta">View Companies <i class="feather-arrow-right"></i></a>
                 </div>
             </div>
-            
-           {#  <div class="drl-mega-promo-v2">
+
+            <div class="drl-mega-promo-v2">
                 <div class="promo-content">
-                    <strong>Vous êtes un Pro ?</strong>
-                    <span>Rejoignez Drilleedo dès aujourd'hui.</span>
+                    <strong>Are you a Pro?</strong>
+                    <span>Join Drilleedo today.</span>
                 </div>
-                <a href="{{ path('app_register_pro') }}" class="rbt-btn btn-white btn-sm">Commencer</a>
-            </div> #}
-            
+                <a href="{{ path('app_register_pro') }}" class="rbt-btn btn-white btn-sm">Get Started</a>
+            </div>
         </div>
     </div>
     
