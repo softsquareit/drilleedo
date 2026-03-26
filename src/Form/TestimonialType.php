@@ -15,44 +15,50 @@ class TestimonialType extends AbstractType
         $inputAttr = ['class' => 'form-control form-control-lg bg-light border-0 rounded-3 fs-6'];
 
         $builder
-            ->add('clientName', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
-                'label' => 'Nom du client',
+            ->add('clientName', TextType::class, [
+                'label' => 'Client Name',
                 'required' => true,
                 'label_attr' => $labelAttr,
-                'attr' => $inputAttr,
+                'attr' => array_merge($inputAttr, ['placeholder' => 'Jane Doe']),
             ])
-            ->add('clientRole', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
-                'label' => 'Rôle / Entreprise (ex: CEO @ Google)',
+            ->add('clientRole', TextType::class, [
+                'label' => 'Role or Location',
                 'required' => false,
                 'label_attr' => $labelAttr,
-                'attr' => $inputAttr,
+                'attr' => array_merge($inputAttr, ['placeholder' => 'Montreal, QC or Satisfied Homeowner']),
             ])
-            ->add('content', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, [
-                'label' => 'Témoignage',
+            ->add('content', TextareaType::class, [
+                'label' => 'Testimonial Content',
                 'required' => true,
                 'label_attr' => $labelAttr,
                 'attr' => array_merge($inputAttr, ['rows' => 4]),
             ])
-            ->add('imageFile', \Symfony\Component\Form\Extension\Core\Type\FileType::class, [
+            ->add('rating', IntegerType::class, [
+                'label' => 'Rating (1-5)',
+                'required' => false,
+                'label_attr' => $labelAttr,
+                'attr' => array_merge($inputAttr, ['min' => 1, 'max' => 5]),
+            ])
+            ->add('imageFile', FileType::class, [
                 'label' => 'Image (Upload)',
                 'mapped' => false,
                 'required' => false,
                 'label_attr' => $labelAttr,
                 'attr' => ['class' => 'form-control bg-light border-0 rounded-3 fs-6'],
                 'constraints' => [
-                    new \Symfony\Component\Validator\Constraints\Image([
+                    new Image([
                         'maxSize' => '2M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide (JPG, PNG, WEBP)',
+                        'mimeTypesMessage' => 'Please upload a valid image (JPG, PNG, WEBP)',
                     ])
                 ],
             ])
             ->add('isActive', \Symfony\Component\Form\Extension\Core\Type\CheckboxType::class, [
-                'label' => 'Actif (Affiché sur le site)',
+                'label' => 'Active (Displayed on the site)',
                 'required' => false,
                 'label_attr' => ['class' => 'form-check-label fw-bold text-dark small letter-spacing-1'],
                 'attr' => ['class' => 'form-check-input'],

@@ -48,16 +48,16 @@ class CompanyFixtures extends Fixture
 
             $company->setAbout($this->faker->realText(500));
             $company->setWhyChooseUs([
-                "Expertise locale au Québec",
-                "Certifié RBQ et assuré",
-                "Satisfaction garantie à 100%",
-                "Équipe dynamique et rigoureuse"
+                "Local expertise across Canada",
+                "Licensed, certified, and fully insured",
+                "100% satisfaction guaranteed",
+                "Dynamic and rigorous team"
             ]);
             $company->setServices([
-                "Rénovation résidentielle",
-                "Construction commerciale",
-                "Gestion de projet",
-                "Consultation technique"
+                "Residential renovation",
+                "Commercial construction",
+                "Project management",
+                "Technical consultation"
             ]);
 
             // Categories

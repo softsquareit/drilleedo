@@ -56,7 +56,7 @@
                             <li class="has-dropdown has-menu-child-item">
                                 <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}class="active"{% endif %}>For Professionals <i class="feather-chevron-down"></i></a>
                                 <ul class="submenu">
-                                    <li><a href="{{ path('packages') }}">Why Join Drilleedo</a></li>
+                                    <li><a href="{{ path('app_for_professionals') }}">Why Join Drilleedo</a></li>
                                     <li><a href="{{ path('app_register_pro') }}">Create Your Profile</a></li>
                                     <li><a href="{{ path('app_grow_business') }}">Grow Your Business</a></li>
                                     <li><a href="{{ path('app_how_it_works_pros') }}">How It Works for Pros</a></li>
@@ -208,7 +208,7 @@
                     <li>
                         <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}aria-current="page"{% endif %}><i class="feather-briefcase" aria-hidden="true"></i> For Professionals</a>
                         <ul style="padding-left: 1rem;">
-                            <li><a href="{{ path('packages') }}">Why Join Drilleedo</a></li>
+                            <li><a href="{{ path('app_for_professionals') }}">Why Join Drilleedo</a></li>
                             <li><a href="{{ path('app_register_pro') }}">Create Your Profile</a></li>
                             <li><a href="{{ path('app_grow_business') }}">Grow Your Business</a></li>
                             <li><a href="{{ path('app_how_it_works_pros') }}">How It Works for Pros</a></li>
