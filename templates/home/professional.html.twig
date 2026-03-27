@@ -9,28 +9,54 @@
 {% endblock %}
 
 {% block structured_data %}
+{# Calculations are now done at the top of block body for better scope #}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@id": "{{ app.request.uri }}",
   "@type": "LocalBusiness",
   "name": "{{ professional.companyName }}",
   "image": "{{ absolute_url(professional.logo ? asset('uploads/logos/' ~ professional.logo) : asset('assets/drilleedo/images/team/plumber.png')) }}",
-  "@id": "{{ app.request.uri }}",
   "url": "{{ app.request.uri }}",
   "telephone": "{{ professional.phoneNum ?? '' }}",
   "address": { "@type": "PostalAddress", "addressLocality": "{{ professional.city ?? 'Montreal' }}", "addressRegion": "QC", "addressCountry": "CA" },
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "{{ professional.stats ? professional.stats.averageRating : 5 }}", "reviewCount": "{{ professional.stats ? professional.stats.reviewCount : 1 }}" },
+  "aggregateRating": { 
+      "@type": "AggregateRating", 
+      "ratingValue": "{{ (professional.reviews|length > 0 ? (professional.reviews|reduce((carry, r) => carry + r.rating, 0) / professional.reviews|length) : (professional.stats ? professional.stats.averageRating : 5))|number_format(1) }}", 
+      "reviewCount": "{{ professional.reviews|length }}" 
+  },
   "description": "{{ professional.about ? professional.about|striptags|slice(0, 200) : 'Professional services on Drilleedo.' }}"
 }
 </script>
 {% endblock %}
 
 {% block body %}
-{# ── Variables ──────────────────────────────────────────────────────────── #}
-{% set avg         = professional.stats ? professional.stats.averageRating : 5 %}
+{# ── Variables & Calculations ────────────────────────────────────────────── #}
+{% set reviewCount = professional.reviews|length %}
+{% set starCounts = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0} %}
+{% set sumRatings = 0 %}
+{% set avg = professional.stats ? professional.stats.averageRating : 5 %}
+
+{% if reviewCount > 0 %}
+    {% for r in professional.reviews %}
+        {% set sumRatings = sumRatings + r.rating %}
+        {% set val = r.rating|round(0, 'floor') %}
+        {% if val >= 1 and val <= 5 %}
+            {% set starCounts = starCounts|merge({ (val): starCounts[val] + 1 }) %}
+        {% endif %}
+    {% endfor %}
+    {% set avg = sumRatings / reviewCount %}
+{% endif %}
+
 {% set fullStars   = avg|round(0, 'floor') %}
-{% set reviewCount = professional.stats ? professional.stats.reviewCount : 0 %}
 {% set initials    = professional.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2) %}
+
+{% set langMap = {
+    'FR': 'French',
+    'EN': 'English',
+    'ES': 'Spanish',
+    'IT': 'Italian'
+} %}
 
 {# SVG star path (reusable) #}
 {% set starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' %}
@@ -72,14 +98,18 @@
             {{ initials }}
           {% endif %}
         </div>
-        <div class="drl-verified-dot" title="Verified Profile">✔</div>
+        {% if professional.isVerified %}
+          <div class="drl-verified-dot" title="Verified Profile">✔</div>
+        {% endif %}
       </div>
 
       {# Info #}
       <div class="drl-profile-info">
         <div class="drl-company-row">
           <span class="drl-company-name">{{ professional.companyName }}</span>
-          <span class="drl-fast-badge">⚡ Fast Response</span>
+          {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
+            <span class="drl-fast-badge">⚡ Fast Response</span>
+          {% endif %}
         </div>
 
         <div class="drl-category-row">
@@ -87,6 +117,7 @@
           · {{ professional.city ?? 'Montreal' }}
         </div>
 
+        {% if reviewCount > 0 %}
         <div class="drl-rating-row">
           <div class="drl-stars-row" aria-label="Rating {{ avg|number_format(1) }} out of 5">
             {% for i in range(1, 5) %}
@@ -104,11 +135,26 @@
             {{ reviewCount }} verified reviews
           </span>
         </div>
+        {% endif %}
 
         <div class="drl-badges-row">
-          <span class="drl-chip drl-chip-green">✔ Verified</span>
-          <span class="drl-chip drl-chip-orange">⭐ Premium Verified</span>
-          <span class="drl-chip drl-chip-blue">⚡ Fast Response</span>
+          {% if professional.isVerified %}
+            <span class="drl-chip drl-chip-green" title="Verified Professional">✔ Verified</span>
+          {% endif %}
+          {% if professional.isTopRated %}
+            <span class="drl-chip drl-chip-orange" title="Top Rated Member">⭐ Premium</span>
+          {% endif %}
+          {% if professional.hasInsurance %}
+            <span class="drl-chip drl-chip-blue" title="Civil Liability Insurance">🛡️ Insured</span>
+          {% endif %}
+          {% if professional.availabilityStatus == 'AVAILABLE' %}
+            <span class="drl-chip drl-chip-green" style="background: rgba(34, 197, 94, 0.1); color: #16a34a; border-color: rgba(34, 197, 94, 0.2);">● Available</span>
+          {% elseif professional.availabilityStatus == 'BUSY' %}
+            <span class="drl-chip drl-chip-orange" style="background: rgba(245, 158, 11, 0.1); color: #d97706; border-color: rgba(245, 158, 11, 0.2);">● Busy</span>
+          {% endif %}
+          {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
+            <span class="drl-chip drl-chip-blue" title="Fast Response Time">⚡ Fast Response</span>
+          {% endif %}
         </div>
       </div>
 
@@ -145,18 +191,20 @@
           <div class="drl-stat-val">{{ professional.expYears ?? '10' }} years</div>
         </div>
       </div>
-      <div class="drl-stat-cell">
-        <div class="drl-stat-ico">👥</div>
-        <div>
-          <div class="drl-stat-label">Employees</div>
-          <div class="drl-stat-val">6 to 10</div>
-        </div>
-      </div>
+{# Employees stat removed #}
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">💬</div>
         <div>
           <div class="drl-stat-label">Languages spoken</div>
-          <div class="drl-stat-val">🇫🇷 French &nbsp;🇬🇧 English</div>
+          <div class="drl-stat-val">
+            {% if professional.languages and professional.languages|length > 0 %}
+              {% for code in professional.languages %}
+                {{ langMap[code] ?? code }}{{ not loop.last ? ' & ' : '' }}
+              {% endfor %}
+            {% else %}
+                French
+            {% endif %}
+          </div>
         </div>
       </div>
       <div class="drl-stat-cell">
@@ -186,20 +234,33 @@
     <div class="drl-left-col">
 
       {# About / Projects Overview #}
+      {% if professional.about or professional.projets|length > 0 or (professional.services and professional.services|length > 0) %}
       <div class="drl-s-card drl-fade d2">
         <div class="drl-s-head">
           <div class="drl-s-title">
             <span class="drl-s-title-dot"></span>
-            Projects Overview
+            {{ professional.projets|length > 0 ? 'Projects Overview' : 'Bio & Expertise' }}
           </div>
         </div>
         <div class="drl-s-body">
 
-          {# About text #}
           {% if professional.about %}
             <p style="font-size:14px;color:#64748b;line-height:1.7;margin-bottom:16px;">
               {{ professional.about|nl2br }}
             </p>
+          {% endif %}
+
+          {# Services Tags #}
+          {% if professional.services and professional.services|length > 0 %}
+            <div class="mb-4">
+                <div class="d-flex flex-wrap gap-2">
+                    {% for svc in professional.services %}
+                        <span class="badge bg-light border text-muted px-3 py-2 rounded-pill small fw-normal shadow-sm" style="font-size: 0.75rem;">
+                            <i class="fas fa-check-circle text-primary me-1 opacity-50"></i> {{ svc }}
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
           {% endif %}
 
           {# Portfolio 2×2 grid #}
@@ -214,7 +275,7 @@
                      aria-haspopup="dialog"
                      aria-label="View {{ project.name }}">
                   <img src="{{ project.mainPhoto
-                          ? asset('uploads/images/' ~ project.mainPhoto)
+                          ? asset('uploads/projects/' ~ project.mainPhoto)
                           : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
                        alt="{{ project.name }}"
                        loading="lazy">
@@ -222,24 +283,14 @@
                 </div>
               {% endfor %}
             </div>
-          {% else %}
-            {# Fallback: static placeholder images #}
-            <div class="drl-pres-grid">
-              <div class="drl-pres-item">
-                <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Complete Renovation">
-                <div class="drl-pres-caption">🔨 Complete Renovation</div>
-              </div>
-              <div class="drl-pres-item">
-                <img src="{{ asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="Modern Kitchen">
-                <div class="drl-pres-caption">🍳 Modern Kitchen</div>
-              </div>
-            </div>
           {% endif %}
 
         </div>
       </div>
+      {% endif %}
 
       {# Customer Reviews #}
+      {% if reviewCount > 0 %}
       <div class="drl-s-card drl-fade d3">
         <div class="drl-s-head">
           <div class="drl-s-title">
@@ -261,66 +312,51 @@
               <div class="drl-big-num" aria-label="Note {{ avg|number_format(1) }}">{{ avg|number_format(1) }}</div>
               <div class="drl-big-stars" aria-hidden="true">
                 {% for i in range(1, 5) %}
-                  <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
+                  <svg viewBox="0 0 20 20" class="{{ i <= avg|round ? 'text-warning' : 'text-light' }}"><path d="{{ starPath }}"/></svg>
                 {% endfor %}
               </div>
               <div class="drl-rev-count">out of {{ reviewCount }} verified reviews</div>
             </div>
             <div class="drl-bars" aria-label="Rating distribution">
-              {% for stars, pct in {5: 85, 4: 10, 3: 4, 2: 1, 1: 0} %}
-                <div class="drl-bar-r">
-                  <span class="drl-bar-lbl">{{ stars }}</span>
-                  <div class="drl-bar-track" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100">
-                    <div class="drl-bar-fill" style="width:{{ pct }}%"></div>
+                {% for stars in 5..1 %}
+                    {% set count = starCounts[stars] %}
+                    {% set pct = (count / reviewCount * 100)|round %}
+                    <div class="drl-bar-r">
+                        <span class="drl-bar-lbl">{{ stars }}</span>
+                        <div class="drl-bar-track" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="drl-bar-fill" style="width:{{ pct }}%"></div>
+                        </div>
+                        <span class="drl-bar-val">{{ count }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+          </div>
+
+          {# Latest Reviews #}
+          {% for review in professional.reviews|slice(0, 2) %}
+            <div class="drl-review-item">
+              <div class="drl-rev-head">
+                <div class="drl-rev-ava" aria-hidden="true">{{ review.reviewerName|slice(0, 2)|upper }}</div>
+                <div>
+                  <div class="drl-rev-name">{{ review.reviewerName }}</div>
+                  <div class="drl-rev-s" aria-label="{{ review.rating }} stars">
+                    {% for i in range(1, 5) %}
+                      <svg viewBox="0 0 20 20" class="{{ i <= review.rating ? 'text-warning' : 'text-light' }}"><path d="{{ starPath }}"/></svg>
+                    {% endfor %}
                   </div>
                 </div>
-              {% endfor %}
-            </div>
-          </div>
-
-          {# Static sample reviews #}
-          <div class="drl-review-item">
-            <div class="drl-rev-head">
-              <div class="drl-rev-ava" aria-hidden="true">SD</div>
-              <div>
-                <div class="drl-rev-name">Sophie Duhamel</div>
-                <div class="drl-rev-s" aria-label="5 stars">
-                  {% for i in range(1, 5) %}
-                    <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
-                  {% endfor %}
-                </div>
+                <div class="drl-rev-tag">Customer Review</div>
               </div>
-              <div class="drl-rev-tag">Kitchen Renovation</div>
+              <p class="drl-rev-text">
+                {{ review.comment|nl2br }}
+              </p>
+              <div class="drl-rev-date">{{ review.createdAt|date('F d, Y') }}</div>
             </div>
-            <p class="drl-rev-text">
-              The team did a complete renovation of my kitchen and interior finishes.
-              Impeccable work, deadlines met, and excellent communication throughout the project. I highly recommend!
-            </p>
-            <div class="drl-rev-date">April 29, 2025</div>
-          </div>
-
-          <div class="drl-review-item">
-            <div class="drl-rev-head">
-              <div class="drl-rev-ava" aria-hidden="true">TM</div>
-              <div>
-                <div class="drl-rev-name">Thomas Martin</div>
-                <div class="drl-rev-s" aria-label="5 stars">
-                  {% for i in range(1, 5) %}
-                    <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
-                  {% endfor %}
-                </div>
-              </div>
-              <div class="drl-rev-tag">Complete Renovation</div>
-            </div>
-            <p class="drl-rev-text">
-              Very professional team. They adapted to our needs and delivered a result
-              that met our expectations. Excellent value for money and a consistently clean site.
-            </p>
-            <div class="drl-rev-date">March 15, 2025</div>
-          </div>
+          {% endfor %}
 
         </div>
       </div>
+      {% endif %}
 
       {# Project Gallery #}
       {% if professional.projets|length > 0 %}
@@ -344,7 +380,7 @@
                    aria-haspopup="dialog"
                    aria-label="{{ project.name }}">
                 <img src="{{ project.mainPhoto
-                        ? asset('uploads/images/' ~ project.mainPhoto)
+                        ? asset('uploads/projects/' ~ project.mainPhoto)
                         : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
                      alt="{{ project.name }}"
                      loading="lazy">
@@ -377,18 +413,37 @@
               Get a free quote →
             </button>
             <div class="drl-hours-title">Opening Hours</div>
-            <div class="drl-hour-row">
-              <span class="drl-hour-day">Monday – Friday</span>
-              <span class="drl-hour-time">08:00 – 18:00</span>
-            </div>
-            <div class="drl-hour-row">
-              <span class="drl-hour-day">Saturday</span>
-              <span class="drl-hour-time">08:00 – 14:00</span>
-            </div>
-            <div class="drl-hour-row">
-              <span class="drl-hour-day">Sunday</span>
-              <span class="drl-hour-closed">Closed</span>
-            </div>
+            {% if professional.openingHours and professional.openingHours|length > 0 %}
+                {% for hour in professional.openingHours %}
+                    {% if ':' in hour %}
+                        {% set parts = hour|split(':') %}
+                        {% set day   = parts[0]|trim %}
+                        {% set time  = parts[1:]|join(':')|trim %}
+                        {% set isClosed = (time|lower == 'closed' or time|lower == 'fermé' or time|lower == 'ferme') %}
+                        <div class="drl-hour-row">
+                            <span class="drl-hour-day">{{ day }}</span>
+                            <span class="{{ isClosed ? 'drl-hour-closed' : 'drl-hour-time' }}">{{ time }}</span>
+                        </div>
+                    {% else %}
+                        <div class="drl-hour-row">
+                            <span class="drl-hour-day">{{ hour|trim }}</span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="drl-hour-row">
+                  <span class="drl-hour-day">Monday – Friday</span>
+                  <span class="drl-hour-time">08:00 – 18:00</span>
+                </div>
+                <div class="drl-hour-row">
+                  <span class="drl-hour-day">Saturday</span>
+                  <span class="drl-hour-time">08:00 – 14:00</span>
+                </div>
+                <div class="drl-hour-row">
+                  <span class="drl-hour-day">Sunday</span>
+                  <span class="drl-hour-closed">Closed</span>
+                </div>
+            {% endif %}
           </div>
         </div>
 
@@ -449,8 +504,10 @@
 
         {# Advantages #}
         <div class="drl-adv-card drl-fade d3">
-          <div class="drl-adv-head">✅ Our advantages</div>
+          <a class="drl-btn-see-all" role="button" tabindex="0">Our advantages</a>
           <div class="drl-adv-body">
+            {% set hasSpecificAdv = professional.interventionRadius or professional.minPrice or professional.freeQuotes or professional.guaranteedWork or professional.rbqCertified %}
+            
             {% if professional.whyChooseUs and professional.whyChooseUs|length > 0 %}
               {% for item in professional.whyChooseUs %}
                 <div class="drl-adv-item">
@@ -458,6 +515,53 @@
                   <span class="drl-adv-txt">{{ item }}</span>
                 </div>
               {% endfor %}
+            {% elseif hasSpecificAdv or (professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200) %}
+                {% if professional.interventionRadius %}
+                    <div class="drl-adv-item">
+                        <span class="drl-adv-ico">📍</span>
+                        <span class="drl-adv-txt">Intervention radius</span>
+                        <span class="drl-adv-val">{{ professional.interventionRadius }} km</span>
+                    </div>
+                {% endif %}
+                {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
+                    <div class="drl-adv-item">
+                        <span class="drl-adv-ico">⚡</span>
+                        <span class="drl-adv-txt">Fast response</span>
+                    </div>
+                {% endif %}
+                {% if professional.minPrice %}
+                    <div class="drl-adv-item">
+                        <span class="drl-adv-ico">💲</span>
+                        <span class="drl-adv-txt">Minimum price</span>
+                        <span class="drl-adv-val">${{ professional.minPrice }}</span>
+                    </div>
+                {% endif %}
+                {% if professional.hasFreeQuotes %}
+                    <div class="drl-adv-item">
+                        <span class="drl-adv-ico">📄</span>
+                        <span class="drl-adv-txt">100% free quotes</span>
+                    </div>
+                {% endif %}
+                {% if professional.rbqCertified or professional.hasInsurance %}
+                    <div class="drl-adv-item">
+                        <span class="drl-adv-ico">🛡️</span>
+                        <span class="drl-adv-txt">
+                            {% if professional.rbqCertified and professional.hasInsurance %}
+                                Insured & RBQ certified
+                            {% elseif professional.rbqCertified %}
+                                RBQ certified
+                            {% else %}
+                                Fully Insured
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+                {% if professional.hasGuaranteedWork %}
+                    <div class="drl-adv-item">
+                        <span class="drl-adv-ico">✔</span>
+                        <span class="drl-adv-txt">Guaranteed work</span>
+                    </div>
+                {% endif %}
             {% else %}
               <div class="drl-adv-item"><span class="drl-adv-ico">📍</span><span class="drl-adv-txt">Intervention radius</span><span class="drl-adv-val">40 km</span></div>
               <div class="drl-adv-item"><span class="drl-adv-ico">⚡</span><span class="drl-adv-txt">Fast response</span></div>
@@ -467,7 +571,6 @@
               <div class="drl-adv-item"><span class="drl-adv-ico">✔</span><span class="drl-adv-txt">Guaranteed work</span></div>
             {% endif %}
           </div>
-          <a class="drl-btn-see-all" role="button" tabindex="0">View all advantages</a>
         </div>
 
         {# Zone card #}
@@ -475,10 +578,13 @@
           <div class="drl-zone-title">📍 Service Zone: {{ professional.city ?? 'Montreal' }}</div>
           <div class="drl-zone-sub">This professional works in the following areas:</div>
           <div class="drl-zone-chips">
-            <span class="drl-zone-chip">🏙️ Montreal</span>
-            <span class="drl-zone-chip">Laval</span>
-            <span class="drl-zone-chip">Longueuil</span>
-            <span class="drl-zone-chip">Brossard</span>
+            {% if professional.interventionZone %}
+              {% for zone in professional.interventionZone|split(',') %}
+                <span class="drl-zone-chip">{{ zone|trim }}</span>
+              {% endfor %}
+            {% else %}
+              <span class="drl-zone-chip">🏙️ {{ professional.city ?? 'Montreal' }}</span>
+            {% endif %}
           </div>
         </div>
 
@@ -504,7 +610,7 @@
         <div class="row g-0">
           <div class="col-lg-7">
             <img src="{{ project.mainPhoto
-                    ? asset('uploads/images/' ~ project.mainPhoto)
+                    ? asset('uploads/projects/' ~ project.mainPhoto)
                     : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
                  class="drl-modal-project-img"
                  alt="{{ project.name }}">
@@ -524,7 +630,7 @@
                 <div class="row g-2 mb-3">
                   {% for photo in project.gallery %}
                     <div class="col-6">
-                      <img src="{{ asset('uploads/images/' ~ photo) }}"
+                      <img src="{{ asset('uploads/projects/' ~ photo) }}"
                            alt="Photo {{ project.name }}"
                            class="drl-modal-gallery-img">
                     </div>
@@ -551,23 +657,50 @@
 
 {# Reviews modal #}
 <div class="modal fade" id="reviewsModal" tabindex="-1" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content drl-modal-content">
       <div class="drl-modal-header">
         Customer Reviews
         <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="drl-modal-body">
-        <div class="text-center py-3">
+        <div class="text-center py-3 mb-4">
           <div class="drl-big-num">{{ avg|number_format(1) }}</div>
           <div class="drl-big-stars justify-content-center" aria-hidden="true">
             {% for i in range(1, 5) %}
-              <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
+              <svg viewBox="0 0 20 20" class="{{ i <= avg|round ? 'text-warning' : 'text-light' }}"><path d="{{ starPath }}"/></svg>
             {% endfor %}
           </div>
           <p class="drl-rev-count mt-1">{{ reviewCount }} verified reviews</p>
-          <hr class="drl-modal-sep">
-          <p class="drl-reviews-note">Detailed reviews will appear here soon.</p>
+        </div>
+        
+        <div class="drl-reviews-list">
+          {% if reviewCount > 0 %}
+            {% for review in professional.reviews %}
+              <div class="drl-review-item border-bottom mb-3 pb-3">
+                <div class="drl-rev-head">
+                  <div class="drl-rev-ava" aria-hidden="true">{{ review.reviewerName|slice(0, 2)|upper }}</div>
+                  <div>
+                    <div class="drl-rev-name">{{ review.reviewerName }}</div>
+                    <div class="drl-rev-s">
+                      {% for i in range(1, 5) %}
+                        <svg viewBox="0 0 20 20" class="{{ i <= review.rating ? 'text-warning' : 'text-light' }}"><path d="{{ starPath }}"/></svg>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% if review.serviceTitle %}
+                    <div class="drl-rev-tag">{{ review.serviceTitle }}</div>
+                  {% endif %}
+                </div>
+                <p class="drl-rev-text mt-2 small">
+                  {{ review.comment|nl2br }}
+                </p>
+                <div class="drl-rev-date small text-muted">{{ review.createdAt|date('F d, Y') }}</div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-center text-muted py-4">No reviews yet. Be the first to leave one!</p>
+          {% endif %}
         </div>
       </div>
     </div>

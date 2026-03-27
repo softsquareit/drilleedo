@@ -85,7 +85,7 @@
                                 <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">ID</th>
                                 <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 25%;">Name</th>
                                 <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 30%;">Email</th>
-                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">Role</th>
+                                <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 15%;">Expertise</th>
                                 <th class="border-0 py-3 text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">Status</th>
                                 <th class="border-0 px-4 py-3 text-end text-muted small fw-bold text-uppercase letter-spacing-1" style="width: 10%;">Actions</th>
                             </tr>
@@ -112,7 +112,18 @@
                                     </div>
                                 </td>
                                 <td class="text-muted">{{ professional.email }}</td>
-                                <td><span class="badge bg-light text-secondary border rounded-pill px-3">Professional</span></td>
+                                 <td>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% if professional.languages is not empty %}
+                                            {% for lang in professional.languages %}
+                                                <span class="badge bg-light text-primary border-0 small" style="font-size: 0.7rem;">{{ lang }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if professional.hasInsurance %}
+                                            <span class="badge bg-success bg-opacity-10 text-success border-0 small" title="Insured" style="font-size: 0.7rem;"><i class="fas fa-shield-alt"></i></span>
+                                        {% endif %}
+                                    </div>
+                                </td>
                                 <td>
                                      <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
                                         <i class="fas fa-check-circle me-1 small"></i> Active
@@ -123,7 +134,7 @@
                                         <a href="{{ path('admin_professional_edit', {id: professional.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" title="Edit Profile" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
                                         </a>
-                                        <a href="{{ path('admin_individual_delete', {id: professional.id}) }}" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete User" data-confirm="Delete this user?" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                        <a href="{{ path('admin_professionnel_delete', {id: professional.id}) }}" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete User" data-confirm="Delete this user?" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-trash-alt small"></i>
                                         </a>
                                     </div>

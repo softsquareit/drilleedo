@@ -70,12 +70,46 @@ class Business extends User
     #[ORM\OneToOne(mappedBy: 'business', targetEntity: BusinessStats::class, cascade: ['persist', 'remove'])]
     private ?BusinessStats $stats = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $languages = [];
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $interventionZone = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $hasInsurance = false;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $contactPrefs = [];
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $openingHours = [];
+
+    #[ORM\OneToMany(mappedBy: 'business', targetEntity: Review::class, cascade: ['persist', 'remove'])]
+    private Collection $reviews;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $interventionRadius = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $minPrice = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $freeQuotes = false;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $guaranteedWork = false;
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $rbqCertified = false;
+
     public function __construct()
     {
         $this->Adresse = new ArrayCollection();
         $this->paymentMethod = new ArrayCollection();
         $this->Projets = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -375,6 +409,155 @@ class Business extends User
         }
 
         $this->stats = $stats;
+
+        return $this;
+    }
+
+    public function getLanguages(): ?array
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?array $languages): static
+    {
+        $this->languages = $languages;
+
+        return $this;
+    }
+
+    public function getInterventionZone(): ?string
+    {
+        return $this->interventionZone;
+    }
+
+    public function setInterventionZone(?string $interventionZone): static
+    {
+        $this->interventionZone = $interventionZone;
+
+        return $this;
+    }
+
+    public function hasInsurance(): bool
+    {
+        return $this->hasInsurance;
+    }
+
+    public function setHasInsurance(bool $hasInsurance): static
+    {
+        $this->hasInsurance = $hasInsurance;
+
+        return $this;
+    }
+
+    public function getContactPrefs(): ?array
+    {
+        return $this->contactPrefs;
+    }
+
+    public function setContactPrefs(?array $contactPrefs): static
+    {
+        $this->contactPrefs = $contactPrefs;
+
+        return $this;
+    }
+
+    public function getOpeningHours(): ?array
+    {
+        return $this->openingHours;
+    }
+
+    public function setOpeningHours(?array $openingHours): static
+    {
+        $this->openingHours = $openingHours;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): static
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setBusiness($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getBusiness() === $this) {
+                $review->setBusiness(null);
+            }
+        }
+
+        return $this;
+    }
+    public function getInterventionRadius(): ?int
+    {
+        return $this->interventionRadius;
+    }
+
+    public function setInterventionRadius(?int $interventionRadius): static
+    {
+        $this->interventionRadius = $interventionRadius;
+
+        return $this;
+    }
+
+    public function getMinPrice(): ?int
+    {
+        return $this->minPrice;
+    }
+
+    public function setMinPrice(?int $minPrice): static
+    {
+        $this->minPrice = $minPrice;
+
+        return $this;
+    }
+
+    public function hasFreeQuotes(): bool
+    {
+        return $this->freeQuotes;
+    }
+
+    public function setFreeQuotes(bool $freeQuotes): static
+    {
+        $this->freeQuotes = $freeQuotes;
+
+        return $this;
+    }
+
+    public function hasGuaranteedWork(): bool
+    {
+        return $this->guaranteedWork;
+    }
+
+    public function setGuaranteedWork(bool $guaranteedWork): static
+    {
+        $this->guaranteedWork = $guaranteedWork;
+
+        return $this;
+    }
+
+    public function isRbqCertified(): bool
+    {
+        return $this->rbqCertified;
+    }
+
+    public function setRbqCertified(bool $rbqCertified): static
+    {
+        $this->rbqCertified = $rbqCertified;
 
         return $this;
     }

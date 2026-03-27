@@ -571,7 +571,32 @@ class AdminController extends AbstractController
 
         // 1. Basic Info Form
         $form = $this->createForm(ProfessionalType::class, $professional);
-        $form->handleRequest($request);
+
+        // Pre-select parent category for dynamic UI
+        if ($professional->getCategory() && $professional->getCategory()->getParent()) {
+            $form->get('parentCategory')->setData($professional->getCategory()->getParent());
+        }
+
+        if ($request->isMethod('POST')) {
+            $submittedData = $request->request->all($form->getName());
+            if ($submittedData) {
+                // Determine which modal was submitted to handle missing checkboxes/collections
+                $modalId = $request->request->get('modal_id');
+                if ($modalId === 'status') {
+                    $submittedData['isVerified'] = isset($submittedData['isVerified']);
+                    $submittedData['isTopRated'] = isset($submittedData['isTopRated']);
+                    $submittedData['hasInsurance'] = isset($submittedData['hasInsurance']);
+                } elseif ($modalId === 'prefs') {
+                    // Force these to be present so they can be cleared if nothing is selected
+                    $submittedData['languages'] = $submittedData['languages'] ?? [];
+                    $submittedData['contactPrefs'] = $submittedData['contactPrefs'] ?? [];
+                }
+
+                $form->submit($submittedData, false);
+            }
+        } else {
+            $form->handleRequest($request);
+        }
 
         // 2. Primary Contact Logic
         $contact = $professional->getPrimaryContact();
@@ -635,6 +660,29 @@ class AdminController extends AbstractController
         }
 
         if ($projectForm->isSubmitted() && $projectForm->isValid()) {
+            $photoFile = $projectForm->get('mainPhoto')->getData();
+            if ($photoFile) {
+                try {
+                    $newFilename = $fileUploader->upload($photoFile, 'projects');
+                    $project->setMainPhoto($newFilename);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error uploading project photo');
+                }
+            }
+            
+            $galleryFiles = $projectForm->get('gallery')->getData();
+            if ($galleryFiles) {
+                $galleryPaths = [];
+                foreach ($galleryFiles as $file) {
+                    try {
+                        $galleryPaths[] = $fileUploader->upload($file, 'projects');
+                    } catch (\Exception $e) {
+                        // Skip failed uploads or handle error
+                    }
+                }
+                $project->setGallery($galleryPaths);
+            }
+
             $professional->addProjet($project);
             $this->em->persist($project);
             $this->em->flush();
@@ -703,6 +751,7 @@ class AdminController extends AbstractController
             'bannerForm' => $bannerForm,
             'professional' => $professional,
             'categories' => $this->em->getRepository(Category::class)->findAll(),
+            'mainFormToken' => '<input type="hidden" name="' . $form->getName() . '[_token]" value="' . $this->container->get('security.csrf.token_manager')->getToken($form->getName())->getValue() . '">',
         ]);
     }
 
@@ -1346,5 +1395,219 @@ class AdminController extends AbstractController
             'request' => $request,
             'type' => 'direct',
         ]);
+    }
+
+    #[Route('/admin/projects/{id}/edit', name: 'admin_project_edit', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function editProject(int $id, Request $request): Response
+    {
+        $project = $this->em->getRepository(Projet::class)->find($id);
+        if (!$project) {
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(ProjetType::class, $project);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+            $this->addFlash('success', 'Project updated successfully.');
+        }
+
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
+    }
+
+    #[Route('/admin/projects/{id}/delete', name: 'admin_project_delete', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteProject(int $id, Request $request): Response
+    {
+        $project = $this->em->getRepository(Projet::class)->find($id);
+        if ($project) {
+            $this->em->remove($project);
+            $this->em->flush();
+            $this->addFlash('success', 'Project deleted successfully.');
+        }
+
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
+    }
+
+    #[Route('/admin/address/{id}/delete', name: 'admin_address_delete', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteAddress(int $id, Request $request): Response
+    {
+        $address = $this->em->getRepository(Adress::class)->find($id);
+        if ($address) {
+            $this->em->remove($address);
+            $this->em->flush();
+            $this->addFlash('success', 'Address deleted successfully.');
+        }
+
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
+    }
+
+    #[Route('/admin/links/{id}/delete', name: 'admin_link_delete', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteLink(int $id, Request $request): Response
+    {
+        $link = $this->em->getRepository(Link::class)->find($id);
+        if ($link) {
+            $this->em->remove($link);
+            $this->em->flush();
+            $this->addFlash('success', 'Link deleted successfully.');
+        }
+
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
+    }
+
+    #[Route('/admin/professional/project/update/{id}', name: 'admin_project_update', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function updateProject(int $id, Request $request, \App\Service\FileUploader $fileUploader): Response
+    {
+        $project = $this->em->getRepository(Projet::class)->find($id);
+        if (!$project) {
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(ProjetType::class, $project);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photoFile = $form->get('mainPhoto')->getData();
+            if ($photoFile) {
+                try {
+                    $newFilename = $fileUploader->upload($photoFile, 'projects');
+                    $project->setMainPhoto($newFilename);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error uploading project photo');
+                }
+            }
+
+            $galleryFiles = $form->get('gallery')->getData();
+            if ($galleryFiles) {
+                $currentGallery = $project->getGallery() ?? [];
+                foreach ($galleryFiles as $file) {
+                    try {
+                        $currentGallery[] = $fileUploader->upload($file, 'projects');
+                    } catch (\Exception $e) {
+                        // Skip failed
+                    }
+                }
+                $project->setGallery($currentGallery);
+            }
+
+            // Handle state if missing from POST (unchecked)
+            if ($request->isMethod('POST')) {
+                $submittedData = $request->request->all($form->getName());
+                if (!isset($submittedData['state'])) {
+                    $project->setState(false);
+                } else {
+                    $project->setState(true);
+                }
+            }
+
+            $this->em->flush();
+            $this->addFlash('success', 'Projet mis à jour avec succès.');
+        } else {
+            $this->addFlash('error', 'Erreur lors de la mise à jour du projet.');
+        }
+
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
+    }
+
+    #[Route('/admin/projects/{id}/delete-image', name: 'admin_project_delete_image', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteProjectImage(int $id, Request $request): Response
+    {
+        $project = $this->em->getRepository(Projet::class)->find($id);
+        if (!$project) {
+            if ($request->isXmlHttpRequest()) {
+                return $this->json(['success' => false, 'message' => 'Projet non trouvé'], 404);
+            }
+            throw $this->createNotFoundException();
+        }
+
+        $image = $request->query->get('image');
+        $type = $request->query->get('type');
+
+        if ($type === 'main') {
+            $project->setMainPhoto(null);
+        } elseif ($type === 'gallery') {
+            $gallery = $project->getGallery();
+            if (($key = array_search($image, $gallery)) !== false) {
+                unset($gallery[$key]);
+                $project->setGallery(array_values($gallery));
+            }
+        }
+
+        $this->em->flush();
+
+        if ($request->isXmlHttpRequest() || $request->query->get('ajax')) {
+            return $this->json(['success' => true, 'message' => 'Image supprimée avec succès.']);
+        }
+
+        $this->addFlash('success', 'Image supprimée avec succès.');
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
+    }
+
+    #[Route('/admin/professional/{id}/review/add', name: 'admin_professional_review_add', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function addReview(int $id, Request $request): Response
+    {
+        $professional = $this->em->getRepository(Professional::class)->find($id);
+        if (!$professional) {
+            throw $this->createNotFoundException();
+        }
+
+        $review = new \App\Entity\Review();
+        $review->setBusiness($professional);
+        $review->setReviewerName($request->request->get('reviewerName'));
+        $review->setRating((int)$request->request->get('rating'));
+        $review->setComment($request->request->get('comment'));
+        $review->setServiceTitle($request->request->get('serviceTitle'));
+
+        $this->em->persist($review);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Avis ajouté avec succès.');
+        return $this->redirectToRoute('admin_professional_edit', ['id' => $id]);
+    }
+
+    #[Route('/admin/review/{id}/delete', name: 'admin_review_delete')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function deleteReview(int $id, Request $request): Response
+    {
+        $review = $this->em->getRepository(\App\Entity\Review::class)->find($id);
+        if (!$review) {
+            throw $this->createNotFoundException();
+        }
+
+        $profId = $review->getBusiness()->getId();
+        $this->em->remove($review);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Avis supprimé avec succès.');
+        return $this->redirectToRoute('admin_professional_edit', ['id' => $profId]);
+    }
+
+    #[Route('/admin/professional/link/update/{id}', name: 'admin_link_update', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function updateLink(int $id, Request $request): Response
+    {
+        $link = $this->em->getRepository(Link::class)->find($id);
+        if (!$link) {
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(LinkType::class, $link);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+            $this->addFlash('success', 'Lien mis à jour avec succès.');
+        } else {
+            $this->addFlash('error', 'Erreur lors de la mise à jour du lien.');
+        }
+
+        return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
     }
 }

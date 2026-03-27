@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -84,6 +85,78 @@ class ProfessionalType extends AbstractType
                 'label' => 'Top Rated Professional',
                 'label_attr' => ['class' => 'form-check-label'],
                 'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('languages', ChoiceType::class, [
+                'choices' => [
+                    'Français' => 'FR',
+                    'Anglais' => 'EN',
+                    'Espagnol' => 'ES',
+                    'Italien' => 'IT',
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'label' => 'Spoken Languages',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'd-flex gap-3 flex-wrap mb-2']
+            ])
+            ->add('interventionZone', TextType::class, [
+                'required' => false,
+                'label' => 'Intervention Zone (e.g. 40km, Greater Montreal)',
+                'attr' => ['placeholder' => 'Enter service radius or zones...']
+            ])
+            ->add('hasInsurance', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Valid Civil Liability Insurance',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('contactPrefs', ChoiceType::class, [
+                'choices' => [
+                    'Recevoir demandes publiques' => 'PUBLIC_REQUESTS',
+                    'Recevoir demandes directes' => 'DIRECT_REQUESTS',
+                    'Notifications Email' => 'EMAIL_NOTIF',
+                    'Notifications SMS' => 'SMS_NOTIF',
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'label' => 'Contact Preferences',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'd-flex flex-column gap-1']
+            ])
+            ->add('openingHours', TextareaType::class, [
+                'required' => false,
+                'label' => 'Opening Hours (One range per line)',
+                'attr' => ['rows' => 5, 'placeholder' => "Monday – Friday: 08:00 – 18:00\nSaturday: 08:00 – 14:00\nSunday: Closed"]
+            ])
+            ->add('interventionRadius', \Symfony\Component\Form\Extension\Core\Type\NumberType::class, [
+                'required' => false,
+                'label' => 'Intervention Radius (km)',
+                'attr' => ['placeholder' => 'e.g. 40']
+            ])
+            ->add('minPrice', \Symfony\Component\Form\Extension\Core\Type\NumberType::class, [
+                'required' => false,
+                'label' => 'Minimum Price ($)',
+                'attr' => ['placeholder' => 'e.g. 150']
+            ])
+            ->add('freeQuotes', CheckboxType::class, [
+                'required' => false,
+                'label' => '100% Free Quotes',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('guaranteedWork', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Guaranteed Work',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('rbqCertified', CheckboxType::class, [
+                'required' => false,
+                'label' => 'RBQ Certified',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
             ]);
 
         $builder->get('whyChooseUs')->addModelTransformer(new CallbackTransformer(
@@ -97,6 +170,16 @@ class ProfessionalType extends AbstractType
         ));
 
         $builder->get('services')->addModelTransformer(new CallbackTransformer(
+            function ($tagsAsArray): string {
+                return implode("\n", $tagsAsArray ?? []);
+            },
+            function ($tagsAsString): array {
+                if (empty(trim($tagsAsString ?? ''))) return [];
+                return array_filter(array_map('trim', explode("\n", str_replace(["\r\n", "\r"], "\n", $tagsAsString))));
+            }
+        ));
+
+        $builder->get('openingHours')->addModelTransformer(new CallbackTransformer(
             function ($tagsAsArray): string {
                 return implode("\n", $tagsAsArray ?? []);
             },

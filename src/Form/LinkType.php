@@ -14,6 +14,18 @@ class LinkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('type', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
+                'choices'  => [
+                    'Site Web' => 'Website',
+                    'Facebook' => 'Facebook',
+                    'Instagram' => 'Instagram',
+                    'LinkedIn' => 'LinkedIn',
+                    'Twitter' => 'Twitter',
+                    'YouTube' => 'YouTube',
+                ],
+                'placeholder' => 'Choisir un type',
+                'label' => 'Type de lien',
+            ])
             ->add('link', UrlType::class, [
                 'label' => 'URL',
                 'attr' => [
@@ -21,7 +33,7 @@ class LinkType extends AbstractType
                 ]
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Add Link',
+                'label' => 'Ajouter',
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

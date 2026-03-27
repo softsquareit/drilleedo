@@ -75,6 +75,40 @@ class CompanyBasicType extends AbstractType
                 'label' => 'Top Rated Agency',
                 'label_attr' => ['class' => 'form-check-label'],
                 'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('languages', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
+                'choices'  => [
+                    'English' => 'EN',
+                    'French' => 'FR',
+                    'Spanish' => 'ES',
+                ],
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false,
+                'attr' => ['class' => 'form-select select2']
+            ])
+            ->add('interventionZone', TextType::class, [
+                'required' => false,
+                'attr' => ['placeholder' => 'e.g. Greater Montreal Area']
+            ])
+            ->add('hasInsurance', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Valid Insurance',
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('contactPrefs', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
+                'choices'  => [
+                    'Email Notifications' => 'EMAIL_NOTIF',
+                    'SMS Notifications' => 'SMS_NOTIF',
+                    'Direct Leads' => 'DIRECT_REQUESTS',
+                    'Public Requests' => 'PUBLIC_REQUESTS',
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'd-flex flex-wrap gap-3']
             ]);
 
         $builder->get('whyChooseUs')->addModelTransformer(new \Symfony\Component\Form\CallbackTransformer(

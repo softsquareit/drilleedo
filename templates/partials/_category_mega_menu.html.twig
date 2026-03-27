@@ -70,33 +70,23 @@
 
         {# RIGHT COLUMN: Enhanced Directory CTAs #}
         <div class="drl-mega-cta-side">
-            <div class="drl-mega-cta-card-v2 pro" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}')">
+            <a href="{{ path('professionals_list') }}" class="drl-mega-cta-card-v2 pro" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}')">
                 <div class="card-overlay"></div>
                 <div class="card-content">
                     <div class="card-icon"><i class="feather-users"></i></div>
                     <h4>Find a Professional</h4>
                     <p>Connect with verified renovation experts across the country.</p>
-                    <a href="{{ path('professionals_list') }}" class="btn-cta">Explore Pros <i class="feather-arrow-right"></i></a>
                 </div>
-            </div>
+            </a>
 
-            <div class="drl-mega-cta-card-v2 company" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}')">
+            <a  href="{{ path('companies_list') }}" class="drl-mega-cta-card-v2 company" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}')">
                 <div class="card-overlay"></div>
                 <div class="card-content">
                     <div class="card-icon"><i class="feather-briefcase"></i></div>
                     <h4>Find a Company</h4>
                     <p>Explore top-rated renovation companies and teams.</p>
-                    <a href="{{ path('companies_list') }}" class="btn-cta">View Companies <i class="feather-arrow-right"></i></a>
                 </div>
-            </div>
-
-            <div class="drl-mega-promo-v2">
-                <div class="promo-content">
-                    <strong>Are you a Pro?</strong>
-                    <span>Join Drilleedo today.</span>
-                </div>
-                <a href="{{ path('app_register_pro') }}" class="rbt-btn btn-white btn-sm">Get Started</a>
-            </div>
+            </a>
         </div>
     </div>
     
