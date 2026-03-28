@@ -63,18 +63,17 @@ final class LocalSeoController extends AbstractController
     #[Route('/services/{categorySlug}', name: 'service_category_landing', requirements: ['categorySlug' => '[a-z0-9-]+'])]
     public function categoryLanding(
         string $categorySlug,
+        Request $request,
         CategoryRepository $categoryRepository,
         ProfessionalRepository $professionalRepository
     ): Response {
         // Fetch all categories to find a match by slug
-        $allCategories = $categoryRepository->findAll();
+        $allCategories = $categoryRepository->findBy([], ['name' => 'ASC']);
         $category = null;
         $slugger = new \Symfony\Component\String\Slugger\AsciiSlugger();
 
         foreach ($allCategories as $cat) {
-            // Generate a robust slug from the category name for comparison (handles accents/special chars)
             $catSlug = strtolower($slugger->slug($cat->getName())->toString());
-            
             if ($catSlug === $categorySlug) {
                 $category = $cat;
                 break;
@@ -85,25 +84,47 @@ final class LocalSeoController extends AbstractController
             throw $this->createNotFoundException('Service category not found.');
         }
 
-        // Gather category IDs: parent + all children for filtering
+        // --- Filtering & Pagination Logic (Mirroring HomeController::professionals) ---
+        $page = $request->query->getInt('page', 1);
+        $limit = 6;
+        $keyword = $request->query->get('keyword');
+        $sort = $request->query->get('sort');
+        $cities = $request->query->all('cities');
+
+        // Gather category IDs: parent + all children for logic
         $categoryIds = [$category->getId()];
         foreach ($category->getChilds() as $child) {
             $categoryIds[] = $child->getId();
         }
 
-        // Fetch pros for this category using the category filter
-        $filters       = ['categories' => $categoryIds];
-        $professionals = $professionalRepository->findByFilters($filters, 1, 18);
-        $totalResults  = count($professionals);
+        // We use the same search method as the general list but restricted to these categories
+        $professionals = $professionalRepository->search($keyword, null, $cities, $categoryIds, $sort, $page, $limit);
+        
+        $totalResults = count($professionals);
+        $totalPages = ceil($totalResults / $limit);
 
-        // Get child services for display in a "sub-services" section
-        $subServices = $category->getChilds()->toArray();
+        // Data for sidebars and bars
+        $allCities = $professionalRepository->findAllCities();
+        $categoryCounts = $professionalRepository->countPerCategory();
+        $cityCounts = $professionalRepository->countPerCity();
 
         return $this->render('home/service_category.html.twig', [
             'category'      => $category,
             'categorySlug'  => $categorySlug,
-            'subServices'   => $subServices,
             'professionals' => $professionals,
+            'allCategories' => $allCategories,
+            'allCities'     => $allCities,
+            'categoryCounts'=> $categoryCounts,
+            'cityCounts'    => $cityCounts,
+            'activeFilters' => [
+                'keyword'    => $keyword,
+                'category'   => $category->getId(),
+                'sort'       => $sort,
+                'cities'     => $cities,
+                'categories' => [$category->getId()],
+            ],
+            'currentPage'   => $page,
+            'totalPages'    => $totalPages,
             'totalResults'  => $totalResults,
         ]);
     }

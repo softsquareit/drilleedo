@@ -636,8 +636,8 @@
         <div class="id-author__name">
           {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
             {% set authorLink = idea.author.type == 'Professional'
-              ? path('professional_details', {id: idea.author.id})
-              : path('company_details', {id: idea.author.id}) %}
+              ? path('professional_details', {id: idea.author.id, slug: idea.author.companyName|default('author')|trim|lower|replace({' ': '-'})})
+              : path('company_details', {id: idea.author.id, slug: idea.author.companyName|default('author')|trim|lower|replace({' ': '-'})}) %}
             <a href="{{ authorLink }}">{{ idea.author.companyName ?: idea.author.email }}</a>
           {% else %}
             Drilleedo Team

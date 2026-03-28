@@ -2,119 +2,268 @@
 
 {% block title %}{{ category.name }} Services | Hire Verified Professionals in Canada | Drilleedo{% endblock %}
 {% block meta_description %}Find verified {{ category.name }} professionals across Canada on Drilleedo. Compare quotes, read reviews, and hire the best specialist for your home renovation project.{% endblock %}
-{% block meta_keywords %}{{ category.name }} Canada, hire {{ category.name }} professional, {{ category.name }} contractor, home renovation {{ category.name }}{% endblock %}
-{% block og_title %}{{ category.name }} Services in Canada | Drilleedo{% endblock %}
-{% block og_description %}Browse {{ totalResults }} verified {{ category.name }} specialists. Get free quotes and hire the best pros in your city.{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
+<style>
+    /* Small adjustments for the service category page */
+    .fp-hero { min-height: 350px; }
+    .svc-breadcrumb { margin-bottom: 20px; }
+    .svc-breadcrumb .breadcrumb { background: transparent; padding: 0; }
+    .svc-breadcrumb .breadcrumb-item, .svc-breadcrumb .breadcrumb-item a { color: rgba(255,255,255,0.8); font-size: 14px; text-decoration: none; }
+    .svc-breadcrumb .breadcrumb-item.active { color: #fff; }
+    .svc-breadcrumb .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.5); }
+</style>
+{% endblock %}
 
 {% block body %}
-<main id="main-content">
+<div class="fp-page" id="main-content">
 
-    {# ── Hero Banner ── #}
-    <section class="svc-hero-section" aria-labelledby="svc-hero-heading">
-        <div class="svc-hero-overlay"></div>
-        <div class="container svc-hero-content">
-            <nav aria-label="Breadcrumb" class="svc-breadcrumb">
-                <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
-                        <a href="{{ path('app_home') }}" itemprop="item"><span itemprop="name">Home</span></a>
-                        <meta itemprop="position" content="1">
-                    </li>
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
-                        <a href="{{ path('professionals_list') }}" itemprop="item"><span itemprop="name">Find Professionals</span></a>
-                        <meta itemprop="position" content="2">
-                    </li>
-                    <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
-                        <span itemprop="name">{{ category.name }}</span>
-                        <meta itemprop="position" content="3">
-                    </li>
-                </ol>
-            </nav>
-            <h1 id="svc-hero-heading" class="svc-hero-title d-flex align-items-center gap-3 justify-content-center">
-                <span class="svc-hero-icon" aria-hidden="true" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                    {% if category.icon %}
-                        <img src="{{ asset('uploads/categories/' ~ category.icon) }}" alt="" style="width: 100%; height: 100%; object-fit: contain;">
-                    {% else %}
-                        🔧
-                    {% endif %}
+{# ══════════════════════════════════════════════════════════════════════════
+   1. HERO BANNER
+   Focus on the specific category but with search capabilities.
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="fp-hero">
+    <img src="{{ asset('uploads/banners/professionels.png') }}"
+         alt="{{ category.name }}"
+         class="fp-hero__img">
+    <div class="fp-hero__content">
+        <nav aria-label="Breadcrumb" class="svc-breadcrumb">
+            <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
+                    <a href="{{ path('app_home') }}" itemprop="item"><span itemprop="name">Home</span></a>
+                    <meta itemprop="position" content="1">
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
+                    <a href="{{ path('professionals_list') }}" itemprop="item"><span itemprop="name">Find Professionals</span></a>
+                    <meta itemprop="position" content="2">
+                </li>
+                <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+                    <span itemprop="name">{{ category.name }}</span>
+                    <meta itemprop="position" content="3">
+                </li>
+            </ol>
+        </nav>
+
+        <h1 class="fp-hero__title">
+            {% if category.icon %}
+                <img src="{{ asset('uploads/categories/' ~ category.icon) }}" alt="" style="width: 45px; height: 45px; vertical-align: middle; margin-right: 15px;">
+            {% endif %}
+            {{ category.name }} Professionals
+        </h1>
+        <p class="fp-hero__sub">
+            {{ totalResults }} verified specialist{{ totalResults != 1 ? 's' : '' }} ready for your {{ category.name|lower }} project in Canada.
+        </p>
+
+        <div class="fp-hero__search">
+            <form action="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" method="GET" class="fp-search-bar">
+                <span class="fp-search-bar__icon">
+                    <i class="feather-search"></i>
                 </span>
-                <span>{{ category.name }} <span class="svc-hero-highlight">Professionals</span></span>
-            </h1>
-            <p class="svc-hero-subtitle">
-                {{ totalResults }} verified specialist{{ totalResults != 1 ? 's' : '' }} ready to help with your {{ category.name|lower }} project across Canada
-            </p>
-            <div class="svc-hero-actions">
-                <a href="{{ path('professionals_list') }}?categories[]={{ category.id }}" class="svc-btn-primary">
-                    View All {{ category.name }} Pros
+                <input type="text"
+                       name="keyword"
+                       class="fp-search-bar__input"
+                       placeholder="Search within {{ category.name }}…"
+                       value="{{ activeFilters.keyword ?? '' }}"
+                       aria-label="Search within {{ category.name }}">
+                <button type="submit" class="fp-search-bar__btn">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   2. CATEGORY PILLS (Focusing on sub-categories or related categories)
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="fp-cat-bar" role="navigation" aria-label="Filter by category">
+    <div class="fp-cat-bar__inner">
+        {# "Tous Cuisine" pill #}
+        <a href="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" 
+           class="fp-cat-pill {{ activeFilters.keyword is empty ? 'active' : '' }}" 
+           aria-pressed="{{ activeFilters.keyword is empty ? 'true' : 'false' }}">
+            <i class="feather-grid"></i>
+            All {{ category.name }}
+            <span class="fp-cat-pill__count">{{ totalResults }}</span>
+        </a>
+
+        {# Show children of current category if any #}
+        {% if category.childs|length > 0 %}
+            {% for sub in category.childs %}
+                <a href="{{ path('service_category_landing', {'categorySlug': sub.slug }) }}"
+                   class="fp-cat-pill"
+                   aria-pressed="false">
+                    {% if sub.icon %}
+                        <img src="{{ asset('uploads/categories/' ~ sub.icon) }}" alt="" class="fp-cat-pill__icon">
+                    {% else %}
+                        <i class="feather-briefcase"></i>
+                    {% endif %}
+                    {{ sub.name }}
+                    <span class="fp-cat-pill__count">{{ categoryCounts[sub.id] ?? 0 }}</span>
                 </a>
-                {% if is_granted('ROLE_INDIVIDUAL') %}
-                    <a href="#" class="svc-btn-secondary">
-                        Post a Request — It's Free
-                    </a>
-                {% else %}
-                    <a href="{{ path('app_register') }}" class="svc-btn-secondary">
-                        Get Free Quotes
+            {% endfor %}
+        {% else %}
+            {# If no children, show parent category or siblings? 
+               For now, let's show other parent categories to match the search feel #}
+            {% for cat in allCategories %}
+                {% if cat.parent is null and cat.id != category.id %}
+                    <a href="{{ path('service_category_landing', {'categorySlug': cat.slug }) }}"
+                       class="fp-cat-pill"
+                       aria-pressed="false">
+                        {% if cat.icon %}
+                            <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" class="fp-cat-pill__icon">
+                        {% else %}
+                            <i class="feather-briefcase"></i>
+                        {% endif %}
+                        {{ cat.name }}
+                        <span class="fp-cat-pill__count">{{ categoryCounts[cat.id] ?? 0 }}</span>
                     </a>
                 {% endif %}
-            </div>
-        </div>
-    </section>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
 
-    {# ── Sub-Services ── #}
-    {% if subServices|length > 0 %}
-    <section class="svc-sub-section" aria-labelledby="sub-services-heading">
-        <div class="container">
-            <h2 id="sub-services-heading" class="svc-section-title">Specialized {{ category.name }} Services</h2>
-            <div class="svc-sub-grid" role="list">
-                {% for sub in subServices %}
-                <a href="{{ path('service_category_landing', {'categorySlug': sub.name|lower|replace({' ': '-'}) }) }}"
-                   class="svc-sub-card"
-                   role="listitem">
-                    <span class="svc-sub-name">{{ sub.name }}</span>
-                    <span class="svc-sub-arrow" aria-hidden="true">→</span>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    {% endif %}
+{# ══════════════════════════════════════════════════════════════════════════
+   3. MAIN LAYOUT
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="fp-wrap">
+    <div class="fp-layout">
 
-    {# ── Professional Listings ── #}
-    <section class="svc-pros-section" aria-labelledby="pros-heading">
-        <div class="container">
-            <div class="svc-pros-header">
-                <h2 id="pros-heading" class="svc-section-title">
-                    Top {{ category.name }} Professionals
-                </h2>
-                <p class="svc-pros-count">{{ totalResults }} specialist{{ totalResults != 1 ? 's' : '' }} available</p>
-            </div>
+        {# ── LEFT SIDEBAR ── #}
+        <aside class="fp-sidebar" aria-label="Filters">
+            <form action="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" method="GET" id="filters-form">
+                {% if activeFilters.keyword %}
+                    <input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">
+                {% endif %}
+                {% if activeFilters.sort %}
+                    <input type="hidden" name="sort" value="{{ activeFilters.sort }}">
+                {% endif %}
 
-            {% if professionals|length > 0 %}
-            <div class="row row--30 gy-5" role="list" aria-label="{{ category.name }} professionals">
-                {% for pro in professionals %}
-                <div class="col-lg-4 col-md-6 col-12" role="listitem">
-                    {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
+                <div class="fp-sidebar-card">
+                    <div class="fp-sidebar-card__header">
+                        <i class="feather-map-pin"></i>
+                        City / Region
+                    </div>
+                    <div class="fp-sidebar-card__body">
+                        <ul class="fp-city-list" role="list">
+                            {% for city in allCities %}
+                                <li class="fp-city-row {{ city in activeFilters.cities ? 'active' : '' }}">
+                                    <label for="city-{{ loop.index }}">
+                                        <input id="city-{{ loop.index }}"
+                                               type="checkbox"
+                                               name="cities[]"
+                                               value="{{ city }}"
+                                               {{ city in activeFilters.cities ? 'checked' : '' }}
+                                               onchange="this.form.submit()">
+                                        {{ city }}
+                                    </label>
+                                    <span class="fp-city-count">{{ cityCounts[city] ?? 0 }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
+
+                <button type="submit" class="fp-btn-apply">Apply Filters</button>
+                {% if activeFilters.cities is not empty %}
+                    <a href="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" class="fp-btn-clear">
+                        Clear Filters
+                    </a>
+                {% endif %}
+            </form>
+        </aside>
+
+        {# ── MAIN CONTENT ── #}
+        <div class="fp-content">
+            <div class="fp-meta-row">
+                <p class="fp-meta-count">
+                    <span>{{ professionals|length }}</span> specialist{{ professionals|length != 1 ? 's' : '' }} available in {{ category.name }}
+                </p>
+                <form action="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" method="GET">
+                    {% if activeFilters.keyword %}<input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">{% endif %}
+                    {% for city in activeFilters.cities %}<input type="hidden" name="cities[]" value="{{ city }}">{% endfor %}
+                    <select name="sort" class="fp-sort-select" onchange="this.form.submit()">
+                        <option value="newest"     {{ activeFilters.sort == 'newest'     ? 'selected' : '' }}>Sort: Newest</option>
+                        <option value="rating"     {{ activeFilters.sort == 'rating'     ? 'selected' : '' }}>Sort: Top Rated</option>
+                        <option value="experience" {{ activeFilters.sort == 'experience' ? 'selected' : '' }}>Sort: Experience</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="fp-pro-grid">
+                {% set starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' %}
+
+                {% for pro in professionals %}
+                    {% set rating = pro.stats ? pro.stats.averageRating : 5.0 %}
+                    {% set fullStars = rating|round(0, 'floor') %}
+                    {% set initials = pro.companyName 
+                        ? (pro.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2)) 
+                        : (pro.personalInfos ? pro.personalInfos.firstName|slice(0,1) ~ pro.personalInfos.lastName|slice(0,1) : 'PR') %}
+                    {% set profileUrl = path('professional_details', {'id': pro.id, 'slug': pro.companyName|default(pro.email)|trim|lower|replace({' ': '-'}) }) %}
+
+                    <div class="fp-pro-card">
+                        {% if pro.isTopRated %}
+                            <div class="fp-badge-top">⭐ Top Rated</div>
+                        {% endif %}
+
+                        <div class="fp-card-img-wrap">
+                            <a href="{{ profileUrl }}"><img src="{{ pro.banner ? asset('uploads/banners/' ~ pro.banner) : asset('assets/drilleedo/images/team/plumber.png') }}" alt="{{ pro.companyName }}"></a>
+                            <div class="fp-card-avatar">
+                                {% if pro.logo %}<img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="">{% else %}{{ initials }}{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="fp-card-body">
+                            {% if pro.isVerified %}<div class="fp-card-verified">✔ Drilleedo Verified</div>{% endif %}
+                            <h3 class="fp-card-name"><a href="{{ profileUrl }}">{{ pro.companyName ?? (pro.personalInfos ? pro.personalInfos.firstName ~ ' ' ~ pro.personalInfos.lastName : pro.email) }}</a></h3>
+                            
+                            <div class="fp-card-meta">
+                                <span><i class="feather-briefcase"></i> {{ pro.category ? pro.category.name : category.name }}</span>
+                                <span><i class="feather-map-pin"></i> {{ pro.city ?? 'Canada' }}</span>
+                            </div>
+
+                            <div class="fp-card-rating">
+                                <div class="fp-stars">
+                                    {% for i in range(1, 5) %}
+                                        <svg viewBox="0 0 20 20" {{ i > fullStars ? 'style="fill: #e2e8f0"' : '' }}><path d="{{ starPath }}"/></svg>
+                                    {% endfor %}
+                                </div>
+                                <span class="fp-card-rating__cnt">({{ pro.stats ? pro.stats.reviewCount : 0 }} reviews)</span>
+                            </div>
+
+                            <div class="fp-card-actions">
+                                <a href="{{ profileUrl }}" class="fp-btn-outline">View Profile</a>
+                                <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" class="fp-btn-solid">Free Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="fp-empty">
+                        <div class="fp-empty__icon">🔍</div>
+                        <h4>No professionals found</h4>
+                        <p>Try adjusting your filters or contact us for a personalized recommendation.</p>
+                    </div>
                 {% endfor %}
             </div>
 
-            <div class="svc-cta-bar mt-5">
-                <a href="{{ path('professionals_list') }}?categories[]={{ category.id }}" class="svc-btn-primary">
-                    See All {{ category.name }} Professionals
-                </a>
-            </div>
-
-            {% else %}
-            <div class="svc-empty-state" role="status">
-                <i class="feather-search svc-empty-icon" aria-hidden="true"></i>
-                <h3>No professionals found yet for {{ category.name }}</h3>
-                <p>Be the first to register as a {{ category.name }} specialist, or try searching for a related service.</p>
-                <a href="{{ path('app_register') }}" class="svc-btn-primary mt-4">Join as a Professional</a>
-            </div>
+            {% if totalPages > 1 %}
+                <nav class="fp-pagination">
+                    {% if currentPage > 1 %}
+                        <a href="{{ path('service_category_landing', app.request.query.all|merge({'categorySlug': categorySlug, 'page': currentPage - 1})) }}"><i class="feather-chevron-left"></i></a>
+                    {% endif %}
+                    {% for i in 1..totalPages %}
+                        {% if i == currentPage %}<span class="active">{{ i }}</span>{% else %}<a href="{{ path('service_category_landing', app.request.query.all|merge({'categorySlug': categorySlug, 'page': i})) }}">{{ i }}</a>{% endif %}
+                    {% endfor %}
+                    {% if currentPage < totalPages %}
+                        <a href="{{ path('service_category_landing', app.request.query.all|merge({'categorySlug': categorySlug, 'page': currentPage + 1})) }}"><i class="feather-chevron-right"></i></a>
+                    {% endif %}
+                </nav>
             {% endif %}
         </div>
-    </section>
+    </div>
+</div>
 
-</main>
+</div>
 
 {# ── JSON-LD Structured Data ── #}
 <script type="application/ld+json">
@@ -131,10 +280,9 @@
     "@type": "Country",
     "name": "Canada"
   },
-  "description": "Find verified {{ category.name|escape('js') }} professionals across Canada on Drilleedo.",
+  "description": "Find verified professionals in {{ category.name|escape('js') }} across Canada on Drilleedo.",
   "url": "{{ url('service_category_landing', {'categorySlug': categorySlug}) }}"
 }
 </script>
-
-{# Service category page styles → drilleedo.css (section: Service Category Page) #}
 {% endblock %}
+

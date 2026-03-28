@@ -169,7 +169,7 @@ final class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/company/{id}', name: 'company_details')]
+    #[Route('/company/{id}/{slug}', name: 'company_details', defaults: ['slug' => ''])]
     public function companyDetails(\App\Entity\Company $company): Response
     {
         return $this->render('home/company.html.twig', [
@@ -372,10 +372,12 @@ final class HomeController extends AbstractController
             $results[] = [
                 'type'     => 'company',
                 'label'    => $co->getCompanyName() ?? $co->getEmail(),
-                'category' => 'Company',
-                'city'     => '',
-                'url'      => $this->generateUrl('company_details', ['id' => $co->getId()]),
                 'logo'     => $co->getLogo() ? '/uploads/logos/' . $co->getLogo() : null,
+                'url'      => $this->generateUrl('company_details', [
+                    'id' => $co->getId(),
+                    'slug' => strtolower(str_replace(' ', '-', trim($co->getCompanyName() ?? 'entreprise')))
+                ]),
+                'category' => count($co->getCategories()) > 0 ? $co->getCategories()[0]->getName() : 'Services',
             ];
         }
 

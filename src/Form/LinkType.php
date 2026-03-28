@@ -31,12 +31,6 @@ class LinkType extends AbstractType
                 'attr' => [
                     'placeholder' => 'https://example.com'
                 ]
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Ajouter',
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
             ]);
     }
 

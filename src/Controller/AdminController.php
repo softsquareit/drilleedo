@@ -187,69 +187,130 @@ class AdminController extends AbstractController
             throw $this->createNotFoundException();
         }
 
+        // 1. Basic Info Form
         $form1 = $this->createForm(CompanyBasicType::class, $company);
-        $form1->handleRequest($request);
+        $modalId = $request->isMethod('POST') ? $request->request->get('modal_id') : null;
 
-        $form2 = $this->createForm(CompanyLegalType::class, $company);
-        $form2->handleRequest($request);
-
-        // Primary Contact Logic
-        $contact = $company->getPrimaryContact();
-        if (!$contact) {
-            $contact = new PrimaryContact();
+        // Handle modal-specific partial submissions DIRECTLY on the entity (bypass full form validation)
+        if ($modalId === 'status') {
+            $formData = $request->request->all($form1->getName());
+            $company->setIsVerified(isset($formData['isVerified']));
+            $company->setIsTopRated(isset($formData['isTopRated']));
+            $company->setHasInsurance(isset($formData['hasInsurance']));
+            $this->em->flush();
+            $this->addFlash('success', 'Statut de visibilité mis à jour.');
+            return $this->redirectToRoute('admin_company_edit', ['id' => $company->getId()]);
         }
-        $contactForm = $this->createForm(PrimaryContactType::class, $contact);
-        $contactForm->handleRequest($request);
 
-        // Address Logic
+        if ($modalId === 'tarif') {
+            $formData = $request->request->all($form1->getName());
+            $company->setInterventionRadius(!empty($formData['interventionRadius']) ? (int)$formData['interventionRadius'] : null);
+            $company->setMinPrice(!empty($formData['minPrice']) ? (int)$formData['minPrice'] : null);
+            $company->setFreeQuotes(isset($formData['freeQuotes']));
+            $company->setGuaranteedWork(isset($formData['guaranteedWork']));
+            $company->setRbqCertified(isset($formData['rbqCertified']));
+            // Opening hours via transformer
+            $openingHoursRaw = $formData['openingHours'] ?? '';
+            $openingHoursArr = empty(trim($openingHoursRaw)) ? [] : array_filter(array_map('trim', explode("\n", str_replace(["\r\n", "\r"], "\n", $openingHoursRaw))));
+            $company->setOpeningHours(array_values($openingHoursArr));
+            $this->em->flush();
+            $this->addFlash('success', 'Tarification et avantages mis à jour.');
+            return $this->redirectToRoute('admin_company_edit', ['id' => $company->getId()]);
+        }
+
+        if ($modalId === 'prefs') {
+            $formData = $request->request->all($form1->getName());
+            $company->setInterventionZone($formData['interventionZone'] ?? null);
+            $company->setLanguages($formData['languages'] ?? []);
+            $company->setContactPrefs($formData['contactPrefs'] ?? []);
+            $this->em->flush();
+            $this->addFlash('success', 'Préférences mises à jour.');
+            return $this->redirectToRoute('admin_company_edit', ['id' => $company->getId()]);
+        }
+
+        // Standard form handling for full form submissions (basic_info modal)
+        if ($request->isMethod('POST')) {
+            $formName = $form1->getName();
+            if ($request->request->has($formName) && !$modalId) {
+                $form1->handleRequest($request);
+            } elseif ($modalId === 'basic_info') {
+                $form1->handleRequest($request);
+            }
+        } else {
+            $form1->handleRequest($request);
+        }
+
+        // 2. Legal Info Form
+        $form2 = $this->createForm(CompanyLegalType::class, $company);
+        if ($request->isMethod('POST') && $request->request->has($form2->getName())) {
+            $form2->submit($request->request->all($form2->getName()), false);
+        } else {
+            $form2->handleRequest($request);
+        }
+
+        // 3. Primary Contact Logic
+        $contact = $company->getPrimaryContact() ?? new PrimaryContact();
+        $contactForm = $this->createForm(PrimaryContactType::class, $contact);
+        if ($request->isMethod('POST') && $request->request->has($contactForm->getName())) {
+            $contactForm->submit($request->request->all($contactForm->getName()), false);
+        } else {
+            $contactForm->handleRequest($request);
+        }
+
+        // 4. Address Logic
         $address = new Adress();
         $addressForm = $this->createForm(AdressType::class, $address);
         $addressForm->handleRequest($request);
 
-        // Project Logic
+        // 5. Project Logic
         $project = new Projet();
         $projectForm = $this->createForm(ProjetType::class, $project);
         $projectForm->handleRequest($request);
 
-        // Link Logic
+        // 6. Link Logic
         $link = new Link();
         $linkForm = $this->createForm(LinkType::class, $link);
         $linkForm->handleRequest($request);
 
-        // Payment Logic
+        // 7. Payment Logic
         $paymentForm = $this->createForm(CompanyPaymentType::class, $company);
-        $paymentForm->handleRequest($request);
+        if ($request->isMethod('POST') && $request->request->has($paymentForm->getName())) {
+            $paymentForm->submit($request->request->all($paymentForm->getName()), false);
+        } else {
+            $paymentForm->handleRequest($request);
+        }
 
-        // Category Logic
+        // 8. Category Logic
         $categoryForm = $this->createForm(CompanyCategoryType::class, $company);
-        $categoryForm->handleRequest($request);
+        if ($request->isMethod('POST') && $request->request->has($categoryForm->getName())) {
+            $categoryForm->submit($request->request->all($categoryForm->getName()), false);
+        } else {
+            $categoryForm->handleRequest($request);
+        }
 
-        // Logo Logic
+        // 9. Logo Logic
         $logoForm = $this->createForm(CompanyLogoType::class, $company);
         $logoForm->handleRequest($request);
 
-        // Banner Logic
+        // 10. Banner Logic
         $bannerForm = $this->createForm(CompanyBannerType::class, $company);
         $bannerForm->handleRequest($request);
 
 
+        // --- Handle Submissions ---
+
         if ($form1->isSubmitted() && $form1->isValid()) {
-            // Handle Logo Upload
-           
             if ($form1->has('logoFile') && $form1->get('logoFile')->getData() !== null) {
                 $logoFile = $form1->get('logoFile')->getData();
-
                 try {
-                $newFilename = $fileUploader->upload($logoFile, 'logos');
-                $company->setLogo($newFilename);
+                    $newFilename = $fileUploader->upload($logoFile, 'logos');
+                    $company->setLogo($newFilename);
                 } catch (\Exception $e) {
-                $this->addFlash('error', 'Error uploading logo');
+                    $this->addFlash('error', 'Error uploading logo');
                 }
             }
-
-
             $this->em->flush();
-            $this->addFlash('success', 'Company updated successfully.');
+            $this->addFlash('success', 'Company basic info updated successfully.');
             return $this->redirectToRoute('admin_company_edit', ['id' => $company->getId()]);
         }
 
@@ -278,6 +339,29 @@ class AdminController extends AbstractController
         }
 
         if ($projectForm->isSubmitted() && $projectForm->isValid()) {
+            $photoFile = $projectForm->get('mainPhoto')->getData();
+            if ($photoFile) {
+                try {
+                    $newFilename = $fileUploader->upload($photoFile, 'projects');
+                    $project->setMainPhoto($newFilename);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error uploading project photo');
+                }
+            }
+            
+            $galleryFiles = $projectForm->get('gallery')->getData();
+            if ($galleryFiles) {
+                $galleryPaths = [];
+                foreach ($galleryFiles as $file) {
+                    try {
+                        $galleryPaths[] = $fileUploader->upload($file, 'projects');
+                    } catch (\Exception $e) {
+                        // Skip failed uploads
+                    }
+                }
+                $project->setGallery($galleryPaths);
+            }
+
             $company->addProjet($project);
             $this->em->persist($project);
             $this->em->flush();
@@ -286,7 +370,7 @@ class AdminController extends AbstractController
         }
 
         if ($linkForm->isSubmitted() && $linkForm->isValid()) {
-            $company->addLink($link); // Assuming addLink exists, will verify if error
+            $company->addLink($link);
             $this->em->persist($link);
             $this->em->flush();
             $this->addFlash('success', 'Link added successfully.');
@@ -294,7 +378,7 @@ class AdminController extends AbstractController
         }
 
         if ($paymentForm->isSubmitted() && $paymentForm->isValid()) {
-            $this->em->flush(); // ManyToMany relation handled by Doctrine forms automatically
+            $this->em->flush();
             $this->addFlash('success', 'Payment methods updated successfully.');
             return $this->redirectToRoute('admin_company_edit', ['id' => $company->getId()]);
         }
@@ -334,6 +418,7 @@ class AdminController extends AbstractController
             }
             return $this->redirectToRoute('admin_company_edit', ['id' => $company->getId()]);
         }
+
 
         return $this->render('admin/company/edit.html.twig', [
             'form1' => $form1,

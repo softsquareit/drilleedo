@@ -211,4 +211,10 @@ class Category
         $this->color = $color;
         return $this;
     }
+
+    public function getSlug(): string
+    {
+        $slugger = new \Symfony\Component\String\Slugger\AsciiSlugger();
+        return strtolower($slugger->slug($this->getName() ?? '')->toString());
+    }
 }

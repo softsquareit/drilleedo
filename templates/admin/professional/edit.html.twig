@@ -2,41 +2,7 @@
 
 {% block header %}
 
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkCards = document.querySelectorAll('.zen-check-card');
-            
-            checkCards.forEach(card => {
-                const input = card.querySelector('input');
-                if(input && input.checked) card.classList.add('checked');
-                
-                if(input) {
-                    input.addEventListener('change', () => {
-                        if(input.type === 'radio') {
-                             // clear siblings
-                             const name = input.getAttribute('name');
-                             document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
-                                 el.closest('.zen-check-card').classList.remove('checked');
-                             });
-                        }
-                        if(input.checked) card.classList.add('checked');
-                        else card.classList.remove('checked');
-                    });
-                }
-                
-                // Card click triggers input
-                card.addEventListener('click', (e) => {
-                    if(e.target !== input) {
-                        input.click();
-                    }
-                });
-            });
-
-
-        });
-    </script>
-    <style>
+        <style>
         .profile-tabs .nav-link {
             border-radius: 12px;
             padding: 10px 20px;
@@ -122,6 +88,17 @@
             color: #dc3545;
             transform: translateY(-1px);
         }
+        .btn-soft-zen-success {
+            background: rgba(25, 135, 84, 0.05);
+            border: 1px solid rgba(25, 135, 84, 0.1);
+            color: #198754;
+            transition: all 0.2s;
+        }
+        .btn-soft-zen-success:hover {
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+            transform: translateY(-1px);
+        }
         .btn-zen-primary {
             background: #0d2151;
             border: none;
@@ -136,6 +113,21 @@
             color: #fff;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(13, 33, 81, 0.2);
+        }
+        .btn-zen-success {
+            background: #198754;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 8px 24px;
+            transition: all 0.3s;
+        }
+        .btn-zen-success:hover {
+            background: #157347;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
         }
         .profile-avatar-wrapper {
             margin-top: -40px;
@@ -161,6 +153,40 @@
         .btn-icon { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; }
         .hover-bg-light:hover { background-color: #f8fafc; }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkCards = document.querySelectorAll('.zen-check-card');
+            
+            checkCards.forEach(card => {
+                const input = card.querySelector('input');
+                if(input && input.checked) card.classList.add('checked');
+                
+                if(input) {
+                    input.addEventListener('change', () => {
+                        if(input.type === 'radio') {
+                             // clear siblings
+                             const name = input.getAttribute('name');
+                             document.querySelectorAll(`input[name="${name}"]`).forEach(el => {
+                                 el.closest('.zen-check-card').classList.remove('checked');
+                             });
+                        }
+                        if(input.checked) card.classList.add('checked');
+                        else card.classList.remove('checked');
+                    });
+                }
+                
+                // Card click triggers input
+                card.addEventListener('click', (e) => {
+                    if(e.target !== input) {
+                        input.click();
+                    }
+                });
+            });
+
+
+        });
+    </script>
+
 {% endblock %}
 
 
@@ -328,8 +354,8 @@
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
                                         <div class="zen-card-title"><i class="fas fa-info-circle text-primary"></i> Informations de Base</div>
-                                        <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editBasicInfoModal">
-                                            <i class="fas fa-pencil-alt me-1"></i> Modifier
+                                        <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editBasicInfoModal">
+                                            <i class="fas fa-edit small"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -357,8 +383,8 @@
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
                                         <div class="zen-card-title"><i class="fas fa-user-tie text-primary"></i> Bio & Expertise</div>
-                                        <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editBioExpertiseModal">
-                                            <i class="fas fa-pencil-alt me-1"></i> Modifier
+                                        <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editBioExpertiseModal">
+                                            <i class="fas fa-edit small"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -471,8 +497,8 @@
                                 <div class="zen-card mb-4" id="primary-contact-panel">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
                                         <div class="zen-card-title"><i class="fas fa-user-circle text-primary"></i> Contact Principal</div>
-                                        <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editContactModal">
-                                            <i class="fas fa-pencil-alt me-1"></i> Modifier
+                                        <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editContactModal">
+                                            <i class="fas fa-edit small"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -506,8 +532,8 @@
                                 <div class="zen-card">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
                                         <div class="zen-card-title"><i class="fas fa-map-marked-alt text-primary"></i> Adresses de Service</div>
-                                        <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#addAddressModal">
-                                            <i class="fas fa-plus me-1"></i> Ajouter
+                                        <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                                            <i class="fas fa-plus me-1"></i> 
                                         </button>
                                     </div>
                                     <div class="zen-card-body p-0">
@@ -530,7 +556,7 @@
                                                                 <div class="text-muted small">{{ address.city }} / {{ address.postalCode }}</div>
                                                             </td>
                                                             <td class="text-end pe-4">
-                                                                <a href="{{ path('admin_address_delete', {'id': address.id}) }}" class="btn btn-soft-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
+                                                                <a href="{{ path('admin_address_delete', {'id': address.id}) }}" class="btn btn-soft-zen-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>
                                                             </td>
@@ -552,8 +578,8 @@
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
                                         <div class="zen-card-title"><i class="fas fa-tasks text-primary"></i> Projets Réalisés</div>
-                                        <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#addProjectModal">
-                                            <i class="fas fa-plus me-1"></i> Ajouter un projet
+                                        <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#addProjectModal">
+                                            <i class="fas fa-plus me-1"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body p-0">
@@ -587,14 +613,14 @@
                                                                 {{ project.startDate|date('M Y') }} - {{ project.EndDate ? project.EndDate|date('M Y') : 'Présent' }}
                                                             </td>
                                                             <td class="text-end pe-4">
-                                                                <button type="button" class="btn btn-soft-zen-primary btn-icon btn-sm rounded-circle me-1" 
+                                                                <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" 
                                                                         data-bs-toggle="modal" 
                                                                         data-bs-target="#editProjectModal"
                                                                         onclick="populateProjectModal('{{ project.id }}', '{{ project.name|escape('js') }}', '{{ project.startDate|date('Y-m-d') }}', '{{ project.EndDate ? project.EndDate|date('Y-m-d') : '' }}', '{{ project.description|escape('js')|nl2br }}', '{{ project.state ? 1 : 0 }}', '{{ project.mainPhoto }}', '{{ project.gallery|json_encode|escape('js') }}')"
                                                                         title="Modifier le projet">
                                                                     <i class="fas fa-pencil-alt"></i>
                                                                 </button>
-                                                                <a href="{{ path('admin_project_delete', {'id': project.id}) }}" class="btn btn-soft-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
+                                                                <a href="{{ path('admin_project_delete', {'id': project.id}) }}" class="btn btn-soft-zen-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>
                                                             </td>
@@ -613,8 +639,8 @@
                                 <div class="zen-card">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
                                         <div class="zen-card-title"><i class="fas fa-link text-primary"></i> Liens & Réseaux Sociaux</div>
-                                        <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#addLinkModal">
-                                            <i class="fas fa-plus me-1"></i> Ajouter
+                                        <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#addLinkModal">
+                                            <i class="fas fa-plus me-1"></i> 
                                         </button>
                                     </div>
                                     <div class="zen-card-body p-0">
@@ -637,14 +663,14 @@
                                                                 <a href="{{ link.link }}" target="_blank" class="text-muted small text-decoration-none text-truncate d-inline-block" style="max-width: 250px;">{{ link.link }}</a>
                                                             </td>
                                                             <td class="text-end pe-4">
-                                                                <button type="button" class="btn btn-soft-zen-primary btn-icon btn-sm rounded-circle me-1" 
+                                                                <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" 
                                                                         data-bs-toggle="modal" 
                                                                         data-bs-target="#editLinkModal"
                                                                         onclick="populateLinkModal('{{ link.id }}', '{{ link.type }}', '{{ link.link|escape('js') }}')"
                                                                         title="Modifier le lien">
                                                                     <i class="fas fa-pencil-alt"></i>
                                                                 </button>
-                                                                <a href="{{ path('admin_link_delete', {'id': link.id}) }}" class="btn btn-soft-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
+                                                                <a href="{{ path('admin_link_delete', {'id': link.id}) }}" class="btn btn-soft-zen-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>
                                                             </td>
@@ -668,14 +694,14 @@
                                         <div class="zen-card h-100">
                                             <div class="zen-card-header d-flex justify-content-between align-items-center">
                                                 <div class="zen-card-title"><i class="fas fa-shield-alt text-primary"></i> Statut & Vérification</div>
-                                                <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editStatusModal">
-                                                    <i class="fas fa-pencil-alt me-1"></i> Modifier
+                                                <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editStatusModal">
+                                                    <i class="fas fa-edit small"></i>
                                                 </button>
                                             </div>
                                             <div class="zen-card-body">
                                                 <div class="d-flex flex-column gap-3">
                                                     <div class="d-flex justify-content-between align-items-center p-2 rounded bg-light border">
-                                                        <span class="small fw-bold text-muted">Vérifié par l'admin</span>
+                                                        <span class="small fw-bold text-muted">Vérifié by l'admin</span>
                                                         {% if professional.isVerified %}<span class="badge bg-success-soft text-success"><i class="fas fa-check me-1"></i>Oui</span>{% else %}<span class="badge bg-secondary-soft text-muted">Non</span>{% endif %}
                                                     </div>
                                                     <div class="d-flex justify-content-between align-items-center p-2 rounded bg-light border">
@@ -695,8 +721,8 @@
                                         <div class="zen-card h-100">
                                             <div class="zen-card-header d-flex justify-content-between align-items-center">
                                                 <div class="zen-card-title"><i class="fas fa-briefcase text-primary"></i> Secteur & Disponibilité</div>
-                                                <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editSecteurModal">
-                                                    <i class="fas fa-pencil-alt me-1"></i> Modifier
+                                                <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editSecteurModal">
+                                                    <i class="fas fa-edit small"></i>
                                                 </button>
                                             </div>
                                             <div class="zen-card-body">
@@ -722,8 +748,8 @@
                                         <div class="zen-card">
                                             <div class="zen-card-header d-flex justify-content-between align-items-center">
                                                 <div class="zen-card-title"><i class="fas fa-language text-primary"></i> Langues & Préférences</div>
-                                                <button type="button" class="btn btn-soft-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editPrefsModal">
-                                                    <i class="fas fa-pencil-alt me-1"></i> Modifier
+                                                <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editPrefsModal">
+                                                    <i class="fas fa-edit small"></i>
                                                 </button>
                                             </div>
                                             <div class="zen-card-body">
@@ -810,7 +836,7 @@
                                     <div class="zen-card-header">
                                         <div class="zen-card-title"><i class="fas fa-star text-warning"></i> Avis clients dynamiques</div>
                                         <button type="button" class="btn btn-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-                                            <i class="fas fa-plus me-1"></i> Ajouter un avis
+                                            <i class="fas fa-plus me-1"></i>un avis
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -854,7 +880,7 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="text-end">
-                                                                    <a href="{{ path('admin_review_delete', {'id': review.id}) }}" class="btn btn-icon hover-bg-light text-danger btn-delete-confirm" data-confirm-message="Voulez-vous vraiment supprimer cet avis client ?">
+                                                                    <a href="{{ path('admin_review_delete', {'id': review.id}) }}" class="btn btn-icon btn-soft-zen-danger btn-sm rounded-circle btn-delete-confirm" data-confirm-message="Voulez-vous vraiment supprimer cet avis client ?">
                                                                         <i class="fas fa-trash-alt"></i>
                                                                     </a>
                                                                 </td>
@@ -910,7 +936,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(form, {'render_rest': false}) }}
             </div>
@@ -934,16 +960,16 @@
                     </div>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-uppercase text-muted">Pourquoi nous choisir (Un par ligne)</label>
+                            <label class="form-label small fw-bold text-uppercase text-muted">Pourquoi nous choisir (Un by ligne)</label>
                             {{ form_widget(form.whyChooseUs, {'attr': {'class': 'form-control zen-input', 'rows': 5}}) }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-uppercase text-muted">Services offerts (Un par ligne)</label>
+                            <label class="form-label small fw-bold text-uppercase text-muted">Services offerts (Un by ligne)</label>
                             {{ form_widget(form.services, {'attr': {'class': 'form-control zen-input', 'rows': 5}}) }}
                         </div>
                     </div>
                     <div class="mt-3">
-                        <label class="form-label small fw-bold text-uppercase text-muted">Horaires d'ouverture (Un par ligne, ex: Lundi : 08:00 - 18:00)</label>
+                        <label class="form-label small fw-bold text-uppercase text-muted">Horaires d'ouverture (Un by ligne, ex: Lundi : 08:00 - 18:00)</label>
                         {{ form_widget(form.openingHours, {'attr': {'class': 'form-control zen-input', 'rows': 5, 'placeholder': "Lundi - Vendredi : 08:00 - 18:00\nSamedi : 08:00 - 14:00\nDimanche : Fermé"}}) }}
                     </div>
                     <div class="row g-3 mt-1">
@@ -979,7 +1005,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(form, {'render_rest': false}) }}
             </div>
@@ -1017,7 +1043,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(contactForm) }}
             </div>
@@ -1050,7 +1076,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Ajouter</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Ajouter</button>
                 </div>
                 {{ form_end(addressForm) }}
             </div>
@@ -1106,7 +1132,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Créer le projet</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Créer le projet</button>
                 </div>
                 {{ form_end(projectForm) }}
             </div>
@@ -1133,7 +1159,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Ajouter le lien</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Ajouter le lien</button>
                 </div>
                 {{ form_end(linkForm) }}
             </div>
@@ -1177,7 +1203,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Enregistrer l'avis</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Enregistrer l'avis</button>
                 </div>
                 </form>
             </div>
@@ -1202,7 +1228,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm">Télécharger la photo</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm">Télécharger la photo</button>
                 </div>
                 {{ form_end(photoForm) }}
             </div>
@@ -1225,7 +1251,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm">Télécharger la bannière</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm">Télécharger la bannière</button>
                 </div>
                 {{ form_end(bannerForm) }}
             </div>
@@ -1290,7 +1316,7 @@
                 </div>
                  <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                   <button type="submit" class="btn btn-zen-primary shadow-sm px-4"><i class="fas fa-save me-2"></i>Mettre à jour le projet</button>
+                   <button type="submit" class="btn btn-zen-success shadow-sm px-4"><i class="fas fa-save me-2"></i>Mettre à jour le projet</button>
                 </div>
                 </form>
             </div>
@@ -1326,7 +1352,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Mettre à jour le lien</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Mettre à jour le lien</button>
                 </div>
                 </form>
             </div>
@@ -1346,7 +1372,7 @@
                     <div style="display:none">{{ mainFormToken|raw }}</div>
                     <div class="d-flex flex-column gap-3">
                         <div class="d-flex justify-content-between align-items-center p-3 rounded bg-light border">
-                            <label class="small fw-bold text-muted mb-0">Vérifié par l'admin</label>
+                            <label class="small fw-bold text-muted mb-0">Vérifié by l'admin</label>
                             <div class="form-check form-switch custom-switch">
                                 {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
                             </div>
@@ -1367,7 +1393,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(form, {render_rest: false}) }}
             </div>
@@ -1406,7 +1432,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(form, {render_rest: false}) }}
             </div>
@@ -1441,7 +1467,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(form, {render_rest: false}) }}
             </div>
@@ -1474,7 +1500,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Sauvegarder</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Sauvegarder</button>
                 </div>
                 {{ form_end(paymentForm) }}
             </div>
@@ -1523,7 +1549,7 @@
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-link text-muted fw-bold text-decoration-none" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-zen-primary shadow-sm px-4">Changer le mot de passe</button>
+                    <button type="submit" class="btn btn-zen-success shadow-sm px-4">Changer le mot de passe</button>
                 </div>
                 </form>
             </div>

@@ -1,384 +1,716 @@
-   {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% set cityName = company.Adresse|first.city|default('Canada') %}
-{% block title %}{{ company.companyName|default('Company') }} – {{ company.categories|first.name|default('Services') }} in {{ cityName }} | Drilleedo{% endblock %}
-{% block meta_description %}Hire {{ company.companyName|default('a trusted company') }} for {{ company.categories|first.name|default('renovation') }} services in {{ cityName }}. Get a free quote on Drilleedo.{% endblock %}
-{% block og_title %}{{ company.companyName|default('Company') }} | Drilleedo{% endblock %}
-{% block og_description %}{{ company.categories|first.name|default('Renovation') }} services in {{ cityName }}. View projects and get a free quote.{% endblock %}
+{% set firstCity   = company.Adresse|length > 0 ? company.Adresse|first.city : 'Canada' %}
+{% set firstCatName = company.categories|length > 0 ? company.categories|first.name : 'Services' %}
+
+{% block title %}{{ company.companyName }} – {{ firstCatName }} in {{ firstCity }} | Drilleedo{% endblock %}
+{% block meta_description %}{{ company.about ? company.about|striptags|slice(0,150) : 'Découvrez ' ~ company.companyName ~ ', entreprise spécialisée en ' ~ firstCatName ~ ' à ' ~ firstCity ~ '. Obtenez une soumission gratuite out of Drilleedo.' }}{% endblock %}
+{% block meta_keywords %}{{ company.companyName }}, {{ firstCatName }}, {{ firstCity }}, rénovation, entreprise, Drilleedo{% endblock %}
+{% block og_title %}{{ company.companyName }} | Drilleedo{% endblock %}
+{% block og_description %}{{ firstCatName }} à {{ firstCity }}. Découvrez les projets et demandez une soumission.{% endblock %}
 {% block og_type %}profile{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_profile.css') }}">
+<style>
+  /* Company-specific overrides */
+  .drl-co-badge-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .drl-co-link-row   { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+  .drl-co-link-btn {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 14px; border-radius:20px;
+    background:rgba(13,33,81,0.07); border:1px solid rgba(13,33,81,0.15);
+    color:#0d2151; font-size:13px; font-weight:600; text-decoration:none;
+    transition:all .2s;
+  }
+  .drl-co-link-btn:hover { background:rgba(13,33,81,0.15); color:#0d2151; }
+  .drl-pay-chip {
+    display:inline-flex; align-items:center; gap:5px;
+    padding:5px 12px; border-radius:20px;
+    background:#f1f5f9; border:1px solid #e2e8f0;
+    color:#475569; font-size:12px; font-weight:600;
+  }
+  .drl-emp-tag {
+    font-size:12px; font-weight:600; color:#64748b;
+    background:#f8fafc; padding:3px 10px; border-radius:20px;
+    border:1px solid #e2e8f0;
+  }
+  .drl-addr-item {
+    display:flex; align-items:flex-start; gap:10px;
+    padding:10px 0; border-bottom:1px solid #f1f5f9;
+  }
+  .drl-addr-item:last-child { border-bottom:none; }
+  .drl-addr-ico { font-size:16px; margin-top:2px; }
+  .drl-addr-text { font-size:13px; color:#374151; font-weight:600; }
+  .drl-addr-city { font-size:12px; color:#64748b; }
+  .drl-years-tag {
+    font-size:11px; font-weight:700; letter-spacing:.5px;
+    color:#0d2151; background:rgba(13,33,81,.08);
+    border-radius:20px; padding:2px 10px; text-transform:uppercase;
+  }
+</style>
+{% endblock %}
 
 {% block structured_data %}
 {{ parent() }}
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "{{ company.companyName|default('')|e('js') }}",
-    "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "{{ cityName|e('js') }}",
-        "addressCountry": "CA"
-    }
-}
-</script>
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('app_home') }}"},
-        {"@type": "ListItem", "position": 2, "name": "Companies", "item": "{{ url('companies_list') }}"},
-        {"@type": "ListItem", "position": 3, "name": "{{ company.companyName|default('Company')|e('js') }}"}
-    ]
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "{{ company.companyName|e('js') }}",
+  "image": "{{ company.logo ? absolute_url(asset('uploads/logos/' ~ company.logo)) : '' }}",
+  "url": "{{ app.request.uri }}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "{{ firstCity|e('js') }}",
+    "addressCountry": "CA"
+  },
+  "description": "{{ company.about ? company.about|striptags|slice(0,200)|e('js') : '' }}"
 }
 </script>
 {% endblock %}
 
 {% block body %}
 
-    <!-- Menus are handled by base.html.twig -->
+{# ── Variables ─────────────────────────────────────────────────────────────── #}
+{% set yearsExp     = company.foundationYear ? ("now"|date("Y") - company.foundationYear) : null %}
+{% set projectCount = company.projets|length %}
+{% set initials     = company.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2) %}
+{% set primaryCity  = company.Adresse|length > 0 ? company.Adresse|first.city ~ ', QC' : 'Canada' %}
+{% set langMap = {'FR': 'French', 'EN': 'English', 'ES': 'Español', 'IT': 'Italiano'} %}
+{% set contactMap = {'email': '📧 Email', 'phone': '📞 Phone', 'sms': '💬 SMS', 'whatsapp': '💚 WhatsApp'} %}
 
-<!-- Start breadcrumb Area -->
-    <div class="rbt-page-banner-wrapper">
-        <!-- Start Banner BG Image  -->
-        <div class="rbt-banner-image" style="background-image: url('{{ asset('uploads/banners/companies.png') }}');"></div>
-        <!-- End Banner BG Image  -->
+<div class="drl-page">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                 <div class="content text-start">
-                    <ul class="page-list">
-                        <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-                        <li>
-                            <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                        </li>
-                        <li class="rbt-breadcrumb-item active">Renovation Services</li>
-                    </ul>
-                    <h1 class="title">
-                        <span class="theme-gradient">{{ company.companyName }}</span>
-                    </h1>
-
-                    <h2 class="title">
-                        {{ company.categories|map(c => c.name)|join(', ') ?: 'Company Services' }}
-                    </h2>
-
-
-                    <div class="d-flex align-items-center mb--20 flex-wrap rbt-course-details-feature">
-
-                        <div class="feature-sin best-seller-badge">
-                            <span class="rbt-badge-2">
-                                <span class="image d-inline-flex align-items-center justify-content-center" style="width:24px;height:24px;background:#f0fdf4;border-radius:50%;">
-                                    <i class="fas fa-award" style="color:#10b981;font-size:13px;"></i>
-                                </span>
-                                Top Rated
-                            </span>
-                        </div>
-
-                        <div class="feature-sin rating">
-                            <a href="#">4.8</a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                        </div>
-
-                        <div class="feature-sin total-rating">
-                            <a class="rbt-badge-4" href="#">215 verified reviews</a>
-                        </div>
-
-                        <div class="feature-sin total-student">
-                            <span>616 completed projects</span>
-                        </div>
-
-                    </div>
-
-                    <ul class="rbt-meta">
-                        <li><i class="feather-map-pin"></i>{{ company.Adresse|first.city|default('Location not specified') }}</li>
-                        <li><i class="feather-award"></i>Verified Company</li>
-                    </ul>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
+{# ══════════════════════════════════════════════════════════════════
+   1. HERO BANNER
+══════════════════════════════════════════════════════════════════ #}
+<div class="drl-hero-banner">
+  {% if company.banner %}
+    <img src="{{ asset('uploads/banners/' ~ company.banner) }}"
+         alt="Bannière {{ company.companyName }}"
+         class="drl-hero-banner__img">
+  {% else %}
+    <img src="{{ asset('uploads/banners/companies.png') }}"
+         alt="Company banner"
+         class="drl-hero-banner__img">
+  {% endif %}
 </div>
-<!-- End Breadcrumb Area -->
 
-<div class="rbt-course-details-area rbt-section-gap">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-8">
-                <div class="course-details-content">
+{# ══════════════════════════════════════════════════════════════════
+   2. PROFILE CARD
+══════════════════════════════════════════════════════════════════ #}
+<div class="drl-wrap">
+  <div class="drl-profile-card drl-fade d1">
 
-                    {% if company.banner %}
-                    <div class="rbt-feature-box rbt-shadow-box thuumbnail">
-                        <img class="w-100" src="{{ asset('uploads/banners/' ~ company.banner) }}" alt="Company Work">
-                    </div>
-                    {% endif %}
+    {# ── Profile top row ── #}
+    <div class="drl-profile-top">
 
-                    <!-- Company Overview -->
-                    <div class="rbt-feature-box rbt-shadow-box mt--60">
-                        <div class="row g-5">
-                            <div class="col-lg-12">
-                                <div class="section-title">
-                                    <h4 class="title mb--0">Company Overview</h4>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <ul class="rbt-list-style-1">
-                                    <li><i class="feather-check"></i>Over {{ company.foundationYear ? ("now"|date("Y") - company.foundationYear) : 5 }} years of industry experience</li>
-                                    <li><i class="feather-check"></i>Certified and fully insured</li>
-                                    <li><i class="feather-check"></i>Residential renovation specialist</li>
-                                    <li><i class="feather-check"></i>High-quality materials and finishes</li>
-                                </ul>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <ul class="rbt-list-style-1">
-                                    <li><i class="feather-check"></i>Free project estimates</li>
-                                    <li><i class="feather-check"></i>Clear pricing and timelines</li>
-                                    <li><i class="feather-check"></i>Strong client satisfaction record</li>
-                                    <li><i class="feather-check"></i>Local expertise and support</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- About -->
-                    <div class="rbt-feature-box rbt-shadow-box mt--60">
-                        <div class="row g-5">
-                            <div class="col-lg-12">
-                                <div class="section-title">
-                                    <h4 class="title mb--20">About the Company</h4>
-                                </div>
-                                {% if company.about %}
-                                    <p>{{ company.about|nl2br }}</p>
-                                {% else %}
-                                    <p>
-                                        {{ company.companyName }} is a trusted specialist known for delivering
-                                        reliable, high-quality results. Their work ranges from small upgrades to full
-                                        projects, always focusing on precision and durability.
-                                    </p>
-                                    <p>With a strong commitment to communication and transparency, the team ensures
-                                        every project meets client expectations from start to finish.
-                                    </p>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="section-title">
-                                    <h4 class="title mb--20">Services Offered</h4>
-                                </div>
-                                <ul class="rbt-list-style-1">
-                                    {% if company.categories|length > 0 %}
-                                        {% for cat in company.categories %}
-                                            <li><i class="feather-check"></i>{{ cat.name }}</li>
-                                        {% endfor %}
-                                    {% else %}
-                                        <li><i class="feather-check"></i>Home renovation &amp; remodeling</li>
-                                        <li><i class="feather-check"></i>Kitchen and bathroom upgrades</li>
-                                        <li><i class="feather-check"></i>Flooring, painting, and finishing</li>
-                                        <li><i class="feather-check"></i>Custom renovation solutions</li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-
-                            {% if company.website or company.empNum %}
-                            <div class="col-lg-6">
-                                <ul class="rbt-list-style-1">
-                                    {% if company.website %}
-                                        <li><i class="feather-globe"></i><a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a></li>
-                                    {% endif %}
-                                    {% if company.empNum %}
-                                        <li><i class="feather-users"></i>{{ company.empNum }} employees</li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!-- FAQ -->
-                    <div class="course-content rbt-shadow-box mt--60">
-                        <div class="section-title">
-                            <h4 class="title mb--0">Frequently Asked Questions</h4>
-                        </div>
-
-                        <div class="rbt-accordion-style rbt-accordion-02 accordion mt--45">
-                            <div class="accordion" id="accordionExampleb2">
-
-                                <div class="accordion-item card">
-                                    <h2 class="accordion-header card-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                                            How can I request a quote?
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show">
-                                        <div class="accordion-body card-body">
-                                            <p>
-                                                You can request a quote by contacting directly through the platform and
-                                                providing basic project details.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item card">
-                                    <h2 class="accordion-header card-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                                            What type of projects do you handle?
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse">
-                                        <div class="accordion-body card-body">
-                                            <p>
-                                                Projects range from minor renovations to full residential remodeling.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="accordion-item card">
-                                    <h2 class="accordion-header card-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                            Are you licensed and insured?
-                                        </button>
-                                    </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse">
-                                        <div class="accordion-body card-body">
-                                            <p>
-                                                Yes, all work is completed under valid certifications and insurance.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Portfolio Gallery -->
-                    <div class="related-course mt--60">
-                        <div class="row">
-                            <div class="col-lg-12 mb--40">
-                                <div class="section-title text-start">
-                                    <span class="subtitle bg-secondary-opacity">Our Work</span>
-                                    <h2 class="title">Portfolio Gallery</h2>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row g-4">
-                            {% for project in company.projets %}
-                            {% set loopIdx = loop.index %}
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="rbt-card event-grid-card variation-01 rbt-hover">
-                                    <div class="rbt-card-img">
-                                        {% set imgSrc = project.mainPhoto ? asset('uploads/images/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') %}
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#coLightbox{{ loopIdx }}"
-                                           aria-label="View project: {{ project.name }}">
-                                            <img src="{{ imgSrc }}" alt="{{ project.name }} — portfolio project"
-                                                 loading="lazy" style="height:200px; object-fit:cover; width:100%;">
-                                            <div class="pro-verified-badge" style="background:rgba(0,0,0,0.55);">
-                                                <i class="feather-maximize-2"></i> View Full
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="rbt-card-body">
-                                        <ul class="rbt-meta">
-                                            <li><i class="feather-map-pin"></i>{{ company.Adresse|first.city|default('Canada') }}</li>
-                                            {% if project.startDate and project.endDate %}
-                                                <li><i class="feather-clock"></i>{{ project.startDate|date('M Y') }} – {{ project.endDate|date('M Y') }}</li>
-                                            {% endif %}
-                                        </ul>
-                                        <h4 class="rbt-card-title">{{ project.name }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {# Lightbox Modal #}
-                            <div class="modal fade" id="coLightbox{{ loopIdx }}" tabindex="-1"
-                                 aria-label="{{ project.name }}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content" style="background:#111; border:none;">
-                                        <div class="modal-header" style="border:none; padding:12px 16px;">
-                                            <h5 class="modal-title" style="color:#fff;">{{ project.name }}</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body p-0">
-                                            <img src="{{ imgSrc }}" alt="{{ project.name }}"
-                                                 style="width:100%; max-height:70vh; object-fit:contain;">
-                                        </div>
-                                        {% if project.startDate or project.endDate %}
-                                        <div class="modal-footer" style="border:none; padding:10px 16px;">
-                                            <small style="color:rgba(255,255,255,0.6);">
-                                                {% if project.startDate %}{{ project.startDate|date('M Y') }}{% endif %}
-                                                {% if project.endDate %} – {{ project.endDate|date('M Y') }}{% endif %}
-                                            </small>
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="col-12">
-                                <p class="text-muted">No projects to display yet.</p>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="col-lg-4 mt_md--60 mt_sm--60">
-                <div class="course-sidebar rbt-gradient-border sticky-top rbt-shadow-box course-sidebar-top">
-                    <div class="inner">
-
-                        <a class="video-popup-with-text video-popup-wrapper text-center mb--15" href="#">
-                            <div class="video-content">
-                             {% if company.logo %}
-                                    <img class="w-100 rbt-radius" src="{{ asset('uploads/logos/' ~ company.logo) }}" alt="Company Logo">
-                                {% else %}
-                                    <img  class="w-100 rbt-radius" src="{{ asset('assets/images/client/avatar-02.png') }}" alt="Company Logo">
-                                {% endif %}
-                                <span class="play-view-text d-block color-white">
-                                    <i class="feather-eye"></i> View portfolio preview
-                                </span>
-                            </div>
-                        </a>
-
-                        <div class="content pt--30">
-                            <a class="rbt-btn btn-gradient w-100 mb--15 text-center"
-                               href="{{ path('individual_quote_new') }}"
-                               aria-label="Request a free quote from {{ company.companyName|default('this company') }}">
-                                <span class="btn-text">Request a Free Quote</span>
-                            </a>
-
-                            <a class="rbt-btn btn-border w-100 text-center"
-                               href="{{ path('contact') }}"
-                               aria-label="Contact {{ company.companyName|default('this company') }} via Drilleedo">
-                                <span class="btn-text">Contact via Drilleedo</span>
-                            </a>
-
-                            <ul class="rbt-course-details-list-wrapper mt--30">
-                                <li><span>Experience</span><span class="rbt-feature-value">{{ company.foundationYear ? ("now"|date("Y") - company.foundationYear) : 5 }}+ Years</span></li>
-                                <li><span>Projects Completed</span><span class="rbt-feature-value">{{ company.projets|length }}</span></li>
-                                <li><span>Location</span><span class="rbt-feature-value">{{ company.Adresse|first.city|default('N/A') }}</span></li>
-                                <li><span>Category</span><span class="rbt-feature-value">{{ company.categories|first.name|default('N/A') }}</span></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
+      {# Avatar / Logo #}
+      <div class="drl-avatar-wrap">
+        <div class="drl-avatar-img">
+          {% if company.logo %}
+            <img src="{{ asset('uploads/logos/' ~ company.logo) }}"
+                 alt="Logo {{ company.companyName }}"
+                 style="object-fit:contain; padding:4px;">
+          {% else %}
+            {{ initials }}
+          {% endif %}
         </div>
+        {% if company.isVerified %}
+          <div class="drl-verified-dot" title="Company vérifiée">✔</div>
+        {% endif %}
+      </div>
+
+      {# Info #}
+      <div class="drl-profile-info">
+        <div class="drl-company-row">
+          <span class="drl-company-name">{{ company.companyName }}</span>
+          {% if company.tradeName and company.tradeName != company.companyName %}
+            <span class="drl-emp-tag">DBA: {{ company.tradeName }}</span>
+          {% endif %}
+          {% if yearsExp %}
+            <span class="drl-years-tag">{{ yearsExp }}+ years</span>
+          {% endif %}
+        </div>
+
+        <div class="drl-category-row">
+          {% if company.categories|length > 0 %}
+            {{ company.categories|map(c => c.name)|join(' · ') }}
+          {% else %}
+            Company de rénovation
+          {% endif %}
+          {% if firstCity != 'Canada' %}
+            · {{ firstCity }}
+          {% endif %}
+        </div>
+
+        <div class="drl-badges-row">
+          {% if company.isVerified %}
+            <span class="drl-chip drl-chip-green" title="Company vérifiée">✔ Verified</span>
+          {% endif %}
+          {% if company.isTopRated %}
+            <span class="drl-chip drl-chip-orange" title="Company Elite">⭐ Elite</span>
+          {% endif %}
+          {% if company.hasInsurance %}
+            <span class="drl-chip drl-chip-blue" title="Assurance responsabilité civile">🛡️ Insured</span>
+          {% endif %}
+          {% if company.rbqCertified %}
+            <span class="drl-chip drl-chip-blue" style="background:rgba(251,146,60,0.1);color:#c2410c;border-color:rgba(251,146,60,0.25);">📋 RBQ</span>
+          {% endif %}
+          {% if company.freeQuotes %}
+            <span class="drl-chip" style="background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.2);">📄 Soumissions gratuites</span>
+          {% endif %}
+        </div>
+      </div>
+
+      {# CTA #}
+      <div class="drl-profile-cta">
+        <button class="drl-btn-contact"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#contactCompanyModal"
+                aria-haspopup="dialog">
+          Nous contacter →
+        </button>
+        {% if company.Website %}
+          <a href="{{ company.Website }}" target="_blank" rel="noopener noreferrer" class="drl-phone-btn">
+            🌐 Site Web
+          </a>
+        {% endif %}
+      </div>
+
+    </div>{# /profile-top #}
+
+    {# ── Stats Strip ── #}
+    <div class="drl-stats-strip">
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">🏢</div>
+        <div>
+          <div class="drl-stat-label">Company Type</div>
+          <div class="drl-stat-val">{{ company.entrepreneurType ? company.entrepreneurType.type : 'Général' }}</div>
+        </div>
+      </div>
+      {% if yearsExp %}
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">📅</div>
+        <div>
+          <div class="drl-stat-label">Experience</div>
+          <div class="drl-stat-val">{{ yearsExp }} years (depuis {{ company.foundationYear }})</div>
+        </div>
+      </div>
+      {% endif %}
+      {% if company.EmpNum %}
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">👥</div>
+        <div>
+          <div class="drl-stat-label">Team</div>
+          <div class="drl-stat-val">{{ company.EmpNum }} employee{{ company.EmpNum > 1 ? 's' : '' }}</div>
+        </div>
+      </div>
+      {% endif %}
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">✅</div>
+        <div>
+          <div class="drl-stat-label">Completed Projects</div>
+          <div class="drl-stat-val">
+            {% if projectCount > 0 %}
+              {{ projectCount }} projet{{ projectCount > 1 ? 's' : '' }}
+            {% else %}
+              —
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% if company.languages|length > 0 %}
+      <div class="drl-stat-cell">
+        <div class="drl-stat-ico">💬</div>
+        <div>
+          <div class="drl-stat-label">Languages Spoken</div>
+          <div class="drl-stat-val">
+            {% for code in company.languages %}
+              {{ langMap[code] ?? code }}{{ not loop.last ? ' & ' : '' }}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
     </div>
+
+  </div>{# /profile-card #}
+
+
+  {# ══════════════════════════════════════════════════════════════════
+     3. MAIN LAYOUT
+  ══════════════════════════════════════════════════════════════════ #}
+  <div class="drl-main-layout">
+
+    {# ── LEFT COLUMN ── #}
+    <div class="drl-left-col">
+
+      {# À propos & services #}
+      {% if company.about or company.services|length > 0 or company.whyChooseUs|length > 0 %}
+      <div class="drl-s-card drl-fade d2">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            About the Company
+          </div>
+        </div>
+        <div class="drl-s-body">
+          {% if company.about %}
+            <p style="font-size:14px;color:#64748b;line-height:1.7;margin-bottom:16px;">
+              {{ company.about|nl2br }}
+            </p>
+          {% endif %}
+
+          {% if company.services|length > 0 %}
+            <div class="mb-3">
+              <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#94a3b8;text-transform:uppercase;margin-bottom:10px;">Services Offered</div>
+              <div class="d-flex flex-wrap gap-2">
+                {% for svc in company.services %}
+                  {% if svc|trim %}
+                  <span class="badge bg-light border text-muted px-3 py-2 rounded-pill small fw-normal shadow-sm" style="font-size:0.75rem;">
+                    <i class="fas fa-check-circle text-primary me-1 opacity-50"></i> {{ svc|trim }}
+                  </span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {# Preview 4 projects if any #}
+          {% if projectCount > 0 %}
+            <div class="drl-pres-grid">
+              {% for project in company.projets|slice(0, 4) %}
+                <div class="drl-pres-item"
+                     data-bs-toggle="modal"
+                     data-bs-target="#projectModal{{ project.id }}"
+                     role="button"
+                     tabindex="0"
+                     aria-haspopup="dialog"
+                     aria-label="Voir {{ project.name }}">
+                  <img src="{{ project.mainPhoto
+                          ? asset('uploads/projects/' ~ project.mainPhoto)
+                          : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
+                       alt="{{ project.name }}"
+                       loading="lazy">
+                  <div class="drl-pres-caption">{{ project.name }}</div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {# Project Gallery #}
+      {% if projectCount > 0 %}
+      <div class="drl-s-card drl-fade d3">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            Project Portfolio
+            <span class="drl-count-badge">({{ projectCount }})</span>
+          </div>
+        </div>
+        <div class="drl-s-body">
+          <div class="drl-gallery-grid">
+            {% for project in company.projets %}
+              {% if project.state %}
+              <div class="drl-gal-item"
+                   data-bs-toggle="modal"
+                   data-bs-target="#projectModal{{ project.id }}"
+                   role="button"
+                   tabindex="0"
+                   aria-haspopup="dialog"
+                   aria-label="{{ project.name }}">
+                <img src="{{ project.mainPhoto
+                        ? asset('uploads/projects/' ~ project.mainPhoto)
+                        : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
+                     alt="{{ project.name }}"
+                     loading="lazy">
+                <div class="drl-gal-lbl">{{ project.name }}</div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {# Categories #}
+      {% if company.categories|length > 0 %}
+      <div class="drl-s-card drl-fade d4">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            Categorys de Services
+          </div>
+        </div>
+        <div class="drl-s-body">
+          <div class="drl-co-badge-list">
+            {% for cat in company.categories %}
+              <span class="drl-chip drl-chip-blue" style="font-size:13px;">
+                🏗️ {{ cat.name }}
+              </span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {# Social Links #}
+      {% if company.links|length > 0 %}
+      <div class="drl-s-card drl-fade d4">
+        <div class="drl-s-head">
+          <div class="drl-s-title">
+            <span class="drl-s-title-dot"></span>
+            Social Networks & Links
+          </div>
+        </div>
+        <div class="drl-s-body">
+          <div class="drl-co-link-row">
+            {% for lnk in company.links %}
+              {% set ico = lnk.type|lower %}
+              <a href="{{ lnk.link }}" target="_blank" rel="noopener noreferrer" class="drl-co-link-btn">
+                {% if 'facebook' in ico %}🔵{% elseif 'instagram' in ico %}🟣{% elseif 'linkedin' in ico %}🔷{% elseif 'youtube' in ico %}🔴{% elseif 'twitter' in ico or 'x' in ico %}🐦{% else %}🔗{% endif %}
+                {{ lnk.type|capitalize }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>{# /left-col #}
+
+    {# ── RIGHT SIDEBAR ── #}
+    <div class="drl-right-col">
+      <div class="drl-sidebar-sticky">
+
+        {# Devis / Contact Card #}
+        <div class="drl-devis-card drl-fade d2">
+          <div class="drl-devis-header">
+            <h3>📋 Request a Quote</h3>
+            <p>Réponse garantie dans les 24h</p>
+          </div>
+          <div class="drl-devis-body">
+            <button class="drl-btn-devis"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#contactCompanyModal"
+                    aria-haspopup="dialog">
+              Get a free quote →
+            </button>
+
+            {# Opening Hours #}
+            {% if company.openingHours and company.openingHours|length > 0 %}
+            <div class="drl-hours-title">Opening Hours</div>
+            {% for hour in company.openingHours %}
+              {% if ':' in hour %}
+                {% set parts = hour|split(':') %}
+                {% set day  = parts[0]|trim %}
+                {% set time = parts[1:]|join(':')|trim %}
+                {% set isClosed = (time|lower == 'closed' or time|lower == 'fermé' or time|lower == 'ferme') %}
+                <div class="drl-hour-row">
+                  <span class="drl-hour-day">{{ day }}</span>
+                  <span class="{{ isClosed ? 'drl-hour-closed' : 'drl-hour-time' }}">{{ time }}</span>
+                </div>
+              {% else %}
+                <div class="drl-hour-row"><span class="drl-hour-day">{{ hour|trim }}</span></div>
+              {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+        {# Contact Details #}
+        <div class="drl-contact-card drl-fade d3">
+          <div class="drl-contact-head">📞 Contact Details</div>
+          <div class="drl-contact-body">
+            <div class="drl-c-item">
+              <div class="drl-c-ico">🏢</div>
+              <div>
+                <div class="drl-c-lbl">Company</div>
+                <div class="drl-c-val">{{ company.companyName }}</div>
+              </div>
+            </div>
+            {% if company.Adresse|length > 0 %}
+              {% for addr in company.Adresse %}
+              <div class="drl-c-item">
+                <div class="drl-c-ico">📍</div>
+                <div>
+                  <div class="drl-c-lbl">{{ loop.first ? 'Headquarters' : 'Branch' }}</div>
+                  <div class="drl-c-val">{{ addr.city }}{% if addr.postalCode %}, {{ addr.postalCode }}{% endif %}</div>
+                  {% if addr.street %}<div style="font-size:11px;color:#94a3b8;">{{ addr.street }}</div>{% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            {% endif %}
+            {% if company.primaryContact %}
+            <div class="drl-c-item">
+              <div class="drl-c-ico">👤</div>
+              <div>
+                <div class="drl-c-lbl">Contact</div>
+                <div class="drl-c-val">{{ company.primaryContact.firstName }} {{ company.primaryContact.lastName }}</div>
+                {% if company.primaryContact.phone %}
+                  <div style="font-size:12px;color:#0d2151;font-weight:600;">
+                    <a href="tel:{{ company.primaryContact.phone }}" style="color:inherit;">{{ company.primaryContact.phone }}</a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+            {% if company.Website %}
+            <hr class="drl-c-divider">
+            <div class="drl-c-item">
+              <div class="drl-c-ico">🌐</div>
+              <div>
+                <div class="drl-c-lbl">Site Web</div>
+                <div class="drl-c-val">
+                  <a href="{{ company.Website }}" target="_blank" rel="noopener" style="color:#0d2151;font-size:12px;">{{ company.Website|replace({'https://': '', 'http://': ''}) }}</a>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if company.categories|length > 0 %}
+            <hr class="drl-c-divider">
+            <div class="drl-c-item">
+              <div class="drl-c-ico">🏗️</div>
+              <div>
+                <div class="drl-c-lbl">Specialties</div>
+                <div class="drl-c-val" style="font-size:12px;line-height:1.6;">{{ company.categories|map(c => c.name)|join(', ') }}</div>
+              </div>
+            </div>
+            {% endif %}
+            {% if company.EmpNum %}
+            <div class="drl-c-item">
+              <div class="drl-c-ico">👥</div>
+              <div>
+                <div class="drl-c-lbl">Workforce</div>
+                <div class="drl-c-val">{{ company.EmpNum }} employee{{ company.EmpNum > 1 ? 's' : '' }}</div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        {# Advantages / Why Choose Us #}
+        <div class="drl-adv-card drl-fade d3">
+          <a class="drl-btn-see-all" role="button" tabindex="0">Our advantages</a>
+          <div class="drl-adv-body">
+            {% if company.whyChooseUs and company.whyChooseUs|length > 0 %}
+              {% for item in company.whyChooseUs %}
+                {% if item|trim %}
+                <div class="drl-adv-item">
+                  <span class="drl-adv-ico">✔</span>
+                  <span class="drl-adv-txt">{{ item|trim }}</span>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              {% if company.interventionRadius %}
+              <div class="drl-adv-item">
+                <span class="drl-adv-ico">📍</span>
+                <span class="drl-adv-txt">Service Zone</span>
+                <span class="drl-adv-val">{{ company.interventionRadius }} km</span>
+              </div>
+              {% endif %}
+              {% if company.minPrice %}
+              <div class="drl-adv-item">
+                <span class="drl-adv-ico">💲</span>
+                <span class="drl-adv-txt">Minimum Price</span>
+                <span class="drl-adv-val">${{ company.minPrice }}</span>
+              </div>
+              {% endif %}
+              {% if company.freeQuotes %}
+              <div class="drl-adv-item">
+                <span class="drl-adv-ico">📄</span>
+                <span class="drl-adv-txt">100% Free Quotes</span>
+              </div>
+              {% endif %}
+              {% if company.rbqCertified or company.hasInsurance %}
+              <div class="drl-adv-item">
+                <span class="drl-adv-ico">🛡️</span>
+                <span class="drl-adv-txt">
+                  {% if company.rbqCertified and company.hasInsurance %}Insured &amp; certifié RBQ
+                  {% elseif company.rbqCertified %}RBQ Certified
+                  {% else %}Fully Insured{% endif %}
+                </span>
+              </div>
+              {% endif %}
+              {% if company.guaranteedWork %}
+              <div class="drl-adv-item">
+                <span class="drl-adv-ico">✔</span>
+                <span class="drl-adv-txt">Guaranteed Work</span>
+              </div>
+              {% endif %}
+              {% if not company.interventionRadius and not company.minPrice and not company.freeQuotes and not company.rbqCertified and not company.hasInsurance and not company.guaranteedWork %}
+              <div class="drl-adv-item"><span class="drl-adv-ico">📍</span><span class="drl-adv-txt">Service Zone</span><span class="drl-adv-val">40 km</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">📄</span><span class="drl-adv-txt">Soumissions gratuites</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">🛡️</span><span class="drl-adv-txt">Insured &amp; certifié RBQ</span></div>
+              <div class="drl-adv-item"><span class="drl-adv-ico">✔</span><span class="drl-adv-txt">Guaranteed Work</span></div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+
+        {# Payment Methods #}
+        {% if company.paymentMethod|length > 0 %}
+        <div class="drl-adv-card drl-fade d4" style="padding:16px 20px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Payment Methods</div>
+          <div class="d-flex flex-wrap gap-2">
+            {% for payment in company.paymentMethod %}
+              <span class="drl-pay-chip">✔ {{ payment.name }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {# Service Zone #}
+        <div class="drl-zone-card drl-fade d4">
+          <div class="drl-zone-title">📍 Service Zone: {{ firstCity }}</div>
+          <div class="drl-zone-sub">This company works in the following areas:</div>
+          <div class="drl-zone-chips">
+            {% if company.interventionZone %}
+              {% for zone in company.interventionZone|split(',') %}
+                <span class="drl-zone-chip">{{ zone|trim }}</span>
+              {% endfor %}
+            {% else %}
+              {% for addr in company.Adresse %}
+                <span class="drl-zone-chip">🏙️ {{ addr.city }}</span>
+              {% endfor %}
+              {% if company.Adresse|length == 0 %}
+                <span class="drl-zone-chip">🏙️ {{ firstCity }}</span>
+              {% endif %}
+            {% endif %}
+            {% if company.interventionRadius %}
+              <span class="drl-zone-chip">📏 {{ company.interventionRadius }} km</span>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>{# /sidebar-sticky #}
+    </div>{# /right-col #}
+
+  </div>{# /main-layout #}
+
+</div>{# /drl-wrap #}
+</div>{# /drl-page #}
+
+
+{# ══════════════════════════════════════════════════════════════════
+   MODALS
+══════════════════════════════════════════════════════════════════ #}
+
+{# Project detail modals #}
+{% for project in company.projets %}
+{% if project.state %}
+<div class="modal fade" id="projectModal{{ project.id }}" tabindex="-1" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content drl-modal-content">
+      <div class="modal-body p-0">
+        <div class="row g-0">
+          <div class="col-lg-7">
+            <img src="{{ project.mainPhoto
+                    ? asset('uploads/projects/' ~ project.mainPhoto)
+                    : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
+                 class="drl-modal-project-img"
+                 alt="{{ project.name }}">
+          </div>
+          <div class="col-lg-5">
+            <div class="p-4 drl-modal-scroll-pane">
+              <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h2 class="drl-modal-title mt-3">{{ project.name }}</h2>
+              <div class="mb-3">
+                {% if project.startDate %}
+                  <span class="drl-chip drl-chip-blue drl-modal-badge-sm">
+                    {{ project.startDate|date('M Y') }}{% if project.EndDate %} – {{ project.EndDate|date('M Y') }}{% endif %}
+                  </span>
+                {% endif %}
+                <span class="drl-chip drl-modal-badge-sm" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">
+                  {{ project.state ? 'Published' : 'Project' }}
+                </span>
+              </div>
+              {% if project.description %}
+                <div class="drl-modal-desc mb-3">{{ project.description|nl2br }}</div>
+              {% endif %}
+              {% if project.gallery %}
+                <p class="drl-modal-gallery-title">Gallery</p>
+                <div class="row g-2 mb-3">
+                  {% for photo in project.gallery %}
+                    <div class="col-6">
+                      <img src="{{ asset('uploads/projects/' ~ photo) }}"
+                           alt="Photo {{ project.name }}"
+                           class="drl-modal-gallery-img">
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <div class="drl-modal-action-row">
+                <button class="drl-btn-submit"
+                        type="button"
+                        data-bs-dismiss="modal"
+                        data-bs-toggle="modal"
+                        data-bs-target="#contactCompanyModal">
+                  Request a Quote similaire
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+{% endif %}
+{% endfor %}
+
+{# Contact / Quote modal #}
+<div class="modal fade" id="contactCompanyModal" tabindex="-1" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content drl-modal-content">
+      <div class="drl-modal-header">
+        Contact {{ company.companyName }}
+        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="drl-modal-body">
+        <p class="drl-modal-intro">
+          Send a direct quote request, information, or project consultation to {{ company.companyName }}.
+        </p>
+
+        {# Contact preferences chips #}
+        {% if company.contactPrefs|length > 0 %}
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <span style="font-size:12px;font-weight:600;color:#94a3b8;align-self:center;">Preferences:</span>
+          {% for pref in company.contactPrefs %}
+            <span class="drl-chip" style="font-size:12px;">{{ contactMap[pref|lower] ?? pref }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="drl-modal-form">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label small fw-bold text-muted text-uppercase">Subject of your request</label>
+              <a href="{{ path('individual_quote_new') }}" class="drl-btn-submit d-block text-center text-decoration-none">
+                Submit a quote request →
+              </a>
+            </div>
+          </div>
+          {% if company.primaryContact and company.primaryContact.phone %}
+          <div class="mt-3 p-3 rounded-3 bg-light border text-center">
+            <div class="small text-muted mb-1">Or contact directly:</div>
+            <a href="tel:{{ company.primaryContact.phone }}" class="fw-bold text-primary text-decoration-none fs-5">
+              📞 {{ company.primaryContact.phone }}
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

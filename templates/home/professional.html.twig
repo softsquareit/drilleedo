@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.name : 'Professional' }} in {{ professional.city ?? 'Montreal' }} | Drilleedo{% endblock %}
-{% block meta_description %}{{ professional.category ? professional.category.name : 'Professional services' }} in {{ professional.city ?? 'Montreal' }} by {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'View services, projects and customer reviews.' }}...{% endblock %}
-{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.name : '' }}, {{ professional.city ?? '' }}, rénovation, Drilleedo{% endblock %}
+{% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.name : 'Professionnel' }} à {{ professional.city ?? 'Montréal' }} | Drilleedo{% endblock %}
+{% block meta_description %}{{ professional.category ? professional.category.name : 'Services professionnels' }} à {{ professional.city ?? 'Montréal' }} by {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'View services, projects and customer reviews.' }}...{% endblock %}
+{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.name : '' }}, {{ professional.city ?? '' }}, renovation, Drilleedo{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_profile.css') }}">
@@ -25,7 +25,7 @@
       "ratingValue": "{{ (professional.reviews|length > 0 ? (professional.reviews|reduce((carry, r) => carry + r.rating, 0) / professional.reviews|length) : (professional.stats ? professional.stats.averageRating : 5))|number_format(1) }}", 
       "reviewCount": "{{ professional.reviews|length }}" 
   },
-  "description": "{{ professional.about ? professional.about|striptags|slice(0, 200) : 'Professional services on Drilleedo.' }}"
+  "description": "{{ professional.about ? professional.about|striptags|slice(0, 200) : 'Services professionnels out of Drilleedo.' }}"
 }
 </script>
 {% endblock %}
@@ -113,8 +113,8 @@
         </div>
 
         <div class="drl-category-row">
-          {{ professional.category ? professional.category.name : 'Professional' }}
-          · {{ professional.city ?? 'Montreal' }}
+          {{ professional.category ? professional.category.name : 'Professionnel' }}
+          · {{ professional.city ?? 'Montréal' }}
         </div>
 
         {% if reviewCount > 0 %}
@@ -142,10 +142,10 @@
             <span class="drl-chip drl-chip-green" title="Verified Professional">✔ Verified</span>
           {% endif %}
           {% if professional.isTopRated %}
-            <span class="drl-chip drl-chip-orange" title="Top Rated Member">⭐ Premium</span>
+            <span class="drl-chip drl-chip-orange" title="Membre Elite">⭐ Elite</span>
           {% endif %}
           {% if professional.hasInsurance %}
-            <span class="drl-chip drl-chip-blue" title="Civil Liability Insurance">🛡️ Insured</span>
+            <span class="drl-chip drl-chip-blue" title="Assurance responsabilité civile">🛡️ Insured</span>
           {% endif %}
           {% if professional.availabilityStatus == 'AVAILABLE' %}
             <span class="drl-chip drl-chip-green" style="background: rgba(34, 197, 94, 0.1); color: #16a34a; border-color: rgba(34, 197, 94, 0.2);">● Available</span>
@@ -181,7 +181,7 @@
         <div class="drl-stat-ico">🏗️</div>
         <div>
           <div class="drl-stat-label">Category</div>
-          <div class="drl-stat-val">{{ professional.category ? professional.category.name : 'Renovation' }}</div>
+          <div class="drl-stat-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
         </div>
       </div>
       <div class="drl-stat-cell">
@@ -195,7 +195,7 @@
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">💬</div>
         <div>
-          <div class="drl-stat-label">Languages spoken</div>
+          <div class="drl-stat-label">Languages Spoken</div>
           <div class="drl-stat-val">
             {% if professional.languages and professional.languages|length > 0 %}
               {% for code in professional.languages %}
@@ -210,10 +210,10 @@
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">✅</div>
         <div>
-          <div class="drl-stat-label">Projects completed</div>
+          <div class="drl-stat-label">Completed Projects</div>
           <div class="drl-stat-val">
             {% if professional.projets|length > 0 %}
-              {{ professional.projets|length }} project{{ professional.projets|length > 1 ? 's' : '' }}
+              {{ professional.projets|length }} projet{{ professional.projets|length > 1 ? 's' : '' }}
             {% else %}
               —
             {% endif %}
@@ -227,14 +227,15 @@
 
   {# ══════════════════════════════════════════════════════════════════════════
      3. MAIN LAYOUT
-  ══════════════════════════════════════════════════════════════════════════ #}
+{# ══════════════════════════════════════════════════════════════════════════
+   3. MAIN LAYOUT
+══════════════════════════════════════════════════════════════════════════ #}
   <div class="drl-main-layout">
 
     {# ── LEFT COLUMN ── #}
     <div class="drl-left-col">
-
       {# About / Projects Overview #}
-      {% if professional.about or professional.projets|length > 0 or (professional.services and professional.services|length > 0) %}
+      {% if professional.about or (professional.services and professional.services|length > 0) or (professional.projets|length > 0) %}
       <div class="drl-s-card drl-fade d2">
         <div class="drl-s-head">
           <div class="drl-s-title">
@@ -243,14 +244,12 @@
           </div>
         </div>
         <div class="drl-s-body">
-
           {% if professional.about %}
             <p style="font-size:14px;color:#64748b;line-height:1.7;margin-bottom:16px;">
               {{ professional.about|nl2br }}
             </p>
           {% endif %}
 
-          {# Services Tags #}
           {% if professional.services and professional.services|length > 0 %}
             <div class="mb-4">
                 <div class="d-flex flex-wrap gap-2">
@@ -263,7 +262,6 @@
             </div>
           {% endif %}
 
-          {# Portfolio 2×2 grid #}
           {% if professional.projets|length > 0 %}
             <div class="drl-pres-grid">
               {% for project in professional.projets|slice(0, 4) %}
@@ -284,7 +282,6 @@
               {% endfor %}
             </div>
           {% endif %}
-
         </div>
       </div>
       {% endif %}
@@ -297,16 +294,11 @@
             <span class="drl-s-title-dot"></span>
             Customer Reviews
           </div>
-          <button type="button"
-                  class="drl-s-link"
-                  data-bs-toggle="modal"
-                  data-bs-target="#reviewsModal"
-                  aria-haspopup="dialog">
+          <button type="button" class="drl-s-link" data-bs-toggle="modal" data-bs-target="#reviewsModal" aria-haspopup="dialog">
             View all reviews →
           </button>
         </div>
         <div class="drl-s-body">
-
           <div class="drl-review-summary">
             <div>
               <div class="drl-big-num" aria-label="Note {{ avg|number_format(1) }}">{{ avg|number_format(1) }}</div>
@@ -332,7 +324,6 @@
             </div>
           </div>
 
-          {# Latest Reviews #}
           {% for review in professional.reviews|slice(0, 2) %}
             <div class="drl-review-item">
               <div class="drl-rev-head">
@@ -345,7 +336,7 @@
                     {% endfor %}
                   </div>
                 </div>
-                <div class="drl-rev-tag">Customer Review</div>
+                <div class="drl-rev-tag">Avis client</div>
               </div>
               <p class="drl-rev-text">
                 {{ review.comment|nl2br }}
@@ -353,7 +344,6 @@
               <div class="drl-rev-date">{{ review.createdAt|date('F d, Y') }}</div>
             </div>
           {% endfor %}
-
         </div>
       </div>
       {% endif %}
@@ -372,18 +362,8 @@
         <div class="drl-s-body">
           <div class="drl-gallery-grid">
             {% for project in professional.projets %}
-              <div class="drl-gal-item"
-                   data-bs-toggle="modal"
-                   data-bs-target="#projectModal{{ project.id }}"
-                   role="button"
-                   tabindex="0"
-                   aria-haspopup="dialog"
-                   aria-label="{{ project.name }}">
-                <img src="{{ project.mainPhoto
-                        ? asset('uploads/projects/' ~ project.mainPhoto)
-                        : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
-                     alt="{{ project.name }}"
-                     loading="lazy">
+              <div class="drl-gal-item" data-bs-toggle="modal" data-bs-target="#projectModal{{ project.id }}" role="button" tabindex="0" aria-haspopup="dialog" aria-label="{{ project.name }}">
+                <img src="{{ project.mainPhoto ? asset('uploads/projects/' ~ project.mainPhoto) : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}" alt="{{ project.name }}" loading="lazy">
                 <div class="drl-gal-lbl">{{ project.name }}</div>
               </div>
             {% endfor %}
@@ -391,7 +371,6 @@
         </div>
       </div>
       {% endif %}
-
     </div>{# /left-col #}
 
     {# ── RIGHT SIDEBAR ── #}
@@ -401,7 +380,7 @@
         {# Devis card #}
         <div class="drl-devis-card drl-fade d2">
           <div class="drl-devis-header">
-            <h3>📋 Request a free quote</h3>
+            <h3>📋 Request a Quote</h3>
             <p>Guaranteed response within 24h</p>
           </div>
           <div class="drl-devis-body">
@@ -432,15 +411,15 @@
                 {% endfor %}
             {% else %}
                 <div class="drl-hour-row">
-                  <span class="drl-hour-day">Monday – Friday</span>
+                  <span class="drl-hour-day">Mon – Fri</span>
                   <span class="drl-hour-time">08:00 – 18:00</span>
                 </div>
                 <div class="drl-hour-row">
-                  <span class="drl-hour-day">Saturday</span>
+                  <span class="drl-hour-day">Sat</span>
                   <span class="drl-hour-time">08:00 – 14:00</span>
                 </div>
                 <div class="drl-hour-row">
-                  <span class="drl-hour-day">Sunday</span>
+                  <span class="drl-hour-day">Sun</span>
                   <span class="drl-hour-closed">Closed</span>
                 </div>
             {% endif %}
@@ -462,7 +441,7 @@
               <div class="drl-c-ico">📍</div>
               <div>
                 <div class="drl-c-lbl">City</div>
-                <div class="drl-c-val">{{ professional.city ?? 'Montreal' }}, QC</div>
+                <div class="drl-c-val">{{ professional.city ?? 'Montréal' }}, QC</div>
               </div>
             </div>
             {% if professional.phoneNum %}
@@ -489,7 +468,7 @@
               <div class="drl-c-ico">🏗️</div>
               <div>
                 <div class="drl-c-lbl">Category</div>
-                <div class="drl-c-val">{{ professional.category ? professional.category.name : 'Renovation' }}</div>
+                <div class="drl-c-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
               </div>
             </div>
             <div class="drl-c-item">
@@ -519,27 +498,27 @@
                 {% if professional.interventionRadius %}
                     <div class="drl-adv-item">
                         <span class="drl-adv-ico">📍</span>
-                        <span class="drl-adv-txt">Intervention radius</span>
+                        <span class="drl-adv-txt">Service Zone</span>
                         <span class="drl-adv-val">{{ professional.interventionRadius }} km</span>
                     </div>
                 {% endif %}
                 {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
                     <div class="drl-adv-item">
                         <span class="drl-adv-ico">⚡</span>
-                        <span class="drl-adv-txt">Fast response</span>
+                        <span class="drl-adv-txt">Fast Response</span>
                     </div>
                 {% endif %}
                 {% if professional.minPrice %}
                     <div class="drl-adv-item">
                         <span class="drl-adv-ico">💲</span>
-                        <span class="drl-adv-txt">Minimum price</span>
+                        <span class="drl-adv-txt">Minimum Price</span>
                         <span class="drl-adv-val">${{ professional.minPrice }}</span>
                     </div>
                 {% endif %}
                 {% if professional.hasFreeQuotes %}
                     <div class="drl-adv-item">
                         <span class="drl-adv-ico">📄</span>
-                        <span class="drl-adv-txt">100% free quotes</span>
+                        <span class="drl-adv-txt">100% Free Quotes</span>
                     </div>
                 {% endif %}
                 {% if professional.rbqCertified or professional.hasInsurance %}
@@ -547,9 +526,9 @@
                         <span class="drl-adv-ico">🛡️</span>
                         <span class="drl-adv-txt">
                             {% if professional.rbqCertified and professional.hasInsurance %}
-                                Insured & RBQ certified
+                                Insured & certifié RBQ
                             {% elseif professional.rbqCertified %}
-                                RBQ certified
+                                RBQ Certified
                             {% else %}
                                 Fully Insured
                             {% endif %}
@@ -559,23 +538,16 @@
                 {% if professional.hasGuaranteedWork %}
                     <div class="drl-adv-item">
                         <span class="drl-adv-ico">✔</span>
-                        <span class="drl-adv-txt">Guaranteed work</span>
+                        <span class="drl-adv-txt">Guaranteed Work</span>
                     </div>
                 {% endif %}
-            {% else %}
-              <div class="drl-adv-item"><span class="drl-adv-ico">📍</span><span class="drl-adv-txt">Intervention radius</span><span class="drl-adv-val">40 km</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">⚡</span><span class="drl-adv-txt">Fast response</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">💲</span><span class="drl-adv-txt">Minimum price</span><span class="drl-adv-val">$150</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">📄</span><span class="drl-adv-txt">100% free quotes</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">🛡️</span><span class="drl-adv-txt">Insured and RBQ certified</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">✔</span><span class="drl-adv-txt">Guaranteed work</span></div>
-            {% endif %}
+            {% else %}{% endif %}
           </div>
         </div>
 
         {# Zone card #}
         <div class="drl-zone-card drl-fade d4">
-          <div class="drl-zone-title">📍 Service Zone: {{ professional.city ?? 'Montreal' }}</div>
+          <div class="drl-zone-title">📍 Service Zone: {{ professional.city ?? 'Montréal' }}</div>
           <div class="drl-zone-sub">This professional works in the following areas:</div>
           <div class="drl-zone-chips">
             {% if professional.interventionZone %}
@@ -583,7 +555,7 @@
                 <span class="drl-zone-chip">{{ zone|trim }}</span>
               {% endfor %}
             {% else %}
-              <span class="drl-zone-chip">🏙️ {{ professional.city ?? 'Montreal' }}</span>
+              <span class="drl-zone-chip">🏙️ {{ professional.city ?? 'Montréal' }}</span>
             {% endif %}
           </div>
         </div>
@@ -643,7 +615,7 @@
                         data-bs-dismiss="modal"
                         data-bs-toggle="modal"
                         data-bs-target="#contactProModal">
-                  Request a similar quote
+                  Request a Quote similaire
                 </button>
               </div>
             </div>
@@ -695,7 +667,7 @@
                 <p class="drl-rev-text mt-2 small">
                   {{ review.comment|nl2br }}
                 </p>
-                <div class="drl-rev-date small text-muted">{{ review.createdAt|date('F d, Y') }}</div>
+                <div class="drl-rev-date small text-muted">{{ review.createdAt|date('d F Y') }}</div>
               </div>
             {% endfor %}
           {% else %}
@@ -717,7 +689,7 @@
       </div>
       <div class="drl-modal-body">
         <p class="drl-modal-intro">
-          Send a direct request for a quote, information or project consultation.
+          Send a direct quote request, information, or project consultation.
         </p>
         <div class="drl-modal-form">
           {{ form_start(directRequestForm) }}

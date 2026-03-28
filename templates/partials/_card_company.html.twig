@@ -5,7 +5,7 @@
 
 {% set rating = 5.0 %}
 {% set reviewCount = 0 %}
-{% set profileUrl = path('company_details', {'id': pro.id}) %}
+{% set profileUrl = path('company_details', {'id': pro.id, 'slug': pro.companyName|default('details')|trim|lower|replace({' ': '-'})}) %}
 
 {% set mainCategory = pro.categories|first %}
 <div class="fp-pro-card pro-card-item" data-category="{{ mainCategory ? mainCategory.id : '' }}">

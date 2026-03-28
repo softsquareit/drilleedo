@@ -48,8 +48,13 @@ final class SitemapController extends AbstractController
         // Dynamic Pages: Companies
         foreach ($companyRepository->findAll() as $company) {
             $urls[] = [
-                'loc' => $this->generateUrl('company_details', ['id' => $company->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-                'priority' => '0.7'
+                'loc' => $this->generateUrl('company_details', [
+                    'id' => $company->getId(),
+                    'slug' => strtolower(str_replace(' ', '-', trim($company->getCompanyName() ?? 'entreprise')))
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
+                'lastmod' => $company->getUpdatedAt() ? $company->getUpdatedAt()->format('Y-m-d') : null,
+                'changefreq' => 'weekly',
+                'priority' => '0.8'
             ];
         }
 
