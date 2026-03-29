@@ -150,9 +150,13 @@
                                         <a href="{{ path('admin_individual_edit', {id: individual.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" title="Edit Profile" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
                                         </a>
-                                        <a href="{{ path('admin_individual_delete', {id: individual.id}) }}" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete User" data-confirm="Delete this user?" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete Individual" 
+                                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                                data-action="{{ path('admin_individual_delete', {id: individual.id}) }}"
+                                                data-token="{{ csrf_token('delete' ~ individual.id) }}"
+                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-trash-alt small"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -181,20 +185,12 @@
         </div>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('userSearch');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const searchTerm = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                    if(row.querySelector('td[colspan]')) return;
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                });
-            });
-        }
+    $(document).ready(function() {
+        const table = $('.datatable-button-html5-columns').DataTable();
+        
+        // Custom search input integration
+        $('#userSearch').on('keyup', function() {
+            table.search(this.value).draw();
+        });
     });
-</script>
 {% endblock %}

@@ -132,6 +132,32 @@
     border: 1px solid #f1f5f9 !important;
 }
 
+.about-stats-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 1200px) {
+    .about-stat-card {
+        flex: 1 1 calc(33.333% - 20px);
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 992px) {
+    .about-stat-card {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
+
+@media (max-width: 576px) {
+    .about-stat-card {
+        flex: 1 1 100%;
+    }
+}
+
 /* Discovery Area Modernization */
 .discovery-section-container {
     padding: 20px 0 !important;
@@ -339,10 +365,10 @@
             <div class="hero-reviews-section" aria-label="Customer ratings">
                 <div class="hero-reviews-avatars" aria-hidden="true">
                     {# Local SVG avatar placeholders — no external CDN dependency #}
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="" loading="lazy" width="40" height="40">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="" loading="lazy" width="40" height="40" style="margin-left:-12px">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="" loading="lazy" width="40" height="40" style="margin-left:-12px">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="" loading="lazy" width="40" height="40" style="margin-left:-12px">
+                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Verified homeowner" loading="lazy" width="40" height="40">
+                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Satisfied client" loading="lazy" width="40" height="40" style="margin-left:-12px">
+                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Renovation project owner" loading="lazy" width="40" height="40" style="margin-left:-12px">
+                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Drilleedo user" loading="lazy" width="40" height="40" style="margin-left:-12px">
                 </div>
                 <div class="hero-reviews-text">
                     <div class="hero-star-rating" aria-label="4.8 out of 5 stars">★★★★★</div>

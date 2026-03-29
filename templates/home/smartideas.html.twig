@@ -509,7 +509,7 @@
     <div class="si-hero__inner">
       <div class="si-eyebrow">
         <i class="fas fa-lightbulb" aria-hidden="true"></i>
-        Home Inspiration
+        <span>Home Inspiration</span>
       </div>
       <h1 class="si-hero__title" id="si-hero-title">
         Home Renovation <span>Ideas</span>
@@ -572,7 +572,7 @@
               <img src="{{ mainIdea.mainImg
                 ? (mainIdea.mainImg starts with 'http' ? mainIdea.mainImg : asset('uploads/blog/' ~ mainIdea.mainImg))
                 : asset('assets/images/blog/blog-card-01.jpg') }}"
-                   alt="{{ mainIdea.Title }}"
+                   alt="{{ mainIdea.Title }} — Inspiration on Drilleedo"
                    loading="eager">
             </a>
           </div>
@@ -599,7 +599,7 @@
                   <img src="{{ sideIdea.mainImg
                     ? (sideIdea.mainImg starts with 'http' ? sideIdea.mainImg : asset('uploads/blog/' ~ sideIdea.mainImg))
                     : asset('assets/images/blog/blog-card-02.jpg') }}"
-                       alt="{{ sideIdea.Title }}"
+                       alt="{{ sideIdea.Title }} — Renovation idea"
                        loading="lazy">
                 </a>
               </div>
@@ -647,7 +647,7 @@
                 <img src="{{ gridIdea.mainImg
                   ? (gridIdea.mainImg starts with 'http' ? gridIdea.mainImg : asset('uploads/blog/' ~ gridIdea.mainImg))
                   : asset('assets/images/blog/blog-grid-01.jpg') }}"
-                     alt="{{ gridIdea.Title }}"
+                     alt="{{ gridIdea.Title }} — Contractor project photo"
                      loading="lazy">
               </a>
             </div>

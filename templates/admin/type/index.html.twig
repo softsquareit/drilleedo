@@ -103,32 +103,38 @@
                                         {{ type.blogs|length }} Blogs
                                     </span>
                                 </td>
-                                <td>
-                                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
-                                        <i class="fas fa-dot-circle me-1 small"></i> Active
-                                     </span>
+                                 <td>
+                                       {% if type.isActive %}
+                                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
+                                                <i class="fas fa-dot-circle me-1 small"></i> Published
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 status-badge">
+                                                <i class="fas fa-times-circle me-1 small"></i> Hidden
+                                            </span>
+                                        {% endif %}
                                 </td>
                                 <td class="px-4 text-end">
                                     <div class="d-flex justify-content-end gap-2">
                                         <button class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" type="button" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#editTypeModal"
-                                                data-id="{{ type.id }}"
+                                                 data-id="{{ type.id }}"
                                                 data-name="{{ type.Type }}"
+                                                data-active="{{ type.isActive ? '1' : '0' }}"
                                                 title="Edit Details"
                                                 style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
                                         </button>
-                                        <a href="#" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" 
-                                           data-confirm="Are you sure?">
-                                           title="Delete Type"
-                                           style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" 
+                                                title="Delete Type"
+                                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                                data-action="{{ path('admin_type_delete', {'id': type.id}) }}"
+                                                data-token="{{ csrf_token('delete' ~ type.id) }}"
+                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-trash-alt small"></i>
-                                        </a>
+                                        </button>
                                     </div>
-                                    
-                                    <form id="delete-form-{{ type.id }}" action="{{ path('admin_type_delete', {'id': type.id}) }}" method="POST" style="display: none;">
-                                    </form>
                                 </td>
                             </tr>
                             {% else %}
@@ -175,6 +181,12 @@
                             <input type="text" class="form-control bg-light border-0 ps-3" name="type[Type]" required placeholder="e.g. Plumber" style="font-size: 0.95rem;">
                         </div>
                     </div>
+                    <div class="mb-0">
+                        <div class="form-check form-switch px-4">
+                            <input class="form-check-input" type="checkbox" name="type[isActive]" id="addTypeActive" value="1" checked>
+                            <label class="form-check-label fw-bold text-dark small text-uppercase letter-spacing-1" for="addTypeActive">Published</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer bg-light bg-opacity-50 border-0 py-3 px-4 rounded-bottom-4 justify-content-between">
                     <button type="button" class="btn btn-link text-muted text-decoration-none fw-medium" data-bs-dismiss="modal">Cancel</button>
@@ -199,6 +211,12 @@
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Type Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="type[Type]" id="editTypeName" required>
                     </div>
+                    <div class="mb-0">
+                        <div class="form-check form-switch px-4">
+                            <input class="form-check-input" type="checkbox" name="type[isActive]" id="editTypeActive" value="1">
+                            <label class="form-check-label fw-bold text-dark small text-uppercase letter-spacing-1" for="editTypeActive">Published</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer bg-light bg-opacity-50 border-0 py-3 px-4 rounded-bottom-4 justify-content-between">
                     <button type="button" class="btn btn-link text-muted text-decoration-none fw-medium" data-bs-dismiss="modal">Cancel</button>
@@ -211,33 +229,23 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Search
-        const searchInput = document.getElementById('typeSearch');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const searchTerm = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                    if(row.querySelector('td[colspan]')) return;
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                });
-            });
-        }
+    $(document).ready(function() {
+        const table = $('.datatable-button-html5-columns').DataTable();
         
-        // Status Filter (Mock)
-        const statusFilter = document.getElementById('statusFilter');
-        if (statusFilter) {
-            statusFilter.addEventListener('change', function() {
-                 const filterValue = this.value;
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                     if(row.querySelector('td[colspan]')) return;
-                     if(filterValue === 'all') row.style.display = '';
-                });
-            });
-        }
+        // Search
+        $('#typeSearch').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+        
+        // Status Filter integration
+        $('#statusFilter').on('change', function() {
+            const val = this.value;
+            if (val === 'all') {
+                table.column(4).search('').draw();
+            } else {
+                table.column(4).search(val === 'active' ? 'Published' : 'Hidden').draw();
+            }
+        });
         
         // Edit Modal Population
         const editModal = document.getElementById('editTypeModal');
@@ -246,8 +254,10 @@
                 const button = event.relatedTarget;
                 const typeId = button.getAttribute('data-id');
                 const typeName = button.getAttribute('data-name');
+                const typeActive = button.getAttribute('data-active');
                 
                 document.getElementById('editTypeName').value = typeName;
+                document.getElementById('editTypeActive').checked = (typeActive === '1');
                 document.getElementById('editTypeForm').action = `/admin/types/${typeId}/edit`;
             });
         }

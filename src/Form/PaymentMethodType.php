@@ -13,7 +13,7 @@ class PaymentMethodType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('is_active')
+            ->add('isActive')
         ;
     }
 

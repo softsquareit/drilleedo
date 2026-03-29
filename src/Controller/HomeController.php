@@ -359,7 +359,7 @@ final class HomeController extends AbstractController
         foreach ($professionals as $pro) {
             $results[] = [
                 'type'     => 'pro',
-                'label'    => $pro->getCompanyName() ?? $pro->getEmail(),
+                'label'    => $pro->getDisplayName(),
                 'category' => $pro->getCategory()?->getName() ?? '',
                 'city'     => $pro->getCity() ?? '',
                 'url'      => $this->generateUrl('professional_details', ['id' => $pro->getId()]),
@@ -371,11 +371,11 @@ final class HomeController extends AbstractController
         foreach ($companies as $co) {
             $results[] = [
                 'type'     => 'company',
-                'label'    => $co->getCompanyName() ?? $co->getEmail(),
+                'label'    => $co->getDisplayName(),
                 'logo'     => $co->getLogo() ? '/uploads/logos/' . $co->getLogo() : null,
                 'url'      => $this->generateUrl('company_details', [
                     'id' => $co->getId(),
-                    'slug' => strtolower(str_replace(' ', '-', trim($co->getCompanyName() ?? 'entreprise')))
+                    'slug' => strtolower(str_replace(' ', '-', trim($co->getDisplayName())))
                 ]),
                 'category' => count($co->getCategories()) > 0 ? $co->getCategories()[0]->getName() : 'Services',
             ];

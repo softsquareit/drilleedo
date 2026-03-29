@@ -62,10 +62,10 @@
                             <input type="text" class="form-control ps-5 rounded-pill border-0 bg-light" placeholder="Search..." id="companySearch" style="width: 250px;">
                             <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                         </div>
-                        <select class="form-select rounded-pill border-0 bg-light w-auto text-muted ps-3 pe-5" id="statusFilter" aria-label="Filter by status">
+                        <select class="form-select rounded-pill border-0 bg-light w-auto text-muted ps-3 pe-5" id="statusFilter">
                             <option value="all">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="verified">Verified</option>
+                            <option value="pending">Pending</option>
                         </select>
                     </div>
                 </div>
@@ -117,18 +117,28 @@
                                     </div>
                                 </td>
                                 <td>
-                                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
-                                        <i class="fas fa-dot-circle me-1 small"></i> Active
-                                     </span>
+                                     {% if company.isVerified %}
+                                         <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
+                                            <i class="fas fa-check-circle me-1 small"></i> Verified
+                                         </span>
+                                     {% else %}
+                                         <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 status-badge">
+                                            <i class="fas fa-clock me-1 small"></i> Pending
+                                         </span>
+                                     {% endif %}
                                 </td>
                                 <td class="px-4 text-end">
                                     <div class="d-flex justify-content-end gap-2">
                                         <a href="{{ path('admin_company_edit', {id: company.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" title="Edit Details" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
                                         </a>
-                                        <a href="{{ path('admin_company_delete', {id: company.id}) }}" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete Company" data-confirm="Are you sure you want to delete this company?" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete Company" 
+                                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                                data-action="{{ path('admin_company_delete', {id: company.id}) }}"
+                                                data-token="{{ csrf_token('delete' ~ company.id) }}"
+                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-trash-alt small"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -199,50 +209,23 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Search Filter
-        const searchInput = document.getElementById('companySearch');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const searchTerm = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                
-                rows.forEach(row => {
-                    // Skip empty state row
-                    if(row.querySelector('td[colspan]')) return;
-                    
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                });
-            });
-        }
+    $(document).ready(function() {
+        const table = $('.datatable-button-html5-columns').DataTable();
         
-        // Status Filter
-        const statusFilter = document.getElementById('statusFilter');
-        if (statusFilter) {
-            statusFilter.addEventListener('change', function() {
-                const filterValue = this.value;
-                const rows = document.querySelectorAll('table tbody tr');
-                
-                rows.forEach(row => {
-                     if(row.querySelector('td[colspan]')) return;
-
-                    if (filterValue === 'all') {
-                        row.style.display = '';
-                    } else {
-                        const statusBadge = row.querySelector('.status-badge');
-                        const isActive = statusBadge && statusBadge.textContent.trim() === 'Active';
-                        
-                        if ((filterValue === 'active' && isActive) || 
-                            (filterValue === 'inactive' && !isActive)) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    }
-                });
-            });
-        }
+        // Custom search input integration
+        $('#companySearch').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+        
+        // Status Filter integration
+        $('#statusFilter').on('change', function() {
+            const val = this.value;
+            if (val === 'all') {
+                table.column(4).search('').draw();
+            } else {
+                table.column(4).search(val === 'verified' ? 'Verified' : 'Pending').draw();
+            }
+        });
     });
 </script>
 {% endblock %}

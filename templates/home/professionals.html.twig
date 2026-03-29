@@ -67,7 +67,7 @@
                 aria-pressed="false">
           {% if cat.icon %}
             <img src="{{ asset('uploads/categories/' ~ cat.icon) }}"
-                 alt=""
+                 alt="{{ cat.name }} icon"
                  class="fp-cat-pill__icon">
           {% else %}
             <i class="feather-briefcase"></i>
@@ -198,7 +198,7 @@
               </a>
               <div class="fp-card-avatar" aria-hidden="true">
                 {% if pro.logo %}
-                  <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="">
+                  <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="{{ pro.displayName }} logo">
                 {% else %}
                   {{ initials }}
                 {% endif %}

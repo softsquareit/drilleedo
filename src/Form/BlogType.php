@@ -43,6 +43,11 @@ class BlogType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
+            ->add('isActive', \Symfony\Component\Form\Extension\Core\Type\CheckboxType::class, [
+                'label' => 'Published',
+                'required' => false,
+                'attr' => ['class' => 'form-check-input']
+            ])
         ;
     }
 

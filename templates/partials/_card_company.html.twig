@@ -5,7 +5,7 @@
 
 {% set rating = 5.0 %}
 {% set reviewCount = 0 %}
-{% set profileUrl = path('company_details', {'id': pro.id, 'slug': pro.companyName|default('details')|trim|lower|replace({' ': '-'})}) %}
+{% set profileUrl = path('company_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) %}
 
 {% set mainCategory = pro.categories|first %}
 <div class="fp-pro-card pro-card-item" data-category="{{ mainCategory ? mainCategory.id : '' }}">
@@ -19,14 +19,14 @@
     <div class="fp-card-img-wrap">
         <a href="{{ profileUrl }}" tabindex="-1" aria-hidden="true">
             <img src="{{ pro.banner ? asset('uploads/banners/' ~ pro.banner) : asset('assets/drilleedo/images/team/plumber.png') }}"
-                 alt="{{ pro.companyName ?? 'Company' }}"
+                 alt="{{ pro.displayName }} — verified renovation company on Drilleedo"
                  loading="lazy">
         </a>
         <div class="fp-card-avatar" aria-hidden="true">
             {% if pro.logo %}
-                <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="">
+                <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="{{ pro.displayName }} logo">
             {% else %}
-                {{ pro.companyName|default(pro.email)|slice(0,2)|upper }}
+                {{ pro.displayName|slice(0,2)|upper }}
             {% endif %}
         </div>
     </div>
@@ -42,7 +42,7 @@
         {# Title #}
         <h3 class="fp-card-name">
             <a href="{{ profileUrl }}">
-                {{ pro.companyName ?? pro.email }}
+                {{ pro.displayName }}
             </a>
         </h3>
 

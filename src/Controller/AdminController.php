@@ -89,6 +89,7 @@ class AdminController extends AbstractController
         $username = $adminUser -> getUserIdentifier();
         $company = new Company();
         $form = $this->createForm(CompanyType::class, $company);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($company);
@@ -134,7 +135,9 @@ class AdminController extends AbstractController
             $company = new Company();
             $company->setCompanyName($data['company_name']);
             $company->setEmail($data['email']);
-            $company->setPassword($password);
+            
+            $hashedPassword = $this->passwordHasher->hashPassword($company, $password);
+            $company->setPassword($hashedPassword);
 
             // IMPORTANT: validate manually or reuse validator
             $this->em->persist($company);
@@ -439,14 +442,15 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/companies/{id}/delete', name: 'admin_company_delete')]
+    #[Route('/admin/companies/{id}/delete', name: 'admin_company_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteCompany(int $id): Response
+    public function deleteCompany(int $id, Request $request): Response
     {
         $company = $this->em->getRepository(Company::class)->find($id);
-        if ($company) {
+        if ($company && $this->isCsrfTokenValid('delete' . $company->getId(), $request->request->get('_token'))) {
             $this->em->remove($company);
             $this->em->flush();
+            $this->addFlash('success', 'Company successfully deleted.');
         }
 
         return $this->redirectToRoute('admin_company_index');
@@ -460,6 +464,7 @@ class AdminController extends AbstractController
         $username = $adminUser -> getUserIdentifier();
         $individual = new Individual();
         $form = $this->createForm(IndividualType::class, $individual);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($individual);
@@ -556,6 +561,7 @@ class AdminController extends AbstractController
         $username = $adminUser -> getUserIdentifier();
         $professional = new Professional();
         $form = $this->createForm(ProfessionalType::class, $professional);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($professional);
@@ -599,7 +605,9 @@ class AdminController extends AbstractController
                 
                 $professional = new Professional();
                 $professional->setEmail($email);
-                $professional->setPassword($password);
+                
+                $hashedPassword = $this->passwordHasher->hashPassword($professional, $password);
+                $professional->setPassword($hashedPassword);
                 $professional->setCompanyName('New Professional'); // Placeholder to satisfy NOT NULL constraint
                 // Set other required fields to defaults if necessary
                 $professional->setExpYears(0);
@@ -842,12 +850,13 @@ class AdminController extends AbstractController
 
     #[Route('/admin/professionals/{id}/delete', name: 'admin_professionnel_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteProfessionnel(int $id): Response
+    public function deleteProfessionnel(int $id, Request $request): Response
     {
         $professionnel = $this->em->getRepository(Professional::class)->find($id);
-        if ($professionnel) {
+        if ($professionnel && $this->isCsrfTokenValid('delete' . $professionnel->getId(), $request->request->get('_token'))) {
             $this->em->remove($professionnel);
             $this->em->flush();
+            $this->addFlash('success', 'Professional successfully deleted.');
         }
 
         return $this->redirectToRoute('admin_professionnel_index');
@@ -861,6 +870,7 @@ class AdminController extends AbstractController
         $username = $adminUser -> getUserIdentifier();
         $blog = new Blog();
         $form = $this->createForm(BlogType::class, $blog);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($blog);
@@ -981,12 +991,13 @@ class AdminController extends AbstractController
 
     #[Route('/admin/blogs/{id}/delete', name: 'admin_blog_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteBlog(int $id): Response
+    public function deleteBlog(int $id, Request $request): Response
     {
         $blog = $this->em->getRepository(Blog::class)->find($id);
-        if ($blog) {
+        if ($blog && $this->isCsrfTokenValid('delete' . $blog->getId(), $request->request->get('_token'))) {
             $this->em->remove($blog);
             $this->em->flush();
+            $this->addFlash('success', 'Blog successfully deleted.');
         }
 
         return $this->redirectToRoute('admin_blog_index');
@@ -1095,12 +1106,13 @@ class AdminController extends AbstractController
 
     #[Route('/admin/categories/{id}/delete', name: 'admin_category_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteCategory(int $id): Response
+    public function deleteCategory(int $id, Request $request): Response
     {
         $category = $this->em->getRepository(Category::class)->find($id);
-        if ($category) {
+        if ($category && $this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $this->em->remove($category);
             $this->em->flush();
+            $this->addFlash('success', 'Category successfully deleted.');
         }
 
         return $this->redirectToRoute('admin_category_index');
@@ -1114,6 +1126,7 @@ class AdminController extends AbstractController
         $username = $adminUser -> getUserIdentifier();
         $type = new Type();
         $form = $this->createForm(TypeType::class, $type);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($type);
@@ -1174,12 +1187,13 @@ class AdminController extends AbstractController
 
     #[Route('/admin/types/{id}/delete', name: 'admin_type_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteType(int $id): Response
+    public function deleteType(int $id, Request $request): Response
     {
         $type = $this->em->getRepository(Type::class)->find($id);
-        if ($type) {
+        if ($type && $this->isCsrfTokenValid('delete' . $type->getId(), $request->request->get('_token'))) {
             $this->em->remove($type);
             $this->em->flush();
+            $this->addFlash('success', 'Type successfully deleted.');
         }
 
         return $this->redirectToRoute('admin_type_index');
@@ -1193,6 +1207,7 @@ class AdminController extends AbstractController
         $username = $adminUser -> getUserIdentifier();
         $paymentMethod = new PaymentMethod();
         $form = $this->createForm(PaymentMethodType::class, $paymentMethod);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($paymentMethod);
@@ -1253,12 +1268,13 @@ class AdminController extends AbstractController
 
     #[Route('/admin/payments/{id}/delete', name: 'admin_payment_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deletePaymentMethod(int $id): Response
+    public function deletePaymentMethod(int $id, Request $request): Response
     {
         $paymentMethod = $this->em->getRepository(PaymentMethod::class)->find($id);
-        if ($paymentMethod) {
+        if ($paymentMethod && $this->isCsrfTokenValid('delete' . $paymentMethod->getId(), $request->request->get('_token'))) {
             $this->em->remove($paymentMethod);
             $this->em->flush();
+            $this->addFlash('success', 'Payment method successfully deleted.');
         }
 
         return $this->redirectToRoute('admin_payment_index');
@@ -1283,10 +1299,10 @@ class AdminController extends AbstractController
 
     #[Route('/admin/users/{id}/delete', name: 'admin_user_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteUser(int $id): Response
+    public function deleteUser(int $id, Request $request): Response
     {
         $user = $this->em->getRepository(User::class)->find($id);
-        if ($user) {
+        if ($user && $this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             // Prevent deleting self
             if ($user === $this->getUser()) {
                 $this->addFlash('error', 'You cannot delete your own account.');
@@ -1411,10 +1427,10 @@ class AdminController extends AbstractController
 
     #[Route('/admin/testimonials/{id}/delete', name: 'admin_testimonial_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteTestimonial(int $id): Response
+    public function deleteTestimonial(int $id, Request $request): Response
     {
         $testimonial = $this->em->getRepository(Testimonial::class)->find($id);
-        if ($testimonial) {
+        if ($testimonial && $this->isCsrfTokenValid('delete' . $testimonial->getId(), $request->request->get('_token'))) {
             $this->em->remove($testimonial);
             $this->em->flush();
             $this->addFlash('success', 'Testimonial deleted successfully.');
@@ -1423,10 +1439,15 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_testimonial_index');
     }
 
-    #[Route('/admin/testimonials/{id}/toggle-active', name: 'admin_testimonial_toggle_active', methods: ['POST', 'GET'])]
+    #[Route('/admin/testimonials/{id}/toggle-active', name: 'admin_testimonial_toggle_active', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function toggleTestimonialActive(int $id, Request $request): Response
     {
+        if (!$this->isCsrfTokenValid('toggle' . $id, $request->request->get('_token'))) {
+            $this->addFlash('error', 'Invalid CSRF token.');
+            return $this->redirectToRoute('admin_testimonial_index');
+        }
+
         $testimonial = $this->em->getRepository(Testimonial::class)->find($id);
         if ($testimonial) {
             $testimonial->setIsActive(!$testimonial->isIsActive());
@@ -1502,12 +1523,12 @@ class AdminController extends AbstractController
         return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
     }
 
-    #[Route('/admin/projects/{id}/delete', name: 'admin_project_delete', methods: ['POST', 'GET'])]
+    #[Route('/admin/projects/{id}/delete', name: 'admin_project_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteProject(int $id, Request $request): Response
     {
         $project = $this->em->getRepository(Projet::class)->find($id);
-        if ($project) {
+        if ($project && $this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
             $this->em->remove($project);
             $this->em->flush();
             $this->addFlash('success', 'Project deleted successfully.');
@@ -1516,12 +1537,12 @@ class AdminController extends AbstractController
         return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
     }
 
-    #[Route('/admin/address/{id}/delete', name: 'admin_address_delete', methods: ['POST', 'GET'])]
+    #[Route('/admin/address/{id}/delete', name: 'admin_address_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteAddress(int $id, Request $request): Response
     {
         $address = $this->em->getRepository(Adress::class)->find($id);
-        if ($address) {
+        if ($address && $this->isCsrfTokenValid('delete' . $address->getId(), $request->request->get('_token'))) {
             $this->em->remove($address);
             $this->em->flush();
             $this->addFlash('success', 'Address deleted successfully.');
@@ -1530,12 +1551,12 @@ class AdminController extends AbstractController
         return $this->redirect($request->headers->get('referer', $this->generateUrl('admin_dashboard')));
     }
 
-    #[Route('/admin/links/{id}/delete', name: 'admin_link_delete', methods: ['POST', 'GET'])]
+    #[Route('/admin/links/{id}/delete', name: 'admin_link_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteLink(int $id, Request $request): Response
     {
         $link = $this->em->getRepository(Link::class)->find($id);
-        if ($link) {
+        if ($link && $this->isCsrfTokenValid('delete' . $link->getId(), $request->request->get('_token'))) {
             $this->em->remove($link);
             $this->em->flush();
             $this->addFlash('success', 'Link deleted successfully.');
@@ -1657,7 +1678,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_professional_edit', ['id' => $id]);
     }
 
-    #[Route('/admin/review/{id}/delete', name: 'admin_review_delete')]
+    #[Route('/admin/review/{id}/delete', name: 'admin_review_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteReview(int $id, Request $request): Response
     {
@@ -1667,10 +1688,13 @@ class AdminController extends AbstractController
         }
 
         $profId = $review->getBusiness()->getId();
-        $this->em->remove($review);
-        $this->em->flush();
+        
+        if ($this->isCsrfTokenValid('delete' . $review->getId(), $request->request->get('_token'))) {
+            $this->em->remove($review);
+            $this->em->flush();
+            $this->addFlash('success', 'Avis supprimé avec succès.');
+        }
 
-        $this->addFlash('success', 'Avis supprimé avec succès.');
         return $this->redirectToRoute('admin_professional_edit', ['id' => $profId]);
     }
 

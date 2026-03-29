@@ -152,6 +152,50 @@
         .btn-zen-secondary { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 10px; font-weight: 600; }
         .btn-icon { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; }
         .hover-bg-light:hover { background-color: #f8fafc; }
+
+        /* Zen Upload Styles */
+        .zen-upload-container {
+            position: relative;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .zen-upload-container:hover {
+            border-color: #0d2151;
+            background: #f1f5f9;
+        }
+        .zen-upload-icon {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .zen-upload-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .preview-img-container {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            display: none;
+        }
+        .preview-img-container.active {
+            display: block;
+        }
+        .preview-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1223,7 +1267,14 @@
                 <div class="modal-body p-4">
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Sélectionnez une nouvelle photo</label>
-                        {{ form_widget(photoForm.logoFile, {'attr': {'class': 'form-control zen-input'}}) }}
+                        <div class="zen-upload-container" onclick="document.getElementById('{{ photoForm.logoFile.vars.id }}').click()">
+                            <div class="zen-upload-icon"><i class="fas fa-camera"></i></div>
+                            <div class="zen-upload-text">Cliquez pour choisir une photo</div>
+                            {{ form_widget(photoForm.logoFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "photo-preview")'}}) }}
+                        </div>
+                        <div class="preview-img-container mt-3 mx-auto" id="photo-preview-wrapper" style="width: 80px; height: 80px;">
+                            <img id="photo-preview" src="#" alt="Preview">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
@@ -1246,7 +1297,14 @@
                 <div class="modal-body p-4">
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Sélectionnez une nouvelle bannière</label>
-                        {{ form_widget(bannerForm.bannerFile, {'attr': {'class': 'form-control zen-input'}}) }}
+                        <div class="zen-upload-container" onclick="document.getElementById('{{ bannerForm.bannerFile.vars.id }}').click()">
+                            <div class="zen-upload-icon"><i class="fas fa-image"></i></div>
+                            <div class="zen-upload-text">Cliquez pour choisir une bannière</div>
+                            {{ form_widget(bannerForm.bannerFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "banner-professional-preview")'}}) }}
+                        </div>
+                        <div class="preview-img-container mt-3 w-100" id="banner-preview-wrapper" style="height: 120px;">
+                            <img id="banner-professional-preview" src="#" alt="Preview">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
@@ -1288,13 +1346,15 @@
                     <div class="row g-3 mt-1">
                         <div class="col-md-5">
                             <label class="form-label small fw-bold text-uppercase text-muted">Photo Principal</label>
-                            <div class="d-flex align-items-center gap-3 mb-2 p-2 bg-light rounded border-dashed" style="min-height: 100px;">
-                                <div id="existing_main_photo" class="flex-shrink-0"></div>
-                                <div class="flex-grow-1">
-                                    <input type="file" name="projet[mainPhoto]" class="form-control zen-input image-preview-input" data-preview-container="edit_main_photo_preview">
-                                </div>
+                            <div class="zen-upload-container" onclick="document.getElementById('edit_project_main_photo_input_prof').click()">
+                                <div class="zen-upload-icon small"><i class="fas fa-camera"></i></div>
+                                <div class="zen-upload-text small">Sélectionner</div>
+                                <input type="file" name="projet[mainPhoto]" id="edit_project_main_photo_input_prof" class="d-none" onchange="previewImage(this, 'edit-project-preview-prof')">
                             </div>
-                            <div id="edit_main_photo_preview" class="mt-2 d-flex flex-wrap gap-2"></div>
+                            <div class="preview-img-container active mt-2" style="width: 100%; height: 80px;">
+                                <img id="edit-project-preview-prof" src="/assets/images/placeholder.jpg" alt="Preview">
+                            </div>
+                            <div id="existing_main_photo" class="mt-2 text-center" style="display:none;"></div>
                         </div>
                         <div class="col-md-7">
                             <div class="d-flex justify-content-between align-items-center mb-1">
@@ -1586,15 +1646,18 @@
             galleryContainer.innerHTML = '';
 
             if (mainPhoto && mainPhoto !== 'null' && mainPhoto !== '') {
+                const photoUrl = `{{ asset('uploads/projects/') }}${mainPhoto}`;
                 mainPhotoContainer.innerHTML = `
-                    <img src="{{ asset('uploads/projects/') }}/${mainPhoto}" class="rounded shadow-sm border" style="width: 80px; height: 80px; object-fit: cover;">
+                    <img src="${photoUrl}" class="rounded shadow-sm border" style="width: 80px; height: 80px; object-fit: cover;">
                 `;
+                document.getElementById('edit-project-preview-prof').src = photoUrl;
             } else {
                 mainPhotoContainer.innerHTML = `
                     <div class="rounded bg-white border border-dashed d-flex align-items-center justify-content-center text-muted" style="width: 80px; height: 80px;">
                         <i class="fas fa-image"></i>
                     </div>
                 `;
+                document.getElementById('edit-project-preview-prof').src = '/assets/images/placeholder.jpg';
             }
 
             if (galleryJson && galleryJson !== 'null') {

@@ -992,11 +992,44 @@ body {
 }
 
 .about-title {
-
     color: #003666;
     font-size: 3.5rem;
     line-height: 1.1;
     margin-bottom: 30px;
+}
+
+/* Intermediate Responsive Fixes for About Section */
+@media (min-width: 992px) and (max-width: 1400px) {
+    .about-new-section {
+        padding: 60px 4%;
+    }
+
+    .about-title {
+        font-size: 2.8rem;
+    }
+
+    .about-img-group-1 {
+        width: 100% !important;
+        position: relative !important;
+        bottom: 0 !important;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .about-img-1 {
+        height: auto;
+    }
+
+    .about-images-wrapper {
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .about-content-wrapper {
+        padding-left: 20px;
+    }
 }
 
 .about-buttons-row {
@@ -2236,10 +2269,11 @@ body {
     font-size: 15px;
     font-weight: 700 !important;
     color: #17456eff;
-    padding: 30px 15px;
+    padding: 30px 12px;
     text-transform: none;
     letter-spacing: -0.3px;
     position: relative;
+    white-space: nowrap;
 }
 
 .mainmenu-nav .mainmenu>li>a:hover,
@@ -2264,13 +2298,13 @@ body {
 .header-right {
     display: flex;
     align-items: center;
-    gap: var(--space-5);
+    gap: var(--space-4);
 }
 
 .quick-access {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-3);
 }
 
 /* Login / Auth Buttons */
@@ -3218,6 +3252,31 @@ body {
     text-decoration: none;
     transition: all 0.2s ease;
     white-space: nowrap;
+}
+
+/* Intermediate Responsive Fixes for Professional Cards */
+@media (min-width: 992px) and (max-width: 1250px) {
+    .pro-card-body {
+        padding: 16px;
+    }
+
+    .pro-card-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-pro-outline,
+    .btn-pro-solid {
+        padding: 10px 12px;
+        font-size: 13px;
+        width: 100%;
+    }
+}
+
+.detail-text {
+    overflow-wrap: break-word;
+    word-break: break-all;
+    max-width: 100%;
 }
 
 .btn-pro-outline {

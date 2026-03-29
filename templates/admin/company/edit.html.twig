@@ -258,6 +258,51 @@
         .bg-soft-success { background-color: rgba(25, 135, 84, 0.08); color: #198754; border: 1px solid rgba(25, 135, 84, 0.1); }
         .bg-soft-warning { background-color: rgba(255, 193, 7, 0.08); color: #997404; border: 1px solid rgba(255, 193, 7, 0.1); }
         .bg-soft-info { background-color: rgba(13, 110, 253, 0.08); color: #0d6efd; border: 1px solid rgba(13, 110, 253, 0.1); }
+        .hover-bg-light:hover { background-color: #f8fafc; }
+
+        /* Zen Upload Styles */
+        .zen-upload-container {
+            position: relative;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .zen-upload-container:hover {
+            border-color: #0d2151;
+            background: #f1f5f9;
+        }
+        .zen-upload-icon {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .zen-upload-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .preview-img-container {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            display: none;
+        }
+        .preview-img-container.active {
+            display: block;
+        }
+        .preview-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .bg-soft-danger { background-color: rgba(220, 53, 69, 0.08); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.1); }
         .bg-soft-secondary { background-color: rgba(108, 117, 125, 0.08); color: #6c757d; border: 1px solid rgba(108, 117, 125, 0.1); }
         .zen-input { border-radius: 10px; border: 1px solid #e2e8f0; padding: 0.6rem 1rem; transition: border-color 0.2s; }
@@ -927,7 +972,14 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Fichier Logo</label>
-                        {{ form_widget(logoForm.logoFile, {'attr': {'class': 'form-control zen-input'}}) }}
+                        <div class="zen-upload-container" onclick="document.getElementById('{{ logoForm.logoFile.vars.id }}').click()">
+                            <div class="zen-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <div class="zen-upload-text">Cliquez pour choisir un logo</div>
+                            {{ form_widget(logoForm.logoFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "logo-preview")'}}) }}
+                        </div>
+                        <div class="preview-img-container mt-3 mx-auto" id="logo-preview-wrapper" style="width: 80px; height: 80px;">
+                            <img id="logo-preview" src="#" alt="Preview">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
@@ -957,7 +1009,14 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Fichier Bannière</label>
-                        {{ form_widget(bannerForm.bannerFile, {'attr': {'class': 'form-control zen-input'}}) }}
+                        <div class="zen-upload-container" onclick="document.getElementById('{{ bannerForm.bannerFile.vars.id }}').click()">
+                            <div class="zen-upload-icon"><i class="fas fa-image"></i></div>
+                            <div class="zen-upload-text">Cliquez pour choisir une bannière</div>
+                            {{ form_widget(bannerForm.bannerFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "banner-preview")'}}) }}
+                        </div>
+                        <div class="preview-img-container mt-3 w-100" id="banner-preview-wrapper" style="height: 120px;">
+                            <img id="banner-preview" src="#" alt="Preview">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top-0 px-4 pb-4">
@@ -1163,7 +1222,14 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-uppercase text-muted">Photo Principale</label>
-                            {{ form_widget(projectForm.mainPhoto, {'attr': {'class': 'form-control zen-input'}}) }}
+                            <div class="zen-upload-container" onclick="document.getElementById('{{ projectForm.mainPhoto.vars.id }}').click()">
+                                <div class="zen-upload-icon small"><i class="fas fa-camera"></i></div>
+                                <div class="zen-upload-text small">Sélectionner</div>
+                                {{ form_widget(projectForm.mainPhoto, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "project-add-preview")'}}) }}
+                            </div>
+                            <div class="preview-img-container mt-2" style="width: 100%; height: 80px;">
+                                <img id="project-add-preview" src="#" alt="Preview">
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-uppercase text-muted">Galerie</label>
@@ -1229,7 +1295,14 @@
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-uppercase text-muted">Changer Photo Principale</label>
                                 <div id="existing_main_photo" class="mb-2"></div>
-                                <input type="file" name="projet[mainPhoto]" class="form-control zen-input">
+                                <div class="zen-upload-container" onclick="document.getElementById('edit_project_main_photo_input').click()">
+                                    <div class="zen-upload-icon small"><i class="fas fa-sync"></i></div>
+                                    <div class="zen-upload-text small">Changer la photo</div>
+                                    <input type="file" name="projet[mainPhoto]" id="edit_project_main_photo_input" class="d-none" onchange="previewImage(this, 'project-edit-preview')">
+                                </div>
+                                <div class="preview-img-container active mt-2" style="width: 100%; height: 80px;">
+                                    <img id="project-edit-preview" src="/assets/images/placeholder.jpg" alt="Preview">
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-uppercase text-muted">Ajouter à la Galerie</label>
@@ -1639,9 +1712,13 @@
             galleryContainer.innerHTML = '';
 
             if (mainPhoto && mainPhoto !== 'null' && mainPhoto !== '') {
+                const photoUrl = `/uploads/projects/${mainPhoto}`;
                 mainPhotoContainer.innerHTML = `
-                    <img src="/uploads/projects/${mainPhoto}" class="rounded shadow-sm border" style="width: 80px; height: 80px; object-fit: cover;">
+                    <img src="${photoUrl}" class="rounded shadow-sm border" style="width: 80px; height: 80px; object-fit: cover;">
                 `;
+                document.getElementById('project-edit-preview').src = photoUrl;
+            } else {
+                document.getElementById('project-edit-preview').src = '/assets/images/placeholder.jpg';
             }
 
             if (galleryJson && galleryJson !== 'null') {

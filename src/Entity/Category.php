@@ -45,6 +45,9 @@ class Category
     #[ORM\ManyToMany(targetEntity: Company::class, mappedBy: 'categories')]
     private Collection $companies;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private bool $isActive = true;
+
     public function __construct()
     {
         $this->professionals = new ArrayCollection();
@@ -216,5 +219,16 @@ class Category
     {
         $slugger = new \Symfony\Component\String\Slugger\AsciiSlugger();
         return strtolower($slugger->slug($this->getName() ?? '')->toString());
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+        return $this;
     }
 }

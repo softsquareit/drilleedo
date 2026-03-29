@@ -363,7 +363,7 @@
                         sResults.innerHTML = data.map(item => `
                             <a href="${item.url}" class="drl-search-result-item">
                                 ${item.logo 
-                                    ? `<img src="${item.logo}" alt="" class="drl-search-result-logo">`
+                                    ? `<img src="${item.logo}" alt="${item.label} logo" class="drl-search-result-logo">`
                                     : `<div class="drl-search-result-logo-placeholder"><i class="feather-user"></i></div>`
                                 }
                                 <div class="drl-search-result-info">

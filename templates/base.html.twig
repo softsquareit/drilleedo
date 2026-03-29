@@ -58,14 +58,32 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Drilleedo",
+        "url": "{{ url('app_home') }}",
+        "logo": "{{ absolute_url(asset('assets/drilleedo/images/logo/logo-black.png')) }}",
+        "description": "Canadian home improvement marketplace connecting homeowners with trusted professionals.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "CA"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "url": "{{ url('contact') }}"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Drilleedo",
         "url": "{{ url('app_home') }}",
-        "description": "Canadian home improvement marketplace connecting homeowners with trusted professionals.",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "{{ url('professionals_list') }}?q={search_term}",
-            "query-input": "required name=search_term"
+            "target": "{{ url('professionals_list') }}?keyword={search_term_string}",
+            "query-input": "required name=search_term_string"
         }
     }
     </script>

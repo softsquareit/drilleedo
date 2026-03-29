@@ -19,6 +19,9 @@ class Type
     #[ORM\Column(length: 255)]
     private ?string $Type = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private bool $isActive = true;
+
     public function __construct()
     {
     }
@@ -40,6 +43,14 @@ class Type
         return $this;
     }
 
-    
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
 
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
 }

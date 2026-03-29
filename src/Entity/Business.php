@@ -129,6 +129,23 @@ class Business extends User
         return $this;
     }
 
+    public function getDisplayName(): string
+    {
+        if ($this->company_name) {
+            return $this->company_name;
+        }
+
+        if ($this->tradeName) {
+            return $this->tradeName;
+        }
+
+        if ($this->getPersonalInfos()) {
+            return $this->getPersonalInfos()->getFirstName() . ' ' . $this->getPersonalInfos()->getLastName();
+        }
+
+        return explode('@', $this->email)[0];
+    }
+
     public function getTradeName(): ?string
     {
         return $this->tradeName;

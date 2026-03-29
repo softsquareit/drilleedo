@@ -123,7 +123,55 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .zen-upload-container {
+            position: relative;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .zen-upload-container:hover {
+            border-color: var(--zen-accent);
+            background: #f1f5f9;
+        }
+
+        .zen-upload-icon {
+            font-size: 2rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .zen-upload-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+
+        .zen-upload-subtext {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
     </style>
+    <script>
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                    // Also update the sidebar preview if it exists
+                    const sidebarPreview = document.querySelector('.profile-avatar img');
+                    if (sidebarPreview) sidebarPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -207,10 +255,22 @@
                         </div>
                         <div class="zen-card-body">
                             <div class="row g-4">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                      <label class="form-label small fw-bold text-uppercase text-muted">Feature Image</label>
-                                     {{ form_widget(form.mainImgFile, {'attr': {'class': 'zen-input'}}) }}
-                                     <div class="form-text small">Enter filename or upload path</div>
+                                     <div class="zen-upload-container" onclick="document.getElementById('{{ form.mainImgFile.vars.id }}').click()">
+                                         <div class="zen-upload-icon">
+                                             <i class="fas fa-cloud-upload-alt"></i>
+                                         </div>
+                                         <div class="zen-upload-text">Drag and drop or click to upload</div>
+                                         <div class="zen-upload-subtext">SVG, PNG, JPG or GIF (max. 5MB)</div>
+                                         
+                                         {{ form_widget(form.mainImgFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "blog-preview")'}}) }}
+                                     </div>
+                                      <div class="mt-3 text-center">
+                                         <div class="d-inline-block p-1 bg-white border rounded-3 shadow-sm" style="width: 150px; height: 100px; overflow: hidden;">
+                                            <img id="blog-preview" src="{{ blog.mainImg and blog.mainImg != 'placeholder.jpg' ? asset('uploads/blog/' ~ blog.mainImg) : asset('assets/images/placeholder.jpg') }}" class="w-100 h-100 object-fit-cover rounded-2" alt="Preview">
+                                         </div>
+                                     </div>
                                 </div>
                                 <div class="col-md-6"></div> 
                                 
@@ -218,10 +278,19 @@
                                     <label class="form-label small fw-bold text-uppercase text-muted">Type</label>
                                     {{ form_widget(form.type, {'attr': {'class': 'form-select zen-input'}}) }}
                                 </div>
-                                <div class="col-md-6">
-                                     <label class="form-label small fw-bold text-uppercase text-muted">Category</label>
-                                     {{ form_widget(form.category, {'attr': {'class': 'form-select zen-input'}}) }}
-                                </div>
+                                 <div class="col-md-6">
+                                      <label class="form-label small fw-bold text-uppercase text-muted">Category</label>
+                                      {{ form_widget(form.category, {'attr': {'class': 'form-select zen-input'}}) }}
+                                 </div>
+                                 <div class="col-12 mt-3">
+                                     <div class="form-check form-switch p-3 bg-light rounded-3 border">
+                                         {{ form_widget(form.isActive, {'attr': {'class': 'form-check-input ms-0 me-3'}}) }}
+                                         <label class="form-check-label fw-bold text-dark" for="{{ form.isActive.vars.id }}">
+                                             Published & Visible on Platform
+                                         </label>
+                                         <div class="form-text small ms-5">Toggle visibility for this post on the public "Ideas" and "Blog" sections.</div>
+                                     </div>
+                                 </div>
                             </div>
                         </div>
                     </div>

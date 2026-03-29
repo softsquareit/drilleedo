@@ -68,9 +68,14 @@
                     
                     <div class="d-flex gap-2">
                          <div class="position-relative">
-                            <input type="text" class="form-control ps-5 rounded-pill border-0 bg-light" placeholder="Search professionals..." id="proSearch" style="width: 250px;">
+                            <input type="text" class="form-control ps-5 rounded-pill border-0 bg-light" placeholder="Search pros..." id="proSearch" style="width: 250px;">
                             <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
                         </div>
+                        <select class="form-select rounded-pill border-0 bg-light w-auto text-muted ps-3 pe-5" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="verified">Verified</option>
+                            <option value="pending">Pending</option>
+                        </select>
                         <button type="button" class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addProModal">
                             <i class="fas fa-plus me-2"></i> Add Professional
                         </button>
@@ -125,18 +130,28 @@
                                     </div>
                                 </td>
                                 <td>
-                                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
-                                        <i class="fas fa-check-circle me-1 small"></i> Active
-                                     </span>
+                                     {% if professional.isVerified %}
+                                         <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 status-badge">
+                                            <i class="fas fa-check-circle me-1 small"></i> Verified
+                                         </span>
+                                     {% else %}
+                                         <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 status-badge">
+                                            <i class="fas fa-clock me-1 small"></i> Pending
+                                         </span>
+                                     {% endif %}
                                 </td>
                                 <td class="px-4 text-end">
                                     <div class="d-flex justify-content-end gap-2">
                                         <a href="{{ path('admin_professional_edit', {id: professional.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" title="Edit Profile" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
                                         </a>
-                                        <a href="{{ path('admin_professionnel_delete', {id: professional.id}) }}" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete User" data-confirm="Delete this user?" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                        <button type="button" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" title="Delete Professional" 
+                                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                                data-action="{{ path('admin_professionnel_delete', {id: professional.id}) }}"
+                                                data-token="{{ csrf_token('delete' ~ professional.id) }}"
+                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-trash-alt small"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -197,19 +212,23 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('proSearch');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const searchTerm = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                    if(row.querySelector('td[colspan]')) return;
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                });
-            });
-        }
+    $(document).ready(function() {
+        const table = $('.datatable-button-html5-columns').DataTable();
+        
+        // Search integration
+        $('#proSearch').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+
+        // Status Filter integration
+        $('#statusFilter').on('change', function() {
+            const val = this.value;
+            if (val === 'all') {
+                table.column(5).search('').draw();
+            } else {
+                table.column(5).search(val === 'verified' ? 'Verified' : 'Pending').draw();
+            }
+        });
     });
 </script>
 {% endblock %}

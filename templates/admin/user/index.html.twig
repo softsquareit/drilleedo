@@ -150,16 +150,15 @@
                                                 <li><hr class="dropdown-divider bg-light my-1"></li>
                                                 
                                                 <li>
-                                                    <a href="#" class="dropdown-item py-2 px-3 fw-medium text-danger" 
-                                                       data-confirm="Are you sure you want to delete this user? This action cannot be undone.">
+                                                    <button type="button" class="dropdown-item py-2 px-3 fw-medium text-danger border-0 bg-transparent w-100 text-start" 
+                                                            data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                                            data-action="{{ path('admin_user_delete', {'id': user.id}) }}"
+                                                            data-token="{{ csrf_token('delete' ~ user.id) }}">
                                                         <i class="fas fa-trash-alt me-2 opacity-75"></i> Delete User
-                                                    </a>
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>
-                                        
-                                        <form id="delete-user-{{ user.id }}" action="{{ path('admin_user_delete', {'id': user.id}) }}" method="POST" style="display: none;">
-                                        </form>
                                     </td>
                                 </tr>
                             {% else %}
@@ -181,20 +180,13 @@
     </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Search
-        const searchInput = document.getElementById('systemUserSearch');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                const searchTerm = this.value.toLowerCase();
-                const rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(row => {
-                    if(row.querySelector('td[colspan]')) return;
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                });
-            });
-        }
+    $(document).ready(function() {
+        const table = $('.datatable-button-html5-columns').DataTable();
+        
+        // Custom search input integration
+        $('#systemUserSearch').on('keyup', function() {
+            table.search(this.value).draw();
+        });
     });
 </script>
 {% endblock %}

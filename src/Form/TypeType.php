@@ -13,6 +13,10 @@ class TypeType extends AbstractType
     {
         $builder
             ->add('Type')
+            ->add('isActive', null, [
+                'label' => 'Published',
+                'required' => false,
+            ])
         ;
     }
 

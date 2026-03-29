@@ -28,6 +28,10 @@ class CategoryType extends AbstractType
             ->add('color', ColorType::class, [
                 'required' => false,
             ])
+            ->add('isActive', null, [
+                'label' => 'Published',
+                'required' => false,
+            ])
         ;
     }
 
