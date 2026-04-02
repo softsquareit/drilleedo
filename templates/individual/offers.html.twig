@@ -59,11 +59,11 @@
                             </td>
                             <td>
                                 {% set offerStatusMap = {
-                                    'DRAFT': {'class': 'drl-tag--draft', 'icon': 'feather-file'},
-                                    'PUBLISHED': {'class': 'drl-tag--sent', 'icon': 'feather-star'},
-                                    'ACCEPTED': {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
-                                    'REJECTED': {'class': 'drl-tag--danger', 'icon': 'feather-x-circle'},
-                                    'CLOSED': {'class': 'drl-tag--danger', 'icon': 'feather-lock'}
+                                    'DRAFT':     {'class': 'drl-tag--draft',   'icon': 'feather-file'},
+                                    'PUBLISHED': {'class': 'drl-tag--sent',    'icon': 'feather-star'},
+                                    'ACCEPTED':  {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
+                                    'REJECTED':  {'class': 'drl-tag--danger',  'icon': 'feather-x-circle'},
+                                    'CLOSED':    {'class': 'drl-tag--draft',   'icon': 'feather-check-square'}
                                 } %}
                                 {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle'}) %}
                                 <span class="drl-tag {{ offerInfo.class }}">

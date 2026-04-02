@@ -84,10 +84,11 @@
                             <td>
                                 {% set stField = request.status|upper %}
                                 {% set statusMap = {
-                                    'DRAFT':     {'class': 'drl-tag--draft',   'icon': 'feather-file'},
-                                    'PUBLISHED': {'class': 'drl-tag--sent',    'icon': 'feather-globe'},
-                                    'ACCEPTED':  {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
-                                    'CLOSED':    {'class': 'drl-tag--danger',  'icon': 'feather-lock'}
+                                    'DRAFT':       {'class': 'drl-tag--draft',   'icon': 'feather-file'},
+                                    'PUBLISHED':   {'class': 'drl-tag--sent',    'icon': 'feather-globe'},
+                                    'ACCEPTED':    {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
+                                    'IN_PROGRESS': {'class': 'drl-tag--warning', 'icon': 'feather-tool'},
+                                    'CLOSED':      {'class': 'drl-tag--danger',  'icon': 'feather-lock'}
                                 } %}
                                 {% set st = statusMap[stField]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle'}) %}
                                 <span class="drl-tag {{ st.class }}">

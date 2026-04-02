@@ -448,6 +448,12 @@ class IndividualController extends AbstractController
             throw $this->createAccessDeniedException('You do not have access to this offer.');
         }
 
+        // Auto-mark viewed on first open
+        if (!$offer->isViewed()) {
+            $offer->setViewedAt(new \DateTime());
+            $em->flush();
+        }
+
         return $this->render('individual/offer_detail.html.twig', [
             'offer'         => $offer,
             'quote'         => $quoteRequest,
@@ -455,6 +461,49 @@ class IndividualController extends AbstractController
             'parentRequest' => $parentRequest,
             'unreadCount'   => $this->getUnreadCount($em),
         ]);
+    }
+
+    #[Route('/offer/{id}/interested', name: 'individual_offer_interested', methods: ['POST'])]
+    public function markOfferInterested(Offer $offer, Request $request, EntityManagerInterface $em): Response
+    {
+        $quoteRequest = $offer->getQuoteRequest();
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quoteRequest ?? $directRequest;
+
+        if (!$parentRequest || $parentRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->returnToParentRequest($offer);
+        }
+
+        // Only PUBLISHED offers can be marked interested
+        if ($offer->getStatus() !== Offer::STATUS_PUBLISHED) {
+            $this->addFlash('warning', 'Action non disponible pour cette offre.');
+            return $this->returnToParentRequest($offer);
+        }
+
+        $offer->setStatus(Offer::STATUS_INTERESTED);
+        $offer->setUpdatedAt(new \DateTime());
+
+        // Notify the provider
+        $provider = $offer->getProvider();
+        if ($provider) {
+            $notification = new Notification();
+            $notification->setUser($provider);
+            $notification->setTitle('Offre en cours d\'examen');
+            $notification->setMessage('Le client a marqué votre offre pour "' . $parentRequest->getTitle() . '" comme intéressante. Décision en attente.');
+            $notification->setRelatedEntityId($offer->getId());
+            $notification->setRelatedEntityType('offer');
+            $em->persist($notification);
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Offre marquée comme intéressante. Le prestataire en sera informé.');
+        return $this->returnToParentRequest($offer);
     }
 
     #[Route('/offer/{id}/accept', name: 'individual_offer_accept', methods: ['POST'])]
@@ -474,16 +523,15 @@ class IndividualController extends AbstractController
         }
 
         if ($parentRequest->getStatus() === QuoteRequest::STATUS_CLOSED) {
-            $this->addFlash('warning', 'This request is already closed.');
+            $this->addFlash('warning', 'Cette demande est déjà clôturée.');
             return $this->returnToParentRequest($offer);
         }
 
-        // Accept this offer
+        // Accept this offer → parent request becomes ACCEPTED (not CLOSED)
         $offer->setStatus(Offer::STATUS_ACCEPTED);
         $offer->setUpdatedAt(new \DateTime());
 
-        // Update parent request
-        $parentRequest->setStatus(QuoteRequest::STATUS_CLOSED);
+        $parentRequest->setStatus(QuoteRequest::STATUS_ACCEPTED);
 
         // Auto-reject other published offers
         foreach ($parentRequest->getOffers() as $otherOffer) {
@@ -498,8 +546,8 @@ class IndividualController extends AbstractController
         if ($provider) {
             $notification = new Notification();
             $notification->setUser($provider);
-            $notification->setTitle('Offer Accepted');
-            $notification->setMessage('Your offer for "' . $parentRequest->getTitle() . '" has been accepted!');
+            $notification->setTitle('Offre acceptée');
+            $notification->setMessage('Votre offre pour "' . $parentRequest->getTitle() . '" a été acceptée !');
             $notification->setRelatedEntityId($offer->getId());
             $notification->setRelatedEntityType('offer');
             $em->persist($notification);
@@ -507,7 +555,7 @@ class IndividualController extends AbstractController
 
         $em->flush();
 
-        $this->addFlash('success', 'Offer accepted! The provider has been notified.');
+        $this->addFlash('success', 'Offre acceptée ! Le prestataire a été notifié.');
         return $this->returnToParentRequest($offer);
     }
 
@@ -523,7 +571,7 @@ class IndividualController extends AbstractController
         }
 
         if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
-            $this->addFlash('danger', 'Invalid security token.');
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
             return $this->returnToParentRequest($offer);
         }
 
@@ -535,8 +583,8 @@ class IndividualController extends AbstractController
         if ($provider) {
             $notification = new Notification();
             $notification->setUser($provider);
-            $notification->setTitle('Offer Rejected');
-            $notification->setMessage(sprintf('Your offer for "%s" has been rejected.', $parentRequest->getTitle()));
+            $notification->setTitle('Offre refusée');
+            $notification->setMessage(sprintf('Votre offre pour "%s" a été refusée.', $parentRequest->getTitle()));
             $notification->setRelatedEntityId($offer->getId());
             $notification->setRelatedEntityType('offer');
             $em->persist($notification);
@@ -544,11 +592,291 @@ class IndividualController extends AbstractController
 
         $em->flush();
 
-        $this->addFlash('success', 'Offer has been rejected.');
+        $this->addFlash('success', 'Offre refusée.');
         return $this->returnToParentRequest($offer);
     }
 
-    // Removed revertOfferPending as it is not part of the target workflow
+    // ── Revert ACCEPTED / IN_PROGRESS → PUBLISHED ──────────────────────────
+    #[Route('/quote/{id}/revert-published', name: 'individual_quote_revert_published', methods: ['POST'])]
+    public function revertQuoteToPublished(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('revert-quote-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $allowed = [QuoteRequest::STATUS_ACCEPTED, QuoteRequest::STATUS_IN_PROGRESS];
+        if (!in_array($quote->getStatus(), $allowed, true)) {
+            $this->addFlash('warning', 'Seules les demandes acceptées ou en cours peuvent repasser à publiée.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        // Reset accepted offer back to published so pros can re-bid
+        foreach ($quote->getOffers() as $offer) {
+            if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                $offer->setStatus(Offer::STATUS_PUBLISHED);
+                $offer->setUpdatedAt(new \DateTime());
+
+                // Notify the provider
+                $provider = $offer->getProvider();
+                if ($provider) {
+                    $notification = new Notification();
+                    $notification->setUser($provider);
+                    $notification->setTitle('Statut de l\'offre modifié');
+                    $notification->setMessage('La demande "' . $quote->getTitle() . '" est revenue en attente.');
+                    $notification->setRelatedEntityId($offer->getId());
+                    $notification->setRelatedEntityType('offer');
+                    $em->persist($notification);
+                }
+            }
+        }
+
+        $quote->setStatus(QuoteRequest::STATUS_PUBLISHED);
+        $em->flush();
+
+        $this->addFlash('success', 'La demande est revenue en statut "Publiée". Les offres sont à nouveau disponibles.');
+        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+    }
+
+    // ── ACCEPTED → IN_PROGRESS ─────────────────────────────────────────────
+    #[Route('/quote/{id}/start', name: 'individual_quote_start', methods: ['POST'])]
+    public function startQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('start-quote-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        if ($quote->getStatus() !== QuoteRequest::STATUS_ACCEPTED) {
+            $this->addFlash('warning', 'Seules les demandes acceptées peuvent être démarrées.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $quote->setStatus(QuoteRequest::STATUS_IN_PROGRESS);
+
+        // Notify the accepted provider
+        foreach ($quote->getOffers() as $offer) {
+            if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                $provider = $offer->getProvider();
+                if ($provider) {
+                    $notification = new Notification();
+                    $notification->setUser($provider);
+                    $notification->setTitle('Chantier démarré');
+                    $notification->setMessage('Le chantier pour "' . $quote->getTitle() . '" est officiellement démarré !');
+                    $notification->setRelatedEntityId($quote->getId());
+                    $notification->setRelatedEntityType('quote');
+                    $em->persist($notification);
+                }
+            }
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'La mission est maintenant "En cours". Bonne réalisation !');
+        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+    }
+
+    // ── Close request (ACCEPTED / IN_PROGRESS → CLOSED) ───────────────────
+    #[Route('/quote/{id}/close', name: 'individual_quote_close', methods: ['POST'])]
+    public function closeQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('close-quote-' . $quote->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $allowed = [QuoteRequest::STATUS_ACCEPTED, QuoteRequest::STATUS_IN_PROGRESS];
+        if (!in_array($quote->getStatus(), $allowed, true)) {
+            $this->addFlash('warning', 'Seules les demandes acceptées ou en cours peuvent être clôturées.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $quote->setStatus(QuoteRequest::STATUS_CLOSED);
+
+        // Close all related offers + notify provider + send feedback request
+        foreach ($quote->getOffers() as $offer) {
+            if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                $offer->setStatus(Offer::STATUS_CLOSED);
+                $offer->setUpdatedAt(new \DateTime());
+
+                $provider = $offer->getProvider();
+                if ($provider) {
+                    // Notification clôture
+                    $notif = new Notification();
+                    $notif->setUser($provider);
+                    $notif->setTitle('Demande clôturée');
+                    $notif->setMessage('La demande "' . $quote->getTitle() . '" a été clôturée par le client. Merci pour votre travail !');
+                    $notif->setRelatedEntityId($quote->getId());
+                    $notif->setRelatedEntityType('quote');
+                    $em->persist($notif);
+
+                    // Feedback request notification (to the individual)
+                    $feedbackNotif = new Notification();
+                    $feedbackNotif->setUser($this->getUser());
+                    $feedbackNotif->setTitle('Laissez un avis');
+                    $feedbackNotif->setMessage('Votre mission "' . $quote->getTitle() . '" est terminée. Pensez à laisser un avis au prestataire !');
+                    $feedbackNotif->setRelatedEntityId($quote->getId());
+                    $feedbackNotif->setRelatedEntityType('quote');
+                    $em->persist($feedbackNotif);
+                }
+            }
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Demande clôturée définitivement. Un rappel pour laisser un avis a été envoyé.');
+        return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+    }
+
+    // ── Direct Request: ACCEPTED/IN_PROGRESS → PUBLISHED ────────────────────
+    #[Route('/direct-request/{id}/revert-published', name: 'individual_direct_request_revert_published', methods: ['POST'])]
+    public function revertDirectRequestToPublished(DirectRequest $directRequest, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($directRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('revert-direct-request-' . $directRequest->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+        }
+
+        $allowed = [DirectRequest::STATUS_ACCEPTED, DirectRequest::STATUS_IN_PROGRESS];
+        if (!in_array($directRequest->getStatus(), $allowed, true)) {
+            $this->addFlash('warning', 'Seules les demandes acceptées ou en cours peuvent être rouvertes.');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+        }
+
+        foreach ($directRequest->getOffers() as $offer) {
+            if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                $offer->setStatus(Offer::STATUS_PUBLISHED);
+                $offer->setUpdatedAt(new \DateTime());
+
+                $provider = $offer->getProvider();
+                if ($provider) {
+                    $notification = new Notification();
+                    $notification->setUser($provider);
+                    $notification->setTitle('Statut de l\'offre modifié');
+                    $notification->setMessage('La demande directe "' . $directRequest->getTitle() . '" est revenue en attente.');
+                    $notification->setRelatedEntityId($offer->getId());
+                    $notification->setRelatedEntityType('offer');
+                    $em->persist($notification);
+                }
+            }
+        }
+
+        $directRequest->setStatus(DirectRequest::STATUS_PUBLISHED);
+        $em->flush();
+
+        $this->addFlash('success', 'La demande directe est revenue en statut "Publiée".');
+        return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+    }
+
+    // ── Direct Request: ACCEPTED → IN_PROGRESS ──────────────────────────────
+    #[Route('/direct-request/{id}/start', name: 'individual_direct_request_start', methods: ['POST'])]
+    public function startDirectRequest(DirectRequest $directRequest, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($directRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('start-direct-request-' . $directRequest->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+        }
+
+        if ($directRequest->getStatus() !== DirectRequest::STATUS_ACCEPTED) {
+            $this->addFlash('warning', 'Seules les demandes acceptées peuvent être démarrées.');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+        }
+
+        $directRequest->setStatus(DirectRequest::STATUS_IN_PROGRESS);
+
+        foreach ($directRequest->getOffers() as $offer) {
+            if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                $provider = $offer->getProvider();
+                if ($provider) {
+                    $notification = new Notification();
+                    $notification->setUser($provider);
+                    $notification->setTitle('Chantier démarré');
+                    $notification->setMessage('La demande directe "' . $directRequest->getTitle() . '" est officiellement démarrée !');
+                    $notification->setRelatedEntityId($directRequest->getId());
+                    $notification->setRelatedEntityType('direct_request');
+                    $em->persist($notification);
+                }
+            }
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'La mission est maintenant "En cours". Bonne réalisation !');
+        return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+    }
+
+    // ── Direct Request: ACCEPTED/IN_PROGRESS → CLOSED ───────────────────────
+    #[Route('/direct-request/{id}/close', name: 'individual_direct_request_close', methods: ['POST'])]
+    public function closeDirectRequest(DirectRequest $directRequest, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($directRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$this->isCsrfTokenValid('close-direct-request-' . $directRequest->getId(), $request->request->get('_token'))) {
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+        }
+
+        $allowed = [DirectRequest::STATUS_ACCEPTED, DirectRequest::STATUS_IN_PROGRESS];
+        if (!in_array($directRequest->getStatus(), $allowed, true)) {
+            $this->addFlash('warning', 'Seules les demandes acceptées ou en cours peuvent être clôturées.');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+        }
+
+        $directRequest->setStatus(DirectRequest::STATUS_CLOSED);
+
+        foreach ($directRequest->getOffers() as $offer) {
+            if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
+                $offer->setStatus(Offer::STATUS_CLOSED);
+                $offer->setUpdatedAt(new \DateTime());
+
+                $provider = $offer->getProvider();
+                if ($provider) {
+                    $notif = new Notification();
+                    $notif->setUser($provider);
+                    $notif->setTitle('Demande clôturée');
+                    $notif->setMessage('La demande directe "' . $directRequest->getTitle() . '" a été clôturée par le client. Merci pour votre travail !');
+                    $notif->setRelatedEntityId($directRequest->getId());
+                    $notif->setRelatedEntityType('direct_request');
+                    $em->persist($notif);
+
+                    $feedbackNotif = new Notification();
+                    $feedbackNotif->setUser($this->getUser());
+                    $feedbackNotif->setTitle('Laissez un avis');
+                    $feedbackNotif->setMessage('Votre mission "' . $directRequest->getTitle() . '" est terminée. Pensez à laisser un avis au prestataire !');
+                    $feedbackNotif->setRelatedEntityId($directRequest->getId());
+                    $feedbackNotif->setRelatedEntityType('direct_request');
+                    $em->persist($feedbackNotif);
+                }
+            }
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Demande directe clôturée définitivement. Un rappel pour laisser un avis a été envoyé.');
+        return $this->redirectToRoute('individual_direct_request_show', ['id' => $directRequest->getId()]);
+    }
 
     private function getUnreadCount(EntityManagerInterface $em): int
     {
@@ -564,8 +892,7 @@ class IndividualController extends AbstractController
             return $this->redirectToRoute('individual_quote_show', ['id' => $offer->getQuoteRequest()->getId()]);
         }
         if ($offer->getDirectRequest()) {
-            // Assuming there's a show route for direct requests, or redirect to offers list
-            return $this->redirectToRoute('individual_offers');
+            return $this->redirectToRoute('individual_direct_request_show', ['id' => $offer->getDirectRequest()->getId()]);
         }
         return $this->redirectToRoute('individual_offers');
     }

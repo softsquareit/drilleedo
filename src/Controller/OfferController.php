@@ -250,7 +250,7 @@ class OfferController extends AbstractController
             throw $this->createAccessDeniedException('This is not your offer.');
         }
 
-        if ($offer->getStatus() !== 'ACCEPTED') {
+        if ($offer->getStatus() !== Offer::STATUS_ACCEPTED) {
             $this->addFlash('error', 'Only accepted offers can be finalized.');
             return $this->redirectToRoute('professional_offers');
         }

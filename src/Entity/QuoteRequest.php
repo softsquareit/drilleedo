@@ -17,10 +17,11 @@ class QuoteRequest
     #[ORM\Column]
     private ?int $id = null;
  
-    public const STATUS_DRAFT = 'DRAFT';
-    public const STATUS_PUBLISHED = 'PUBLISHED';
-    public const STATUS_ACCEPTED = 'ACCEPTED';
-    public const STATUS_CLOSED = 'CLOSED';
+    public const STATUS_DRAFT       = 'DRAFT';
+    public const STATUS_PUBLISHED   = 'PUBLISHED';
+    public const STATUS_ACCEPTED    = 'ACCEPTED';
+    public const STATUS_IN_PROGRESS = 'IN_PROGRESS';
+    public const STATUS_CLOSED      = 'CLOSED';
  
     #[ORM\Column(length: 255)]
     private ?string $title = null;

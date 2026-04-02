@@ -24,10 +24,11 @@
             height: 4px;
             width: 100%;
         }
-        .qr-card-status.draft   { background: #94a3b8; }
-        .qr-card-status.published { background: var(--drl-orange); }
-        .qr-card-status.accepted { background: #10b981; }
-        .qr-card-status.closed   { background: #ef4444; }
+        .qr-card-status.draft       { background: #94a3b8; }
+        .qr-card-status.published   { background: var(--drl-orange); }
+        .qr-card-status.accepted    { background: #10b981; }
+        .qr-card-status.in_progress { background: #f59e0b; }
+        .qr-card-status.closed      { background: #ef4444; }
         .qr-card-body { padding: 20px; flex: 1; }
         .qr-card-footer {
             padding: 14px 20px;
@@ -71,10 +72,11 @@
             {% for quote in quotes %}
                 {% set statusKey = quote.status|lower %}
                 {% set statusMap = {
-                    'draft':     {'class': 'drl-tag--draft',   'icon': 'feather-file',         'bar': 'draft'},
-                    'published': {'class': 'drl-tag--sent',    'icon': 'feather-globe',         'bar': 'published'},
-                    'accepted':  {'class': 'drl-tag--success', 'icon': 'feather-check-circle',  'bar': 'accepted'},
-                    'closed':    {'class': 'drl-tag--danger',  'icon': 'feather-lock',          'bar': 'closed'}
+                    'draft':       {'class': 'drl-tag--draft',   'icon': 'feather-file',         'bar': 'draft'},
+                    'published':   {'class': 'drl-tag--sent',    'icon': 'feather-globe',         'bar': 'published'},
+                    'accepted':    {'class': 'drl-tag--success', 'icon': 'feather-check-circle',  'bar': 'accepted'},
+                    'in_progress': {'class': 'drl-tag--warning', 'icon': 'feather-tool',          'bar': 'in_progress'},
+                    'closed':      {'class': 'drl-tag--danger',  'icon': 'feather-lock',          'bar': 'closed'}
                 } %}
                 {% set st = statusMap[statusKey]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle', 'bar': 'draft'}) %}
                 {% set offerCount = quote.offers|length %}
@@ -136,7 +138,17 @@
                             {% elseif quote.status == 'PUBLISHED' and offerCount > 0 %}
                                 <a href="{{ path('individual_quote_show', {'id': quote.id}) }}#offres"
                                    class="drl-btn-orange flex-grow-1 justify-content-center shadow-sm" style="font-size: 13px; text-decoration:none;">
-                                    <i class="feather-tag me-1"></i> {{ 'individual.view_offers'|trans }}
+                                    <i class="feather-inbox me-1"></i> {{ 'individual.view_offers'|trans }}
+                                </a>
+                            {% elseif quote.status == 'ACCEPTED' %}
+                                <a href="{{ path('individual_quote_show', {'id': quote.id}) }}"
+                                   class="drl-btn-orange flex-grow-1 justify-content-center shadow-sm" style="font-size: 13px; text-decoration:none; background:linear-gradient(135deg,#059669,#10b981);">
+                                    <i class="feather-play-circle me-1"></i> {{ 'individual.start_project'|trans }}
+                                </a>
+                            {% elseif quote.status == 'IN_PROGRESS' %}
+                                <a href="{{ path('individual_quote_show', {'id': quote.id}) }}"
+                                   class="drl-act-btn drl-act-btn--view flex-grow-1 justify-content-center" style="font-size: 13px; text-decoration:none;">
+                                    <i class="feather-tool me-1"></i> {{ 'individual.status_in_progress_msg'|trans }}
                                 </a>
                             {% endif %}
                         </div>

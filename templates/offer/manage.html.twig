@@ -64,27 +64,30 @@
                             </td>
                             <td>
                                 {% if offer.status == 'PUBLISHED' %}
-                                    <span class="pro-badge info">New</span>
+                                    <span class="pro-badge info">Nouvelle</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
-                                    <span class="pro-badge success">Accepted</span>
+                                    <span class="pro-badge success">Acceptée</span>
                                 {% elseif offer.status == 'REJECTED' %}
-                                    <span class="pro-badge danger">Rejected</span>
+                                    <span class="pro-badge danger">Refusée</span>
+                                {% elseif offer.status == 'IN_PROGRESS' or offer.status == 'CLOSED' %}
+                                    <span class="pro-badge secondary">Terminée</span>
                                 {% else %}
                                     <span class="pro-badge secondary">{{ offer.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
-                                <div class="dropdown">
-                                    <button class="pro-btn pro-btn-outline pro-btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Actions <i class="feather-chevron-down ms-1"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end p-2 border-0 shadow-sm">
-                                        {% if offer.status == 'PUBLISHED' %}
-                                            <li><a class="dropdown-item rounded py-2" href="{{ path('individual_offer_accept', {id: offer.id}) }}"><i class="feather-check text-success me-2"></i> Accept this Offer</a></li>
-                                            <li><a class="dropdown-item rounded py-2 text-danger" href="{{ path('individual_offer_reject', {id: offer.id}) }}"><i class="feather-x me-2"></i> Reject Offer</a></li>
-                                        {% endif %}
-                                        <li><a class="dropdown-item rounded py-2" href="{{ path('professional_details', {id: offer.provider.id}) }}" target="_blank"><i class="feather-user me-2"></i> View Profile</a></li>
-                                    </ul>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    {% if offer.status == 'PUBLISHED' %}
+                                        <form method="post" action="{{ path('individual_offer_accept', {id: offer.id}) }}" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                            <button type="submit" class="pro-btn pro-btn-sm" style="background:#16a34a; color:#fff; border:none;"><i class="feather-check me-1"></i> Accepter</button>
+                                        </form>
+                                        <form method="post" action="{{ path('individual_offer_reject', {id: offer.id}) }}" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                            <button type="submit" class="pro-btn pro-btn-sm" style="background:#dc2626; color:#fff; border:none;"><i class="feather-x me-1"></i> Refuser</button>
+                                        </form>
+                                    {% endif %}
+                                    <a class="pro-btn pro-btn-outline pro-btn-sm" href="{{ path('professional_details', {id: offer.provider.id}) }}" target="_blank"><i class="feather-user me-1"></i> Profil</a>
                                 </div>
                             </td>
                         </tr>

@@ -17,13 +17,15 @@
                 <div class="pro-card-header d-flex justify-content-between align-items-center">
                     <h4 class="pro-card-title mb-0">Your Offer</h4>
                     {% if offer.status == 'DRAFT' %}
-                        <span class="pro-badge warning">Draft</span>
+                        <span class="pro-badge warning">Brouillon</span>
                     {% elseif offer.status == 'PUBLISHED' %}
-                        <span class="pro-badge info">Sent</span>
+                        <span class="pro-badge info">Envoyée</span>
                     {% elseif offer.status == 'ACCEPTED' %}
-                        <span class="pro-badge success">Accepted</span>
+                        <span class="pro-badge success">Acceptée</span>
                     {% elseif offer.status == 'REJECTED' %}
-                        <span class="pro-badge danger">Rejected</span>
+                        <span class="pro-badge danger">Refusée</span>
+                    {% elseif offer.status == 'CLOSED' %}
+                        <span class="pro-badge secondary">Terminée</span>
                     {% else %}
                         <span class="pro-badge secondary">{{ offer.status }}</span>
                     {% endif %}
@@ -146,11 +148,12 @@
                         </button>
                     </form>
                 {% endif %}
-                {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                    <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="d-inline" data-confirm="Mark this request as completed?">
+                {% set activeReq = offer.quoteRequest ?? offer.directRequest %}
+                {% if offer.status == 'ACCEPTED' and activeReq and activeReq.status|upper != 'CLOSED' %}
+                    <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="d-inline" data-confirm="Confirmer la fin des travaux ? Le client sera notifié.">
                         <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                         <button type="submit" class="pro-btn pro-btn-success rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2">
-                            <i class="ph-bold ph-check-circle"></i> Finalize Request
+                            <i class="ph-bold ph-check-circle"></i> Terminer la mission
                         </button>
                     </form>
                 {% endif %}
@@ -235,11 +238,15 @@
 
                             <div class="d-flex align-items-center gap-3">
                                 <i class="ph-bold ph-info text-muted"></i>
-                                {% set status = activeRequest.status|lower %}
-                                {% if status == 'closed' %}
+                                {% set reqStatus = activeRequest.status|upper %}
+                                {% if reqStatus == 'CLOSED' %}
                                     <span class="pro-badge secondary">Clôturée</span>
-                                {% elseif status == 'accepted' %}
+                                {% elseif reqStatus == 'IN_PROGRESS' %}
+                                    <span class="pro-badge warning">En cours</span>
+                                {% elseif reqStatus == 'ACCEPTED' %}
                                     <span class="pro-badge success">Acceptée</span>
+                                {% elseif reqStatus == 'PUBLISHED' %}
+                                    <span class="pro-badge info">Publiée</span>
                                 {% else %}
                                     <span class="pro-badge primary">{{ activeRequest.status }}</span>
                                 {% endif %}

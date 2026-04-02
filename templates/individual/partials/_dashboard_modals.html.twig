@@ -1,27 +1,27 @@
-<!-- Edit Profile Photo Modal -->
+<!-- Update Profile Photo Modal -->
 <div class="modal fade" id="editLogoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content drl-modal-content">
             <div class="modal-header drl-modal-header">
                 <h5 class="modal-title drl-modal-title">
-                    <i class="feather-image me-2"></i>Update Profile Photo
+                    <i class="feather-image me-2"></i>{{ 'individual.update_photo'|trans }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body drl-modal-body">
                 <form id="uploadLogoForm" enctype="multipart/form-data">
-                    <label for="logoInput" class="pro-upload-area mb-4">
-                        <div class="pro-upload-icon">
+                    <label for="logoInput" class="d-block border-2 border-dashed rounded-4 p-5 text-center mb-4" style="border: 2px dashed #e2e8f0; cursor: pointer; background: #f8fafc; transition: all .2s;" onmouseover="this.style.borderColor='#f97316'" onmouseout="this.style.borderColor='#e2e8f0'">
+                        <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.5rem;">
                             <i class="feather-image"></i>
                         </div>
-                        <p class="pro-upload-text">Click to select or drag image here</p>
-                        <p class="pro-text-muted" style="font-size: 1rem; margin-top: 8px;">Recommended: Square image, at least 400x400px</p>
-                        <input type="file" id="logoInput" name="profilePhoto" class="pro-file-input" accept="image/*" required>
+                        <p class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ 'individual.upload_photo_click'|trans }}</p>
+                        <p class="text-muted small mb-0">{{ 'individual.upload_photo_spec'|trans }}</p>
+                        <input type="file" id="logoInput" name="profilePhoto" class="d-none" accept="image/*" required>
                     </label>
-                    <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
-                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'individual.cancel'|trans }}</button>
                         <button type="submit" class="drl-btn-orange">
-                            <i class="feather-upload me-2"></i> Upload Photo
+                            <i class="feather-upload me-2"></i> {{ 'individual.upload_photo_btn'|trans }}
                         </button>
                     </div>
                 </form>

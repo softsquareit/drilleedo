@@ -22,10 +22,11 @@ class DirectRequest
     #[ORM\Column(type: 'text')]
     private ?string $description = null;
 
-    public const STATUS_DRAFT = 'DRAFT';
-    public const STATUS_PUBLISHED = 'PUBLISHED';
-    public const STATUS_ACCEPTED = 'ACCEPTED';
-    public const STATUS_CLOSED = 'CLOSED';
+    public const STATUS_DRAFT       = 'DRAFT';
+    public const STATUS_PUBLISHED   = 'PUBLISHED';
+    public const STATUS_ACCEPTED    = 'ACCEPTED';
+    public const STATUS_IN_PROGRESS = 'IN_PROGRESS';
+    public const STATUS_CLOSED      = 'CLOSED';
 
     #[ORM\Column(length: 50)]
     private ?string $status = self::STATUS_DRAFT;

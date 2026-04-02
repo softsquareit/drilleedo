@@ -16,11 +16,12 @@ class Offer
     #[ORM\Column]
     private ?int $id = null;
  
-    public const STATUS_DRAFT = 'DRAFT';
-    public const STATUS_PUBLISHED = 'PUBLISHED';
-    public const STATUS_REJECTED = 'REJECTED';
-    public const STATUS_ACCEPTED = 'ACCEPTED';
-    public const STATUS_CLOSED = 'CLOSED';
+    public const STATUS_DRAFT      = 'DRAFT';
+    public const STATUS_PUBLISHED  = 'PUBLISHED';
+    public const STATUS_INTERESTED = 'INTERESTED';
+    public const STATUS_REJECTED   = 'REJECTED';
+    public const STATUS_ACCEPTED   = 'ACCEPTED';
+    public const STATUS_CLOSED     = 'CLOSED';
 
     #[ORM\Column]
     private ?float $price = null;
@@ -45,6 +46,9 @@ class Offer
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $possibleStartDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $viewedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $estimatedDuration = null;
@@ -229,5 +233,22 @@ class Offer
         $this->estimatedDurationUnit = $estimatedDurationUnit;
 
         return $this;
+    }
+
+    public function getViewedAt(): ?\DateTimeInterface
+    {
+        return $this->viewedAt;
+    }
+
+    public function setViewedAt(?\DateTimeInterface $viewedAt): static
+    {
+        $this->viewedAt = $viewedAt;
+
+        return $this;
+    }
+
+    public function isViewed(): bool
+    {
+        return $this->viewedAt !== null;
     }
 }

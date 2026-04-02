@@ -9,6 +9,23 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class ApiSearchTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requireDatabase();
+    }
+
+    private function requireDatabase(): void
+    {
+        try {
+            $client = static::createClient();
+            $conn = $client->getContainer()->get('doctrine.dbal.default_connection');
+            $conn->executeQuery('SELECT 1');
+        } catch (\Exception $e) {
+            $this->markTestSkipped('Database not available: ' . $e->getMessage());
+        }
+    }
+
     public function testSearchReturnsJson(): void
     {
         $client = static::createClient();
@@ -23,21 +40,18 @@ class ApiSearchTest extends WebTestCase
         $this->assertArrayHasKey('companies', $data);
     }
 
-    public function testSearchWithEmptyQueryReturnsJson(): void
+    public function testSearchWithEmptyQueryReturnsValidResponse(): void
     {
         $client = static::createClient();
         $client->request('GET', '/api/search', ['q' => '']);
 
-        // Should return 200 with empty results or 400, not 500
-        $this->assertResponseStatusCodeSame(
-            in_array($client->getResponse()->getStatusCode(), [200, 400]) ? $client->getResponse()->getStatusCode() : 200
-        );
+        $statusCode = $client->getResponse()->getStatusCode();
+        $this->assertContains($statusCode, [200, 400], "Expected 200 or 400 for empty query, got $statusCode");
     }
 
     public function testCategoriesChildrenEndpoint(): void
     {
         $client = static::createClient();
-        // Request children for a non-existent category — should return 200 with empty array or 404
         $client->request('GET', '/api/categories/99999/children');
 
         $statusCode = $client->getResponse()->getStatusCode();

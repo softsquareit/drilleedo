@@ -19,8 +19,17 @@ class FileUploaderTest extends TestCase
 
     protected function tearDown(): void
     {
-        // Clean up temp files
-        array_map('unlink', glob($this->tempDir . '/*') ?: []);
+        // Clean up temp files (skip directories)
+        foreach (glob($this->tempDir . '/*') ?: [] as $item) {
+            if (is_file($item)) {
+                unlink($item);
+            }
+        }
+        foreach (glob($this->tempDir . '/sub/*') ?: [] as $item) {
+            if (is_file($item)) {
+                unlink($item);
+            }
+        }
         @rmdir($this->tempDir . '/sub');
         rmdir($this->tempDir);
     }
@@ -100,12 +109,12 @@ class FileUploaderTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessageMatches('/volumineux/i');
 
-        // Create a fake PNG file that's "too large" (we mock the file size check
-        // by subclassing — instead, test with a real oversized file)
+        // Write a minimal valid 1×1 PNG (passes MIME check) then pad beyond 10 MB
+        $minimalPng = base64_decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+        );
         $tempFile = $this->tempDir . '/big.png';
-        // Write a valid PNG header so MIME detection works, but pad to >10MB
-        $pngHeader = "\x89PNG\r\n\x1a\n" . str_repeat('A', 10 * 1024 * 1024 + 1);
-        file_put_contents($tempFile, $pngHeader);
+        file_put_contents($tempFile, $minimalPng . str_repeat('A', 10 * 1024 * 1024 + 1));
 
         $uploaded = new UploadedFile(
             $tempFile,

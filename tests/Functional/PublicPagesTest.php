@@ -2,18 +2,36 @@
 
 namespace App\Tests\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Smoke tests: verify public pages return 200 and contain expected content.
- * These tests do NOT require a database connection — they only check HTTP status
- * and basic HTML structure for routes that may redirect or show login forms.
  */
 class PublicPagesTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->requireDatabase();
+    }
+
     /**
-     * @dataProvider publicPageProvider
+     * Skip the test suite if the database is not reachable.
+     * Functional tests require a running database.
      */
+    private function requireDatabase(): void
+    {
+        try {
+            $client = static::createClient();
+            $conn = $client->getContainer()->get('doctrine.dbal.default_connection');
+            $conn->executeQuery('SELECT 1');
+        } catch (\Exception $e) {
+            $this->markTestSkipped('Database not available: ' . $e->getMessage());
+        }
+    }
+
+    #[DataProvider('publicPageProvider')]
     public function testPublicPageIsAccessible(string $url, int $expectedStatus = 200): void
     {
         $client = static::createClient();
