@@ -176,7 +176,7 @@ class CompanyController extends AbstractController
     {
         $project = $em->getRepository(\App\Entity\Projet::class)->find($id);
         
-        if (!$project || $project->getBusiness() !== $this->getUser()) {
+        if (!$project || $project->getBusiness()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createNotFoundException('Project not found');
         }
 
@@ -218,7 +218,7 @@ class CompanyController extends AbstractController
     {
         $project = $em->getRepository(\App\Entity\Projet::class)->find($id);
         
-        if ($project && $project->getBusiness() === $this->getUser()) {
+        if ($project && $project->getBusiness()?->getId() === $this->getUser()?->getId()) {
             $em->remove($project);
             $em->flush();
             $this->addFlash('success', 'Project deleted successfully.');

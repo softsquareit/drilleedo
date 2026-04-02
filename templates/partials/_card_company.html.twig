@@ -11,7 +11,7 @@
 <div class="fp-pro-card pro-card-item" data-category="{{ mainCategory ? mainCategory.id : '' }}">
     {% if pro.isTopRated %}
     <div class="fp-badge-top" aria-label="Top rated company">
-        ⭐ Top Rated
+        ⭐ {{ 'home_card.top_rated'|trans }}
     </div>
     {% endif %}
 
@@ -24,7 +24,10 @@
         </a>
         <div class="fp-card-avatar" aria-hidden="true">
             {% if pro.logo %}
-                <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="{{ pro.displayName }} logo">
+                <img src="{{ asset('uploads/logos/' ~ pro.logo) }}"
+                     alt="{{ pro.displayName }} logo"
+                     loading="lazy"
+                     width="48" height="48">
             {% else %}
                 {{ pro.displayName|slice(0,2)|upper }}
             {% endif %}
@@ -36,7 +39,7 @@
         
         {# Verified Status #}
         <div class="fp-card-verified">
-            <i class="fas fa-check-circle" aria-hidden="true"></i> Verified Company
+            <i class="fas fa-check-circle" aria-hidden="true"></i> {{ 'home_card.verified_company'|trans }}
         </div>
 
         {# Title #}
@@ -50,7 +53,7 @@
         <div class="fp-card-meta">
             <span>
                 <i class="feather-briefcase"></i>
-                {{ mainCategory ? mainCategory.name : 'Renovation Company' }}
+                {{ mainCategory ? mainCategory.name : 'home_card.default_category'|trans }}
             </span>
             <span>
                 <i class="feather-map-pin"></i>
@@ -68,18 +71,18 @@
                 {% endfor %}
             </div>
             <span class="fp-card-rating__num">5.0</span>
-            <span class="fp-card-rating__cnt">(Local Expert)</span>
+            <span class="fp-card-rating__cnt">{{ 'home_card.local_expert'|trans }}</span>
         </div>
 
         {# Action Buttons #}
         <div class="fp-card-actions">
             <a href="{{ profileUrl }}" class="fp-btn-outline">
-                View Company
+                {{ 'home_card.view_company'|trans }}
             </a>
             
             <a href="{{ path('individual_direct_request_new', {'type': 'company', 'id': pro.id}) }}" 
                class="fp-btn-solid">
-                Get Quote
+                {{ 'home_card.get_quote'|trans }}
             </a>
         </div>
     </div>

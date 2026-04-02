@@ -1,0 +1,13 @@
+framework:
+    rate_limiter:
+        # 5 tentatives de connexion par minute par IP
+        login_limiter:
+            policy: sliding_window
+            limit: 5
+            interval: '1 minute'
+
+        # 3 inscriptions par heure par IP
+        registration_limiter:
+            policy: fixed_window
+            limit: 3
+            interval: '1 hour'

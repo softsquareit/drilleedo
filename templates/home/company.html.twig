@@ -68,6 +68,22 @@
   "description": "{{ company.about ? company.about|striptags|slice(0,200)|e('js') : '' }}"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "{{ url('app_home') }}"},
+    {"@type": "ListItem", "position": 2, "name": "Entreprises", "item": "{{ url('companies_list') }}"},
+    {% if company.categories|length > 0 %}
+    {"@type": "ListItem", "position": 3, "name": "{{ company.categories|first.name|e('js') }}", "item": "{{ url('companies_list') }}?category={{ company.categories|first.id }}"},
+    {"@type": "ListItem", "position": 4, "name": "{{ company.companyName|e('js') }}"}
+    {% else %}
+    {"@type": "ListItem", "position": 3, "name": "{{ company.companyName|e('js') }}"}
+    {% endif %}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block body %}
@@ -81,6 +97,37 @@
 {% set contactMap = {'email': '📧 Email', 'phone': '📞 Phone', 'sms': '💬 SMS', 'whatsapp': '💚 WhatsApp'} %}
 
 <div class="drl-page">
+
+{# ── Breadcrumb navigation ─────────────────────────────────────────────────── #}
+<nav aria-label="breadcrumb" class="container pt-3 pb-1">
+  <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
+      <meta itemprop="position" content="1">
+    </li>
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ url('companies_list') }}" itemprop="item"><span itemprop="name">Entreprises</span></a>
+      <meta itemprop="position" content="2">
+    </li>
+    {% if company.categories|length > 0 %}
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ url('companies_list') }}?category={{ company.categories|first.id }}" itemprop="item">
+        <span itemprop="name">{{ company.categories|first.name }}</span>
+      </a>
+      <meta itemprop="position" content="3">
+    </li>
+    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">{{ company.companyName }}</span>
+      <meta itemprop="position" content="4">
+    </li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">{{ company.companyName }}</span>
+      <meta itemprop="position" content="3">
+    </li>
+    {% endif %}
+  </ol>
+</nav>
 
 {# ══════════════════════════════════════════════════════════════════
    1. HERO BANNER

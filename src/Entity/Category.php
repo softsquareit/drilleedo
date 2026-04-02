@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     #[ORM\Id]
@@ -30,6 +32,9 @@ class Category
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $icon = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
+
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $color = null;
 
@@ -47,6 +52,9 @@ class Category
 
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private bool $isActive = true;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -195,6 +203,17 @@ class Category
         return $this;
     }
 
+    public function getBanner(): ?string
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?string $banner): static
+    {
+        $this->banner = $banner;
+        return $this;
+    }
+
     public function getColor(): ?string
     {
         if ($this->color) {
@@ -230,5 +249,16 @@ class Category
     {
         $this->isActive = $isActive;
         return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

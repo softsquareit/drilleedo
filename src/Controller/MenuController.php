@@ -33,6 +33,7 @@ class MenuController extends AbstractController
                 'name' => $parent->getName(),
                 'slug' => $parentSlug,
                 'icon' => $parent->getIcon(),
+                'banner' => $parent->getBanner(),
                 'children' => $children
             ];
         }

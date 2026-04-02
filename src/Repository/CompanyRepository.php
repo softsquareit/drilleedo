@@ -26,7 +26,9 @@ class CompanyRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->leftJoin('c.categories', 'cat')
-            ->leftJoin('c.Adresse', 'a');
+            ->addSelect('cat')
+            ->leftJoin('c.Adresse', 'a')
+            ->addSelect('a');
         
         if (!empty($filters['keyword'])) {
             $qb->andWhere('c.company_name LIKE :keyword OR cat.name LIKE :keyword OR a.city LIKE :keyword')
@@ -111,7 +113,20 @@ class CompanyRepository extends ServiceEntityRepository
     }
 
     /**
-     * Search companies by keyword across name and city.
+     * Retourne uniquement les champs nécessaires pour le sitemap.xml (évite le chargement complet des entités).
+     *
+     * @return array<int, array{id: int, company_name: string|null, updatedAt: \DateTimeInterface|null}>
+     */
+    public function findForSitemap(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id, c.company_name, c.updatedAt')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * Search companies by keyword using FULLTEXT on company_name, with LIKE fallback.
      *
      * @param string $q The search keyword
      * @param int $limit Max results to return
@@ -119,15 +134,40 @@ class CompanyRepository extends ServiceEntityRepository
      */
     public function searchByKeyword(string $q, int $limit = 6): array
     {
-        $qb = $this->createQueryBuilder('c')
-            ->leftJoin('c.Adresse', 'a')
-            ->where('c.company_name LIKE :q')
-            ->orWhere('c.email LIKE :q')
-            ->orWhere('a.city LIKE :q')
-            ->setParameter('q', '%' . $q . '%')
-            ->setMaxResults($limit)
-            ->orderBy('c.id', 'DESC');
+        $conn = $this->getEntityManager()->getConnection();
+        $term = addcslashes($q, '+-><()~*\\"@') . '*';
 
-        return $qb->getQuery()->getResult();
+        // FULLTEXT on company_name (stored in business table via JOINED inheritance)
+        $sql = '
+            SELECT c.id
+            FROM company c
+            JOIN business b ON b.id = c.id
+            WHERE MATCH(b.company_name) AGAINST(:term IN BOOLEAN MODE)
+            ORDER BY MATCH(b.company_name) AGAINST(:term IN BOOLEAN MODE) DESC
+            LIMIT :lim
+        ';
+
+        $ids = $conn->fetchFirstColumn($sql, ['term' => $term, 'lim' => $limit], [
+            'term' => \Doctrine\DBAL\ParameterType::STRING,
+            'lim'  => \Doctrine\DBAL\ParameterType::INTEGER,
+        ]);
+
+        // LIKE fallback (also searches city via address join)
+        if (empty($ids)) {
+            return $this->createQueryBuilder('c')
+                ->leftJoin('c.Adresse', 'a')
+                ->where('c.company_name LIKE :q OR c.email LIKE :q OR a.city LIKE :q')
+                ->setParameter('q', '%' . $q . '%')
+                ->setMaxResults($limit)
+                ->orderBy('c.id', 'DESC')
+                ->getQuery()->getResult();
+        }
+
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.categories', 'cat')
+            ->addSelect('cat')
+            ->where('c.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()->getResult();
     }
 }

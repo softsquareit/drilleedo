@@ -40,6 +40,18 @@ class QuoteRequest
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $languages = [];
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $desiredStartDate = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $availabilities = [];
+
+    #[ORM\Column(options: ['default' => false])]
+    private bool $urgentIntervention = false;
+
     #[ORM\ManyToOne]
     private ?Category $category = null;
 
@@ -55,6 +67,9 @@ class QuoteRequest
         $this->status = self::STATUS_DRAFT;
         $this->offers = new ArrayCollection();
         $this->images = [];
+        $this->languages = [];
+        $this->availabilities = [];
+        $this->urgentIntervention = false;
     }
 
     public function getId(): ?int
@@ -173,16 +188,62 @@ class QuoteRequest
         return $this;
     }
 
-    
     public function getBrochureFilename(): ?string
     {
         return $this->brochureFilename;
     }
 
-    
     public function setBrochureFilename(string $brochureFilename): static
     {
         $this->brochureFilename = $brochureFilename;
+
+        return $this;
+    }
+
+    public function getLanguages(): ?array
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?array $languages): static
+    {
+        $this->languages = $languages;
+
+        return $this;
+    }
+
+    public function getDesiredStartDate(): ?\DateTimeInterface
+    {
+        return $this->desiredStartDate;
+    }
+
+    public function setDesiredStartDate(?\DateTimeInterface $desiredStartDate): static
+    {
+        $this->desiredStartDate = $desiredStartDate;
+
+        return $this;
+    }
+
+    public function getAvailabilities(): ?array
+    {
+        return $this->availabilities;
+    }
+
+    public function setAvailabilities(?array $availabilities): static
+    {
+        $this->availabilities = $availabilities;
+
+        return $this;
+    }
+
+    public function isUrgentIntervention(): bool
+    {
+        return $this->urgentIntervention;
+    }
+
+    public function setUrgentIntervention(bool $urgentIntervention): static
+    {
+        $this->urgentIntervention = $urgentIntervention;
 
         return $this;
     }

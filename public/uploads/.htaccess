@@ -1,0 +1,11 @@
+# Bloquer toute exécution de scripts dans ce dossier
+# Un attaquant ne peut pas uploader et exécuter un fichier PHP malveillant
+
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+
+Options -ExecCGI -Indexes
+AddHandler cgi-script .php .pl .py .jsp .asp .sh
+
+php_flag engine off

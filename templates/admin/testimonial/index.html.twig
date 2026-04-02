@@ -11,13 +11,13 @@
                         <h4 class="mb-0 fw-bold text-dark">Testimonials</h4>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small"><i class="ph-house me-1"></i>Dashboard</a></li>
                                 <li class="breadcrumb-item active small" aria-current="page">Testimonials</li>
                             </ol>
                         </nav>
                     </div>
                     <button type="button" class="btn btn-primary shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addTestimonialModal">
-                        <i class="fas fa-plus me-2"></i>Add Testimonial
+                        <i class="ph-plus me-2"></i>Add Testimonial
                     </button>
                  </div>
 
@@ -45,7 +45,7 @@
                     <div class="card-header bg-white border-0 py-4 px-4 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                <i class="fas fa-comments"></i>
+                                <i class="ph-chat-circle"></i>
                             </div>
                             <div>
                                 <h5 class="mb-0 fw-bold text-dark">All Testimonials</h5>
@@ -108,11 +108,11 @@
                                         {% endif %}
                                     </td>
                                     <td class="px-4 text-end">
-                                        <div class="d-flex justify-content-end gap-2">
+                                         <div class="d-flex justify-content-end gap-2">
                                             <a href="{{ path('admin_testimonial_edit', {'id': testimonial.id}) }}" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" 
                                                title="Edit Details"
                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-edit small"></i>
+                                                <i class="ph-pencil-simple small"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-light text-danger btn-icon rounded-circle shadow-sm" 
                                                     title="Delete Testimonial"
@@ -120,7 +120,7 @@
                                                     data-action="{{ path('admin_testimonial_delete', {'id': testimonial.id}) }}"
                                                     data-token="{{ csrf_token('delete' ~ testimonial.id) }}"
                                                     style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                                                <i class="fas fa-trash-alt small"></i>
+                                                <i class="ph-trash small"></i>
                                             </button>
                                         </div>
                                     </td>

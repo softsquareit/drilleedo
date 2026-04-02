@@ -1,21 +1,17 @@
 {% extends 'individual/base_individual.html.twig' %}
 
-{% block title %}Offer Details - Drilleedo{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
+{% block title %}{{ 'individual.offer_detail_title'|trans }} - Drilleedo{% endblock %}
 
 {% block body %}
     {# ── Back link ── #}
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="mb-4">
         {% if quote %}
-            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
-                <i class="feather-arrow-left"></i> Back to "{{ parentRequest.title }}"
+            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2" style="font-size: 14px; font-weight: 600;">
+                <i class="feather-arrow-left"></i> {{ 'individual.back_to_request'|trans({'%title%': parentRequest.title}) }}
             </a>
         {% else %}
-            <a href="{{ path('individual_offers') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
-                <i class="feather-arrow-left"></i> Back to All Offers
+            <a href="{{ path('individual_offers') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2" style="font-size: 14px; font-weight: 600;">
+                <i class="feather-arrow-left"></i> {{ 'individual.back_to_offers'|trans }}
             </a>
         {% endif %}
     </div>
@@ -23,63 +19,58 @@
     <div class="row g-4">
         {# ── Provider Card ── #}
         <div class="col-lg-4">
-            <div class="pro-card pro-card-elevated h-100">
-                <div class="pro-card-header border-bottom">
-                    <h5 class="pro-card-title"><i class="feather-user text-primary me-2"></i>Provider</h5>
+            <div class="drl-card h-100">
+                <div class="drl-card-head border-bottom pb-3">
+                    <h5 class="drl-card-title mb-0"><i class="feather-user me-2 text-primary"></i>{{ 'individual.provider'|trans }}</h5>
                 </div>
-                <div class="pro-card-body text-center py-4">
+                <div class="p-4 text-center">
                     {% set provider = offer.provider %}
                     {% set providerName = provider.primaryContact ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName) : (provider.companyName|default(provider.email)) %}
 
                     {# Avatar #}
                     {% if provider.logo %}
-                        <img src="{{ asset('uploads/logos/' ~ provider.logo) }}" alt="Provider Logo"
-                             style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0;"
-                             class="mb-3 mx-auto d-block">
+                        <img src="{{ asset('uploads/logos/' ~ provider.logo) }}" alt="{{ providerName }}"
+                             style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0;"
+                             class="mb-3 mx-auto d-block shadow-sm">
                     {% else %}
-                        <div class="pro-stat-icon primary mx-auto mb-3" style="width: 72px; height: 72px; font-size: 2rem;">
+                        <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem; border-radius: 50%;">
                             {{ providerName|slice(0, 1)|upper }}
                         </div>
                     {% endif %}
 
                     <h5 class="fw-bold text-dark mb-1">{{ providerName }}</h5>
                     <div class="mb-3">
-                        <span class="badge pro-badge info">
-                            {{ provider.getType() }}
-                        </span>
+                        <span class="drl-tag drl-tag--sent">{{ provider.getType() }}</span>
                         {% if provider.entrepreneurType %}
-                            <span class="badge pro-badge secondary">
-                                {{ provider.entrepreneurType.name }}
-                            </span>
+                            <span class="drl-tag drl-tag--draft mt-1">{{ provider.entrepreneurType.name }}</span>
                         {% endif %}
                     </div>
 
                     {% if provider.companyName and provider.companyName != providerName %}
-                        <div class="mt-2">
-                            <div class="text-muted small">Company</div>
-                            <div class="fw-bold text-dark">{{ provider.companyName }}</div>
+                        <div class="text-muted small mt-2">
+                            <i class="feather-briefcase me-1"></i>{{ provider.companyName }}
                         </div>
                     {% endif %}
 
-                    {# Contact info: only revealed if offer is ACCEPTED #}
+                    {# Contact info: only revealed after ACCEPTED #}
                     {% if offer.status|upper == 'ACCEPTED' %}
-                        <div class="contact-info-card text-start mt-4 p-4 rounded-3 bg-light border">
-                            <h6 class="fw-bold text-dark mb-3"><i class="feather-phone-call me-2 text-success"></i>Contact Details</h6>
+                        <div class="text-start mt-4 p-4 rounded-4 bg-light border shadow-sm">
+                            <h6 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                                <i class="feather-phone-call text-success"></i>{{ 'individual.contact_details'|trans }}
+                            </h6>
                             <div class="mb-3">
-                                <label class="pro-form-label mb-1" style="font-size: 0.75rem;">Email</label>
-                                <div class="fw-bold">
-                                    <a href="mailto:{{ provider.email }}" class="text-primary text-decoration-none">{{ provider.email }}</a>
-                                </div>
+                                <div class="text-muted small mb-1">{{ 'individual.email_address'|trans }}</div>
+                                <a href="mailto:{{ provider.email }}" class="fw-bold text-decoration-none" style="color: var(--drl-navy);">{{ provider.email }}</a>
                             </div>
                             <div>
-                                <label class="pro-form-label mb-1" style="font-size: 0.75rem;">Phone</label>
-                                <div class="fw-bold text-dark">{{ provider.phoneNum|default('Not provided') }}</div>
+                                <div class="text-muted small mb-1">{{ 'individual.phone_number'|trans }}</div>
+                                <div class="fw-bold text-dark">{{ provider.phoneNum|default('individual.not_provided'|trans) }}</div>
                             </div>
                         </div>
                     {% else %}
-                        <div class="mt-4 p-4 bg-light rounded-3 border text-start">
-                            <p class="small text-muted mb-0 fst-italic">
-                                <i class="feather-lock me-1"></i> Contact details will be revealed once you accept this offer.
+                        <div class="mt-4 p-3 bg-light rounded-4 border text-start">
+                            <p class="small text-muted mb-0">
+                                <i class="feather-lock me-1"></i> {{ 'individual.contact_locked'|trans }}
                             </p>
                         </div>
                     {% endif %}
@@ -89,108 +80,119 @@
 
         {# ── Offer Details Card ── #}
         <div class="col-lg-8">
-            <div class="pro-card pro-card-elevated h-100">
-                <div class="pro-card-header border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="pro-card-title"><i class="feather-file-text text-primary me-2"></i>Offer Quote</h5>
+            <div class="drl-card h-100">
+                <div class="drl-card-head border-bottom pb-3">
+                    <h5 class="drl-card-title mb-0"><i class="feather-file-text me-2 text-primary"></i>{{ 'individual.offer_quote'|trans }}</h5>
                     {% set offerStatusMap = {
-                        'DRAFT': {'class': 'secondary', 'label': 'Draft', 'icon': 'feather-file'},
-                        'PUBLISHED': {'class': 'info', 'label': 'Published', 'icon': 'feather-globe'},
-                        'ACCEPTED': {'class': 'success', 'label': 'Accepted', 'icon': 'feather-check-circle'},
-                        'REJECTED': {'class': 'danger', 'label': 'Rejected', 'icon': 'feather-x-circle'},
-                        'CLOSED': {'class': 'danger', 'label': 'Closed', 'icon': 'feather-lock'}
+                        'DRAFT':     {'class': 'drl-tag--draft',   'icon': 'feather-file'},
+                        'PUBLISHED': {'class': 'drl-tag--sent',    'icon': 'feather-globe'},
+                        'ACCEPTED':  {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
+                        'REJECTED':  {'class': 'drl-tag--danger',  'icon': 'feather-x-circle'},
+                        'CLOSED':    {'class': 'drl-tag--danger',  'icon': 'feather-lock'}
                     } %}
-                    {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'secondary', 'label': offer.status, 'icon': 'feather-help-circle'}) %}
-                    <span class="pro-badge {{ offerInfo.class }} px-3 py-2">
-                        <i class="{{ offerInfo.icon }} me-1"></i>{{ offerInfo.label }}
+                    {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle'}) %}
+                    <span class="drl-tag {{ offerInfo.class }}">
+                        <i class="{{ offerInfo.icon }} me-1"></i>{{ ('status.' ~ offer.status)|trans({}, 'messages') }}
                     </span>
                 </div>
-                <div class="pro-card-body pt-4">
-                    <div class="row g-4 mb-4">
+
+                <div class="p-4">
+                    {# Price + Date #}
+                    <div class="row g-3 mb-4">
                         <div class="col-sm-6">
-                            <label class="pro-form-label">Proposed Amount</label>
-                            <div class="fw-bold text-dark" style="font-size: 2rem; line-height: 1;">
-                                {{ offer.price|number_format(2) }} <span class="text-muted" style="font-size: 1.25rem;">$</span>
+                            <div class="p-4 rounded-4 h-100" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); border: 1px solid #fed7aa;">
+                                <div class="text-muted small mb-2" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">{{ 'individual.proposed_amount'|trans }}</div>
+                                <div class="fw-bold" style="font-size: 2.25rem; line-height: 1; color: var(--drl-navy);">
+                                    {{ offer.price|number_format(2) }}<span class="text-muted ms-1" style="font-size: 1.1rem;">$</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <label class="pro-form-label">Submitted On</label>
-                            <div class="fw-bold text-dark h5">{{ offer.createdAt|date('F j, Y \\a\\t g:i A') }}</div>
+                            <div class="p-4 rounded-4 h-100 bg-light border">
+                                <div class="text-muted small mb-2" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">{{ 'individual.submitted'|trans }}</div>
+                                <div class="fw-bold text-dark" style="font-size: 1rem;">{{ offer.createdAt|date('F j, Y') }}</div>
+                                <div class="text-muted small">{{ offer.createdAt|date('g:i A') }}</div>
+                            </div>
                         </div>
                     </div>
 
-                    <label class="pro-form-label">Message / Description</label>
-                    <div class="p-4 bg-light rounded-3 border mb-4" style="white-space: pre-line; color: #334155; font-size: 1.4rem; line-height: 1.6;">
-                        {{ offer.description|default('No additional message provided.') }}
+                    {# Description #}
+                    <div class="text-muted small mb-2">{{ 'individual.offer_message'|trans }}</div>
+                    <div class="p-4 bg-light rounded-4 border mb-4" style="white-space: pre-line; color: #334155; line-height: 1.6;">
+                        {{ offer.description|default('individual.no_notes'|trans) }}
                     </div>
 
+                    {# Documents #}
                     {% if offer.documents|length > 0 %}
-                        <label class="pro-form-label">Attached Documents</label>
+                        <div class="text-muted small mb-2">{{ 'individual.attached_docs'|trans }}</div>
                         <div class="d-flex flex-wrap gap-2 mb-4">
                             {% for doc in offer.documents %}
-                                <a href="{{ asset('uploads/offer_documents/' ~ doc) }}" target="_blank" class="pro-badge secondary px-3 py-2">
-                                    <i class="feather-paperclip me-2"></i>{{ doc }}
+                                <a href="{{ asset('uploads/offer_documents/' ~ doc) }}" target="_blank" class="drl-act-btn drl-act-btn--view shadow-sm">
+                                    <i class="feather-paperclip me-1"></i>{{ doc }}
                                 </a>
                             {% endfor %}
                         </div>
                     {% endif %}
 
-                    <label class="pro-form-label">Related Request</label>
-                    <div class="p-3 border rounded-3 d-flex align-items-center justify-content-between mb-4">
+                    {# Related Request #}
+                    <div class="text-muted small mb-2">{{ 'individual.related_request'|trans }}</div>
+                    <div class="p-3 border rounded-4 d-flex align-items-center justify-content-between mb-4 bg-light">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="pro-activity-icon info">
+                            <div class="drl-stat-icon drl-stat-icon--2 m-0" style="width: 38px; height: 38px; font-size: 16px;">
                                 <i class="feather-link"></i>
                             </div>
                             <div>
                                 <span class="fw-bold text-dark d-block mb-1">{{ parentRequest.title }}</span>
-                                <span class="badge pro-badge secondary p-0 px-2" style="font-size: 1rem;">
-                                    {{ offer.quoteRequest ? 'Quote Request' : 'Direct Request' }}
+                                <span class="drl-tag drl-tag--draft p-0 px-2" style="font-size: 10px;">
+                                    {{ offer.quoteRequest ? 'menu.quote_requests'|trans : 'menu.direct_requests'|trans }}
                                 </span>
                             </div>
                         </div>
                         {% if quote %}
-                            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="pro-btn pro-btn-icon">
+                            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="drl-act-btn drl-act-btn--view shadow-sm">
                                 <i class="feather-arrow-right"></i>
                             </a>
                         {% endif %}
                     </div>
 
                     {# ── Action Buttons ── #}
-                    {% if parentRequest.status not in ['Closed'] %}
-                        <hr class="my-5">
-                        <h6 class="fw-bold text-dark mb-4"><i class="feather-zap text-warning me-2"></i>Available Actions</h6>
-                        <div class="d-flex flex-wrap gap-3">
-                            {% if offer.status|upper == 'PUBLISHED' %}
+                    {% if parentRequest.status not in ['Closed', 'CLOSED'] %}
+                        {% if offer.status|upper == 'PUBLISHED' %}
+                            <hr class="my-4">
+                            <h6 class="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                                <i class="feather-zap text-warning"></i>{{ 'individual.available_actions'|trans }}
+                            </h6>
+                            <div class="d-flex flex-wrap gap-3">
                                 <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                      data-confirm="Accept this offer? All other pending offers will be automatically rejected.">
+                                      data-confirm="{{ 'individual.confirm_accept'|trans }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="indiv-btn-primary px-5">
-                                        <i class="feather-check-circle"></i> Accept Offer
+                                    <button type="submit" class="drl-btn-orange px-5 shadow-sm">
+                                        <i class="feather-check-circle me-2"></i>{{ 'individual.accept'|trans }}
                                     </button>
                                 </form>
                                 <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="d-inline"
-                                      data-confirm="Reject this offer?">
+                                      data-confirm="{{ 'individual.confirm_reject'|trans }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="indiv-btn-danger px-5" style="border-color: var(--indiv-danger); color: var(--indiv-danger);">
-                                        <i class="feather-x-circle"></i> Reject Offer
+                                    <button type="submit" class="drl-act-btn shadow-sm" style="background: rgba(220,53,69,0.1); color: #dc3545; border: none; padding: 10px 24px;">
+                                        <i class="feather-x-circle me-2"></i>{{ 'individual.reject'|trans }}
                                     </button>
                                 </form>
-                            {% elseif offer.status|upper == 'REJECTED' and parentRequest.status not in ['Accepted'] %}
-                                <form action="{{ path('individual_offer_pending', {'id': offer.id}) }}" method="POST" class="d-inline">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
-                                    <button type="submit" class="indiv-btn-secondary px-5">
-                                        <i class="feather-rotate-ccw"></i> Revert to Pending
-                                    </button>
-                                </form>
-                            {% elseif offer.status|upper == 'ACCEPTED' %}
-                                <div class="alert alert-success d-flex align-items-center gap-3 w-100 mb-0">
-                                    <i class="feather-award h4 mb-0"></i>
-                                    <span class="fw-bold">This offer has been accepted! Go to your request to contact the pro.</span>
-                                </div>
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% elseif offer.status|upper == 'ACCEPTED' %}
+                            <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mt-4">
+                                <i class="feather-award alert-icon"></i>
+                                <div class="alert-content fw-bold">{{ 'individual.offer_accepted_msg'|trans }}</div>
+                            </div>
+                        {% elseif offer.status|upper == 'REJECTED' %}
+                            <div class="drl-alert drl-alert--danger d-flex align-items-center gap-3 mt-4">
+                                <i class="feather-x-circle alert-icon"></i>
+                                <div class="alert-content">{{ 'individual.offer_rejected_msg'|trans }}</div>
+                            </div>
+                        {% endif %}
                     {% else %}
-                        <div class="alert alert-secondary mt-4 mb-0">
-                            <i class="feather-info me-2"></i>This request is closed. No further actions can be taken on this offer.
+                        <div class="drl-alert drl-alert--warning mt-4 d-flex align-items-center gap-3">
+                            <i class="feather-lock alert-icon"></i>
+                            <div class="alert-content">{{ 'individual.request_closed'|trans }}</div>
                         </div>
                     {% endif %}
                 </div>

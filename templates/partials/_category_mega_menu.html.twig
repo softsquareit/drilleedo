@@ -2,7 +2,7 @@
     <div class="drl-mega-container">
         {# LEFT COLUMN: Parent Categories (Tabs) #}
         <div class="drl-mega-sidebar">
-            <div class="drl-mega-title">Categories</div>
+            <div class="drl-mega-title">{{ 'mega.categories'|trans }}</div>
             <div class="drl-mega-nav">
                 {% for parent in categoriesData %}
                     <button class="drl-mega-nav-btn {% if loop.first %}active{% endif %}" 
@@ -36,7 +36,7 @@
                         </div>
                         <div class="drl-pane-info">
                             <h3>{{ parent.name }}</h3>
-                            <p>Discover specialized {{ parent.name|lower }} services in Canada</p>
+                            <p>{{ 'mega.discover_services'|trans({'%category%': parent.name|lower}) }}</p>
                         </div>
                     </div>
 
@@ -52,16 +52,20 @@
 
                         {# Pane Footer to fill space and provide CTA #}
                         <div class="drl-pane-footer-v2">
-                            <img src="{{ asset('assets/drilleedo/images/mega-banners/' ~ parent.slug ~ '.png') }}" alt="{{ parent.name }}" class="pane-banner-img">
+                            {% if parent.banner %}
+                                <img src="{{ asset('uploads/categories/' ~ parent.banner) }}" alt="{{ parent.name }}" class="pane-banner-img">
+                            {% else %}
+                                <img src="{{ asset('assets/drilleedo/images/mega-banners/' ~ parent.slug ~ '.png') }}" alt="{{ parent.name }}" class="pane-banner-img" onerror="this.src='{{ asset('assets/images/placeholder.jpg') }}'">
+                            {% endif %}
                             <div class="pane-banner-overlay">
-                                <span>{{ parent.name }} Experts</span>
+                                <span>{{ 'mega.experts'|trans({'%category%': parent.name}) }}</span>
                                 <i class="feather-arrow-right"></i>
                             </div>
                         </div>
                     {% else %}
                         <div class="drl-mega-empty">
-                            <p>Explore all {{ parent.name|lower }} professionals</p>
-                            <a href="{{ path('app_home') }}" class="rbt-btn btn-xs bdr-gradient">View All</a>
+                            <p>{{ 'mega.explore_all'|trans({'%category%': parent.name|lower}) }}</p>
+                            <a href="{{ path('app_home') }}" class="rbt-btn btn-xs bdr-gradient">{{ 'mega.view_all'|trans }}</a>
                         </div>
                     {% endif %}
                 </div>
@@ -74,8 +78,8 @@
                 <div class="card-overlay"></div>
                 <div class="card-content">
                     <div class="card-icon"><i class="feather-users"></i></div>
-                    <h4>Find a Professional</h4>
-                    <p>Connect with verified renovation experts across the country.</p>
+                    <h4>{{ 'mega.find_pro'|trans }}</h4>
+                    <p>{{ 'mega.connect_pro'|trans }}</p>
                 </div>
             </a>
 
@@ -83,8 +87,8 @@
                 <div class="card-overlay"></div>
                 <div class="card-content">
                     <div class="card-icon"><i class="feather-briefcase"></i></div>
-                    <h4>Find a Company</h4>
-                    <p>Explore top-rated renovation companies and teams.</p>
+                    <h4>{{ 'mega.find_company'|trans }}</h4>
+                    <p>{{ 'mega.explore_companies'|trans }}</p>
                 </div>
             </a>
         </div>

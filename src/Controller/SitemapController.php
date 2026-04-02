@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Repository\ProfessionalRepository;
-use App\Repository\CompanyRepository;
 use App\Repository\BlogRepository;
+use App\Repository\CompanyRepository;
+use App\Repository\ProfessionalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,71 +19,84 @@ final class SitemapController extends AbstractController
         BlogRepository $blogRepository
     ): Response {
         $urls = [];
-        $hostname = $this->getParameter('router.request_context.host');
-        // Fallback for CLI/local if host is empty
-        if (empty($hostname) || $hostname === 'localhost') {
-            $hostname = "https://www.drilleedo.com"; // Adjust protocol/domain as needed for production
-        } else {
-            $scheme = $this->getParameter('router.request_context.scheme') ?: 'https';
-            $hostname = $scheme . '://' . $hostname;
-        }
 
-        // Static Pages
-        $urls[] = ['loc' => $this->generateUrl('app_home', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '1.0'];
-        $urls[] = ['loc' => $this->generateUrl('professionals_list', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '0.8'];
-        $urls[] = ['loc' => $this->generateUrl('companies_list', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '0.8'];
-        $urls[] = ['loc' => $this->generateUrl('contact', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '0.5'];
-        $urls[] = ['loc' => $this->generateUrl('smartideas', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '0.8'];
-        $urls[] = ['loc' => $this->generateUrl('app_register', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '0.7'];
-        $urls[] = ['loc' => $this->generateUrl('app_login', [], UrlGeneratorInterface::ABSOLUTE_URL), 'priority' => '0.7'];
+        // Pages statiques
+        $staticPages = [
+            ['route' => 'app_home', 'params' => [], 'priority' => '1.0', 'changefreq' => 'daily'],
+            ['route' => 'professionals_list', 'params' => [], 'priority' => '0.9', 'changefreq' => 'daily'],
+            ['route' => 'companies_list', 'params' => [], 'priority' => '0.9', 'changefreq' => 'daily'],
+            ['route' => 'smartideas', 'params' => [], 'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['route' => 'contact', 'params' => [], 'priority' => '0.5', 'changefreq' => 'monthly'],
+            ['route' => 'app_register', 'params' => [], 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['route' => 'app_login', 'params' => [], 'priority' => '0.5', 'changefreq' => 'monthly'],
+        ];
 
-        // Dynamic Pages: Professionals
-        foreach ($professionalRepository->findAll() as $pro) {
+        foreach ($staticPages as $page) {
             $urls[] = [
-                'loc' => $this->generateUrl('professional_details', ['id' => $pro->getId(), 'slug' => 'prio-' . $pro->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-                'priority' => '0.7'
+                'loc' => $this->generateUrl($page['route'], $page['params'], UrlGeneratorInterface::ABSOLUTE_URL),
+                'lastmod' => date('Y-m-d'),
+                'changefreq' => $page['changefreq'],
+                'priority' => $page['priority'],
             ];
         }
 
-        // Dynamic Pages: Companies
-        foreach ($companyRepository->findAll() as $company) {
+        // Professionnels — tableau léger, pas de chargement complet des entités
+        foreach ($professionalRepository->findForSitemap() as $pro) {
+            $urls[] = [
+                'loc' => $this->generateUrl('professional_details', [
+                    'id' => $pro['id'],
+                    'slug' => 'pro-' . $pro['id'],
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
+                'changefreq' => 'weekly',
+                'priority' => '0.7',
+            ];
+        }
+
+        // Entreprises — tableau léger
+        foreach ($companyRepository->findForSitemap() as $company) {
+            $slug = strtolower(str_replace(' ', '-', trim($company['company_name'] ?? 'entreprise')));
             $urls[] = [
                 'loc' => $this->generateUrl('company_details', [
-                    'id' => $company->getId(),
-                    'slug' => strtolower(str_replace(' ', '-', trim($company->getCompanyName() ?? 'entreprise')))
+                    'id' => $company['id'],
+                    'slug' => $slug,
                 ], UrlGeneratorInterface::ABSOLUTE_URL),
-                'lastmod' => $company->getUpdatedAt() ? $company->getUpdatedAt()->format('Y-m-d') : null,
+                'lastmod' => isset($company['updatedAt']) ? $company['updatedAt']->format('Y-m-d') : null,
                 'changefreq' => 'weekly',
-                'priority' => '0.8'
+                'priority' => '0.8',
             ];
         }
 
-        // Dynamic Pages: Ideas (Blog posts of type Idea)
+        // Articles de blog (type Idea)
         foreach ($blogRepository->findBy(['type' => 'Idea']) as $idea) {
             $urls[] = [
                 'loc' => $this->generateUrl('ideas_details', ['slug' => $idea->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
-                'priority' => '0.6'
+                'changefreq' => 'monthly',
+                'priority' => '0.6',
             ];
         }
 
-        // Dynamic Pages: City SEO Landing Pages
-        foreach (\App\Controller\LocalSeoController::SEO_CITIES as $slug => $name) {
+        // Pages SEO locales
+        foreach (LocalSeoController::SEO_CITIES as $slug => $name) {
             $urls[] = [
                 'loc' => $this->generateUrl('city_seo_landing', ['citySlug' => $slug], UrlGeneratorInterface::ABSOLUTE_URL),
-                'priority' => '0.8'
+                'changefreq' => 'weekly',
+                'priority' => '0.8',
             ];
         }
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
-        $xml .= 'xmlns:xhtml="http://www.w3.org/1999/xhtml" ';
-        $xml .= 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
-        $xml .= 'xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
         foreach ($urls as $url) {
             $xml .= '    <url>' . "\n";
             $xml .= '        <loc>' . htmlspecialchars($url['loc']) . '</loc>' . "\n";
-            if (isset($url['priority'])) {
+            if (!empty($url['lastmod'])) {
+                $xml .= '        <lastmod>' . $url['lastmod'] . '</lastmod>' . "\n";
+            }
+            if (!empty($url['changefreq'])) {
+                $xml .= '        <changefreq>' . $url['changefreq'] . '</changefreq>' . "\n";
+            }
+            if (!empty($url['priority'])) {
                 $xml .= '        <priority>' . $url['priority'] . '</priority>' . "\n";
             }
             $xml .= '    </url>' . "\n";
@@ -93,6 +106,11 @@ final class SitemapController extends AbstractController
 
         $response = new Response($xml);
         $response->headers->set('Content-Type', 'text/xml');
+
+        // Cache 24h côté navigateur / CDN pour éviter la regénération à chaque requête
+        $response->setPublic();
+        $response->setMaxAge(86400);
+        $response->setSharedMaxAge(86400);
 
         return $response;
     }

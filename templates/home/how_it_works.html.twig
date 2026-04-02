@@ -385,17 +385,17 @@ html { scroll-behavior: smooth; }
 <section class="hiw-hero">
   <div class="container hiw-hero__inner">
     <div class="hiw-eyebrow">
-      <i class="fas fa-home"></i> Drilleedo For Homeowners
+      <i class="fas fa-home"></i> {{ 'hiw.eyebrow'|trans }}
     </div>
     <h1 class="hiw-hero__title">
-      Your Renovation Journey, <span>Simplified.</span>
+      {{ 'hiw.hero_title'|trans }} <span>{{ 'hiw.hero_title_span'|trans }}</span>
     </h1>
     <p class="hiw-hero__sub">
-      Drilleedo makes it effortless to find, compare, and hire the most reliable verified professionals in Canada for any home improvement project.
+      {{ 'hiw.hero_sub'|trans }}
     </p>
     <div class="hiw-hero__actions">
       <a href="{{ path('app_register') }}" class="hiw-btn-primary">
-        Post Your Project Now <i class="feather-arrow-right"></i>
+        {{ 'hiw.hero_cta'|trans }} <i class="feather-arrow-right"></i>
       </a>
     </div>
   </div>
@@ -406,10 +406,10 @@ html { scroll-behavior: smooth; }
 ══════════════════════════════════════════════════════════════════════════ #}
 <nav class="hiw-nav">
   <ul class="hiw-nav__list">
-    <li><a href="#overview" class="hiw-nav__link active"><i class="feather-grid"></i> Overview</a></li>
-    <li><a href="#post-request" class="hiw-nav__link"><i class="feather-edit-3"></i> Post a Request</a></li>
-    <li><a href="#receive-quotes" class="hiw-nav__link"><i class="feather-message-square"></i> Receive Quotes</a></li>
-    <li><a href="#find-pro" class="hiw-nav__link"><i class="feather-users"></i> Find a Pro</a></li>
+    <li><a href="#overview" class="hiw-nav__link active"><i class="feather-grid"></i> {{ 'hiw.nav_overview'|trans }}</a></li>
+    <li><a href="#post-request" class="hiw-nav__link"><i class="feather-edit-3"></i> {{ 'hiw.nav_post'|trans }}</a></li>
+    <li><a href="#receive-quotes" class="hiw-nav__link"><i class="feather-message-square"></i> {{ 'hiw.nav_quotes'|trans }}</a></li>
+    <li><a href="#find-pro" class="hiw-nav__link"><i class="feather-users"></i> {{ 'hiw.nav_find'|trans }}</a></li>
   </ul>
 </nav>
 
@@ -419,34 +419,34 @@ html { scroll-behavior: smooth; }
 <section id="overview" class="hiw-section">
   <div class="container">
     <div class="hiw-section-header">
-      <span class="hiw-section-label">The Process</span>
-      <h2 class="hiw-section-title">How It Works in 4 Steps</h2>
-      <p class="hiw-section-desc">From idea to completion, we streamline every step so you can focus on building your dream home.</p>
+      <span class="hiw-section-label">{{ 'hiw.overview_label'|trans }}</span>
+      <h2 class="hiw-section-title">{{ 'hiw.overview_title'|trans }}</h2>
+      <p class="hiw-section-desc">{{ 'hiw.overview_desc'|trans }}</p>
     </div>
 
     <div class="hiw-process">
       <div class="hiw-step-card">
         <div class="hiw-step-icon"><i class="feather-edit-2"></i></div>
-        <h3 class="hiw-step-title">1. Post a Request</h3>
-        <p class="hiw-step-text">Describe what you need securely and completely free of charge.</p>
+        <h3 class="hiw-step-title">{{ 'hiw.step1_title'|trans }}</h3>
+        <p class="hiw-step-text">{{ 'hiw.step1_text'|trans }}</p>
       </div>
 
       <div class="hiw-step-card">
         <div class="hiw-step-icon"><i class="feather-mail"></i></div>
-        <h3 class="hiw-step-title">2. Receive Quotes</h3>
-        <p class="hiw-step-text">Get competitive estimates directly from interested professionals.</p>
+        <h3 class="hiw-step-title">{{ 'hiw.step2_title'|trans }}</h3>
+        <p class="hiw-step-text">{{ 'hiw.step2_text'|trans }}</p>
       </div>
 
       <div class="hiw-step-card">
         <div class="hiw-step-icon"><i class="feather-search"></i></div>
-        <h3 class="hiw-step-title">3. Find a Pro</h3>
-        <p class="hiw-step-text">Compare verified profiles, read reviews, and scrutinize past work portfolios.</p>
+        <h3 class="hiw-step-title">{{ 'hiw.step3_title'|trans }}</h3>
+        <p class="hiw-step-text">{{ 'hiw.step3_text'|trans }}</p>
       </div>
 
       <div class="hiw-step-card">
         <div class="hiw-step-icon"><i class="feather-check-circle"></i></div>
-        <h3 class="hiw-step-title">4. Build & Relax</h3>
-        <p class="hiw-step-text">Hire confidently. Enjoy high-quality work protected by verified standards.</p>
+        <h3 class="hiw-step-title">{{ 'hiw.step4_title'|trans }}</h3>
+        <p class="hiw-step-text">{{ 'hiw.step4_text'|trans }}</p>
       </div>
     </div>
   </div>
@@ -459,31 +459,31 @@ html { scroll-behavior: smooth; }
   <div class="container">
     <div class="hiw-split">
       <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#00509e; background:#e8f4fd;">Phase 01</span>
-        <h2 class="hiw-section-title">Post a New Request</h2>
+        <span class="hiw-section-label" style="color:#00509e; background:#e8f4fd;">{{ 'hiw.phase1_label'|trans }}</span>
+        <h2 class="hiw-section-title">{{ 'hiw.phase1_title'|trans }}</h2>
         <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
-          Getting started is entirely free. Just tell us about your project, and our intelligent matching engine will instantly broadcast your needs to top-rated contractors in your city.
+          {{ 'hiw.phase1_desc'|trans }}
         </p>
 
         <ul class="hiw-feature-list">
           <li class="hiw-feature-item">
             <div class="hiw-feature-icon"><i class="feather-image"></i></div>
             <div class="hiw-feature-text">
-              <h4>Add Photos & Details</h4>
-              <p>Upload images of your current space and describe your vision thoroughly.</p>
+              <h4>{{ 'hiw.phase1_feat1_title'|trans }}</h4>
+              <p>{{ 'hiw.phase1_feat1_desc'|trans }}</p>
             </div>
           </li>
           <li class="hiw-feature-item">
             <div class="hiw-feature-icon"><i class="feather-map-pin"></i></div>
             <div class="hiw-feature-text">
-              <h4>Set Location & Budget</h4>
-              <p>Define your geographic constraints and financial limits so pros know what to expect.</p>
+              <h4>{{ 'hiw.phase1_feat2_title'|trans }}</h4>
+              <p>{{ 'hiw.phase1_feat2_desc'|trans }}</p>
             </div>
           </li>
         </ul>
 
         <a href="{{ path('app_register') }}" class="hiw-btn-primary" style="margin-top:20px;">
-          Create a Request
+          {{ 'hiw.phase1_cta'|trans }}
         </a>
       </div>
       <div class="hiw-split__image">
@@ -500,25 +500,25 @@ html { scroll-behavior: smooth; }
   <div class="container">
     <div class="hiw-split hiw-split--reverse">
       <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#16a34a; background:#f0fdf4;">Phase 02</span>
-        <h2 class="hiw-section-title">Receive Quotes</h2>
+        <span class="hiw-section-label" style="color:#16a34a; background:#f0fdf4;">{{ 'hiw.phase2_label'|trans }}</span>
+        <h2 class="hiw-section-title">{{ 'hiw.phase2_title'|trans }}</h2>
         <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
-          Instead of chasing down unresponsive contractors, Drilleedo brings the quotes to you. Interested professionals will review your request and submit their estimates.
+          {{ 'hiw.phase2_desc'|trans }}
         </p>
 
         <ul class="hiw-feature-list">
           <li class="hiw-feature-item">
             <div class="hiw-feature-icon" style="background:#f0fdf4; color:#16a34a;"><i class="feather-dollar-sign"></i></div>
             <div class="hiw-feature-text">
-              <h4>100% Free & No Obligation</h4>
-              <p>You never pay to receive quotes, and you are never forced to hire.</p>
+              <h4>{{ 'hiw.phase2_feat1_title'|trans }}</h4>
+              <p>{{ 'hiw.phase2_feat1_desc'|trans }}</p>
             </div>
           </li>
           <li class="hiw-feature-item">
             <div class="hiw-feature-icon" style="background:#f0fdf4; color:#16a34a;"><i class="feather-inbox"></i></div>
             <div class="hiw-feature-text">
-              <h4>Centralized Dashboard</h4>
-              <p>Organize, compare, and message professionals safely within your Drilleedo inbox.</p>
+              <h4>{{ 'hiw.phase2_feat2_title'|trans }}</h4>
+              <p>{{ 'hiw.phase2_feat2_desc'|trans }}</p>
             </div>
           </li>
         </ul>
@@ -537,31 +537,31 @@ html { scroll-behavior: smooth; }
   <div class="container">
     <div class="hiw-split">
       <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#f97316; background:#fff7ed;">Phase 03</span>
-        <h2 class="hiw-section-title">Find a Professional</h2>
+        <span class="hiw-section-label" style="color:#f97316; background:#fff7ed;">{{ 'hiw.phase3_label'|trans }}</span>
+        <h2 class="hiw-section-title">{{ 'hiw.phase3_title'|trans }}</h2>
         <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
-          Browse our extensive directory of Canadian professionals. Review their Drilleedo profiles safely before making any hiring decisions.
+          {{ 'hiw.phase3_desc'|trans }}
         </p>
 
         <ul class="hiw-feature-list">
           <li class="hiw-feature-item">
             <div class="hiw-feature-icon" style="background:#fff7ed; color:#f97316;"><i class="feather-shield"></i></div>
             <div class="hiw-feature-text">
-              <h4>Verified Badges</h4>
-              <p>Look for the 'Verified Pro' badge meaning we validated their business credentials and RBQ status.</p>
+              <h4>{{ 'hiw.phase3_feat1_title'|trans }}</h4>
+              <p>{{ 'hiw.phase3_feat1_desc'|trans }}</p>
             </div>
           </li>
           <li class="hiw-feature-item">
             <div class="hiw-feature-icon" style="background:#fff7ed; color:#f97316;"><i class="feather-star"></i></div>
             <div class="hiw-feature-text">
-              <h4>Real Customer Reviews</h4>
-              <p>Read transparent, untampered feedback from other Drilleedo homeowners who hired them.</p>
+              <h4>{{ 'hiw.phase3_feat2_title'|trans }}</h4>
+              <p>{{ 'hiw.phase3_feat2_desc'|trans }}</p>
             </div>
           </li>
         </ul>
         
         <a href="{{ path('professionals_list') }}" class="hiw-btn-primary" style="margin-top:20px; background:#0d2151;">
-          Browse Professionals Directory
+          {{ 'hiw.phase3_cta'|trans }}
         </a>
       </div>
       <div class="hiw-split__image">
@@ -576,10 +576,10 @@ html { scroll-behavior: smooth; }
 ══════════════════════════════════════════════════════════════════════════ #}
 <section class="hiw-section" style="background:#0d2151; text-align:center; padding: 120px 0;">
   <div class="container">
-    <h2 class="hiw-hero__title" style="margin-bottom:24px;">Ready to transform your home?</h2>
-    <p class="hiw-hero__sub" style="margin-bottom:40px;">Join thousands of Canadians finding trusted professionals daily.</p>
+    <h2 class="hiw-hero__title" style="margin-bottom:24px;">{{ 'hiw.cta_title'|trans }}</h2>
+    <p class="hiw-hero__sub" style="margin-bottom:40px;">{{ 'hiw.cta_sub'|trans }}</p>
     <a href="{{ path('app_register') }}" class="hiw-btn-primary" style="font-size:18px; padding:18px 48px; border-radius:999px;">
-      Start Free <i class="feather-arrow-right"></i>
+      {{ 'hiw.cta_btn'|trans }} <i class="feather-arrow-right"></i>
     </a>
   </div>
 </section>

@@ -1,55 +1,116 @@
-<div class="pro-sidebar-wrapper">
+<div class="drl-card h-100" style="box-shadow: 0 4px 20px rgba(13,33,81,0.05); overflow: visible;">
+    <!-- Profile Info Section (Overlaps Banner) -->
+    <div class="d-flex flex-column align-items-center p-4 text-center border-bottom" style="position: relative;">
+        
 
 
-    <nav class="pro-sidebar-nav-container">
-        <div class="pro-sidebar-section">
-            <ul class="pro-sidebar-list">
-                <li>
-                    <a href="{{ path('individual_dashboard') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_dashboard' %}active{% endif %}">
-                        <i class="feather-home"></i> <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('individual_profile') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_profile' %}active{% endif %}">
-                        <i class="feather-user"></i> <span>My Profile</span>
-                    </a>
-                </li>
-            </ul>
+        <div class="pro-avatar-wrapper" style="position: relative; margin-top: -65px; margin-bottom: 20px;width: 120px; height: 120px; border-radius: 50%; background: var(--drl-navy); color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 700; border: 4px solid #fff; box-shadow: 0 10px 25px rgba(13, 33, 81, 0.15);">
+                    {{ (app.user.personalInfos and app.user.personalInfos.firstName ? app.user.personalInfos.firstName|first : app.user.email|first)|upper }}
+                </div>  
+
+
+
+        <h4 style="font-size: 18px; font-weight: 800; color: #0d2151; margin: 0 0 6px; line-height: 1.2;">
+            {{ app.user.personalInfos and (app.user.personalInfos.firstName or app.user.personalInfos.lastName) ? (app.user.personalInfos.firstName ~ ' ' ~ app.user.personalInfos.lastName) : 'Individual User' }}
+        </h4>
+        
+        <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
+            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase;">{{ 'badge.individual'|trans }}</span>
         </div>
+        
+        <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange w-100" style="padding: 10px; font-size: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <i class="feather-plus"></i> {{ 'menu.post_request'|trans }}
+        </a>
+    </div>
 
-        <div class="pro-sidebar-section">
-            <ul class="pro-sidebar-list">
-                <li>
-                    <a href="{{ path('individual_quotes') }}" class="pro-sidebar-link {% if app.request.get('_route') in ['individual_quotes', 'individual_quote_show', 'individual_offer_show'] %}active{% endif %}">
-                        <i class="feather-file-text"></i> <span>My Quotes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('individual_direct_requests') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_direct_requests' %}active{% endif %}">
-                        <i class="feather-send"></i> <span>Direct Requests</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('individual_quote_new') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_quote_new' %}active{% endif %}">
-                        <i class="feather-plus-circle"></i> <span>Post New Request</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <!-- Navigation Section -->
+    <nav class="p-3">
+        <style>
+            .drl-sidebar-link {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                color: #475569;
+                font-size: 14px;
+                font-weight: 700;
+                border-radius: 8px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                margin-bottom: 4px;
+            }
+            .drl-sidebar-link i {
+                font-size: 18px;
+                width: 24px;
+                text-align: center;
+                color: #94a3b8;
+                transition: all 0.2s ease;
+            }
+            .drl-sidebar-link:hover {
+                background: #f8fafc;
+                color: #00509e;
+            }
+            .drl-sidebar-link:hover i {
+                color: #00509e;
+            }
+            .drl-sidebar-link.active {
+                background: #eff6ff;
+                color: #00509e;
+            }
+            .drl-sidebar-link.active i {
+                color: #00509e;
+            }
+            .drl-sidebar-link.danger {
+                color: #ef4444;
+            }
+            .drl-sidebar-link.danger i {
+                color: #ef4444;
+            }
+            .drl-sidebar-link.danger:hover {
+                background: #fef2f2;
+                color: #ef4444;
+            }
+            .drl-sidebar-section-title {
+                font-size: 11px;
+                font-weight: 800;
+                color: #94a3b8;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin: 20px 0 8px 16px;
+            }
+        </style>
 
-        <div class="pro-sidebar-section">
-            <ul class="pro-sidebar-list">
-                <li>
-                    <a href="{{ path('individual_settings') }}" class="pro-sidebar-link {% if app.request.get('_route') == 'individual_settings' %}active{% endif %}">
-                        <i class="feather-settings"></i> <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_logout') }}" class="pro-sidebar-link danger">
-                        <i class="feather-log-out"></i> <span>Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <div class="drl-sidebar-section-title">{{ 'menu.overview'|trans }}</div>
+        <a href="{{ path('individual_dashboard') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'individual_dashboard' %}active{% endif %}">
+            <i class="ph-squares-four"></i> <span>{{ 'menu.dashboard'|trans }}</span>
+        </a>
+        <a href="{{ path('individual_notifications') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'individual_notifications' %}active{% endif %}">
+            <i class="ph-bell"></i> <span>{{ 'menu.notifications'|trans }}</span>
+            {% if unreadCount is defined and unreadCount > 0 %}
+                <span class="ms-auto badge bg-danger rounded-pill" style="font-size: 10px;">{{ unreadCount }}</span>
+            {% endif %}
+        </a>
+        <a href="{{ path('individual_profile') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'individual_profile' %}active{% endif %}">
+            <i class="ph-user"></i> <span>{{ 'menu.my_profile'|trans }}</span>
+        </a>
+
+        <div class="drl-sidebar-section-title">{{ 'menu.my_requests'|trans }}</div>
+        <a href="{{ path('individual_quotes') }}" class="drl-sidebar-link {% if app.request.get('_route') in ['individual_quotes', 'individual_quote_show'] %}active{% endif %}">
+            <i class="ph-clipboard-text"></i> <span>{{ 'menu.quote_requests'|trans }}</span>
+        </a>
+        <a href="{{ path('individual_direct_requests') }}" class="drl-sidebar-link {% if app.request.get('_route') in ['individual_direct_requests', 'individual_direct_request_show'] %}active{% endif %}">
+            <i class="ph-paper-plane-tilt"></i> <span>{{ 'menu.direct_requests'|trans }}</span>
+        </a>
+        <a href="{{ path('individual_offers') }}" class="drl-sidebar-link {% if app.request.get('_route') in ['individual_offers', 'individual_offer_show'] %}active{% endif %}">
+            <i class="ph-tag"></i> <span>{{ 'menu.received_offers'|trans }}</span>
+        </a>
+
+        <div class="drl-sidebar-section-title">{{ 'menu.account'|trans }}</div>
+        <a href="{{ path('individual_settings') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'individual_settings' %}active{% endif %}">
+            <i class="ph-gear"></i> <span>{{ 'menu.settings'|trans }}</span>
+        </a>
+        <a href="{{ path('app_logout') }}" class="drl-sidebar-link danger mt-2 pt-2 border-top">
+            <i class="ph-sign-out"></i> <span>{{ 'menu.logout'|trans }}</span>
+        </a>
     </nav>
 </div>

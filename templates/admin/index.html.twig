@@ -33,136 +33,370 @@
 
             
             <div class="row g-4">
-                
-                <div class="col-sm-6 col-xl-4">
-                    <div class="card border-0 shadow rounded-4 h-100 position-relative link-card-hover" style="transition: all 0.3s ease;">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between mb-4">
-                                <div class="icon-box bg-success bg-opacity-10 text-success rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                                    <i class="fas fa-building fa-xl"></i>
+                {# Companies Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 link-card-hover">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-3 me-3">
+                                    <i class="ph-buildings fs-2"></i>
                                 </div>
-                                <div class="dropdown">
-                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 fw-semibold">+12% growth</span>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-0 text-dark">{{ companies }}</h3>
+                                    <span class="text-muted fs-sm">Companies</span>
                                 </div>
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 fs-xs">
+                                    <i class="ph-caret-up"></i> {{ companiesTrend }}%
+                                </span>
                             </div>
-                            <h2 class="fw-bold text-dark mb-1 display-6">{{ companies }}</h2>
-                             <p class="text-muted fw-medium mb-4">Registered Companies</p>
-                            <a href="{{ path('admin_company_index') }}" class="btn btn-light bg-light-subtle text-success fw-bold w-100 rounded-pill py-2 stretched-link border-0">
-                                Manage Companies <i class="fas fa-arrow-right ms-2"></i>
+                            <a href="{{ path('admin_company_index') }}" class="btn btn-light bg-light-subtle text-primary fw-bold w-100 rounded-pill py-2">
+                                View All <i class="ph-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                
-                <div class="col-sm-6 col-xl-4">
-                    <div class="card border-0 shadow rounded-4 h-100 position-relative link-card-hover" style="transition: all 0.3s ease;">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between mb-4">
-                                <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                                    <i class="fas fa-user-tie fa-xl"></i>
+                {# Professionals Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success bg-opacity-10 text-success rounded-3 p-3 me-3">
+                                    <i class="ph-briefcase fs-2"></i>
                                 </div>
-                                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-semibold">+5% growth</span>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-0 text-dark">{{ professionals }}</h3>
+                                    <span class="text-muted fs-sm">Verified Pros</span>
+                                </div>
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 fs-xs">
+                                    <i class="ph-caret-up"></i> {{ prosTrend }}%
+                                </span>
                             </div>
-                            <h2 class="fw-bold text-dark mb-1 display-6">{{ professionals }}</h2>
-                            <p class="text-muted fw-medium mb-4">Active Professionals</p>
-                            <a href="{{ path('admin_professionnel_index') }}" class="btn btn-light bg-light-subtle text-primary fw-bold w-100 rounded-pill py-2 stretched-link border-0">
-                                Manage Professionals <i class="fas fa-arrow-right ms-2"></i>
+                            <a href="{{ path('admin_professionnel_index') }}" class="btn btn-light bg-light-subtle text-success fw-bold w-100 rounded-pill py-2">
+                                Manage <i class="ph-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                
-                <div class="col-sm-6 col-xl-4">
-                    <div class="card border-0 shadow rounded-4 h-100 position-relative link-card-hover" style="transition: all 0.3s ease;">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between mb-4">
-                                <div class="icon-box bg-info bg-opacity-10 text-info rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                                    <i class="fas fa-user fa-xl"></i>
+                {# Individuals Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-secondary bg-opacity-10 text-secondary rounded-3 p-3 me-3">
+                                    <i class="ph-user fs-2"></i>
                                 </div>
-                                <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">+8% growth</span>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-0 text-dark">{{ individuals }}</h3>
+                                    <span class="text-muted fs-sm">Client Accounts</span>
+                                </div>
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 fs-xs">
+                                     <i class="ph-caret-up"></i> {{ indivTrend }}%
+                                </span>
                             </div>
-                            <h2 class="fw-bold text-dark mb-1 display-6">{{ individuals }}</h2>
-                            <p class="text-muted fw-medium mb-4">Individual Users</p>
-                            <a href="{{ path('admin_individual_index') }}" class="btn btn-light bg-light-subtle text-info fw-bold w-100 rounded-pill py-2 stretched-link border-0">
-                                Manage Individuals <i class="fas fa-arrow-right ms-2"></i>
+                            <a href="{{ path('admin_individual_index') }}" class="btn btn-light bg-light-subtle text-secondary fw-bold w-100 rounded-pill py-2">
+                                Review <i class="ph-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                
-                <div class="col-sm-6 col-xl-4">
-                    <div class="card border-0 shadow rounded-4 h-100 position-relative link-card-hover" style="transition: all 0.3s ease;">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between mb-4">
-                                <div class="icon-box bg-danger bg-opacity-10 text-danger rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                                    <i class="fas fa-newspaper fa-xl"></i>
+                {# Requests Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-info bg-opacity-10 text-info rounded-3 p-3 me-3">
+                                    <i class="ph-clipboard-text fs-2"></i>
                                 </div>
-                                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 fw-semibold">Content</span>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-0 text-dark">{{ totalRequests }}</h3>
+                                    <span class="text-muted fs-sm">Project Requests</span>
+                                </div>
+                                <span class="badge bg-{% if requestsTrend >= 0 %}success{% else %}danger{% endif %} bg-opacity-10 text-{% if requestsTrend >= 0 %}success{% else %}danger{% endif %} rounded-pill px-2 py-1 fs-xs">
+                                    <i class="ph-caret-{% if requestsTrend >= 0 %}up{% else %}down{% endif %}"></i> {{ requestsTrend }}%
+                                </span>
                             </div>
-                            <h2 class="fw-bold text-dark mb-1 display-6">{{ blogs }}</h2>
-                            <p class="text-muted fw-medium mb-4">Blog Posts</p>
-                            <a href="{{ path('admin_blog_index') }}" class="btn btn-light bg-light-subtle text-danger fw-bold w-100 rounded-pill py-2 stretched-link border-0">
-                                Manage Content <i class="fas fa-arrow-right ms-2"></i>
+                            <a href="{{ path('admin_request_index') }}" class="btn btn-light bg-light-subtle text-info fw-bold w-100 rounded-pill py-2">
+                                Review <i class="ph-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                
-                <div class="col-sm-6 col-xl-4">
-                    <div class="card border-0 shadow rounded-4 h-100 position-relative link-card-hover" style="transition: all 0.3s ease;">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between mb-4">
-                                <div class="icon-box bg-warning bg-opacity-10 text-warning rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                                    <i class="fas fa-tags fa-xl"></i>
+                {# Offers Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-purple bg-opacity-10 text-purple rounded-3 p-3 me-3">
+                                    <i class="ph-handshake fs-2"></i>
                                 </div>
-                                <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3 py-2 fw-semibold">Structure</span>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-0 text-dark">{{ totalOffers }}</h3>
+                                    <span class="text-muted fs-sm">Market Offers</span>
+                                </div>
+                                <span class="badge bg-{% if offersTrend >= 0 %}success{% else %}danger{% endif %} bg-opacity-10 text-{% if offersTrend >= 0 %}success{% else %}danger{% endif %} rounded-pill px-2 py-1 fs-xs">
+                                    <i class="ph-caret-{% if offersTrend >= 0 %}up{% else %}down{% endif %}"></i> {{ offersTrend }}%
+                                </span>
                             </div>
-                            <h2 class="fw-bold text-dark mb-1 display-6">{{ categories }}</h2>
-                            <p class="text-muted fw-medium mb-4">Business Categories</p>
-                            <a href="{{ path('admin_category_index') }}" class="btn btn-light bg-light-subtle text-warning fw-bold w-100 rounded-pill py-2 stretched-link border-0">
-                                Manage Categories <i class="fas fa-arrow-right ms-2"></i>
-                            </a>
+                            <div class="d-flex justify-content-between align-items-center overflow-hidden">
+                                <span class="text-muted fs-xs">Live Platform Activity</span>
+                                <span class="text-success fs-xs fw-bold"><i class="ph-circle-fill fs-xs me-1 anim-pulse"></i> Active</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                
-                <div class="col-sm-6 col-xl-4">
-                    <div class="card border-0 shadow rounded-4 h-100 position-relative link-card-hover" style="transition: all 0.3s ease;">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between mb-4">
-                                <div class="icon-box bg-secondary bg-opacity-10 text-secondary rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                                    <i class="fas fa-layer-group fa-xl"></i>
+                {# Conversion Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-warning bg-opacity-10 text-warning rounded-3 p-3 me-3">
+                                    <i class="ph-trend-up fs-2"></i>
                                 </div>
-                                <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-2 fw-semibold">Config</span>
+                                <div class="flex-grow-1">
+                                    <h3 class="fw-bold mb-0 text-dark">{{ conversionRate }}%</h3>
+                                    <span class="text-muted fs-sm">Global Conv. Rate</span>
+                                </div>
                             </div>
-                            <h2 class="fw-bold text-dark mb-1 display-6">{{ types }}</h2>
-                            <p class="text-muted fw-medium mb-4">Entrepreneur Types</p>
-                            <a href="{{ path('admin_type_index') }}" class="btn btn-light bg-light-subtle text-secondary fw-bold w-100 rounded-pill py-2 stretched-link border-0">
-                                Manage Types <i class="fas fa-arrow-right ms-2"></i>
-                            </a>
+                            <div class="progress rounded-pill mb-0" style="height: 8px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ conversionRate }}%" aria-valuenow="{{ conversionRate }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Financial Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 border-start border-primary border-4">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted fw-semibold">Turnover (CA)</span>
+                                <span class="badge bg-primary rounded-pill">Monthly</span>
+                            </div>
+                            <h2 class="fw-bold text-dark mb-1">${{ monthlyRevenue|number_format(0, '.', ',') }}</h2>
+                            <p class="text-success small mb-0 font-weight-bold">
+                                <i class="ph-caret-up me-1"></i> +15.4% <span class="text-muted fw-normal ms-1">growth</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {# Payment Alerts Card #}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 border-start border-danger border-4">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted fw-semibold">Payment Alerts</span>
+                                <i class="ph-warning-circle text-danger fs-3"></i>
+                            </div>
+                            <h2 class="fw-bold text-danger mb-1">{{ paymentAlerts }}</h2>
+                            <p class="text-muted small mb-0">Pending or failed renewals</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
-            <div class="row mt-4">
-                <div class="col-12">
-                     <div class="card border-0 shadow rounded-4 overflow-hidden">
-                        <div class="card-header bg-white border-bottom py-3 px-4 px-xl-5">
-                            <h5 class="fw-bold text-dark mb-0">System Overview</h5>
+
+            {# Advanced Reports row #}
+            <div class="row g-4 mt-1">
+                {# Demand Conversion #}
+                <div class="col-xl-4">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-header bg-white border-bottom py-3">
+                            <h5 class="fw-bold text-dark mb-0"><i class="ph-funnel me-2"></i>Demand Conversion</h5>
                         </div>
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="alert alert-success border-0 bg-success bg-opacity-10 rounded-pill d-flex align-items-center py-3 px-4" role="alert">
-                                <i class="fas fa-check-circle text-success me-3 fa-xl"></i>
-                                <div>
-                                    <span class="fw-bold text-dark">System Operational</span>
-                                    <span class="ms-2 text-muted small">All services running normally</span>
+                        <div class="card-body p-4 text-center">
+                            <div class="mb-4">
+                                <h1 class="display-4 fw-bold text-primary mb-0">{{ totalClosed }}</h1>
+                                <span class="text-muted small text-uppercase fw-bold">Total Closed Projects</span>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="p-3 bg-success bg-opacity-10 rounded-4">
+                                        <h4 class="fw-bold text-success mb-1">{{ closedWithOffersPercent }}%</h4>
+                                        <span class="text-muted fs-xs fw-semibold">With Offers</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 bg-danger bg-opacity-10 rounded-4">
+                                        <h4 class="fw-bold text-danger mb-1">{{ closedWithoutOffersPercent }}%</h4>
+                                        <span class="text-muted fs-xs fw-semibold">Without Offers</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <div class="progress rounded-pill overflow-hidden" style="height: 12px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ closedWithOffersPercent }}%"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ closedWithoutOffersPercent }}%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 small text-muted">
+                                    <span>Success Rate</span>
+                                    <span>Abandonment Rate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Market performance #}
+                <div class="col-xl-8">
+                    <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
+                            <h5 class="fw-bold text-dark mb-0"><i class="ph-chart-bar me-2"></i>Market Insights (Supply vs Demand)</h5>
+                            <span class="badge bg-light text-dark rounded-pill fw-normal">Per Category</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="border-0 text-muted small text-uppercase px-4">Category</th>
+                                        <th class="border-0 text-muted small text-uppercase text-center">Requests</th>
+                                        <th class="border-0 text-muted small text-uppercase text-center">Offers</th>
+                                        <th class="border-0 text-muted small text-uppercase text-end px-4">Ratio (O/R)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in marketReport %}
+                                    <tr>
+                                        <td class="px-4">
+                                            <div class="fw-bold text-dark">{{ row.name }}</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-info bg-opacity-10 text-info px-3">{{ row.requests }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-purple bg-opacity-10 text-purple px-3">{{ row.offers }}</span>
+                                        </td>
+                                        <td class="text-end px-4">
+                                            <div class="d-flex align-items-center justify-content-end">
+                                                <div class="me-2 fw-bold {% if row.ratio > 1 %}text-success{% elseif row.ratio < 0.5 %}text-danger{% else %}text-warning{% endif %}">
+                                                    {{ row.ratio }}
+                                                </div>
+                                                <div class="progress rounded-pill bg-light" style="width: 60px; height: 6px;">
+                                                    <div class="progress-bar {% if row.ratio > 1 %}bg-success{% elseif row.ratio < 0.5 %}bg-danger{% else %}bg-warning{% endif %}" 
+                                                         role="progressbar" style="width: {{ max(0, min(100, row.ratio * 20)) }}%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="row g-4 mt-4">
+                {# Recent Professionals #}
+                <div class="col-xl-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
+                            <h5 class="fw-bold text-dark mb-0"><i class="ph-users-three me-2"></i>Recent Professionals</h5>
+                            <a href="{{ path('admin_professionnel_index') }}" class="btn btn-sm btn-light rounded-pill">View All</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="border-0 text-muted small text-uppercase fw-bold">Professional</th>
+                                        <th class="border-0 text-muted small text-uppercase fw-bold">Category</th>
+                                        <th class="border-0 text-muted small text-uppercase fw-bold text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pro in latest_professionals %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="ph-user text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold text-dark">{{ pro.business.displayName|default(pro.email) }}</div>
+                                                    <div class="text-muted small">{{ pro.email }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                                                {{ pro.category.name|default('N/A') }}
+                                            </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ path('admin_professional_edit', {id: pro.id}) }}" class="btn btn-sm btn-icon rounded-pill text-primary">
+                                                <i class="ph-pencil-line fs-5"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                {# Recent Blogs #}
+                <div class="col-xl-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
+                            <h5 class="fw-bold text-dark mb-0"><i class="ph-article me-2"></i>Latest Blog Posts</h5>
+                            <a href="{{ path('admin_blog_index') }}" class="btn btn-sm btn-light rounded-pill">View All</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="border-0 text-muted small text-uppercase fw-bold">Title</th>
+                                        <th class="border-0 text-muted small text-uppercase fw-bold">Author</th>
+                                        <th class="border-0 text-muted small text-uppercase fw-bold text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for blog in latest_blogs %}
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold text-dark text-truncate" style="max-width: 200px;">{{ blog.title }}</div>
+                                        </td>
+                                        <td>{{ blog.author.email|default('Admin') }}</td>
+                                        <td class="text-end">
+                                            <a href="{{ path('admin_blog_edit', {id: blog.id}) }}" class="btn btn-sm btn-icon rounded-pill text-info">
+                                                <i class="ph-pencil-line fs-5"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-4 mb-5">
+                <div class="col-12">
+                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3">
+                                            <i class="ph-check-circle fs-1"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold text-dark mb-1">System Infrastructure Overview</h5>
+                                            <p class="text-muted mb-0">Platform services are optimized and running on high-availability clusters. Security monitors are active.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <span class="badge bg-success rounded-pill px-3 py-2 fw-semibold">
+                                        <i class="ph-circles-four me-1"></i> Operational 100%
+                                    </span>
                                 </div>
                             </div>
                         </div>

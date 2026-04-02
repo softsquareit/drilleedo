@@ -11,7 +11,7 @@
                     <h4 class="mb-0 fw-bold text-dark">{{ type|capitalize }} Request Detail</h4>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted small"><i class="ph-house me-1"></i>Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ path('admin_request_index') }}" class="text-muted small">Individual Requests</a></li>
                             <li class="breadcrumb-item active small" aria-current="page">#{{ type == 'quote' ? 'QR' : 'DR' }}-{{ request.id }}</li>
                         </ol>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="d-flex gap-2">
                     <a href="{{ path('admin_request_index') }}" class="btn btn-light rounded-pill px-4">
-                        <i class="fas fa-arrow-left me-2"></i>Back to List
+                        <i class="ph-arrow-left me-2"></i>Back to List
                     </a>
                 </div>
             </div>
@@ -51,16 +51,52 @@
                                 {% elseif request.status == 'Closed' %}{% set status_class = 'bg-secondary' %}
                                 {% endif %}
                                 <span class="badge {{ status_class }} bg-opacity-10 {{ status_class|replace({'bg-': 'text-'}) }} rounded-pill px-2">
-                                    <i class="fas fa-dot-circle me-1 small"></i> {{ request.status }}
+                                    <i class="ph-circle-fill me-1" style="font-size: 8px; vertical-align: middle;"></i> {{ request.status }}
                                 </span>
                             </div>
                             <div class="mb-3">
                                 <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Dates</label>
                                 <div class="d-flex flex-column gap-1">
-                                    <div class="text-dark small"><i class="ph-calendar-plus me-2 text-muted"></i>Created: {{ request.creationDate|date('M d, Y H:i') }}</div>
+                                    <div class="text-dark small"><i class="ph-calendar-plus me-2 text-muted"></i>Créée : {{ request.creationDate|date('d/m/Y H:i') }}</div>
+                                    {% if request.desiredStartDate %}
+                                        <div class="text-dark small"><i class="ph-calendar-check me-2 text-success"></i>Début souhaité : <strong>{{ request.desiredStartDate|date('d/m/Y') }}</strong></div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            
+
+                            {% if request.urgentIntervention %}
+                                <div class="mb-3">
+                                    <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Urgence</label>
+                                    <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2">
+                                        <i class="ph-lightning me-1"></i> Intervention urgente
+                                    </span>
+                                </div>
+                            {% endif %}
+
+                            {% if request.availabilities|length > 0 %}
+                                <div class="mb-3">
+                                    <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Disponibilités</label>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% for dispo in request.availabilities %}
+                                            <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-2">{{ dispo }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if request.languages|length > 0 %}
+                                <div class="mb-3">
+                                    <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Langue(s) souhaitée(s)</label>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% for lang in request.languages %}
+                                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2">
+                                                <i class="ph-globe me-1"></i>{{ lang }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
                             {% if request.brochureFilename %}
                                 <div class="mb-3">
                                     <label class="text-muted small text-uppercase fw-bold mb-1 d-block">Brochure</label>
@@ -85,7 +121,7 @@
                                             {% else %}
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div class="bg-indigo bg-opacity-10 text-indigo rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">
-                                                        <i class="fas fa-building small"></i>
+                                                        <i class="ph-buildings small"></i>
                                                     </div>
                                                     <span class="fw-medium">{{ request.targetCompany.companyName }}</span>
                                                 </div>
@@ -104,7 +140,7 @@
                         <div class="card-body px-4 pb-4 pt-0">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-user"></i>
+                                    <i class="ph-user"></i>
                                 </div>
                                 <div>
                                     <div class="text-dark fw-bold">
@@ -123,8 +159,8 @@
                             </div>
                             {% if request.individual and request.individual.personalInfos %}
                                 <div class="mt-2 pt-2 border-top">
-                                    <div class="text-dark small mb-2"><i class="fas fa-phone me-2 text-muted"></i>{{ request.individual.personalInfos.phoneNum }}</div>
-                                    <div class="text-dark small"><i class="fas fa-map-marker-alt me-2 text-muted"></i>{{ request.individual.personalInfos.adresse }}</div>
+                                    <div class="text-dark small mb-2"><i class="ph-phone me-2 text-muted"></i>{{ request.individual.personalInfos.phoneNum }}</div>
+                                    <div class="text-dark small"><i class="ph-map-pin me-2 text-muted"></i>{{ request.individual.personalInfos.adresse }}</div>
                                 </div>
                             {% endif %}
                         </div>
@@ -135,7 +171,7 @@
                     <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
                         <div class="card-header bg-white border-0 py-3 px-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-align-left text-muted"></i>
+                                <i class="ph-text-align-left text-muted"></i>
                                 <h5 class="mb-0 fw-bold">Description</h5>
                             </div>
                         </div>
@@ -163,7 +199,7 @@
                         <div class="card-header bg-white border-0 py-4 px-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                    <i class="fas fa-hand-holding-usd"></i>
+                                    <i class="ph-hand-coins"></i>
                                 </div>
                                 <div>
                                     <h5 class="mb-0 fw-bold text-dark">Related Offers</h5>
@@ -230,8 +266,9 @@
                                             <button class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" 
                                                     title="View Offer Details" 
                                                     data-bs-toggle="modal" 
-                                                    data-bs-target="#offerModal{{ offer.id }}">
-                                                <i class="fas fa-eye small"></i>
+                                                    data-bs-target="#offerModal{{ offer.id }}"
+                                                    style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="ph-eye small"></i>
                                             </button>
 
                                             <!-- Offer Modal -->
@@ -299,9 +336,41 @@
                                                                     <div class="bg-white p-3 rounded-3 border text-dark shadow-sm" style="line-height: 1.6; min-height: 80px;">{{ offer.description|nl2br }}</div>
                                                                 </div>
                                                                 
+                                                                {# Nouveaux champs de l'offre #}
+                                                                {% if offer.priorVisit is not null or offer.possibleStartDate or offer.estimatedDuration %}
+                                                                    <div class="col-12">
+                                                                        <div class="row g-2">
+                                                                            {% if offer.priorVisit is not null %}
+                                                                                <div class="col-md-4">
+                                                                                    <div class="p-2 bg-light rounded-3 text-center border">
+                                                                                        <small class="text-muted d-block" style="font-size: 0.7rem; text-transform: uppercase;">Visite préalable</small>
+                                                                                        <span class="fw-bold small">{{ offer.priorVisit ? 'Oui' : 'Non' }}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endif %}
+                                                                            {% if offer.possibleStartDate %}
+                                                                                <div class="col-md-4">
+                                                                                    <div class="p-2 bg-light rounded-3 text-center border">
+                                                                                        <small class="text-muted d-block" style="font-size: 0.7rem; text-transform: uppercase;">Début possible</small>
+                                                                                        <span class="fw-bold small">{{ offer.possibleStartDate|date('d/m/Y') }}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endif %}
+                                                                            {% if offer.estimatedDuration %}
+                                                                                <div class="col-md-4">
+                                                                                    <div class="p-2 bg-light rounded-3 text-center border">
+                                                                                        <small class="text-muted d-block" style="font-size: 0.7rem; text-transform: uppercase;">Délai estimé</small>
+                                                                                        <span class="fw-bold small">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit ?? 'jours' }}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+
                                                                 {% if offer.documents|length > 0 %}
                                                                     <div class="col-12">
-                                                                        <label class="text-muted small text-uppercase fw-bold mb-2 d-block">Attachment Files ({{ offer.documents|length }})</label>
+                                                                        <label class="text-muted small text-uppercase fw-bold mb-2 d-block">Pièces jointes ({{ offer.documents|length }})</label>
                                                                         <div class="row g-2">
                                                                             {% for doc in offer.documents %}
                                                                                 <div class="col-sm-6">

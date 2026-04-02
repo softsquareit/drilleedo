@@ -94,6 +94,23 @@ class ProfessionalController extends AbstractController
             'notifications'              => $notifications,
             'unreadCount'                => $unreadCount,
             'stats'                      => $user instanceof \App\Entity\Professional ? $user->getStats() : null,
+            'userCategory'               => $user instanceof \App\Entity\Professional ? $user->getCategory() : null,
+        ]);
+    }
+
+    #[Route('/notifications', name: 'professional_notifications')]
+    public function notifications(EntityManagerInterface $em): Response
+    {
+        /** @var \App\Entity\Business $user */
+        $user = $this->getUser();
+        
+        $notifications = $em->getRepository(\App\Entity\Notification::class)->findBy(
+            ['user' => $user],
+            ['createdAt' => 'DESC']
+        );
+
+        return $this->render('professional/notifications.html.twig', [
+            'notifications' => $notifications,
         ]);
     }
 
@@ -299,7 +316,7 @@ class ProfessionalController extends AbstractController
     {
         $project = $em->getRepository(\App\Entity\Projet::class)->find($id);
         
-        if (!$project || $project->getBusiness() !== $this->getUser()) {
+        if (!$project || $project->getBusiness()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createNotFoundException('Project not found');
         }
 
@@ -345,7 +362,7 @@ class ProfessionalController extends AbstractController
     {
         $project = $em->getRepository(\App\Entity\Projet::class)->find($id);
         
-        if ($project && $project->getBusiness() === $this->getUser()) {
+        if ($project && $project->getBusiness()?->getId() === $this->getUser()?->getId()) {
             if ($this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
                 $em->remove($project);
                 $em->flush();

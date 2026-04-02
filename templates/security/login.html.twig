@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign In to Drilleedo | Access Your Account{% endblock %}
+{% block title %}{{ 'security.login_title'|trans }} | Drilleedo{% endblock %}
 {% block meta_description %}Log in to your Drilleedo account to manage your renovation projects, receive quotes from professionals, and communicate with contractors across Canada.{% endblock %}
 
 {% block stylesheets %}
@@ -277,21 +277,21 @@
     <div class="auth-side-brand">
         <div class="auth-brand-content">
             <a href="{{ path('app_home') }}" class="auth-logo">Drilleedo<span>.</span></a>
-            <h1 class="auth-brand-title">The Future of Home <br>Renovation in Canada.</h1>
-            <p class="auth-brand-text">Join thousands of homeowners and professionals connecting daily to build something great.</p>
+            <h1 class="auth-brand-title">{{ 'security.hero_title'|trans|raw }}</h1>
+            <p class="auth-brand-text">{{ 'security.hero_desc'|trans }}</p>
             
             <div class="auth-stats">
                 <div class="auth-stat-item">
                     <h4>1.5k+</h4>
-                    <p>Verified Pros</p>
+                    <p>{{ 'security.stat_pros'|trans }}</p>
                 </div>
                 <div class="auth-stat-item">
                     <h4>10k+</h4>
-                    <p>Projects Posted</p>
+                    <p>{{ 'security.stat_projects'|trans }}</p>
                 </div>
                 <div class="auth-stat-item">
                     <h4>4.9/5</h4>
-                    <p>User Rating</p>
+                    <p>{{ 'security.stat_rating'|trans }}</p>
                 </div>
             </div>
         </div>
@@ -301,8 +301,8 @@
     <div class="auth-side-form">
         <div>
             <div class="auth-form-header">
-                <h2>Welcome back</h2>
-                <p>Please enter your details to sign in.</p>
+                <h2>{{ 'security.welcome'|trans }}</h2>
+                <p>{{ 'security.welcome_sub'|trans }}</p>
             </div>
 
             <form method="post">
@@ -314,36 +314,36 @@
 
                 {% if app.user %}
                     <div class="alert alert-info border-0 rounded-4 p-3 mb-4" style="background: #f0f9ff; color: #0369a1; font-size: 14px;">
-                        You are logged in as <strong>{{ app.user.userIdentifier }}</strong>, <a href="{{ path('app_logout') }}" class="text-danger fw-bold">Logout</a>
+                        {{ 'security.logged_in_as'|trans }} <strong>{{ app.user.userIdentifier }}</strong>, <a href="{{ path('app_logout') }}" class="text-danger fw-bold">{{ 'auth.logout'|trans }}</a>
                     </div>
                 {% endif %}
 
                 <div class="form-group-premium">
-                    <label for="username">Email Address</label>
+                    <label for="username">{{ 'security.email'|trans }}</label>
                     <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control-premium" placeholder="name@company.com" required autofocus autocomplete="email">
                 </div>
 
                 <div class="form-group-premium">
-                    <label for="password">Password</label>
+                    <label for="password">{{ 'security.password'|trans }}</label>
                     <input type="password" name="_password" id="password" class="form-control-premium" placeholder="••••••••" required autocomplete="current-password">
                 </div>
 
                 <div class="auth-flex">
                     <label class="auth-checkbox">
                         <input type="checkbox" name="_remember_me" checked>
-                        <span>Remember me</span>
+                        <span>{{ 'security.remember_me'|trans }}</span>
                     </label>
-                    <a href="{{ path('contact') }}?subject=Password+Reset" class="forgot-link">Forgot password?</a>
+                    <a href="{{ path('contact') }}?subject=Password+Reset" class="forgot-link">{{ 'security.forgot_password'|trans }}</a>
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                 <button type="submit" class="btn-auth">
-                    Sign In <i class="feather-arrow-right"></i>
+                    {{ 'security.sign_in'|trans }} <i class="feather-arrow-right"></i>
                 </button>
 
                 <div class="auth-footer">
-                    Don't have an account? <a href="{{ path('app_register') }}">Create an account</a>
+                    {{ 'security.no_account'|trans }} <a href="{{ path('app_register') }}">{{ 'security.register_link'|trans }}</a>
                 </div>
             </form>
         </div>

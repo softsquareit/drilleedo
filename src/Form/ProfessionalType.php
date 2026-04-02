@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ProfessionalType extends AbstractType
@@ -158,6 +160,18 @@ class ProfessionalType extends AbstractType
                 'label_attr' => ['class' => 'form-check-label'],
                 'attr' => ['class' => 'form-check-input']
             ]);
+
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            $professional = $event->getData();
+            $form = $event->getForm();
+
+            if ($professional instanceof Professional && $professional->getCategory()) {
+                $category = $professional->getCategory();
+                if ($category->getParent()) {
+                    $form->get('parentCategory')->setData($category->getParent());
+                }
+            }
+        });
 
         $builder->get('whyChooseUs')->addModelTransformer(new CallbackTransformer(
             function ($tagsAsArray): string {

@@ -6,7 +6,7 @@
 <div class="drl-pro-card-new">
     {% if pro.isTopRated or (pro.stats and pro.stats.averageRating >= 4.5) %}
     <div class="pro-badge-top-rated">
-        <i class="fas fa-star" aria-hidden="true"></i> Top Rated
+        <i class="fas fa-star" aria-hidden="true"></i> {{ 'home_card.top_rated'|trans }}
     </div>
     {% endif %}
 
@@ -25,7 +25,7 @@
         {# Verified Status #}
         {% if pro.isVerified %}
         <div class="pro-verified-status">
-            <i class="fas fa-check-circle text-success" aria-hidden="true"></i> <strong>Verified</strong> by Drilleedo
+            <i class="fas fa-check-circle text-success" aria-hidden="true"></i> {{ 'home_card.verified_by'|trans|raw }}
         </div>
         {% endif %}
 
@@ -61,7 +61,7 @@
             {# Experience #}
             <li>
                 <i class="feather-briefcase" aria-hidden="true"></i>
-                <span class="detail-text">{{ pro.expYears ?? '5' }}+ years exp.</span>
+                <span class="detail-text">{{ pro.expYears ?? '5' }} {{ 'home_card.years_exp_suffix'|trans }}</span>
             </li>
         </ul>
 
@@ -85,12 +85,12 @@
         <div class="pro-card-actions">
             <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) }}" 
                class="btn-pro-outline">
-                View Profile
+                {{ 'home_card.view_profile'|trans }}
             </a>
             
             <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" 
                class="btn-pro-solid">
-                Get Quote
+                {{ 'home_card.get_quote'|trans }}
             </a>
         </div>
     </div>

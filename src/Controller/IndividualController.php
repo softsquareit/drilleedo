@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\QuoteRequest;
+use App\Entity\DirectRequest;
 use App\Entity\Offer;
 use App\Entity\Notification;
 use App\Entity\Professional;
@@ -70,6 +71,34 @@ class IndividualController extends AbstractController
         ]);
     }
 
+    #[Route('/notifications', name: 'individual_notifications')]
+    public function notifications(EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+
+        $notifications = $em->getRepository(Notification::class)->findBy(
+            ['user' => $user],
+            ['createdAt' => 'DESC'],
+            100
+        );
+
+        $unreadCount = 0;
+        foreach ($notifications as $n) {
+            if (!$n->isRead()) {
+                $n->setRead(true);
+                $unreadCount++;
+            }
+        }
+        if ($unreadCount > 0) {
+            $em->flush();
+        }
+
+        return $this->render('individual/notifications.html.twig', [
+            'notifications' => $notifications,
+            'unreadCount'   => 0,
+        ]);
+    }
+
     #[Route('/quote/new', name: 'individual_quote_new')]
     public function createQuote(Request $request, EntityManagerInterface $em, \App\Service\FileUploader $fileUploader): Response
     {
@@ -99,7 +128,8 @@ class IndividualController extends AbstractController
         }
 
         return $this->render('individual/new_quote.html.twig', [
-            'form' => $form->createView()
+            'form'        => $form->createView(),
+            'unreadCount' => $this->getUnreadCount($em),
         ]);
     }
 
@@ -128,8 +158,9 @@ class IndividualController extends AbstractController
         }
 
         return $this->render('individual/profile.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user
+            'form'        => $form->createView(),
+            'user'        => $user,
+            'unreadCount' => $this->getUnreadCount($em),
         ]);
     }
     #[Route('/quotes', name: 'individual_quotes')]
@@ -138,7 +169,8 @@ class IndividualController extends AbstractController
         $user = $this->getUser();
         
         return $this->render('individual/quotes.html.twig', [
-            'quotes' => $user->getQuoteRequests(),
+            'quotes'      => $user->getQuoteRequests(),
+            'unreadCount' => $this->getUnreadCount($em),
         ]);
     }
 
@@ -146,7 +178,7 @@ class IndividualController extends AbstractController
     public function showQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em, \App\Service\FileUploader $fileUploader): Response
     {
         // Security check
-        if ($quote->getIndividual() !== $this->getUser()) {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not own this quote request.');
         }
 
@@ -178,19 +210,34 @@ class IndividualController extends AbstractController
         }
 
         return $this->render('individual/quote_show.html.twig', [
-            'quote' => $quote,
-            'form' => $form->createView(),
+            'quote'       => $quote,
+            'form'        => $form->createView(),
+            'unreadCount' => $this->getUnreadCount($em),
+        ]);
+    }
+
+    #[Route('/direct-request/{id}', name: 'individual_direct_request_show', requirements: ['id' => '\d+'])]
+    public function showDirectRequest(DirectRequest $directRequest, EntityManagerInterface $em): Response
+    {
+        if ($directRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('You do not own this direct request.');
+        }
+
+        return $this->render('individual/direct_request_show.html.twig', [
+            'request'     => $directRequest,
+            'unreadCount' => $this->getUnreadCount($em),
         ]);
     }
 
     #[Route('/direct-requests', name: 'individual_direct_requests')]
-    public function directRequests(): Response
+    public function directRequests(EntityManagerInterface $em): Response
     {
         /** @var \App\Entity\Individual $user */
         $user = $this->getUser();
-        
+
         return $this->render('individual/direct_requests.html.twig', [
             'directRequests' => $user->getDirectRequests(),
+            'unreadCount'    => $this->getUnreadCount($em),
         ]);
     }
 
@@ -225,7 +272,8 @@ class IndividualController extends AbstractController
         });
         
         return $this->render('individual/offers.html.twig', [
-            'offers' => $offers,
+            'offers'      => $offers,
+            'unreadCount' => $this->getUnreadCount($em),
         ]);
     }
 
@@ -256,18 +304,19 @@ class IndividualController extends AbstractController
         }
 
         return $this->render('individual/settings.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user
+            'form'        => $form->createView(),
+            'user'        => $user,
+            'unreadCount' => $this->getUnreadCount($em),
         ]);
     }
  
     #[Route('/quote/{id}/publish', name: 'individual_quote_publish', methods: ['POST'])]
     public function publishQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
     {
-        if ($quote->getIndividual() !== $this->getUser()) {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not own this quote request.');
         }
- 
+
         if (!$this->isCsrfTokenValid('publish-quote-' . $quote->getId(), $request->request->get('_token'))) {
             $this->addFlash('danger', 'Invalid security token.');
             return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
@@ -325,7 +374,7 @@ class IndividualController extends AbstractController
     #[Route('/quote/{id}/delete', name: 'individual_quote_delete', methods: ['POST'])]
     public function deleteQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em): Response
     {
-        if ($quote->getIndividual() !== $this->getUser()) {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not own this quote request.');
         }
 
@@ -357,7 +406,7 @@ class IndividualController extends AbstractController
     #[Route('/quote/{id}/remove-image/{index}', name: 'individual_quote_remove_image', methods: ['POST'], requirements: ['index' => '\d+'])]
     public function removeQuoteImage(QuoteRequest $quote, int $index, Request $request, EntityManagerInterface $em): Response
     {
-        if ($quote->getIndividual() !== $this->getUser()) {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not own this quote request.');
         }
 
@@ -395,15 +444,16 @@ class IndividualController extends AbstractController
         $directRequest = $offer->getDirectRequest();
         $parentRequest = $quoteRequest ?? $directRequest;
 
-        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+        if (!$parentRequest || $parentRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not have access to this offer.');
         }
 
         return $this->render('individual/offer_detail.html.twig', [
-            'offer' => $offer,
-            'quote' => $quoteRequest,
+            'offer'         => $offer,
+            'quote'         => $quoteRequest,
             'directRequest' => $directRequest,
             'parentRequest' => $parentRequest,
+            'unreadCount'   => $this->getUnreadCount($em),
         ]);
     }
 
@@ -414,7 +464,7 @@ class IndividualController extends AbstractController
         $directRequest = $offer->getDirectRequest();
         $parentRequest = $quoteRequest ?? $directRequest;
 
-        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+        if (!$parentRequest || $parentRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not have access to this offer.');
         }
 
@@ -433,7 +483,7 @@ class IndividualController extends AbstractController
         $offer->setUpdatedAt(new \DateTime());
 
         // Update parent request
-        $parentRequest->setStatus(QuoteRequest::STATUS_ACCEPTED);
+        $parentRequest->setStatus(QuoteRequest::STATUS_CLOSED);
 
         // Auto-reject other published offers
         foreach ($parentRequest->getOffers() as $otherOffer) {
@@ -448,6 +498,7 @@ class IndividualController extends AbstractController
         if ($provider) {
             $notification = new Notification();
             $notification->setUser($provider);
+            $notification->setTitle('Offer Accepted');
             $notification->setMessage('Your offer for "' . $parentRequest->getTitle() . '" has been accepted!');
             $notification->setRelatedEntityId($offer->getId());
             $notification->setRelatedEntityType('offer');
@@ -467,7 +518,7 @@ class IndividualController extends AbstractController
         $directRequest = $offer->getDirectRequest();
         $parentRequest = $quoteRequest ?? $directRequest;
 
-        if (!$parentRequest || $parentRequest->getIndividual() !== $this->getUser()) {
+        if (!$parentRequest || $parentRequest->getIndividual()?->getId() !== $this->getUser()?->getId()) {
             throw $this->createAccessDeniedException('You do not have access to this offer.');
         }
 
@@ -498,6 +549,14 @@ class IndividualController extends AbstractController
     }
 
     // Removed revertOfferPending as it is not part of the target workflow
+
+    private function getUnreadCount(EntityManagerInterface $em): int
+    {
+        return $em->getRepository(Notification::class)->count([
+            'user'   => $this->getUser(),
+            'isRead' => false,
+        ]);
+    }
 
     private function returnToParentRequest(Offer $offer): Response
     {

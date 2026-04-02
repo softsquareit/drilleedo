@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en-CA">
+<html lang="{{ app.request.locale }}">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Drilleedo – Canadian Home Improvement Marketplace{% endblock %}</title>
+    <title>{% block title %}{{ 'site.title'|trans }}{% endblock %}</title>
     <meta name="robots" content="index, follow">
-    <meta name="description" content="{% block meta_description %}Drilleedo connects Canadian homeowners with trusted renovation professionals. Get free quotes from verified contractors near you.{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{{ 'site.meta_description'|trans }}{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}home renovation Canada, find contractors, renovation quotes, home improvement marketplace{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -16,7 +16,7 @@
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{{ app.request.uri }}">
     <meta property="og:image" content="{% block og_image %}{{ absolute_url(asset('assets/drilleedo/images/logo/logo-black.png')) }}{% endblock %}">
-    <meta property="og:locale" content="en_CA">
+    <meta property="og:locale" content="{{ app.request.locale == 'fr' ? 'fr_CA' : 'en_CA' }}">
     <meta property="og:site_name" content="Drilleedo">
 
     {# ── Twitter Card ── #}
@@ -97,6 +97,27 @@
     <!-- End Header Area -->
 
     <main class="rbt-main-wrapper">
+
+        {# ── Flash messages globaux ───────────────────────────────────────────── #}
+        {% set flashMap = {
+            'success': 'success',
+            'error':   'danger',
+            'danger':  'danger',
+            'warning': 'warning',
+            'info':    'info'
+        } %}
+        {% for type, messages in app.flashes %}
+            {% set bsType = flashMap[type] ?? 'info' %}
+            {% for message in messages %}
+            <div class="alert alert-{{ bsType }} alert-dismissible fade show mb-0 rounded-0"
+                 role="alert"
+                 style="position:relative;z-index:1050;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+            </div>
+            {% endfor %}
+        {% endfor %}
+
         {% block body %}{% endblock %}
 
         <!-- Start Footer Area  -->
@@ -112,45 +133,9 @@
 
 
 
-    <!-- JS
-============================================ -->
-    <!-- Modernizer JS -->
-    <script src="{{ asset('assets/drilleedo/js/vendor/modernizr.min.js') }}"></script>
-    <!-- jQuery JS -->
-    <script src="{{ asset('assets/drilleedo/js/vendor/jquery.js') }}"></script>
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('assets/drilleedo/js/vendor/bootstrap.min.js') }}"></script>
-    <!-- sal.js -->
-    <script src="{{ asset('assets/drilleedo/js/vendor/sal.js') }}"></script>
-    <!-- Dark Mode Switcher -->
-    <script src="{{ asset('assets/drilleedo/js/vendor/js.cookie.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/jquery.style.switcher.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/swiper.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/jquery-appear.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/odometer.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/backtotop.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/isotop.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/imageloaded.js') }}"></script>
-
-    <script src="{{ asset('assets/drilleedo/js/vendor/wow.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/waypoint.min.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/easypie.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/text-type.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/jquery-one-page-nav.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/jquery-ui.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/magnify-popup.min.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/paralax-scroll.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/paralax.min.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/countdown.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/plyr.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/jodit.min.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/vendor/Sortable.min.js') }}"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('assets/drilleedo/js/main.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
-    <script src="{{ asset('assets/drilleedo/js/confirm-modal.js') }}"></script>
+    <!-- JS bundles (vendor: concatenated pre-minified; app: webpack encore) -->
+    <script src="/build/vendor.js"></script>
+    {{ encore_entry_script_tags('app') }}
 
     {# ── Global Confirmation Modal ── #}
     <div class="modal fade" id="globalConfirmModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">

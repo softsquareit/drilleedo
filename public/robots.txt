@@ -1,9 +1,38 @@
 User-agent: *
-Allow: /
+
+# Authenticated / private areas
 Disallow: /admin/
+Disallow: /admin
+Disallow: /individual-compte/
+Disallow: /professional-compte/
+Disallow: /company-dashboard/
 Disallow: /individual/
 Disallow: /professional/
-Disallow: /company-dashboard/
+
+# Auth pages — no value for crawlers
+Disallow: /login
+Disallow: /logout
+Disallow: /register
+Disallow: /access-denied
+
+# Internal API & dev tools
+Disallow: /api/
+Disallow: /_profiler/
+Disallow: /_wdt/
+Disallow: /change-language/
+
+# Crawl-budget: ignore paginated filter combinations (allow ?page= only)
+Disallow: /find-professionals?*keyword*
+Disallow: /find-professionals?*cities*
+Disallow: /find-professionals?*categories*
+Disallow: /find-professionals?*sort*
+Disallow: /renovation-companies?*keyword*
+Disallow: /renovation-companies?*cities*
+Disallow: /renovation-companies?*categories*
+
+Allow: /find-professionals
+Allow: /renovation-companies
+Allow: /
 
 # Sitemap
-Sitemap: https://drilleedo.com/sitemap.xml
+Sitemap: https://www.drilleedo.ca/sitemap.xml

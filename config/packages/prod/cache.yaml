@@ -1,0 +1,11 @@
+framework:
+    cache:
+        # Use Redis in production for shared, persistent caching across PHP-FPM workers.
+        # Set REDIS_URL in .env.local.php or environment: redis://localhost:6379
+        app: cache.adapter.redis
+        default_redis_provider: '%env(REDIS_URL)%'
+
+        # Encore entrypoints cache (invalidated on deploy when rebuild runs)
+        pools:
+            cache.webpack_encore:
+                adapter: cache.adapter.redis

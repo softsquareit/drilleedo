@@ -261,7 +261,7 @@
                             <div class="zen-card text-center pb-3">
                                 <div class="profile-cover" data-bs-toggle="modal" data-bs-target="#updateBannerModal">
                                     <div class="profile-cover-overlay">
-                                        <i class="fas fa-camera text-white fa-lg"></i>
+                                        <i class="ph-bold ph-camera text-white fa-lg"></i>
                                     </div>
                                 </div>
                                 <div class="profile-avatar-wrapper">
@@ -269,10 +269,10 @@
                                         {% if professional.logo %}
                                             <img src="{{ asset('uploads/logos/' ~ professional.logo) }}" alt="Photo" style="width: 100%; height: 100%; object-fit: cover;">
                                         {% else %}
-                                            <i class="fas fa-user-tie fa-3x text-secondary opacity-50"></i>
+                                            <i class="ph-bold ph-user-circle fa-3x text-secondary opacity-50"></i>
                                         {% endif %}
                                         <div class="profile-avatar-overlay">
-                                            <i class="fas fa-camera text-white"></i>
+                                            <i class="ph-bold ph-camera text-white"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -288,10 +288,10 @@
                                     
                                     <div class="d-flex justify-content-center gap-2 mb-4">
                                         <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editProfessionalModal">
-                                            <i class="fas fa-edit me-1"></i> Modifier
+                                            <i class="ph-bold ph-pencil-simple me-1"></i> Modifier
                                         </button>
                                         <button class="btn btn-zen-primary btn-sm">
-                                            <i class="fas fa-comment-alt me-1"></i> Message
+                                            <i class="ph-bold ph-chat-circle me-1"></i> Message
                                         </button>
                                     </div>
                                     
@@ -307,7 +307,7 @@
                                         <div class="sidebar-stat d-flex justify-content-between align-items-center">
                                             <span class="stat-label">Vérifié</span>
                                             {% if professional.isVerified %}
-                                                <span class="badge bg-success bg-opacity-10 text-success small fw-bold"><i class="fas fa-check-circle me-1"></i>Oui</span>
+                                                <span class="badge bg-success bg-opacity-10 text-success small fw-bold"><i class="ph-bold ph-check-circle me-1"></i>Oui</span>
                                             {% else %}
                                                 <span class="badge bg-secondary bg-opacity-10 text-secondary small fw-bold">Non</span>
                                             {% endif %}
@@ -315,7 +315,7 @@
                                         <div class="sidebar-stat d-flex justify-content-between align-items-center">
                                             <span class="stat-label">Elite</span>
                                             {% if professional.isTopRated %}
-                                                <span class="badge bg-warning bg-opacity-10 text-warning small fw-bold"><i class="fas fa-star me-1"></i>Oui</span>
+                                                <span class="badge bg-warning bg-opacity-10 text-warning small fw-bold"><i class="ph-bold ph-star me-1"></i>Oui</span>
                                             {% else %}
                                                 <span class="badge bg-secondary bg-opacity-10 text-secondary small fw-bold">Non</span>
                                             {% endif %}
@@ -342,15 +342,15 @@
                             <div class="zen-card p-0">
                                 <div class="list-group list-group-flush">
                                     <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#editSecteurModal">
-                                        <i class="fas fa-tag text-muted fa-fw"></i>
+                                        <i class="ph-bold ph-tag text-muted fa-fw"></i>
                                         <span class="small fw-medium">Changer de catégorie</span>
                                     </button>
                                     <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-danger">
-                                        <i class="fas fa-ban fa-fw"></i>
+                                        <i class="ph-bold ph-prohibit fa-fw"></i>
                                         <span class="small fw-medium">Suspendre le compte</span>
                                     </button>
                                     <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                                        <i class="fas fa-key text-muted fa-fw"></i>
+                                        <i class="ph-bold ph-key text-muted fa-fw"></i>
                                         <span class="small fw-medium">Changer le mot de passe</span>
                                     </button>
                                 </div>
@@ -366,27 +366,27 @@
                         <ul class="nav nav-pills mb-4 gap-2 profile-tabs" id="profileTabs" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-panel" type="button" role="tab" aria-controls="general-panel" aria-selected="true">
-                                    <i class="fas fa-id-card me-2"></i>Informations Générales
+                                    <i class="ph-bold ph-identification-badge me-2"></i>Informations Générales
                                 </button>
                             </li>
                              <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-panel" type="button" role="tab" aria-controls="contact-panel" aria-selected="false">
-                                    <i class="fas fa-map-marked-alt me-2"></i>Contact & Localisation
+                                    <i class="ph-bold ph-map-marked-alt me-2"></i>Contact & Localisation
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="portfolio-tab" data-bs-toggle="tab" data-bs-target="#portfolio-panel" type="button" role="tab" aria-controls="portfolio-panel" aria-selected="false">
-                                    <i class="fas fa-images me-2"></i>Portfolio Pro
+                                    <i class="ph-bold ph-images me-2"></i>Portfolio Pro
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-panel" type="button" role="tab" aria-controls="settings-panel" aria-selected="false">
-                                    <i class="fas fa-user-shield me-2"></i>Configuration
+                                    <i class="ph-bold ph-shield-check me-2"></i>Configuration
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-panel" type="button" role="tab" aria-controls="reviews-panel" aria-selected="false">
-                                    <i class="fas fa-star me-2"></i>Avis clients
+                                    <i class="ph-bold ph-star me-2"></i>Avis clients
                                 </button>
                             </li>
                         </ul>
@@ -397,9 +397,9 @@
                             <div class="tab-pane fade show active" id="general-panel" role="tabpanel" aria-labelledby="general-tab">
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                        <div class="zen-card-title"><i class="fas fa-info-circle text-primary"></i> Informations de Base</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-info text-primary"></i> Informations de Base</div>
                                         <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editBasicInfoModal">
-                                            <i class="fas fa-edit small"></i>
+                                            <i class="ph-bold ph-pencil-simple small"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -426,9 +426,9 @@
 
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                        <div class="zen-card-title"><i class="fas fa-user-tie text-primary"></i> Bio & Expertise</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-user-circle text-primary"></i> Bio & Expertise</div>
                                         <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editBioExpertiseModal">
-                                            <i class="fas fa-edit small"></i>
+                                            <i class="ph-bold ph-pencil-simple small"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -448,7 +448,7 @@
                                                         {% for item in items %}
                                                             {% if item|trim %}
                                                                 <li class="mb-2 d-flex align-items-start small">
-                                                                    <i class="fas fa-check-circle text-success mt-1 me-2"></i>
+                                                                    <i class="ph-bold ph-check-circle text-success mt-1 me-2"></i>
                                                                     <span>{{ item|trim }}</span>
                                                                 </li>
                                                             {% endif %}
@@ -466,7 +466,7 @@
                                                         {% for item in items %}
                                                             {% if item|trim %}
                                                                 <li class="mb-2 d-flex align-items-start small">
-                                                                    <i class="fas fa-cog text-primary mt-1 me-2"></i>
+                                                                    <i class="ph-bold ph-gear text-primary mt-1 me-2"></i>
                                                                     <span>{{ item|trim }}</span>
                                                                 </li>
                                                             {% endif %}
@@ -483,14 +483,14 @@
                                             <div class="row g-3">
                                                 <div class="col-md-3">
                                                     <div class="bg-light p-2 rounded-3 border-0 small">
-                                                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                                        <i class="ph-bold ph-map-pin text-primary me-2"></i>
                                                         <span class="text-muted">Rayon:</span>
                                                         <span class="fw-bold ms-1 text-dark">{{ professional.interventionRadius ? professional.interventionRadius ~ ' km' : 'N/A' }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="bg-light p-2 rounded-3 border-0 small">
-                                                        <i class="fas fa-tag text-success me-2"></i>
+                                                        <i class="ph-bold ph-tag text-success me-2"></i>
                                                         <span class="text-muted">Prix Min:</span>
                                                         <span class="fw-bold ms-1 text-dark">{{ professional.minPrice ? '$' ~ professional.minPrice : 'N/A' }}</span>
                                                     </div>
@@ -498,17 +498,17 @@
                                                 <div class="col-md-6 d-flex gap-2 flex-wrap">
                                                     {% if professional.hasFreeQuotes %}
                                                         <span class="badge bg-soft-success text-success border-0 px-2 py-1 rounded-pill small">
-                                                            <i class="fas fa-file-invoice-dollar me-1"></i> Soumissions gratuites
+                                                            <i class="ph-bold ph-receipt me-1"></i> Soumissions gratuites
                                                         </span>
                                                     {% endif %}
                                                     {% if professional.hasGuaranteedWork %}
                                                         <span class="badge bg-soft-info text-info border-0 px-2 py-1 rounded-pill small">
-                                                            <i class="fas fa-shield-alt me-1"></i> Travail garanti
+                                                            <i class="ph-bold ph-shield me-1"></i> Travail garanti
                                                         </span>
                                                     {% endif %}
                                                     {% if professional.rbqCertified %}
                                                         <span class="badge bg-soft-warning text-warning border-0 px-2 py-1 rounded-pill small">
-                                                            <i class="fas fa-certificate me-1"></i> Certifié RBQ
+                                                            <i class="ph-bold ph-certificate me-1"></i> Certifié RBQ
                                                         </span>
                                                     {% endif %}
                                                 </div>
@@ -524,7 +524,7 @@
                                                         {% if item|trim %}
                                                             <div class="col-md-4">
                                                                 <div class="d-flex align-items-center bg-light p-2 rounded-3 border-0 small">
-                                                                    <i class="fas fa-clock text-info me-2"></i>
+                                                                    <i class="ph-bold ph-clock text-info me-2"></i>
                                                                     <span class="fw-medium">{{ item|trim }}</span>
                                                                 </div>
                                                             </div>
@@ -540,9 +540,9 @@
 
                                 <div class="zen-card mb-4" id="primary-contact-panel">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                        <div class="zen-card-title"><i class="fas fa-user-circle text-primary"></i> Contact Principal</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-user-circle text-primary"></i> Contact Principal</div>
                                         <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editContactModal">
-                                            <i class="fas fa-edit small"></i>
+                                            <i class="ph-bold ph-pencil-simple small"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
@@ -575,9 +575,9 @@
                             <div class="tab-pane fade" id="contact-panel" role="tabpanel" aria-labelledby="contact-tab">
                                 <div class="zen-card">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                        <div class="zen-card-title"><i class="fas fa-map-marked-alt text-primary"></i> Adresses de Service</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-map-marked-alt text-primary"></i> Adresses de Service</div>
                                         <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">
-                                            <i class="fas fa-plus me-1"></i> 
+                                            <i class="ph-bold ph-plus me-1"></i> 
                                         </button>
                                     </div>
                                     <div class="zen-card-body p-0">
@@ -601,7 +601,7 @@
                                                             </td>
                                                             <td class="text-end pe-4">
                                                                 <a href="{{ path('admin_address_delete', {'id': address.id}) }}" class="btn btn-soft-zen-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
-                                                                    <i class="fas fa-trash"></i>
+                                                                    <i class="ph-bold ph-trash"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -621,9 +621,9 @@
                             <div class="tab-pane fade" id="portfolio-panel" role="tabpanel" aria-labelledby="portfolio-tab">
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                        <div class="zen-card-title"><i class="fas fa-tasks text-primary"></i> Projets Réalisés</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-list-checks text-primary"></i> Projets Réalisés</div>
                                         <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#addProjectModal">
-                                            <i class="fas fa-plus me-1"></i>
+                                            <i class="ph-bold ph-plus me-1"></i>
                                         </button>
                                     </div>
                                     <div class="zen-card-body p-0">
@@ -645,7 +645,7 @@
                                                                     <img src="{{ asset('uploads/projects/' ~ project.mainPhoto) }}" alt="{{ project.name }}" class="rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
                                                                 {% else %}
                                                                     <div class="rounded bg-light d-flex align-items-center justify-content-center text-muted" style="width: 50px; height: 50px;">
-                                                                        <i class="fas fa-image fa-sm"></i>
+                                                                        <i class="ph-bold ph-image fa-sm"></i>
                                                                     </div>
                                                                 {% endif %}
                                                             </td>
@@ -662,10 +662,10 @@
                                                                         data-bs-target="#editProjectModal"
                                                                         onclick="populateProjectModal('{{ project.id }}', '{{ project.name|escape('js') }}', '{{ project.startDate|date('Y-m-d') }}', '{{ project.EndDate ? project.EndDate|date('Y-m-d') : '' }}', '{{ project.description|escape('js')|nl2br }}', '{{ project.state ? 1 : 0 }}', '{{ project.mainPhoto }}', '{{ project.gallery|json_encode|escape('js') }}')"
                                                                         title="Modifier le projet">
-                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                    <i class="ph-bold ph-pencil-simple"></i>
                                                                 </button>
                                                                 <a href="{{ path('admin_project_delete', {'id': project.id}) }}" class="btn btn-soft-zen-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
-                                                                    <i class="fas fa-trash"></i>
+                                                                    <i class="ph-bold ph-trash"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -682,9 +682,9 @@
 
                                 <div class="zen-card">
                                     <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                        <div class="zen-card-title"><i class="fas fa-link text-primary"></i> Liens & Réseaux Sociaux</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-link text-primary"></i> Liens & Réseaux Sociaux</div>
                                         <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#addLinkModal">
-                                            <i class="fas fa-plus me-1"></i> 
+                                            <i class="ph-bold ph-plus me-1"></i> 
                                         </button>
                                     </div>
                                     <div class="zen-card-body p-0">
@@ -712,10 +712,10 @@
                                                                         data-bs-target="#editLinkModal"
                                                                         onclick="populateLinkModal('{{ link.id }}', '{{ link.type }}', '{{ link.link|escape('js') }}')"
                                                                         title="Modifier le lien">
-                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                    <i class="ph-bold ph-pencil-simple"></i>
                                                                 </button>
                                                                 <a href="{{ path('admin_link_delete', {'id': link.id}) }}" class="btn btn-soft-zen-danger btn-icon btn-sm rounded-circle btn-delete-confirm">
-                                                                    <i class="fas fa-trash"></i>
+                                                                    <i class="ph-bold ph-trash"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -737,24 +737,24 @@
                                     <div class="col-md-6">
                                         <div class="zen-card h-100">
                                             <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                                <div class="zen-card-title"><i class="fas fa-shield-alt text-primary"></i> Statut & Vérification</div>
+                                                <div class="zen-card-title"><i class="ph-bold ph-shield text-primary"></i> Statut & Vérification</div>
                                                 <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editStatusModal">
-                                                    <i class="fas fa-edit small"></i>
+                                                    <i class="ph-bold ph-pencil-simple small"></i>
                                                 </button>
                                             </div>
                                             <div class="zen-card-body">
                                                 <div class="d-flex flex-column gap-3">
                                                     <div class="d-flex justify-content-between align-items-center p-2 rounded bg-light border">
                                                         <span class="small fw-bold text-muted">Vérifié by l'admin</span>
-                                                        {% if professional.isVerified %}<span class="badge bg-success-soft text-success"><i class="fas fa-check me-1"></i>Oui</span>{% else %}<span class="badge bg-secondary-soft text-muted">Non</span>{% endif %}
+                                                        {% if professional.isVerified %}<span class="badge bg-success-soft text-success"><i class="ph-bold ph-check me-1"></i>Oui</span>{% else %}<span class="badge bg-secondary-soft text-muted">Non</span>{% endif %}
                                                     </div>
                                                     <div class="d-flex justify-content-between align-items-center p-2 rounded bg-light border">
                                                         <span class="small fw-bold text-muted">Top Rated (Elite)</span>
-                                                        {% if professional.isTopRated %}<span class="badge bg-warning-soft text-warning"><i class="fas fa-star me-1"></i>Elite</span>{% else %}<span class="badge bg-secondary-soft text-muted">Standard</span>{% endif %}
+                                                        {% if professional.isTopRated %}<span class="badge bg-warning-soft text-warning"><i class="ph-bold ph-star me-1"></i>Elite</span>{% else %}<span class="badge bg-secondary-soft text-muted">Standard</span>{% endif %}
                                                     </div>
                                                     <div class="d-flex justify-content-between align-items-center p-2 rounded bg-light border">
                                                         <span class="small fw-bold text-muted">Assurance Responsabilité</span>
-                                                        {% if professional.hasInsurance %}<span class="badge bg-info-soft text-info"><i class="fas fa-shield-alt me-1"></i>Assuré</span>{% else %}<span class="badge bg-danger-soft text-danger"><i class="fas fa-times me-1"></i>Non assuré</span>{% endif %}
+                                                        {% if professional.hasInsurance %}<span class="badge bg-info-soft text-info"><i class="ph-bold ph-shield me-1"></i>Assuré</span>{% else %}<span class="badge bg-danger-soft text-danger"><i class="ph-bold ph-x me-1"></i>Non assuré</span>{% endif %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -764,9 +764,9 @@
                                     <div class="col-md-6">
                                         <div class="zen-card h-100">
                                             <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                                <div class="zen-card-title"><i class="fas fa-briefcase text-primary"></i> Secteur & Disponibilité</div>
+                                                <div class="zen-card-title"><i class="ph-bold ph-briefcase text-primary"></i> Secteur & Disponibilité</div>
                                                 <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editSecteurModal">
-                                                    <i class="fas fa-edit small"></i>
+                                                    <i class="ph-bold ph-pencil-simple small"></i>
                                                 </button>
                                             </div>
                                             <div class="zen-card-body">
@@ -791,9 +791,9 @@
                                     <div class="col-12">
                                         <div class="zen-card">
                                             <div class="zen-card-header d-flex justify-content-between align-items-center">
-                                                <div class="zen-card-title"><i class="fas fa-language text-primary"></i> Langues & Préférences</div>
+                                                <div class="zen-card-title"><i class="ph-bold ph-translate text-primary"></i> Langues & Préférences</div>
                                                 <button type="button" class="btn btn-sm btn-light text-primary btn-icon rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#editPrefsModal">
-                                                    <i class="fas fa-edit small"></i>
+                                                    <i class="ph-bold ph-pencil-simple small"></i>
                                                 </button>
                                             </div>
                                             <div class="zen-card-body">
@@ -812,7 +812,7 @@
                                                         <label class="small fw-bold text-uppercase text-muted mb-2">Notifications</label>
                                                         <div class="d-flex flex-wrap gap-2">
                                                             {% for pref in professional.contactPrefs %}
-                                                                <span class="badge bg-success-soft text-success"><i class="fas fa-bell me-1"></i>{{ pref }}</span>
+                                                                <span class="badge bg-success-soft text-success"><i class="ph-bold ph-bell me-1"></i>{{ pref }}</span>
                                                             {% else %}
                                                                 <span class="text-muted small italic">Aucun</span>
                                                             {% endfor %}
@@ -828,7 +828,7 @@
                                     <div class="col-md-6">
                                         <div class="zen-card">
                                             <div class="zen-card-header">
-                                                <div class="zen-card-title"><i class="fas fa-key text-primary"></i> Sécurité & Accès</div>
+                                                <div class="zen-card-title"><i class="ph-bold ph-key text-primary"></i> Sécurité & Accès</div>
                                             </div>
                                             <div class="zen-card-body">
                                                 <div class="d-flex flex-column gap-3">
@@ -845,7 +845,7 @@
                                                             <div class="fw-bold small">Lien Profile Public</div>
                                                             <div class="text-muted" style="font-size: 0.7rem;">Voir la fiche sur la marketplace</div>
                                                         </div>
-                                                        <a href="{{ path('professional_details', {'id': professional.id, 'slug': professional.tradeName|default('details')}) }}" target="_blank" class="btn btn-soft-zen-primary btn-icon btn-sm rounded-pill"><i class="fas fa-external-link-alt"></i></a>
+                                                        <a href="{{ path('professional_details', {'id': professional.id, 'slug': professional.tradeName|default('details')}) }}" target="_blank" class="btn btn-soft-zen-primary btn-icon btn-sm rounded-pill"><i class="ph-bold ph-arrow-square-out"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -855,7 +855,7 @@
                                     <div class="col-12">
                                         <div class="zen-card mb-4">
                                             <div class="zen-card-header">
-                                                <div class="zen-card-title"><i class="fas fa-shield-alt text-primary"></i> Paramètres du Compte</div>
+                                                <div class="zen-card-title"><i class="ph-bold ph-shield text-primary"></i> Paramètres du Compte</div>
                                             </div>
                                             <div class="zen-card-body">
                                                 <div class="row align-items-center">
@@ -878,16 +878,16 @@
                             <div class="tab-pane fade" id="reviews-panel" role="tabpanel" aria-labelledby="reviews-tab">
                                 <div class="zen-card mb-4">
                                     <div class="zen-card-header">
-                                        <div class="zen-card-title"><i class="fas fa-star text-warning"></i> Avis clients dynamiques</div>
+                                        <div class="zen-card-title"><i class="ph-bold ph-star text-warning"></i> Avis clients dynamiques</div>
                                         <button type="button" class="btn btn-zen-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#addReviewModal">
-                                            <i class="fas fa-plus me-1"></i>un avis
+                                            <i class="ph-bold ph-plus me-1"></i>un avis
                                         </button>
                                     </div>
                                     <div class="zen-card-body">
                                         {% if professional.reviews is empty %}
                                             <div class="text-center py-5">
                                                 <div class="mb-3">
-                                                    <i class="fas fa-comment-slash fa-3x text-light"></i>
+                                                    <i class="ph-bold ph-chat-teardrop-slash fa-3x text-light"></i>
                                                 </div>
                                                 <h6 class="fw-bold">Aucun avis rattaché</h6>
                                                 <p class="text-muted small">Les avis ajoutés ici apparaîtront sur la fiche publique du professionnel.</p>
@@ -925,7 +925,7 @@
                                                                 </td>
                                                                 <td class="text-end">
                                                                     <a href="{{ path('admin_review_delete', {'id': review.id}) }}" class="btn btn-icon btn-soft-zen-danger btn-sm rounded-circle btn-delete-confirm" data-confirm-message="Voulez-vous vraiment supprimer cet avis client ?">
-                                                                        <i class="fas fa-trash-alt"></i>
+                                                                        <i class="ph-bold ph-trash"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -1268,7 +1268,7 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Sélectionnez une nouvelle photo</label>
                         <div class="zen-upload-container" onclick="document.getElementById('{{ photoForm.logoFile.vars.id }}').click()">
-                            <div class="zen-upload-icon"><i class="fas fa-camera"></i></div>
+                            <div class="zen-upload-icon"><i class="ph-bold ph-camera"></i></div>
                             <div class="zen-upload-text">Cliquez pour choisir une photo</div>
                             {{ form_widget(photoForm.logoFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "photo-preview")'}}) }}
                         </div>
@@ -1298,7 +1298,7 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Sélectionnez une nouvelle bannière</label>
                         <div class="zen-upload-container" onclick="document.getElementById('{{ bannerForm.bannerFile.vars.id }}').click()">
-                            <div class="zen-upload-icon"><i class="fas fa-image"></i></div>
+                            <div class="zen-upload-icon"><i class="ph-bold ph-image"></i></div>
                             <div class="zen-upload-text">Cliquez pour choisir une bannière</div>
                             {{ form_widget(bannerForm.bannerFile, {'attr': {'class': 'd-none', 'onchange': 'previewImage(this, "banner-professional-preview")'}}) }}
                         </div>
@@ -1347,7 +1347,7 @@
                         <div class="col-md-5">
                             <label class="form-label small fw-bold text-uppercase text-muted">Photo Principal</label>
                             <div class="zen-upload-container" onclick="document.getElementById('edit_project_main_photo_input_prof').click()">
-                                <div class="zen-upload-icon small"><i class="fas fa-camera"></i></div>
+                                <div class="zen-upload-icon small"><i class="ph-bold ph-camera"></i></div>
                                 <div class="zen-upload-text small">Sélectionner</div>
                                 <input type="file" name="projet[mainPhoto]" id="edit_project_main_photo_input_prof" class="d-none" onchange="previewImage(this, 'edit-project-preview-prof')">
                             </div>
@@ -1597,7 +1597,7 @@
                 <form action="{{ path('admin_user_change_password', {'id': professional.id}) }}" method="POST">
                 <div class="modal-body p-4">
                     <div class="alert alert-info-soft small border-0 mb-4">
-                        <i class="fas fa-info-circle me-2"></i> Un nouveau mot de passe sera défini pour cet utilisateur. Assurez-vous de lui transmettre de manière sécurisée.
+                        <i class="ph-bold ph-info me-2"></i> Un nouveau mot de passe sera défini pour cet utilisateur. Assurez-vous de lui transmettre de manière sécurisée.
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase text-muted">Nouveau mot de passe</label>
@@ -1654,7 +1654,7 @@
             } else {
                 mainPhotoContainer.innerHTML = `
                     <div class="rounded bg-white border border-dashed d-flex align-items-center justify-content-center text-muted" style="width: 80px; height: 80px;">
-                        <i class="fas fa-image"></i>
+                        <i class="ph-bold ph-image"></i>
                     </div>
                 `;
                 document.getElementById('edit-project-preview-prof').src = '/assets/images/placeholder.jpg';
@@ -1670,7 +1670,7 @@
                             div.innerHTML = `
                                 <img src="{{ asset('uploads/projects/') }}/${img}" class="rounded shadow-sm border bg-white" style="width: 60px; height: 60px; object-fit: cover;">
                                 <a href="/admin/projects/${id}/delete-image?type=gallery&image=${img}&ajax=1" class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger border border-light p-1 btn-delete-confirm-ajax" data-confirm-message="Supprimer cette image de la galerie ?">
-                                    <i class="fas fa-times fa-xs"></i>
+                                    <i class="ph-bold ph-x fa-xs"></i>
                                 </a>
                             `;
                             galleryContainer.appendChild(div);
@@ -1810,7 +1810,7 @@
                                         imgWrapper.innerHTML = `
                                             <img src="${e.target.result}" class="rounded shadow-sm border" style="width: 80px; height: 80px; object-fit: cover;">
                                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger border border-light p-1" style="cursor:pointer" onclick="this.parentElement.remove()">
-                                                <i class="fas fa-times fa-xs"></i>
+                                                <i class="ph-bold ph-x fa-xs"></i>
                                             </span>
                                         `;
                                         container.appendChild(imgWrapper);

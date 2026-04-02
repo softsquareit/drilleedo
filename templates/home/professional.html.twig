@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block structured_data %}
-{# Calculations are now done at the top of block body for better scope #}
+{{ parent() }}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -20,12 +20,28 @@
   "url": "{{ app.request.uri }}",
   "telephone": "{{ professional.phoneNum ?? '' }}",
   "address": { "@type": "PostalAddress", "addressLocality": "{{ professional.city ?? 'Montreal' }}", "addressRegion": "QC", "addressCountry": "CA" },
-  "aggregateRating": { 
-      "@type": "AggregateRating", 
-      "ratingValue": "{{ (professional.reviews|length > 0 ? (professional.reviews|reduce((carry, r) => carry + r.rating, 0) / professional.reviews|length) : (professional.stats ? professional.stats.averageRating : 5))|number_format(1) }}", 
-      "reviewCount": "{{ professional.reviews|length }}" 
+  "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "{{ (professional.reviews|length > 0 ? (professional.reviews|reduce((carry, r) => carry + r.rating, 0) / professional.reviews|length) : (professional.stats ? professional.stats.averageRating : 5))|number_format(1) }}",
+      "reviewCount": "{{ professional.reviews|length }}"
   },
-  "description": "{{ professional.about ? professional.about|striptags|slice(0, 200) : 'Services professionnels out of Drilleedo.' }}"
+  "description": "{{ professional.about ? professional.about|striptags|slice(0, 200)|e('js') : 'Services professionnels sur Drilleedo.' }}"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "{{ url('app_home') }}"},
+    {"@type": "ListItem", "position": 2, "name": "Professionnels", "item": "{{ url('professionals_list') }}"},
+    {% if professional.category %}
+    {"@type": "ListItem", "position": 3, "name": "{{ professional.category.name|e('js') }}", "item": "{{ url('professionals_list') }}?category={{ professional.category.id }}"},
+    {"@type": "ListItem", "position": 4, "name": "{{ professional.companyName|e('js') }}"}
+    {% else %}
+    {"@type": "ListItem", "position": 3, "name": "{{ professional.companyName|e('js') }}"}
+    {% endif %}
+  ]
 }
 </script>
 {% endblock %}
@@ -62,6 +78,37 @@
 {% set starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' %}
 
 <div class="drl-page">
+
+{# ── Breadcrumb navigation ────────────────────────────────────────────────── #}
+<nav aria-label="breadcrumb" class="container pt-3 pb-1">
+  <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
+      <meta itemprop="position" content="1">
+    </li>
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ url('professionals_list') }}" itemprop="item"><span itemprop="name">Professionnels</span></a>
+      <meta itemprop="position" content="2">
+    </li>
+    {% if professional.category %}
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ url('professionals_list') }}?category={{ professional.category.id }}" itemprop="item">
+        <span itemprop="name">{{ professional.category.name }}</span>
+      </a>
+      <meta itemprop="position" content="3">
+    </li>
+    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">{{ professional.companyName }}</span>
+      <meta itemprop="position" content="4">
+    </li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">{{ professional.companyName }}</span>
+      <meta itemprop="position" content="3">
+    </li>
+    {% endif %}
+  </ol>
+</nav>
 
 {# ══════════════════════════════════════════════════════════════════════════
    1. HERO BANNER
@@ -108,7 +155,7 @@
         <div class="drl-company-row">
           <span class="drl-company-name">{{ professional.companyName }}</span>
           {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
-            <span class="drl-fast-badge">⚡ Fast Response</span>
+            <span class="drl-fast-badge">{{ 'public_profile.fast_response'|trans }}</span>
           {% endif %}
         </div>
 
@@ -148,9 +195,9 @@
             <span class="drl-chip drl-chip-blue" title="Assurance responsabilité civile">🛡️ Insured</span>
           {% endif %}
           {% if professional.availabilityStatus == 'AVAILABLE' %}
-            <span class="drl-chip drl-chip-green" style="background: rgba(34, 197, 94, 0.1); color: #16a34a; border-color: rgba(34, 197, 94, 0.2);">● Available</span>
+            <span class="drl-chip drl-chip-green" style="background: rgba(34, 197, 94, 0.1); color: #16a34a; border-color: rgba(34, 197, 94, 0.2);">● {{ 'public_stats.available'|trans }}</span>
           {% elseif professional.availabilityStatus == 'BUSY' %}
-            <span class="drl-chip drl-chip-orange" style="background: rgba(245, 158, 11, 0.1); color: #d97706; border-color: rgba(245, 158, 11, 0.2);">● Busy</span>
+            <span class="drl-chip drl-chip-orange" style="background: rgba(245, 158, 11, 0.1); color: #d97706; border-color: rgba(245, 158, 11, 0.2);">● {{ 'public_stats.busy'|trans }}</span>
           {% endif %}
           {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
             <span class="drl-chip drl-chip-blue" title="Fast Response Time">⚡ Fast Response</span>
@@ -165,7 +212,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#contactProModal"
                 aria-haspopup="dialog">
-          Contact Me →
+          {{ 'public_profile.contact_me'|trans }}
         </button>
         <a href="tel:{{ professional.phoneNum ?? '+15145550000' }}"
            class="drl-phone-btn">
@@ -180,22 +227,22 @@
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">🏗️</div>
         <div>
-          <div class="drl-stat-label">Category</div>
+          <div class="drl-stat-label">{{ 'public_profile.category'|trans }}</div>
           <div class="drl-stat-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
         </div>
       </div>
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">📅</div>
         <div>
-          <div class="drl-stat-label">Experience</div>
-          <div class="drl-stat-val">{{ professional.expYears ?? '10' }} years</div>
+          <div class="drl-stat-label">{{ 'public_profile.experience'|trans }}</div>
+          <div class="drl-stat-val">{{ professional.expYears ?? '10' }} ans</div>
         </div>
       </div>
 {# Employees stat removed #}
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">💬</div>
         <div>
-          <div class="drl-stat-label">Languages Spoken</div>
+          <div class="drl-stat-label">{{ 'public_profile.languages'|trans }}</div>
           <div class="drl-stat-val">
             {% if professional.languages and professional.languages|length > 0 %}
               {% for code in professional.languages %}
@@ -210,7 +257,7 @@
       <div class="drl-stat-cell">
         <div class="drl-stat-ico">✅</div>
         <div>
-          <div class="drl-stat-label">Completed Projects</div>
+          <div class="drl-stat-label">{{ 'public_profile.completed_projects'|trans }}</div>
           <div class="drl-stat-val">
             {% if professional.projets|length > 0 %}
               {{ professional.projets|length }} projet{{ professional.projets|length > 1 ? 's' : '' }}
@@ -240,7 +287,7 @@
         <div class="drl-s-head">
           <div class="drl-s-title">
             <span class="drl-s-title-dot"></span>
-            {{ professional.projets|length > 0 ? 'Projects Overview' : 'Bio & Expertise' }}
+            {{ professional.projets|length > 0 ? 'public_profile.projects_overview'|trans : 'public_profile.bio_expertise'|trans }}
           </div>
         </div>
         <div class="drl-s-body">
@@ -292,7 +339,7 @@
         <div class="drl-s-head">
           <div class="drl-s-title">
             <span class="drl-s-title-dot"></span>
-            Customer Reviews
+            {{ 'public_profile.customer_reviews'|trans }}
           </div>
           <button type="button" class="drl-s-link" data-bs-toggle="modal" data-bs-target="#reviewsModal" aria-haspopup="dialog">
             View all reviews →
@@ -380,8 +427,8 @@
         {# Devis card #}
         <div class="drl-devis-card drl-fade d2">
           <div class="drl-devis-header">
-            <h3>📋 Request a Quote</h3>
-            <p>Guaranteed response within 24h</p>
+            <h3>{{ 'public_profile.request_quote'|trans }}</h3>
+            <p>{{ 'public_profile.guaranteed_response'|trans }}</p>
           </div>
           <div class="drl-devis-body">
             <button class="drl-btn-devis"
@@ -389,9 +436,9 @@
                     data-bs-toggle="modal"
                     data-bs-target="#contactProModal"
                     aria-haspopup="dialog">
-              Get a free quote →
+              {{ 'public_profile.get_quote'|trans }}
             </button>
-            <div class="drl-hours-title">Opening Hours</div>
+            <div class="drl-hours-title">{{ 'public_stats.opening_hours'|trans }}</div>
             {% if professional.openingHours and professional.openingHours|length > 0 %}
                 {% for hour in professional.openingHours %}
                     {% if ':' in hour %}
@@ -411,16 +458,16 @@
                 {% endfor %}
             {% else %}
                 <div class="drl-hour-row">
-                  <span class="drl-hour-day">Mon – Fri</span>
+                  <span class="drl-hour-day">{{ 'public_stats.mon_fri'|trans }}</span>
                   <span class="drl-hour-time">08:00 – 18:00</span>
                 </div>
                 <div class="drl-hour-row">
-                  <span class="drl-hour-day">Sat</span>
+                  <span class="drl-hour-day">{{ 'public_stats.sat'|trans }}</span>
                   <span class="drl-hour-time">08:00 – 14:00</span>
                 </div>
                 <div class="drl-hour-row">
-                  <span class="drl-hour-day">Sun</span>
-                  <span class="drl-hour-closed">Closed</span>
+                  <span class="drl-hour-day">{{ 'public_stats.sun'|trans }}</span>
+                  <span class="drl-hour-closed">{{ 'public_stats.closed'|trans }}</span>
                 </div>
             {% endif %}
           </div>
@@ -428,12 +475,12 @@
 
         {# Contact Details #}
         <div class="drl-contact-card drl-fade d3">
-          <div class="drl-contact-head">📞 Contact Details</div>
+          <div class="drl-contact-head">📞 {{ 'public_stats.contact_details'|trans }}</div>
           <div class="drl-contact-body">
             <div class="drl-c-item">
               <div class="drl-c-ico">👤</div>
               <div>
-                <div class="drl-c-lbl">Company</div>
+                <div class="drl-c-lbl">{{ 'public_profile.company'|trans }}</div>
                 <div class="drl-c-val">{{ professional.companyName }}</div>
               </div>
             </div>
@@ -483,7 +530,7 @@
 
         {# Advantages #}
         <div class="drl-adv-card drl-fade d3">
-          <a class="drl-btn-see-all" role="button" tabindex="0">Our advantages</a>
+          <a class="drl-btn-see-all" role="button" tabindex="0">{{ 'public_profile.our_advantages'|trans }}</a>
           <div class="drl-adv-body">
             {% set hasSpecificAdv = professional.interventionRadius or professional.minPrice or professional.freeQuotes or professional.guaranteedWork or professional.rbqCertified %}
             

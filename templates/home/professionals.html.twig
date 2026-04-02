@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Find Professionals | Drilleedo Canada{% endblock %}
-{% block meta_description %}Browse and compare verified home renovation professionals. Filter by category and location. Get free quotes on Drilleedo.{% endblock %}
+{% block meta_description %}{{ metaDescription }}{% endblock %}
+{% block og_description %}{{ metaDescription }}{% endblock %}
+{% block canonical %}{{ canonicalUrl }}{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
@@ -18,9 +20,9 @@
        alt="Professionnels Drilleedo"
        class="fp-hero__img">
   <div class="fp-hero__content">
-    <h1 class="fp-hero__title">Find a Professional Near You</h1>
+    <h1 class="fp-hero__title">{{ 'public_list.hero_pro_title'|trans }}</h1>
     <p class="fp-hero__sub">
-      Compare verified contractors in renovation, plumbing, electricity and much more in Canada.
+      {{ 'public_list.hero_pro_sub'|trans }}
     </p>
     <div class="fp-hero__search">
       <form action="{{ path('professionals_list') }}" method="GET" class="fp-search-bar">
@@ -30,18 +32,18 @@
         <input type="text"
                name="keyword"
                class="fp-search-bar__input"
-               placeholder="Name, service, city…"
+               placeholder="{{ 'public_list.search_pro_placeholder'|trans }}"
                value="{{ activeFilters.keyword ?? '' }}"
                aria-label="Search professionals">
-        <button type="submit" class="fp-search-bar__btn">Search</button>
+        <button type="submit" class="fp-search-bar__btn">{{ 'public_list.search_btn'|trans }}</button>
       </form>
     </div>
     <div class="fp-hero__stats">
-      <span>✅ {{ professionals|length }}+ verified professionals</span>
+      <span>✅ {{ totalProfessionals }}+ {{ 'public_stats.verified_pros'|trans }}</span>
       <span class="fp-hero__stat-dot">·</span>
-      <span>⭐ Certified customer ratings</span>
+      <span>⭐ {{ 'public_stats.customer_ratings'|trans }}</span>
       <span class="fp-hero__stat-dot">·</span>
-      <span>📋 Free quotes</span>
+      <span>📋 {{ 'public_stats.free_quotes'|trans }}</span>
     </div>
   </div>
 </div>
@@ -55,8 +57,8 @@
     {# "Tous" pill #}
     <button class="fp-cat-pill active" data-category="all" aria-pressed="true">
       <i class="feather-grid"></i>
-      All
-      <span class="fp-cat-pill__count">{{ professionals|length }}</span>
+      {{ 'public_list.all'|trans }}
+      <span class="fp-cat-pill__count">{{ totalProfessionals }}</span>
     </button>
 
     {# Only parent categories (parent == null) #}
@@ -68,7 +70,9 @@
           {% if cat.icon %}
             <img src="{{ asset('uploads/categories/' ~ cat.icon) }}"
                  alt="{{ cat.name }} icon"
-                 class="fp-cat-pill__icon">
+                 class="fp-cat-pill__icon"
+                 loading="lazy"
+                 width="20" height="20">
           {% else %}
             <i class="feather-briefcase"></i>
           {% endif %}
@@ -103,7 +107,7 @@
         <div class="fp-sidebar-card">
           <div class="fp-sidebar-card__header">
             <i class="feather-map-pin"></i>
-            City / Region
+            {{ 'public_list.city_region'|trans }}
           </div>
           <div class="fp-sidebar-card__body">
             <ul class="fp-city-list" role="list">
@@ -129,11 +133,11 @@
 
         {# Actions #}
         <button type="submit" class="fp-btn-apply" aria-label="Apply filters">
-          Apply Filters
+          {{ 'public_list.apply_filters'|trans }}
         </button>
         {% if activeFilters.cities is not empty or activeFilters.categories is defined and activeFilters.categories is not empty %}
           <a href="{{ path('professionals_list') }}" class="fp-btn-clear" aria-label="Clear all filters">
-            Clear Filters
+            {{ 'public_list.clear_filters'|trans }}
           </a>
         {% endif %}
 
@@ -146,7 +150,7 @@
       {# Meta row: count + sort #}
       <div class="fp-meta-row">
         <p class="fp-meta-count">
-          <span id="filtered-count">{{ professionals|length }}</span> professional{{ professionals|length > 1 ? 's' : '' }} available
+          <span id="filtered-count">{{ totalProfessionals }}</span> {{ 'public_list.professionals_available'|trans }}
         </p>
         <form action="{{ path('professionals_list') }}" method="GET" id="sort-form">
           {% if activeFilters.keyword %}<input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">{% endif %}
@@ -155,9 +159,9 @@
                   class="fp-sort-select"
                   onchange="this.form.submit()"
                   aria-label="Sort results">
-            <option value="newest"     {{ activeFilters.sort == 'newest'     ? 'selected' : '' }}>Sort: Newest</option>
-            <option value="rating"     {{ activeFilters.sort == 'rating'     ? 'selected' : '' }}>Sort: Top Rated</option>
-            <option value="experience" {{ activeFilters.sort == 'experience' ? 'selected' : '' }}>Sort: Experience</option>
+            <option value="newest"     {{ activeFilters.sort == 'newest'     ? 'selected' : '' }}>{{ 'public_list.sort_newest'|trans }}</option>
+            <option value="rating"     {{ activeFilters.sort == 'rating'     ? 'selected' : '' }}>{{ 'public_list.sort_rating'|trans }}</option>
+            <option value="experience" {{ activeFilters.sort == 'experience' ? 'selected' : '' }}>{{ 'public_list.sort_exp'|trans }}</option>
           </select>
         </form>
       </div>
@@ -185,7 +189,7 @@
             {# Top-rated badge #}
             {% if pro.isTopRated or (pro.stats and pro.stats.averageRating >= 4.5) %}
               <div class="fp-badge-top" aria-label="Top rated professional">
-                ⭐ Top Rated
+                ⭐ {{ 'home_card.top_rated'|trans }}
               </div>
             {% endif %}
 
@@ -198,7 +202,10 @@
               </a>
               <div class="fp-card-avatar" aria-hidden="true">
                 {% if pro.logo %}
-                  <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="{{ pro.displayName }} logo">
+                  <img src="{{ asset('uploads/logos/' ~ pro.logo) }}"
+                       alt="{{ pro.displayName }} logo"
+                       loading="lazy"
+                       width="48" height="48">
                 {% else %}
                   {{ initials }}
                 {% endif %}
@@ -209,7 +216,7 @@
             <div class="fp-card-body">
 
               {% if pro.isVerified %}
-                <div class="fp-card-verified">✔ Drilleedo Verified</div>
+                <div class="fp-card-verified">✔ {{ 'home_card.verified_by'|trans|striptags }}</div>
               {% endif %}
 
               <h3 class="fp-card-name">
@@ -237,7 +244,7 @@
                 </span>
                 <span>
                   <i class="feather-clock"></i>
-                  {{ pro.expYears ?? '5' }}+ years exp.
+                  {{ pro.expYears ?? '5' }} {{ 'home_card.years_exp_suffix'|trans }}
                 </span>
               </div>
 
@@ -255,11 +262,11 @@
 
               <div class="fp-card-actions">
                 <a href="{{ profileUrl }}" class="fp-btn-outline">
-                  View Profile
+                  {{ 'home_card.view_profile'|trans }}
                 </a>
                 <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}"
                    class="fp-btn-solid">
-                  Free Quote
+                  {{ 'home_card.get_quote'|trans }}
                 </a>
               </div>
 

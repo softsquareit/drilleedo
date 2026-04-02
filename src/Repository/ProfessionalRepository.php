@@ -145,7 +145,20 @@ class ProfessionalRepository extends ServiceEntityRepository
     }
 
     /**
-     * Search professionals by keyword across name, category, and city.
+     * Retourne uniquement les champs nécessaires pour le sitemap.xml (évite le chargement complet des entités).
+     *
+     * @return array<int, array{id: int, slug: string|null, updatedAt: \DateTimeInterface|null}>
+     */
+    public function findForSitemap(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.id')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * Search professionals by keyword using FULLTEXT on company_name + city, with LIKE fallback.
      *
      * @param string $q The search keyword
      * @param int $limit Max results to return
@@ -153,16 +166,45 @@ class ProfessionalRepository extends ServiceEntityRepository
      */
     public function searchByKeyword(string $q, int $limit = 6): array
     {
-        $qb = $this->createQueryBuilder('p')
-            ->leftJoin('p.category', 'c')
-            ->where('p.company_name LIKE :q')
-            ->orWhere('c.name LIKE :q')
-            ->orWhere('p.city LIKE :q')
-            ->setParameter('q', '%' . $q . '%')
-            ->setMaxResults($limit)
-            ->orderBy('p.id', 'DESC');
+        $conn = $this->getEntityManager()->getConnection();
+        $term = addcslashes($q, '+-><()~*\\"@') . '*';
 
-        return $qb->getQuery()->getResult();
+        // FULLTEXT search: company_name (business table) + city (professional table)
+        $sql = '
+            SELECT p.id
+            FROM professional p
+            JOIN business b ON b.id = p.id
+            WHERE MATCH(b.company_name) AGAINST(:term IN BOOLEAN MODE)
+               OR MATCH(p.city) AGAINST(:term IN BOOLEAN MODE)
+            ORDER BY (
+                MATCH(b.company_name) AGAINST(:term IN BOOLEAN MODE) * 2
+                + MATCH(p.city) AGAINST(:term IN BOOLEAN MODE)
+            ) DESC
+            LIMIT :lim
+        ';
+
+        $ids = $conn->fetchFirstColumn($sql, ['term' => $term, 'lim' => $limit], [
+            'term' => \Doctrine\DBAL\ParameterType::STRING,
+            'lim'  => \Doctrine\DBAL\ParameterType::INTEGER,
+        ]);
+
+        // LIKE fallback for short terms or zero FULLTEXT matches
+        if (empty($ids)) {
+            return $this->createQueryBuilder('p')
+                ->leftJoin('p.category', 'c')
+                ->where('p.company_name LIKE :q OR c.name LIKE :q OR p.city LIKE :q')
+                ->setParameter('q', '%' . $q . '%')
+                ->setMaxResults($limit)
+                ->orderBy('p.id', 'DESC')
+                ->getQuery()->getResult();
+        }
+
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
+            ->addSelect('c')
+            ->where('p.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()->getResult();
     }
 
     /**
@@ -172,7 +214,9 @@ class ProfessionalRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.category', 'c')
-            ->leftJoin('p.stats', 's');
+            ->addSelect('c')
+            ->leftJoin('p.stats', 's')
+            ->addSelect('s');
 
         if ($keyword) {
             $qb->andWhere('p.company_name LIKE :keyword OR c.name LIKE :keyword OR p.city LIKE :keyword')

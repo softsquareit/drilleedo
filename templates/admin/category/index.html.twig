@@ -146,6 +146,8 @@
                                                 data-parent="{{ category.parent ? category.parent.id : '' }}"
                                                 data-color="{{ category.rawColor|default('#ffc107') }}"
                                                 data-active="{{ category.isActive ? '1' : '0' }}"
+                                                data-icon="{{ category.rawIcon }}"
+                                                data-banner="{{ category.getBanner() }}"
                                                 title="Edit Details"
                                                 style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                                             <i class="fas fa-edit small"></i>
@@ -198,6 +200,7 @@
                      <div class="mb-4">
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Category Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[name]" required placeholder="e.g. Construction">
+                        <input type="hidden" name="category[_token]" value="{{ csrf_token('category') }}">
                     </div>
                     <div class="mb-4">
                          <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Parent Category</label>
@@ -214,18 +217,31 @@
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Icon (Image)</label>
-                            <div class="zen-upload-container p-3 border-2 border-dashed rounded-4 bg-light cursor-pointer" 
-                                 onclick="$(this).find('input[type=file]').click()" 
+                            <label for="add_category_iconFile" class="zen-upload-container p-3 border-2 border-dashed rounded-4 bg-light cursor-pointer d-block" 
                                  style="border-style: dashed !important; border-color: #dee2e6 !important;">
                                 <div class="text-muted mb-1 text-center"><i class="fas fa-cloud-upload-alt fa-lg"></i></div>
                                 <div class="small fw-bold text-center">Select Icon</div>
-                                <input type="file" class="category-icon-input d-none" name="category[iconFile]" onchange="previewImage(this, $(this).closest('.col-md-12').find('img').attr('id'))">
-                            </div>
+                            </label>
+                            <input type="file" id="add_category_iconFile" class="category-icon-input d-none" name="category[iconFile]" onchange="previewImage(this, 'add-category-icon-preview')">
                             <div class="mt-2 text-center">
-                                <img id="{% if loop is defined %}add-icon-preview{% else %}edit-icon-preview{% endif %}" src="{{ asset('assets/images/placeholder.jpg') }}" class="rounded-3 shadow-sm icon-preview-img" style="width: 48px; height: 48px; object-fit: cover;">
+                                <img id="add-category-icon-preview" src="{{ asset('assets/images/placeholder.jpg') }}" class="rounded-3 shadow-sm icon-preview-img" style="width: 48px; height: 48px; object-fit: cover;">
                             </div>
                         </div>
                         <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Banner (Mega Menu)</label>
+                            <label for="add_category_bannerFile" class="zen-upload-container p-3 border-2 border-dashed rounded-4 bg-light cursor-pointer d-block" 
+                                 style="border-style: dashed !important; border-color: #dee2e6 !important;">
+                                <div class="text-muted mb-1 text-center"><i class="fas fa-image fa-lg"></i></div>
+                                <div class="small fw-bold text-center">Select Banner</div>
+                            </label>
+                            <input type="file" id="add_category_bannerFile" class="category-banner-input d-none" name="category[bannerFile]" onchange="previewImage(this, 'add-category-banner-preview')">
+                            <div class="mt-2 text-center">
+                                <img id="add-category-banner-preview" src="{{ asset('assets/images/placeholder.jpg') }}" class="rounded-3 shadow-sm banner-preview-img" style="width: 100%; height: 48px; object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
                             <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Color</label>
                             <input type="color" class="form-control form-control-color w-100 border-0 bg-light rounded-3" name="category[color]" value="#ffc107" style="height: 48px;">
                         </div>
@@ -275,18 +291,31 @@
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Icon (Image)</label>
-                            <div class="zen-upload-container p-3 border-2 border-dashed rounded-4 bg-light cursor-pointer" 
-                                 onclick="$(this).find('input[type=file]').click()" 
+                            <label for="edit_category_iconFile" class="zen-upload-container p-3 border-2 border-dashed rounded-4 bg-light cursor-pointer d-block" 
                                  style="border-style: dashed !important; border-color: #dee2e6 !important;">
                                 <div class="text-muted mb-1 text-center"><i class="fas fa-cloud-upload-alt fa-lg"></i></div>
                                 <div class="small fw-bold text-center">Change Icon</div>
-                                <input type="file" id="edit_category_iconFile" name="category[iconFile]" class="d-none" onchange="previewImage(this, 'edit-category-icon-preview')">
-                            </div>
+                            </label>
+                            <input type="file" id="edit_category_iconFile" name="category[iconFile]" class="d-none" onchange="previewImage(this, 'edit-category-icon-preview')">
                             <div class="mt-2 text-center">
                                 <img id="edit-category-icon-preview" src="{{ asset('assets/images/placeholder.jpg') }}" class="rounded-3 shadow-sm icon-preview-img" style="width: 48px; height: 48px; object-fit: cover;">
                             </div>
                         </div>
                         <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Banner (Mega Menu)</label>
+                            <label for="edit_category_bannerFile" class="zen-upload-container p-3 border-2 border-dashed rounded-4 bg-light cursor-pointer d-block" 
+                                 style="border-style: dashed !important; border-color: #dee2e6 !important;">
+                                <div class="text-muted mb-1 text-center"><i class="fas fa-image fa-lg"></i></div>
+                                <div class="small fw-bold text-center">Change Banner</div>
+                            </label>
+                            <input type="file" id="edit_category_bannerFile" name="category[bannerFile]" class="d-none" onchange="previewImage(this, 'edit-category-banner-preview')">
+                            <div class="mt-2 text-center">
+                                <img id="edit-category-banner-preview" src="{{ asset('assets/images/placeholder.jpg') }}" class="rounded-3 shadow-sm banner-preview-img" style="width: 100%; height: 48px; object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
                             <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Color</label>
                             <input type="color" class="form-control form-control-color w-100 border-0 bg-light rounded-3" name="category[color]" id="editCategoryColor" style="height: 48px;">
                         </div>
@@ -340,6 +369,7 @@
                 const categoryColor = button.getAttribute('data-color');
                 const categoryActive = button.getAttribute('data-active');
                 const categoryIcon = button.getAttribute('data-icon');
+                const categoryBanner = button.getAttribute('data-banner');
                 
                 document.getElementById('editCategoryName').value = categoryName;
                 document.getElementById('editCategoryParent').value = categoryParent;
@@ -352,7 +382,13 @@
                     document.getElementById('edit-category-icon-preview').src = '/assets/images/placeholder.jpg';
                 }
 
-                document.getElementById('editCategoryForm').action = `/admin/categories/${categoryId}/edit`;
+                if (categoryBanner) {
+                    document.getElementById('edit-category-banner-preview').src = `/uploads/categories/${categoryBanner}`;
+                } else {
+                    document.getElementById('edit-category-banner-preview').src = '/assets/images/placeholder.jpg';
+                }
+
+                document.getElementById('editCategoryForm').action = `/dashboard/categories/${categoryId}/edit`;
             });
         }
         // AJAX Form Submission

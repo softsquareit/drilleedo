@@ -220,7 +220,7 @@
         <div class="container-xl pt-4 mb-4">
              <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 small">
-                    <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}" class="text-muted text-decoration-none"><i class="ph-house me-1"></i>Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ path('admin_individual_index') }}" class="text-muted text-decoration-none">Individuals</a></li>
                     <li class="breadcrumb-item active text-dark" aria-current="page">View Profile</li>
                 </ol>
@@ -231,7 +231,7 @@
             <div class="container-xl">
                 <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-check-circle me-2"></i>
+                        <i class="ph-check-circle me-2"></i>
                         {{ message }}
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -243,7 +243,7 @@
             <div class="container-xl">
                 <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <i class="ph-warning-circle me-2"></i>
                         {{ message }}
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -260,8 +260,8 @@
                          <div class="zen-card text-center pb-3">
                             <div class="profile-cover"></div>
                             <div class="profile-avatar-wrapper">
-                                <div class="profile-avatar">
-                                    <i class="fas fa-user fa-3x text-secondary opacity-50"></i>
+                                <div class="profile-avatar bg-primary bg-opacity-10 text-primary border-0">
+                                    <i class="ph-user-circle ph-4x opacity-50"></i>
                                 </div>
                             </div>
                             <div class="px-3 mt-3">
@@ -303,13 +303,13 @@
                          <div class="zen-card p-0">
                             <div class="list-group list-group-flush">
                                 <button type="button" class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-danger py-3" data-confirm="Are you sure you want to delete this user? This action cannot be undone." data-confirm-btn="Delete User" data-confirm-class="indiv-btn-danger">
-                                    <i class="fas fa-trash-alt fa-fw"></i>
+                                    <i class="ph-trash ph-fw"></i>
                                     <span class="small fw-medium">Delete Account</span>
                                 </button>
                                 <form id="delete-individual-form" method="post" action="{{ path('admin_individual_delete', {'id': individual.id}) }}" class="d-none"></form>
 
                                 <button class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 py-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                                    <i class="fas fa-key text-muted fa-fw"></i>
+                                    <i class="ph-key ph-fw text-muted"></i>
                                     <span class="small fw-medium">Change Password</span>
                                 </button>
                             </div>
@@ -323,7 +323,7 @@
                     <div class="zen-card mb-4">
                         <div class="zen-card-header">
                             <div class="zen-card-title">
-                                <i class="fas fa-address-card text-muted"></i> Account Overview
+                                <i class="ph-identification-card text-muted"></i> Account Overview
                             </div>
                             <button class="btn btn-zen-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editIndividualModal">Edit</button>
                         </div>

@@ -83,7 +83,7 @@
                                             <li><a class="dropdown-item rounded py-2" href="{{ path('individual_offer_accept', {id: offer.id}) }}"><i class="feather-check text-success me-2"></i> Accept this Offer</a></li>
                                             <li><a class="dropdown-item rounded py-2 text-danger" href="{{ path('individual_offer_reject', {id: offer.id}) }}"><i class="feather-x me-2"></i> Reject Offer</a></li>
                                         {% endif %}
-                                        <li><a class="dropdown-item rounded py-2" href="{{ path('professional_public_show', {id: offer.provider.id}) }}" target="_blank"><i class="feather-user me-2"></i> View Profile</a></li>
+                                        <li><a class="dropdown-item rounded py-2" href="{{ path('professional_details', {id: offer.provider.id}) }}" target="_blank"><i class="feather-user me-2"></i> View Profile</a></li>
                                     </ul>
                                 </div>
                             </td>

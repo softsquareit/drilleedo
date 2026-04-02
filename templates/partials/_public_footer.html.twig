@@ -219,15 +219,15 @@
         {# ── NEW CTA Section ── #}
         <div class="df-cta">
             <div class="df-cta__text">
-                <h3>Ready to Start Your Project?</h3>
-                <p>Connect with trusted professionals or grow your own renovation business across Canada.</p>
+                <h3>{{ 'footer.cta_title'|trans }}</h3>
+                <p>{{ 'footer.cta_desc'|trans }}</p>
             </div>
             <div class="df-cta__actions">
                 <a href="{{ path('professionals_list') }}" class="df-btn-orange">
-                    Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i>
+                    {{ 'footer.cta_find'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
                 </a>
                 <a href="{{ path('app_register') }}" class="df-btn-outline">
-                    Join as a Pro
+                    {{ 'footer.cta_join'|trans }}
                 </a>
             </div>
         </div>
@@ -239,7 +239,7 @@
             <div>
                 <img src="{{ asset('uploads/images/Logo_bottom.png') }}" alt="Drilleedo" style="height: 34px; margin-bottom: 20px; display: block;" loading="lazy">
                 <p class="df-desc">
-                    Canada's trusted marketplace connecting homeowners with verified renovation professionals. We make home improvement easier, smarter, and more reliable.
+                    {{ 'footer.brand_desc'|trans }}
                 </p>
                 <div class="df-socials">
                     <a href="#" class="df-social df-social--fb" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
@@ -251,38 +251,38 @@
 
             {# Col 2: For Homeowners #}
             <div>
-                <h4 class="df-col-title">For Homeowners</h4>
+                <h4 class="df-col-title">{{ 'footer.col_homeowners'|trans }}</h4>
                 <ul class="df-links">
-                    <li><a href="{{ path('professionals_list') }}">Find Professionals</a></li>
-                    <li><a href="{{ path('app_home') }}#how-it-works">How It Works</a></li>
-                    <li><a href="{{ path('smartideas') }}">Renovation Ideas</a></li>
-                    <li><a href="{{ path('packages') }}">Pricing</a></li>
-                    <li><a href="{{ path('contact') }}">Support</a></li>
+                    <li><a href="{{ path('professionals_list') }}">{{ 'nav.find_professionals'|trans }}</a></li>
+                    <li><a href="{{ path('app_home') }}#how-it-works">{{ 'nav.how_it_works'|trans }}</a></li>
+                    <li><a href="{{ path('smartideas') }}">{{ 'nav.smart_ideas'|trans }}</a></li>
+                    <li><a href="{{ path('packages') }}">{{ 'nav.pricing'|trans }}</a></li>
+                    <li><a href="{{ path('contact') }}">{{ 'nav.support'|trans }}</a></li>
                 </ul>
             </div>
 
             {# Col 3: Company & Cities #}
             <div>
-                <h4 class="df-col-title">Top Cities</h4>
+                <h4 class="df-col-title">{{ 'footer.col_cities'|trans }}</h4>
                 <ul class="df-links" style="margin-bottom: 20px;">
                     <li><a href="{{ path('city_seo_landing', {citySlug: 'toronto'}) }}">Toronto</a></li>
-                    <li><a href="{{ path('city_seo_landing', {citySlug: 'montreal'}) }}">Montreal</a></li>
+                    <li><a href="{{ path('city_seo_landing', {citySlug: 'montreal'}) }}">Montréal</a></li>
                     <li><a href="{{ path('city_seo_landing', {citySlug: 'vancouver'}) }}">Vancouver</a></li>
                 </ul>
-                <h4 class="df-col-title" style="margin-bottom: 12px; font-size: 13px;">Company</h4>
+                <h4 class="df-col-title" style="margin-bottom: 12px; font-size: 13px;">{{ 'footer.col_company'|trans }}</h4>
                 <ul class="df-links">
-                    <li><a href="{{ path('app_about') }}">About Us</a></li>
-                    <li><a href="{{ path('public_blog_list') }}">Blog</a></li>
-                    <li><a href="{{ path('app_careers') }}">Careers</a></li>
+                    <li><a href="{{ path('app_about') }}">{{ 'nav.about_us'|trans }}</a></li>
+                    <li><a href="{{ path('public_blog_list') }}">{{ 'nav.blog'|trans }}</a></li>
+                    <li><a href="{{ path('app_careers') }}">{{ 'nav.careers'|trans }}</a></li>
                 </ul>
             </div>
 
             {# Col 4: Contact #}
             <div>
-                <h4 class="df-col-title">Contact Us</h4>
+                <h4 class="df-col-title">{{ 'footer.col_contact'|trans }}</h4>
                 <div class="df-contact-item">
                     <i class="feather-phone" aria-hidden="true"></i>
-                    <span><a href="tel:+14065550120">(406) 555-0120</a><br><span style="font-size:12px;opacity:0.7;">Mon-Fri, 9am - 5pm EST</span></span>
+                    <span><a href="tel:+14065550120">(406) 555-0120</a><br><span style="font-size:12px;opacity:0.7;">{{ 'footer.hours'|trans }}</span></span>
                 </div>
                 <div class="df-contact-item">
                     <i class="feather-mail" aria-hidden="true"></i>
@@ -290,7 +290,7 @@
                 </div>
                 <div class="df-contact-item">
                     <i class="feather-map-pin" aria-hidden="true"></i>
-                    <span>Toronto, ON<br><span style="font-size:12px;opacity:0.7;">Canada</span></span>
+                    <span>Toronto, ON<br><span style="font-size:12px;opacity:0.7;">{{ 'footer.country'|trans }}</span></span>
                 </div>
             </div>
 
@@ -312,21 +312,21 @@
     <div class="df-bottom">
         <div class="df-bottom__inner">
             <div>
-                &copy; {{ 'now'|date('Y') }} Drilleedo Inc. All rights reserved.
+                {{ 'footer.copyright'|trans({'%year%': 'now'|date('Y')}) }}
             </div>
             <div class="df-bottom-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Sitemap</a>
+                <a href="#">{{ 'footer.privacy'|trans }}</a>
+                <a href="#">{{ 'footer.terms'|trans }}</a>
+                <a href="#">{{ 'footer.sitemap'|trans }}</a>
             </div>
             <div class="df-made-in" style="display:flex;align-items:center;gap:6px;">
-                Proudly made in 
+                {{ 'footer.made_in'|trans }} 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width:14px; height:14px;">
                     <g fill="#e8501a">
                         <path d="M470.83 234L351.62 254.19l32.12-101.4-96.16 63.48-31.54-216.27-31.42 216.27-96-63.48 31.95 101.4L41.31 234l67.62 50.8-108.93 69.85 137.47-5.07L167.92 462l88-69.85v119.85h.2v-119.85l87.89 69.85 30.54-112.43 137.37 5.07L403.07 284.8z"/>
                     </g>
                 </svg>
-                Canada
+                {{ 'footer.country'|trans }}
             </div>
         </div>
     </div>

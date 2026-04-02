@@ -27,7 +27,33 @@ DirectoryIndex index.php
 RewriteRule ^ %{ENV:BASE}/index.php [L]
 </IfModule>
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Headers "*"
-    Header set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PATCH"
+    # CORS restreint au domaine de production
+    Header set Access-Control-Allow-Origin "https://www.drilleedo.ca"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header set Access-Control-Allow-Methods "POST, GET, OPTIONS"
+
+    # Anti-clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Protection MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # HSTS — forcer HTTPS (1 an)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+    # Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+    # Protection XSS navigateurs anciens
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Bloquer l'exécution PHP dans le dossier uploads
+<IfModule mod_php.c>
+    <DirectoryMatch "uploads">
+        php_flag engine off
+    </DirectoryMatch>
 </IfModule>

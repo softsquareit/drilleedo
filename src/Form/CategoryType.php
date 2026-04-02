@@ -25,6 +25,10 @@ class CategoryType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
+            ->add('bannerFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('color', ColorType::class, [
                 'required' => false,
             ])

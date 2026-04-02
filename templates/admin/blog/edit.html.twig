@@ -282,6 +282,13 @@
                                       <label class="form-label small fw-bold text-uppercase text-muted">Category</label>
                                       {{ form_widget(form.category, {'attr': {'class': 'form-select zen-input'}}) }}
                                  </div>
+                                 <div class="col-md-6">
+                                     <label class="form-label small fw-bold text-uppercase text-muted">
+                                         Langue de l'article
+                                     </label>
+                                     {{ form_widget(form.locale, {'attr': {'class': 'form-select zen-input'}}) }}
+                                     <div class="form-text small">Langue dans laquelle cet article est rédigé.</div>
+                                 </div>
                                  <div class="col-12 mt-3">
                                      <div class="form-check form-switch p-3 bg-light rounded-3 border">
                                          {{ form_widget(form.isActive, {'attr': {'class': 'form-check-input ms-0 me-3'}}) }}

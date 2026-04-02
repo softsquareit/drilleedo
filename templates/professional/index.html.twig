@@ -30,183 +30,256 @@
         </div>
     </div>
 
-    {# ── Profile Completion Banner ── #}
-    {% if profileCompletion < 100 %}
-    <div class="drl-card d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" style="padding: 20px 24px; border-left: 4px solid #f59e0b; border-radius: 12px; background: linear-gradient(to right, #ffffff, #fffdf8);">
-        <div class="d-flex align-items-center gap-3">
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                <i class="feather-user-check"></i>
+    {# ── Hero Alerts Stack ── #}
+    {% set priorityAlerts = [] %}
+
+    {# 1. New Requests in Category #}
+    {% if quoteCount > 0 %}
+        {% set priorityAlerts = priorityAlerts|merge([{
+            'type': 'new_request',
+            'title': 'New Opportunities!',
+            'message': 'There are ' ~ quoteCount ~ ' new requests matching your category: ' ~ (userCategory.name|default('your specialty')) ~ '.',
+            'action_url': path('professional_quotes'),
+            'action_text': 'View Demands',
+            'icon': 'ph-sparkle',
+            'color': 'primary'
+        }]) %}
+    {% endif %}
+
+    {# 2. Pending Direct Requests #}
+    {% if pendingDirectRequestsCount > 0 %}
+        {% set priorityAlerts = priorityAlerts|merge([{
+            'type': 'direct_request',
+            'title': 'Pending Direct ' ~ (pendingDirectRequestsCount == 1 ? 'Request' : 'Requests'),
+            'message': 'You have ' ~ pendingDirectRequestsCount ~ ' direct requests waiting for your response.',
+            'action_url': path('professional_direct_requests'),
+            'action_text': 'Respond Now',
+            'icon': 'ph-envelope-simple-open',
+            'color': 'info'
+        }]) %}
+    {% endif %}
+
+    {# 3. Scan Notifications for Accepted/Rejected Offers #}
+    {% for n in notifications|filter(n => not n.isRead) %}
+        {% if 'Accepted' in n.title %}
+             {% set priorityAlerts = priorityAlerts|merge([{
+                'type': 'offer_accepted',
+                'title': n.title,
+                'message': n.message,
+                'action_url': path('professional_offers'),
+                'action_text': 'View Details',
+                'icon': 'ph-check-circle',
+                'color': 'success'
+            }]) %}
+        {% elseif 'Rejected' in n.title %}
+             {% set priorityAlerts = priorityAlerts|merge([{
+                'type': 'offer_rejected',
+                'title': n.title,
+                'message': n.message,
+                'action_url': path('professional_offers'),
+                'action_text': 'View Details',
+                'icon': 'ph-x-circle',
+                'color': 'danger'
+            }]) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if priorityAlerts|length > 0 %}
+    <div class="alerts-stack mb-5">
+        {% for alert in priorityAlerts %}
+            <div class="drl-card border-0 shadow-sm mb-3 position-relative overflow-hidden" 
+                 style="background: white; border-radius: 16px; padding: 24px; border-left: 6px solid var(--bs-{{ alert.color }}) !important;">
+                
+                <div class="d-flex align-items-center gap-4">
+                    <div class="alert-icon-wrapper rounded-circle d-flex align-items-center justify-content-center text-{{ alert.color }} bg-{{ alert.color }} bg-opacity-10" 
+                         style="width: 56px; height: 56px; font-size: 28px; flex-shrink: 0;">
+                        <i class="{{ alert.icon }}"></i>
+                    </div>
+                    
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1" style="font-size: 18px;">{{ alert.title }}</h5>
+                                <p class="text-muted mb-0" style="font-size: 15px;">{{ alert.message }}</p>
+                            </div>
+                            <a href="{{ alert.action_url }}" class="btn btn-{{ alert.color }} rounded-pill px-4 fw-bold shadow-sm">
+                                {{ alert.action_text }} <i class="ph-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {# Subtle background pattern decoration #}
+                <div style="position: absolute; right: -20px; bottom: -20px; font-size: 120px; opacity: 0.03; pointer-events: none; transform: rotate(-15deg);">
+                    <i class="{{ alert.icon }}"></i>
+                </div>
             </div>
-            <div>
-                <h5 style="margin: 0 0 4px; font-size: 16px; font-weight: 800; color: #0d2151;">Complete your profile ({{ profileCompletion }}%)</h5>
-                <p style="margin: 0; font-size: 14px; color: #64748b;">A complete profile gets <strong>3× more quote requests</strong> from clients.</p>
-            </div>
-        </div>
-        <div class="d-flex flex-column align-items-end gap-2" style="flex-shrink:0;">
-            <div class="drl-pro-warn-bar" style="width:160px; height:6px; border-radius:999px; background: #e2e8f0;">
-                <div class="drl-pro-warn-progress" style="width:{{ profileCompletion }}%; height:100%; border-radius:999px; background: #f59e0b;"></div>
-            </div>
-            <a href="{{ path('professional_profile') }}" style="font-size: 13px; font-weight: 800; color: #b45309; text-decoration: none;">Complete now →</a>
-        </div>
+        {% endfor %}
     </div>
     {% endif %}
 
-    {# ── Pending Direct Requests Alert ── #}
-    {% if pendingDirectRequestsCount > 0 %}
-    <div class="drl-card d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4" style="padding: 20px 24px; border-left: 4px solid #00509e; border-radius: 12px; background: linear-gradient(to right, #00509e, #0d2151); color: white;">
-        <div class="d-flex align-items-center gap-3">
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 22px;">
-                <i class="feather-bell"></i>
+    {# ── Profile Completion Banner ── #}
+    {% if profileCompletion < 100 %}
+    <div class="drl-card d-flex align-items-center justify-content-between flex-wrap gap-3 mb-5" style="padding: 24px; border-radius: 16px; background: linear-gradient(135deg, #ffffff 0%, #fffbf2 100%); border: 1px solid #fee2e2;">
+        <div class="d-flex align-items-center gap-4">
+            <div style="width: 56px; height: 56px; border-radius: 14px; background: #fff7ed; color: #f97316; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: inset 0 0 0 1px rgba(249,115,22,0.1);">
+                <i class="ph-user-focus"></i>
             </div>
             <div>
-                <h5 style="margin: 0 0 4px; font-size: 16px; font-weight: 800; color: white;">You have {{ pendingDirectRequestsCount }} pending direct {{ pendingDirectRequestsCount == 1 ? 'request' : 'requests' }}!</h5>
-                <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.8);">Clients are waiting for your quote proposal.</p>
+                <h5 style="margin: 0 0 4px; font-size: 17px; font-weight: 800; color: #0d2151;">Complete your business profile ({{ profileCompletion }}%)</h5>
+                <p style="margin: 0; font-size: 14px; color: #64748b;">Profiles with logos and banners receive <strong>300% more matching leads</strong>.</p>
             </div>
         </div>
-        <a href="{{ path('professional_direct_requests') }}" class="drl-btn-orange" style="background: white; color: #0d2151; padding: 10px 20px;">
-            View Requests
-        </a>
+        <div class="d-flex flex-column align-items-end gap-2" style="flex-shrink:0;">
+            <div class="drl-pro-warn-bar" style="width:180px; height:8px; border-radius:999px; background: #f1f5f9;">
+                <div class="drl-pro-warn-progress" style="width:{{ profileCompletion }}%; height:100%; border-radius:999px; background: linear-gradient(to right, #f97316, #fb923c);"></div>
+            </div>
+            <a href="{{ path('professional_profile') }}" class="text-decoration-none fw-bold" style="font-size: 14px; color: #f97316;">Finish Profile Setup <i class="ph-arrow-right"></i></a>
+        </div>
     </div>
     {% endif %}
 
     {# ── KPI Metrics Cards ── #}
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-5">
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover">
+            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="drl-card-sub text-uppercase fw-bold mb-1" style="letter-spacing: 0.5px; font-size: 11px;">Quotes Available</p>
-                        <h3 class="drl-card-title mb-0" style="font-size: 28px;">{{ quoteCount }}</h3>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Quotes Available</p>
+                        <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ quoteCount }}</h3>
                     </div>
-                    <div class="drl-stat-icon drl-stat-icon--1">
-                        <i class="feather-file-text"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #eff6ff; color: #00509e; font-size: 22px;">
+                        <i class="ph-clipboard-text"></i>
                     </div>
                 </div>
-                <div class="mt-3 small text-muted">
-                    <span class="text-success fw-bold"><i class="feather-trending-up"></i> Explore</span> new clients
+                <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #00509e;">
+                    <i class="ph-trend-up me-2"></i> Opportunities
                 </div>
             </div>
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover">
+            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="drl-card-sub text-uppercase fw-bold mb-1" style="letter-spacing: 0.5px; font-size: 11px;">Offers Sent</p>
-                        <h3 class="drl-card-title mb-0" style="font-size: 28px;">{{ offerCount }}</h3>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Offers Sent</p>
+                        <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ offerCount }}</h3>
                     </div>
-                    <div class="drl-stat-icon drl-stat-icon--3">
-                        <i class="feather-send"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #fff7ed; color: #ea580c; font-size: 22px;">
+                        <i class="ph-paper-plane-tilt"></i>
                     </div>
                 </div>
-                <div class="mt-3 small text-muted">
-                    Awaiting client responses
+                <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #64748b;">
+                    <i class="ph-clock me-2"></i> Awaiting Client
                 </div>
             </div>
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover">
+            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="drl-card-sub text-uppercase fw-bold mb-1" style="letter-spacing: 0.5px; font-size: 11px;">Win Rate</p>
-                        <h3 class="drl-card-title mb-0" style="font-size: 28px;">{{ conversionRate }}<span class="opacity-50 fs-6">%</span></h3>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Win Rate</p>
+                        <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ conversionRate }}<span class="fs-6 opacity-50">%</span></h3>
                     </div>
-                    <div class="drl-stat-icon drl-stat-icon--2" style="background: #f0fdf4; color: #16a34a; border-color: #dcfce7;">
-                        <i class="feather-pie-chart"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #f0fdf4; color: #16a34a; font-size: 22px;">
+                        <i class="ph-chart-pie"></i>
                     </div>
                 </div>
-                <div class="mt-3 small text-muted">
-                    <span class="text-success fw-bold">{{ acceptedCount }}</span> won from {{ offerCount }} offers
+                <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #16a34a;">
+                    <i class="ph-check-circle me-2"></i> {{ acceptedCount }} Won
                 </div>
             </div>
         </div>
         
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover">
+            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="drl-card-sub text-uppercase fw-bold mb-1" style="letter-spacing: 0.5px; font-size: 11px;">Avg Response</p>
-                        <h3 class="drl-card-title mb-0" style="font-size: 22px;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instant' }}</h3>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Avg Response</p>
+                        <h3 class="fw-bold mb-0" style="font-size: 22px; color: #0d2151;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instant' }}</h3>
                     </div>
-                    <div class="drl-stat-icon" style="background: #f8fafc; color: #475569; border-color: #e2e8f0;">
-                        <i class="feather-clock"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #f8fafc; color: #475569; font-size: 22px;">
+                        <i class="ph-timer"></i>
                     </div>
                 </div>
-                <div class="mt-3 small text-muted">
-                    Fast replies = <span class="fw-bold text-navy">More wins</span>
+                <div class="mt-3 py-2 px-3 rounded-pill bg-navy-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #0d2151;">
+                    <i class="ph-lightning me-2"></i> Market Leader
                 </div>
             </div>
         </div>
     </div>
 
+    {# ── Recent Activity Section ── #}
     <div class="row g-4">
-        {# ── Recent Offers ── #}
-        <div class="col-lg-8">
-            <div class="drl-card">
-                <div class="drl-card-head border-bottom">
+        <div class="col-12">
+            <div class="drl-card border-0 shadow-sm" style="border-radius: 16px; overflow: hidden;">
+                <div class="drl-card-head p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
                     <div>
-                        <h4 class="drl-card-title">Recent Offers Actions</h4>
-                        <p class="drl-card-sub" style="margin: 0;">Track the status of your latest submitted quotes</p>
+                        <h4 class="fw-bold text-dark mb-1" style="font-size: 20px;">Recent Business Actions</h4>
+                        <p class="text-muted small mb-0">Track the lifecycle of your submitted quotes and incoming leads.</p>
                     </div>
-                    <a href="{{ path('professional_offers') }}" class="drl-btn-outline" style="font-size:13px; font-weight:700; color:#0d2151; text-decoration:none; padding:6px 14px; border:1px solid #cbd5e1; border-radius:8px; transition:all 0.15s; background: white;">
-                        View All <i class="feather-arrow-right"></i>
+                    <a href="{{ path('professional_offers') }}" class="btn btn-light rounded-pill px-4 fw-bold border" style="font-size: 13px;">
+                        View All Offers <i class="ph-arrow-right ms-1"></i>
                     </a>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table mb-0 drl-table">
-                        <thead>
+                    <table class="table mb-0 align-middle">
+                        <thead class="bg-light">
                             <tr>
-                                <th>Quote Request</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th class="text-end">Action</th>
+                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Quote Request</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Amount</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Status</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Date</th>
+                                <th class="pe-4 py-3 text-end text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for offer in recentOffers %}
-                                <tr>
-                                    <td>
-                                        <div style="display: flex; align-items: center; gap: 12px;">
-                                            <div style="width: 36px; height: 36px; border-radius: 8px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center;">
-                                                <i class="feather-{% if offer.quoteRequest %}file-text{% else %}user{% endif %}"></i>
+                                <tr class="border-bottom">
+                                    <td class="ps-4 py-4">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center text-primary bg-primary bg-opacity-10" style="width: 40px; height: 40px; font-size: 18px; flex-shrink: 0;">
+                                                <i class="ph-{% if offer.quoteRequest %}file-text{% else %}user{% endif %}"></i>
                                             </div>
-                                            <strong style="color: #0d2151; font-size: 14px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,40) ~ '...' : 'Direct Request' }}</strong>
+                                            <div>
+                                                <strong class="text-dark d-block mb-0" style="font-size: 15px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,50) ~ (offer.quoteRequest.title|length > 50 ? '...' : '') : 'Direct Request' }}</strong>
+                                                <span class="text-muted small">#{{ offer.id }} • {{ offer.quoteRequest ? offer.quoteRequest.category.name : 'Direct' }}</span>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td>
-                                        <strong style="color: #00509e; font-size: 14px;">{{ offer.price|number_format(2) }} $</strong>
+                                    <td class="py-4">
+                                        <span class="fw-bold text-primary" style="font-size: 15px;">{{ offer.price|number_format(2) }} $</span>
                                     </td>
-                                    <td>
+                                    <td class="py-4">
                                         {% if offer.status == 'DRAFT' %}
-                                            <span class="drl-tag drl-tag--draft"><i class="feather-edit-2" style="font-size:11px;"></i> Draft</span>
+                                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-pencil-line me-1"></i> Draft</span>
                                         {% elseif offer.status == 'PUBLISHED' %}
-                                            <span class="drl-tag drl-tag--sent"><i class="feather-send" style="font-size:11px;"></i> Sent</span>
+                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-paper-plane-tilt me-1"></i> Sent</span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size:11px;"></i> Rejected</span>
+                                            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-x-circle me-1"></i> Rejected</span>
                                         {% elseif offer.status == 'ACCEPTED' %}
                                             {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                                <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size:11px;"></i> Completed</span>
+                                                <span class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-lock me-1"></i> Completed</span>
                                             {% else %}
-                                                <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size:11px;"></i> Accepted</span>
+                                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-check-circle me-1"></i> Accepted</span>
                                             {% endif %}
                                         {% else %}
-                                            <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
+                                            <span class="badge rounded-pill bg-light text-muted fw-bold px-3 py-2">{{ offer.status }}</span>
                                         {% endif %}
                                     </td>
-                                    <td style="color: #64748b; font-size: 14px;">
+                                    <td class="py-4 text-muted small">
                                         {{ offer.createdAt|date('M d, Y') }}
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td class="pe-4 py-4 text-end">
                                         {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                                            <button type="button" class="drl-act-btn drl-act-btn--finalize" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}" title="Finalize Request">
-                                                <i class="feather-check-circle"></i> Complete
+                                            <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
+                                                <i class="ph-check-circle"></i> Mark Complete
                                             </button>
                                         {% elseif offer.quoteRequest or offer.directRequest %}
-                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" title="View Offer details">
-                                                View
+                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
+                                                <i class="ph-eye"></i> View Offer
                                             </a>
                                         {% endif %}
                                     </td>
@@ -214,73 +287,19 @@
                             {% else %}
                                 <tr>
                                     <td colspan="5" class="text-center py-5">
-                                        <div style="width:64px; height:64px; border-radius:50%; background:#f8fafc; color:#cbd5e1; font-size:28px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
-                                            <i class="feather-folder"></i>
+                                        <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
+                                            <i class="ph-suitcase ph-3x text-muted opacity-25"></i>
                                         </div>
-                                        <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No recent offers</h6>
-                                        <p style="font-size:14px; color:#64748b; margin:0 0 20px;">When you submit offers to clients, they will appear here to easily track their status.</p>
-                                        <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="display:inline-block; padding: 10px 24px;">
-                                            <i class="feather-search"></i> Find Quote Requests
+                                        <h5 class="fw-bold text-dark mb-2">No recent offers</h5>
+                                        <p class="text-muted mb-4 px-5">Submit your first offer to start winning new clients and growing your business.</p>
+                                        <a href="{{ path('professional_quotes') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                                            <i class="ph-magnifying-glass me-2"></i> Find Demands
                                         </a>
                                     </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        {# ── Notifications Panel ── #}
-        <div class="col-lg-4">
-            <div class="drl-card h-100">
-                <div class="drl-card-head border-bottom">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <h4 class="drl-card-title">Notifications</h4>
-                        {% if unreadCount > 0 %}
-                            <span class="drl-tag drl-tag--danger" style="padding:2px 8px; font-size:11px;">{{ unreadCount }} new</span>
-                        {% endif %}
-                    </div>
-                    {% if unreadCount > 0 %}
-                        <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
-                            <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
-                            <button type="submit" style="background:transparent; border:none; color:#00509e; font-size:12px; font-weight:700; padding:0; cursor:pointer; text-decoration: underline;">
-                                Mark all read
-                            </button>
-                        </form>
-                    {% endif %}
-                </div>
-
-                <div style="max-height: 480px; overflow-y: auto;">
-                    {% for notification in notifications %}
-                        <div class="drl-noti-item {{ not notification.read ? 'unread' : '' }}" style="padding: 16px 20px; border-bottom: 1px solid #f1f5f9; display: flex; gap: 16px; transition: background 0.2s; {% if not notification.read %}background: #f8fafc;{% endif %}">
-                            <div style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;
-                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}background: #f0fdf4; color: #16a34a;
-                                {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}background: #fef2f2; color: #ef4444;
-                                {% else %}background: #eff6ff; color: #00509e;{% endif %}">
-                                
-                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}
-                                    <i class="feather-check-circle"></i>
-                                {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}
-                                    <i class="feather-x-circle"></i>
-                                {% else %}
-                                    <i class="feather-bell"></i>
-                                {% endif %}
-                            </div>
-                            <div style="flex:1; min-width:0;">
-                                <p style="font-size: 14px; font-weight: {% if not notification.read %}800{% else %}700{% endif %}; color: #0d2151; margin: 0 0 4px; line-height: 1.3;">{{ notification.title }}</p>
-                                <p style="font-size: 13px; color: #64748b; margin: 0 0 6px; line-height: 1.4;">{{ notification.message|slice(0, 80) }}{% if notification.message|length > 80 %}…{% endif %}</p>
-                                <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">{{ notification.createdAt|date('M d, H:i') }}</div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="text-center py-5 px-4">
-                            <div style="width:48px; height:48px; border-radius:50%; background:#f8fafc; color:#cbd5e1; font-size:20px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                <i class="feather-bell-off"></i>
-                            </div>
-                            <p style="font-size:14px; color:#64748b; margin:0;">No notifications yet</p>
-                        </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>

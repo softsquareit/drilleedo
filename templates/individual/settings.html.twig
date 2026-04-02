@@ -1,6 +1,6 @@
 {% extends 'individual/base_individual.html.twig' %}
 
-{% block title %}Account Settings - Drilleedo{% endblock %}
+{% block title %}{{ 'individual.account_settings'|trans }} - Drilleedo{% endblock %}
 
 {% block body %}
     <div class="row g-4">
@@ -8,8 +8,8 @@
             <div class="drl-card">
                 <div class="drl-card-head">
                     <div>
-                        <h4 class="drl-card-title">Account Settings</h4>
-                        <p class="drl-card-sub">Manage your account security and password</p>
+                        <h4 class="drl-card-title">{{ 'individual.account_settings'|trans }}</h4>
+                        <p class="drl-card-sub">{{ 'individual.account_settings_sub'|trans }}</p>
                     </div>
                 </div>
 
@@ -21,26 +21,26 @@
                                 <div class="drl-stat-icon drl-stat-icon--1 m-0 shadow-sm" style="width: 32px; height: 32px; font-size: 14px;">
                                     <i class="feather-lock"></i>
                                 </div>
-                                Change Password
+                                {{ 'individual.change_password'|trans }}
                             </h6>
                             
                             <div class="form-group mb-4">
-                                <label class="drl-label" for="{{ form.plainPassword.first.vars.id }}">New Password</label>
+                                <label class="drl-label" for="{{ form.plainPassword.first.vars.id }}">{{ 'individual.new_password'|trans }}</label>
                                 {{ form_widget(form.plainPassword.first, {
                                     'attr': {
                                         'class': 'drl-input',
-                                        'placeholder': 'Enter your new password'
+                                        'placeholder': 'individual.pw_placeholder'|trans
                                     }
                                 }) }}
                                 <div class="text-danger small mt-1">{{ form_errors(form.plainPassword.first) }}</div>
                             </div>
 
                             <div class="form-group mb-0">
-                                <label class="drl-label" for="{{ form.plainPassword.second.vars.id }}">Confirm New Password</label>
+                                <label class="drl-label" for="{{ form.plainPassword.second.vars.id }}">{{ 'individual.confirm_new_password'|trans }}</label>
                                 {{ form_widget(form.plainPassword.second, {
                                     'attr': {
                                         'class': 'drl-input',
-                                        'placeholder': 'Confirm your new password'
+                                        'placeholder': 'individual.pw_confirm_placeholder'|trans
                                     }
                                 }) }}
                                 <div class="text-danger small mt-1">{{ form_errors(form.plainPassword.second) }}</div>
@@ -49,7 +49,7 @@
 
                         <div class="d-flex align-items-center justify-content-end pt-5 border-top">
                             <button type="submit" class="drl-btn-orange px-5 shadow-lg">
-                                <i class="feather-save me-2"></i> Update Password
+                                <i class="feather-save me-2"></i> {{ 'individual.update_password'|trans }}
                             </button>
                         </div>
 
@@ -62,10 +62,10 @@
                     <i class="feather-info"></i>
                 </div>
                 <div>
-                    <h6 class="fw-bold mb-1 text-dark">Need to change your profile details?</h6>
-                    <p class="small text-muted mb-2">Basic details like your name, phone number, and address can be updated on your profile page.</p>
+                    <h6 class="fw-bold mb-1 text-dark">{{ 'individual.need_profile_change'|trans }}</h6>
+                    <p class="small text-muted mb-2">{{ 'individual.profile_change_sub'|trans }}</p>
                     <a href="{{ path('individual_profile') }}" class="btn btn-link p-0 text-decoration-none small fw-bold" style="color: var(--drl-navy);">
-                        Go to My Profile <i class="feather-arrow-right ms-1"></i>
+                        {{ 'individual.go_to_profile'|trans }} <i class="feather-arrow-right ms-1"></i>
                     </a>
                 </div>
             </div>

@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Drilleedo – Find Trusted Home Renovation Professionals in Canada{% endblock %}
-{% block meta_description %}Connect with verified contractors, plumbers, electricians and renovators near you. Get free quotes and compare professionals on Drilleedo, Canada's home improvement marketplace.{% endblock %}
-{% block meta_keywords %}home renovation Canada, find contractors Canada, renovation quotes, hire professional, home improvement marketplace, renovation services Toronto, Montreal contractors{% endblock %}
-{% block og_title %}Drilleedo – Find Trusted Home Renovation Professionals in Canada{% endblock %}
-{% block og_description %}Connect with verified contractors near you. Get free quotes and compare professionals on Canada's #1 home improvement marketplace.{% endblock %}
+{% block title %}{{ 'site.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'site.meta_description'|trans }}{% endblock %}
+{% block meta_keywords %}home renovation Canada, find contractors, renovation quotes, home improvement marketplace{% endblock %}
+{% block og_title %}{{ 'site.title'|trans }}{% endblock %}
+{% block og_description %}{{ 'site.meta_description'|trans }}{% endblock %}
 
 {% block structured_data %}
 {{ parent() }}
@@ -333,19 +333,19 @@
     <!-- Left Side - Glassmorphism Content -->
     <div class="hero-left-side">
         <div class="hero-content-card">
-            <h1 class="hero-main-title" id="hero-heading">Find Trusted Renovation Professionals
-            <div style="background: linear-gradient(90deg, rgb(255 57 0) 0%, rgb(255 52 0) 100%) text;">For Every Project in Canada.</div></h1>
+            <h1 class="hero-main-title" id="hero-heading">{{ 'home.hero_title'|trans }}
+            <div style="background: linear-gradient(90deg, rgb(255 57 0) 0%, rgb(255 52 0) 100%) text;">{{ 'home.hero_title_suffix'|trans }}</div></h1>
             
             <p class="hero-subtitle-text">
-                Join thousands of Canadians who have successfully renovated their homes. Get free quotes from verified contractors, plumbers, and electricians near you.
+                {{ 'home.hero_subtitle'|trans }}
             </p>
             
             <div class="hero-trust-badges" role="list" aria-label="Platform guarantees">
                 <div class="hero-trust-badge" role="listitem">
-                    <i class="feather-check-circle" aria-hidden="true"></i> Verified Professionals
+                    <i class="feather-check-circle" aria-hidden="true"></i> {{ 'home.hero_badge_verified'|trans }}
                 </div>
                 <div class="hero-trust-badge" role="listitem">
-                    <i class="feather-shield" aria-hidden="true"></i> 100% Free Quotes
+                    <i class="feather-shield" aria-hidden="true"></i> {{ 'home.hero_badge_free'|trans }}
                 </div>
             </div>
 
@@ -353,18 +353,17 @@
                 <a href="{{ path('professionals_list') }}"
                    class="hero-btn btn-primary-hero"
                    aria-label="Find and hire a renovation professional near you">
-                    Hire a Pro <i class="feather-arrow-right" aria-hidden="true"></i>
+                    {{ 'home.hero_cta_hire'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
                 </a>
                 <a href="{{ path('companies_list') }}"
                    class="hero-btn btn-secondary-hero"
                    aria-label="Browse specialized renovation companies">
-                    Browse Companies
+                    {{ 'home.hero_cta_companies'|trans }}
                 </a>
             </div>
             
             <div class="hero-reviews-section" aria-label="Customer ratings">
                 <div class="hero-reviews-avatars" aria-hidden="true">
-                    {# Local SVG avatar placeholders — no external CDN dependency #}
                     <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Verified homeowner" loading="lazy" width="40" height="40">
                     <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Satisfied client" loading="lazy" width="40" height="40" style="margin-left:-12px">
                     <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Renovation project owner" loading="lazy" width="40" height="40" style="margin-left:-12px">
@@ -372,7 +371,7 @@
                 </div>
                 <div class="hero-reviews-text">
                     <div class="hero-star-rating" aria-label="4.8 out of 5 stars">★★★★★</div>
-                    Trusted by <strong>10,000+</strong> Canadian homeowners
+                    {{ 'home.hero_trust'|trans|raw }}
                 </div>
             </div>
         </div>
@@ -389,18 +388,18 @@
             </div>
             <div class="pro-label-wrapper">
                 <div class="pro-logo-text">Drilleedo</div>
-                <div class="pro-small-label">| For the professionals</div>
+                <div class="pro-small-label">{{ 'home.pro_label'|trans }}</div>
             </div>
         </div>
         
-        <h2 class="pro-main-heading">Are you a<br>professional?</h2>
+        <h2 class="pro-main-heading">{{ 'home.pro_heading'|trans }}</h2>
         
         <p class="pro-description-text">
-            Are you a renovation professional looking to grow your business?
+            {{ 'home.pro_desc'|trans }}
         </p>
 
         <p class="pro-description-text" style="margin-top: -15px; font-size: 13px; opacity: 0.7;">
-            Join Drilleedo and connect with thousands of clients seeking skilled experts across the building industry.
+            {{ 'home.pro_desc2'|trans }}
         </p>
         
         <form class="pro-signup-form" action="{{ path('app_register') }}" method="post"
@@ -408,11 +407,11 @@
             <label for="hero-pro-email" class="sr-only">Your professional email address</label>
             <input type="email" id="hero-pro-email" name="email"
                    class="pro-email-input"
-                   placeholder="E-mail address"
+                   placeholder="{{ 'home.pro_email_placeholder'|trans }}"
                    required autocomplete="email"
                    style="background: white;"
                    aria-required="true">
-            <button type="submit" class=" df-btn-orange pro-submit-button" style="display: flow;">Get Started Free</button>
+            <button type="submit" class=" df-btn-orange pro-submit-button" style="display: flow;">{{ 'home.pro_cta'|trans }}</button>
         </form>
     </div>
 </section>
@@ -438,51 +437,42 @@
 
     <!-- Right Content -->
     <div class="about-content-wrapper">
-        <p class="about-subtitle">Welcome to Drilleedo</p>
-        <h2 class="about-title" id="about-heading">Find Trusted<br>Renovation Professionals Easily.</h2>
+        <p class="about-subtitle">{{ 'home.about_subtitle'|trans }}</p>
+        <h2 class="about-title" id="about-heading">{{ 'home.about_title'|trans }}</h2>
 
         <div class="about-buttons-row" role="tablist" aria-label="Learn more about Drilleedo">
             <button class="about-pill-btn btn-solid-blue"
                     role="tab" id="tab-about"
                     aria-selected="true" aria-controls="about-content-about"
-                    onclick="switchAboutTab('about', this)">About Drilleedo</button>
+                    onclick="switchAboutTab('about', this)">{{ 'home.about_tab_about'|trans }}</button>
             <button class="about-pill-btn btn-outline-blue"
                     role="tab" id="tab-mission"
                     aria-selected="false" aria-controls="about-content-mission"
-                    onclick="switchAboutTab('mission', this)">Our Mission</button>
+                    onclick="switchAboutTab('mission', this)">{{ 'home.about_tab_mission'|trans }}</button>
             <button class="about-pill-btn btn-outline-blue"
                     role="tab" id="tab-contact"
                     aria-selected="false" aria-controls="about-content-contact"
-                    onclick="switchAboutTab('contact', this)">Contact Us</button>
+                    onclick="switchAboutTab('contact', this)">{{ 'home.about_tab_contact'|trans }}</button>
         </div>
 
         <div id="about-content-about" class="about-text-content"
              role="tabpanel" aria-labelledby="tab-about">
-            <p class="about-desc">
-                Drilleedo connects Canadian homeowners with reliable, verified professionals across all trades — renovation, plumbing, electrical, and more. Quality, trust, and transparency are at the core of our platform.
-            </p>
+            <p class="about-desc">{{ 'home.about_text_about'|trans }}</p>
         </div>
 
         <div id="about-content-mission" class="about-text-content"
              role="tabpanel" aria-labelledby="tab-mission" hidden>
-            <p class="about-desc">
-                Our mission is to simplify home improvement by creating a safe, transparent marketplace where homeowners can find certified renovation experts they can rely on across Canada.
-            </p>
+            <p class="about-desc">{{ 'home.about_text_mission'|trans }}</p>
         </div>
 
         <div id="about-content-contact" class="about-text-content"
              role="tabpanel" aria-labelledby="tab-contact" hidden>
-            <p class="about-desc">
-                Need help? Reach our support team at <a href="mailto:support@drilleedo.com" style="color:#00509e; font-weight:bold;">support@drilleedo.com</a>. We're here to assist you 24/7.
-            </p>
+            <p class="about-desc">{{ 'home.about_text_contact'|trans|raw }}</p>
         </div>
 
         <script>
-        // Accessible tab switcher — uses `hidden` attribute & aria-selected
         function switchAboutTab(tabName, btn) {
-            document.querySelectorAll('.about-text-content').forEach(el => {
-                el.hidden = true;
-            });
+            document.querySelectorAll('.about-text-content').forEach(el => { el.hidden = true; });
             document.querySelectorAll('.about-buttons-row [role="tab"]').forEach(b => {
                 b.setAttribute('aria-selected', 'false');
                 b.classList.replace('btn-solid-blue', 'btn-outline-blue');
@@ -498,21 +488,21 @@
                 <div class="stat-icon-circle bg-green-grad" aria-hidden="true"><i class="fas fa-check"></i></div>
                 <div class="stat-info">
                     <dt><strong>+35,000</strong></dt>
-                    <dd>Projects Completed</dd>
+                    <dd>{{ 'home.stat_projects'|trans }}</dd>
                 </div>
             </div>
             <div class="about-stat-card">
                 <div class="stat-icon-circle bg-blue-grad" aria-hidden="true"><i class="fas fa-star"></i></div>
                 <div class="stat-info">
                     <dt><strong>100%</strong></dt>
-                    <dd>Verified Pros</dd>
+                    <dd>{{ 'home.stat_pros'|trans }}</dd>
                 </div>
             </div>
             <div class="about-stat-card">
                 <div class="stat-icon-circle bg-purple-grad" aria-hidden="true"><i class="fas fa-heart"></i></div>
                 <div class="stat-info">
                     <dt><strong>+85%</strong></dt>
-                    <dd>Customer Satisfaction</dd>
+                    <dd>{{ 'home.stat_satisfaction'|trans }}</dd>
                 </div>
             </div>
         </dl>
@@ -527,75 +517,53 @@
    <div class="container">
     <!-- Header -->
     <div class="text-center">
-        <span class="discovery-pill">Do more with Drilleedo</span>
-        <h2 class="discovery-title">Design, Renovate & Build Better.</h2>
-        <p class="discovery-subtitle">
-            Discover inspiring ideas, connect with trusted professionals, and find the right company for your project.
-        </p>
+        <span class="discovery-pill">{{ 'home.discovery_pill'|trans }}</span>
+        <h2 class="discovery-title">{{ 'home.discovery_title'|trans }}</h2>
+        <p class="discovery-subtitle">{{ 'home.discovery_subtitle'|trans }}</p>
     </div>
 
-    <div class="row g-4 ">
-        <!-- Card 1: Ideas -->
+    <div class="row g-4">
         <article class="col-lg-4 col-md-6">
             <a href="{{ path('smartideas') }}" class="discovery-card d-block text-decoration-none">
                 <div class="img-overlay-box">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}"
-                         alt="Browse thousands of Canadian home renovation and interior design ideas"
-                         loading="lazy" width="400" height="220">
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}" alt="Browse thousands of Canadian home renovation and interior design ideas" loading="lazy" width="400" height="220">
                     <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-home"></i></div>
                 </div>
-                <h3 class="discovery-card-title">Discover Design Ideas</h3>
-                <p class="discovery-card-desc">
-                    Browse thousands of interior, exterior, and renovation ideas to inspire your next project.
-                </p>
-                <!-- Statistique avec couleur charte -->
+                <h3 class="discovery-card-title">{{ 'home.discovery_card1_title'|trans }}</h3>
+                <p class="discovery-card-desc">{{ 'home.discovery_card1_desc'|trans }}</p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
                     <i class="fas fa-lightbulb"></i>
-                    <span>30k+ Inspirations</span>
+                    <span>{{ 'home.discovery_card1_stats'|trans }}</span>
                 </div>
             </a>
         </article>
 
-        <!-- Card 2: Professionals -->
         <article class="col-lg-4 col-md-6">
             <a href="{{ path('professionals_list') }}" class="discovery-card d-block text-decoration-none">
                 <div class="img-overlay-box" style="background: #e6f7ff;">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}"
-                         alt="Search for verified renovation professionals and certified contractors across Canada"
-                         loading="lazy" width="400" height="220">
-                    <div class="icon-square-overlay" aria-hidden="true">
-                        <i class="fas fa-box"></i>
-                    </div>
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}" alt="Search for verified renovation professionals and certified contractors across Canada" loading="lazy" width="400" height="220">
+                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-box"></i></div>
                 </div>
-                <h3 class="discovery-card-title">Renovation Professionals</h3>
-                <p class="discovery-card-desc">
-                    Connect with architects, interior designers, and contractors near you.
-                </p>
-                <!-- Statistique avec couleur charte -->
+                <h3 class="discovery-card-title">{{ 'home.discovery_card2_title'|trans }}</h3>
+                <p class="discovery-card-desc">{{ 'home.discovery_card2_desc'|trans }}</p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-success">
                     <i class="fas fa-user-tie"></i>
-                    <span>1.5k+ Verified Professionals</span>
+                    <span>{{ 'home.discovery_card2_stats'|trans }}</span>
                 </div>
             </a>
         </article>
 
-        <!-- Card 3: Companies -->
         <article class="col-lg-4 col-md-6">
             <a href="{{ path('companies_list') }}" class="discovery-card d-block text-decoration-none">
                 <div class="img-overlay-box">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}"
-                         alt="Browse specialized renovation companies — kitchens, bathrooms, roofing, and landscaping in Canada"
-                         loading="lazy" width="400" height="220" style="filter: hue-rotate(45deg);">
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}" alt="Browse specialized renovation companies" loading="lazy" width="400" height="220" style="filter: hue-rotate(45deg);">
                     <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-building"></i></div>
                 </div>
-                <h3 class="discovery-card-title">Specialized Companies</h3>
-                <p class="discovery-card-desc">
-                    Explore trusted companies by specialty: kitchens, bathrooms, roofing, landscaping, and more.
-                </p>
-                <!-- Statistique avec couleur charte -->
+                <h3 class="discovery-card-title">{{ 'home.discovery_card3_title'|trans }}</h3>
+                <p class="discovery-card-desc">{{ 'home.discovery_card3_desc'|trans }}</p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-warning">
                     <i class="fas fa-building"></i>
-                    <span>800+ Companies</span>
+                    <span>{{ 'home.discovery_card3_stats'|trans }}</span>
                 </div>
             </a>
         </article>
@@ -620,42 +588,27 @@
                         <div class="inner">
 
                             <!-- Badge -->
-                            <div class="rbt-badge-group justify-content-start">
-                                <span class="meta-text d-flex align-items-center">
-                                    Mobile App Available
+                        <div class="rbt-badge-group justify-content-start">
+                            <span class="meta-text d-flex align-items-center">{{ 'home.app_badge'|trans }}</span>
+                        </div>
+                        <h2 class="title" id="app-banner-heading">{{ 'home.app_title'|trans }}</h2>
+                        <p class="description has-medium-font-size mt--20">{{ 'home.app_desc'|trans }}</p>
+                        <div class="slider-btn rbt-button-group justify-content-start">
+                            <a class="rbt-btn radius-round hover-icon-reverse" href="#">
+                                <span class="icon-reverse-wrapper">
+                                    <span class="btn-text">{{ 'home.app_store'|trans }}</span>
+                                    <span class="btn-icon"><i class="fab fa-apple"></i></span>
+                                    <span class="btn-icon"><i class="feather-arrow-down"></i></span>
                                 </span>
-                            </div>
-
-                            <!-- Title -->
-                            {# FIX: Demoted from H1 to H2 — page already has one H1 in the hero (SEO critical fix) #}
-                            <h2 class="title" id="app-banner-heading">Renovation at Your Fingertips</h2>
-
-                            <!-- Description -->
-                            <p class="description has-medium-font-size mt--20">
-                                Discover ideas, connect with professionals, and manage your projects
-                                anywhere, anytime with our mobile application.
-                            </p>
-
-                            <!-- App Buttons -->
-                            <div class="slider-btn rbt-button-group justify-content-start">
-
-                                <a class="rbt-btn   radius-round hover-icon-reverse" href="#">
-                                    <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Download on App Store</span>
-                                        <span class="btn-icon"><i class="fab fa-apple"></i></span>
-                                        <span class="btn-icon"><i class="feather-arrow-down"></i></span>
-                                    </span>
-                                </a>
-
-                                <a class="rbt-btn radius-round hover-icon-reverse btn-white" href="#">
-                                    <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Get it on Google Play</span>
-                                        <span class="btn-icon"><i class="fab fa-google-play"></i></span>
-                                        <span class="btn-icon"><i class="feather-arrow-down"></i></span>
-                                    </span>
-                                </a>
-
-                            </div>
+                            </a>
+                            <a class="rbt-btn radius-round hover-icon-reverse btn-white" href="#">
+                                <span class="icon-reverse-wrapper">
+                                    <span class="btn-text">{{ 'home.google_play'|trans }}</span>
+                                    <span class="btn-icon"><i class="fab fa-google-play"></i></span>
+                                    <span class="btn-icon"><i class="feather-arrow-down"></i></span>
+                                </span>
+                            </a>
+                        </div>
 
                         </div>
                     </div>
@@ -719,7 +672,7 @@
                                     </div>
                                 </div>
                                 <div class="description mt-3">
-                                    <p class="subtitle-3">{{ testimonial.content }}</p>
+                                    <p class="subtitle-3">{{ testimonial.getLocalizedContent(app.request.locale) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -757,7 +710,7 @@
                                     </div>
                                 </div>
                                 <div class="description mt-3">
-                                    <p class="subtitle-3">{{ testimonial.content }}</p>
+                                    <p class="subtitle-3">{{ testimonial.getLocalizedContent(app.request.locale) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -779,14 +732,9 @@
     <div class="container">
         <!-- Header -->
         <div class="text-center mb-5">
-            <div class="pro-badge">
-                <i class="fas fa-check-circle"></i>
-                <span>PRO</span>
-            </div>
-            <h2 class="discovery-title" id="featured-pros-heading">Featured Home Improvement Professionals</h2>
-            <p class="discovery-subtitle">
-                Browse trusted professionals, compare profiles, and choose with confidence.
-            </p>
+            <div class="pro-badge"><i class="fas fa-check-circle"></i> <span>PRO</span></div>
+            <h2 class="discovery-title" id="featured-pros-heading">{{ 'home.featured_title'|trans }}</h2>
+            <p class="discovery-subtitle">{{ 'home.featured_subtitle'|trans }}</p>
         </div>
 
         <div class="row g-4">
@@ -796,7 +744,7 @@
                 </article>
             {% else %}
                 <div class="col-12 text-center">
-                    <p>No featured professionals available at the moment.</p>
+                    <p>{{ 'home_featured.no_featured_pros'|trans }}</p>
                 </div>
             {% endfor %}
         </div>

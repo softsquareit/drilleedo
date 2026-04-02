@@ -1,0 +1,67 @@
+{% extends 'individual/base_individual.html.twig' %}
+
+{% block title %}{{ 'individual.notif_history'|trans }} - Drilleedo{% endblock %}
+
+{% block body %}
+    <div class="drl-card">
+        <div class="drl-card-head border-bottom pb-3">
+            <div>
+                <h4 class="drl-card-title">{{ 'individual.notif_history'|trans }}</h4>
+                <p class="drl-card-sub mb-0">{{ 'individual.notif_history_sub'|trans }}</p>
+            </div>
+            <span class="drl-tag drl-tag--sent">{{ notifications|length }} {{ 'individual.total'|trans }}</span>
+        </div>
+
+        <div class="p-0">
+            {% for notification in notifications %}
+                <div class="d-flex align-items-start gap-4 px-4 py-3 border-bottom
+                    {% if not notification.isRead %}
+                        bg-light
+                    {% endif %}
+                    " style="{% if not notification.isRead %}border-left: 3px solid var(--drl-orange);{% else %}border-left: 3px solid transparent;{% endif %}">
+
+                    {# Icon #}
+                    <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm flex-shrink-0"
+                         style="width: 46px; height: 46px; background: #fff; border: 1px solid #e8edf5;">
+                        {% set entityType = notification.relatedEntityType|default('') %}
+                        {% set titleLower = notification.title|default('')|lower %}
+                        {% if 'accept' in titleLower or 'complet' in titleLower %}
+                            <i class="feather-check-circle text-success" style="font-size: 1.25rem;"></i>
+                        {% elseif 'reject' in titleLower or 'refus' in titleLower or 'withdrawn' in titleLower %}
+                            <i class="feather-x-circle text-danger" style="font-size: 1.25rem;"></i>
+                        {% elseif entityType == 'offer' %}
+                            <i class="feather-tag" style="color: #00509e; font-size: 1.25rem;"></i>
+                        {% elseif entityType == 'quote' %}
+                            <i class="feather-file-text" style="color: #f97316; font-size: 1.25rem;"></i>
+                        {% else %}
+                            <i class="feather-bell" style="color: #6366f1; font-size: 1.25rem;"></i>
+                        {% endif %}
+                    </div>
+
+                    {# Content #}
+                    <div class="flex-grow-1 min-width-0">
+                        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                            <span class="fw-bold text-dark" style="font-size: 14px;">{{ notification.title }}</span>
+                            {% if not notification.isRead %}
+                                <span class="drl-tag drl-tag--sent p-0 px-2" style="font-size: 10px;">{{ 'individual.notif_new'|trans }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="text-muted mb-1" style="font-size: 13px; line-height: 1.55;">{{ notification.message }}</p>
+                        <span class="text-muted" style="font-size: 11px;">
+                            <i class="feather-clock me-1"></i>{{ notification.createdAt|date('M d, Y — H:i') }}
+                        </span>
+                    </div>
+                </div>
+            {% else %}
+                <div class="py-5 text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4"
+                         style="width: 80px; height: 80px;">
+                        <i class="feather-bell-off text-muted" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">{{ 'individual.empty_notifs_title'|trans }}</h5>
+                    <p class="text-muted mb-0">{{ 'individual.empty_notifs_sub'|trans }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

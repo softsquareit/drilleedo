@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}About Drilleedo – Canada's Trusted Home Renovation Marketplace{% endblock %}
-{% block meta_description %}Learn about Drilleedo's mission to connect Canadian homeowners with verified renovation professionals. Discover our story, values, and the team behind Canada's leading home improvement platform.{% endblock %}
+{% block title %}{{ 'about.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'about.meta_desc'|trans }}{% endblock %}
 
 {% block body %}
 <main id="main-content">
@@ -628,19 +628,19 @@
   <div class="au-hero__bg"></div>
   <div class="au-hero__content">
     <div class="au-breadcrumb">
-      <a href="{{ path('app_home') }}">Home</a>
+      <a href="{{ path('app_home') }}">{{ 'about.breadcrumb_home'|trans }}</a>
       <span>›</span>
-      <span>About Us</span>
+      <span>{{ 'about.breadcrumb_about'|trans }}</span>
     </div>
     <div class="au-hero__eyebrow">
-      <i class="feather-info" aria-hidden="true"></i>
-      Our Story
+      <i class="ph-bold ph-info" aria-hidden="true"></i>
+      {{ 'about.hero_eyebrow'|trans }}
     </div>
     <h1 class="au-hero__title" id="au-hero-title">
-      About <span>Drilleedo</span>
+      {{ 'about.hero_title_1'|trans }} <span>{{ 'about.hero_title_2'|trans }}</span>
     </h1>
     <p class="au-hero__sub">
-      Connecting Canadian homeowners with trusted, verified renovation professionals since day one.
+      {{ 'about.hero_sub'|trans }}
     </p>
   </div>
 </section>
@@ -651,31 +651,31 @@
 <div class="au-stats-strip">
   <div class="au-stats-grid">
     <div class="au-stat-cell">
-      <div class="au-stat-ico bg-navy"><i class="fas fa-users" aria-hidden="true"></i></div>
+      <div class="au-stat-ico bg-navy"><i class="ph-bold ph-users" aria-hidden="true"></i></div>
       <div>
         <div class="au-stat-num">10,000+</div>
-        <div class="au-stat-lbl">Canadian Homeowners</div>
+        <div class="au-stat-lbl">{{ 'about.stat_homeowners'|trans }}</div>
       </div>
     </div>
     <div class="au-stat-cell">
-      <div class="au-stat-ico bg-blue"><i class="fas fa-hard-hat" aria-hidden="true"></i></div>
+      <div class="au-stat-ico bg-blue"><i class="ph-bold ph-hard-hat" aria-hidden="true"></i></div>
       <div>
         <div class="au-stat-num">1,500+</div>
-        <div class="au-stat-lbl">Verified Professionals</div>
+        <div class="au-stat-lbl">{{ 'about.stat_pros'|trans }}</div>
       </div>
     </div>
     <div class="au-stat-cell">
-      <div class="au-stat-ico bg-green"><i class="fas fa-check-circle" aria-hidden="true"></i></div>
+      <div class="au-stat-ico bg-green"><i class="ph-bold ph-check-circle" aria-hidden="true"></i></div>
       <div>
         <div class="au-stat-num">35,000+</div>
-        <div class="au-stat-lbl">Projects Completed</div>
+        <div class="au-stat-lbl">{{ 'about.stat_projects'|trans }}</div>
       </div>
     </div>
     <div class="au-stat-cell">
-      <div class="au-stat-ico bg-orng"><i class="fas fa-star" aria-hidden="true"></i></div>
+      <div class="au-stat-ico bg-orng"><i class="ph-bold ph-star" aria-hidden="true"></i></div>
       <div>
         <div class="au-stat-num">4.8 / 5</div>
-        <div class="au-stat-lbl">Average Rating</div>
+        <div class="au-stat-lbl">{{ 'about.stat_rating'|trans }}</div>
       </div>
     </div>
   </div>
@@ -697,35 +697,34 @@
       <div class="col-lg-6 order-lg-1">
         <div class="au-story-content">
           <div class="au-section-eyebrow">
-            <i class="fas fa-history" aria-hidden="true"></i>
-            Our Story
+            <i class="ph-bold ph-clock-counter-clockwise" aria-hidden="true"></i>
+            {{ 'about.story_eyebrow'|trans }}
           </div>
           <h2 class="au-section-title" id="story-heading">
-            Why <span>Drilleedo</span> Was Created
+            {{ 'about.story_title_1'|trans }} <span>Drilleedo</span> {{ 'about.story_title_2'|trans }}
           </h2>
           <p class="au-section-sub">
-            <strong>Finding a reliable renovation professional shouldn't be a gamble.</strong>
-            We saw firsthand the challenges homeowners face — uncertain quality, lack of transparent pricing, and no easy way to find verified experts who truly care.
+            {{ 'about.story_sub_1'|trans|raw }}
           </p>
           <p class="au-section-sub mt-3">
-            Drilleedo was born to <strong>simplify this journey</strong>. We bridge the gap between ambitious home projects and the skilled professionals who bring them to life.
+            {{ 'about.story_sub_2'|trans|raw }}
           </p>
           <ul class="au-feature-list">
             <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
-              All professionals verified and reviewed before listing
+              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
+              {{ 'about.story_feat_1'|trans }}
             </li>
             <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
-              Transparent pricing — no hidden fees, ever
+              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
+              {{ 'about.story_feat_2'|trans }}
             </li>
             <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
-              Free quotes from multiple qualified contractors
+              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
+              {{ 'about.story_feat_3'|trans }}
             </li>
             <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="feather-check" aria-hidden="true"></i></span>
-              Dedicated support for every homeowner and professional
+              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
+              {{ 'about.story_feat_4'|trans }}
             </li>
           </ul>
         </div>
@@ -741,57 +740,57 @@
   <div class="container">
     <div class="text-center">
       <div class="au-section-eyebrow">
-        <i class="fas fa-gem" aria-hidden="true"></i>
-        What We Stand For
+        <i class="ph-bold ph-diamond" aria-hidden="true"></i>
+        {{ 'about.val_eyebrow'|trans }}
       </div>
-      <h2 class="au-section-title" id="values-heading">Our Core Values</h2>
+      <h2 class="au-section-title" id="values-heading">{{ 'about.val_title'|trans }}</h2>
       <p class="au-section-sub mx-auto">
-        Every decision we make is guided by these principles that define who we are.
+        {{ 'about.val_sub'|trans }}
       </p>
     </div>
 
     <div class="au-values-grid">
       <div class="au-val-card">
         <div class="au-val-icon" style="background: linear-gradient(135deg,#0d2151,#1a3a6b);">
-          <i class="feather-shield" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+          <i class="ph-bold ph-shield-check" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-        <h3 class="au-val-title">Trust & Safety</h3>
-        <p class="au-val-desc">Every professional on our platform is manually verified and reviewed. Homeowners can hire with complete confidence.</p>
+        <h3 class="au-val-title">{{ 'about.val_1_title'|trans }}</h3>
+        <p class="au-val-desc">{{ 'about.val_1_desc'|trans }}</p>
       </div>
       <div class="au-val-card">
         <div class="au-val-icon" style="background: linear-gradient(135deg,#00509e,#2196f3);">
-          <i class="feather-eye" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+          <i class="ph-bold ph-eye" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-        <h3 class="au-val-title">Transparency</h3>
-        <p class="au-val-desc">No hidden fees, no surprises. Clear pricing, honest reviews, and open communication at every step.</p>
+        <h3 class="au-val-title">{{ 'about.val_2_title'|trans }}</h3>
+        <p class="au-val-desc">{{ 'about.val_2_desc'|trans }}</p>
       </div>
       <div class="au-val-card">
         <div class="au-val-icon" style="background: linear-gradient(135deg,#16a34a,#22c55e);">
-          <i class="feather-award" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+          <i class="ph-bold ph-medal" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-        <h3 class="au-val-title">Quality First</h3>
-        <p class="au-val-desc">We maintain rigorous standards for the professionals we list, ensuring every project is delivered to the highest quality.</p>
+        <h3 class="au-val-title">{{ 'about.val_3_title'|trans }}</h3>
+        <p class="au-val-desc">{{ 'about.val_3_desc'|trans }}</p>
       </div>
       <div class="au-val-card">
         <div class="au-val-icon" style="background: linear-gradient(135deg,#c73d0d,#e8501a);">
-          <i class="feather-zap" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+          <i class="ph-bold ph-lightning" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-        <h3 class="au-val-title">Speed & Efficiency</h3>
-        <p class="au-val-desc">Get matched with the right professional fast. Most homeowners receive their first quote within 24 hours.</p>
+        <h3 class="au-val-title">{{ 'about.val_4_title'|trans }}</h3>
+        <p class="au-val-desc">{{ 'about.val_4_desc'|trans }}</p>
       </div>
       <div class="au-val-card">
         <div class="au-val-icon" style="background: linear-gradient(135deg,#7c3aed,#a855f7);">
-          <i class="feather-users" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+          <i class="ph-bold ph-users" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-        <h3 class="au-val-title">Community</h3>
-        <p class="au-val-desc">We support both homeowners and professionals, building a thriving community around Canada's home improvement industry.</p>
+        <h3 class="au-val-title">{{ 'about.val_5_title'|trans }}</h3>
+        <p class="au-val-desc">{{ 'about.val_5_desc'|trans }}</p>
       </div>
       <div class="au-val-card">
         <div class="au-val-icon" style="background: linear-gradient(135deg,#0891b2,#06b6d4);">
-          <i class="feather-trending-up" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
+          <i class="ph-bold ph-trend-up" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
         </div>
-        <h3 class="au-val-title">Innovation</h3>
-        <p class="au-val-desc">We constantly improve our platform with new tools and features to make home improvement easier, smarter, and more accessible.</p>
+        <h3 class="au-val-title">{{ 'about.val_6_title'|trans }}</h3>
+        <p class="au-val-desc">{{ 'about.val_6_desc'|trans }}</p>
       </div>
     </div>
   </div>
@@ -804,26 +803,26 @@
   <div class="container">
     <div class="text-center">
       <div class="au-section-eyebrow">
-        <i class="fas fa-bullseye" aria-hidden="true"></i>
-        Mission & Vision
+        <i class="ph-bold ph-crosshair" aria-hidden="true"></i>
+        {{ 'about.mv_eyebrow'|trans }}
       </div>
-      <h2 class="au-section-title" id="mission-heading">Driving the Future of Home Services</h2>
+      <h2 class="au-section-title" id="mission-heading">{{ 'about.mv_title'|trans }}</h2>
     </div>
     <div class="au-mv-grid">
       <div class="au-mv-card au-mv-card--mission">
-        <i class="fas fa-bullseye au-mv-card__icon" aria-hidden="true"></i>
-        <div class="au-mv-card__label">Our Mission</div>
-        <h3 class="au-mv-card__title">Making Home Services Easier, Smarter & Reliable</h3>
+        <i class="ph-bold ph-crosshair au-mv-card__icon" aria-hidden="true"></i>
+        <div class="au-mv-card__label">{{ 'about.mv_lbl_mission'|trans }}</div>
+        <h3 class="au-mv-card__title">{{ 'about.mv_title_mission'|trans }}</h3>
         <p class="au-mv-card__text">
-          We are dedicated to providing a seamless experience for both homeowners and professionals, ensuring every renovation project starts with confidence and ends with excellence. We believe every Canadian deserves access to quality, affordable home services.
+          {{ 'about.mv_desc_mission'|trans }}
         </p>
       </div>
       <div class="au-mv-card au-mv-card--vision">
         <i class="fas fa-eye au-mv-card__icon" aria-hidden="true"></i>
-        <div class="au-mv-card__label">Our Vision</div>
-        <h3 class="au-mv-card__title">Canada's #1 Marketplace for Home Services</h3>
+        <div class="au-mv-card__label">{{ 'about.mv_lbl_vision'|trans }}</div>
+        <h3 class="au-mv-card__title">{{ 'about.mv_title_vision'|trans }}</h3>
         <p class="au-mv-card__text">
-          To become the leading marketplace for home renovation and improvement services in Canada — powered by innovative technology, driven by a community of trusted professionals, and measured by the satisfaction of every homeowner we serve.
+          {{ 'about.mv_desc_vision'|trans }}
         </p>
       </div>
     </div>
@@ -838,62 +837,62 @@
     <div class="row align-items-start g-5">
       <div class="col-lg-5">
         <div class="au-section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.2);">
-          <i class="fas fa-check-circle" aria-hidden="true"></i>
-          Why Drilleedo
+          <i class="ph-bold ph-check-circle" aria-hidden="true"></i>
+          {{ 'about.why_eyebrow'|trans }}
         </div>
         <h2 class="au-section-title" id="why-heading" style="color:#fff;">
-          Why Thousands of Canadians <span style="color:#f97316;">Choose Us</span>
+          {{ 'about.why_title_1'|trans }} <span style="color:#f97316;">{{ 'about.why_title_2'|trans }}</span>
         </h2>
         <p class="au-section-sub" style="color:rgba(255,255,255,0.7);">
-          We go beyond connecting homeowners with contractors. We guarantee peace of mind from the first click to the final nail.
+          {{ 'about.why_sub'|trans }}
         </p>
         <div class="mt-4 d-flex gap-3 flex-wrap">
-          <a href="{{ path('professionals_list') }}" class="au-btn-primary">Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i></a>
-          <a href="{{ path('app_register') }}" class="au-btn-outline">Join as Pro</a>
+          <a href="{{ path('professionals_list') }}" class="au-btn-primary">{{ 'about.why_btn_find'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i></a>
+          <a href="{{ path('app_register') }}" class="au-btn-outline">{{ 'about.why_btn_join'|trans }}</a>
         </div>
       </div>
       <div class="col-lg-7">
         <div class="au-why-grid">
           <div class="au-why-item">
-            <div class="au-why-ico"><i class="feather-check-circle" aria-hidden="true"></i></div>
+            <div class="au-why-ico"><i class="ph-bold ph-check-circle" aria-hidden="true"></i></div>
             <div>
-              <div class="au-why-name">100% Verified Pros</div>
-              <div class="au-why-desc">Every contractor is background-checked and manually reviewed before joining the platform.</div>
+              <div class="au-why-name">{{ 'about.why_lbl_1'|trans }}</div>
+              <div class="au-why-desc">{{ 'about.why_desc_1'|trans }}</div>
             </div>
           </div>
           <div class="au-why-item">
-            <div class="au-why-ico"><i class="feather-file-text" aria-hidden="true"></i></div>
+            <div class="au-why-ico"><i class="ph-bold ph-file-text" aria-hidden="true"></i></div>
             <div>
-              <div class="au-why-name">Free Quotes</div>
-              <div class="au-why-desc">Compare multiple quotes from verified professionals at no cost, no strings attached.</div>
+              <div class="au-why-name">{{ 'about.why_lbl_2'|trans }}</div>
+              <div class="au-why-desc">{{ 'about.why_desc_2'|trans }}</div>
             </div>
           </div>
           <div class="au-why-item">
-            <div class="au-why-ico"><i class="feather-star" aria-hidden="true"></i></div>
+            <div class="au-why-ico"><i class="ph-bold ph-star" aria-hidden="true"></i></div>
             <div>
-              <div class="au-why-name">Certified Reviews</div>
-              <div class="au-why-desc">Only verified clients can leave reviews, ensuring authenticity and reliability.</div>
+              <div class="au-why-name">{{ 'about.why_lbl_3'|trans }}</div>
+              <div class="au-why-desc">{{ 'about.why_desc_3'|trans }}</div>
             </div>
           </div>
           <div class="au-why-item">
-            <div class="au-why-ico"><i class="feather-shield" aria-hidden="true"></i></div>
+            <div class="au-why-ico"><i class="ph-bold ph-shield-check" aria-hidden="true"></i></div>
             <div>
-              <div class="au-why-name">RBQ Insured</div>
-              <div class="au-why-desc">Professionals on our platform carry all required licenses and insurance for your protection.</div>
+              <div class="au-why-name">{{ 'about.why_lbl_4'|trans }}</div>
+              <div class="au-why-desc">{{ 'about.why_desc_4'|trans }}</div>
             </div>
           </div>
           <div class="au-why-item">
-            <div class="au-why-ico"><i class="feather-clock" aria-hidden="true"></i></div>
+            <div class="au-why-ico"><i class="ph-bold ph-clock" aria-hidden="true"></i></div>
             <div>
-              <div class="au-why-name">Fast Response</div>
-              <div class="au-why-desc">Get your first quote within 24 hours from professionals available in your area.</div>
+              <div class="au-why-name">{{ 'about.why_lbl_5'|trans }}</div>
+              <div class="au-why-desc">{{ 'about.why_desc_5'|trans }}</div>
             </div>
           </div>
           <div class="au-why-item">
-            <div class="au-why-ico"><i class="feather-headphones" aria-hidden="true"></i></div>
+            <div class="au-why-ico"><i class="ph-bold ph-headphones" aria-hidden="true"></i></div>
             <div>
-              <div class="au-why-name">Dedicated Support</div>
-              <div class="au-why-desc">Our team is available to help homeowners and professionals at every stage of the project.</div>
+              <div class="au-why-name">{{ 'about.why_lbl_6'|trans }}</div>
+              <div class="au-why-desc">{{ 'about.why_desc_6'|trans }}</div>
             </div>
           </div>
         </div>
@@ -904,16 +903,16 @@
 
 {# ══════════════════════════════════════════════════════════════════════════
    7. TEAM
-══════════════════════════════════════════════════════════════════════════ #}
+══════════════════════════════════════════════════════════════════════════ 
 <section class="au-section au-section--blue au-scroll" aria-labelledby="team-heading">
   <div class="container">
     <div class="text-center">
       <div class="au-section-eyebrow">
-        <i class="fas fa-users" aria-hidden="true"></i>
-        The Team
+        <i class="ph-bold ph-users" aria-hidden="true"></i>
+        {{ 'about.team_eyebrow'|trans }}
       </div>
-      <h2 class="au-section-title" id="team-heading">Driven by Expertise &amp; Innovation</h2>
-      <p class="au-section-sub mx-auto">Meet the visionaries building Canada's most trusted renovation marketplace.</p>
+      <h2 class="au-section-title" id="team-heading">{{ 'about.team_title'|trans }}</h2>
+      <p class="au-section-sub mx-auto">{{ 'about.team_sub'|trans }}</p>
     </div>
     <div class="au-team-grid">
 
@@ -959,7 +958,7 @@
     </div>
   </div>
 </section>
-
+#}
 {# ══════════════════════════════════════════════════════════════════════════
    8. FAQ
 ══════════════════════════════════════════════════════════════════════════ #}
@@ -967,62 +966,62 @@
   <div class="container">
     <div class="text-center">
       <div class="au-section-eyebrow">
-        <i class="feather-help-circle" aria-hidden="true"></i>
-        Questions
+        <i class="ph-bold ph-question" aria-hidden="true"></i>
+        {{ 'about.faq_eyebrow'|trans }}
       </div>
-      <h2 class="au-section-title" id="faq-heading">Frequently Asked Questions</h2>
-      <p class="au-section-sub mx-auto">Everything you need to know about Drilleedo.</p>
+      <h2 class="au-section-title" id="faq-heading">{{ 'about.faq_title'|trans }}</h2>
+      <p class="au-section-sub mx-auto">{{ 'about.faq_sub'|trans }}</p>
     </div>
 
     <div class="au-faq-list" role="list">
 
       <div class="au-faq-item" role="listitem">
         <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          Is Drilleedo free to use for homeowners?
+          {{ 'about.faq_q1'|trans }}
           <span class="au-faq-arrow" aria-hidden="true">+</span>
         </button>
         <div class="au-faq-body">
-          Yes, absolutely! Drilleedo is completely free for homeowners. You can post projects, compare professionals, and receive quotes at zero cost. We earn a small commission from professionals only when a project is successfully matched.
+          {{ 'about.faq_a1'|trans }}
         </div>
       </div>
 
       <div class="au-faq-item" role="listitem">
         <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          How are professionals verified on the platform?
+          {{ 'about.faq_q2'|trans }}
           <span class="au-faq-arrow" aria-hidden="true">+</span>
         </button>
         <div class="au-faq-body">
-          Every professional goes through a manual verification process that includes identity check, license verification (RBQ where applicable), insurance confirmation, and a review of past work samples. Only then can they appear on the platform.
+          {{ 'about.faq_a2'|trans }}
         </div>
       </div>
 
       <div class="au-faq-item" role="listitem">
         <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          Can I compare multiple quotes before hiring?
+          {{ 'about.faq_q3'|trans }}
           <span class="au-faq-arrow" aria-hidden="true">+</span>
         </button>
         <div class="au-faq-body">
-          Absolutely. In fact, we encourage it. When you post a project, qualified professionals in your area can send you quotes. You can review their profiles, ratings, and pricing before making any commitment.
+          {{ 'about.faq_a3'|trans }}
         </div>
       </div>
 
       <div class="au-faq-item" role="listitem">
         <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          What happens if I'm not satisfied with a professional?
+          {{ 'about.faq_q4'|trans }}
           <span class="au-faq-arrow" aria-hidden="true">+</span>
         </button>
         <div class="au-faq-body">
-          Your satisfaction is our priority. If you experience any issues with a professional found on Drilleedo, our support team is available to mediate and help resolve disputes. All verified reviews are public and professionals are held to high standards.
+          {{ 'about.faq_a4'|trans }}
         </div>
       </div>
 
       <div class="au-faq-item" role="listitem">
         <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          How do I list my business on Drilleedo?
+          {{ 'about.faq_q5'|trans }}
           <span class="au-faq-arrow" aria-hidden="true">+</span>
         </button>
         <div class="au-faq-body">
-          Simply create an account as a professional or company, complete your profile with your services and credentials, and submit for verification. Once approved, homeowners across Canada will be able to find and contact you directly.
+          {{ 'about.faq_a5'|trans }}
         </div>
       </div>
 
@@ -1037,17 +1036,17 @@
   <div class="container" style="position:relative;z-index:2;">
     <div class="text-center">
       <div class="au-section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.2);margin-bottom:16px;display:inline-flex;">
-        <i class="fas fa-rocket" aria-hidden="true"></i>
-        Get Started Today
+        <i class="ph-bold ph-rocket-launch" aria-hidden="true"></i>
+        {{ 'about.cta_eyebrow'|trans }}
       </div>
-      <h2 class="au-cta__title" id="cta-heading">Ready to Start Your Next Home Project?</h2>
-      <p class="au-cta__sub">Connect with verified professionals and bring your renovation vision to life. Free quotes, trusted experts, no commitment.</p>
+      <h2 class="au-cta__title" id="cta-heading">{{ 'about.cta_title'|trans }}</h2>
+      <p class="au-cta__sub">{{ 'about.cta_sub'|trans }}</p>
       <div>
         <a href="{{ path('professionals_list') }}" class="au-btn-primary">
-          Find a Professional <i class="feather-arrow-right" aria-hidden="true"></i>
+          {{ 'about.cta_btn_find'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
         </a>
         <a href="{{ path('app_register') }}" class="au-btn-outline">
-          Join as a Pro
+          {{ 'about.cta_btn_join'|trans }}
         </a>
       </div>
     </div>

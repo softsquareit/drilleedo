@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\RegistrationRateLimiter;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -17,8 +18,21 @@ use Symfony\Bundle\SecurityBundle\Security;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Security $security): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        Security $security,
+        RegistrationRateLimiter $registrationRateLimiter
+    ): Response {
+        // Rate limiting — 3 inscriptions par heure par IP
+        if ($request->isMethod('POST')) {
+            if (!$registrationRateLimiter->consume($request->getClientIp() ?? '0.0.0.0')) {
+                $this->addFlash('error', 'Trop d\'inscriptions depuis cette adresse IP. Veuillez réessayer dans une heure.');
+                return $this->redirectToRoute('app_register');
+            }
+        }
+
         $individual = new Individual();
         $individualForm = $this->container->get('form.factory')->createNamed('individual', RegistrationFormType::class, $individual, [
             'data_class' => Individual::class

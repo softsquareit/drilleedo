@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Top Renovation Companies in Canada | Drilleedo{% endblock %}
-{% block meta_description %}Discover verified construction and renovation companies near you. Filter by specialty and location. Compare profiles and get quotes from leading Canadian companies on Drilleedo.{% endblock %}
+{% block meta_description %}{{ metaDescription }}{% endblock %}
 {% block meta_keywords %}renovation companies Canada, construction companies Toronto, home renovation firms, building contractors{% endblock %}
 {% block og_title %}Top Renovation Companies in Canada | Drilleedo{% endblock %}
-{% block og_description %}Discover verified construction and renovation companies. Filter by specialty and location.{% endblock %}
+{% block og_description %}{{ metaDescription }}{% endblock %}
+{% block canonical %}{{ canonicalUrl }}{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
@@ -19,9 +20,9 @@
          alt="Renovation Companies Drilleedo"
          class="fp-hero__img">
     <div class="fp-hero__content">
-        <h1 class="fp-hero__title">Companies Near You</h1>
+        <h1 class="fp-hero__title">{{ 'public_list.hero_companies_title'|trans }}</h1>
         <p class="fp-hero__sub">
-            Discover verified companies offering renovation, construction, and home improvement services across Canada.
+            {{ 'public_list.hero_companies_sub'|trans }}
         </p>
         <div class="fp-hero__search">
             <form action="{{ path('companies_list') }}" method="GET" class="fp-search-bar">
@@ -31,18 +32,18 @@
                 <input type="text"
                        name="keyword"
                        class="fp-search-bar__input"
-                       placeholder="Search for a company, a specialty..."
+                       placeholder="{{ 'public_list.search_companies_placeholder'|trans }}"
                        value="{{ app.request.query.get('keyword') }}"
                        aria-label="Search companies">
-                <button type="submit" class="fp-search-bar__btn">Search</button>
+                <button type="submit" class="fp-search-bar__btn">{{ 'public_list.search_btn'|trans }}</button>
             </form>
         </div>
         <div class="fp-hero__stats">
-            <span>✅ {{ companies|length }}+ verified companies</span>
+            <span>✅ {{ totalCompanies }}+ {{ 'public_stats.verified_comps'|trans }}</span>
             <span class="fp-hero__stat-dot">·</span>
-            <span>⭐ Local Expertise</span>
+            <span>⭐ {{ 'public_stats.local_expertise'|trans }}</span>
             <span class="fp-hero__stat-dot">·</span>
-            <span>📋 Free Quotes</span>
+            <span>📋 {{ 'public_stats.free_quotes'|trans }}</span>
         </div>
     </div>
 </div>
@@ -52,15 +53,19 @@
     <div class="fp-cat-bar__inner">
         <button class="fp-cat-pill active" data-category="all" aria-pressed="true">
             <i class="feather-grid"></i>
-            All
-            <span class="fp-cat-pill__count">{{ companies|length }}</span>
+            {{ 'public_list.all'|trans }}
+            <span class="fp-cat-pill__count">{{ totalCompanies }}</span>
         </button>
 
         {% for cat in allCategories %}
             {% if cat.parent is null %}
             <button class="fp-cat-pill" data-category="{{ cat.id }}" aria-pressed="false">
                 {% if cat.icon %}
-                    <img src="{{ asset('uploads/categories/' ~ cat.icon) }}" alt="" class="fp-cat-pill__icon">
+                    <img src="{{ asset('uploads/categories/' ~ cat.icon) }}"
+                         alt="{{ cat.name }} icon"
+                         class="fp-cat-pill__icon"
+                         loading="lazy"
+                         width="20" height="20">
                 {% else %}
                     <i class="feather-briefcase"></i>
                 {% endif %}
@@ -83,7 +88,7 @@
                 <div class="fp-sidebar-card">
                     <div class="fp-sidebar-card__header">
                         <i class="feather-map-pin"></i>
-                        Location
+                        {{ 'public_list.city_region'|trans }}
                     </div>
                     <div class="fp-sidebar-card__body">
                         <ul class="fp-city-list" role="list">
@@ -104,9 +109,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="fp-btn-apply">Apply Filters</button>
+                <button type="submit" class="fp-btn-apply">{{ 'public_list.apply_filters'|trans }}</button>
                 {% if activeFilters.cities is not empty or activeFilters.categories is not empty %}
-                    <a href="{{ path('companies_list') }}" class="fp-btn-clear">Clear Filters</a>
+                    <a href="{{ path('companies_list') }}" class="fp-btn-clear">{{ 'public_list.clear_filters'|trans }}</a>
                 {% endif %}
             </form>
 
@@ -121,7 +126,7 @@
         <div class="fp-content">
             <div class="fp-meta-row">
                 <p class="fp-meta-count">
-                    <span id="filtered-count">{{ companies|length }}</span> compan{{ companies|length > 1 ? 'ies' : 'y' }} found
+                    <span id="filtered-count">{{ totalCompanies }}</span> {{ 'public_list.companies_found'|trans }}
                 </p>
             </div>
 

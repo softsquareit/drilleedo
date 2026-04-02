@@ -31,11 +31,11 @@
         <nav aria-label="Breadcrumb" class="svc-breadcrumb">
             <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
-                    <a href="{{ path('app_home') }}" itemprop="item"><span itemprop="name">Home</span></a>
+                    <a href="{{ path('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
                     <meta itemprop="position" content="1">
                 </li>
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item">
-                    <a href="{{ path('professionals_list') }}" itemprop="item"><span itemprop="name">Find Professionals</span></a>
+                    <a href="{{ path('professionals_list') }}" itemprop="item"><span itemprop="name">Professionnels</span></a>
                     <meta itemprop="position" content="2">
                 </li>
                 <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
@@ -49,10 +49,10 @@
             {% if category.icon %}
                 <img src="{{ asset('uploads/categories/' ~ category.icon) }}" alt="" style="width: 45px; height: 45px; vertical-align: middle; margin-right: 15px;">
             {% endif %}
-            {{ category.name }} Professionals
+            {{ category.name }} {{ 'public_list.professionals_suffix'|trans }}
         </h1>
         <p class="fp-hero__sub">
-            {{ totalResults }} verified specialist{{ totalResults != 1 ? 's' : '' }} ready for your {{ category.name|lower }} project in Canada.
+            {{ totalResults }} {{ 'public_list.specialists_available_in'|trans }} {{ category.name|lower }} au Canada.
         </p>
 
         <div class="fp-hero__search">
@@ -63,10 +63,10 @@
                 <input type="text"
                        name="keyword"
                        class="fp-search-bar__input"
-                       placeholder="Search within {{ category.name }}…"
+                       placeholder="{{ 'public_list.search_within'|trans }} {{ category.name }}…"
                        value="{{ activeFilters.keyword ?? '' }}"
                        aria-label="Search within {{ category.name }}">
-                <button type="submit" class="fp-search-bar__btn">Search</button>
+                <button type="submit" class="fp-search-bar__btn">{{ 'public_list.search_btn'|trans }}</button>
             </form>
         </div>
     </div>
@@ -82,7 +82,7 @@
            class="fp-cat-pill {{ activeFilters.keyword is empty ? 'active' : '' }}" 
            aria-pressed="{{ activeFilters.keyword is empty ? 'true' : 'false' }}">
             <i class="feather-grid"></i>
-            All {{ category.name }}
+            {{ 'public_list.all'|trans }} {{ category.name }}
             <span class="fp-cat-pill__count">{{ totalResults }}</span>
         </a>
 
@@ -142,7 +142,7 @@
                 <div class="fp-sidebar-card">
                     <div class="fp-sidebar-card__header">
                         <i class="feather-map-pin"></i>
-                        City / Region
+                        {{ 'public_list.city_region'|trans }}
                     </div>
                     <div class="fp-sidebar-card__body">
                         <ul class="fp-city-list" role="list">
@@ -164,10 +164,10 @@
                     </div>
                 </div>
 
-                <button type="submit" class="fp-btn-apply">Apply Filters</button>
+                <button type="submit" class="fp-btn-apply">{{ 'public_list.apply_filters'|trans }}</button>
                 {% if activeFilters.cities is not empty %}
                     <a href="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" class="fp-btn-clear">
-                        Clear Filters
+                        {{ 'public_list.clear_filters'|trans }}
                     </a>
                 {% endif %}
             </form>
@@ -177,15 +177,15 @@
         <div class="fp-content">
             <div class="fp-meta-row">
                 <p class="fp-meta-count">
-                    <span>{{ professionals|length }}</span> specialist{{ professionals|length != 1 ? 's' : '' }} available in {{ category.name }}
+                    <span>{{ professionals|length }}</span> {{ 'public_list.specialists_available_in'|trans }} {{ category.name }}
                 </p>
                 <form action="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" method="GET">
                     {% if activeFilters.keyword %}<input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">{% endif %}
                     {% for city in activeFilters.cities %}<input type="hidden" name="cities[]" value="{{ city }}">{% endfor %}
                     <select name="sort" class="fp-sort-select" onchange="this.form.submit()">
-                        <option value="newest"     {{ activeFilters.sort == 'newest'     ? 'selected' : '' }}>Sort: Newest</option>
-                        <option value="rating"     {{ activeFilters.sort == 'rating'     ? 'selected' : '' }}>Sort: Top Rated</option>
-                        <option value="experience" {{ activeFilters.sort == 'experience' ? 'selected' : '' }}>Sort: Experience</option>
+                        <option value="newest"     {{ activeFilters.sort == 'newest'     ? 'selected' : '' }}>{{ 'public_list.sort_newest'|trans }}</option>
+                        <option value="rating"     {{ activeFilters.sort == 'rating'     ? 'selected' : '' }}>{{ 'public_list.sort_rating'|trans }}</option>
+                        <option value="experience" {{ activeFilters.sort == 'experience' ? 'selected' : '' }}>{{ 'public_list.sort_exp'|trans }}</option>
                     </select>
                 </form>
             </div>
@@ -203,7 +203,7 @@
 
                     <div class="fp-pro-card">
                         {% if pro.isTopRated %}
-                            <div class="fp-badge-top">⭐ Top Rated</div>
+                            <div class="fp-badge-top">⭐ {{ 'home_card.top_rated'|trans }}</div>
                         {% endif %}
 
                         <div class="fp-card-img-wrap">
@@ -214,7 +214,7 @@
                         </div>
 
                         <div class="fp-card-body">
-                            {% if pro.isVerified %}<div class="fp-card-verified">✔ Drilleedo Verified</div>{% endif %}
+                            {% if pro.isVerified %}<div class="fp-card-verified">✔ {{ 'home_card.verified_by'|trans|striptags }}</div>{% endif %}
                             <h3 class="fp-card-name"><a href="{{ profileUrl }}">{{ pro.companyName ?? (pro.personalInfos ? pro.personalInfos.firstName ~ ' ' ~ pro.personalInfos.lastName : pro.email) }}</a></h3>
                             
                             <div class="fp-card-meta">
@@ -228,12 +228,12 @@
                                         <svg viewBox="0 0 20 20" {{ i > fullStars ? 'style="fill: #e2e8f0"' : '' }}><path d="{{ starPath }}"/></svg>
                                     {% endfor %}
                                 </div>
-                                <span class="fp-card-rating__cnt">({{ pro.stats ? pro.stats.reviewCount : 0 }} reviews)</span>
+                                <span class="fp-card-rating__cnt">({{ pro.stats ? pro.stats.reviewCount : 0 }} {{ 'home_card.reviews'|trans }})</span>
                             </div>
 
                             <div class="fp-card-actions">
-                                <a href="{{ profileUrl }}" class="fp-btn-outline">View Profile</a>
-                                <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" class="fp-btn-solid">Free Quote</a>
+                                <a href="{{ profileUrl }}" class="fp-btn-outline">{{ 'home_card.view_profile'|trans }}</a>
+                                <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" class="fp-btn-solid">{{ 'home_card.get_quote'|trans }}</a>
                             </div>
                         </div>
                     </div>

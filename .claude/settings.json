@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php8.4 bin/console lint:yaml config/packages/security.yaml config/packages/rate_limiter.yaml)",
+      "Bash(grep -r \"STATUS_\" /home/softsquareit/Desktop/drilledov2/src/Entity/*.php)",
+      "Bash(php8.4 bin/console doctrine:migrations:diff --no-interaction)",
+      "Read(//Controller\\\\/Admin\\\\/,/**)",
+      "Bash(php bin/console cache:clear)",
+      "Bash(php8.4 composer.phar require symfony/webpack-encore-bundle --no-interaction)",
+      "Bash(npm install:*)",
+      "Bash(node bin/build-vendors.js)",
+      "Bash(npm run:*)",
+      "Bash(node -e \"const E = require\\(''@symfony/webpack-encore''\\); console.log\\(Object.keys\\(E\\).filter\\(k => k.includes\\(''xternal''\\) || k.includes\\(''webp''\\)\\).join\\(''\\\\n''\\)\\)\")",
+      "Bash(node -e \"const E = require\\(''@symfony/webpack-encore''\\); console.log\\(Object.keys\\(E\\).join\\(''\\\\n''\\)\\)\")",
+      "Bash(php8.4 bin/console debug:twig encore_entry_link_tags)",
+      "Bash(php8.4 bin/console debug:container webpack_encore.twig_extension)",
+      "Bash(redis-cli ping:*)",
+      "Bash(php8.4 vendor/bin/phpunit --version)",
+      "Bash(php8.4 bin/console debug:router --format=txt)",
+      "Bash(ls /home/softsquareit/Desktop/drilledov2/phpunit.xml*)"
+    ],
+    "additionalDirectories": [
+      "/home/softsquareit/Desktop/drilledov2/doc"
+    ]
+  }
+}

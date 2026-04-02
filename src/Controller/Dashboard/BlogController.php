@@ -6,6 +6,7 @@ use App\Entity\Blog;
 use App\Entity\Business;
 use App\Form\BlogType;
 use App\Repository\BlogRepository;
+use App\Service\BlogSlugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,7 @@ class BlogController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, BlogSlugger $blogSlugger): Response
     {
         /** @var Business $user */
         $user = $this->getUser();
@@ -50,11 +51,13 @@ class BlogController extends AbstractController
 
         $blog = new Blog();
         $blog->setAuthor($user);
-        
+
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Générer un slug unique à partir du titre
+            $blog->setSlug($blogSlugger->generateUniqueSlug($blog->getTitle() ?? 'article'));
             // Handle File Upload
             $imageFile = $form->get('mainImgFile')->getData();
             if ($imageFile) {
@@ -117,21 +120,27 @@ class BlogController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Blog $blog, EntityManagerInterface $entityManager, BlogSlugger $blogSlugger): Response
     {
         // Security check: ensure the user owns this blog
-        if ($blog->getAuthor() !== $this->getUser()) {
+        if ($blog->getAuthor()?->getId() !== $this->getUser()?->getId()) {
              throw $this->createAccessDeniedException('You do not have permission to edit this item.');
         }
-        
+
         /** @var Business $user */
         $user = $this->getUser();
         $baseTemplate = $user instanceof \App\Entity\Company ? 'company/base_company.html.twig' : 'professional/base_professional.html.twig';
+
+        $originalTitle = $blog->getTitle();
 
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Régénérer le slug uniquement si le titre a changé
+            if ($blog->getTitle() !== $originalTitle || !$blog->getSlug()) {
+                $blog->setSlug($blogSlugger->generateUniqueSlug($blog->getTitle() ?? 'article', $blog->getId()));
+            }
             
              // Handle File Upload
             $imageFile = $form->get('mainImgFile')->getData();
@@ -194,7 +203,7 @@ class BlogController extends AbstractController
     public function delete(Request $request, Blog $blog, EntityManagerInterface $entityManager): Response
     {
         // Security check: ensure the user owns this blog
-        if ($blog->getAuthor() !== $this->getUser()) {
+        if ($blog->getAuthor()?->getId() !== $this->getUser()?->getId()) {
              throw $this->createAccessDeniedException('You do not have permission to delete this item.');
         }
 

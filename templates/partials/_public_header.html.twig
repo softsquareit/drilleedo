@@ -1,5 +1,5 @@
 {# Skip-to-content — first focusable element on page for keyboard users #}
-<a href="#main-content" class="skip-to-content">Skip to main content</a>
+<a href="#main-content" class="skip-to-content">{{ 'skip_to_content'|trans }}</a>
 
 <header class="rbt-header rbt-header-4 rbt-header-4-container-var" role="banner">
     <div class="rbt-sticky-placeholder"></div>
@@ -23,11 +23,11 @@
                     <nav class="mainmenu-nav">
                         <ul class="mainmenu">
                             <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>How It Works</a>
+                                <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>{{ 'nav.how_it_works'|trans }}</a>
                             </li>
 
                             <li class="with-megamenu has-menu-child-item position-static">
-                                <a href="{{ path('professionals_list') }}" {% if app.request.attributes.get('_route') == 'professionals_list' %}class="active"{% endif %}>Find Professionals <i class="feather-chevron-down"></i></a>
+                                <a href="{{ path('professionals_list') }}" {% if app.request.attributes.get('_route') == 'professionals_list' %}class="active"{% endif %}>{{ 'nav.find_professionals'|trans }} <i class="feather-chevron-down"></i></a>
                                 <div class="rbt-megamenu drl-full-width-mega">
                                     <div class="wrapper">
                                         {{ render(controller('App\\Controller\\MenuController::categoryMegaMenu')) }}
@@ -36,22 +36,22 @@
                             </li>
 
                             <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}class="active"{% endif %}>Smart Ideas</a>
+                                <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}class="active"{% endif %}>{{ 'nav.smart_ideas'|trans }}</a>
                             </li>
 
-                            <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}class="active"{% endif %}>About Us</a></li>
+                            <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}class="active"{% endif %}>{{ 'nav.about_us'|trans }}</a></li>
 
                             <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}class="active"{% endif %}>For Professionals <i class="feather-chevron-down"></i></a>
+                                <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}class="active"{% endif %}>{{ 'nav.for_professionals'|trans }} <i class="feather-chevron-down"></i></a>
                                 <ul class="submenu">
-                                    <li><a href="{{ path('app_for_professionals') }}">Why Join Drilleedo</a></li>
-                                    <li><a href="{{ path('app_register_pro') }}">Create Your Profile</a></li>
-                                    <li><a href="{{ path('app_grow_business') }}">Grow Your Business</a></li>
-                                    <li><a href="{{ path('app_how_it_works_pros') }}">How It Works for Pros</a></li>
+                                    <li><a href="{{ path('app_for_professionals') }}">{{ 'nav.why_join'|trans }}</a></li>
+                                    <li><a href="{{ path('app_register_pro') }}">{{ 'nav.create_profile'|trans }}</a></li>
+                                    <li><a href="{{ path('app_grow_business') }}">{{ 'nav.grow_business'|trans }}</a></li>
+                                    <li><a href="{{ path('app_how_it_works_pros') }}">{{ 'nav.how_it_works_pros'|trans }}</a></li>
                                 </ul>
                             </li>
 
-                            <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}class="active"{% endif %}>Blog</a></li>
+                            <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}class="active"{% endif %}>{{ 'nav.blog'|trans }}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -89,22 +89,22 @@
                                                     {% elseif app.user.personalInfos is defined and app.user.personalInfos %}
                                                         {{ app.user.personalInfos.firstName }}
                                                     {% else %}
-                                                        My Account
+                                                        {{ 'auth.my_account'|trans }}
                                                     {% endif %}
                                                 </span>
-                                                <a class="rbt-btn-link color-primary" href="{{ path('app_logout') }}">Log Out</a>
+                                                <a class="rbt-btn-link color-primary" href="{{ path('app_logout') }}">{{ 'auth.logout'|trans }}</a>
                                             </div>
                                         </div>
                                         <ul class="user-list-wrapper" role="menu">
                                             <li role="none">
                                                 {% if is_granted('ROLE_ADMIN') %}
-                                                    <a href="{{ path('admin_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>Admin Dashboard</span></a>
+                                                    <a href="{{ path('admin_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>{{ 'auth.admin_dashboard'|trans }}</span></a>
                                                 {% elseif is_granted('ROLE_COMPANY') %}
-                                                    <a href="{{ path('company_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>Company Dashboard</span></a>
+                                                    <a href="{{ path('company_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>{{ 'auth.company_dashboard'|trans }}</span></a>
                                                 {% elseif is_granted('ROLE_PROFESSIONAL') %}
-                                                    <a href="{{ path('professional_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>Pro Dashboard</span></a>
+                                                    <a href="{{ path('professional_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>{{ 'auth.pro_dashboard'|trans }}</span></a>
                                                 {% elseif is_granted('ROLE_INDIVIDUAL') %}
-                                                    <a href="{{ path('individual_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>My Dashboard</span></a>
+                                                    <a href="{{ path('individual_dashboard') }}" role="menuitem"><i class="feather-home" aria-hidden="true"></i> <span>{{ 'auth.my_dashboard'|trans }}</span></a>
                                                 {% endif %}
                                             </li>
                                         </ul>
@@ -113,7 +113,7 @@
                                             <li role="none">
                                                 <a href="{{ path('app_logout') }}" role="menuitem">
                                                     <i class="feather-log-out" aria-hidden="true"></i>
-                                                    <span>Log Out</span>
+                                                    <span>{{ 'auth.logout'|trans }}</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -122,16 +122,29 @@
                             </li>
                         {% else %}
                             <li class="access-icon d-none d-xl-flex">
-                                <a class="login-link" href="{{ path('app_login') }}" aria-label="Log in to your account">
-                                    <i class="fas fa-user-alt" aria-hidden="true"></i> Log in
+                                <a class="login-link" href="{{ path('app_login') }}" aria-label="{{ 'auth.login'|trans }}">
+                                    <i class="fas fa-user-alt" aria-hidden="true"></i> {{ 'auth.login'|trans }}
                                 </a>
                             </li>
                             <li class="access-icon d-none d-xl-flex">
-                                <a class="pro-signin-btn" href="{{ path('app_register') }}" aria-label="Create a new Drilleedo account">
-                                    <i class="far fa-check-square" aria-hidden="true"></i> Sign Up
+                                <a class="pro-signin-btn" href="{{ path('app_register') }}" aria-label="{{ 'auth.signup'|trans }}">
+                                    <i class="far fa-check-square" aria-hidden="true"></i> {{ 'auth.signup'|trans }}
                                 </a>
                             </li>
                         {% endif %}
+                        {# ── Language Switcher (Visible on all screens) ── #}
+                        <li class="access-icon d-flex align-items-center" style="gap:4px; margin-right: 10px;">
+                            {% set locales = {'fr': '🇫🇷 FR', 'en': '🇬🇧 EN'} %}
+                            {% for code, label in locales %}
+                                <a href="{{ path('app_change_locale', {locale: code}) }}"
+                                   style="font-size:11px;font-weight:800;padding:4px 6px;text-decoration:none;
+                                          background:{{ app.request.locale == code ? '#e8501a' : 'transparent' }};
+                                          color:{{ app.request.locale == code ? '#fff' : '#0d2151' }};
+                                          border-radius: 4px; border: 1px solid {{ app.request.locale == code ? '#e8501a' : '#cbd5e1' }};
+                                          transition:all .2s;"
+                                   title="{{ code == 'fr' ? 'Français' : 'English' }}">{{ label }}</a>
+                            {% endfor %}
+                        </li>
                         <li class="access-icon d-block d-xl-none">
                             <button class="hamberger-button rbt-round-btn" id="drl-menu-toggle" aria-label="Open mobile menu">
                                 <i class="feather-menu" aria-hidden="true"></i>
@@ -166,64 +179,74 @@
             <nav class="drl-mobile-nav" aria-label="Mobile navigation">
                 <ul role="list">
                     <li>
-                        <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}aria-current="page"{% endif %}><i class="feather-info" aria-hidden="true"></i> How It Works</a>
+                        <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}aria-current="page"{% endif %}><i class="feather-info" aria-hidden="true"></i> {{ 'nav.how_it_works'|trans }}</a>
                         <ul style="padding-left: 1rem;">
-                            <li><a href="{{ path('individual_quote_new') }}">Post Your Project</a></li>
-                            <li><a href="{{ path('professionals_list') }}">Find Trusted Professionals</a></li>
-                            <li><a href="{{ path('app_receive_quotes') }}">Receive Quotes</a></li>
+                            <li><a href="{{ path('individual_quote_new') }}">{{ 'nav.menu_post_project'|trans }}</a></li>
+                            <li><a href="{{ path('professionals_list') }}">{{ 'nav.menu_find_professionals'|trans }}</a></li>
+                            <li><a href="{{ path('app_receive_quotes') }}">{{ 'nav.menu_receive_quotes'|trans }}</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ path('professionals_list') }}" {% if app.request.attributes.get('_route') == 'professionals_list' %}aria-current="page"{% endif %}>
-                        <i class="feather-users" aria-hidden="true"></i> Find Professionals
+                        <i class="feather-users" aria-hidden="true"></i> {{ 'nav.find_professionals'|trans }}
                     </a></li>
                     <li>
                         <a href="{{ path('smartideas') }}" {% if app.request.attributes.get('_route') in ['smartideas', 'app_project_photos', 'app_decoration_ideas', 'app_completed_projects'] %}aria-current="page"{% endif %}>
-                            <i class="feather-book-open" aria-hidden="true"></i> Smart Ideas
+                            <i class="feather-book-open" aria-hidden="true"></i> {{ 'nav.smart_ideas'|trans }}
                         </a>
                         <ul style="padding-left: 1rem;">
-                            <li><a href="{{ path('app_project_photos') }}">Project Photos</a></li>
-                            <li><a href="{{ path('app_decoration_ideas') }}">Decoration Ideas</a></li>
-                            <li><a href="{{ path('app_completed_projects') }}">Completed Projects</a></li>
+                            <li><a href="{{ path('app_project_photos') }}">{{ 'nav.menu_project_photos'|trans }}</a></li>
+                            <li><a href="{{ path('app_decoration_ideas') }}">{{ 'nav.menu_decoration_ideas'|trans }}</a></li>
+                            <li><a href="{{ path('app_completed_projects') }}">{{ 'nav.menu_completed_projects'|trans }}</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}aria-current="page"{% endif %}>
-                        <i class="feather-info" aria-hidden="true"></i> About Us
+                        <i class="feather-info" aria-hidden="true"></i> {{ 'nav.about_us'|trans }}
                     </a></li>
                     <li>
-                        <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}aria-current="page"{% endif %}><i class="feather-briefcase" aria-hidden="true"></i> For Professionals</a>
+                        <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}aria-current="page"{% endif %}><i class="feather-briefcase" aria-hidden="true"></i> {{ 'nav.for_professionals'|trans }}</a>
                         <ul style="padding-left: 1rem;">
-                            <li><a href="{{ path('app_for_professionals') }}">Why Join Drilleedo</a></li>
-                            <li><a href="{{ path('app_register_pro') }}">Create Your Profile</a></li>
-                            <li><a href="{{ path('app_grow_business') }}">Grow Your Business</a></li>
-                            <li><a href="{{ path('app_how_it_works_pros') }}">How It Works for Pros</a></li>
+                            <li><a href="{{ path('app_for_professionals') }}">{{ 'nav.why_join'|trans }}</a></li>
+                            <li><a href="{{ path('app_register_pro') }}">{{ 'nav.create_profile'|trans }}</a></li>
+                            <li><a href="{{ path('app_grow_business') }}">{{ 'nav.grow_business'|trans }}</a></li>
+                            <li><a href="{{ path('app_how_it_works_pros') }}">{{ 'nav.how_it_works_pros'|trans }}</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}aria-current="page"{% endif %}>
-                        <i class="feather-file-text" aria-hidden="true"></i> Blog
+                        <i class="feather-file-text" aria-hidden="true"></i> {{ 'nav.blog'|trans }}
                     </a></li>
                 </ul>
             </nav>
 
             <div class="drl-drawer-auth">
+                {# ── Mobile Language Switcher ── #}
+                <div style="display:flex;gap:8px;margin-bottom:12px;justify-content:center;">
+                    {% for code, label in {'fr': '🇫🇷 FR', 'en': '🇬🇧 EN'} %}
+                        <a href="{{ path('app_change_locale', {locale: code}) }}"
+                           style="font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:20px;text-decoration:none;
+                                  background:{{ app.request.locale == code ? '#1a2b4a' : '#f1f5f9' }};
+                                  color:{{ app.request.locale == code ? '#fff' : '#64748b' }};
+                                  border:1px solid {{ app.request.locale == code ? '#1a2b4a' : '#e2e8f0' }};">{{ label }}</a>
+                    {% endfor %}
+                </div>
                 {% if app.user %}
                     {% if is_granted('ROLE_PROFESSIONAL') %}
                         <a href="{{ path('professional_dashboard') }}" class="drl-btn-primary-fill">
-                            <i class="feather-home" aria-hidden="true"></i> My Dashboard
+                            <i class="feather-home" aria-hidden="true"></i> {{ 'auth.my_dashboard'|trans }}
                         </a>
                     {% elseif is_granted('ROLE_INDIVIDUAL') %}
                         <a href="{{ path('individual_dashboard') }}" class="drl-btn-primary-fill">
-                            <i class="feather-home" aria-hidden="true"></i> My Dashboard
+                            <i class="feather-home" aria-hidden="true"></i> {{ 'auth.my_dashboard'|trans }}
                         </a>
                     {% endif %}
                     <a href="{{ path('app_logout') }}" class="drl-btn-danger-outline">
-                        <i class="feather-log-out" aria-hidden="true"></i> Log Out
+                        <i class="feather-log-out" aria-hidden="true"></i> {{ 'auth.logout'|trans }}
                     </a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="drl-btn-primary-outline">
-                        <i class="fas fa-user-alt" aria-hidden="true"></i> Log In
+                        <i class="fas fa-user-alt" aria-hidden="true"></i> {{ 'auth.login'|trans }}
                     </a>
                     <a href="{{ path('app_register') }}" class="drl-btn-primary-fill">
-                        <i class="far fa-check-square" aria-hidden="true"></i> Sign Up
+                        <i class="far fa-check-square" aria-hidden="true"></i> {{ 'auth.signup'|trans }}
                     </a>
                 {% endif %}
             </div>
@@ -238,7 +261,7 @@
                     <i class="feather-search search-icon" aria-hidden="true"></i>
                     <input type="text" 
                            id="drl-search-input" 
-                           placeholder="Search for professionals, services, or cities..." 
+                           placeholder="{{ 'search.placeholder'|trans }}" 
                            autocomplete="off"
                            aria-label="Search query">
                     <button class="drl-search-close" id="drl-search-close" aria-label="Close search">
@@ -250,7 +273,7 @@
         <div class="drl-search-body">
             <div class="container">
                 <div id="drl-search-results" class="drl-search-results-grid">
-                    <div class="drl-search-hint">Type at least 2 characters to search...</div>
+                    <div class="drl-search-hint">{{ 'search.hint'|trans }}</div>
                 </div>
             </div>
         </div>
@@ -331,7 +354,7 @@
             sToggle.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
             sInput.value = '';
-            sResults.innerHTML = '<div class="drl-search-hint">Type at least 2 characters to search...</div>';
+            sResults.innerHTML = '<div class="drl-search-hint">{{ "search.hint"|trans|escape("js") }}</div>';
         }
 
         sToggle.addEventListener('click', openSearch);
@@ -347,7 +370,7 @@
             clearTimeout(debounceTimer);
             
             if (q.length < 2) {
-                sResults.innerHTML = '<div class="drl-search-hint">Type at least 2 characters to search...</div>';
+                sResults.innerHTML = '<div class="drl-search-hint">{{ "search.hint"|trans|escape("js") }}</div>';
                 return;
             }
 
@@ -356,7 +379,7 @@
                     .then(res => res.json())
                     .then(data => {
                         if (data.length === 0) {
-                            sResults.innerHTML = '<div class="drl-search-hint">No results found for "' + q + '"</div>';
+                            sResults.innerHTML = '<div class="drl-search-hint">{{ "search.no_results"|trans|escape("js") }} "' + q + '"</div>';
                             return;
                         }
                         

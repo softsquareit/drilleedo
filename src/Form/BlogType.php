@@ -48,6 +48,17 @@ class BlogType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-check-input']
             ])
+            ->add('locale', ChoiceType::class, [
+                'label' => 'Langue de l\'article',
+                'choices' => [
+                    '🇫🇷 Français' => 'fr',
+                    '🇬🇧 English'  => 'en',
+                    '🇪🇸 Español'  => 'es',
+                    '🇮🇹 Italiano' => 'it',
+                ],
+                'placeholder' => false,
+                'attr' => ['class' => 'form-select'],
+            ])
         ;
     }
 

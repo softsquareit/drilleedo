@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}How It Works for Professionals | Drilleedo{% endblock %}
-{% block meta_description %}Learn exactly how Drilleedo connects Canadian renovation professionals with high-value homeowners. A step-by-step guide to growing your business on our platform.{% endblock %}
+{% block title %}{{ 'hitwp.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'hitwp.meta_desc'|trans }}{% endblock %}
 
 {% block body %}
 <main id="main-content">
@@ -426,13 +426,13 @@
   <div class="container">
     <div class="gyb-hero__inner gyb-scroll">
       <div class="gyb-eyebrow">
-        <i class="feather-check-circle"></i> Clear Process
+        <i class="feather-check-circle"></i> {{ 'hitwp.hero_eyebrow'|trans }}
       </div>
       <h1 class="gyb-hero__title" id="hero-title">
-        How Drilleedo Works for <span>Professionals</span>
+        {{ 'hitwp.hero_title_1'|trans }} <span>{{ 'hitwp.hero_title_2'|trans }}</span>
       </h1>
       <p class="gyb-hero__sub">
-        A straightforward process designed to strip away the complex marketing jargon and focus on exactly what you want: connecting with homeowners who need your expertise.
+        {{ 'hitwp.hero_sub'|trans }}
       </p>
     </div>
   </div>
@@ -445,11 +445,11 @@
   <div class="container">
     <div class="text-center gyb-scroll">
       <div class="gyb-section-eyebrow">
-        <i class="fas fa-route"></i> Step by Step
+        <i class="fas fa-route"></i> {{ 'hitwp.process_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title">The Path to <span>More Projects</span></h2>
+      <h2 class="gyb-section-title">{{ 'hitwp.process_title_1'|trans }} <span>{{ 'hitwp.process_title_2'|trans }}</span></h2>
       <p class="gyb-section-sub mx-auto">
-        Join in minutes, get verified, and watch your project pipeline grow organically without cold calling or heavy ad spend.
+        {{ 'hitwp.process_sub'|trans }}
       </p>
     </div>
 
@@ -459,10 +459,10 @@
       <div class="gyb-timeline-item gyb-scroll">
         <div class="gyb-timeline-icon"><i class="feather-edit-3"></i></div>
         <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">Step 01</span>
-          <h3 class="gyb-timeline-title">Build Your Professional Profile</h3>
+          <span class="gyb-timeline-step">{{ 'hitwp.step1_lbl'|trans }}</span>
+          <h3 class="gyb-timeline-title">{{ 'hitwp.step1_title'|trans }}</h3>
           <p class="gyb-timeline-desc">
-            Sign up and create your virtual storefront. You'll define your specific service categories (e.g., Plumbing, Kitchen Demo), set your operating radius, and upload photos to a high-quality portfolio. This ensures you only attract the work you actually want to do.
+            {{ 'hitwp.step1_desc'|trans }}
           </p>
         </div>
       </div>
@@ -471,10 +471,10 @@
       <div class="gyb-timeline-item gyb-scroll">
         <div class="gyb-timeline-icon"><i class="feather-shield"></i></div>
         <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">Step 02</span>
-          <h3 class="gyb-timeline-title">Complete Verification (Badge)</h3>
+          <span class="gyb-timeline-step">{{ 'hitwp.step2_lbl'|trans }}</span>
+          <h3 class="gyb-timeline-title">{{ 'hitwp.step2_title'|trans }}</h3>
           <p class="gyb-timeline-desc">
-            Our team reviews your submission. By uploading a government ID and confirming business licenses (like RBQ), you earn the authoritative <em>Drilleedo Verified Badge</em>. High-trust profiles receive up to 3x more direct quotes from site visitors.
+            {{ 'hitwp.step2_desc'|trans|raw }}
           </p>
         </div>
       </div>
@@ -483,10 +483,10 @@
       <div class="gyb-timeline-item gyb-scroll">
         <div class="gyb-timeline-icon"><i class="feather-bell"></i></div>
         <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">Step 03</span>
-          <h3 class="gyb-timeline-title">Receive Direct Requests</h3>
+          <span class="gyb-timeline-step">{{ 'hitwp.step3_lbl'|trans }}</span>
+          <h3 class="gyb-timeline-title">{{ 'hitwp.step3_title'|trans }}</h3>
           <p class="gyb-timeline-desc">
-            Homeowners browse the marketplace and find your profile in local search results. When your work matches their vision, they click "Request Quote" to message you directly. You get an instant notification via your dashboard and email.
+            {{ 'hitwp.step3_desc'|trans }}
           </p>
         </div>
       </div>
@@ -495,10 +495,10 @@
       <div class="gyb-timeline-item gyb-scroll">
         <div class="gyb-timeline-icon"><i class="feather-briefcase"></i></div>
         <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">Step 04</span>
-          <h3 class="gyb-timeline-title">Quote, Hire, and Review</h3>
+          <span class="gyb-timeline-step">{{ 'hitwp.step4_lbl'|trans }}</span>
+          <h3 class="gyb-timeline-title">{{ 'hitwp.step4_title'|trans }}</h3>
           <p class="gyb-timeline-desc">
-            Discuss the project specifics, visit the site, and secure the contract on your own terms (we take absolutely zero commission). After completion, we help collect a certified review to continuously boost your ranking.
+            {{ 'hitwp.step4_desc'|trans }}
           </p>
         </div>
       </div>
@@ -514,34 +514,34 @@
   <div class="container">
     <div class="text-center gyb-scroll">
       <div class="gyb-section-eyebrow">
-        <i class="feather-target"></i> Lead Quality
+        <i class="feather-target"></i> {{ 'hitwp.lead_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title">What Does a Drilleedo Lead <span>Look Like?</span></h2>
+      <h2 class="gyb-section-title">{{ 'hitwp.lead_title_1'|trans }} <span>{{ 'hitwp.lead_title_2'|trans }}</span></h2>
       <p class="gyb-section-sub mx-auto">
-        Not all leads are created equal. We pre-filter user intent so you only spend time talking to clients ready to hire.
+        {{ 'hitwp.lead_sub'|trans }}
       </p>
     </div>
 
     <div class="gyb-anatomy gyb-scroll">
       <div class="gyb-anatomy__header">
-        <h3 class="gyb-anatomy__title">The Anatomy of a Perfect Request</h3>
-        <p class="gyb-anatomy__sub">Every direct message you receive includes vital project context.</p>
+        <h3 class="gyb-anatomy__title">{{ 'hitwp.lead_hdr_title'|trans }}</h3>
+        <p class="gyb-anatomy__sub">{{ 'hitwp.lead_hdr_sub'|trans }}</p>
       </div>
       <div class="gyb-anatomy-grid">
         <div class="gyb-anatomy-card">
           <i class="feather-map-pin"></i>
-          <h4>Location Match</h4>
-          <p>We verify the project postal code sits securely inside the active service radius you defined in your dashboard.</p>
+          <h4>{{ 'hitwp.lead_card1_title'|trans }}</h4>
+          <p>{{ 'hitwp.lead_card1_desc'|trans }}</p>
         </div>
         <div class="gyb-anatomy-card">
           <i class="feather-align-left"></i>
-          <h4>Clear Description</h4>
-          <p>Clients are prompted to provide project specifics, preventing vague requests. You'll know if it's a quick fix or a total overhaul.</p>
+          <h4>{{ 'hitwp.lead_card2_title'|trans }}</h4>
+          <p>{{ 'hitwp.lead_card2_desc'|trans }}</p>
         </div>
         <div class="gyb-anatomy-card">
           <i class="feather-lock"></i>
-          <h4>Direct Connection</h4>
-          <p>You own the relationship immediately. No blind bidding wars. The client specifically chose your profile based on your work.</p>
+          <h4>{{ 'hitwp.lead_card3_title'|trans }}</h4>
+          <p>{{ 'hitwp.lead_card3_desc'|trans }}</p>
         </div>
       </div>
     </div>
@@ -554,15 +554,15 @@
 <section class="gyb-final gyb-scroll">
   <div class="container">
     <div class="gyb-eyebrow" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
-      <i class="feather-power" style="color: #f97316;"></i> Launch Today
+      <i class="feather-power" style="color: #f97316;"></i> {{ 'hitwp.cta_eyebrow'|trans }}
     </div>
-    <h2 class="gyb-final__title">Put Your Network on Autopilot</h2>
+    <h2 class="gyb-final__title">{{ 'hitwp.cta_title'|trans }}</h2>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
       <a href="{{ path('app_register_pro') }}" class="gyb-btn-orange">
-        Create Your Professional Account
+        {{ 'hitwp.cta_btn_create'|trans }}
       </a>
       <a href="{{ path('packages') }}" class="gyb-btn-white">
-        Explore Pro Packages
+        {{ 'hitwp.cta_btn_explore'|trans }}
       </a>
     </div>
   </div>

@@ -40,6 +40,18 @@ class Offer
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $documents = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $priorVisit = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $possibleStartDate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $estimatedDuration = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $estimatedDurationUnit = null;
+
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: true)]
     private ?QuoteRequest $quoteRequest = null;
@@ -167,6 +179,54 @@ class Offer
     public function setDocuments(?array $documents): static
     {
         $this->documents = $documents;
+
+        return $this;
+    }
+
+    public function isPriorVisit(): ?bool
+    {
+        return $this->priorVisit;
+    }
+
+    public function setPriorVisit(?bool $priorVisit): static
+    {
+        $this->priorVisit = $priorVisit;
+
+        return $this;
+    }
+
+    public function getPossibleStartDate(): ?\DateTimeInterface
+    {
+        return $this->possibleStartDate;
+    }
+
+    public function setPossibleStartDate(?\DateTimeInterface $possibleStartDate): static
+    {
+        $this->possibleStartDate = $possibleStartDate;
+
+        return $this;
+    }
+
+    public function getEstimatedDuration(): ?int
+    {
+        return $this->estimatedDuration;
+    }
+
+    public function setEstimatedDuration(?int $estimatedDuration): static
+    {
+        $this->estimatedDuration = $estimatedDuration;
+
+        return $this;
+    }
+
+    public function getEstimatedDurationUnit(): ?string
+    {
+        return $this->estimatedDurationUnit;
+    }
+
+    public function setEstimatedDurationUnit(?string $estimatedDurationUnit): static
+    {
+        $this->estimatedDurationUnit = $estimatedDurationUnit;
 
         return $this;
     }

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Entity\Professional;
 final class HomeController extends AbstractController
 {
@@ -101,9 +102,9 @@ final class HomeController extends AbstractController
         $categoriesFilter = $request->query->all('categories');
 
         $professionals = $professionalRepository->search($keyword, $category, $cities, $categoriesFilter, $sort, $page, $limit);
-        
-        $totalProfessionals = count($professionals); 
-        $totalPages = ceil($totalProfessionals / $limit);
+
+        $totalProfessionals = $professionals->count();
+        $totalPages = (int) ceil($totalProfessionals / $limit);
 
         $allCategories = $categoryRepository->findBy([], ['name' => 'ASC']);
         $allCities = $professionalRepository->findAllCities();
@@ -111,9 +112,24 @@ final class HomeController extends AbstractController
         $categoryCounts = $professionalRepository->countPerCategory();
         $cityCounts = $professionalRepository->countPerCity();
 
+        // SEO: dynamic meta description
+        $metaParts = ['Find verified home renovation professionals in Canada'];
+        if ($keyword) {
+            $metaParts[] = 'matching "' . $keyword . '"';
+        }
+        if (!empty($cities = $request->query->all('cities'))) {
+            $metaParts[] = 'in ' . implode(', ', array_slice($cities, 0, 2));
+        }
+        $metaParts[] = 'on Drilleedo. Compare profiles and get free quotes.';
+        $metaDescription = implode(' ', $metaParts);
+
+        // SEO: canonical strips filters, keeps page number only
+        $canonicalUrl = $this->generateUrl('professionals_list', $page > 1 ? ['page' => $page] : [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+
         return $this->render('home/professionals.html.twig', [
             'controller_name' => 'HomeController',
             'professionals' => $professionals,
+            'totalProfessionals' => $totalProfessionals,
             'allCategories' => $allCategories,
             'allCities' => $allCities,
             'activeFilters' => [
@@ -127,6 +143,8 @@ final class HomeController extends AbstractController
             'cityCounts' => $cityCounts,
             'currentPage' => $page,
             'totalPages' => $totalPages,
+            'metaDescription' => $metaDescription,
+            'canonicalUrl' => $canonicalUrl,
         ]);
     }
     #[Route('/renovation-companies', name: 'companies_list')]
@@ -146,9 +164,9 @@ final class HomeController extends AbstractController
         $limit = 6;
 
         $companies = $companyRepository->findByFilters($filters, $page, $limit);
-        
-        $totalCompanies = count($companies); 
-        $totalPages = ceil($totalCompanies / $limit);
+
+        $totalCompanies = $companies->count();
+        $totalPages = (int) ceil($totalCompanies / $limit);
 
         $allCategories = $categoryRepository->findBy([], ['name' => 'ASC']);
         $allCities = $companyRepository->findAllCities();
@@ -156,9 +174,24 @@ final class HomeController extends AbstractController
         $categoryCounts = $companyRepository->countPerCategory();
         $cityCounts = $companyRepository->countPerCity();
 
+        // SEO: dynamic meta description
+        $metaParts = ['Discover verified home renovation companies in Canada'];
+        if (!empty($filters['keyword'])) {
+            $metaParts[] = 'matching "' . $filters['keyword'] . '"';
+        }
+        if (!empty($filters['cities'])) {
+            $metaParts[] = 'in ' . implode(', ', array_slice($filters['cities'], 0, 2));
+        }
+        $metaParts[] = 'on Drilleedo. Compare profiles and get free quotes.';
+        $metaDescription = implode(' ', $metaParts);
+
+        // SEO: canonical strips filters, keeps page number only
+        $canonicalUrl = $this->generateUrl('companies_list', $page > 1 ? ['page' => $page] : [], \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL);
+
         return $this->render('home/companies.html.twig', [
             'controller_name' => 'HomeController',
             'companies' => $companies,
+            'totalCompanies' => $totalCompanies,
             'allCategories' => $allCategories,
             'allCities' => $allCities,
             'activeFilters' => $filters,
@@ -166,6 +199,8 @@ final class HomeController extends AbstractController
             'cityCounts' => $cityCounts,
             'currentPage' => $page,
             'totalPages' => $totalPages,
+            'metaDescription' => $metaDescription,
+            'canonicalUrl' => $canonicalUrl,
         ]);
     }
 
@@ -245,10 +280,10 @@ final class HomeController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $limit = 6;
         $ideas = $blogRepository->findPaginatedByType('Idea', $page, $limit);
-        
-        $totalIdeas = count($ideas);
-        $totalPages = ceil($totalIdeas / $limit);
-        $ideasArray = iterator_to_array($ideas->getIterator());
+
+        $totalIdeas = $ideas->count();
+        $totalPages = (int) ceil($totalIdeas / $limit);
+        $ideasArray = iterator_to_array($ideas);
 
         return $this->render('home/smartideas.html.twig', [
             'ideas' => $ideasArray,
@@ -382,5 +417,17 @@ final class HomeController extends AbstractController
         }
 
         return new JsonResponse(array_slice($results, 0, 8));
+    }
+
+    /**
+     * Switches the UI language and stores it in the session.
+     * Redirects back to the referring page (or home as fallback).
+     */
+    #[Route('/change-language/{locale}', name: 'app_change_locale', requirements: ['locale' => 'fr|en'])]
+    public function changeLocale(string $locale, Request $request): Response
+    {
+        $request->getSession()->set('_locale', $locale);
+        $referer = $request->headers->get('referer', $this->generateUrl('app_home'));
+        return $this->redirect($referer);
     }
 }

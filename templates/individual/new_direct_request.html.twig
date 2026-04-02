@@ -1,277 +1,745 @@
-{% extends 'base.html.twig' %}
+{% extends 'individual/base_individual.html.twig' %}
 
-{% block title %}Request Quote from {{ targetName }} - Drilleedo{% endblock %}
+{% block title %}{{ 'individual.direct_req_detail_title'|trans }} – {{ targetName }} - Drilleedo{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/individual-dashboard.css') }}">
+{{ parent() }}
+<style>
+/* ═══════════════════════════════════════════════
+   SECTION CARD
+═══════════════════════════════════════════════ */
+.nq-section {
+    background: #fff;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: box-shadow .2s;
+}
+.nq-section:focus-within { box-shadow: 0 4px 12px rgba(249,115,22,.1); border-color: #fed7aa; }
+.nq-section-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f8fafc;
+    background: #fafafa;
+}
+.nq-section-num {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg,#f97316,#ea580c);
+    color: #fff; font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.nq-section-title { font-size: 14px; font-weight: 700; color: #1e293b; margin: 0; }
+.nq-section-sub   { font-size: 12px; color: #94a3b8; margin: 0; }
+.nq-section-body  { padding: 1.5rem; }
+
+/* ═══════════════════════════════════════════════
+   INPUTS
+═══════════════════════════════════════════════ */
+.nq-label {
+    font-size: 12px; font-weight: 600; color: #64748b;
+    text-transform: uppercase; letter-spacing: .05em;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+}
+.nq-label .badge-opt {
+    font-size: 10px; text-transform: none; letter-spacing: 0;
+    background: #f1f5f9; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: 500;
+}
+.nq-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px; color: #1e293b;
+    background: #f8fafc;
+    transition: all .2s;
+    outline: none;
+}
+.nq-input:focus {
+    border-color: #f97316;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(249,115,22,.1);
+}
+.nq-input::placeholder { color: #cbd5e1; }
+textarea.nq-input { resize: vertical; min-height: 120px; line-height: 1.6; }
+select.nq-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+.nq-error { font-size: 12px; color: #ef4444; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+input[type="date"].nq-input { color-scheme: light; }
+
+/* ═══════════════════════════════════════════════
+   DRAG-DROP UPLOAD
+═══════════════════════════════════════════════ */
+.nq-dropzone {
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all .25s;
+    user-select: none;
+}
+.nq-dropzone:hover, .nq-dropzone.drag-over {
+    border-color: #f97316;
+    background: linear-gradient(135deg, #fff7ed, #fff);
+    box-shadow: 0 4px 12px rgba(249,115,22,.1);
+}
+.nq-dropzone-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg,rgba(249,115,22,.12),rgba(249,115,22,.06));
+    color: #f97316; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+}
+.nq-dropzone-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.nq-dropzone-sub   { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
+.nq-dropzone-specs {
+    display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+}
+.nq-dropzone-specs span {
+    font-size: 11px; background: #fff; border: 1px solid #e2e8f0;
+    border-radius: 20px; padding: 3px 10px; color: #64748b;
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.nq-dropzone-specs span i { color: #10b981; font-size: 10px; }
+
+/* Photo preview grid */
+.nq-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+.nq-photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    border: 2px solid #fff;
+    transition: transform .2s;
+}
+.nq-photo-item:hover { transform: scale(1.03); }
+.nq-photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nq-photo-remove {
+    position: absolute; top: 4px; right: 4px;
+    width: 22px; height: 22px;
+    background: rgba(15,23,42,.65); color: #fff;
+    border: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 10px; transition: background .15s;
+    backdrop-filter: blur(2px);
+}
+.nq-photo-remove:hover { background: #ef4444; }
+.nq-photo-count {
+    font-size: 12px; color: #64748b; margin-top: 10px;
+    display: flex; align-items: center; gap: 5px;
+}
+.nq-photo-count span { color: #f97316; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════
+   TOGGLE CHIPS (availabilities / urgence)
+═══════════════════════════════════════════════ */
+.nq-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.nq-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 50px;
+    border: 1.5px solid #e2e8f0; background: #f8fafc;
+    font-size: 13px; font-weight: 500; color: #64748b;
+    cursor: pointer; transition: all .2s; user-select: none;
+}
+.nq-chip input[type="checkbox"],
+.nq-chip input[type="radio"] { display: none; }
+.nq-chip:hover { border-color: #f97316; color: #f97316; background: #fff7ed; }
+.nq-chip.checked { border-color: #f97316; background: linear-gradient(135deg,#fff7ed,#fff); color: #f97316; font-weight: 600; }
+.nq-chip.checked-urgent { border-color: #ef4444; background: #fef2f2; color: #ef4444; font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════ */
+.nq-sidebar { position: sticky; top: 88px; }
+.nq-tip-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.nq-tip-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; }
+.nq-tip-icon.green  { background: #dcfce7; color: #16a34a; }
+.nq-tip-icon.orange { background: #fff7ed; color: #f97316; }
+.nq-tip-icon.blue   { background: #eff6ff; color: #2563eb; }
+
+/* ═══════════════════════════════════════════════
+   SUBMIT BAR
+═══════════════════════════════════════════════ */
+.nq-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: #fff; border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    margin-top: .5rem;
+}
+.nq-btn-submit {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 32px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg,#f97316,#ea580c);
+    color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(249,115,22,.35);
+    transition: all .2s;
+}
+.nq-btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,.4); }
+.nq-btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+.nq-btn-cancel {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 10px;
+    color: #64748b; font-size: 14px; font-weight: 500;
+    text-decoration: none; border: 1.5px solid #e2e8f0;
+    background: #f8fafc; transition: all .2s;
+}
+.nq-btn-cancel:hover { border-color: #94a3b8; color: #1e293b; background: #fff; }
+
+/* Target name accent */
+.nq-target-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 20px;
+    background: linear-gradient(135deg,#fff7ed,#fed7aa);
+    color: #ea580c; font-size: 13px; font-weight: 600;
+    border: 1px solid #fed7aa;
+}
+</style>
 {% endblock %}
 
 {% block body %}
+<div style="max-width: 1100px; margin: 0 auto;">
 
-<!-- Hero Section -->
-<!-- Zenith Banner -->
-<div class="zenith-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1 text-center">
-                 <div class="zenith-title-wrapper">
-                    <span class="zenith-badge">
-                        <i class="feather-star"></i>
-                        Direct Request
-                    </span>
-                    <h1 class="zenith-title">Request Quote from {{ targetName }}</h1>
-                    <p class="description text-white opacity-75" style="max-width: 600px; margin: 0 auto; font-size: 1.2rem;">
-                        Fill out the details below to send a direct request to this specific professional or company.
-                    </p>
-                </div>
+    {# ── Page Header ── #}
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <h4 class="fw-bold mb-1" style="color:#1e293b;">Demande directe</h4>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <p class="text-muted small mb-0">Envoyer une demande de soumission à</p>
+                <span class="nq-target-badge"><i class="feather-user"></i> {{ targetName }}</span>
             </div>
         </div>
+        <a href="{{ path('individual_dashboard') }}" class="nq-btn-cancel">
+            <i class="feather-arrow-left"></i> Retour
+        </a>
     </div>
-</div>
 
-<!-- Form Area -->
-<div class="quote-form-area">
-    <div class="container">
-        {{ form_start(form, {'attr': {'id': 'quoteRequestForm'}}) }}
-        
-        <div class="row g-4">
-            <!-- Left Column - Form Fields -->
-            <div class="col-lg-8">
-                
-                <!-- Request Title -->
-                <div class="zenith-form-box">
-                    <div class="form-box-header">
-                        <div class="form-icon icon-primary">
-                            <i class="feather-edit-3"></i>
-                        </div>
-                        <div class="form-box-title">
-                            <h5>Request Title</h5>
-                            <p>What do you need help with?</p>
-                        </div>
-                    </div>
-                    <div class="form-body">
-                        {{ form_widget(form.title, {
-                            'attr': {
-                                'class': 'zenith-input',
-                                'placeholder': 'E.g., Fix leaking faucet, Kitchen renovation...'
-                            }
-                        }) }}
-                        {{ form_errors(form.title) }}
-                        <div class="form-hint">
-                            <i class="feather-info"></i>
-                            <span>Be specific - it helps them understand your needs better</span>
-                        </div>
+    {{ form_start(form, {'attr': {'id': 'directRequestForm', 'enctype': 'multipart/form-data', 'novalidate': 'novalidate'}}) }}
+    <div class="row g-4 align-items-start">
+        <div class="col-lg-8">
+
+            {# ══════════════════════════════════════════
+               SECTION 1 — Informations de base
+            ══════════════════════════════════════════ #}
+            <div class="nq-section" id="section-1">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">1</div>
+                    <div>
+                        <p class="nq-section-title">Informations de base</p>
+                        <p class="nq-section-sub">Titre, catégorie de service</p>
                     </div>
                 </div>
+                <div class="nq-section-body">
+                    {# Titre #}
+                    <div class="mb-4">
+                        <label class="nq-label" for="{{ form.title.vars.id }}">
+                            <i class="feather-edit-3"></i> Titre de la demande
+                        </label>
+                        {{ form_widget(form.title, {'attr': {
+                            'class': 'nq-input',
+                            'placeholder': 'Ex. : Réfection de toiture, installation électrique...',
+                            'id': form.title.vars.id
+                        }}) }}
+                        {% if form_errors(form.title) %}
+                            <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.title) }}</div>
+                        {% endif %}
+                    </div>
 
-                <!-- Service Category -->
-                <div class="zenith-form-box">
-                    <div class="form-box-header">
-                        <div class="form-icon icon-secondary">
-                            <i class="feather-grid"></i>
-                        </div>
-                        <div class="form-box-title">
-                            <h5>Service Category</h5>
-                            <p>Select the category that best matches your project</p>
-                        </div>
-                    </div>
-                    <div class="form-body">
-                        {{ form_widget(form.category, {
-                            'attr': {
-                                'class': 'zenith-select'
-                            }
-                        }) }}
-                        {{ form_errors(form.category) }}
-                    </div>
-                </div>
-
-                <!-- Request Description -->
-                <div class="zenith-form-box">
-                    <div class="form-box-header">
-                        <div class="form-icon icon-success">
-                            <i class="feather-file-text"></i>
-                        </div>
-                        <div class="form-box-title">
-                            <h5>Request Description</h5>
-                            <p>Tell them what you need done</p>
-                        </div>
-                    </div>
-                    <div class="form-body">
-                        {{ form_widget(form.description, {
-                            'attr': {
-                                'class': 'zenith-textarea',
-                                'placeholder': 'Describe what you need:\n\n• What work needs to be done?\n• Any specific requirements?\n• When do you need this done?'
-                            }
-                        }) }}
-                        {{ form_errors(form.description) }}
-                    </div>
-                </div>
-
-                <!-- Upload Photos -->
-                <div class="zenith-form-box">
-                    <div class="form-box-header">
-                        <div class="form-icon icon-warning">
-                            <i class="feather-image"></i>
-                        </div>
-                        <div class="form-box-title">
-                            <h5>Upload Photos <span class="pro-badge secondary p-0 px-2 ms-2" style="font-size: 0.8rem; font-weight: 500;">Optional</span></h5>
-                            <p>Add images to help them understand what you need</p>
-                        </div>
-                    </div>
-                    <div class="form-body">
-                        <div class="zenith-upload-zone" id="uploadZone">
-                            <div class="upload-icon-wrap">
-                                <i class="feather-upload-cloud"></i>
-                            </div>
-                            <h4 class="upload-title">Drop your photos here</h4>
-                            <p class="upload-subtitle">or click to browse from your device</p>
-                            <div class="upload-specs">
-                                <span><i class="feather-check"></i> JPG, PNG, WEBP</span>
-                                <span><i class="feather-check"></i> Max 5MB each</span>
-                                <span><i class="feather-check"></i> Up to 10 photos</span>
-                            </div>
-                            {{ form_widget(form.images, {
-                                'attr': {
-                                    'class': 'file-input-hidden',
-                                    'id': 'fileInput',
-                                    'onchange': 'handleFileSelect(event)'
-                                }
-                            }) }}
-                        </div>
-                        <div class="preview-grid" id="previewGrid"></div>
-                         {{ form_errors(form.images) }}
+                    {# Catégorie #}
+                    <div class="mb-2">
+                        <label class="nq-label" for="{{ form.category.vars.id }}">
+                            <i class="feather-tag"></i> Catégorie de service <span style="color:#ef4444;">*</span>
+                        </label>
+                        {{ form_widget(form.category, {'attr': {
+                            'class': 'nq-input'
+                        }}) }}
+                        {% if form_errors(form.category) %}
+                            <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.category) }}</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column - Info & Submit -->
-            <div class="col-lg-4">
-                <div class="zenith-sticky-sidebar">
-                    <!-- Info Card -->
-                    <div class="zenith-info-card">
-                        <div class="info-card-header">
-                            <div class="info-header-icon">
-                                <i class="feather-info"></i>
-                            </div>
-                            <h5>What happens next?</h5>
+            {# ══════════════════════════════════════════
+               SECTION 2 — Description du projet
+            ══════════════════════════════════════════ #}
+            <div class="nq-section" id="section-2">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">2</div>
+                    <div>
+                        <p class="nq-section-title">Description du projet</p>
+                        <p class="nq-section-sub">Décrivez votre besoin en détail</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+                    <label class="nq-label" for="dr_description">
+                        <i class="feather-align-left"></i> Description <span style="color:#ef4444;">*</span>
+                    </label>
+                    {{ form_widget(form.description, {'attr': {
+                        'id': 'dr_description',
+                        'class': 'nq-input',
+                        'rows': '7',
+                        'placeholder': "Ex. : Ma cuisine nécessite une rénovation complète. J'ai besoin de remplacer les armoires, le comptoir et la plomberie sous l'évier. Surface approximative de 15 m²..."
+                    }}) }}
+                    <div id="descCharCount" style="font-size:11px;color:#94a3b8;margin-top:4px;text-align:right;">0 caractères</div>
+                    {% if form_errors(form.description) %}
+                        <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.description) }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# ══════════════════════════════════════════
+               SECTION 3 — Photos du projet
+            ══════════════════════════════════════════ #}
+            <div class="nq-section" id="section-3">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">3</div>
+                    <div>
+                        <p class="nq-section-title">
+                            Photos du projet
+                            <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:6px;">optionnel</span>
+                        </p>
+                        <p class="nq-section-sub">Jusqu'à 5 photos · JPG, PNG · Max 5 Mo chacune</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+
+                    {# Drop zone #}
+                    <div class="nq-dropzone" id="nqDropzone" role="button" tabindex="0" aria-label="Zone de dépôt de photos — cliquer ou glisser-déposer">
+                        <div class="nq-dropzone-icon">
+                            <i class="feather-upload-cloud"></i>
                         </div>
-                        <div class="process-steps">
-                            <div class="process-step">
-                                <div class="process-number step-1">1</div>
-                                <div class="process-content">
-                                    <h6>Request Sent</h6>
-                                    <p>{{ targetName }} will receive your request immediately.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="process-number step-2">2</div>
-                                <div class="process-content">
-                                    <h6>Review & Reply</h6>
-                                    <p>They will review your project details and may ask for clarification.</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="process-number step-3">3</div>
-                                <div class="process-content">
-                                    <h6>Get a Quote</h6>
-                                    <p>If they are interested, they will send you a quote or offer.</p>
-                                </div>
-                            </div>
+                        <div class="nq-dropzone-title">Glissez vos photos ici</div>
+                        <div class="nq-dropzone-sub">ou cliquez pour parcourir depuis votre appareil</div>
+                        <div class="nq-dropzone-specs">
+                            <span><i class="feather-check-circle"></i> JPG, PNG, JPEG</span>
+                            <span><i class="feather-check-circle"></i> Max 5 Mo chacune</span>
+                            <span><i class="feather-check-circle"></i> Jusqu'à 5 photos</span>
+                        </div>
+                        {{ form_widget(form.images, {'attr': {
+                            'class': 'd-none',
+                            'accept': 'image/png,image/jpeg,image/jpg,image/webp'
+                        }}) }}
+                    </div>
+
+                    {# Preview grid — affiché après sélection #}
+                    <div class="nq-photo-grid" id="nqPhotoGrid" style="display:none!important;"></div>
+                    <div class="nq-photo-count" id="nqPhotoCount" style="display:none;"></div>
+
+                    {% if form_errors(form.images) %}
+                        <div class="nq-error mt-2"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.images) }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# ══════════════════════════════════════════
+               SECTION 4 — Préférences & Disponibilités
+            ══════════════════════════════════════════ #}
+            <div class="nq-section" id="section-4">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">4</div>
+                    <div>
+                        <p class="nq-section-title">Préférences & Disponibilités</p>
+                        <p class="nq-section-sub">Langue, date de début, disponibilités, urgence</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+
+                    <div class="row g-4">
+                        {# Langues #}
+                        <div class="col-md-6">
+                            <label class="nq-label" for="{{ form.languages.vars.id }}">
+                                <i class="feather-globe"></i> Langue(s) souhaitée(s)
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.languages, {'attr': {
+                                'class': 'nq-input',
+                                'title': 'Sélectionner une ou plusieurs langues'
+                            }}) }}
+                            {{ form_errors(form.languages) }}
+                        </div>
+
+                        {# Date souhaitée de début #}
+                        <div class="col-md-6">
+                            <label class="nq-label" for="{{ form.desiredStartDate.vars.id }}">
+                                <i class="feather-calendar"></i> Date souhaitée de début
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.desiredStartDate, {'attr': {'class': 'nq-input'}}) }}
+                            {{ form_errors(form.desiredStartDate) }}
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="pro-btn pro-btn-lg w-100 py-4 shadow" 
-                            style="background: var(--pro-gradient-primary); color: #fff; border: none; font-size: 1.4rem;">
-                        Send Direct Request <i class="feather-arrow-right ms-2"></i>
-                    </button>
-                    <p class="submit-note">
-                        <i class="feather-lock"></i> Your request is private and secure
-                    </p>
+                    {# Disponibilités — chips cliquables #}
+                    <div class="mt-4">
+                        <label class="nq-label mb-3">
+                            <i class="feather-clock"></i> Disponibilités pour visite / devis
+                        </label>
+                        <div class="nq-chips">
+                            {% for child in form.availabilities %}
+                                <label class="nq-chip" for="{{ child.vars.id }}">
+                                    {{ form_widget(child) }}
+                                    {% if child.vars.label == 'Matin' %}<i class="feather-sun"></i>{% endif %}
+                                    {% if child.vars.label == 'Après-midi' %}<i class="feather-sunset"></i>{% endif %}
+                                    {% if child.vars.label == 'Week-end' %}<i class="feather-calendar"></i>{% endif %}
+                                    {% if child.vars.label == 'Flexible' %}<i class="feather-check-circle"></i>{% endif %}
+                                    {{ child.vars.label }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {{ form_errors(form.availabilities) }}
+                    </div>
+
+                    {# Intervention urgente — chips Oui / Non #}
+                    <div class="mt-4">
+                        <label class="nq-label mb-3">
+                            <i class="feather-zap" style="color:#ef4444;"></i>
+                            Intervention urgente
+                        </label>
+                        <div class="nq-chips">
+                            {% for child in form.urgentIntervention %}
+                                <label class="nq-chip nq-chip-urgence" for="{{ child.vars.id }}">
+                                    {{ form_widget(child) }}
+                                    {% if child.vars.label == 'Oui' %}<i class="feather-alert-triangle" style="color:#ef4444;"></i>{% endif %}
+                                    {% if child.vars.label == 'Non' %}<i class="feather-check"></i>{% endif %}
+                                    {{ child.vars.label }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {{ form_errors(form.urgentIntervention) }}
+                    </div>
+
                 </div>
             </div>
-        </div>
-        {{ form_end(form) }}
-    </div>
-</div>
 
+            {# ── Footer Actions ── #}
+            <div class="nq-footer">
+                <a href="{{ path('individual_dashboard') }}" class="nq-btn-cancel">
+                    <i class="feather-arrow-left"></i> Annuler
+                </a>
+                <button type="submit" id="drSubmitBtn" class="nq-btn-submit">
+                    <i class="feather-send"></i>
+                    Envoyer la demande
+                </button>
+            </div>
+
+        </div>{# /col-lg-8 #}
+
+        {# ══════════════════════════════════════════
+           SIDEBAR
+        ══════════════════════════════════════════ #}
+        <div class="col-lg-4">
+            <div class="nq-sidebar">
+
+                {# Recipient card #}
+                <div class="nq-section mb-3">
+                    <div class="nq-section-head">
+                        <div class="nq-section-num" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+                            <i class="feather-user" style="font-size:13px;"></i>
+                        </div>
+                        <div>
+                            <p class="nq-section-title">Destinataire</p>
+                        </div>
+                    </div>
+                    <div class="nq-section-body py-3">
+                        <div class="d-flex align-items-center gap-3 p-3" style="background:linear-gradient(135deg,#fff7ed,#fff);border-radius:10px;border:1px solid #fed7aa;">
+                            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <i class="feather-briefcase" style="color:#fff;font-size:16px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size:14px;font-weight:700;color:#1e293b;">{{ targetName }}</div>
+                                <div style="font-size:11px;color:#94a3b8;">Votre demande sera envoyée directement</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Tips card #}
+                <div class="nq-section mb-3">
+                    <div class="nq-section-head">
+                        <div class="nq-section-num" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">
+                            <i class="feather-info" style="font-size:13px;"></i>
+                        </div>
+                        <div>
+                            <p class="nq-section-title">Ce qui se passe ensuite</p>
+                        </div>
+                    </div>
+                    <div class="nq-section-body py-3">
+                        <div class="nq-tip-item">
+                            <div class="nq-tip-icon orange"><i class="feather-send"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">
+                                <strong>Demande envoyée</strong><br>
+                                {{ targetName }} recevra votre demande immédiatement.
+                            </div>
+                        </div>
+                        <div class="nq-tip-item">
+                            <div class="nq-tip-icon blue"><i class="feather-eye"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">
+                                <strong>Révision & Réponse</strong><br>
+                                Ils examineront votre projet et pourront demander des précisions.
+                            </div>
+                        </div>
+                        <div class="nq-tip-item mb-0">
+                            <div class="nq-tip-icon green"><i class="feather-check-circle"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">
+                                <strong>Recevez une offre</strong><br>
+                                S'ils sont intéressés, ils vous enverront une soumission.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Live summary card #}
+                <div class="nq-section mt-0" id="nqSummaryCard">
+                    <div class="nq-section-head">
+                        <div class="nq-section-num" style="background:linear-gradient(135deg,#10b981,#059669);">
+                            <i class="feather-check-square" style="font-size:13px;"></i>
+                        </div>
+                        <div><p class="nq-section-title">Récapitulatif</p></div>
+                    </div>
+                    <div class="nq-section-body py-3">
+                        <div class="nq-tip-item mb-2" id="sum-title">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-top:5px;"></div>
+                            <span style="font-size:12px;color:#94a3b8;">Titre non rempli</span>
+                        </div>
+                        <div class="nq-tip-item mb-2" id="sum-cat">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-top:5px;"></div>
+                            <span style="font-size:12px;color:#94a3b8;">Catégorie non sélectionnée</span>
+                        </div>
+                        <div class="nq-tip-item mb-0" id="sum-desc">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-top:5px;"></div>
+                            <span style="font-size:12px;color:#94a3b8;">Description vide</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 p-3 rounded-3" style="background:#f0fdf4;border:1px solid #bbf7d0;font-size:12px;color:#166534;display:flex;align-items:center;gap:8px;">
+                    <i class="feather-lock" style="flex-shrink:0;"></i>
+                    Votre demande est privée et sécurisée
+                </div>
+
+            </div>
+        </div>{# /col-lg-4 #}
+
+    </div>{# /row #}
+    {{ form_end(form) }}
+
+</div>
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
-    // File Upload Handling
-    const uploadZone = document.getElementById('uploadZone');
-    const fileInput = document.getElementById('fileInput');
-    const previewGrid = document.getElementById('previewGrid');
+document.addEventListener('DOMContentLoaded', function () {
 
-    // Drag and drop events
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        uploadZone.addEventListener(eventName, preventDefaults, false);
+    /* ═══════════════════════════════════════════════
+       1. DRAG-DROP PHOTO UPLOAD
+    ═══════════════════════════════════════════════ */
+    const dropzone   = document.getElementById('nqDropzone');
+    // Use querySelector relative to dropzone — Symfony generates its own id attribute
+    // (e.g. "direct_request_images") so getElementById('nqFileInput') would return null.
+    const fileInput  = dropzone ? dropzone.querySelector('input[type="file"]') : null;
+    const photoGrid  = document.getElementById('nqPhotoGrid');
+    const photoCount = document.getElementById('nqPhotoCount');
+    const MAX_FILES  = 5;
+    let selectedFiles = [];
+
+    if (!dropzone || !fileInput) return; // guard: elements not found on this page
+
+    // Click to browse
+    dropzone.addEventListener('click', e => { if (e.target !== fileInput) fileInput.click(); });
+    dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+
+    // Drag events
+    ['dragenter','dragover'].forEach(evt => {
+        dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    });
+    ['dragleave','drop'].forEach(evt => {
+        dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('drag-over'); });
+    });
+    dropzone.addEventListener('drop', e => {
+        addFiles(Array.from(e.dataTransfer.files));
     });
 
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-        uploadZone.addEventListener(eventName, highlight, false);
+    // File input change
+    fileInput.addEventListener('change', () => {
+        addFiles(Array.from(fileInput.files));
+        // NOTE: do NOT clear fileInput.value here — it would wipe the DataTransfer-synced files
     });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-        uploadZone.addEventListener(eventName, unhighlight, false);
-    });
-
-    function highlight(e) {
-        uploadZone.classList.add('dragging');
+    function addFiles(newFiles) {
+        const images = newFiles.filter(f => f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024);
+        const slots  = MAX_FILES - selectedFiles.length;
+        if (slots <= 0) return;
+        selectedFiles = [...selectedFiles, ...images.slice(0, slots)];
+        renderPreviews();
+        syncFileInput();
     }
 
-    function unhighlight(e) {
-        uploadZone.classList.remove('dragging');
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        renderPreviews();
+        syncFileInput();
     }
 
-    uploadZone.addEventListener('drop', handleDrop, false);
+    function renderPreviews() {
+        photoGrid.innerHTML = '';
+        if (selectedFiles.length === 0) {
+            photoGrid.style.setProperty('display', 'none', 'important');
+            photoCount.style.display = 'none';
+            return;
+        }
+        photoGrid.style.removeProperty('display');
+        photoGrid.style.display = 'grid';
 
-    function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        fileInput.files = files; // Update input files
-        handleFiles(files);
+        selectedFiles.forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const item = document.createElement('div');
+                item.className = 'nq-photo-item';
+                item.innerHTML = `
+                    <img src="${e.target.result}" alt="Photo ${idx + 1}">
+                    <button type="button" class="nq-photo-remove" data-idx="${idx}" title="Supprimer">
+                        <i class="feather-x"></i>
+                    </button>`;
+                item.querySelector('.nq-photo-remove').addEventListener('click', ev => {
+                    ev.stopPropagation();
+                    removeFile(parseInt(ev.currentTarget.dataset.idx));
+                });
+                photoGrid.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        const remaining = MAX_FILES - selectedFiles.length;
+        photoCount.style.display = 'flex';
+        photoCount.innerHTML = `<i class="feather-image" style="color:#f97316;font-size:13px;"></i>
+            <span>${selectedFiles.length}</span> photo${selectedFiles.length > 1 ? 's' : ''} sélectionnée${selectedFiles.length > 1 ? 's' : ''}
+            ${remaining > 0 ? `<span style="color:#94a3b8;margin-left:6px;">· ${remaining} emplacement${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''}</span>` : '<span style="color:#f97316;margin-left:6px;">· Limite atteinte</span>'}`;
     }
 
-    function handleFileSelect(e) {
-        const files = e.target.files;
-        handleFiles(files);
+    function syncFileInput() {
+        const dt = new DataTransfer();
+        selectedFiles.forEach(f => dt.items.add(f));
+        fileInput.files = dt.files;
     }
 
-    function handleFiles(files) {
-        previewGrid.innerHTML = ''; // Clear existing previews
-        ([...files]).forEach(previewFile);
+    /* ═══════════════════════════════════════════════
+       2. TOGGLE CHIPS (availabilities + urgence)
+    ═══════════════════════════════════════════════ */
+    function initChips(selector, urgency = false) {
+        document.querySelectorAll(selector).forEach(chip => {
+            const input = chip.querySelector('input');
+            if (!input) return;
+
+            if (input.checked) chip.classList.add(urgency && input.value === '1' ? 'checked-urgent' : 'checked');
+
+            input.addEventListener('change', () => {
+                if (input.type === 'radio') {
+                    document.querySelectorAll(selector).forEach(c => c.classList.remove('checked','checked-urgent'));
+                }
+                if (input.checked) {
+                    chip.classList.add(urgency && (input.value === '1' || input.value === 'true') ? 'checked-urgent' : 'checked');
+                } else {
+                    chip.classList.remove('checked','checked-urgent');
+                }
+            });
+
+            // Prevent browser from double-toggling via the label's default action,
+            // then handle the toggle manually so only one state change occurs.
+            chip.addEventListener('click', e => {
+                if (e.target.tagName === 'INPUT') return;
+                e.preventDefault();
+                if (input.type === 'checkbox') {
+                    input.checked = !input.checked;
+                    input.dispatchEvent(new Event('change'));
+                } else if (input.type === 'radio' && !input.checked) {
+                    input.checked = true;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+    }
+    initChips('.nq-chip:not(.nq-chip-urgence)');
+    initChips('.nq-chip-urgence', true);
+
+    /* ═══════════════════════════════════════════════
+       3. CHARACTER COUNTER
+    ═══════════════════════════════════════════════ */
+    const descTA    = document.getElementById('dr_description');
+    const descCount = document.getElementById('descCharCount');
+    if (descTA && descCount) {
+        const update = () => {
+            const len = descTA.value.length;
+            descCount.textContent = `${len} caractère${len > 1 ? 's' : ''}`;
+            descCount.style.color = len > 50 ? '#10b981' : '#94a3b8';
+        };
+        descTA.addEventListener('input', update);
+        update();
     }
 
-    function previewFile(file) {
-        if (!file.type.startsWith('image/')) return;
+    /* ═══════════════════════════════════════════════
+       4. LIVE SUMMARY SIDEBAR
+    ═══════════════════════════════════════════════ */
+    function updateSummary() {
+        const titleVal = document.getElementById('{{ form.title.vars.id }}')?.value?.trim();
+        const catOpt   = document.querySelector('#{{ form.category.vars.id }} option:checked');
+        const descVal  = descTA?.value?.trim();
 
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = function() {
-            const div = document.createElement('div');
-            div.className = 'preview-item';
-            div.innerHTML = `
-                <img src="${reader.result}" alt="${file.name}">
-                <button type="button" class="preview-remove" onclick="this.parentElement.remove()">
-                    <i class="feather-x"></i>
-                </button>
-            `;
-            previewGrid.appendChild(div);
+        setSummaryItem('sum-title', titleVal ? titleVal : null, 'Titre non rempli');
+        setSummaryItem('sum-cat', catOpt && catOpt.value ? catOpt.text : null, 'Catégorie non sélectionnée');
+        setSummaryItem('sum-desc',
+            descVal && descVal.length > 10 ? descVal.substring(0,60) + (descVal.length > 60 ? '…' : '') : null,
+            'Description vide');
+    }
+
+    function setSummaryItem(id, val, emptyText) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const dot  = el.querySelector('div');
+        const span = el.querySelector('span');
+        if (val) {
+            dot.style.background   = '#10b981';
+            span.style.color       = '#1e293b';
+            span.style.fontWeight  = '500';
+            span.textContent       = val;
+        } else {
+            dot.style.background   = '#e2e8f0';
+            span.style.color       = '#94a3b8';
+            span.style.fontWeight  = '400';
+            span.textContent       = emptyText;
         }
     }
 
-    // Trigger file input when clicking zone
-    uploadZone.addEventListener('click', (e) => {
-        if (e.target !== fileInput) {
-            fileInput.click();
-        }
-    });
+    document.getElementById('{{ form.title.vars.id }}')?.addEventListener('input', updateSummary);
+    document.getElementById('{{ form.category.vars.id }}')?.addEventListener('change', updateSummary);
+    descTA?.addEventListener('input', updateSummary);
+    updateSummary();
+
+    /* ═══════════════════════════════════════════════
+       5. SUBMIT STATE
+    ═══════════════════════════════════════════════ */
+    const formEl = document.getElementById('directRequestForm');
+    if (formEl) {
+        formEl.addEventListener('submit', () => {
+            const btn = document.getElementById('drSubmitBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="feather-loader me-2" style="animation:spin 1s linear infinite;"></i> Envoi en cours…';
+            }
+        });
+    }
+
+});
 </script>
 {% endblock %}

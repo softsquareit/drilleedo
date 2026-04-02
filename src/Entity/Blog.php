@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 
 
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Blog
 {
     #[ORM\Id]
@@ -38,6 +39,9 @@ class Blog
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
+    #[ORM\Column(length: 5, options: ['default' => 'fr'])]
+    private string $locale = 'fr';
+
     #[ORM\ManyToOne]
     private ?Category $category = null;
 
@@ -46,6 +50,9 @@ class Blog
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private bool $isActive = true;
@@ -148,6 +155,18 @@ class Blog
         return $this;
     }
 
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): static
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -182,6 +201,17 @@ class Blog
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function isActive(): bool

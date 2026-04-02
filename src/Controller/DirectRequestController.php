@@ -84,7 +84,7 @@ class DirectRequestController extends AbstractController
             
             // Redirect back to the public profile
             if ($type === 'professional') {
-                return $this->redirectToRoute('professional_public_show', ['id' => $id]);
+                return $this->redirectToRoute('professional_details', ['id' => $id]);
             } else {
                  return $this->redirectToRoute('company_show', ['id' => $id]);
             }

@@ -1,20 +1,44 @@
 {% extends 'individual/base_individual.html.twig' %}
 
-{% block title %}Dashboard - {{ app.user.firstname|default('Individual') }}{% endblock %}
+{% block title %}Dashboard - {{ app.user.personalInfos ? app.user.personalInfos.firstName : 'Individual' }}{% endblock %}
 
 {% block body %}
+
+    {# ── Compute pending offers (published, awaiting decision) ── #}
+    {% set pendingOffersCount = 0 %}
+    {% for q in quotes %}
+        {% for o in q.offers %}
+            {% if o.status|upper == 'PUBLISHED' %}
+                {% set pendingOffersCount = pendingOffersCount + 1 %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+    {# ── Pending offers alert banner ── #}
+    {% if pendingOffersCount > 0 %}
+    <div class="drl-alert drl-alert--warning d-flex align-items-center gap-3 mb-4 shadow-sm">
+        <i class="feather-inbox alert-icon"></i>
+        <div class="alert-content flex-grow-1">
+            <strong>{{ pendingOffersCount }} {{ pendingOffersCount > 1 ? 'individual.bid'|trans ~ 's' : 'individual.bid'|trans }}</strong>
+            {{ 'individual.pending_offers_alert'|trans }}
+        </div>
+        <a href="{{ path('individual_offers') }}" class="drl-act-btn drl-act-btn--view flex-shrink-0 shadow-sm">
+            <i class="feather-eye me-1"></i> {{ 'individual.view_offers'|trans }}
+        </a>
+    </div>
+    {% endif %}
 
     {# ── CTA Banner: nudge the user to post their first request ── #}
     {% if publishedCount == 0 %}
     <div class="drl-pro-info p-4 mb-5 d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div>
-            <h4 class="mb-1 text-white fw-bold">Ready to find the right professional?</h4>
+            <h4 class="mb-1 text-white fw-bold">{{ 'individual.dashboard_title'|trans }}</h4>
             <p class="mb-0 text-white opacity-75">
-                Post your first renovation request in under 2 minutes and receive free quotes from verified pros.
+                {{ 'individual.dashboard_sub'|trans }}
             </p>
         </div>
         <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange shadow-lg" style="background: white !important; color: var(--drl-navy) !important;">
-            <i class="feather-plus me-2"></i> Post a Request
+            <i class="feather-plus me-2"></i> {{ 'individual.dashboard_btn_post'|trans }}
         </a>
     </div>
     {% endif %}
@@ -29,46 +53,51 @@
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ totalRequests }}</h3>
-                        <p class="drl-stat-lbl">Total Requests</p>
+                        <p class="drl-stat-lbl">{{ 'individual.stat_total_requests'|trans }}</p>
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-md-3 col-sm-6">
-            <a href="{{ path('individual_quotes') }}?status=PUBLISHED" class="d-block text-decoration-none h-100">
+            <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--2" style="background: #eff6ff; color: #00509e; border-color: #dbeafe;">
                         <i class="feather-send"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ publishedCount }}</h3>
-                        <p class="drl-stat-lbl">Published</p>
+                        <p class="drl-stat-lbl">{{ 'individual.stat_published'|trans }}</p>
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-md-3 col-sm-6">
             <a href="{{ path('individual_offers') }}" class="d-block text-decoration-none h-100">
-                <div class="drl-stat">
-                    <div class="drl-stat-icon drl-stat-icon--3">
-                        <i class="feather-message-square"></i>
+                <div class="drl-stat {% if pendingOffersCount > 0 %}drl-stat--highlight{% endif %}">
+                    <div class="drl-stat-icon drl-stat-icon--3" {% if pendingOffersCount > 0 %}style="background: #fff7ed; color: #f97316; border-color: #fed7aa;"{% endif %}>
+                        <i class="feather-inbox"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ receivedOffersCount }}</h3>
-                        <p class="drl-stat-lbl">Offers Received</p>
+                        <p class="drl-stat-lbl">{{ 'individual.stat_offers'|trans }}</p>
+                        {% if pendingOffersCount > 0 %}
+                            <span style="font-size: 11px; color: #f97316; font-weight: 700;">
+                                {{ pendingOffersCount }} {{ 'individual.stat_pending'|trans }}
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
             </a>
         </div>
         <div class="col-md-3 col-sm-6">
-            <a href="{{ path('individual_quotes') }}?status=ACCEPTED" class="d-block text-decoration-none h-100">
+            <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--4">
                         <i class="feather-check-circle"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ acceptedOffersCount }}</h3>
-                        <p class="drl-stat-lbl">Accepted</p>
+                        <p class="drl-stat-lbl">{{ 'individual.stat_accepted'|trans }}</p>
                     </div>
                 </div>
             </a>
@@ -77,121 +106,84 @@
 
     <!-- Main Content Grid -->
     <div class="row g-4 mt-1">
-        <!-- Recent Quotes -->
-        <div class="col-lg-8">
-            <div class="drl-card h-100">
-            <div class="drl-card-head">
-                <div>
-                    <h5 class="drl-card-title">Recent Requests</h5>
-                    <p class="drl-card-sub">Your latest quote requests and their status</p>
-                </div>
-                <a href="{{ path('individual_quotes') }}" class="drl-act-btn drl-act-btn--view">View all</a>
-            </div>
-
-            <div class="table-responsive">
-                <table class="drl-table w-100">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Date</th>
-                            <th>Offers</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for quote in quotes|slice(0, 5) %}
-                            <tr>
-                                 <td>
-                                    <div>
-                                        <span class="fw-bold d-block text-dark">{{ quote.title }}</span>
-                                        <span class="text-muted small">{{ quote.description|slice(0, 50) }}...</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="text-muted">{{ quote.creationDate|date('M d, Y') }}</span>
-                                </td>
-                                <td>
-                                    {% set offerCount = quote.offers|length %}
-                                    {% if offerCount > 0 %}
-                                        <span class="drl-tag drl-tag--success">{{ offerCount }} {{ offerCount == 1 ? 'offer' : 'offers' }}</span>
-                                    {% else %}
-                                        <span class="drl-tag drl-tag--draft">No offers yet</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <span class="drl-tag {{ quote.status == 'PUBLISHED' ? 'drl-tag--sent' : (quote.status == 'ACCEPTED' ? 'drl-tag--success' : 'drl-tag--draft') }}">{{ quote.status }}</span>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4" class="pro-table-empty">
-                                    <div class="pro-empty-state">
-                                        <div class="pro-empty-icon">
-                                            <i class="feather-file-text"></i>
-                                        </div>
-                                        <h6 class="pro-empty-title">No requests yet</h6>
-                                        <p class="pro-empty-text">Post your first quote request to get started</p>
-                                        <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange mt-3">
-                                            <i class="feather-plus me-2"></i> Post Request
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-
-        {# ── Notifications Panel ── #}
-        <div class="col-lg-4">
-            <div class="drl-card h-100">
+        <!-- Recent Quote Requests -->
+        <div class="col-12">
+            <div class="drl-card">
                 <div class="drl-card-head">
                     <div>
-                        <h4 class="drl-card-title">
-                            Notifications
-                            {% if unreadCount > 0 %}
-                                <span class="drl-tag drl-tag--danger ms-2">{{ unreadCount }}</span>
-                            {% endif %}
-                        </h4>
+                        <h5 class="drl-card-title">{{ 'individual.recent_requests'|trans }}</h5>
+                        <p class="drl-card-sub">{{ 'individual.recent_sub'|trans }}</p>
                     </div>
-                    {% if unreadCount > 0 %}
-                        <form method="post" action="{{ path('notification_mark_all_read') }}" style="display:inline;">
-                            <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
-                            <button type="submit" class="drl-act-btn drl-act-btn--view border-0" style="font-size: 12px;">
-                                Mark all read
-                            </button>
-                        </form>
-                    {% endif %}
+                    <a href="{{ path('individual_quotes') }}" class="drl-act-btn drl-act-btn--view">{{ 'individual.view_all'|trans }}</a>
                 </div>
 
-                <div class="pro-card-body" style="max-height: 420px; overflow-y: auto; padding: 0;">
-                    {% for notification in notifications %}
-                        <div class="drl-noti-item {{ not notification.read ? 'unread' : '' }}">
-                            <div class="drl-noti-icon {% if 'Accepted' in notification.title or 'Completed' in notification.title %}drl-noti-icon--success{% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}drl-noti-icon--danger{% else %}drl-noti-icon--info{% endif %}">
-                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}
-                                    <i class="feather-check-circle"></i>
-                                {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}
-                                    <i class="feather-x-circle"></i>
-                                {% else %}
-                                    <i class="feather-bell"></i>
-                                {% endif %}
-                            </div>
-                            <div class="flex-grow-1">
-                                <h6 class="drl-noti-title {{ not notification.read ? 'unread' : '' }}">{{ notification.title }}</h6>
-                                <p class="drl-noti-p text-truncate" style="max-width: 250px;">{{ notification.message }}</p>
-                                <span class="drl-noti-time">{{ notification.createdAt|date('M d, H:i') }}</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="text-center py-5 px-3">
-                            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--indiv-bg-gray); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                <i class="feather-bell-off" style="font-size:1.2rem; color:var(--indiv-text-muted);"></i>
-                            </div>
-                            <p class="pro-text-muted mb-0" style="font-size:1rem;">No notifications yet</p>
-                        </div>
-                    {% endfor %}
+                <div class="table-responsive">
+                    <table class="drl-table w-100">
+                        <thead>
+                            <tr>
+                                <th>{{ 'individual.th_title'|trans }}</th>
+                                <th>{{ 'individual.th_date'|trans }}</th>
+                                <th>{{ 'individual.th_offers'|trans }}</th>
+                                <th>{{ 'individual.th_status'|trans }}</th>
+                                <th class="text-end px-4">{{ 'individual.th_actions'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quote in quotes|slice(0, 5) %}
+                                {% set pendingOnQuote = 0 %}
+                                {% for o in quote.offers %}{% if o.status|upper == 'PUBLISHED' %}{% set pendingOnQuote = pendingOnQuote + 1 %}{% endif %}{% endfor %}
+                                <tr>
+                                    <td>
+                                        <div class="px-2">
+                                            <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="fw-bold d-block text-dark text-decoration-none mb-1">{{ quote.title }}</a>
+                                            <span class="text-muted small">{{ quote.description|default('')|slice(0, 60) }}{% if (quote.description|default(''))|length > 60 %}…{% endif %}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted small">{{ quote.creationDate|date('M d, Y') }}</span>
+                                    </td>
+                                    <td>
+                                        {% set offerCount = quote.offers|length %}
+                                        {% if offerCount > 0 %}
+                                            <span class="drl-tag drl-tag--success">{{ 'individual.offers_count'|trans({'%count%': offerCount}) }}</span>
+                                            {% if pendingOnQuote > 0 %}
+                                                <span class="ms-1" style="font-size: 11px; color: #f97316; font-weight: 700;">
+                                                    <i class="feather-zap" style="font-size: 10px;"></i> {{ pendingOnQuote }} {{ 'individual.stat_pending'|trans }}
+                                                </span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="drl-tag drl-tag--draft">{{ 'individual.no_offers_yet'|trans }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="drl-tag {{ quote.status|upper == 'PUBLISHED' ? 'drl-tag--sent' : (quote.status|upper == 'CLOSED' ? 'drl-tag--danger' : (quote.status|upper == 'ACCEPTED' ? 'drl-tag--success' : 'drl-tag--draft')) }}">
+                                            {{ ('status.' ~ quote.status)|trans({}, 'messages') }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end px-3">
+                                        <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="drl-act-btn drl-act-btn--view shadow-sm">
+                                            <i class="feather-eye"></i> {{ 'individual.view'|trans }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="py-5 text-center">
+                                        <div>
+                                            <div class="mb-3 text-muted opacity-25" style="font-size: 4rem;">
+                                                <i class="feather-file-text"></i>
+                                            </div>
+                                            <h6 class="fw-bold text-dark">{{ 'individual.empty_requests_title'|trans }}</h6>
+                                            <p class="text-muted small">{{ 'individual.empty_requests_sub'|trans }}</p>
+                                            <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange mt-3">
+                                                <i class="feather-plus me-2"></i> {{ 'individual.dashboard_btn_post'|trans }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

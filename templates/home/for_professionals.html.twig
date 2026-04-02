@@ -4,6 +4,9 @@
 {% block meta_description %}Join Canada's leading home renovation marketplace. List your professional services on Drilleedo and connect with thousands of homeowners looking for trusted contractors. Free to get started.{% endblock %}
 
 {% block body %}
+<!-- Phosphor Icons -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
 <main id="main-content">
 <style>
 /* ══ GROW YOUR BUSINESS PAGE ══════════════════════════════════════════════
@@ -747,59 +750,59 @@
       <div class="col-lg-7">
         <div class="gyb-hero__inner">
           <div class="gyb-eyebrow">
-            <i class="fas fa-rocket" aria-hidden="true"></i>
-            For Professionals
+            <i class="ph-bold ph-rocket-launch" aria-hidden="true"></i>
+            {{ 'for_pros.hero_eyebrow'|trans }}
           </div>
           <h1 class="gyb-hero__title" id="gyb-hero-title">
-            Grow Your Business<br>with <span>Drilleedo</span>
+            {{ 'for_pros.hero_title'|trans }}<br><span>{{ 'for_pros.hero_title_span'|trans }}</span>
           </h1>
           <p class="gyb-hero__sub">
-            Join Canada's #1 home renovation marketplace. Connect with thousands of homeowners actively looking for verified contractors — no cold calls, no marketing budget needed.
+            {{ 'for_pros.hero_sub'|trans }}
           </p>
           <div class="gyb-hero__actions">
             <a href="{{ path('app_register') }}" class="gyb-btn-orange">
-              Get Started Free <i class="feather-arrow-right" aria-hidden="true"></i>
+              {{ 'for_pros.hero_cta1'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
             </a>
             <a href="{{ path('professionals_list') }}" class="gyb-btn-white">
-              See How It Works
+              {{ 'for_pros.hero_cta2'|trans }}
             </a>
           </div>
           <div class="gyb-hero__trust">
-            <span><i class="feather-check-circle" aria-hidden="true"></i> Free to join</span>
-            <span><i class="feather-users"        aria-hidden="true"></i> 10,000+ homeowners</span>
-            <span><i class="feather-star"         aria-hidden="true"></i> Verified reviews</span>
+            <span><i class="ph-bold ph-check-circle" aria-hidden="true"></i> Free to join</span>
+            <span><i class="ph-bold ph-users"        aria-hidden="true"></i> 10,000+ homeowners</span>
+            <span><i class="ph-bold ph-star"         aria-hidden="true"></i> Verified reviews</span>
           </div>
         </div>
       </div>
       <div class="col-lg-5">
         <div class="gyb-hero__card">
-          <div class="gyb-hero__card-title">📊 Platform at a Glance</div>
+          <div class="gyb-hero__card-title">{{ 'for_pros.stat_glance'|trans }}</div>
           <div class="gyb-prof-stat">
-            <div class="gyb-prof-stat__ico">👥</div>
+            <div class="gyb-prof-stat__ico"><i class="ph-bold ph-users text-white"></i></div>
             <div>
               <div class="gyb-prof-stat__num">10,000+</div>
-              <div class="gyb-prof-stat__lbl">Active Homeowners</div>
+              <div class="gyb-prof-stat__lbl">{{ 'for_pros.stat_lbl1'|trans }}</div>
             </div>
           </div>
           <div class="gyb-prof-stat">
-            <div class="gyb-prof-stat__ico">📋</div>
+            <div class="gyb-prof-stat__ico"><i class="ph-bold ph-clipboard-text text-white"></i></div>
             <div>
               <div class="gyb-prof-stat__num">35,000+</div>
-              <div class="gyb-prof-stat__lbl">Projects Posted</div>
+              <div class="gyb-prof-stat__lbl">{{ 'for_pros.stat_lbl2'|trans }}</div>
             </div>
           </div>
           <div class="gyb-prof-stat">
-            <div class="gyb-prof-stat__ico">💰</div>
+            <div class="gyb-prof-stat__ico"><i class="ph-bold ph-currency-dollar text-white"></i></div>
             <div>
               <div class="gyb-prof-stat__num">$2,800</div>
-              <div class="gyb-prof-stat__lbl">Avg. Project Value</div>
+              <div class="gyb-prof-stat__lbl">{{ 'for_pros.stat_lbl3'|trans }}</div>
             </div>
           </div>
           <div class="gyb-prof-stat">
-            <div class="gyb-prof-stat__ico">⚡</div>
+            <div class="gyb-prof-stat__ico"><i class="ph-bold ph-lightning text-white"></i></div>
             <div>
               <div class="gyb-prof-stat__num">&lt; 24h</div>
-              <div class="gyb-prof-stat__lbl">Average Lead Time</div>
+              <div class="gyb-prof-stat__lbl">{{ 'for_pros.stat_lbl4'|trans }}</div>
             </div>
           </div>
         </div>
@@ -813,38 +816,38 @@
   <div class="gyb-strip__grid">
     <div class="gyb-strip__cell">
       <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#0d2151,#1a3a6b);color:#fff;">
-        <i class="fas fa-hard-hat" aria-hidden="true"></i>
+        <i class="ph-bold ph-hard-hat" aria-hidden="true"></i>
       </div>
       <div>
         <div class="gyb-strip__num">1,500+</div>
-        <div class="gyb-strip__lbl">Active Professionals</div>
+        <div class="gyb-strip__lbl">{{ 'for_pros.strip_lbl1'|trans }}</div>
       </div>
     </div>
     <div class="gyb-strip__cell">
       <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#00509e,#2196f3);color:#fff;">
-        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+        <i class="ph-bold ph-clipboard-text" aria-hidden="true"></i>
       </div>
       <div>
         <div class="gyb-strip__num">35,000+</div>
-        <div class="gyb-strip__lbl">Projects Completed</div>
+        <div class="gyb-strip__lbl">{{ 'for_pros.strip_lbl2'|trans }}</div>
       </div>
     </div>
     <div class="gyb-strip__cell">
       <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;">
-        <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+        <i class="ph-bold ph-currency-dollar" aria-hidden="true"></i>
       </div>
       <div>
         <div class="gyb-strip__num">$2,800</div>
-        <div class="gyb-strip__lbl">Avg. Contract Value</div>
+        <div class="gyb-strip__lbl">{{ 'for_pros.strip_lbl3'|trans }}</div>
       </div>
     </div>
     <div class="gyb-strip__cell">
       <div class="gyb-strip__ico" style="background:linear-gradient(135deg,#c73d0d,#e8501a);color:#fff;">
-        <i class="fas fa-star" aria-hidden="true"></i>
+        <i class="ph-bold ph-star" aria-hidden="true"></i>
       </div>
       <div>
         <div class="gyb-strip__num">4.8 / 5</div>
-        <div class="gyb-strip__lbl">Professional Rating</div>
+        <div class="gyb-strip__lbl">{{ 'for_pros.strip_lbl4'|trans }}</div>
       </div>
     </div>
   </div>
@@ -858,41 +861,41 @@
   <div class="container">
     <div class="text-center">
       <div class="gyb-section-eyebrow">
-        <i class="fas fa-list-ol" aria-hidden="true"></i>
-        Getting Started
+        <i class="ph-bold ph-list-numbers" aria-hidden="true"></i>
+        {{ 'for_pros.join_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title" id="join-heading">List Your Business in <span>4 Simple Steps</span></h2>
-      <p class="gyb-section-sub mx-auto">From signup to receiving your first project lead in minutes — no technical knowledge required.</p>
+      <h2 class="gyb-section-title" id="join-heading">{{ 'for_pros.join_title'|trans }} <span>{{ 'for_pros.join_title_span'|trans }}</span></h2>
+      <p class="gyb-section-sub mx-auto">{{ 'for_pros.join_sub'|trans }}</p>
     </div>
 
     <div class="gyb-steps" role="list">
       <div class="gyb-step" role="listitem">
         <span class="gyb-step__num" aria-label="Step 1">1</span>
-        <div class="gyb-step__ico"><i class="feather-user-plus" aria-hidden="true"></i></div>
+        <div class="gyb-step__ico"><i class="ph-bold ph-user-plus" aria-hidden="true"></i></div>
         <span class="gyb-step__chip">Step 01</span>
-        <h3 class="gyb-step__title">Create Your Account</h3>
-        <p class="gyb-step__desc">Sign up free in under 2 minutes. Enter your name, email, and professional category.</p>
+        <h3 class="gyb-step__title">{{ 'for_pros.join_step1_title'|trans }}</h3>
+        <p class="gyb-step__desc">{{ 'for_pros.join_step1_desc'|trans }}</p>
       </div>
       <div class="gyb-step" role="listitem">
         <span class="gyb-step__num" aria-label="Step 2">2</span>
-        <div class="gyb-step__ico"><i class="feather-edit-2" aria-hidden="true"></i></div>
+        <div class="gyb-step__ico"><i class="ph-bold ph-pencil-simple" aria-hidden="true"></i></div>
         <span class="gyb-step__chip">Step 02</span>
-        <h3 class="gyb-step__title">Build Your Profile</h3>
-        <p class="gyb-step__desc">Add your services, portfolio, certifications, and service zone to stand out from the crowd.</p>
+        <h3 class="gyb-step__title">{{ 'for_pros.join_step2_title'|trans }}</h3>
+        <p class="gyb-step__desc">{{ 'for_pros.join_step2_desc'|trans }}</p>
       </div>
       <div class="gyb-step" role="listitem">
         <span class="gyb-step__num" aria-label="Step 3">3</span>
-        <div class="gyb-step__ico"><i class="feather-shield" aria-hidden="true"></i></div>
+        <div class="gyb-step__ico"><i class="ph-bold ph-shield-check" aria-hidden="true"></i></div>
         <span class="gyb-step__chip">Step 03</span>
-        <h3 class="gyb-step__title">Get Verified</h3>
-        <p class="gyb-step__desc">Our team reviews your credentials and licenses. Verified profiles receive priority in search results.</p>
+        <h3 class="gyb-step__title">{{ 'for_pros.join_step3_title'|trans }}</h3>
+        <p class="gyb-step__desc">{{ 'for_pros.join_step3_desc'|trans }}</p>
       </div>
       <div class="gyb-step" role="listitem">
         <span class="gyb-step__num" aria-label="Step 4">4</span>
-        <div class="gyb-step__ico"><i class="feather-briefcase" aria-hidden="true"></i></div>
+        <div class="gyb-step__ico"><i class="ph-bold ph-briefcase" aria-hidden="true"></i></div>
         <span class="gyb-step__chip">Step 04</span>
-        <h3 class="gyb-step__title">Receive Project Leads</h3>
-        <p class="gyb-step__desc">Homeowners find your profile, request quotes, and contact you directly — you control your pipeline.</p>
+        <h3 class="gyb-step__title">{{ 'for_pros.join_step4_title'|trans }}</h3>
+        <p class="gyb-step__desc">{{ 'for_pros.join_step4_desc'|trans }}</p>
       </div>
     </div>
   </div>
@@ -906,55 +909,55 @@
   <div class="container">
     <div class="text-center">
       <div class="gyb-section-eyebrow">
-        <i class="fas fa-gem" aria-hidden="true"></i>
-        Benefits
+        <i class="ph-bold ph-diamond" aria-hidden="true"></i>
+        {{ 'for_pros.bene_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title" id="benefits-heading">Everything You Need to <span>Win More Clients</span></h2>
-      <p class="gyb-section-sub mx-auto">Drilleedo gives you the tools to grow your renovation business without the usual headaches.</p>
+      <h2 class="gyb-section-title" id="benefits-heading">{{ 'for_pros.bene_title'|trans }} <span>{{ 'for_pros.bene_title_span'|trans }}</span></h2>
+      <p class="gyb-section-sub mx-auto">{{ 'for_pros.bene_sub'|trans }}</p>
     </div>
 
     <div class="gyb-benefits-grid">
       <div class="gyb-benefit-card">
         <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#0d2151,#1a3a6b);">
-          <i class="feather-users" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+          <i class="ph-bold ph-users" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
         </div>
-        <h3 class="gyb-benefit-title">Targeted Leads</h3>
-        <p class="gyb-benefit-desc">Receive project leads from homeowners in your specific service area and trade category — no junk contacts.</p>
+        <h3 class="gyb-benefit-title">{{ 'for_pros.bene1_title'|trans }}</h3>
+        <p class="gyb-benefit-desc">{{ 'for_pros.bene1_desc'|trans }}</p>
       </div>
       <div class="gyb-benefit-card">
         <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#00509e,#2196f3);">
-          <i class="feather-trending-up" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+          <i class="ph-bold ph-trend-up" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
         </div>
-        <h3 class="gyb-benefit-title">Increased Visibility</h3>
-        <p class="gyb-benefit-desc">Your public profile appears in search results across Canada, building your online presence automatically.</p>
+        <h3 class="gyb-benefit-title">{{ 'for_pros.bene2_title'|trans }}</h3>
+        <p class="gyb-benefit-desc">{{ 'for_pros.bene2_desc'|trans }}</p>
       </div>
       <div class="gyb-benefit-card">
         <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);">
-          <i class="feather-star" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+          <i class="ph-bold ph-star" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
         </div>
-        <h3 class="gyb-benefit-title">Verified Reviews</h3>
-        <p class="gyb-benefit-desc">Collect authentic reviews from your clients. A strong rating profile is your best sales tool.</p>
+        <h3 class="gyb-benefit-title">{{ 'for_pros.bene3_title'|trans }}</h3>
+        <p class="gyb-benefit-desc">{{ 'for_pros.bene3_desc'|trans }}</p>
       </div>
       <div class="gyb-benefit-card">
         <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#c73d0d,#e8501a);">
-          <i class="feather-layers" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+          <i class="ph-bold ph-stack" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
         </div>
-        <h3 class="gyb-benefit-title">Portfolio Showcase</h3>
-        <p class="gyb-benefit-desc">Upload photos of your best projects. A visual portfolio converts visitors into clients faster than any description.</p>
+        <h3 class="gyb-benefit-title">{{ 'for_pros.bene4_title'|trans }}</h3>
+        <p class="gyb-benefit-desc">{{ 'for_pros.bene4_desc'|trans }}</p>
       </div>
       <div class="gyb-benefit-card">
         <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">
-          <i class="feather-message-circle" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+          <i class="ph-bold ph-chat-circle" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
         </div>
-        <h3 class="gyb-benefit-title">Direct Messaging</h3>
-        <p class="gyb-benefit-desc">Homeowners contact you directly through the platform. No intermediary, no delays, no commissions on contact.</p>
+        <h3 class="gyb-benefit-title">{{ 'for_pros.bene5_title'|trans }}</h3>
+        <p class="gyb-benefit-desc">{{ 'for_pros.bene5_desc'|trans }}</p>
       </div>
       <div class="gyb-benefit-card">
         <div class="gyb-benefit-ico" style="background:linear-gradient(135deg,#0891b2,#06b6d4);">
-          <i class="feather-bar-chart-2" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
+          <i class="ph-bold ph-chart-bar" aria-hidden="true" style="font-size:22px;color:#fff;"></i>
         </div>
-        <h3 class="gyb-benefit-title">Dashboard Analytics</h3>
-        <p class="gyb-benefit-desc">Track views, leads, and quote requests on your personal dashboard. Understand what's working and grow strategically.</p>
+        <h3 class="gyb-benefit-title">{{ 'for_pros.bene6_title'|trans }}</h3>
+        <p class="gyb-benefit-desc">{{ 'for_pros.bene6_desc'|trans }}</p>
       </div>
     </div>
   </div>
@@ -1328,15 +1331,14 @@
     {# ── Header ── #}
     <div class="gyb-why__header">
       <div class="gyb-why__eyebrow">
-        <i class="fas fa-bolt" aria-hidden="true"></i>
-        Why Drilleedo
+        <i class="ph-bold ph-lightning" aria-hidden="true"></i>
+        {{ 'for_pros.why_eyebrow'|trans }}
       </div>
       <h2 class="gyb-why__title" id="why-join-heading">
-        Why <span>Join</span> Drilleedo?
+        {{ 'for_pros.why_title'|trans }} <span>{{ 'for_pros.why_title_span'|trans }}</span> {{ 'for_pros.why_title_after'|trans }}
       </h2>
       <p class="gyb-why__sub">
-        Stop chasing clients. Start building a business that works for you.<br>
-        Drilleedo is built specifically for Canadian renovation professionals — by people who understand your industry.
+        {{ 'for_pros.why_sub'|trans|raw }}
       </p>
     </div>
 
@@ -1346,50 +1348,50 @@
       {# Left: Qualified Leads #}
       <div class="gyb-spotlight-card">
         <div class="gyb-spotlight-ico gyb-spotlight-ico--navy">
-          <i class="feather-target" aria-hidden="true"></i>
+          <i class="ph-bold ph-crosshair" aria-hidden="true"></i>
         </div>
-        <h3 class="gyb-spotlight-title">Qualified Leads, Not Noise</h3>
+        <h3 class="gyb-spotlight-title">{{ 'for_pros.spot1_title'|trans }}</h3>
         <p class="gyb-spotlight-desc">
-          Every lead you receive is from a real homeowner with an active project. No spam directories, no cold calls — just genuine opportunities matched to your trade.
+          {{ 'for_pros.spot1_desc'|trans }}
         </p>
         <ul class="gyb-spotlight-list">
-          <li><i class="feather-check" aria-hidden="true"></i> Geo-targeted by service zone</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Filtered by project category</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Verified homeowner intent</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot1_li1'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot1_li2'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot1_li3'|trans }}</li>
         </ul>
       </div>
 
       {# Center: Full Control (featured) #}
       <div class="gyb-spotlight-card gyb-spotlight-card--featured">
-        <div class="gyb-spotlight-badge">⭐ Core Advantage</div>
+        <div class="gyb-spotlight-badge">{{ 'for_pros.spot2_badge'|trans }}</div>
         <div class="gyb-spotlight-ico gyb-spotlight-ico--orng">
-          <i class="feather-command" aria-hidden="true"></i>
+          <i class="ph-bold ph-sliders" aria-hidden="true"></i>
         </div>
-        <h3 class="gyb-spotlight-title">You're in Complete Control</h3>
+        <h3 class="gyb-spotlight-title">{{ 'for_pros.spot2_title'|trans }}</h3>
         <p class="gyb-spotlight-desc">
-          Set your categories, service areas, and availability. Accept or decline leads freely. Drilleedo is a tool that serves your business — not the other way around.
+          {{ 'for_pros.spot2_desc'|trans }}
         </p>
         <ul class="gyb-spotlight-list">
-          <li><i class="feather-check" aria-hidden="true"></i> No forced commitment or exclusivity</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Your pricing, your contracts, your clients</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Cancel or upgrade anytime, no fees</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Real-time dashboard to track performance</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot2_li1'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot2_li2'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot2_li3'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot2_li4'|trans }}</li>
         </ul>
       </div>
 
       {# Right: Credibility #}
       <div class="gyb-spotlight-card">
         <div class="gyb-spotlight-ico gyb-spotlight-ico--green">
-          <i class="feather-shield" aria-hidden="true"></i>
+          <i class="ph-bold ph-shield-check" aria-hidden="true"></i>
         </div>
-        <h3 class="gyb-spotlight-title">Build Lasting Credibility</h3>
+        <h3 class="gyb-spotlight-title">{{ 'for_pros.spot3_title'|trans }}</h3>
         <p class="gyb-spotlight-desc">
-          Our verified badge, certified reviews, and professional portfolio give homeowners confidence before they even pick up the phone. Your reputation, amplified.
+          {{ 'for_pros.spot3_desc'|trans }}
         </p>
         <ul class="gyb-spotlight-list">
-          <li><i class="feather-check" aria-hidden="true"></i> Verified badge on your public profile</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Certified, tamper-proof reviews</li>
-          <li><i class="feather-check" aria-hidden="true"></i> Ranked higher in platform search</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot3_li1'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot3_li2'|trans }}</li>
+          <li><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.spot3_li3'|trans }}</li>
         </ul>
       </div>
 
@@ -1399,58 +1401,58 @@
     {# ── Comparison table: Drilleedo vs. typical alternatives ── #}
     <div class="gyb-compare">
       <div class="gyb-compare__header">
-        <span class="gyb-compare__label">Side by Side</span>
-        <h3 class="gyb-compare__title">Drilleedo vs. Traditional Methods</h3>
+        <span class="gyb-compare__label">{{ 'for_pros.comp_label'|trans }}</span>
+        <h3 class="gyb-compare__title">{{ 'for_pros.comp_title'|trans }}</h3>
       </div>
       <div style="overflow-x: auto;">
         <table class="gyb-compare-table" aria-label="Comparison of Drilleedo vs. traditional methods">
           <thead>
             <tr>
-              <th class="gyb-th-feature" scope="col">Feature</th>
-              <th class="gyb-th-drilleedo" scope="col">🏠 Drilleedo</th>
-              <th class="gyb-th-other" scope="col">Word of Mouth</th>
-              <th class="gyb-th-other" scope="col">Paid Ads</th>
+              <th class="gyb-th-feature" scope="col">{{ 'for_pros.comp_th1'|trans }}</th>
+              <th class="gyb-th-drilleedo" scope="col">{{ 'for_pros.comp_th2'|trans }}</th>
+              <th class="gyb-th-other" scope="col">{{ 'for_pros.comp_th3'|trans }}</th>
+              <th class="gyb-th-other" scope="col">{{ 'for_pros.comp_th4'|trans }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="gyb-td-feature">Qualified homeowner leads</td>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f1'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
-              <td class="gyb-td-feature">Verified professional badge</td>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f2'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
-              <td class="gyb-td-feature">No commission per project</td>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f3'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-yes">✓</span></td>
-            </tr>
-            <tr>
-              <td class="gyb-td-feature">Portfolio & review showcase</td>
-              <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-no">—</span></td>
-              <td><span class="gyb-check-no">—</span></td>
-            </tr>
-            <tr>
-              <td class="gyb-td-feature">Canada-wide reach</td>
-              <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
             </tr>
             <tr>
-              <td class="gyb-td-feature">Zero upfront cost to start</td>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f4'|trans }}</td>
+              <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
+              <td><span class="gyb-check-no">—</span></td>
+              <td><span class="gyb-check-no">—</span></td>
+            </tr>
+            <tr>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f5'|trans }}</td>
+              <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
+              <td><span class="gyb-check-no">—</span></td>
+              <td><span class="gyb-check-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f6'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
-              <td class="gyb-td-feature">Analytics & lead tracking</td>
+              <td class="gyb-td-feature">{{ 'for_pros.comp_f7'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
@@ -1465,23 +1467,23 @@
     <div class="gyb-callout">
       <div class="gyb-callout__text">
         <p class="gyb-callout__quote">
-          "Drilleedo completely changed how I find clients. I went from struggling to find work to turning down projects because I'm fully booked — all within 3 months."
+          {{ 'for_pros.quote_text'|trans }}
         </p>
         <div class="gyb-callout__author">
           <div class="gyb-callout__ava" aria-hidden="true">AB</div>
           <div>
-            <div class="gyb-callout__name">Alex Bouchard</div>
-            <div class="gyb-callout__role">Electrician · Ottawa, ON</div>
+            <div class="gyb-callout__name">{{ 'for_pros.quote_author'|trans }}</div>
+            <div class="gyb-callout__role">{{ 'for_pros.quote_role'|trans }}</div>
           </div>
         </div>
       </div>
       <div class="gyb-callout__stat">
-        <div class="gyb-callout__stat-num">3×</div>
-        <div class="gyb-callout__stat-lbl">More Bookings</div>
+        <div class="gyb-callout__stat-num">{{ 'for_pros.quote_stat1_num'|trans }}</div>
+        <div class="gyb-callout__stat-lbl">{{ 'for_pros.quote_stat1_lbl'|trans }}</div>
       </div>
       <div class="gyb-callout__stat">
-        <div class="gyb-callout__stat-num">90d</div>
-        <div class="gyb-callout__stat-lbl">To Full Pipeline</div>
+        <div class="gyb-callout__stat-num">{{ 'for_pros.quote_stat2_num'|trans }}</div>
+        <div class="gyb-callout__stat-lbl">{{ 'for_pros.quote_stat2_lbl'|trans }}</div>
       </div>
     </div>
     {# /callout #}
@@ -1498,75 +1500,75 @@
   <div class="container">
     <div class="text-center">
       <div class="gyb-section-eyebrow">
-        <i class="fas fa-tag" aria-hidden="true"></i>
-        Pricing
+        <i class="ph-bold ph-tag" aria-hidden="true"></i>
+        {{ 'for_pros.price_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title" id="pricing-heading">Simple, <span>Transparent</span> Pricing</h2>
-      <p class="gyb-section-sub mx-auto">Start free and upgrade as you grow. No long-term contracts, cancel anytime.</p>
+      <h2 class="gyb-section-title" id="pricing-heading">{{ 'for_pros.price_title'|trans }}<span>{{ 'for_pros.price_title_span'|trans }}</span>{{ 'for_pros.price_title_after'|trans }}</h2>
+      <p class="gyb-section-sub mx-auto">{{ 'for_pros.price_sub'|trans }}</p>
     </div>
 
     <div class="gyb-plans">
       {# Free #}
       <div class="gyb-plan gyb-plan--basic">
         <div class="gyb-plan__head">
-          <div class="gyb-plan__name">Starter</div>
-          <div class="gyb-plan__price">Free</div>
-          <div class="gyb-plan__price-note">Forever, no credit card</div>
+          <div class="gyb-plan__name">{{ 'for_pros.plan1_name'|trans }}</div>
+          <div class="gyb-plan__price">{{ 'for_pros.plan1_price'|trans }}</div>
+          <div class="gyb-plan__price-note">{{ 'for_pros.plan1_note'|trans }}</div>
         </div>
         <div class="gyb-plan__body">
           <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Public profile listing</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Up to 3 portfolio photos</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Receive quote requests</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Customer reviews</li>
-            <li class="gyb-plan__feature gyb-no"><i class="feather-x" aria-hidden="true"></i> Priority in search results</li>
-            <li class="gyb-plan__feature gyb-no"><i class="feather-x" aria-hidden="true"></i> Verified badge</li>
-            <li class="gyb-plan__feature gyb-no"><i class="feather-x" aria-hidden="true"></i> Analytics dashboard</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f1'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f2'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f3'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f4'|trans }}</li>
+            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no1'|trans }}</li>
+            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no2'|trans }}</li>
+            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no3'|trans }}</li>
           </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">Get Started Free</a>
+          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan1_cta'|trans }}</a>
         </div>
       </div>
 
       {# Pro — Popular #}
       <div class="gyb-plan gyb-plan--popular">
-        <div class="gyb-plan__popular-badge">Most Popular</div>
+        <div class="gyb-plan__popular-badge">{{ 'for_pros.plan2_badge'|trans }}</div>
         <div class="gyb-plan__head">
-          <div class="gyb-plan__name">Professional</div>
-          <div class="gyb-plan__price">$29<span style="font-size:18px;font-weight:600;">/mo</span></div>
-          <div class="gyb-plan__price-note">Billed monthly</div>
+          <div class="gyb-plan__name">{{ 'for_pros.plan2_name'|trans }}</div>
+          <div class="gyb-plan__price">{{ 'for_pros.plan2_price'|trans }}<span style="font-size:18px;font-weight:600;">{{ 'for_pros.plan2_price_mo'|trans }}</span></div>
+          <div class="gyb-plan__price-note">{{ 'for_pros.plan2_note'|trans }}</div>
         </div>
         <div class="gyb-plan__body">
           <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Everything in Starter</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Unlimited portfolio photos</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Priority in search results</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> ✅ Verified badge</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Analytics dashboard</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Featured on homepage</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Direct leads — no limits</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f1'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f2'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f3'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f4'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f5'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f6'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f7'|trans }}</li>
           </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">Start 14-Day Free Trial</a>
+          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan2_cta'|trans }}</a>
         </div>
       </div>
 
       {# Enterprise #}
       <div class="gyb-plan gyb-plan--enterprise">
         <div class="gyb-plan__head">
-          <div class="gyb-plan__name">Company</div>
-          <div class="gyb-plan__price">$79<span style="font-size:18px;font-weight:600;">/mo</span></div>
-          <div class="gyb-plan__price-note">For teams & companies</div>
+          <div class="gyb-plan__name">{{ 'for_pros.plan3_name'|trans }}</div>
+          <div class="gyb-plan__price">{{ 'for_pros.plan3_price'|trans }}<span style="font-size:18px;font-weight:600;">{{ 'for_pros.plan3_price_mo'|trans }}</span></div>
+          <div class="gyb-plan__price-note">{{ 'for_pros.plan3_note'|trans }}</div>
         </div>
         <div class="gyb-plan__body">
           <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Everything in Professional</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Company profile page</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Multiple team members</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Advanced analytics</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Dedicated account manager</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Custom service zones</li>
-            <li class="gyb-plan__feature"><i class="feather-check" aria-hidden="true"></i> Priority support</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f1'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f2'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f3'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f4'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f5'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f6'|trans }}</li>
+            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f7'|trans }}</li>
           </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">Contact Sales</a>
+          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan3_cta'|trans }}</a>
         </div>
       </div>
     </div>
@@ -1581,10 +1583,10 @@
   <div class="container">
     <div class="text-center">
       <div class="gyb-section-eyebrow">
-        <i class="fas fa-quote-left" aria-hidden="true"></i>
-        Success Stories
+        <i class="ph-bold ph-quotes" aria-hidden="true"></i>
+        {{ 'for_pros.testi_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title" id="testimonials-heading">What Professionals Say About <span>Drilleedo</span></h2>
+      <h2 class="gyb-section-title" id="testimonials-heading">{{ 'for_pros.testi_title'|trans }}<span>{{ 'for_pros.testi_title_span'|trans }}</span></h2>
     </div>
     <div class="gyb-testimonials">
       <div class="gyb-testimonial">
@@ -1632,47 +1634,47 @@
   <div class="container">
     <div class="text-center">
       <div class="gyb-section-eyebrow">
-        <i class="feather-help-circle" aria-hidden="true"></i>
-        FAQ
+        <i class="ph-bold ph-question" aria-hidden="true"></i>
+        {{ 'for_pros.faq_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title" id="faq-heading">Questions from Professionals</h2>
+      <h2 class="gyb-section-title" id="faq-heading">{{ 'for_pros.faq_title'|trans }}</h2>
     </div>
 
     <div class="gyb-faq-list" role="list">
       <div class="gyb-faq-item" role="listitem">
         <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
-          How much does it cost to list my business?
+          {{ 'for_pros.faq_q1'|trans }}
           <span class="gyb-faq-arrow" aria-hidden="true">+</span>
         </button>
-        <div class="gyb-faq-body">Creating a Starter profile on Drilleedo is completely free and has no time limit. You can receive quote requests and reviews without paying anything. Our Professional plan at $29/month unlocks priority listing, the verified badge, and advanced analytics.</div>
+        <div class="gyb-faq-body">{{ 'for_pros.faq_a1'|trans }}</div>
       </div>
       <div class="gyb-faq-item" role="listitem">
         <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
-          Do I pay a commission on every project I win?
+          {{ 'for_pros.faq_q2'|trans }}
           <span class="gyb-faq-arrow" aria-hidden="true">+</span>
         </button>
-        <div class="gyb-faq-body">No. Drilleedo operates on a subscription model, not a commission model. Once a homeowner contacts you and you agree on a project, 100% of the contract value is yours. We never take a cut of your earnings.</div>
+        <div class="gyb-faq-body">{{ 'for_pros.faq_a2'|trans }}</div>
       </div>
       <div class="gyb-faq-item" role="listitem">
         <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
-          How long does the verification process take?
+          {{ 'for_pros.faq_q3'|trans }}
           <span class="gyb-faq-arrow" aria-hidden="true">+</span>
         </button>
-        <div class="gyb-faq-body">Most verification reviews are completed within 1–3 business days. You'll need to provide a valid government ID, your RBQ license number (if applicable), and proof of liability insurance. Once verified, the badge appears on your profile immediately.</div>
+        <div class="gyb-faq-body">{{ 'for_pros.faq_a3'|trans }}</div>
       </div>
       <div class="gyb-faq-item" role="listitem">
         <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
-          Can I control which types of projects I receive?
+          {{ 'for_pros.faq_q4'|trans }}
           <span class="gyb-faq-arrow" aria-hidden="true">+</span>
         </button>
-        <div class="gyb-faq-body">Yes. During profile setup you define your service categories, service zone radius, and the types of projects you accept. Homeowners who match your criteria will be able to find and contact you — you're always in control.</div>
+        <div class="gyb-faq-body">{{ 'for_pros.faq_a4'|trans }}</div>
       </div>
       <div class="gyb-faq-item" role="listitem">
         <button class="gyb-faq-btn" aria-expanded="false" onclick="gybFaq(this)">
-          Do I need a website or portfolio to get started?
+          {{ 'for_pros.faq_q5'|trans }}
           <span class="gyb-faq-arrow" aria-hidden="true">+</span>
         </button>
-        <div class="gyb-faq-body">Not at all. Your Drilleedo profile acts as your professional website. You can upload project photos, write a bio, list your services, and collect reviews — all within the platform. Many professionals use Drilleedo as their primary online presence.</div>
+        <div class="gyb-faq-body">{{ 'for_pros.faq_a5'|trans }}</div>
       </div>
     </div>
   </div>
@@ -1685,21 +1687,21 @@
 <section class="gyb-final-cta gyb-scroll" aria-labelledby="final-cta-heading">
   <div class="container" style="position:relative;z-index:2;">
     <div class="gyb-eyebrow" style="justify-content:center;display:inline-flex;margin-bottom:20px;">
-      <i class="fas fa-rocket" aria-hidden="true"></i>
-      Join 1,500+ Professionals
+      <i class="ph-bold ph-rocket-launch" aria-hidden="true"></i>
+      {{ 'for_pros.final_eyebrow'|trans }}
     </div>
     <h2 class="gyb-final-cta__title" id="final-cta-heading">
-      Ready to Grow Your Renovation Business?
+      {{ 'for_pros.final_title'|trans }}
     </h2>
     <p class="gyb-final-cta__sub">
-      Create your free profile today and start receiving leads from homeowners across Canada — no credit card required.
+      {{ 'for_pros.final_sub'|trans }}
     </p>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
       <a href="{{ path('app_register') }}" class="gyb-btn-orange">
-        Create Free Profile <i class="feather-arrow-right" aria-hidden="true"></i>
+        {{ 'for_pros.final_cta1'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
       </a>
       <a href="{{ path('professionals_list') }}" class="gyb-btn-white">
-        Browse Professionals
+        {{ 'for_pros.final_cta2'|trans }}
       </a>
     </div>
   </div>

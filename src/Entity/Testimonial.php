@@ -24,11 +24,20 @@ class Testimonial
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $contentFr = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $contentEn = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     #[ORM\Column]
     private ?bool $isActive = true;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $rating = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -77,6 +86,45 @@ class Testimonial
         return $this;
     }
 
+    public function getContentFr(): ?string
+    {
+        return $this->contentFr;
+    }
+
+    public function setContentFr(?string $contentFr): static
+    {
+        $this->contentFr = $contentFr;
+
+        return $this;
+    }
+
+    public function getContentEn(): ?string
+    {
+        return $this->contentEn;
+    }
+
+    public function setContentEn(?string $contentEn): static
+    {
+        $this->contentEn = $contentEn;
+
+        return $this;
+    }
+
+    /**
+     * Returns the best available content for the given locale.
+     * Falls back to $content (legacy field) if dedicated field is empty.
+     */
+    public function getLocalizedContent(string $locale = 'fr'): string
+    {
+        if ($locale === 'en' && $this->contentEn) {
+            return $this->contentEn;
+        }
+        if ($this->contentFr) {
+            return $this->contentFr;
+        }
+        return (string) $this->content;
+    }
+
     public function getImage(): ?string
     {
         return $this->image;
@@ -97,6 +145,18 @@ class Testimonial
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?int $rating): static
+    {
+        $this->rating = $rating;
 
         return $this;
     }

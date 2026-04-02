@@ -25,12 +25,34 @@ security:
                 path: app_logout
                 target: /
             access_denied_url: /access-denied
+            # Rate limiting natif Symfony : 5 tentatives par minute par IP+email
+            login_throttling:
+                max_attempts: 5
+                interval: '1 minute'
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/admin, roles: ROLE_ADMIN }  # example admin restriction
-        #- { path: ^/, roles: ROLE_USER }        # all other pages require login
+        # Pages publiques — accessibles sans connexion
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/access-denied, roles: PUBLIC_ACCESS }
+
+        # Zone admin — réservée aux admins
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+        # Zone professionnel
+        - { path: ^/professional-compte, roles: ROLE_PROFESSIONAL }
+
+        # Zone particulier
+        - { path: ^/individual-compte, roles: ROLE_INDIVIDUAL }
+
+        # Zone demandes directes (particuliers uniquement)
+        - { path: ^/individual/direct-request, roles: ROLE_INDIVIDUAL }
+
+        # Pages d'offres et de demandes — tout utilisateur connecté
+        - { path: ^/offer, roles: ROLE_USER }
+
+        # Le reste du site est public (pages vitrine, listing pros, blog, etc.)
+        - { path: ^/, roles: PUBLIC_ACCESS }
 
 
 when@test:

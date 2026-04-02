@@ -4,8 +4,14 @@ namespace App\Form;
 
 use App\Entity\Testimonial;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class TestimonialType extends AbstractType
 {
@@ -28,10 +34,28 @@ class TestimonialType extends AbstractType
                 'attr' => array_merge($inputAttr, ['placeholder' => 'Montreal, QC or Satisfied Homeowner']),
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Testimonial Content',
+                'label' => 'Testimonial Content (legacy / fallback)',
                 'required' => true,
                 'label_attr' => $labelAttr,
-                'attr' => array_merge($inputAttr, ['rows' => 4]),
+                'attr' => array_merge($inputAttr, ['rows' => 3]),
+            ])
+            ->add('contentFr', TextareaType::class, [
+                'label' => '🇫🇷 Texte en Français',
+                'required' => false,
+                'label_attr' => $labelAttr,
+                'attr' => array_merge($inputAttr, [
+                    'rows' => 4,
+                    'placeholder' => 'Témoignage en français...',
+                ]),
+            ])
+            ->add('contentEn', TextareaType::class, [
+                'label' => '🇬🇧 Text in English',
+                'required' => false,
+                'label_attr' => $labelAttr,
+                'attr' => array_merge($inputAttr, [
+                    'rows' => 4,
+                    'placeholder' => 'Testimonial in English...',
+                ]),
             ])
             ->add('rating', IntegerType::class, [
                 'label' => 'Rating (1-5)',
@@ -57,7 +81,7 @@ class TestimonialType extends AbstractType
                     ])
                 ],
             ])
-            ->add('isActive', \Symfony\Component\Form\Extension\Core\Type\CheckboxType::class, [
+            ->add('isActive', CheckboxType::class, [
                 'label' => 'Active (Displayed on the site)',
                 'required' => false,
                 'label_attr' => ['class' => 'form-check-label fw-bold text-dark small letter-spacing-1'],

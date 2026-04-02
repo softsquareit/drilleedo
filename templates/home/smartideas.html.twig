@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home Renovation Ideas & Inspiration | Drilleedo Canada{% endblock %}
-{% block meta_description %}Browse home renovation and decoration ideas to inspire your next project. Kitchen, bathroom, landscaping and more – find smart ideas on Drilleedo.{% endblock %}
+{% block title %}{{ 'ideas.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'ideas.meta_desc'|trans }}{% endblock %}
 {% block meta_keywords %}home renovation ideas, renovation inspiration, kitchen remodel ideas, bathroom renovation, home improvement tips Canada{% endblock %}
 {% block og_title %}Home Renovation Ideas & Inspiration | Drilleedo{% endblock %}
 {% block og_description %}Browse renovation and decoration ideas to inspire your next project. Smart ideas for better living.{% endblock %}
@@ -509,24 +509,24 @@
     <div class="si-hero__inner">
       <div class="si-eyebrow">
         <i class="fas fa-lightbulb" aria-hidden="true"></i>
-        <span>Home Inspiration</span>
+        <span>{{ 'ideas.hero_eyebrow'|trans }}</span>
       </div>
       <h1 class="si-hero__title" id="si-hero-title">
-        Home Renovation <span>Ideas</span>
+        {{ 'ideas.hero_title_1'|trans }} <span>{{ 'ideas.hero_title_2'|trans }}</span>
       </h1>
       <p class="si-hero__sub">
-        Discover inspiring renovation and decoration ideas for every room. Find your next project and connect with the right professional.
+        {{ 'ideas.hero_sub'|trans }}
       </p>
       <div class="d-flex gap-3 flex-wrap align-items-center">
         <div class="si-hero__count">
           <i class="fas fa-images" aria-hidden="true"></i>
-          <span>{{ totalIdeas is defined ? totalIdeas : ideas|length }}+</span> Ideas Available
+          <span>{{ totalIdeas is defined ? totalIdeas : ideas|length }}+</span> {{ 'ideas.hero_count_suffix'|trans }}
         </div>
         <a href="{{ path('app_register') }}"
            class="si-eyebrow"
            style="background:rgba(232,80,26,0.9);border-color:rgba(232,80,26,0.6);text-decoration:none;">
           <i class="feather-edit" aria-hidden="true"></i>
-          Share Your Idea
+          {{ 'ideas.hero_btn_share'|trans }}
         </a>
       </div>
     </div>
@@ -539,17 +539,17 @@
 <div class="si-cats" role="navigation" aria-label="Filter by category">
   <div class="si-cats__inner">
     <a href="#" class="si-cat-chip active">
-      <i class="feather-grid" aria-hidden="true"></i> All Ideas
+      <i class="feather-grid" aria-hidden="true"></i> {{ 'ideas.cat_all'|trans }}
     </a>
-    <a href="#" class="si-cat-chip">🏠 Interior Design</a>
-    <a href="#" class="si-cat-chip">🍳 Kitchen</a>
-    <a href="#" class="si-cat-chip">🛁 Bathroom</a>
-    <a href="#" class="si-cat-chip">🌿 Landscaping</a>
-    <a href="#" class="si-cat-chip">🪟 Windows & Doors</a>
-    <a href="#" class="si-cat-chip">🔌 Electrical</a>
-    <a href="#" class="si-cat-chip">🏗️ Structural</a>
-    <a href="#" class="si-cat-chip">🎨 Painting</a>
-    <a href="#" class="si-cat-chip">🛋️ Furniture</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_interior'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_kitchen'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_bathroom'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_landscaping'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_windows'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_electrical'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_structural'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_painting'|trans }}</a>
+    <a href="#" class="si-cat-chip">{{ 'ideas.cat_furniture'|trans }}</a>
   </div>
 </div>
 
@@ -577,7 +577,7 @@
             </a>
           </div>
           <div class="si-card-main__body">
-            <span class="si-card-cat">✨ Featured</span>
+            <span class="si-card-cat">{{ 'ideas.lbl_featured'|trans }}</span>
             <h2 class="si-card-main__title">
               <a href="{{ path('ideas_details', {slug: mainIdea.slug}) }}">{{ mainIdea.Title }}</a>
             </h2>
@@ -585,7 +585,7 @@
               <p class="si-card-main__desc">{{ mainIdea.shortDesc }}</p>
             {% endif %}
             <a href="{{ path('ideas_details', {slug: mainIdea.slug}) }}" class="si-link">
-              Read More <i class="feather-arrow-right" aria-hidden="true"></i>
+              {{ 'ideas.btn_read_more'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -608,7 +608,7 @@
                   <a href="{{ path('ideas_details', {slug: sideIdea.slug}) }}">{{ sideIdea.Title }}</a>
                 </h3>
                 <a href="{{ path('ideas_details', {slug: sideIdea.slug}) }}" class="si-link" style="font-size:13px;">
-                  View <i class="feather-arrow-right" aria-hidden="true"></i>
+                  {{ 'ideas.btn_view'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
@@ -620,11 +620,11 @@
       {# ── CTA Banner ── #}
       <div class="si-cta-banner" role="complementary">
         <div class="si-cta-banner__text">
-          <h3>Need a Professional for Your Project?</h3>
-          <p>Browse 1,500+ verified contractors and get free quotes from specialists near you.</p>
+          <h3>{{ 'ideas.cta_title'|trans }}</h3>
+          <p>{{ 'ideas.cta_sub'|trans }}</p>
         </div>
         <a href="{{ path('professionals_list') }}" class="si-cta-banner__btn">
-          Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i>
+          {{ 'ideas.cta_btn'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
 
@@ -633,7 +633,7 @@
         <span class="si-sep__line"></span>
         <span class="si-sep__label">
           <i class="fas fa-th" aria-hidden="true"></i>
-          More Ideas
+          {{ 'ideas.lbl_more_ideas'|trans }}
         </span>
         <span class="si-sep__line"></span>
       </div>
@@ -659,7 +659,7 @@
                 <p class="si-card-grid__desc">{{ gridIdea.shortDesc }}</p>
               {% endif %}
               <a href="{{ path('ideas_details', {slug: gridIdea.slug}) }}" class="si-link" style="font-size:13px;">
-                Read More <i class="feather-arrow-right" aria-hidden="true"></i>
+                {{ 'ideas.btn_read_more'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -672,8 +672,8 @@
       {# ── Empty state ── #}
       <div class="si-empty">
         <div class="si-empty__icon">💡</div>
-        <h4>No ideas available yet</h4>
-        <p>Check back soon for new home improvement tips and renovation inspiration!</p>
+        <h4>{{ 'ideas.empty_title'|trans }}</h4>
+        <p>{{ 'ideas.empty_sub'|trans }}</p>
       </div>
     {% endif %}
 

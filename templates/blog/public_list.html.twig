@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ pageTitle }} | Drilleedo Canada{% endblock %}
-{% block meta_description %}Discover the latest {{ pageTitle|lower }} and inspiration on Drilleedo.{% endblock %}
+{% block meta_description %}{{ 'blog_list.meta_desc'|trans({'%pageTitle%': pageTitle|lower}) }}{% endblock %}
 
 {% block body %}
 <main id="main-content">
@@ -587,18 +587,18 @@
     <div class="si-hero__inner">
       <div class="si-eyebrow">
         <i class="fas fa-file-alt" aria-hidden="true"></i>
-        Drilleedo
+        {{ 'blog_list.hero_eyebrow'|trans }}
       </div>
       <h1 class="si-hero__title" id="si-hero-title">
         {{ pageTitle }}
       </h1>
       <p class="si-hero__sub">
-        Discover the latest {{ pageTitle|lower }} and inspiration. Stay updated with tips from professionals.
+        {{ 'blog_list.hero_sub'|trans({'%pageTitle%': pageTitle|lower}) }}
       </p>
       <div class="d-flex gap-3 flex-wrap align-items-center">
         <div class="si-hero__count">
           <i class="feather-book-open" aria-hidden="true"></i>
-          <span>{{ totalItems }}</span> Items Available
+          <span>{{ totalItems }}</span> {{ 'blog_list.hero_count_suffix'|trans }}
         </div>
         
         {# CTA hero button #}
@@ -606,7 +606,7 @@
            class="si-eyebrow"
            style="background:rgba(232,80,26,0.9);border-color:rgba(232,80,26,0.6);text-decoration:none;">
           <i class="feather-edit" aria-hidden="true"></i>
-          Post Your Project
+          {{ 'blog_list.hero_btn_post'|trans }}
         </a>
       </div>
     </div>
@@ -619,7 +619,7 @@
 <div class="si-cats" role="navigation" aria-label="Filter by category">
   <div class="si-cats__inner">
     <a href="{{ path(pageRoute) }}" class="si-cat-chip {{ not currentCategory ? 'active' : '' }}">
-      <i class="feather-grid" aria-hidden="true"></i> All Categories
+      <i class="feather-grid" aria-hidden="true"></i> {{ 'blog_list.cat_all'|trans }}
     </a>
     {# Filters cleanly for parent categories only #}
     {% for cat in categories %}
@@ -643,11 +643,11 @@
     {% if currentPage == 1 %}
     <div class="si-cta-banner" role="complementary">
       <div class="si-cta-banner__text">
-        <h3>Ready to start your {{ pageTitle|lower }}?</h3>
-        <p>Get connected with 1,500+ verified professionals and receive free quotes.</p>
+        <h3>{{ 'blog_list.cta_title'|trans({'%pageTitle%': pageTitle|lower}) }}</h3>
+        <p>{{ 'blog_list.cta_sub'|trans }}</p>
       </div>
       <a href="{{ path('professionals_list') }}" class="si-cta-banner__btn">
-        Find a Professional <i class="feather-arrow-right" aria-hidden="true"></i>
+        {{ 'blog_list.cta_btn'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
     {% endif %}
@@ -673,7 +673,7 @@
             {% if mainItem.category %}
               <span class="si-card-cat">{{ mainItem.category.name }}</span>
             {% else %}
-              <span class="si-card-cat">✨ Featured</span>
+              <span class="si-card-cat">{{ 'blog_list.lbl_featured'|trans }}</span>
             {% endif %}
             <h2 class="si-card-main__title">
               <a href="{{ path('public_blog_show', {id: mainItem.id}) }}">{{ mainItem.title }}</a>
@@ -682,7 +682,7 @@
               <p class="si-card-main__desc">{{ mainItem.shortDesc }}</p>
             {% endif %}
             <a href="{{ path('public_blog_show', {id: mainItem.id}) }}" class="si-link">
-              Read More <i class="feather-arrow-right" aria-hidden="true"></i>
+              {{ 'blog_list.btn_read_more'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -706,7 +706,7 @@
                   <a href="{{ path('public_blog_show', {id: sideItem.id}) }}">{{ sideItem.title }}</a>
                 </h3>
                 <a href="{{ path('public_blog_show', {id: sideItem.id}) }}" class="si-link" style="font-size:13px;">
-                  View <i class="feather-arrow-right" aria-hidden="true"></i>
+                  {{ 'blog_list.btn_view'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
@@ -721,7 +721,7 @@
         <span class="si-sep__line"></span>
         <span class="si-sep__label">
           <i class="fas fa-th" aria-hidden="true"></i>
-          More {{ pageTitle }}
+          {{ 'blog_list.lbl_more_items'|trans({'%pageTitle%': pageTitle}) }}
         </span>
         <span class="si-sep__line"></span>
       </div>
@@ -753,7 +753,7 @@
                 <p class="si-card-grid__desc">{{ gridIdea.shortDesc }}</p>
               {% endif %}
               <a href="{{ path('public_blog_show', {id: gridIdea.id}) }}" class="si-link">
-                Read More <i class="feather-arrow-right" aria-hidden="true"></i>
+                {{ 'blog_list.btn_read_more'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -764,8 +764,8 @@
       {# ── Empty state (never truly empty because of banner above) ── #}
       <div class="si-empty">
         <div class="si-empty__icon"><i class="feather-search"></i></div>
-        <h4>No items found</h4>
-        <p>Try adjusting your category filters to see more {{ pageTitle|lower }}.</p>
+        <h4>{{ 'blog_list.empty_title'|trans }}</h4>
+        <p>{{ 'blog_list.empty_sub'|trans({'%pageTitle%': pageTitle|lower}) }}</p>
       </div>
     {% endif %}
 
@@ -796,20 +796,20 @@
 
     {# ── TRUST STRIP ── #}
     <div class="si-trust-strip">
-      <div class="si-trust-item"><i class="feather-check-circle"></i> Verified Contractors</div>
-      <div class="si-trust-item"><i class="feather-message-square"></i> Free Quotes</div>
-      <div class="si-trust-item"><i class="fas fa-star"></i> Real Reviews</div>
-      <div class="si-trust-item"><i class="feather-shield"></i> RBQ Insured</div>
+      <div class="si-trust-item"><i class="feather-check-circle"></i> {{ 'blog_list.trust_1'|trans }}</div>
+      <div class="si-trust-item"><i class="feather-message-square"></i> {{ 'blog_list.trust_2'|trans }}</div>
+      <div class="si-trust-item"><i class="fas fa-star"></i> {{ 'blog_list.trust_3'|trans }}</div>
+      <div class="si-trust-item"><i class="feather-shield"></i> {{ 'blog_list.trust_4'|trans }}</div>
     </div>
 
     {# ── PRO REMINDER CTA ── #}
     <div class="si-pro-reminder">
       <div class="si-pro-reminder__content">
-        <h3>Are you a Top-Rated Professional?</h3>
-        <p>Join thousands of contractors growing their business securely on Drilleedo.</p>
+        <h3>{{ 'blog_list.pro_title'|trans }}</h3>
+        <p>{{ 'blog_list.pro_sub'|trans }}</p>
       </div>
       <a href="{{ path('app_register') }}" class="si-pro-reminder__btn">
-        List Your Business <i class="feather-chevron-right"></i>
+        {{ 'blog_list.pro_btn'|trans }} <i class="feather-chevron-right"></i>
       </a>
     </div>
 

@@ -27,8 +27,8 @@
                             <div class="d-flex align-items-center gap-2">
                                 <i class="feather-calendar text-primary"></i>
                                 <div>
-                                    <small class="pro-text-muted d-block">{{ directRequest is defined ? 'Sent' : 'Requested' }} on</small>
-                                    <span class="pro-fw-semibold">{{ parentRequest.creationDate|date('M d, Y') }}</span>
+                                    <small class="pro-text-muted d-block">{{ directRequest is defined ? 'Envoyée le' : 'Publiée le' }}</small>
+                                    <span class="pro-fw-semibold">{{ parentRequest.creationDate|date('d/m/Y') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -42,6 +42,58 @@
                                 </div>
                             </div>
                         </div>
+                        {% if parentRequest.desiredStartDate %}
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="feather-play-circle text-success"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block">Date souhaitée de début</small>
+                                        <span class="pro-fw-semibold">{{ parentRequest.desiredStartDate|date('d/m/Y') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if parentRequest.urgentIntervention %}
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="feather-zap text-danger"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block">Intervention</small>
+                                        <span class="pro-badge danger">Urgente</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if parentRequest.availabilities|length > 0 %}
+                            <div class="col-12">
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="feather-clock text-primary mt-1"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block">Disponibilités client</small>
+                                        <div class="d-flex flex-wrap gap-1 mt-1">
+                                            {% for dispo in parentRequest.availabilities %}
+                                                <span class="pro-badge info">{{ dispo }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if parentRequest.languages|length > 0 %}
+                            <div class="col-12">
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="feather-globe text-primary mt-1"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block">Langue(s) souhaitée(s)</small>
+                                        <div class="d-flex flex-wrap gap-1 mt-1">
+                                            {% for lang in parentRequest.languages %}
+                                                <span class="pro-badge secondary">{{ lang }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
 
                     {% if parentRequest.images is defined and parentRequest.images|length > 0 %}
@@ -107,12 +159,60 @@
                                     <small class="pro-form-help mt-1 d-block" id="aiHint" style="color: #6366f1; display: none !important;">✨ AI can improve clarity and tone while respecting your intent.</small>
                                 </div>
                             </div>
+                            {# ── Visite préalable ── #}
+                            <div class="col-md-6">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label mb-2">
+                                        <i class="feather-eye me-1 text-primary"></i> Visite préalable nécessaire
+                                    </label>
+                                    <div class="d-flex gap-4 mt-1">
+                                        {% for child in form.priorVisit %}
+                                            <div class="form-check form-check-inline">
+                                                {{ form_widget(child, {'attr': {'class': 'form-check-input'}}) }}
+                                                <label class="form-check-label" for="{{ child.vars.id }}">{{ child.vars.label }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {{ form_errors(form.priorVisit) }}
+                                </div>
+                            </div>
+
+                            {# ── Date possible de début ── #}
+                            <div class="col-md-6">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label" for="{{ form.possibleStartDate.vars.id }}">
+                                        <i class="feather-calendar me-1 text-primary"></i> Date possible de début
+                                    </label>
+                                    {{ form_widget(form.possibleStartDate, {'attr': {'class': 'pro-form-input'}}) }}
+                                    {{ form_errors(form.possibleStartDate) }}
+                                </div>
+                            </div>
+
+                            {# ── Délai de réalisation ── #}
                             <div class="col-12">
                                 <div class="pro-form-group">
-                                    <label class="pro-form-label">Supporting Documents <span class="pro-text-muted">(Optional)</span></label>
+                                    <label class="pro-form-label">
+                                        <i class="feather-clock me-1 text-primary"></i> Délai de réalisation estimé <span class="pro-text-muted">(Optionnel)</span>
+                                    </label>
+                                    <div class="row g-2 mt-1">
+                                        <div class="col-6">
+                                            {{ form_widget(form.estimatedDuration, {'attr': {'class': 'pro-form-input', 'placeholder': 'Ex. : 3'}}) }}
+                                            {{ form_errors(form.estimatedDuration) }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ form_widget(form.estimatedDurationUnit, {'attr': {'class': 'pro-form-select'}}) }}
+                                            {{ form_errors(form.estimatedDurationUnit) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="pro-form-group">
+                                    <label class="pro-form-label">Documents joints <span class="pro-text-muted">(Optionnel)</span></label>
                                     {{ form_widget(form.documents, {'attr': {'class': 'pro-form-input'}}) }}
                                     {{ form_errors(form.documents) }}
-                                    <p class="pro-form-help">Upload quotes, certifications, or more details (Max 10MB each)</p>
+                                    <p class="pro-form-help">Devis, certifications, ou documents complémentaires (Max 10MB chacun)</p>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -148,10 +248,11 @@
                 </div>
                 <div class="pro-card-body">
                     <ul class="pro-list-bullet">
-                        <li>Be clear about what is included in your price.</li>
-                        <li>Mention your estimated start date.</li>
-                        <li>Attach professional documents if they help your case.</li>
-                        <li>Once sent, the client will receive a notification immediately.</li>
+                        <li>Soyez précis sur ce qui est inclus dans votre prix.</li>
+                        <li>Indiquez si une visite préalable est nécessaire.</li>
+                        <li>Précisez votre date possible de début et le délai estimé.</li>
+                        <li>Joignez vos certifications ou documents pertinents.</li>
+                        <li>Dès l'envoi, le client reçoit une notification immédiate.</li>
                     </ul>
                     <div class="pro-alert info mt-4">
                         <i class="feather-info"></i>

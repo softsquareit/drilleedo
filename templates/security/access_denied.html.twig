@@ -19,11 +19,11 @@
                 </a>
                 {% if is_granted('ROLE_USER') %}
                     {% if is_granted('ROLE_PROFESSIONAL') %}
-                        <a href="{{ path('app_pro_dashboard') }}" class="btn btn-outline-dark rounded-pill px-4 py-2">
+                        <a href="{{ path('professional_dashboard') }}" class="btn btn-outline-dark rounded-pill px-4 py-2">
                             Go to Dashboard
                         </a>
                     {% elseif is_granted('ROLE_COMPANY') %}
-                        <a href="{{ path('app_company_dashboard') }}" class="btn btn-outline-dark rounded-pill px-4 py-2">
+                        <a href="{{ path('company_dashboard') }}" class="btn btn-outline-dark rounded-pill px-4 py-2">
                             Go to Dashboard
                         </a>
                     {% elseif is_granted('ROLE_INDIVIDUAL') %}

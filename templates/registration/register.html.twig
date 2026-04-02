@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Your Account | Join Drilleedo as a Pro or Homeowner{% endblock %}
+{% block title %}{{ 'security.register_link'|trans }} | Drilleedo{% endblock %}
 {% block meta_description %}Register on Drilleedo to connect with Canada's best renovation professionals, post projects, and receive competitive quotes — or join as a verified professional to grow your business.{% endblock %}
 
 {% block javascripts %}
@@ -338,28 +338,28 @@
         <div class="reg-sidebar">
             <a href="{{ path('app_home') }}" class="reg-sidebar-logo">Drilleedo<span>.</span></a>
             <div class="reg-sidebar-content">
-                <h1 class="reg-sidebar-title">Join the #1 Renovation Platform in Canada.</h1>
+                <h1 class="reg-sidebar-title">{{ 'security.reg_title'|trans }}</h1>
                 
                 <div class="reg-benefit-list">
                     <div class="reg-benefit-item">
                         <div class="reg-benefit-icon"><i class="feather-shield"></i></div>
                         <div class="reg-benefit-text">
-                            <h5>Verified Professionals</h5>
-                            <p>We strictly audit every contractor to ensure top quality.</p>
+                            <h5>{{ 'security.reg_ben1'|trans }}</h5>
+                            <p>{{ 'security.reg_ben1_desc'|trans }}</p>
                         </div>
                     </div>
                     <div class="reg-benefit-item">
                         <div class="reg-benefit-icon"><i class="feather-message-square"></i></div>
                         <div class="reg-benefit-text">
-                            <h5>Free Quotes</h5>
-                            <p>Homeowners receive up to 5 competitive quotes for free.</p>
+                            <h5>{{ 'security.reg_ben2'|trans }}</h5>
+                            <p>{{ 'security.reg_ben2_desc'|trans }}</p>
                         </div>
                     </div>
                     <div class="reg-benefit-item">
                         <div class="reg-benefit-icon"><i class="feather-trending-up"></i></div>
                         <div class="reg-benefit-text">
-                            <h5>Business Growth</h5>
-                            <p>Join as a pro to reach thousands of local clients.</p>
+                            <h5>{{ 'security.reg_ben3'|trans }}</h5>
+                            <p>{{ 'security.reg_ben3_desc'|trans }}</p>
                         </div>
                     </div>
                 </div>
@@ -375,18 +375,18 @@
             <!-- Account Type Switcher -->
             <div class="reg-type-toggle" role="tablist">
                 <button class="reg-type-btn active pro" id="professional-tab" type="button">
-                    <i class="feather-briefcase"></i> Professional
+                    <i class="feather-briefcase"></i> {{ 'security.tab_pro'|trans }}
                 </button>
                 <button class="reg-type-btn ind" id="individual-tab" type="button">
-                    <i class="feather-user"></i> Individual
+                    <i class="feather-user"></i> {{ 'security.tab_ind'|trans }}
                 </button>
             </div>
 
             <div class="tab-content w-100">
                 <!-- Professional Form -->
                 <div class="tab-pane fade show active" id="tab-professional" role="tabpanel">
-                    <h2 class="reg-form-title">Join as a Professional</h2>
-                    <p class="reg-form-sub">Register your business and start receiving high-quality leads.</p>
+                    <h2 class="reg-form-title">{{ 'security.join_pro'|trans }}</h2>
+                    <p class="reg-form-sub">{{ 'security.join_pro_sub'|trans }}</p>
 
                     {{ form_start(professionalForm, {'attr': {'class': 'rbt-form-modern', 'novalidate': 'novalidate'}}) }}
                         {% if not professionalForm.vars.valid %}
@@ -395,12 +395,12 @@
 
                         <div class="form-row">
                             <div class="form-group-premium">
-                                <label>Business Email Address *</label>
+                                <label>{{ 'security.lbl_business_email'|trans }}</label>
                                 {{ form_widget(professionalForm.email, {'attr': {'class': 'form-control-premium', 'placeholder': 'pro@company.ca'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.email) }}</div>
                             </div>
                             <div class="form-group-premium">
-                                <label>Secure Password *</label>
+                                <label>{{ 'security.lbl_secure_password'|trans }}</label>
                                 {{ form_widget(professionalForm.plainPassword, {'attr': {'class': 'form-control-premium', 'placeholder': '••••••••'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.plainPassword) }}</div>
                             </div>
@@ -408,12 +408,12 @@
 
                         <div class="form-row">
                             <div class="form-group-premium">
-                                <label>Industry Sector *</label>
+                                <label>{{ 'security.lbl_sector'|trans }}</label>
                                 {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select-premium parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.parentCategory) }}</div>
                             </div>
                             <div class="form-group-premium">
-                                <label>Specialized Service *</label>
+                                <label>{{ 'security.lbl_service'|trans }}</label>
                                 {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select-premium child-category-select selectpicker', 'data-live-search': 'true'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.category) }}</div>
                             </div>
@@ -421,12 +421,12 @@
 
                         <div class="form-row">
                             <div class="form-group-premium">
-                                <label>Primary City *</label>
+                                <label>{{ 'security.lbl_city'|trans }}</label>
                                 {{ form_widget(professionalForm.city, {'attr': {'class': 'form-control-premium', 'placeholder': 'e.g. Montreal'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.city) }}</div>
                             </div>
                             <div class="form-group-premium">
-                                <label>Experience (Years) *</label>
+                                <label>{{ 'security.lbl_exp'|trans }}</label>
                                 {{ form_widget(professionalForm.expYears, {'attr': {'class': 'form-control-premium', 'placeholder': 'Total years'}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.expYears) }}</div>
                             </div>
@@ -434,19 +434,19 @@
 
                         <div class="modern-checkbox-area">
                             {{ form_widget(professionalForm.agreeTerms, {'attr': {'id': 'pro-terms', 'class': 'modern-checkbox'}}) }}
-                            <label for="pro-terms">I agree to the <a href="#">Terms & Conditions</a> of Drilleedo Pro.</label>
+                            <label for="pro-terms">{{ 'security.agree_pro'|trans|raw }}</label>
                         </div>
 
                         <button type="submit" class="btn-reg btn-reg-navy">
-                            Register Business <i class="feather-arrow-right"></i>
+                            {{ 'security.btn_reg_pro'|trans }} <i class="feather-arrow-right"></i>
                         </button>
                     {{ form_end(professionalForm) }}
                 </div>
 
                 <!-- Individual Form -->
                 <div class="tab-pane fade" id="tab-individual" role="tabpanel">
-                    <h2 class="reg-form-title">Join as a Homeowner</h2>
-                    <p class="reg-form-sub">Find top-rated pros and manage your renovation project easily.</p>
+                    <h2 class="reg-form-title">{{ 'security.join_ind'|trans }}</h2>
+                    <p class="reg-form-sub">{{ 'security.join_ind_sub'|trans }}</p>
 
                     {{ form_start(individualForm, {'attr': {'class': 'rbt-form-modern', 'novalidate': 'novalidate'}}) }}
                         {% if not individualForm.vars.valid %}
@@ -454,31 +454,31 @@
                         {% endif %}
 
                         <div class="form-group-premium">
-                            <label>Personal Email Address *</label>
+                            <label>{{ 'security.lbl_personal_email'|trans }}</label>
                             {{ form_widget(individualForm.email, {'attr': {'class': 'form-control-premium', 'placeholder': 'my@email.com'}}) }}
                             <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(individualForm.email) }}</div>
                         </div>
 
                         <div class="form-group-premium">
-                            <label>Secure Password *</label>
+                            <label>{{ 'security.lbl_secure_password'|trans }}</label>
                             {{ form_widget(individualForm.plainPassword, {'attr': {'class': 'form-control-premium', 'placeholder': '••••••••'}}) }}
                             <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(individualForm.plainPassword) }}</div>
                         </div>
 
                         <div class="modern-checkbox-area">
                             {{ form_widget(individualForm.agreeTerms, {'attr': {'id': 'ind-terms', 'class': 'modern-checkbox'}}) }}
-                            <label for="ind-terms">I agree to the <a href="#">User Terms & Privacy Policy</a>.</label>
+                            <label for="ind-terms">{{ 'security.agree_ind'|trans|raw }}</label>
                         </div>
 
                         <button type="submit" class="btn-reg">
-                            Create Free Account <i class="feather-arrow-right"></i>
+                            {{ 'security.btn_reg_ind'|trans }} <i class="feather-arrow-right"></i>
                         </button>
                     {{ form_end(individualForm) }}
                 </div>
             </div>
 
             <div class="reg-footer">
-                Already have an account? <a href="{{ path('app_login') }}">Sign in here</a>
+                {{ 'security.already_account'|trans }} <a href="{{ path('app_login') }}">{{ 'security.signin_here'|trans }}</a>
             </div>
         </div>
     </div>

@@ -28,9 +28,13 @@
                     {% for request in directRequests %}
                         <tr>
                             <td>
-                                <div>
-                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ request.title }}</span>
-                                    <span style="font-size: 13px; color: #64748b; margin-top: 4px;">{{ request.description|slice(0, 70) }}...</span>
+                            <div>
+                                    <span style="font-weight: 800; color: #0d2151; display: block;">
+                                        {{ request.title }}
+                                    </span>
+                                    <span style="font-size: 12px; color: #94a3b8;">
+                                        #{{ request.id }} &bull; {{ request.description|slice(0, 55) }}...
+                                    </span>
                                 </div>
                             </td>
                             <td>
@@ -54,13 +58,30 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if request.status == 'Pending' %}
-                                    <a href="{{ path('offer_send_direct', {id: request.id}) }}" class="drl-act-btn drl-act-btn--view" style="text-decoration:none;">
-                                        <i class="feather-send"></i> Submit Offer
+                                <div class="d-flex gap-1 flex-wrap align-items-center">
+                                {# View details — always available #}
+                                <a href="{{ path('offer_send_direct', {id: request.id}) }}"
+                                   class="drl-act-btn drl-act-btn--view"
+                                   style="text-decoration:none; font-size:12px; padding: 5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"
+                                   title="View Request Details">
+                                    <i class="feather-eye"></i>
+                                    <span>Details</span>
+                                </a>
+
+                                {# Submit offer — only if request is PUBLISHED and not yet Accepted/Closed #}
+                                {% if request.status == 'PUBLISHED' %}
+                                    <a href="{{ path('offer_send_direct', {id: request.id}) }}"
+                                       class="drl-btn-orange"
+                                       style="padding: 5px 12px; font-size:12px; text-decoration:none; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
+                                        <i class="feather-send"></i>
+                                        <span>Respond</span>
                                     </a>
-                                {% else %}
-                                    <span style="font-size: 13px; color: #94a3b8;">No actions</span>
+                                {% elseif request.status in ['Accepted', 'Closed'] %}
+                                    <span class="drl-tag drl-tag--draft" style="font-size:11px;">
+                                        <i class="feather-lock" style="font-size:10px;"></i> Closed
+                                    </span>
                                 {% endif %}
+                            </div>
                             </td>
                         </tr>
                     {% else %}
