@@ -17,6 +17,7 @@
             </div>
         </div>
 
+        {% if directRequests|length > 0 %}
         <div class="table-responsive">
             <table class="drl-table w-100">
                 <thead>
@@ -101,22 +102,21 @@
                                 </a>
                             </td>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6" class="py-5 text-center">
-                                <div class="mb-4 text-muted opacity-25">
-                                    <i class="feather-send" style="font-size: 5rem;"></i>
-                                </div>
-                                <h5 class="fw-bold text-dark">{{ 'individual.empty_direct_title'|trans }}</h5>
-                                <p class="text-muted mb-4 px-5">{{ 'individual.empty_direct_sub'|trans }}</p>
-                                <a href="{{ path('professionals_list') }}" class="drl-btn-orange px-5 shadow-lg">
-                                    <i class="feather-search me-2"></i> {{ 'individual.btn_find_pros'|trans }}
-                                </a>
-                            </td>
-                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        {% else %}
+        <div class="py-5 text-center mt-4">
+            <div class="mb-4 text-muted opacity-25">
+                <i class="feather-send" style="font-size: 5rem;"></i>
+            </div>
+            <h5 class="fw-bold text-dark">{{ 'individual.empty_direct_title'|trans }}</h5>
+            <p class="text-muted mb-4 px-5">{{ 'individual.empty_direct_sub'|trans }}</p>
+            <a href="{{ path('professionals_list') }}" class="drl-btn-orange px-5 shadow-lg d-inline-flex">
+                <i class="feather-search me-2"></i> {{ 'individual.btn_find_pros'|trans }}
+            </a>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

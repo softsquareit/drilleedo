@@ -12,18 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/categories/{id}/children', name: 'categories_children', methods: ['GET'])]
-    public function getChildren(int $id, CategoryRepository $categoryRepository): JsonResponse
+    public function getChildren(int $id, CategoryRepository $categoryRepository, \Symfony\Component\HttpFoundation\Request $request): JsonResponse
     {
         $category = $categoryRepository->find($id);
         if (!$category) {
             return new JsonResponse(['error' => 'Category not found'], 404);
         }
 
+        $locale = $request->getLocale();
         $children = [];
         foreach ($category->getChilds() as $child) {
             $children[] = [
                 'id' => $child->getId(),
-                'name' => $child->getName(),
+                'name' => $child->getLocalizedTitle($locale),
             ];
         }
 

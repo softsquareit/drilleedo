@@ -154,9 +154,16 @@
                         </li>
                         <li class="mb-3">
                             <div class="text-muted small mb-1">{{ 'individual.th_category'|trans }}</div>
-                            <span class="drl-tag drl-tag--sent">
-                                <i class="feather-tag me-1"></i>{{ request.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}
-                            </span>
+                            <div class="d-flex flex-column gap-2 mt-1">
+                                {% if request.category and request.category.parent %}
+                                    <span class="drl-tag drl-tag--draft" style="width:fit-content;">
+                                        <i class="feather-folder me-1"></i>{{ request.category.parent.localizedTitle(app.request.locale) }}
+                                    </span>
+                                {% endif %}
+                                <span class="drl-tag drl-tag--sent" style="width:fit-content;">
+                                    <i class="feather-tag me-1"></i>{{ request.category ? request.category.localizedTitle(app.request.locale) : 'individual.general'|trans }}
+                                </span>
+                            </div>
                         </li>
                         <li class="mb-3">
                             <div class="text-muted small mb-1">{{ 'individual.sent_on'|trans }}</div>

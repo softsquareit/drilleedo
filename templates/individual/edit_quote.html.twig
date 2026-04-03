@@ -223,12 +223,12 @@ input[type="date"].nq-input { color-scheme: light; }
                                     <div class="existing-photo-item">
                                         <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Photo {{ loop.index }}">
                                         <span class="existing-photo-badge">Actuelle</span>
-                                        <a href="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}"
-                                           class="existing-photo-del"
-                                           onclick="return confirm('Supprimer cette photo ?')"
-                                           title="Supprimer cette photo">
-                                            <i class="feather-x" style="font-size:10px;"></i>
-                                        </a>
+                                        <form action="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cette photo ?')">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
+                                            <button type="submit" class="existing-photo-del" title="Supprimer cette photo">
+                                                <i class="feather-x" style="font-size:10px;"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 {% endfor %}
                             </div>

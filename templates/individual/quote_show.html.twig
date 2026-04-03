@@ -111,14 +111,15 @@
                 </button>
             {% endif %}
 
-            {% if quote.status|upper not in ['CLOSED'] %}
+            {% if quote.status|upper == 'DRAFT' %}
                 {# Edit #}
                 <a href="{{ path('individual_quote_edit', {'id': quote.id}) }}"
                    class="drl-act-btn drl-act-btn--view shadow-sm d-flex align-items-center gap-2 text-decoration-none">
                     <i class="feather-edit-2"></i> {{ 'individual.edit_request'|trans }}
                 </a>
+            {% endif %}
 
-                {# Delete #}
+            {% if quote.status|upper not in ['CLOSED'] %}                {# Delete #}
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
                         style="background: rgba(220,53,69,0.1); color: #dc3545; border: none;"
                         data-bs-toggle="modal" data-bs-target="#deleteQuoteModal">
@@ -160,9 +161,16 @@
                     <div class="ps-md-3">
                         <div class="drl-label text-muted small mb-1">{{ 'individual.category'|trans }}</div>
                         <div class="mb-4">
-                            <span class="drl-tag drl-tag--sent">
-                                <i class="feather-tag me-1"></i>{{ quote.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}
-                            </span>
+                            <div class="d-flex flex-column gap-2">
+                                {% if quote.category and quote.category.parent %}
+                                    <span class="drl-tag drl-tag--draft" style="width:fit-content;">
+                                        <i class="feather-folder me-1"></i>{{ quote.category.parent.localizedTitle(app.request.locale) }}
+                                    </span>
+                                {% endif %}
+                                <span class="drl-tag drl-tag--sent" style="width:fit-content;">
+                                    <i class="feather-tag me-1"></i>{{ quote.category ? quote.category.localizedTitle(app.request.locale) : 'individual.general'|trans }}
+                                </span>
+                            </div>
                         </div>
 
                         {% if quote.desiredStartDate %}

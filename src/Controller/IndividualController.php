@@ -204,11 +204,22 @@ class IndividualController extends AbstractController
         }
 
         if ($quote->getStatus() !== QuoteRequest::STATUS_DRAFT) {
-            $this->addFlash('warning', 'Seules les demandes en brouillon peuvent être modifiées.');
+            $msg = '<div class="d-flex flex-column gap-1">' .
+                   '<span class="fw-bold fs-6">Édition non autorisée</span>' .
+                   '<span class="opacity-75 small" style="font-size:13px;">Seules les demandes en brouillon peuvent être modifiées.</span>' .
+                   '</div>';
+            $this->addFlash('warning', $msg);
             return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
         }
 
         $form = $this->createForm(QuoteRequestType::class, $quote);
+        
+        // Populate unmapped parentCategory
+        $parent = $quote->getCategory()?->getParent();
+        if ($parent) {
+            $form->get('parentCategory')->setData($parent);
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -241,36 +252,8 @@ class IndividualController extends AbstractController
             throw $this->createAccessDeniedException('You do not own this quote request.');
         }
 
-        // Edit form
-        $isDraft = $quote->getStatus() === QuoteRequest::STATUS_DRAFT;
-        $form = $this->createForm(QuoteRequestType::class, $quote, [
-            'disabled' => !$isDraft
-        ]);
-        $form->handleRequest($request);
-
-        if ($isDraft && $form->isSubmitted() && $form->isValid()) {
-            
-            // Handle Images
-            $images = $form->get('images')->getData();
-            if ($images) {
-                // Get existing images or start an empty array
-                $imagePaths = $quote->getImages() ?? [];
-                foreach ($images as $image) {
-                    $imagePaths[] = $fileUploader->upload($image, 'quote_requests');
-                }
-                $quote->setImages($imagePaths);
-            }
-
-            $em->persist($quote);
-            $em->flush();
-
-            $this->addFlash('success', 'Your quote request has been updated successfully.');
-            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
-        }
-
         return $this->render('individual/quote_show.html.twig', [
             'quote'       => $quote,
-            'form'        => $form->createView(),
             'unreadCount' => $this->getUnreadCount($em),
         ]);
     }

@@ -72,9 +72,11 @@
                              {% elseif label == 'warning' %}{% set alertIcon = 'feather-alert-triangle' %}
                              {% endif %}
 
-                             <div class="drl-alert drl-alert--{{ alertType }} alert-dismissible fade show shadow-sm" role="alert">
-                                 <i class="{{ alertIcon }} alert-icon"></i>
-                                 <div class="alert-content">{{ message }}</div>
+                             <div class="alert alert-{{ alertType }} alert-dismissible fade show shadow-sm d-flex align-items-start gap-3" role="alert" style="border-radius: 12px; border-bottom: 3px solid; background-color: #fff; border-top: none; border-left: none; border-right: none;">
+                                 <i class="{{ alertIcon }} fs-3 text-{{ alertType }} mt-1"></i>
+                                 <div class="alert-content flex-grow-1" style="color: var(--drl-navy);">
+                                     {{ message|raw }}
+                                 </div>
                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                              </div>
                          {% endfor %}
