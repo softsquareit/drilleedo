@@ -113,10 +113,10 @@
 
             {% if quote.status|upper not in ['CLOSED'] %}
                 {# Edit #}
-                <button type="button" class="drl-act-btn drl-act-btn--view shadow-sm d-flex align-items-center gap-2"
-                        data-bs-toggle="modal" data-bs-target="#editQuoteModal">
+                <a href="{{ path('individual_quote_edit', {'id': quote.id}) }}"
+                   class="drl-act-btn drl-act-btn--view shadow-sm d-flex align-items-center gap-2 text-decoration-none">
                     <i class="feather-edit-2"></i> {{ 'individual.edit_request'|trans }}
-                </button>
+                </a>
 
                 {# Delete #}
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
@@ -612,93 +612,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    {# ── Edit Quote Modal ── #}
-    <div class="modal fade" id="editQuoteModal" tabindex="-1" aria-labelledby="editQuoteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content drl-modal-content">
-                <div class="modal-header drl-modal-header">
-                    <div>
-                        <h4 class="drl-modal-title" id="editQuoteModalLabel">{{ 'individual.modal_edit_title'|trans }}</h4>
-                        <p class="text-muted small mb-0">{{ 'individual.modal_edit_sub'|trans }}</p>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                {{ form_start(form, {'attr': {'id': 'editQuoteForm', 'novalidate': 'novalidate'}}) }}
-                    <div class="modal-body drl-modal-body">
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <label class="drl-label" for="{{ form.title.vars.id }}">
-                                    <i class="feather-type me-2 text-primary"></i>{{ 'individual.request_title'|trans }}
-                                </label>
-                                {{ form_widget(form.title, {'attr': {'class': 'drl-input'}}) }}
-                                <div class="text-danger small mt-1">{{ form_errors(form.title) }}</div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="drl-label" for="{{ form.parentCategory.vars.id }}">
-                                    <i class="feather-grid me-2 text-primary"></i>{{ 'individual.industry_sector'|trans }}
-                                </label>
-                                {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select'}}) }}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="drl-label" for="{{ form.category.vars.id }}">
-                                    <i class="feather-tag me-2 text-primary"></i>{{ 'individual.specific_service'|trans }}
-                                </label>
-                                {{ form_widget(form.category, {
-                                    'attr': {
-                                        'class': 'drl-input form-select child-category-select',
-                                        'data-selected-id': quote.category ? quote.category.id : ''
-                                    }
-                                }) }}
-                                <div class="text-danger small mt-1">{{ form_errors(form.category) }}</div>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="drl-label" for="{{ form.description.vars.id }}">
-                                    <i class="feather-align-left me-2 text-primary"></i>{{ 'individual.description'|trans }}
-                                </label>
-                                {{ form_widget(form.description, {'attr': {'class': 'drl-input', 'rows': '6'}}) }}
-                                <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="drl-label" for="{{ form.images.vars.id }}">
-                                    <i class="feather-image me-2 text-primary"></i>{{ 'individual.project_photos'|trans }} {{ 'individual.optional'|trans }}
-                                </label>
-                                {% if quote.images|length > 0 %}
-                                    <div class="mb-3 p-3 bg-light rounded-3 border">
-                                        <p class="small text-muted fw-semibold mb-2">{{ 'individual.attached_photos'|trans }}</p>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            {% for image in quote.images %}
-                                                <img src="{{ asset('uploads/quote_requests/' ~ image) }}"
-                                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                {{ form_widget(form.images, {'attr': {
-                                    'class': 'drl-input',
-                                    'accept': 'image/*',
-                                    'multiple': 'multiple',
-                                    'onchange': 'previewImages(this)'
-                                }}) }}
-                                <div id="imagePreviewContainer" class="d-flex flex-wrap gap-2 mt-3"></div>
-                                <div class="text-danger small mt-1">{{ form_errors(form.images) }}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer drl-modal-footer">
-                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'individual.cancel'|trans }}</button>
-                        <button type="submit" class="drl-btn-orange px-5">
-                            <i class="feather-save me-2"></i> {{ 'individual.save_changes'|trans }}
-                        </button>
-                    </div>
-                {{ form_end(form) }}
             </div>
         </div>
     </div>

@@ -1,0 +1,824 @@
+{% extends "individual/base_individual.html.twig" %}
+
+{% block title %}Modifier la demande — {{ quote.title }} - Drilleedo{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+/* ─── Step indicator ─── */
+.nq-steps {
+    display: flex; align-items: flex-start; gap: 0;
+    margin-bottom: 2.5rem; padding: 1.25rem 1.5rem;
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    border: 1px solid #f1f5f9; overflow-x: auto;
+}
+.nq-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; min-width: 60px; }
+.nq-step:not(:last-child)::after {
+    content: ''; position: absolute; top: 16px;
+    left: calc(50% + 18px); right: calc(-50% + 18px);
+    height: 2px; background: #e2e8f0; z-index: 0;
+}
+.nq-step-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    background: #f1f5f9; color: #94a3b8; border: 2px solid #e2e8f0;
+    transition: all .25s; position: relative; z-index: 1;
+}
+.nq-step.active .nq-step-dot { background: #f97316; color: #fff; border-color: #f97316; box-shadow: 0 0 0 4px rgba(249,115,22,.15); }
+.nq-step.done .nq-step-dot   { background: #10b981; color: #fff; border-color: #10b981; }
+.nq-step.done::after          { background: #10b981; }
+.nq-step-label { font-size: 11px; color: #94a3b8; margin-top: 6px; font-weight: 500; text-align: center; white-space: nowrap; }
+.nq-step.active .nq-step-label { color: #f97316; font-weight: 600; }
+.nq-step.done .nq-step-label   { color: #10b981; }
+
+/* ─── Section card ─── */
+.nq-section { background: #fff; border: 1px solid #f1f5f9; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 1.5rem; overflow: hidden; transition: box-shadow .2s; }
+.nq-section:focus-within { box-shadow: 0 4px 12px rgba(249,115,22,.1); border-color: #fed7aa; }
+.nq-section-head { display: flex; align-items: center; gap: 12px; padding: 1rem 1.5rem; border-bottom: 1px solid #f8fafc; background: #fafafa; }
+.nq-section-num { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg,#f97316,#ea580c); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nq-section-title { font-size: 14px; font-weight: 700; color: #1e293b; margin: 0; }
+.nq-section-sub   { font-size: 12px; color: #94a3b8; margin: 0; }
+.nq-section-body  { padding: 1.5rem; }
+
+/* ─── Inputs ─── */
+.nq-label { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+.nq-label .badge-opt { font-size: 10px; text-transform: none; letter-spacing: 0; background: #f1f5f9; color: #94a3b8; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+.nq-input { width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; color: #1e293b; background: #f8fafc; transition: all .2s; outline: none; }
+.nq-input:focus { border-color: #f97316; background: #fff; box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
+.nq-input::placeholder { color: #cbd5e1; }
+textarea.nq-input { resize: vertical; min-height: 120px; line-height: 1.6; }
+select.nq-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+.nq-error { font-size: 12px; color: #ef4444; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
+/* ─── Drag-drop ─── */
+.nq-dropzone { border: 2px dashed #e2e8f0; border-radius: 12px; padding: 2rem 1.5rem; text-align: center; background: #f8fafc; cursor: pointer; transition: all .25s; user-select: none; }
+.nq-dropzone:hover, .nq-dropzone.drag-over { border-color: #f97316; background: linear-gradient(135deg,#fff7ed,#fff); box-shadow: 0 4px 12px rgba(249,115,22,.1); }
+.nq-dropzone-icon { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg,rgba(249,115,22,.12),rgba(249,115,22,.06)); color: #f97316; font-size: 22px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.nq-dropzone-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.nq-dropzone-sub   { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
+.nq-dropzone-specs { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.nq-dropzone-specs span { font-size: 11px; background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 3px 10px; color: #64748b; display: inline-flex; align-items: center; gap: 4px; }
+.nq-dropzone-specs span i { color: #10b981; font-size: 10px; }
+.nq-photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 14px; }
+.nq-photo-item { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.1); border: 2px solid #fff; transition: transform .2s; }
+.nq-photo-item:hover { transform: scale(1.03); }
+.nq-photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nq-photo-remove { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(15,23,42,.65); color: #fff; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; transition: background .15s; backdrop-filter: blur(2px); }
+.nq-photo-remove:hover { background: #ef4444; }
+.nq-photo-count { font-size: 12px; color: #64748b; margin-top: 10px; display: flex; align-items: center; gap: 5px; }
+.nq-photo-count span { color: #f97316; font-weight: 700; }
+
+/* ─── Existing photos ─── */
+.existing-photo-item { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 2px solid #e2e8f0; }
+.existing-photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.existing-photo-badge { position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,.55); color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 600; }
+.existing-photo-del { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(239,68,68,.8); color: #fff; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; text-decoration: none; }
+.existing-photo-del:hover { background: #ef4444; }
+
+/* ─── Chips ─── */
+.nq-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.nq-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 50px; border: 1.5px solid #e2e8f0; background: #f8fafc; font-size: 13px; font-weight: 500; color: #64748b; cursor: pointer; transition: all .2s; user-select: none; }
+.nq-chip input[type="checkbox"], .nq-chip input[type="radio"] { display: none; }
+.nq-chip:hover { border-color: #f97316; color: #f97316; background: #fff7ed; }
+.nq-chip.checked { border-color: #f97316; background: linear-gradient(135deg,#fff7ed,#fff); color: #f97316; font-weight: 600; }
+.nq-chip.checked-urgent { border-color: #ef4444; background: #fef2f2; color: #ef4444; font-weight: 600; }
+
+/* ─── Sidebar ─── */
+.nq-sidebar { position: sticky; top: 88px; }
+.nq-tip-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+.nq-tip-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; }
+.nq-tip-icon.green  { background: #dcfce7; color: #16a34a; }
+.nq-tip-icon.orange { background: #fff7ed; color: #f97316; }
+.nq-tip-icon.blue   { background: #eff6ff; color: #2563eb; }
+
+/* ─── Footer ─── */
+.nq-footer { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; background: #fff; border-radius: 16px; border: 1px solid #f1f5f9; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-top: .5rem; }
+.nq-btn-submit { display: inline-flex; align-items: center; gap: 8px; padding: 12px 32px; border-radius: 12px; border: none; background: linear-gradient(135deg,#f97316,#ea580c); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(249,115,22,.35); transition: all .2s; }
+.nq-btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,.4); }
+.nq-btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+.nq-btn-cancel { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 10px; color: #64748b; font-size: 14px; font-weight: 500; text-decoration: none; border: 1.5px solid #e2e8f0; background: #f8fafc; transition: all .2s; }
+.nq-btn-cancel:hover { border-color: #94a3b8; color: #1e293b; background: #fff; }
+.nq-ai-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 10px; border: none; background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .2s, transform .15s; box-shadow: 0 3px 10px rgba(99,102,241,.3); }
+.nq-ai-btn:hover { opacity: .9; transform: translateY(-1px); }
+input[type="date"].nq-input { color-scheme: light; }
+@media (max-width: 767px) { .nq-steps { gap: 4px; } .nq-step-label { display: none; } }
+</style>
+{% endblock %}
+
+{% block body %}
+<div style="max-width: 1100px; margin: 0 auto;">
+
+    {# ── Page Header ── #}
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="text-muted" style="font-size:13px; text-decoration:none;">
+                    <i class="feather-arrow-left me-1"></i> Retour à la demande
+                </a>
+            </div>
+            <h4 class="fw-bold mb-1" style="color:#1e293b;">Modifier la demande</h4>
+            <p class="text-muted small mb-0">
+                <i class="feather-edit-2 me-1" style="font-size:12px;"></i>
+                <strong>{{ quote.title }}</strong> — Brouillon
+            </p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="drl-tag drl-tag--draft">
+                <i class="feather-file me-1" style="font-size:10px;"></i> Brouillon
+            </span>
+        </div>
+    </div>
+
+    {# ── Progress Steps ── #}
+    <div class="nq-steps" id="nqSteps">
+        <div class="nq-step active" data-step="1">
+            <div class="nq-step-dot"><i class="feather-file-text" style="font-size:14px;"></i></div>
+            <span class="nq-step-label">Informations</span>
+        </div>
+        <div class="nq-step" data-step="2">
+            <div class="nq-step-dot"><i class="feather-image" style="font-size:14px;"></i></div>
+            <span class="nq-step-label">Photos</span>
+        </div>
+        <div class="nq-step" data-step="3">
+            <div class="nq-step-dot"><i class="feather-sliders" style="font-size:14px;"></i></div>
+            <span class="nq-step-label">Préférences</span>
+        </div>
+        <div class="nq-step" data-step="4">
+            <div class="nq-step-dot"><i class="feather-align-left" style="font-size:14px;"></i></div>
+            <span class="nq-step-label">Description</span>
+        </div>
+    </div>
+
+    {{ form_start(form, {'attr': {'id': 'editQuoteForm', 'enctype': 'multipart/form-data', 'novalidate': 'novalidate', 'action': path('individual_quote_edit', {'id': quote.id})}}) }}
+    <div class="row g-4 align-items-start">
+        <div class="col-lg-8">
+
+            {# ── Section 1 — Informations de base ── #}
+            <div class="nq-section" id="section-1">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">1</div>
+                    <div>
+                        <p class="nq-section-title">Informations de base</p>
+                        <p class="nq-section-sub">Titre, secteur et service concerné</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+                    <div class="mb-4">
+                        <label class="nq-label" for="{{ form.title.vars.id }}">
+                            <i class="feather-edit-3"></i> Titre de la demande
+                        </label>
+                        {{ form_widget(form.title, {'attr': {'class': 'nq-input', 'placeholder': 'Ex. : Réfection de toiture, installation électrique...'}}) }}
+                        {% if form_errors(form.title) %}
+                            <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.title) }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="nq-label" for="{{ form.parentCategory.vars.id }}">
+                                <i class="feather-grid"></i> Secteur / Industrie
+                            </label>
+                            {{ form_widget(form.parentCategory, {'attr': {'class': 'nq-input parent-category-select'}}) }}
+                            {{ form_errors(form.parentCategory) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="nq-label" for="{{ form.category.vars.id }}">
+                                <i class="feather-tag"></i> Service spécifique <span style="color:#ef4444;">*</span>
+                            </label>
+                            {{ form_widget(form.category, {'attr': {
+                                'class': 'nq-input child-category-select',
+                                'data-selected-id': quote.category ? quote.category.id : ''
+                            }}) }}
+                            {% if form_errors(form.category) %}
+                                <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.category) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# ── Section 2 — Photos ── #}
+            <div class="nq-section" id="section-2">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">2</div>
+                    <div>
+                        <p class="nq-section-title">
+                            Photos du projet
+                            <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:6px;">optionnel</span>
+                        </p>
+                        <p class="nq-section-sub">Jusqu'à 5 photos · JPG, PNG · Max 5 Mo chacune</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+
+                    {# Existing photos #}
+                    {% if quote.images|length > 0 %}
+                        <div class="mb-4">
+                            <p class="nq-label mb-3">
+                                <i class="feather-image"></i> Photos actuelles ({{ quote.images|length }})
+                            </p>
+                            <div class="nq-photo-grid">
+                                {% for image in quote.images %}
+                                    <div class="existing-photo-item">
+                                        <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Photo {{ loop.index }}">
+                                        <span class="existing-photo-badge">Actuelle</span>
+                                        <a href="{{ path('individual_quote_remove_image', {'id': quote.id, 'index': loop.index0}) }}"
+                                           class="existing-photo-del"
+                                           onclick="return confirm('Supprimer cette photo ?')"
+                                           title="Supprimer cette photo">
+                                            <i class="feather-x" style="font-size:10px;"></i>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if quote.images|length < 5 %}
+                                <p class="text-muted mt-2" style="font-size:12px;">
+                                    <i class="feather-plus-circle me-1" style="color:#f97316;"></i>
+                                    Vous pouvez ajouter {{ 5 - quote.images|length }} photo{{ 5 - quote.images|length > 1 ? 's' : '' }} supplémentaire{{ 5 - quote.images|length > 1 ? 's' : '' }}.
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {# New photos drop zone (only if under limit) #}
+                    {% if quote.images|length < 5 %}
+                        <div class="nq-dropzone" id="nqDropzone" role="button" tabindex="0">
+                            <div class="nq-dropzone-icon"><i class="feather-upload-cloud"></i></div>
+                            <div class="nq-dropzone-title">Ajouter de nouvelles photos</div>
+                            <div class="nq-dropzone-sub">Glissez vos photos ici ou cliquez pour parcourir</div>
+                            <div class="nq-dropzone-specs">
+                                <span><i class="feather-check-circle"></i> JPG, PNG, JPEG</span>
+                                <span><i class="feather-check-circle"></i> Max 5 Mo chacune</span>
+                                <span><i class="feather-check-circle"></i> {{ 5 - quote.images|length }} emplacement{{ 5 - quote.images|length > 1 ? 's' : '' }} disponible{{ 5 - quote.images|length > 1 ? 's' : '' }}</span>
+                            </div>
+                            {{ form_widget(form.images, {'attr': {
+                                'class': 'd-none',
+                                'accept': 'image/png,image/jpeg,image/jpg,image/webp'
+                            }}) }}
+                        </div>
+                        <div class="nq-photo-grid" id="nqPhotoGrid" style="display:none!important;"></div>
+                        <div class="nq-photo-count" id="nqPhotoCount" style="display:none;"></div>
+                    {% else %}
+                        <div class="p-3 rounded-3 text-center" style="background:#f0fdf4; border:1px solid #bbf7d0;">
+                            <i class="feather-check-circle" style="color:#10b981;"></i>
+                            <span class="text-muted small ms-2">Limite de 5 photos atteinte. Supprimez une photo pour en ajouter une nouvelle.</span>
+                        </div>
+                    {% endif %}
+
+                    {% if form_errors(form.images) %}
+                        <div class="nq-error mt-2"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.images) }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# ── Section 3 — Préférences ── #}
+            <div class="nq-section" id="section-3">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">3</div>
+                    <div>
+                        <p class="nq-section-title">Préférences &amp; Disponibilités</p>
+                        <p class="nq-section-sub">Langue, date de début, disponibilités, urgence</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="nq-label" for="{{ form.languages.vars.id }}">
+                                <i class="feather-globe"></i> Langue(s) souhaitée(s)
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.languages, {'attr': {'class': 'nq-input', 'title': 'Sélectionner une ou plusieurs langues'}}) }}
+                            {{ form_errors(form.languages) }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="nq-label" for="{{ form.desiredStartDate.vars.id }}">
+                                <i class="feather-calendar"></i> Date souhaitée de début
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.desiredStartDate, {'attr': {'class': 'nq-input'}}) }}
+                            {{ form_errors(form.desiredStartDate) }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="nq-label mb-3">
+                            <i class="feather-clock"></i> Disponibilités pour visite / devis
+                        </label>
+                        <div class="nq-chips">
+                            {% for child in form.availabilities %}
+                                <label class="nq-chip" id="chip-avail-{{ loop.index }}" for="{{ child.vars.id }}">
+                                    {{ form_widget(child) }}
+                                    {% if child.vars.label == 'Matin' %}<i class="feather-sun"></i>{% endif %}
+                                    {% if child.vars.label == 'Après-midi' %}<i class="feather-sunset"></i>{% endif %}
+                                    {% if child.vars.label == 'Week-end' %}<i class="feather-calendar"></i>{% endif %}
+                                    {% if child.vars.label == 'Flexible' %}<i class="feather-check-circle"></i>{% endif %}
+                                    {{ child.vars.label }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {{ form_errors(form.availabilities) }}
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="nq-label mb-3">
+                            <i class="feather-zap" style="color:#ef4444;"></i> Intervention urgente
+                        </label>
+                        <div class="nq-chips">
+                            {% for child in form.urgentIntervention %}
+                                <label class="nq-chip nq-chip-urgence" id="chip-urg-{{ loop.index }}" for="{{ child.vars.id }}">
+                                    {{ form_widget(child) }}
+                                    {% if child.vars.label == 'Oui' %}<i class="feather-alert-triangle" style="color:#ef4444;"></i>{% endif %}
+                                    {% if child.vars.label == 'Non' %}<i class="feather-check"></i>{% endif %}
+                                    {{ child.vars.label }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {{ form_errors(form.urgentIntervention) }}
+                    </div>
+                </div>
+            </div>
+
+            {# ── Section 4 — Description ── #}
+            <div class="nq-section" id="section-4">
+                <div class="nq-section-head">
+                    <div class="nq-section-num">4</div>
+                    <div>
+                        <p class="nq-section-title">Description du projet</p>
+                        <p class="nq-section-sub">Décrivez votre besoin en détail pour obtenir des offres précises</p>
+                    </div>
+                </div>
+                <div class="nq-section-body">
+                    <label class="nq-label" for="{{ form.description.vars.id }}">
+                        <i class="feather-align-left"></i> Description <span style="color:#ef4444;">*</span>
+                    </label>
+                    {{ form_widget(form.description, {'attr': {
+                        'class': 'nq-input',
+                        'rows': '7',
+                        'placeholder': 'Décrivez précisément vos travaux, la superficie, les matériaux souhaités, les contraintes d\'accès…'
+                    }}) }}
+                    <div style="margin-top:8px;">
+                        <div style="height:3px;border-radius:4px;background:#f1f5f9;overflow:hidden;">
+                            <div id="descCharBar" style="height:100%;width:0%;background:#e2e8f0;border-radius:4px;transition:width .3s,background .3s;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-1">
+                            <span id="descCharCount" style="font-size:11px;color:#94a3b8;">0 caractère</span>
+                            <span style="font-size:11px;color:#cbd5e1;">min. 50 recommandés</span>
+                        </div>
+                    </div>
+                    {% if form_errors(form.description) %}
+                        <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.description) }}</div>
+                    {% endif %}
+                    <div class="d-flex align-items-center gap-3 mt-3 pt-3 border-top">
+                        <button type="button" id="aiImproveBtn" class="nq-ai-btn">
+                            ✨ <span>Améliorer avec l'IA</span>
+                        </button>
+                        <span style="font-size:11px;color:#94a3b8;">L'IA reformule votre texte tout en respectant votre sens.</span>
+                    </div>
+                </div>
+            </div>
+
+            {# ── Footer ── #}
+            <div class="nq-footer">
+                <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="nq-btn-cancel">
+                    <i class="feather-arrow-left"></i> Annuler
+                </a>
+                <button type="submit" id="editSubmitBtn" class="nq-btn-submit">
+                    <i class="feather-save"></i> Sauvegarder les modifications
+                </button>
+            </div>
+
+        </div>{# /col-lg-8 #}
+
+        {# ── Sidebar ── #}
+        <div class="col-lg-4">
+            <div class="nq-sidebar">
+
+                {# Edit context card #}
+                <div class="nq-section mb-3" style="border-color: #fed7aa; background: linear-gradient(135deg, #fff7ed, #fff);">
+                    <div class="nq-section-head" style="background: #fff7ed;">
+                        <div class="nq-section-num" style="background: linear-gradient(135deg,#f97316,#ea580c);">
+                            <i class="feather-edit-2" style="font-size:13px;"></i>
+                        </div>
+                        <div>
+                            <p class="nq-section-title" style="color:#c2410c;">Mode modification</p>
+                        </div>
+                    </div>
+                    <div class="nq-section-body py-3">
+                        <div class="nq-tip-item">
+                            <div class="nq-tip-icon orange"><i class="feather-info"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">
+                                Vous modifiez un brouillon. Vos changements ne seront visibles par les prestataires qu'après publication.
+                            </div>
+                        </div>
+                        <div class="nq-tip-item mb-0">
+                            <div class="nq-tip-icon green"><i class="feather-shield"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">
+                                Les offres reçues ({{ quote.offers|length }}) ne seront pas affectées par vos modifications.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Tips card #}
+                <div class="nq-section mb-3">
+                    <div class="nq-section-head">
+                        <div class="nq-section-num" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">
+                            <i class="feather-info" style="font-size:13px;"></i>
+                        </div>
+                        <div><p class="nq-section-title">Conseils</p></div>
+                    </div>
+                    <div class="nq-section-body py-3">
+                        <div class="nq-tip-item">
+                            <div class="nq-tip-icon green"><i class="feather-target"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">Soyez précis — titre clair + description détaillée = meilleures offres.</div>
+                        </div>
+                        <div class="nq-tip-item">
+                            <div class="nq-tip-icon orange"><i class="feather-camera"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">Ajoutez des photos — les prestataires feront des offres plus adaptées.</div>
+                        </div>
+                        <div class="nq-tip-item mb-0">
+                            <div class="nq-tip-icon blue"><i class="feather-bar-chart-2"></i></div>
+                            <div style="font-size:13px;color:#475569;line-height:1.5;">Plus votre demande est complète, plus vous recevrez d'offres pertinentes.</div>
+                        </div>
+                    </div>
+                </div>
+
+                {# AI card #}
+                <div style="padding:1rem 1.25rem;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#f5f3ff);border:1px solid #c4b5fd;">
+                    <p style="font-size:13px;font-weight:700;color:#5b21b6;margin-bottom:6px;">✨ Assistant de rédaction IA</p>
+                    <p style="font-size:12px;color:#6d28d9;margin:0;line-height:1.5;">Rédigez votre description puis cliquez <strong>Améliorer avec l'IA</strong> pour obtenir une version claire et professionnelle.</p>
+                </div>
+
+                {# Live summary card #}
+                <div class="nq-section mt-3" id="nqSummaryCard">
+                    <div class="nq-section-head">
+                        <div class="nq-section-num" style="background:linear-gradient(135deg,#10b981,#059669);">
+                            <i class="feather-check-square" style="font-size:13px;"></i>
+                        </div>
+                        <div><p class="nq-section-title">Récapitulatif</p></div>
+                    </div>
+                    <div class="nq-section-body py-3">
+                        <div class="nq-tip-item mb-2" id="sum-title">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-top:5px;"></div>
+                            <span style="font-size:12px;color:#94a3b8;">Titre non rempli</span>
+                        </div>
+                        <div class="nq-tip-item mb-2" id="sum-cat">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-top:5px;"></div>
+                            <span style="font-size:12px;color:#94a3b8;">Service non sélectionné</span>
+                        </div>
+                        <div class="nq-tip-item mb-0" id="sum-desc">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;flex-shrink:0;margin-top:5px;"></div>
+                            <span style="font-size:12px;color:#94a3b8;">Description vide</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>{# /col-lg-4 #}
+
+    </div>{# /row #}
+    {{ form_end(form) }}
+
+</div>
+{% endblock %}
+
+{% block modals %}
+{{ parent() }}
+{# ── AI Modal ── #}
+<div class="modal fade" id="aiPreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius:18px;border:none;box-shadow:0 25px 60px rgba(0,0,0,.15);">
+            <div class="modal-header border-0 px-4 pt-4 pb-3" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:18px 18px 0 0;">
+                <h5 class="modal-title text-white d-flex align-items-center gap-2 fw-bold">
+                    ✨ Assistant de rédaction IA
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div id="aiLoadingState" class="text-center py-5">
+                    <div class="spinner-border mb-3" role="status" style="width:2.5rem;height:2.5rem;color:#6366f1;border-width:3px;"><span class="visually-hidden">Chargement...</span></div>
+                    <p class="fw-semibold mb-1" style="color:#6366f1;">Génération en cours…</p>
+                    <small class="text-muted">Analyse du titre et de la catégorie</small>
+                </div>
+                <div id="aiErrorState" style="display:none;">
+                    <div class="p-3 rounded-3" style="background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;">
+                        <i class="feather-alert-circle me-2"></i>
+                        <span id="aiErrorMessage">Une erreur est survenue.</span>
+                    </div>
+                </div>
+                <div id="aiResultState" style="display:none;">
+                    <div class="mb-3 p-3 rounded-3" style="background:#f5f3ff;border:1px solid #ddd6fe;">
+                        <p class="mb-1" style="font-size:0.78rem;font-weight:600;color:#5b21b6;">Contexte utilisé</p>
+                        <div id="aiContextSummary" style="font-size:0.75rem;color:#6d28d9;"></div>
+                    </div>
+                    <label class="nq-label mb-2">Suggestion IA <span style="text-transform:none;font-weight:400;color:#94a3b8;">(modifiable avant application)</span></label>
+                    <textarea id="aiSuggestionTextarea" class="nq-input" rows="8" style="border-color:#a78bfa;resize:vertical;"></textarea>
+                    <p class="mt-2 mb-0" style="font-size:11px;color:#6b7280;">
+                        <i class="feather-shield" style="font-size:10px;"></i>
+                        Cette suggestion <strong>ne sera pas enregistrée</strong> tant que vous ne cliquez pas sur "Appliquer".
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer border-0 px-4 pb-4" style="background:#fafafa;border-radius:0 0 18px 18px;">
+                <button type="button" class="nq-btn-cancel" data-bs-dismiss="modal"><i class="feather-x"></i> Annuler</button>
+                <button type="button" id="aiRegenerateBtn" style="display:none;" class="nq-btn-cancel"><i class="feather-refresh-cw"></i> Regénérer</button>
+                <button type="button" id="aiApplyBtn" style="display:none;" class="nq-ai-btn"><i class="feather-check"></i> Appliquer</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ── 1. DRAG-DROP PHOTO UPLOAD ── */
+    const dropzone   = document.getElementById('nqDropzone');
+    const fileInput  = dropzone ? dropzone.querySelector('input[type="file"]') : null;
+    const photoGrid  = document.getElementById('nqPhotoGrid');
+    const photoCount = document.getElementById('nqPhotoCount');
+    const MAX_FILES  = {{ 5 - quote.images|length }};
+    let selectedFiles = [];
+
+    if (dropzone && fileInput) {
+        dropzone.addEventListener('click', e => { if (e.target !== fileInput) fileInput.click(); });
+        dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+        ['dragenter','dragover'].forEach(evt => {
+            dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+        });
+        ['dragleave','drop'].forEach(evt => {
+            dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('drag-over'); });
+        });
+        dropzone.addEventListener('drop', e => { addFiles(Array.from(e.dataTransfer.files)); });
+        fileInput.addEventListener('change', () => { addFiles(Array.from(fileInput.files)); });
+    }
+
+    function addFiles(newFiles) {
+        const images = newFiles.filter(f => f.type.startsWith('image/') && f.size <= 5 * 1024 * 1024);
+        const slots  = MAX_FILES - selectedFiles.length;
+        if (slots <= 0) return;
+        selectedFiles = [...selectedFiles, ...images.slice(0, slots)];
+        renderPreviews(); syncFileInput(); updateStep(2, selectedFiles.length > 0);
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        renderPreviews(); syncFileInput(); updateStep(2, selectedFiles.length > 0);
+    }
+
+    function renderPreviews() {
+        if (!photoGrid) return;
+        photoGrid.innerHTML = '';
+        if (selectedFiles.length === 0) {
+            photoGrid.style.setProperty('display','none','important');
+            if (photoCount) photoCount.style.display = 'none';
+            return;
+        }
+        photoGrid.style.removeProperty('display');
+        photoGrid.style.display = 'grid';
+        selectedFiles.forEach((file, idx) => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const item = document.createElement('div');
+                item.className = 'nq-photo-item';
+                item.innerHTML = `<img src="${e.target.result}" alt="Photo ${idx+1}"><button type="button" class="nq-photo-remove" data-idx="${idx}" title="Supprimer"><i class="feather-x"></i></button>`;
+                item.querySelector('.nq-photo-remove').addEventListener('click', ev => { ev.stopPropagation(); removeFile(parseInt(ev.currentTarget.dataset.idx)); });
+                photoGrid.appendChild(item);
+            };
+            reader.readAsDataURL(file);
+        });
+        if (photoCount) {
+            const remaining = MAX_FILES - selectedFiles.length;
+            photoCount.style.display = 'flex';
+            photoCount.innerHTML = `<i class="feather-image" style="color:#f97316;font-size:13px;"></i><span>${selectedFiles.length}</span> nouvelle${selectedFiles.length > 1 ? 's' : ''} photo${selectedFiles.length > 1 ? 's' : ''}${remaining > 0 ? ` · ${remaining} emplacement${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''}` : ' · Limite atteinte'}`;
+        }
+    }
+
+    function syncFileInput() {
+        if (!fileInput) return;
+        const dt = new DataTransfer();
+        selectedFiles.forEach(f => dt.items.add(f));
+        fileInput.files = dt.files;
+    }
+
+    /* ── 2. CHIPS ── */
+    function checkStep3() {
+        const anyAvail   = document.querySelectorAll('.nq-chip:not(.nq-chip-urgence) input:checked').length > 0;
+        const urgChecked = document.querySelectorAll('.nq-chip-urgence input:checked').length > 0;
+        updateStep(3, anyAvail || urgChecked);
+    }
+
+    function initChips(selector, urgency = false) {
+        document.querySelectorAll(selector).forEach(chip => {
+            const input = chip.querySelector('input');
+            if (!input) return;
+            if (input.checked) chip.classList.add(urgency && (input.value === '1' || input.value === 'true') ? 'checked-urgent' : 'checked');
+            input.addEventListener('change', () => {
+                if (input.type === 'radio') document.querySelectorAll(selector).forEach(c => c.classList.remove('checked','checked-urgent'));
+                if (input.checked) chip.classList.add(urgency && (input.value === '1' || input.value === 'true') ? 'checked-urgent' : 'checked');
+                else chip.classList.remove('checked','checked-urgent');
+                checkStep3();
+            });
+            chip.addEventListener('click', e => {
+                if (e.target.tagName === 'INPUT') return;
+                e.preventDefault();
+                if (input.type === 'checkbox') { input.checked = !input.checked; input.dispatchEvent(new Event('change')); }
+                else if (input.type === 'radio' && !input.checked) { input.checked = true; input.dispatchEvent(new Event('change')); }
+            });
+        });
+    }
+    initChips('.nq-chip:not(.nq-chip-urgence)');
+    initChips('.nq-chip-urgence', true);
+    checkStep3();
+
+    /* ── 3. CHARACTER COUNTER ── */
+    const descTA    = document.getElementById('{{ form.description.vars.id }}');
+    const descCount = document.getElementById('descCharCount');
+    const descBar   = document.getElementById('descCharBar');
+    if (descTA && descCount) {
+        const update = () => {
+            const len = descTA.value.length;
+            const pct = Math.min(len / 50, 1) * 100;
+            const color = len >= 50 ? '#10b981' : (len >= 20 ? '#f97316' : '#e2e8f0');
+            descCount.textContent = `${len} caractère${len > 1 ? 's' : ''}`;
+            descCount.style.color = len >= 50 ? '#10b981' : (len >= 20 ? '#f97316' : '#94a3b8');
+            if (descBar) { descBar.style.width = pct + '%'; descBar.style.background = color; }
+            updateStep(4, len > 10);
+        };
+        descTA.addEventListener('input', update);
+        update();
+    }
+
+    /* ── 4. LIVE SUMMARY ── */
+    function updateSummary() {
+        const titleVal = document.getElementById('{{ form.title.vars.id }}')?.value?.trim();
+        const catOpt   = document.querySelector('.child-category-select option:checked');
+        const descVal  = descTA?.value?.trim();
+        setSummaryItem('sum-title', titleVal || null, 'Titre non rempli');
+        setSummaryItem('sum-cat', catOpt && catOpt.value ? catOpt.text : null, 'Service non sélectionné');
+        setSummaryItem('sum-desc', descVal && descVal.length > 10 ? descVal.substring(0,60) + (descVal.length > 60 ? '…' : '') : null, 'Description vide');
+    }
+
+    function setSummaryItem(id, val, emptyText) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const dot = el.querySelector('div'); const span = el.querySelector('span');
+        if (val) { dot.style.background = '#10b981'; span.style.color = '#1e293b'; span.style.fontWeight = '500'; span.textContent = val; }
+        else { dot.style.background = '#e2e8f0'; span.style.color = '#94a3b8'; span.style.fontWeight = '400'; span.textContent = emptyText; }
+    }
+
+    document.getElementById('{{ form.title.vars.id }}')?.addEventListener('input', updateSummary);
+    document.querySelector('.child-category-select')?.addEventListener('change', updateSummary);
+    descTA?.addEventListener('input', updateSummary);
+    updateSummary();
+
+    /* ── 5. STEPS ── */
+    function updateStep(step, done) {
+        const dot = document.querySelector(`.nq-step[data-step="${step}"]`);
+        if (dot) dot.classList.toggle('done', done);
+    }
+    function checkStep1() {
+        const titleOk = (document.getElementById('{{ form.title.vars.id }}')?.value?.trim()?.length ?? 0) > 2;
+        const catOk   = !!(document.querySelector('.child-category-select')?.value);
+        updateStep(1, titleOk && catOk);
+    }
+    document.getElementById('{{ form.title.vars.id }}')?.addEventListener('input', checkStep1);
+    document.querySelector('.child-category-select')?.addEventListener('change', checkStep1);
+    checkStep1();
+    // Mark existing photos as done if any
+    {% if quote.images|length > 0 %}updateStep(2, true);{% endif %}
+
+    /* ── 6. SUBMIT STATE ── */
+    document.getElementById('editQuoteForm')?.addEventListener('submit', () => {
+        const btn = document.getElementById('editSubmitBtn');
+        if (btn) { btn.disabled = true; btn.innerHTML = '<i class="feather-loader me-2" style="animation:spin 1s linear infinite;"></i> Sauvegarde en cours…'; }
+    });
+});
+
+/* ── 7. AI WRITING ASSISTANT ── */
+(function () {
+    'use strict';
+    const GEMINI_API_KEY  = '{{ app.request.server.get("GEMINI_API_KEY")|default("") }}';
+    const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent';
+    const COOLDOWN_KEY    = 'ai_quote_cooldown';
+    const COOLDOWN_MS     = 5 * 60 * 1000;
+
+    (function cleanCooldown() {
+        const until = sessionStorage.getItem(COOLDOWN_KEY);
+        if (until && Date.now() >= parseInt(until)) sessionStorage.removeItem(COOLDOWN_KEY);
+    })();
+
+    function cooldownLeft() {
+        const until = sessionStorage.getItem(COOLDOWN_KEY);
+        if (!until) return 0;
+        const r = parseInt(until) - Date.now();
+        return r > 0 ? Math.ceil(r / 1000) : 0;
+    }
+
+    function getContext() {
+        const title    = (document.getElementById('{{ form.title.vars.id }}')?.value || '').trim();
+        const catLabel = document.querySelector('.child-category-select option:checked')?.text || 'Général';
+        return { title, category: catLabel };
+    }
+
+    function buildPrompt(ctx, currentDesc) {
+        return `Tu es un assistant qui aide un propriétaire à décrire son projet de rénovation sur une plateforme de services à domicile.
+
+Contexte :
+- Titre du projet : ${ctx.title}
+- Catégorie de service : ${ctx.category}
+${currentDesc ? `- Brouillon fourni : ${currentDesc}` : ''}
+
+Tâche :
+- Rédige une description claire, naturelle, à la première personne, du point de vue du propriétaire
+- Concentre-toi sur : les travaux nécessaires, la portée, les contraintes ou préférences
+- Utilise un langage chaleureux et accessible (pas de jargon)
+- Maximum 200 mots
+- Ne mentionne PAS les prix, délais ou garanties
+- Si un brouillon est fourni, améliore-le en conservant le sens principal
+
+Retourne UNIQUEMENT le texte de description, sans préambule, sans explication.`;
+    }
+
+    async function callGemini(prompt) {
+        const secs = cooldownLeft();
+        if (secs > 0) {
+            const err = new Error('LOCAL_COOLDOWN');
+            err.type = 'LOCAL_COOLDOWN';
+            err.remaining = secs > 60 ? `${Math.floor(secs/60)}m ${secs%60}s` : `${secs}s`;
+            throw err;
+        }
+        const payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 400, temperature: 0.75 }};
+        const res = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
+            method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            const e = new Error(errData?.error?.message || `API ${res.status}`);
+            e.status = res.status; e.code = errData?.error?.status;
+            if (res.status === 429 || e.code === 'RESOURCE_EXHAUSTED') sessionStorage.setItem(COOLDOWN_KEY, Date.now() + COOLDOWN_MS);
+            throw e;
+        }
+        const data = await res.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error('Réponse IA vide.');
+        return text.trim();
+    }
+
+    function showState(s) {
+        ['Loading','Error','Result'].forEach(st => {
+            const el = document.getElementById(`ai${st}State`);
+            if (el) el.style.display = st.toLowerCase() === s ? 'block' : 'none';
+        });
+        const apply = document.getElementById('aiApplyBtn');
+        const regen = document.getElementById('aiRegenerateBtn');
+        if (apply) apply.style.display = s === 'result' ? 'inline-flex' : 'none';
+        if (regen) regen.style.display = s === 'result' ? 'inline-flex' : 'none';
+    }
+
+    async function triggerAI() {
+        const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal'));
+        if (!GEMINI_API_KEY) {
+            document.getElementById('aiErrorMessage').textContent = 'Assistant IA non configuré. Ajoutez GEMINI_API_KEY dans .env.local.';
+            showState('error'); modal.show(); return;
+        }
+        const ctx = getContext();
+        if (!ctx.title) {
+            document.getElementById('aiErrorMessage').textContent = 'Veuillez remplir le titre avant d\'utiliser l\'assistant IA.';
+            showState('error'); modal.show(); return;
+        }
+        showState('loading'); modal.show();
+        try {
+            const currentDesc = document.getElementById('{{ form.description.vars.id }}')?.value?.trim() || '';
+            document.getElementById('aiContextSummary').innerHTML = `<strong>Catégorie :</strong> ${ctx.category} &nbsp;|&nbsp; <strong>Titre :</strong> ${ctx.title}`;
+            const suggestion = await callGemini(buildPrompt(ctx, currentDesc));
+            document.getElementById('aiSuggestionTextarea').value = suggestion;
+            showState('result');
+        } catch (err) {
+            let msg;
+            if (err.type === 'LOCAL_COOLDOWN') msg = `<strong>Veuillez patienter.</strong><br>Réessayez dans <strong>${err.remaining}</strong>.`;
+            else if (err.status === 429 || err.code === 'RESOURCE_EXHAUSTED') msg = '<strong>Quota IA dépassé.</strong><br>Attendez quelques minutes et réessayez.';
+            else if (err.status === 401 || err.status === 403) msg = '<strong>Clé API invalide ou manquante.</strong>';
+            else if (err.message === 'Failed to fetch') msg = '<strong>Erreur réseau.</strong><br>Vérifiez votre connexion internet.';
+            else msg = 'L\'assistant IA est temporairement indisponible.';
+            document.getElementById('aiErrorMessage').innerHTML = msg;
+            showState('error');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('aiImproveBtn')?.addEventListener('click', triggerAI);
+        document.getElementById('aiRegenerateBtn')?.addEventListener('click', triggerAI);
+        document.getElementById('aiApplyBtn')?.addEventListener('click', function () {
+            const sug  = document.getElementById('aiSuggestionTextarea')?.value || '';
+            const desc = document.getElementById('{{ form.description.vars.id }}');
+            if (desc && sug) { desc.value = sug; desc.dispatchEvent(new Event('input')); }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal')).hide();
+        });
+    });
+})();
+</script>
+{% endblock %}

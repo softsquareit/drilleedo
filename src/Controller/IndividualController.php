@@ -196,6 +196,43 @@ class IndividualController extends AbstractController
         ]);
     }
 
+    #[Route('/quote/{id}/edit', name: 'individual_quote_edit', requirements: ['id' => '\d+'])]
+    public function editQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em, \App\Service\FileUploader $fileUploader): Response
+    {
+        if ($quote->getIndividual()?->getId() !== $this->getUser()?->getId()) {
+            throw $this->createAccessDeniedException('You do not own this quote request.');
+        }
+
+        if ($quote->getStatus() !== QuoteRequest::STATUS_DRAFT) {
+            $this->addFlash('warning', 'Seules les demandes en brouillon peuvent être modifiées.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        $form = $this->createForm(QuoteRequestType::class, $quote);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $images = $form->get('images')->getData();
+            if ($images) {
+                $imagePaths = $quote->getImages() ?? [];
+                foreach ($images as $image) {
+                    $imagePaths[] = $fileUploader->upload($image, 'quote_requests');
+                }
+                $quote->setImages($imagePaths);
+            }
+            $em->persist($quote);
+            $em->flush();
+            $this->addFlash('success', 'Demande mise à jour avec succès.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
+        }
+
+        return $this->render('individual/edit_quote.html.twig', [
+            'form'        => $form->createView(),
+            'quote'       => $quote,
+            'unreadCount' => $this->getUnreadCount($em),
+        ]);
+    }
+
     #[Route('/quote/{id}', name: 'individual_quote_show', requirements: ['id' => '\d+'])]
     public function showQuote(QuoteRequest $quote, Request $request, EntityManagerInterface $em, \App\Service\FileUploader $fileUploader): Response
     {
