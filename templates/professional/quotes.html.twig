@@ -1,129 +1,380 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Quote Requests - {{ app.user.companyName|default('Professional') }}{% endblock %}
+{% block title %}Demandes disponibles - {{ app.user.companyName|default('Professionnel') }}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+.quote-card {
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+    cursor: pointer;
+    overflow: hidden;
+    height: 100%;
+    display: flex; flex-direction: column;
+}
+.quote-card:hover {
+    box-shadow: 0 8px 32px rgba(13,33,81,0.10);
+    border-color: #f97316;
+    transform: translateY(-2px);
+}
+.quote-card.has-offer { border-color: #10b981; border-width: 2px; }
+.quote-card.urgent { border-left: 4px solid #ef4444; }
+.quote-card-header { padding: 16px 16px 0; }
+.quote-card-body { padding: 12px 16px; flex: 1; }
+.quote-card-footer { padding: 10px 16px 14px; border-top: 1px solid #f1f5f9; display: flex; gap: 8px; align-items: center; }
+.category-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+}
+.filter-bar { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+.view-toggle .toggle-btn { border: 1.5px solid #e2e8f0; background: #fff; color: #64748b; border-radius: 8px; padding: 6px 10px; cursor: pointer; transition: all 0.2s; font-size: 14px; }
+.view-toggle .toggle-btn.active { background: #0d2151; color: #fff; border-color: #0d2151; }
+.quote-table-row:hover { background: #fafafa; }
+#quotesGrid.list-view .col-sm-6 { flex: 0 0 100%; max-width: 100%; }
+#quotesGrid.list-view .quote-card { flex-direction: row; border-radius: 10px; }
+#quotesGrid.list-view .quote-card-header { padding: 14px 16px; border-right: 1px solid #f1f5f9; min-width: 220px; }
+#quotesGrid.list-view .quote-card-body { padding: 14px 16px; }
+#quotesGrid.list-view .quote-card-footer { border-top: none; border-left: 1px solid #f1f5f9; flex-direction: column; padding: 14px; min-width: 140px; }
+</style>
+{% endblock %}
 
 {% block body %}
-    <div class="drl-card">
-        <div class="drl-card-head border-bottom">
-            <div>
-                <h4 class="drl-card-title">Quote Requests</h4>
-                <p class="drl-card-sub">Opportunities from individuals in your service category</p>
+{# ── Header ── #}
+<div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+    <div>
+        <h2 style="font-size: 22px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">Demandes disponibles</h2>
+        <p class="text-muted small mb-0">Opportunités dans votre catégorie de service</p>
+    </div>
+    <span class="drl-tag drl-tag--sent" style="font-size: 13px; padding: 6px 14px;">
+        <i class="feather-layers me-1"></i> <span id="quotesCount">{{ quotes|length }}</span> demande{{ quotes|length > 1 ? 's' : '' }}
+    </span>
+</div>
+
+{# ── Filter bar ── #}
+<div class="filter-bar">
+    <div class="row g-3 align-items-end">
+        <div class="col-lg-4 col-md-6">
+            <label class="drl-label mb-1" style="font-size:11px;">Rechercher</label>
+            <div class="position-relative">
+                <i class="feather-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:14px;"></i>
+                <input type="text" id="searchInput" class="drl-input" placeholder="Titre, description…"
+                       style="padding-left: 36px; font-size: 13px;">
             </div>
-            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ quotes|length }} Available</span>
         </div>
-
-        <div class="table-responsive">
-            <table class="table mb-0 drl-table">
-                <thead>
-                    <tr>
-                        <th>Demande</th>
-                        <th>Catégorie</th>
-                        <th>Client</th>
-                        <th>Date</th>
-                        <th>Statut demande</th>
-                        <th>Mon offre</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for quote in quotes %}
-                        <tr>
-                            <td>
-                                <div>
-                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ quote.title }}</span>
-                                    <span style="font-size: 13px; color: #64748b; margin-top: 4px;">{{ quote.description|slice(0, 70) }}{% if quote.description|length > 70 %}...{% endif %}</span>
-                                </div>
-                            </td>
-                            <td>
-                                {% if quote.category %}
-                                    <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ quote.category.localizedTitle(app.request.locale) }}</span>
-                                {% else %}
-                                    <span style="color:#94a3b8;">—</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% set clientName = quote.individual.personalInfos ? (quote.individual.personalInfos.firstName|default('') ~ ' ' ~ quote.individual.personalInfos.lastName|default(''))|trim : '' %}
-                                <span style="color: #475569; font-weight: 600;">{{ clientName ?: quote.individual.email|default('Client') }}</span>
-                            </td>
-                            <td>
-                                <span style="color: #64748b; font-size: 13px;">{{ quote.creationDate|date('d/m/Y') }}</span>
-                            </td>
-                            {# Statut demande #}
-                            <td>
-                                {% set qStatus = quote.status|upper %}
-                                {% if qStatus == 'PUBLISHED' %}
-                                    <span class="drl-tag drl-tag--success"><i class="feather-zap" style="font-size:11px;"></i> Ouverte</span>
-                                {% elseif qStatus in ['ACCEPTED', 'IN_PROGRESS'] %}
-                                    <span class="drl-tag drl-tag--warning"><i class="feather-lock" style="font-size:11px;"></i> En cours</span>
-                                {% elseif qStatus == 'CLOSED' %}
-                                    <span class="drl-tag drl-tag--draft"><i class="feather-check-square" style="font-size:11px;"></i> Clôturée</span>
-                                {% else %}
-                                    <span class="drl-tag drl-tag--draft">{{ quote.status }}</span>
-                                {% endif %}
-                            </td>
-                            {# Mon offre #}
-                            <td>
-                                {% if quote.id in myOfferQuoteIds|keys %}
-                                    {% set myStatus = myOfferQuoteIds[quote.id] %}
-                                    {% if myStatus in ['PUBLISHED', 'PENDING'] %}
-                                        <span class="drl-tag drl-tag--sent"><i class="feather-send" style="font-size:11px;"></i> Envoyée</span>
-                                    {% elseif myStatus == 'INTERESTED' %}
-                                        <span class="drl-tag drl-tag--warning"><i class="feather-bookmark" style="font-size:11px;"></i> Intéressé</span>
-                                    {% elseif myStatus == 'ACCEPTED' %}
-                                        <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size:11px;"></i> Acceptée</span>
-                                    {% elseif myStatus == 'REJECTED' %}
-                                        <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size:11px;"></i> Refusée</span>
-                                    {% elseif myStatus == 'DRAFT' %}
-                                        <span class="drl-tag drl-tag--draft"><i class="feather-file" style="font-size:11px;"></i> Brouillon</span>
-                                    {% else %}
-                                        <span class="drl-tag drl-tag--draft">{{ myStatus }}</span>
-                                    {% endif %}
-                                {% else %}
-                                    <span style="color:#94a3b8; font-size:13px;">—</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="d-flex gap-1 flex-wrap align-items-center">
-                                {# Always-available: view request details #}
-                                <a href="{{ path('offer_send', {id: quote.id}) }}"
-                                   class="drl-act-btn drl-act-btn--view"
-                                   style="text-decoration:none; font-size:12px; padding:5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"
-                                   title="View Request Details">
-                                    <i class="feather-eye"></i>
-                                    <span>Details</span>
-                                </a>
-
-                                {% if quote.id in myOfferQuoteIds|keys %}
-                                    <a href="{{ path('offer_send', {id: quote.id}) }}"
-                                       class="drl-act-btn drl-act-btn--view"
-                                       style="text-decoration:none; font-size:12px; padding:5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;">
-                                        <i class="feather-edit-2"></i>
-                                        <span>Edit Offer</span>
-                                    </a>
-                                {% elseif quote.status != 'Accepted' %}
-                                    <a href="{{ path('offer_send', {id: quote.id}) }}"
-                                       class="drl-btn-orange"
-                                       style="padding:5px 12px; font-size:12px; text-decoration:none; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
-                                        <i class="feather-send"></i>
-                                        <span>Submit Offer</span>
-                                    </a>
-                                {% endif %}
-                            </div>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="7" class="text-center py-5">
-                                <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                    <i class="feather-message-square"></i>
-                                </div>
-                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No quote requests</h6>
-                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">No active quote requests found in your category</p>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="col-lg-2 col-md-6">
+            <label class="drl-label mb-1" style="font-size:11px;">Mon offre</label>
+            <select id="filterOffer" class="drl-input" style="font-size:13px;">
+                <option value="all">Toutes</option>
+                <option value="no-offer">Sans offre</option>
+                <option value="has-offer">Avec offre</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <label class="drl-label mb-1" style="font-size:11px;">Urgence</label>
+            <select id="filterUrgent" class="drl-input" style="font-size:13px;">
+                <option value="all">Toutes</option>
+                <option value="urgent">Urgentes</option>
+                <option value="normal">Normales</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-6">
+            <label class="drl-label mb-1" style="font-size:11px;">Trier par</label>
+            <select id="sortBy" class="drl-input" style="font-size:13px;">
+                <option value="recent">Plus récente</option>
+                <option value="oldest">Plus ancienne</option>
+                <option value="offers-asc">Moins d'offres</option>
+                <option value="offers-desc">Plus d'offres</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-6 d-flex align-items-end gap-2">
+            <button type="button" id="resetFilters" class="drl-act-btn drl-act-btn--view w-100 justify-content-center" style="font-size:12px;">
+                <i class="feather-x me-1"></i> Réinitialiser
+            </button>
+            <div class="view-toggle d-flex gap-1 flex-shrink-0">
+                <button type="button" class="toggle-btn active" id="viewGrid" title="Grille">
+                    <i class="feather-grid"></i>
+                </button>
+                <button type="button" class="toggle-btn" id="viewList" title="Liste">
+                    <i class="feather-list"></i>
+                </button>
+            </div>
         </div>
     </div>
+</div>
+
+{# ── Empty state ── #}
+<div id="emptyState" style="display:none;" class="text-center py-5">
+    <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
+        <i class="feather-search"></i>
+    </div>
+    <h5 class="fw-bold text-dark mb-2">Aucune demande trouvée</h5>
+    <p class="text-muted small">Essayez de modifier vos filtres.</p>
+    <button type="button" onclick="resetFilters()" class="drl-act-btn drl-act-btn--view mt-2">
+        <i class="feather-x me-1"></i> Réinitialiser les filtres
+    </button>
+</div>
+
+{# ── Cards grid ── #}
+<div class="row g-3" id="quotesGrid">
+    {% for quote in quotes %}
+        {% set hasOffer = quote.id in myOfferQuoteIds|keys %}
+        {% set myStatus = hasOffer ? myOfferQuoteIds[quote.id] : null %}
+        {% set offerCount = quote.offers|length %}
+        {% set clientName = quote.individual and quote.individual.personalInfos
+            ? (quote.individual.personalInfos.firstName|default('') ~ ' ' ~ quote.individual.personalInfos.lastName|default(''))|trim
+            : '' %}
+        {% set isUrgent = quote.urgentIntervention|default(false) %}
+
+        <div class="col-sm-6 col-xl-4 quote-item"
+             data-title="{{ quote.title|lower }}"
+             data-desc="{{ quote.description|lower }}"
+             data-has-offer="{{ hasOffer ? '1' : '0' }}"
+             data-urgent="{{ isUrgent ? '1' : '0' }}"
+             data-date="{{ quote.creationDate ? quote.creationDate.timestamp : 0 }}"
+             data-offers="{{ offerCount }}">
+            <div class="quote-card {{ hasOffer ? 'has-offer' : '' }} {{ isUrgent ? 'urgent' : '' }}">
+
+                {# Card header #}
+                <div class="quote-card-header">
+                    <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="category-icon" style="background: #eff6ff; color: #00509e;">
+                                <i class="feather-file-text"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px; line-height: 1.3;">
+                                    {{ quote.title|slice(0, 60) }}{{ quote.title|length > 60 ? '…' : '' }}
+                                </h6>
+                                {% if quote.category %}
+                                    <span class="drl-tag drl-tag--draft" style="font-size: 10px;">
+                                        {{ quote.category.localizedTitle(app.request.locale) }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column align-items-end gap-1 flex-shrink-0">
+                            {% if isUrgent %}
+                                <span class="drl-tag drl-tag--danger" style="font-size: 10px; white-space:nowrap;">
+                                    <i class="feather-zap me-1" style="font-size:9px;"></i>Urgent
+                                </span>
+                            {% endif %}
+                            {% if hasOffer %}
+                                {% if myStatus in ['PUBLISHED', 'PENDING'] %}
+                                    <span class="drl-tag drl-tag--sent" style="font-size:10px; white-space:nowrap;">
+                                        <i class="feather-send me-1" style="font-size:9px;"></i>Offre envoyée
+                                    </span>
+                                {% elseif myStatus == 'ACCEPTED' %}
+                                    <span class="drl-tag drl-tag--success" style="font-size:10px; white-space:nowrap;">
+                                        <i class="feather-check-circle me-1" style="font-size:9px;"></i>Acceptée
+                                    </span>
+                                {% elseif myStatus == 'INTERESTED' %}
+                                    <span class="drl-tag drl-tag--warning" style="font-size:10px; white-space:nowrap;">
+                                        <i class="feather-bookmark me-1" style="font-size:9px;"></i>Intéressé
+                                    </span>
+                                {% elseif myStatus == 'REJECTED' %}
+                                    <span class="drl-tag drl-tag--danger" style="font-size:10px; white-space:nowrap;">
+                                        <i class="feather-x-circle me-1" style="font-size:9px;"></i>Refusée
+                                    </span>
+                                {% elseif myStatus == 'DRAFT' %}
+                                    <span class="drl-tag drl-tag--draft" style="font-size:10px; white-space:nowrap;">
+                                        <i class="feather-file me-1" style="font-size:9px;"></i>Brouillon
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Card body #}
+                <div class="quote-card-body">
+                    <p class="text-muted mb-3" style="font-size: 12px; line-height: 1.5;">
+                        {{ quote.description|slice(0, 100) }}{{ quote.description|length > 100 ? '…' : '' }}
+                    </p>
+
+                    <div class="row g-2">
+                        {# Client #}
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="feather-user" style="font-size: 12px; color: #94a3b8;"></i>
+                                <span style="font-size: 12px; color: #475569; font-weight: 600;">
+                                    {{ clientName ?: 'Client' }}
+                                </span>
+                            </div>
+                        </div>
+                        {# Date #}
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="feather-calendar" style="font-size: 12px; color: #94a3b8;"></i>
+                                <span style="font-size: 12px; color: #475569;">
+                                    {{ quote.creationDate|date('d/m/Y') }}
+                                </span>
+                            </div>
+                        </div>
+                        {# Desired start #}
+                        {% if quote.desiredStartDate %}
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="feather-play-circle" style="font-size: 12px; color: #10b981;"></i>
+                                <span style="font-size: 12px; color: #475569;">{{ quote.desiredStartDate|date('d/m/Y') }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {# Offer count #}
+                        <div class="col-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="feather-inbox" style="font-size: 12px; color: #94a3b8;"></i>
+                                <span style="font-size: 12px; color: {{ offerCount == 0 ? '#10b981' : '#64748b' }}; font-weight: {{ offerCount == 0 ? '700' : '400' }};">
+                                    {{ offerCount == 0 ? 'Premier à répondre !' : offerCount ~ ' offre' ~ (offerCount > 1 ? 's' : '') }}
+                                </span>
+                            </div>
+                        </div>
+                        {# Languages #}
+                        {% if quote.languages|length > 0 %}
+                        <div class="col-12 mt-1">
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for lang in quote.languages %}
+                                    <span class="drl-tag drl-tag--draft" style="font-size:9px; padding:2px 6px;">{{ lang }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {# Card footer #}
+                <div class="quote-card-footer">
+                    <a href="{{ path('offer_send', {id: quote.id}) }}"
+                       class="drl-act-btn drl-act-btn--view flex-shrink-0" style="font-size: 12px; padding: 6px 12px; text-decoration:none;">
+                        <i class="feather-eye" style="font-size:12px;"></i> Détails
+                    </a>
+                    {% set qStatus = quote.status|upper %}
+                    {% if qStatus not in ['ACCEPTED', 'IN_PROGRESS', 'CLOSED'] %}
+                        {% if hasOffer and myStatus == 'DRAFT' %}
+                            <a href="{{ path('offer_send', {id: quote.id}) }}"
+                               class="drl-btn-orange flex-shrink-0" style="font-size: 12px; padding: 6px 14px; text-decoration:none;">
+                                <i class="feather-send" style="font-size:11px;"></i> Publier brouillon
+                            </a>
+                        {% elseif not hasOffer %}
+                            <a href="{{ path('offer_send', {id: quote.id}) }}"
+                               class="drl-btn-orange flex-shrink-0" style="font-size: 12px; padding: 6px 14px; text-decoration:none;">
+                                <i class="feather-send" style="font-size:11px;"></i> Créer une offre
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <span class="drl-tag drl-tag--draft" style="font-size:10px;">
+                            <i class="feather-lock me-1" style="font-size:9px;"></i>
+                            {{ qStatus == 'CLOSED' ? 'Clôturée' : 'En cours' }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12 text-center py-5">
+            <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
+                <i class="feather-message-square"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Aucune demande disponible</h5>
+            <p class="text-muted small mb-0">Aucune demande active trouvée dans votre catégorie de service.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput  = document.getElementById('searchInput');
+    const filterOffer  = document.getElementById('filterOffer');
+    const filterUrgent = document.getElementById('filterUrgent');
+    const sortBy       = document.getElementById('sortBy');
+    const emptyState   = document.getElementById('emptyState');
+    const quotesCount  = document.getElementById('quotesCount');
+    const grid         = document.getElementById('quotesGrid');
+
+    function applyFilters() {
+        const search = searchInput.value.toLowerCase().trim();
+        const offerF = filterOffer.value;
+        const urgentF = filterUrgent.value;
+        const sort = sortBy.value;
+
+        let items = Array.from(document.querySelectorAll('.quote-item'));
+
+        // Filter
+        let visible = items.filter(item => {
+            const title = item.dataset.title || '';
+            const desc  = item.dataset.desc  || '';
+            const hasOffer = item.dataset.hasOffer === '1';
+            const isUrgent = item.dataset.urgent === '1';
+
+            if (search && !title.includes(search) && !desc.includes(search)) return false;
+            if (offerF === 'no-offer' && hasOffer) return false;
+            if (offerF === 'has-offer' && !hasOffer) return false;
+            if (urgentF === 'urgent' && !isUrgent) return false;
+            if (urgentF === 'normal' && isUrgent) return false;
+            return true;
+        });
+
+        // Sort
+        visible.sort((a, b) => {
+            if (sort === 'recent')      return parseInt(b.dataset.date) - parseInt(a.dataset.date);
+            if (sort === 'oldest')      return parseInt(a.dataset.date) - parseInt(b.dataset.date);
+            if (sort === 'offers-asc')  return parseInt(a.dataset.offers) - parseInt(b.dataset.offers);
+            if (sort === 'offers-desc') return parseInt(b.dataset.offers) - parseInt(a.dataset.offers);
+            return 0;
+        });
+
+        // Show/hide
+        items.forEach(item => item.style.display = 'none');
+        visible.forEach(item => {
+            item.style.display = '';
+            grid.appendChild(item);
+        });
+
+        emptyState.style.display = visible.length === 0 ? 'block' : 'none';
+        grid.style.display       = visible.length === 0 ? 'none'  : '';
+        quotesCount.textContent  = visible.length;
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    filterOffer.addEventListener('change', applyFilters);
+    filterUrgent.addEventListener('change', applyFilters);
+    sortBy.addEventListener('change', applyFilters);
+
+    function resetFilters() {
+        searchInput.value = '';
+        filterOffer.value = 'all';
+        filterUrgent.value = 'all';
+        sortBy.value = 'recent';
+        applyFilters();
+    }
+    window.resetFilters = resetFilters;
+    document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+    // View toggle
+    document.getElementById('viewGrid').addEventListener('click', function () {
+        grid.classList.remove('list-view');
+        this.classList.add('active');
+        document.getElementById('viewList').classList.remove('active');
+        document.querySelectorAll('.quote-item').forEach(el => {
+            el.className = el.className.replace('col-12', 'col-sm-6 col-xl-4');
+        });
+    });
+    document.getElementById('viewList').addEventListener('click', function () {
+        grid.classList.add('list-view');
+        this.classList.add('active');
+        document.getElementById('viewGrid').classList.remove('active');
+        document.querySelectorAll('.quote-item').forEach(el => {
+            el.className = el.className.replace('col-sm-6 col-xl-4', 'col-12');
+        });
+    });
+
+    applyFilters();
+});
+</script>
 {% endblock %}

@@ -485,6 +485,8 @@
 
 {% block modals %}
     {{ parent() }}
+    {% set acceptedOffer = null %}
+    {% for offer in quote.offers %}{% if offer.status|upper == 'ACCEPTED' %}{% set acceptedOffer = offer %}{% endif %}{% endfor %}
 
     {# ── Revert to Published Modal ── #}
     <div class="modal fade" id="revertQuoteModal" tabindex="-1" aria-hidden="true">

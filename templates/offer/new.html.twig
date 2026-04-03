@@ -1,329 +1,564 @@
 {% extends app.user and is_granted('ROLE_PROFESSIONAL') ? 'professional/base_professional.html.twig' : (app.user and is_granted('ROLE_COMPANY') ? 'company/base_company.html.twig' : 'base.html.twig') %}
 
 {% set parentRequest = quote ?? directRequest %}
+{% set provider = app.user %}
+{% set providerName = provider.primaryContact
+    ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName)
+    : provider.companyName|default(provider.email) %}
 
-{% block title %}{{ isEdit|default(false) ? 'Edit Offer' : 'Send Offer' }} - {{ parentRequest.title }}{% endblock %}
+{% block title %}{{ isEdit|default(false) ? 'Modifier l\'offre' : 'Créer une offre' }} — {{ parentRequest.title }}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+.offer-form-section {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+}
+.offer-form-section-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+.offer-form-section-header .section-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--drl-navy, #0d2151); color: #fff;
+    font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.offer-form-section-header h6 {
+    font-size: 14px; font-weight: 800; color: #0d2151; margin: 0;
+}
+.offer-form-section-body { padding: 20px; }
+.offer-price-input {
+    font-size: 2.5rem; font-weight: 800; color: #0d2151;
+    border: none; border-bottom: 3px solid #e2e8f0;
+    outline: none; width: 100%; background: transparent;
+    padding: 4px 0; transition: border-color 0.2s;
+}
+.offer-price-input:focus { border-color: #f97316; }
+.offer-price-input::placeholder { color: #cbd5e1; }
+.char-counter { font-size: 11px; color: #94a3b8; transition: color 0.2s; }
+.char-counter.warn { color: #f97316; }
+.char-counter.danger { color: #ef4444; font-weight: 700; }
+.demand-sidebar-card {
+    border-radius: 14px; border: 1px solid #e2e8f0;
+    background: #fff; overflow: hidden;
+}
+.demand-sidebar-section { padding: 16px; border-bottom: 1px solid #f1f5f9; }
+.demand-sidebar-section:last-child { border-bottom: none; }
+.info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.info-row:last-child { margin-bottom: 0; }
+.info-row .info-icon {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.ai-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff; border: none; border-radius: 20px;
+    padding: 5px 14px; font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+}
+.ai-btn:hover { opacity: 0.85; }
+.ai-btn-outline {
+    background: transparent; color: #6366f1;
+    border: 1px solid #c4b5fd; border-radius: 20px;
+    padding: 5px 14px; font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+.autosave-dot { animation: pulse 2s infinite; }
+</style>
+{% endblock %}
 
 {% block body %}
-    <div class="row g-4">
-        <div class="col-lg-8">
-            {# ── Request Details ── #}
-            <div class="pro-card pro-card-elevated mb-4"
-                 data-category="{{ parentRequest.category ? parentRequest.category.localizedTitle(app.request.locale) : '' }}"
-                 data-request-title="{{ parentRequest.title }}"
-                 data-request-description="{{ parentRequest.description }}">
-                <div class="pro-card-header">
-                    <h4 class="pro-card-title">{{ directRequest is defined ? 'Direct Request' : 'Quote Request' }} Details</h4>
-                    {% if parentRequest.category %}
-                        <span class="pro-badge info">{{ parentRequest.category.localizedTitle(app.request.locale) }}</span>
-                    {% endif %}
-                </div>
-                <div class="pro-card-body">
-                    <h5 class="mb-3">{{ parentRequest.title }}</h5>
-                    <p class="pro-text-muted mb-4">{{ parentRequest.description }}</p>
-                    
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="feather-calendar text-primary"></i>
-                                <div>
-                                    <small class="pro-text-muted d-block">{{ directRequest is defined ? 'Envoyée le' : 'Publiée le' }}</small>
-                                    <span class="pro-fw-semibold">{{ parentRequest.creationDate|date('d/m/Y') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="feather-user text-primary"></i>
-                                <div>
-                                    <small class="pro-text-muted d-block">Client</small>
-                                    {% set clientName = parentRequest.individual and parentRequest.individual.personalInfos ? (parentRequest.individual.personalInfos.firstName|default('') ~ ' ' ~ parentRequest.individual.personalInfos.lastName|default(''))|trim : '' %}
-                                    <span class="pro-fw-semibold">{{ clientName ?: 'Client' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        {% if parentRequest.desiredStartDate %}
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="feather-play-circle text-success"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block">Date souhaitée de début</small>
-                                        <span class="pro-fw-semibold">{{ parentRequest.desiredStartDate|date('d/m/Y') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if parentRequest.urgentIntervention %}
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="feather-zap text-danger"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block">Intervention</small>
-                                        <span class="pro-badge danger">Urgente</span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if parentRequest.availabilities|length > 0 %}
-                            <div class="col-12">
-                                <div class="d-flex align-items-start gap-2">
-                                    <i class="feather-clock text-primary mt-1"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block">Disponibilités client</small>
-                                        <div class="d-flex flex-wrap gap-1 mt-1">
-                                            {% for dispo in parentRequest.availabilities %}
-                                                <span class="pro-badge info">{{ dispo }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if parentRequest.languages|length > 0 %}
-                            <div class="col-12">
-                                <div class="d-flex align-items-start gap-2">
-                                    <i class="feather-globe text-primary mt-1"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block">Langue(s) souhaitée(s)</small>
-                                        <div class="d-flex flex-wrap gap-1 mt-1">
-                                            {% for lang in parentRequest.languages %}
-                                                <span class="pro-badge secondary">{{ lang }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
+{# ── Back link ── #}
+<div class="mb-3">
+    <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}"
+       class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2" style="font-size: 13px; font-weight: 600;">
+        <i class="feather-arrow-left"></i>
+        Retour à mes offres
+    </a>
+</div>
 
-                    {% if parentRequest.images is defined and parentRequest.images|length > 0 %}
-                        <div class="mt-4">
-                            <label class="pro-form-label mb-2">Attached Photos</label>
-                            <div class="row g-2">
-                                {% for image in parentRequest.images %}
-                                    <div class="col-auto">
-                                        {% set uploadDir = directRequest is defined ? 'quote_requests' : 'quote_requests' %}
-                                        <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank">
-                                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Request Image" class="rounded" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--pro-border);">
-                                        </a>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
+{# ── Page header ── #}
+<div class="mb-4 d-flex align-items-start justify-content-between flex-wrap gap-3">
+    <div>
+        <h2 style="font-size: 22px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">
+            {{ isEdit|default(false) ? 'Modifier votre offre' : 'Créer une offre' }}
+        </h2>
+        <p class="text-muted small mb-0">
+            En réponse à : <strong>{{ parentRequest.title }}</strong>
+        </p>
+    </div>
+    <div class="d-flex align-items-center gap-2" id="autosaveStatus" style="display:none!important;">
+        <span class="rounded-circle autosave-dot" style="width:7px;height:7px;background:#10b981;display:inline-block;"></span>
+        <span class="text-muted" style="font-size:12px;" id="autosaveText">Brouillon sauvegardé</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    {# ══════════════ FORM COLUMN ══════════════ #}
+    <div class="col-lg-7">
+        {{ form_start(form, {
+            'attr': {
+                'id': 'offerForm',
+                'data-category': parentRequest.category ? parentRequest.category.localizedTitle(app.request.locale) : '',
+                'data-request-title': parentRequest.title,
+                'data-request-description': parentRequest.description,
+                'novalidate': 'novalidate'
+            }
+        }) }}
+
+        {# ── Section 1: Prix ── #}
+        <div class="offer-form-section">
+            <div class="offer-form-section-header">
+                <div class="section-num">1</div>
+                <div>
+                    <h6>Prix proposé</h6>
+                    <span class="text-muted" style="font-size:11px;">Entrez votre meilleur prix pour cette prestation</span>
                 </div>
             </div>
-
-            {# ── Send/Edit Offer Form ── #}
-            <div class="pro-card pro-card-elevated">
-                <div class="pro-card-header">
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                        <div>
-                            <h4 class="pro-card-title">{{ isEdit|default(false) ? 'Update Your Offer' : 'Your Offer' }}</h4>
-                            <p class="pro-card-subtitle">Provide your best price and a detailed message</p>
-                        </div>
-                        {% if offer is defined and offer.status %}
-                            <span class="pro-badge {{ offer.status == 'PUBLISHED' ? 'success' : 'secondary' }}">
-                                {{ offer.status }}
-                            </span>
-                        {% endif %}
+            <div class="offer-form-section-body">
+                <div class="d-flex align-items-end gap-3">
+                    <div style="flex:1;">
+                        {{ form_widget(form.price, {
+                            'attr': {
+                                'class': 'offer-price-input',
+                                'id': 'offer_price',
+                                'placeholder': '0',
+                                'required': 'required',
+                                'autocomplete': 'off'
+                            }
+                        }) }}
+                        {{ form_errors(form.price) }}
                     </div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: #94a3b8; padding-bottom: 6px;">$</div>
                 </div>
-                <div class="pro-card-body">
-                    {{ form_start(form, {'attr': {'class': 'pro-form-row', 'novalidate': 'novalidate'}}) }}
-                        <div class="row g-4">
-                            <div class="col-md-12">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">Total Proposed Price ($) <span class="pro-text-danger">*</span></label>
-                                    {{ form_widget(form.price, {'attr': {'class': 'pro-form-input', 'placeholder': 'e.g. 500', 'required': 'required'}}) }}
-                                    {{ form_errors(form.price) }}
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="pro-form-group">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <label class="pro-form-label mb-0">Message to Client <span class="pro-text-danger">*</span></label>
-                                        <div class="d-flex gap-2">
-                                            <button type="button" id="aiShowPromptBtn" class="pro-btn pro-btn-sm pro-btn-outline" style="gap: 6px; display: inline-flex; align-items: center; font-size: 0.82rem; padding: 6px 14px; border-radius: 20px; cursor: pointer;">
-                                                <span>🔍</span>
-                                                <span>View Prompt</span>
-                                            </button>
-                                            <button type="button" id="aiImproveBtn" class="pro-btn pro-btn-sm" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; gap: 6px; display: inline-flex; align-items: center; font-size: 0.82rem; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: opacity 0.2s;">
-                                                <span id="aiBtnIcon">✨</span>
-                                                <span id="aiBtnText">Improve with AI</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    {{ form_widget(form.description, {'attr': {'class': 'pro-form-textarea', 'id': 'offer_description', 'placeholder': 'Describe your approach, availability, and why you are the best fit...', 'required': 'required', 'rows': '6'}}) }}
-                                    {{ form_errors(form.description) }}
-                                    <small class="pro-form-help mt-1 d-block" id="aiHint" style="color: #6366f1; display: none !important;">✨ AI can improve clarity and tone while respecting your intent.</small>
-                                </div>
-                            </div>
-                            {# ── Visite préalable ── #}
-                            <div class="col-md-6">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label mb-2">
-                                        <i class="feather-eye me-1 text-primary"></i> Visite préalable nécessaire
-                                    </label>
-                                    <div class="d-flex gap-4 mt-1">
-                                        {% for child in form.priorVisit %}
-                                            <div class="form-check form-check-inline">
-                                                {{ form_widget(child, {'attr': {'class': 'form-check-input'}}) }}
-                                                <label class="form-check-label" for="{{ child.vars.id }}">{{ child.vars.label }}</label>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    {{ form_errors(form.priorVisit) }}
-                                </div>
-                            </div>
+                {% if parentRequest.desiredBudget is defined and parentRequest.desiredBudget %}
+                    <p class="text-muted small mt-2 mb-0">
+                        <i class="feather-info me-1"></i>
+                        Budget demandé : <strong>{{ parentRequest.desiredBudget|number_format(2) }} $</strong>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
 
-                            {# ── Date possible de début ── #}
-                            <div class="col-md-6">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label" for="{{ form.possibleStartDate.vars.id }}">
-                                        <i class="feather-calendar me-1 text-primary"></i> Date possible de début
-                                    </label>
-                                    {{ form_widget(form.possibleStartDate, {'attr': {'class': 'pro-form-input'}}) }}
-                                    {{ form_errors(form.possibleStartDate) }}
-                                </div>
-                            </div>
-
-                            {# ── Délai de réalisation ── #}
-                            <div class="col-12">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">
-                                        <i class="feather-clock me-1 text-primary"></i> Délai de réalisation estimé <span class="pro-text-muted">(Optionnel)</span>
-                                    </label>
-                                    <div class="row g-2 mt-1">
-                                        <div class="col-6">
-                                            {{ form_widget(form.estimatedDuration, {'attr': {'class': 'pro-form-input', 'placeholder': 'Ex. : 3'}}) }}
-                                            {{ form_errors(form.estimatedDuration) }}
-                                        </div>
-                                        <div class="col-6">
-                                            {{ form_widget(form.estimatedDurationUnit, {'attr': {'class': 'pro-form-select'}}) }}
-                                            {{ form_errors(form.estimatedDurationUnit) }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="pro-form-group">
-                                    <label class="pro-form-label">Documents joints <span class="pro-text-muted">(Optionnel)</span></label>
-                                    {{ form_widget(form.documents, {'attr': {'class': 'pro-form-input'}}) }}
-                                    {{ form_errors(form.documents) }}
-                                    <p class="pro-form-help">Devis, certifications, ou documents complémentaires (Max 10MB chacun)</p>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="d-flex gap-3">
-                                    {% if offer is not defined or offer.status != 'PUBLISHED' %}
-                                        <button type="submit" name="action" value="publish" class="pro-btn pro-btn-primary pro-btn-lg">
-                                            <i class="feather-send"></i> Publish Offer
-                                        </button>
-                                        <button type="submit" name="action" value="draft" class="pro-btn pro-btn-outline pro-btn-lg">
-                                            <i class="feather-save"></i> Save as Draft
-                                        </button>
-                                    {% else %}
-                                        <div class="pro-alert success w-100">
-                                            <i class="feather-check-circle"></i>
-                                            This offer is published and cannot be modified.
-                                        </div>
-                                    {% endif %}
-                                    <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-lg">
-                                        Back
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {{ form_end(form) }}
+        {# ── Section 2: Description ── #}
+        <div class="offer-form-section">
+            <div class="offer-form-section-header">
+                <div class="section-num">2</div>
+                <div>
+                    <h6>Description de votre prestation</h6>
+                    <span class="text-muted" style="font-size:11px;">Décrivez précisément ce que vous proposez</span>
+                </div>
+                <div class="ms-auto d-flex gap-2">
+                    <button type="button" id="aiShowPromptBtn" class="ai-btn-outline">
+                        <i class="feather-eye" style="font-size:11px;"></i> Voir prompt
+                    </button>
+                    <button type="button" id="aiImproveBtn" class="ai-btn">
+                        <span id="aiBtnIcon">✨</span>
+                        <span id="aiBtnText">Améliorer avec l'IA</span>
+                    </button>
+                </div>
+            </div>
+            <div class="offer-form-section-body">
+                {{ form_widget(form.description, {
+                    'attr': {
+                        'class': 'drl-input',
+                        'id': 'offer_description',
+                        'placeholder': "Décrivez votre approche, les matériaux utilisés, ce qui est inclus, vos délais, et pourquoi vous êtes le meilleur choix pour cette mission...",
+                        'required': 'required',
+                        'rows': '7',
+                        'style': 'resize: vertical;'
+                    }
+                }) }}
+                {{ form_errors(form.description) }}
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <small class="text-muted" style="font-size:11px; color:#6366f1;">✨ Utilisez l'IA pour améliorer votre message</small>
+                    <span class="char-counter" id="descCounter">0 / 2000</span>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="pro-card pro-card-elevated sticky-top" style="top: 100px;">
-                <div class="pro-card-header">
-                    <h5 class="pro-card-title">Instructions</h5>
+        {# ── Section 3: Conditions & Délais ── #}
+        <div class="offer-form-section">
+            <div class="offer-form-section-header">
+                <div class="section-num">3</div>
+                <div>
+                    <h6>Conditions &amp; Délais</h6>
+                    <span class="text-muted" style="font-size:11px;">Précisez vos disponibilités et contraintes</span>
                 </div>
-                <div class="pro-card-body">
-                    <ul class="pro-list-bullet">
-                        <li>Soyez précis sur ce qui est inclus dans votre prix.</li>
-                        <li>Indiquez si une visite préalable est nécessaire.</li>
-                        <li>Précisez votre date possible de début et le délai estimé.</li>
-                        <li>Joignez vos certifications ou documents pertinents.</li>
-                        <li>Dès l'envoi, le client reçoit une notification immédiate.</li>
-                    </ul>
-                    <div class="pro-alert info mt-4">
-                        <i class="feather-info"></i>
-                        <p class="mb-0">Your contact information will only be shared if the client accepts your offer.</p>
+            </div>
+            <div class="offer-form-section-body">
+                <div class="row g-4">
+                    {# Visite préalable #}
+                    <div class="col-sm-6">
+                        <label class="drl-label mb-2">
+                            <i class="feather-eye me-1 text-primary"></i> Visite préalable nécessaire
+                        </label>
+                        <div class="d-flex gap-4 mt-1">
+                            {% for child in form.priorVisit %}
+                                <div class="form-check">
+                                    {{ form_widget(child, {'attr': {'class': 'form-check-input'}}) }}
+                                    <label class="form-check-label" for="{{ child.vars.id }}" style="font-size:14px;">
+                                        {{ child.vars.label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {{ form_errors(form.priorVisit) }}
                     </div>
-                    {# AI Tip card #}
-                    <div class="mt-3 p-3 rounded-3" style="background: linear-gradient(135deg, #ede9fe, #f5f3ff); border: 1px solid #c4b5fd;">
-                        <p class="mb-1" style="font-size: 0.82rem; font-weight: 600; color: #5b21b6;">✨ AI Writing Assistant</p>
-                        <p class="mb-0" style="font-size: 0.78rem; color: #6d28d9;">Use the <strong>Improve with AI</strong> button to get a professional, client-aligned version of your message. You stay in control — apply or discard.</p>
+
+                    {# Date début possible #}
+                    <div class="col-sm-6">
+                        <label class="drl-label" for="{{ form.possibleStartDate.vars.id }}">
+                            <i class="feather-calendar me-1 text-primary"></i> Date possible de début
+                        </label>
+                        {{ form_widget(form.possibleStartDate, {'attr': {'class': 'drl-input mt-1'}}) }}
+                        {{ form_errors(form.possibleStartDate) }}
+                    </div>
+
+                    {# Délai estimé #}
+                    <div class="col-12">
+                        <label class="drl-label mb-2">
+                            <i class="feather-clock me-1 text-primary"></i> Délai de réalisation estimé
+                            <span class="text-muted fw-normal ms-1" style="font-size:11px;">(Optionnel)</span>
+                        </label>
+                        <div class="d-flex gap-2">
+                            <div style="flex:0 0 120px;">
+                                {{ form_widget(form.estimatedDuration, {'attr': {'class': 'drl-input', 'placeholder': 'Ex. : 3'}}) }}
+                            </div>
+                            <div style="flex:0 0 140px;">
+                                {{ form_widget(form.estimatedDurationUnit, {'attr': {'class': 'drl-input'}}) }}
+                            </div>
+                        </div>
+                        {{ form_errors(form.estimatedDuration) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ── Section 4: Documents ── #}
+        <div class="offer-form-section">
+            <div class="offer-form-section-header">
+                <div class="section-num">4</div>
+                <div>
+                    <h6>Documents joints</h6>
+                    <span class="text-muted" style="font-size:11px;">Devis détaillé, certifications, portfolio (optionnel)</span>
+                </div>
+            </div>
+            <div class="offer-form-section-body">
+                <div id="dropZone" class="rounded-3 text-center p-4 mb-3"
+                     style="border: 2px dashed #e2e8f0; background: #f8fafc; cursor: pointer; transition: all .2s;"
+                     onclick="document.getElementById('offerDocInput').click()"
+                     ondragover="event.preventDefault(); this.style.borderColor='#f97316'; this.style.background='#fff7ed';"
+                     ondragleave="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';"
+                     ondrop="handleDrop(event)">
+                    <i class="feather-upload-cloud" style="font-size: 2rem; color: #94a3b8; display: block; margin-bottom: 8px;"></i>
+                    <p class="fw-bold text-dark mb-1" style="font-size: 14px;">Glisser des fichiers ici ou <span style="color: #f97316;">cliquer pour parcourir</span></p>
+                    <p class="text-muted mb-0" style="font-size: 12px;">PDF, JPG, PNG · Max 10 MB chacun</p>
+                </div>
+                <div id="offerDocWidget" style="display:none;">
+                    {{ form_widget(form.documents, {'attr': {'class': 'drl-input', 'id': 'offerDocInput'}}) }}
+                </div>
+                {{ form_errors(form.documents) }}
+                {% if offer is defined and offer.documents|length > 0 %}
+                    <div class="mt-3">
+                        <p class="text-muted small mb-2">Documents déjà joints :</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for doc in offer.documents %}
+                                <span class="drl-tag drl-tag--draft">
+                                    <i class="feather-paperclip me-1" style="font-size:10px;"></i>
+                                    {{ doc|slice(0, 25) }}{{ doc|length > 25 ? '…' : '' }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# ── Profil prévisualisé ── #}
+        <div class="offer-form-section">
+            <div class="offer-form-section-header">
+                <div class="section-num">5</div>
+                <div>
+                    <h6>Votre profil professionnel</h6>
+                    <span class="text-muted" style="font-size:11px;">Ces informations seront visibles par le client</span>
+                </div>
+                <a href="{{ path('professional_profile') }}" class="ms-auto drl-act-btn drl-act-btn--view" style="font-size:11px; white-space:nowrap;">
+                    <i class="feather-edit-2" style="font-size:11px;"></i> Modifier
+                </a>
+            </div>
+            <div class="offer-form-section-body">
+                <div class="d-flex align-items-center gap-3">
+                    {% if provider.logo %}
+                        <img src="{{ asset('uploads/logos/' ~ provider.logo) }}" alt="{{ providerName }}"
+                             style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0; flex-shrink: 0;">
+                    {% else %}
+                        <div class="drl-stat-icon drl-stat-icon--1 m-0 flex-shrink-0" style="width:52px;height:52px;font-size:18px;border-radius:50%;">
+                            {{ providerName|slice(0,1)|upper }}
+                        </div>
+                    {% endif %}
+                    <div>
+                        <div class="fw-bold text-dark" style="font-size:15px;">{{ providerName }}</div>
+                        <div class="text-muted small">{{ provider.getType() }}</div>
+                        {% if provider.stats and provider.stats.averageRating > 0 %}
+                            <div class="d-flex align-items-center gap-1 mt-1">
+                                <i class="feather-star" style="font-size:12px; color:#f59e0b; fill:#f59e0b;"></i>
+                                <span style="font-size:12px; font-weight:700; color:#0d2151;">{{ provider.stats.averageRating|number_format(1) }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if provider.about %}
+                    <p class="text-muted small mt-3 mb-0 p-3 rounded-3" style="background:#f8fafc; font-style:italic; line-height:1.5;">
+                        {{ provider.about|slice(0, 200) }}{{ provider.about|length > 200 ? '…' : '' }}
+                    </p>
+                {% else %}
+                    <div class="mt-3 p-3 rounded-3" style="background:#fffbeb; border:1px solid #fde68a;">
+                        <p class="small mb-0" style="color:#92400e;">
+                            <i class="feather-alert-triangle me-1"></i>
+                            Votre profil est incomplet — ajoutez une description pour rassurer les clients.
+                            <a href="{{ path('professional_profile') }}" class="fw-bold ms-1" style="color:#f97316;">Compléter mon profil</a>
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# ── Actions ── #}
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            {% if offer is not defined or offer.status != 'PUBLISHED' %}
+                <button type="submit" name="action" value="publish" class="drl-btn-orange px-5 shadow-sm" style="font-size:15px; padding:12px 28px;">
+                    <i class="feather-send me-2"></i> Publier l'offre
+                </button>
+                <button type="submit" name="action" value="draft" class="drl-act-btn drl-act-btn--view" style="padding:12px 20px; font-size:14px;">
+                    <i class="feather-save me-2"></i> Sauvegarder brouillon
+                </button>
+            {% else %}
+                <div class="drl-alert drl-alert--success d-flex align-items-center gap-2">
+                    <i class="feather-check-circle alert-icon"></i>
+                    <div class="alert-content">Cette offre est publiée et ne peut plus être modifiée.</div>
+                </div>
+            {% endif %}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+    {# ══════════════ DEMAND SIDEBAR ══════════════ #}
+    <div class="col-lg-5">
+        <div class="demand-sidebar-card sticky-top" style="top: 90px;">
+
+            {# Header #}
+            <div class="demand-sidebar-section" style="background: linear-gradient(135deg, #0d2151, #1e3a7a);">
+                <div class="d-flex align-items-start justify-content-between gap-2">
+                    <div>
+                        <div class="text-white opacity-75 small fw-bold text-uppercase mb-1" style="letter-spacing:.05em; font-size:10px;">
+                            {{ directRequest is defined ? 'Demande directe' : 'Demande publique' }}
+                        </div>
+                        <h5 class="text-white fw-bold mb-2" style="font-size:15px; line-height:1.3;">{{ parentRequest.title }}</h5>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            {% if parentRequest.category %}
+                                <span class="drl-tag" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:10px;">
+                                    {{ parentRequest.category.localizedTitle(app.request.locale) }}
+                                </span>
+                            {% endif %}
+                            {% if parentRequest.urgentIntervention %}
+                                <span class="drl-tag" style="background:rgba(239,68,68,0.2); color:#fca5a5; border:1px solid rgba(239,68,68,0.3); font-size:10px;">
+                                    <i class="feather-zap me-1" style="font-size:9px;"></i>Urgente
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Key info #}
+            <div class="demand-sidebar-section">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 rounded-3" style="background:#f8fafc; border:1px solid #f1f5f9;">
+                            <div class="text-muted" style="font-size:10px; text-transform:uppercase; letter-spacing:.05em; font-weight:700;">Publiée le</div>
+                            <div class="fw-bold text-dark mt-1" style="font-size:13px;">{{ parentRequest.creationDate|date('d/m/Y') }}</div>
+                        </div>
+                    </div>
+                    {% if parentRequest.desiredStartDate %}
+                    <div class="col-6">
+                        <div class="p-3 rounded-3" style="background:#f0fdf4; border:1px solid #bbf7d0;">
+                            <div class="text-muted" style="font-size:10px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; color:#166534;">Début souhaité</div>
+                            <div class="fw-bold mt-1" style="font-size:13px; color:#166534;">{{ parentRequest.desiredStartDate|date('d/m/Y') }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if parentRequest.availabilities|length > 0 %}
+                    <div class="col-12">
+                        <div class="text-muted mb-1" style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;">Disponibilités</div>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for dispo in parentRequest.availabilities %}
+                                <span class="drl-tag drl-tag--draft" style="font-size:10px;">{{ dispo }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Client #}
+            {% set client = parentRequest.individual %}
+            {% if client %}
+            <div class="demand-sidebar-section">
+                <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">Client</div>
+                {% set clientName = client.personalInfos
+                    ? (client.personalInfos.firstName|default('') ~ ' ' ~ client.personalInfos.lastName|default(''))|trim
+                    : '' %}
+                <div class="d-flex align-items-center gap-3">
+                    <div class="drl-stat-icon drl-stat-icon--2 m-0 flex-shrink-0" style="width:38px;height:38px;font-size:14px;border-radius:50%;">
+                        {{ (clientName ?: client.email)|slice(0,1)|upper }}
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark" style="font-size:13px;">{{ clientName ?: 'Client' }}</div>
+                        <div class="text-muted" style="font-size:11px;">
+                            <i class="feather-lock me-1" style="font-size:10px;"></i>Contact révélé si acceptée
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {# Description #}
+            <div class="demand-sidebar-section">
+                <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">Description</div>
+                <p class="text-dark mb-0" style="font-size:13px; line-height:1.6;" id="sidebarDesc">
+                    {{ parentRequest.description|slice(0, 200) }}{% if parentRequest.description|length > 200 %}<span id="sidebarDescEllipsis">… <button type="button" onclick="document.getElementById('sidebarDescFull').style.display='inline'; document.getElementById('sidebarDescShort').style.display='none';" style="background:none;border:none;color:#f97316;font-size:12px;font-weight:700;padding:0;cursor:pointer;">Lire plus</button></span>{% endif %}
+                </p>
+                {% if parentRequest.description|length > 200 %}
+                    <span id="sidebarDescShort" style="display:block;"></span>
+                    <span id="sidebarDescFull" style="display:none;">
+                        <p class="text-dark mb-0" style="font-size:13px; line-height:1.6;">{{ parentRequest.description }}</p>
+                    </span>
+                {% endif %}
+            </div>
+
+            {# Languages #}
+            {% if parentRequest.languages|length > 0 %}
+            <div class="demand-sidebar-section">
+                <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">Langue(s) souhaitée(s)</div>
+                <div class="d-flex flex-wrap gap-1">
+                    {% for lang in parentRequest.languages %}
+                        <span class="drl-tag drl-tag--draft" style="font-size:10px;"><i class="feather-globe me-1" style="font-size:9px;"></i>{{ lang }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Photos #}
+            {% if parentRequest.images is defined and parentRequest.images|length > 0 %}
+            <div class="demand-sidebar-section">
+                <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">
+                    Photos ({{ parentRequest.images|length }})
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for image in parentRequest.images|slice(0, 4) %}
+                        <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank" class="d-block rounded-2 overflow-hidden"
+                           style="width:64px; height:64px; flex-shrink:0; border:1px solid #e2e8f0;">
+                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Photo demande"
+                                 style="width:100%; height:100%; object-fit:cover;">
+                        </a>
+                    {% endfor %}
+                    {% if parentRequest.images|length > 4 %}
+                        <div class="d-flex align-items-center justify-content-center rounded-2"
+                             style="width:64px; height:64px; flex-shrink:0; background:#f1f5f9; border:1px solid #e2e8f0; font-size:13px; font-weight:700; color:#64748b;">
+                            +{{ parentRequest.images|length - 4 }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Competing offers count #}
+            {% set existingOffers = parentRequest.offers|length %}
+            {% if existingOffers > 0 %}
+            <div class="demand-sidebar-section">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="feather-users" style="font-size:14px; color:#64748b;"></i>
+                    <span class="text-muted small">
+                        <strong>{{ existingOffers }}</strong> offre{{ existingOffers > 1 ? 's' : '' }} déjà reçue{{ existingOffers > 1 ? 's' : '' }} pour cette demande
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+
+            {# AI tip #}
+            <div class="demand-sidebar-section" style="background: linear-gradient(135deg, #ede9fe, #f5f3ff);">
+                <div class="d-flex gap-2 align-items-start">
+                    <span style="font-size:20px; flex-shrink:0;">✨</span>
+                    <div>
+                        <p class="fw-bold mb-1" style="font-size:12px; color:#5b21b6;">Assistant IA disponible</p>
+                        <p class="mb-0" style="font-size:11px; color:#6d28d9;">
+                            Rédigez votre description puis cliquez <strong>Améliorer avec l'IA</strong> pour obtenir une version professionnelle alignée à cette demande.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block modals %}
 {{ parent() }}
-{# ── AI Preview Modal — placed at root body level to avoid overflow clipping ── #}
-<div class="modal fade" id="aiPreviewModal" tabindex="-1" aria-labelledby="aiPreviewModalLabel" aria-hidden="true">
+{# ── AI Preview Modal ── #}
+<div class="modal fade" id="aiPreviewModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 25px 60px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 16px 16px 0 0; padding: 1.25rem 1.5rem;">
-                <h5 class="modal-title text-white d-flex align-items-center gap-2" id="aiPreviewModalLabel">
-                    <span>✨</span> AI Writing Assistant
+        <div class="modal-content drl-modal-content" style="border-radius:16px;">
+            <div class="modal-header" style="background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:16px 16px 0 0; padding:1.25rem 1.5rem;">
+                <h5 class="modal-title text-white d-flex align-items-center gap-2">
+                    <span>✨</span> Assistant IA — Amélioration de votre offre
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4">
-                {# Loading State #}
                 <div id="aiLoadingState" class="text-center py-5">
-                    <div class="mb-3">
-                        <div class="spinner-border" role="status" style="width: 2.5rem; height: 2.5rem; color: #6366f1; border-width: 3px;">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                    <p class="fw-semibold mb-1" style="color: #6366f1;">Generating your improved description…</p>
-                    <small class="text-muted">Analyzing request context and category</small>
+                    <div class="spinner-border mb-3" style="width:2.5rem;height:2.5rem;color:#6366f1;border-width:3px;" role="status"></div>
+                    <p class="fw-semibold mb-1" style="color:#6366f1;">Génération en cours…</p>
+                    <small class="text-muted">Analyse du contexte et de la demande</small>
                 </div>
-
-                {# Error State #}
-                <div id="aiErrorState" style="display: none;">
-                    <div class="pro-alert" style="background: #fef2f2; border-color: #fca5a5; color: #991b1b; border-radius: 10px;">
-                        <i class="feather-alert-circle"></i>
-                        <span id="aiErrorMessage">An error occurred. Please try again.</span>
+                <div id="aiErrorState" style="display:none;">
+                    <div class="drl-alert drl-alert--danger d-flex gap-2">
+                        <i class="feather-alert-circle alert-icon"></i>
+                        <div class="alert-content" id="aiErrorMessage"></div>
                     </div>
                 </div>
-
-                {# Result State #}
-                <div id="aiResultState" style="display: none;">
-                    <div class="mb-3 p-3 rounded-3" style="background: #f5f3ff; border: 1px solid #ddd6fe;">
-                        <p class="mb-1" style="font-size: 0.78rem; font-weight: 600; color: #5b21b6;">Context used by the AI</p>
-                        <div id="aiContextSummary" style="font-size: 0.75rem; color: #6d28d9;"></div>
+                <div id="aiResultState" style="display:none;">
+                    <div class="mb-3 p-3 rounded-3" style="background:#f5f3ff; border:1px solid #ddd6fe;">
+                        <p class="mb-1" style="font-size:11px; font-weight:700; color:#5b21b6;">Contexte utilisé</p>
+                        <div id="aiContextSummary" style="font-size:11px; color:#6d28d9;"></div>
                     </div>
-                    <label class="pro-form-label mb-2">AI Suggestion <span class="text-muted" style="font-weight: normal;">(you can edit before applying)</span></label>
-                    <textarea id="aiSuggestionTextarea" class="pro-form-textarea" rows="8" style="border-color: #a78bfa; resize: vertical;"></textarea>
-                    <p class="mt-2 mb-0" style="font-size: 0.75rem; color: #6b7280;">
-                        <i class="feather-shield" style="font-size: 0.7rem;"></i>
-                        This suggestion will NOT be saved until you click <strong>Apply</strong>.
+                    <label class="drl-label mb-2">Suggestion IA <span class="fw-normal text-muted">(modifiable avant d'appliquer)</span></label>
+                    <textarea id="aiSuggestionTextarea" class="drl-input" rows="9" style="border-color:#a78bfa; resize:vertical;"></textarea>
+                    <p class="mt-2 mb-0 text-muted" style="font-size:11px;">
+                        <i class="feather-shield me-1"></i>
+                        Cette suggestion ne sera pas sauvegardée tant que vous ne cliquez pas sur <strong>Appliquer</strong>.
                     </p>
                 </div>
             </div>
-            <div class="modal-footer" style="border-top: 1px solid #ede9fe; padding: 1rem 1.5rem;">
-                <button type="button" class="pro-btn pro-btn-outline" data-bs-dismiss="modal">
-                    <i class="feather-x"></i> Cancel
+            <div class="modal-footer" style="border-top:1px solid #ede9fe;">
+                <button type="button" class="drl-act-btn drl-act-btn--view" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" id="aiRegenerateBtn" class="drl-act-btn drl-act-btn--view" style="display:none;">
+                    <i class="feather-refresh-cw me-1"></i> Régénérer
                 </button>
-                <button type="button" id="aiRegenerateBtn" class="pro-btn" style="display: none; background: #f5f3ff; color: #6366f1; border: 1px solid #c4b5fd;">
-                    <i class="feather-refresh-cw"></i> Regenerate
-                </button>
-                <button type="button" id="aiApplyBtn" class="pro-btn" style="display: none; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none;">
-                    <i class="feather-check"></i> Apply Suggestion
+                <button type="button" id="aiApplyBtn" class="drl-btn-orange" style="display:none;">
+                    <i class="feather-check me-1"></i> Appliquer la suggestion
                 </button>
             </div>
         </div>
@@ -341,17 +576,13 @@
     const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent';
     const MAX_CHARS = 2000;
     const COOLDOWN_KEY = 'ai_assistant_cooldown';
-    const COOLDOWN_DURATION = 5 * 60 * 1000; // 5 minutes
+    const COOLDOWN_DURATION = 5 * 60 * 1000;
 
-    // Auto-clear expired cooldowns on page load
     (function cleanStaleCooldown() {
         const until = sessionStorage.getItem(COOLDOWN_KEY);
-        if (until && Date.now() >= parseInt(until)) {
-            sessionStorage.removeItem(COOLDOWN_KEY);
-        }
+        if (until && Date.now() >= parseInt(until)) sessionStorage.removeItem(COOLDOWN_KEY);
     })();
 
-    // Helper: remaining cooldown in seconds (0 if not active)
     function getCooldownRemainingSeconds() {
         const until = sessionStorage.getItem(COOLDOWN_KEY);
         if (!until) return 0;
@@ -359,224 +590,180 @@
         return remaining > 0 ? Math.ceil(remaining / 1000) : 0;
     }
 
-    // Gather request context from the data card
     function getRequestContext() {
-        const card = document.querySelector('[data-request-title]');
-        // Sanitize inputs to prevent breaking the prompt structure or JSON
-        const clean = (val) => (val || '').toString().trim().replace(/[\{\}]/g, ''); 
-        
+        const form = document.getElementById('offerForm');
+        const clean = (val) => (val || '').toString().trim().replace(/[\{\}]/g, '');
         return {
-            category: clean(card?.dataset.category) || 'General Services',
-            requestTitle: clean(card?.dataset.requestTitle),
-            requestDescription: clean(card?.dataset.requestDescription),
+            category:           clean(form?.dataset.category) || 'Services généraux',
+            requestTitle:       clean(form?.dataset.requestTitle),
+            requestDescription: clean(form?.dataset.requestDescription),
         };
     }
 
-    // Build Gemini prompt
     function buildPrompt(ctx, offerText) {
-        return `You are a professional service writing assistant for a home improvement marketplace.
+        return `Tu es un assistant rédactionnel professionnel pour une marketplace de services à domicile.
 
-Context:
-- Service category: ${ctx.category}
-- Client request title: ${ctx.requestTitle}
-- Client request description: ${ctx.requestDescription}
+Contexte :
+- Catégorie de service : ${ctx.category}
+- Titre de la demande client : ${ctx.requestTitle}
+- Description de la demande : ${ctx.requestDescription}
 
-Task:
-- Improve and rewrite the professional's offer description below
-- Keep the same meaning, scope and price intentions
-- Align the language with the client's specific request
-- Use clear, professional, and reassuring language (max 300 words)
-- Do not add new services, prices, timelines or commitments that are not already in the draft
-- Do not use aggressive marketing language
-- Write in a warm, direct, first-person style
+Tâche :
+- Améliore et réécris la description d'offre du prestataire ci-dessous
+- Conserve le même sens, la portée et les intentions tarifaires
+- Adapte le langage à la demande spécifique du client
+- Utilise un langage clair, professionnel et rassurant (max 250 mots)
+- N'ajoute pas de nouveaux services, prix ou engagements non présents dans le brouillon
+- Évite le langage commercial agressif
+- Écris à la première personne, de façon directe et chaleureuse
 
-Professional draft:
+Brouillon du prestataire :
 ${offerText}
 
-Return ONLY the improved description text, no preamble, no explanation.`;
+Retourne UNIQUEMENT le texte amélioré, sans préambule ni explication.`;
     }
 
-    // Call Gemini API
     async function callGemini(prompt) {
-        // Local quota safeguard — check BEFORE calling the API
         const cooldownSecs = getCooldownRemainingSeconds();
         if (cooldownSecs > 0) {
             const mins = Math.floor(cooldownSecs / 60);
             const secs = cooldownSecs % 60;
-            const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
-            const err = new Error(`LOCAL_COOLDOWN:${timeStr}`);
+            const err = new Error(`LOCAL_COOLDOWN:${mins}m ${secs}s`);
             err.type = 'LOCAL_COOLDOWN';
-            err.remaining = timeStr;
+            err.remaining = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
             throw err;
         }
-
-        // Gemini API expects a specific JSON structure. 
-        // JSON.stringify handles all character escaping (newlines, quotes, backslashes) correctly.
         const payload = {
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { 
-                maxOutputTokens: 512, // Reduced to save quota/tokens
-                temperature: 0.7, 
-                topP: 0.95,
-                topK: 40
-            }
+            generationConfig: { maxOutputTokens: 512, temperature: 0.7, topP: 0.95, topK: 40 }
         };
-
         const response = await fetch(`${GEMINI_ENDPOINT}?key=${GEMINI_API_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-
         if (!response.ok) {
             const errBody = await response.json().catch(() => ({}));
             const status = response.status;
             const code = errBody?.error?.status;
             const message = errBody?.error?.message || `API error ${status}`;
-            
             const error = new Error(message);
-            error.status = status;
-            error.code = code;
-            
-            // Critical Quota Handling
+            error.status = status; error.code = code;
             if (status === 429 || code === 'RESOURCE_EXHAUSTED') {
                 sessionStorage.setItem(COOLDOWN_KEY, Date.now() + COOLDOWN_DURATION);
             }
             throw error;
         }
-
         const data = await response.json();
         const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) throw new Error('AI returned an empty response.');
+        if (!text) throw new Error('Réponse IA vide.');
         return text.trim();
     }
 
-    // UI state helpers
     function showState(state) {
-        document.getElementById('aiLoadingState').style.display = state === 'loading' ? 'block' : 'none';
-        document.getElementById('aiErrorState').style.display   = state === 'error'   ? 'block' : 'none';
-        document.getElementById('aiResultState').style.display  = state === 'result'  ? 'block' : 'none';
-        document.getElementById('aiApplyBtn').style.display     = state === 'result'  ? 'inline-flex' : 'none';
-        document.getElementById('aiRegenerateBtn').style.display = state === 'result' ? 'inline-flex' : 'none';
+        document.getElementById('aiLoadingState').style.display  = state === 'loading' ? 'block' : 'none';
+        document.getElementById('aiErrorState').style.display    = state === 'error'   ? 'block' : 'none';
+        document.getElementById('aiResultState').style.display   = state === 'result'  ? 'block' : 'none';
+        document.getElementById('aiApplyBtn').style.display      = state === 'result'  ? 'inline-flex' : 'none';
+        document.getElementById('aiRegenerateBtn').style.display = state === 'result'  ? 'inline-flex' : 'none';
     }
 
-    // Open (or reuse) the modal — getOrCreateInstance prevents duplicate Bootstrap instances
     function openModal() {
         const el = document.getElementById('aiPreviewModal');
-        if (!el) return;
-        const modal = bootstrap.Modal.getOrCreateInstance(el);
-        modal.show();
+        if (el) bootstrap.Modal.getOrCreateInstance(el).show();
     }
 
-    // Main trigger for AI improvement
     async function triggerAI() {
         const textarea = document.getElementById('offer_description');
         const offerText = textarea ? textarea.value.trim() : '';
-
-        // Guard: missing API key
         if (!GEMINI_API_KEY) {
-            document.getElementById('aiErrorMessage').textContent =
-                'AI assistant is not configured. Please add your GEMINI_API_KEY to .env.local.';
-            showState('error');
-            openModal();
-            return;
+            document.getElementById('aiErrorMessage').textContent = 'L\'assistant IA n\'est pas configuré. Ajoutez votre GEMINI_API_KEY dans .env.local.';
+            showState('error'); openModal(); return;
         }
-
-        // Guard: empty or too short
         if (offerText.length < 10) {
-            document.getElementById('aiErrorMessage').textContent =
-                'Please write at least a few words in the description before using the AI assistant.';
-            showState('error');
-            openModal();
-            return;
+            document.getElementById('aiErrorMessage').textContent = 'Veuillez écrire au moins quelques mots avant d\'utiliser l\'assistant IA.';
+            showState('error'); openModal(); return;
         }
-
-        showState('loading');
-        openModal();
-
+        showState('loading'); openModal();
         try {
             const ctx = getRequestContext();
-            const prompt = buildPrompt(ctx, offerText.substring(0, MAX_CHARS));
-
-            // Show context summary
             document.getElementById('aiContextSummary').innerHTML =
-                `<strong>Category:</strong> ${ctx.category} &nbsp;|&nbsp; <strong>Request:</strong> ${ctx.requestTitle}`;
-            document.getElementById('aiContextSummary').parentElement.style.display = 'block';
-
-            const suggestion = await callGemini(prompt);
+                `<strong>Catégorie :</strong> ${ctx.category} &nbsp;|&nbsp; <strong>Demande :</strong> ${ctx.requestTitle}`;
+            const suggestion = await callGemini(buildPrompt(ctx, offerText.substring(0, MAX_CHARS)));
             document.getElementById('aiSuggestionTextarea').value = suggestion;
-            document.querySelector('#aiResultState label').textContent = 'AI Suggestion (you can edit before applying)';
             showState('result');
         } catch (err) {
-            let userMsg;
-
+            let msg;
             if (err.type === 'LOCAL_COOLDOWN') {
-                // Cooldown active — show with retry button
-                userMsg = `<strong>Please wait before retrying.</strong><br>
-                    A previous quota limit was reached. Retry available in <strong>${err.remaining}</strong>.<br>
-                    <button class="pro-btn pro-btn-sm pro-btn-outline mt-2" onclick="sessionStorage.removeItem('${COOLDOWN_KEY}'); bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal')).hide(); document.getElementById('aiImproveBtn').click();" style="font-size:0.78rem;">
-                        ↩ Force Retry Now
-                    </button>`;
+                msg = `<strong>Veuillez patienter.</strong><br>Réessayez dans <strong>${err.remaining}</strong>.`;
             } else if (err.status === 429 || err.code === 'RESOURCE_EXHAUSTED') {
-                // Real quota from API
-                userMsg = '<strong>AI quota exceeded</strong> (Gemini free tier limit).<br>Please wait a few minutes and try again. Your text has not been modified.';
+                msg = '<strong>Quota IA atteint</strong> (limite du compte Gemini).<br>Patientez quelques minutes.';
             } else if (err.status === 401 || err.status === 403) {
-                userMsg = '<strong>AI Configuration Error</strong>.<br>The API key is missing or invalid. Please check your .env settings.';
+                msg = '<strong>Erreur de configuration IA.</strong><br>La clé API est manquante ou invalide.';
             } else if (err.message === 'Failed to fetch') {
-                userMsg = '<strong>Network Error</strong>.<br>Please check your internet connection.';
+                msg = '<strong>Erreur réseau.</strong><br>Vérifiez votre connexion internet.';
             } else {
-                userMsg = 'AI assistant is currently unavailable. You can continue writing manually.';
-                console.error('AI Error (unhandled):', err);
+                msg = 'L\'assistant IA est temporairement indisponible. Continuez à écrire manuellement.';
             }
-
-            document.getElementById('aiErrorMessage').innerHTML = userMsg;
+            document.getElementById('aiErrorMessage').innerHTML = msg;
             showState('error');
         }
     }
 
-    // Trigger to ONLY show the prompt (requested by user)
     function showExactPrompt() {
         const textarea = document.getElementById('offer_description');
         const offerText = textarea ? textarea.value.trim() : '';
-
-        if (offerText.length < 1) {
-            alert('Please enter some text to generate the prompt.');
-            return;
-        }
-
+        if (!offerText) { alert('Veuillez saisir du texte pour générer le prompt.'); return; }
         const ctx = getRequestContext();
-        const prompt = buildPrompt(ctx, offerText.substring(0, MAX_CHARS));
-
-        // Display exactly as requested: NO additions, NO explanation.
-        const displayArea = document.getElementById('aiSuggestionTextarea');
-        displayArea.value = prompt;
-        
-        // Hide UI elements that add complexity/labels
+        document.getElementById('aiSuggestionTextarea').value = buildPrompt(ctx, offerText.substring(0, MAX_CHARS));
         document.getElementById('aiContextSummary').parentElement.style.display = 'none';
-        
-        const labelEl = document.querySelector('#aiResultState label');
-        labelEl.innerHTML = `PROMPT EXACT <button class="pro-btn pro-btn-sm pro-btn-outline ms-2" onclick="navigator.clipboard.writeText(document.getElementById('aiSuggestionTextarea').value); alert('Copied to clipboard!');" style="font-size: 0.7rem; padding: 2px 8px;">📋 Copy</button>`;
-        
-        showState('result');
         document.getElementById('aiApplyBtn').style.display = 'none';
         document.getElementById('aiRegenerateBtn').style.display = 'none';
-        
-        openModal();
+        showState('result'); openModal();
     }
 
-    // Wire up button
     document.addEventListener('DOMContentLoaded', function () {
-        const btn = document.getElementById('aiImproveBtn');
-        if (btn) {
-            btn.addEventListener('click', triggerAI);
+        // ── Character counter ──
+        const descTextarea = document.getElementById('offer_description');
+        const counter = document.getElementById('descCounter');
+        if (descTextarea && counter) {
+            const updateCounter = () => {
+                const len = descTextarea.value.length;
+                counter.textContent = len + ' / 2000';
+                counter.className = 'char-counter' + (len > 1800 ? ' danger' : len > 1400 ? ' warn' : '');
+            };
+            descTextarea.addEventListener('input', updateCounter);
+            updateCounter();
         }
 
-        const showBtn = document.getElementById('aiShowPromptBtn');
-        if (showBtn) {
-            showBtn.addEventListener('click', showExactPrompt);
+        // ── Show doc input on drop zone click ──
+        const dropZone = document.getElementById('dropZone');
+        const docInput = document.getElementById('offerDocInput');
+        if (docInput) {
+            docInput.style.display = 'none';
+            docInput.addEventListener('change', function () {
+                if (this.files.length > 0) {
+                    const names = Array.from(this.files).map(f => f.name).join(', ');
+                    dropZone.innerHTML = `<i class="feather-check-circle" style="font-size:2rem;color:#10b981;display:block;margin-bottom:8px;"></i><p class="fw-bold mb-0" style="font-size:14px;color:#10b981;">${this.files.length} fichier(s) sélectionné(s)</p><p class="text-muted small mb-0">${names}</p>`;
+                }
+            });
         }
 
-        // Apply button
+        function handleDrop(e) {
+            e.preventDefault();
+            const dt = e.dataTransfer;
+            if (dt && dt.files.length && docInput) {
+                docInput.files = dt.files;
+                docInput.dispatchEvent(new Event('change'));
+            }
+            dropZone.style.borderColor = '#e2e8f0';
+            dropZone.style.background = '#f8fafc';
+        }
+        window.handleDrop = handleDrop;
+
+        // ── AI buttons ──
+        document.getElementById('aiImproveBtn')?.addEventListener('click', triggerAI);
+        document.getElementById('aiShowPromptBtn')?.addEventListener('click', showExactPrompt);
         document.getElementById('aiApplyBtn')?.addEventListener('click', function () {
             const suggestion = document.getElementById('aiSuggestionTextarea').value.trim();
             const textarea = document.getElementById('offer_description');
@@ -586,18 +773,23 @@ Return ONLY the improved description text, no preamble, no explanation.`;
             }
             bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal'))?.hide();
         });
-
-        // Regenerate button
         document.getElementById('aiRegenerateBtn')?.addEventListener('click', triggerAI);
 
-        // Show hint on focus
-        const textarea = document.getElementById('offer_description');
-        if (textarea && document.getElementById('aiHint')) {
-            textarea.addEventListener('focus', function () {
-                document.getElementById('aiHint').style.setProperty('display', 'block', 'important');
-            });
-            textarea.addEventListener('blur', function () {
-                document.getElementById('aiHint').style.setProperty('display', 'none', 'important');
+        // ── Auto-save indicator (visual only — form submits via buttons) ──
+        const form = document.getElementById('offerForm');
+        const autosaveStatus = document.getElementById('autosaveStatus');
+        const autosaveText = document.getElementById('autosaveText');
+        if (form && autosaveStatus) {
+            let saveTimer;
+            form.querySelectorAll('input, textarea, select').forEach(el => {
+                el.addEventListener('input', () => {
+                    clearTimeout(saveTimer);
+                    autosaveStatus.style.removeProperty('display');
+                    autosaveText.textContent = 'Modification en cours…';
+                    saveTimer = setTimeout(() => {
+                        autosaveText.textContent = 'Brouillon non sauvegardé — cliquez "Sauvegarder brouillon"';
+                    }, 1500);
+                });
             });
         }
     });
