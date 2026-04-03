@@ -46,6 +46,7 @@ class ProfessionalController extends AbstractController
         );
         $offerCount = count($allOffers);
         $acceptedCount = count(array_filter($allOffers, fn($o) => $o->getStatus() === \App\Entity\Offer::STATUS_ACCEPTED));
+        $draftCount = count(array_filter($allOffers, fn($o) => $o->getStatus() === \App\Entity\Offer::STATUS_DRAFT));
         $recentOffers = array_slice($allOffers, 0, 5);
 
         // Conversion Rate (accepted ÷ total published/accepted offers × 100)
@@ -83,6 +84,7 @@ class ProfessionalController extends AbstractController
         $unreadCount = count(array_filter($notifications, fn($n) => !$n->isRead()));
 
         return $this->render('professional/index.html.twig', [
+            'draftCount'                 => $draftCount,
             'projectCount'               => $projectCount,
             'quoteCount'                 => $quoteCount,
             'offerCount'                 => $offerCount,

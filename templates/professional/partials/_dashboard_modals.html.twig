@@ -62,10 +62,34 @@
     </div>
 </div>
 
+{# ── Upload feedback toast ── #}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+    <div id="uploadToast" class="toast align-items-center border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
+        <div class="d-flex">
+            <div class="toast-body fw-bold d-flex align-items-center gap-2" id="uploadToastBody">
+                <i class="feather-alert-circle text-danger"></i>
+                <span id="uploadToastMsg"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const logoForm = document.getElementById('uploadLogoForm');
     const bannerForm = document.getElementById('uploadBannerForm');
+
+    function showToast(message, isError = true) {
+        const toastEl = document.getElementById('uploadToast');
+        const toastMsg = document.getElementById('uploadToastMsg');
+        const toastBody = document.getElementById('uploadToastBody');
+        toastMsg.textContent = message;
+        toastEl.className = 'toast align-items-center border-0 shadow text-bg-' + (isError ? 'danger' : 'success');
+        const icon = toastBody.querySelector('i');
+        if (icon) icon.className = isError ? 'feather-alert-circle' : 'feather-check-circle';
+        new bootstrap.Toast(toastEl).show();
+    }
 
     // Add visual feedback for file selection
     document.querySelectorAll('.pro-file-input').forEach(input => {
@@ -105,14 +129,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 form.closest('.modal').querySelector('.btn-close').click();
-                
-                // Show success toast/alert could be added here
+                showToast('Image mise à jour avec succès !', false);
             } else {
-                globalAlert('Error: ' + (result.error || 'Unknown error occurred'), 'Upload Failed');
+                showToast('Erreur : ' + (result.error || 'Une erreur est survenue.'));
             }
         } catch (error) {
             console.error('Upload failed:', error);
-            globalAlert('An error occurred during upload.', 'Network Error');
+            showToast('Erreur réseau. Vérifiez votre connexion et réessayez.');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnText;

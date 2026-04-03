@@ -3,72 +3,127 @@
 {% block title %}Notifications - Drilleedo Pro{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom flex-wrap gap-3">
         <div>
-            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">Notification History</h2>
-            <p style="font-size: 15px; color: #64748b; margin: 0;">View all your past activity and alerts.</p>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">Historique des notifications</h2>
+            <p style="font-size: 15px; color: #64748b; margin: 0;">Toutes vos alertes et activités récentes.</p>
         </div>
-        <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
-            <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
-            <button type="submit" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold">
-                <i class="ph-check-all me-2"></i> Mark all as read
-            </button>
-        </form>
+        <div class="d-flex gap-2 flex-wrap align-items-center">
+            {# Filtres #}
+            <div class="d-flex gap-1 flex-wrap" id="notif-filters">
+                <button class="btn btn-sm rounded-pill fw-bold notif-filter active" data-filter="all"
+                        style="font-size:12px; border: 1px solid #e2e8f0; background:#0d2151; color:#fff;">
+                    Toutes
+                </button>
+                <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="unread"
+                        style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
+                    Non lues
+                </button>
+                <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="offer"
+                        style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
+                    Offres
+                </button>
+                <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="request"
+                        style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
+                    Demandes
+                </button>
+            </div>
+            <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
+                <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
+                <button type="submit" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold">
+                    <i class="feather-check me-1"></i> Tout marquer lu
+                </button>
+            </form>
+        </div>
     </div>
 
-    <div class="drl-card p-0 overflow-hidden">
+    <div class="drl-card p-0 overflow-hidden" id="notif-list">
         <div class="list-group list-group-flush">
             {% for notification in notifications %}
-                <div class="list-group-item p-4 border-0 border-bottom {{ not notification.isRead ? 'bg-primary bg-opacity-10' : '' }}" style="transition: all 0.2s;">
-                        <div class="d-flex gap-4">
-                            <div style="flex-shrink: 0; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;
-                                {% if 'Accepted' in notification.title or 'Completed' in notification.title %}background: #f0fdf4; color: #16a34a;
-                                {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}background: #fef2f2; color: #ef4444;
-                                {% else %}background: #eff6ff; color: #00509e;{% endif %}">
-                            
-                            {% if 'Accepted' in notification.title or 'Completed' in notification.title %}
-                                <i class="ph-check-circle"></i>
-                            {% elseif 'Rejected' in notification.title or 'Withdrawn' in notification.title %}
-                                <i class="ph-x-circle"></i>
-                            {% else %}
-                                <i class="ph-bell"></i>
-                            {% endif %}
+                {# Determine type for filtering #}
+                {% set nType = 'other' %}
+                {% if notification.relatedEntityType == 'offer' %}{% set nType = 'offer' %}{% endif %}
+                {% if notification.relatedEntityType in ['quote', 'direct_request'] %}{% set nType = 'request' %}{% endif %}
+
+                {# Build precise link from relatedEntityId #}
+                {% if notification.relatedEntityType == 'offer' and notification.relatedEntityId %}
+                    {% set notifLink = path('offer_view', {'id': notification.relatedEntityId}) %}
+                    {% set notifLinkLabel = 'Voir l\'offre' %}
+                    {% set notifLinkIcon = 'feather-file-text' %}
+                {% elseif notification.relatedEntityType == 'quote' and notification.relatedEntityId %}
+                    {% set notifLink = path('offer_send', {'id': notification.relatedEntityId}) %}
+                    {% set notifLinkLabel = 'Voir la demande' %}
+                    {% set notifLinkIcon = 'feather-inbox' %}
+                {% elseif notification.relatedEntityType == 'direct_request' and notification.relatedEntityId %}
+                    {% set notifLink = path('offer_send_direct', {'id': notification.relatedEntityId}) %}
+                    {% set notifLinkLabel = 'Voir la demande directe' %}
+                    {% set notifLinkIcon = 'feather-send' %}
+                {% else %}
+                    {% set notifLink = path('professional_dashboard') %}
+                    {% set notifLinkLabel = 'Dashboard' %}
+                    {% set notifLinkIcon = 'feather-home' %}
+                {% endif %}
+
+                {# Icon & color by title keywords #}
+                {% set nTitle = notification.title|lower %}
+                {% if 'acceptée' in nTitle or 'accepted' in nTitle or 'completed' in nTitle %}
+                    {% set notifBg = '#f0fdf4' %}{% set notifColor = '#16a34a' %}{% set notifIcon = 'feather-check-circle' %}
+                {% elseif 'refusée' in nTitle or 'rejected' in nTitle or 'retenue' in nTitle or 'withdrawn' in nTitle %}
+                    {% set notifBg = '#fef2f2' %}{% set notifColor = '#ef4444' %}{% set notifIcon = 'feather-x-circle' %}
+                {% elseif 'lue' in nTitle or 'viewed' in nTitle %}
+                    {% set notifBg = '#eff6ff' %}{% set notifColor = '#00509e' %}{% set notifIcon = 'feather-eye' %}
+                {% elseif 'intéressé' in nTitle or 'examen' in nTitle or 'interested' in nTitle %}
+                    {% set notifBg = '#fffbeb' %}{% set notifColor = '#b45309' %}{% set notifIcon = 'feather-bookmark' %}
+                {% elseif 'demande' in nTitle or 'request' in nTitle %}
+                    {% set notifBg = '#f5f3ff' %}{% set notifColor = '#6d28d9' %}{% set notifIcon = 'feather-inbox' %}
+                {% else %}
+                    {% set notifBg = '#eff6ff' %}{% set notifColor = '#00509e' %}{% set notifIcon = 'feather-bell' %}
+                {% endif %}
+
+                <div class="list-group-item p-4 border-0 border-bottom notif-item {{ not notification.isRead ? 'bg-primary bg-opacity-10' : '' }}"
+                     data-type="{{ nType }}"
+                     data-read="{{ notification.isRead ? '1' : '0' }}"
+                     style="transition: all 0.2s;">
+                    <div class="d-flex gap-4">
+                        {# Icon badge #}
+                        <div style="flex-shrink: 0; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: {{ notifBg }}; color: {{ notifColor }};">
+                            <i class="{{ notifIcon }}"></i>
                         </div>
+
                         <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
                                 <h5 class="mb-0 fw-bold text-dark" style="font-size: 16px;">{{ notification.title|default('Notification') }}</h5>
-                                <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">{{ notification.createdAt|date('d/m/Y H:i') }}</span>
+                                <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                                    <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">
+                                        {{ notification.createdAt|date('d/m/Y à H:i') }}
+                                    </span>
+                                    {% if not notification.isRead %}
+                                        {# Mark as read individually via AJAX #}
+                                        <button class="btn p-0 border-0 bg-transparent mark-read-btn"
+                                                data-id="{{ notification.id }}"
+                                                data-token="{{ csrf_token('mark-read-' ~ notification.id) }}"
+                                                data-url="{{ path('notification_mark_read', {'id': notification.id}) }}"
+                                                title="Marquer comme lu"
+                                                style="color: #94a3b8; font-size: 14px; line-height:1;">
+                                            <i class="feather-check-circle"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
                             </div>
+
                             <p class="text-muted mb-3" style="font-size: 14px; line-height: 1.5;">{{ notification.message }}</p>
 
-                            {# CTA link based on notification type #}
-                            <div class="d-flex align-items-center gap-3">
-                                {% if 'Accepted' in notification.title or 'Rejected' in notification.title %}
-                                    <a href="{{ path('professional_offers') }}"
-                                       class="drl-act-btn drl-act-btn--view"
-                                       style="text-decoration:none; font-size:12px; padding:5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;">
-                                        <i class="feather-eye"></i>
-                                        <span>View My Offers</span>
-                                    </a>
-                                {% elseif 'Request' in notification.title or 'Direct' in notification.title %}
-                                    <a href="{{ path('professional_direct_requests') }}"
-                                       class="drl-act-btn drl-act-btn--view"
-                                       style="text-decoration:none; font-size:12px; padding:5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;">
-                                        <i class="feather-inbox"></i>
-                                        <span>View Requests</span>
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('professional_dashboard') }}"
-                                       class="drl-act-btn drl-act-btn--view"
-                                       style="text-decoration:none; font-size:12px; padding:5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;">
-                                        <i class="feather-home"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                {% endif %}
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                <a href="{{ notifLink }}"
+                                   class="drl-act-btn drl-act-btn--view"
+                                   style="text-decoration:none; font-size:12px; padding:5px 12px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;">
+                                    <i class="{{ notifLinkIcon }}"></i>
+                                    <span>{{ notifLinkLabel }}</span>
+                                </a>
 
                                 {% if not notification.isRead %}
-                                    <span class="drl-tag" style="background:#eff6ff; color:#00509e; font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700;">
-                                        <i class="feather-circle" style="font-size:7px;"></i> Unread
+                                    <span class="drl-tag notif-unread-badge" style="background:#eff6ff; color:#00509e; font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700;">
+                                        <i class="feather-circle" style="font-size:7px;"></i> Non lue
                                     </span>
                                 {% endif %}
                             </div>
@@ -78,12 +133,66 @@
             {% else %}
                 <div class="text-center py-5 px-4">
                     <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
-                        <i class="ph-bell-slash ph-4x text-muted opacity-25"></i>
+                        <i class="feather-bell-off" style="font-size: 3rem; color: #cbd5e1;"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-2">No notifications found</h5>
-                    <p class="text-muted mb-0">Your notification history will appear here once you receive alerts.</p>
+                    <h5 class="fw-bold text-dark mb-2">Aucune notification</h5>
+                    <p class="text-muted mb-0">Votre historique d'activité apparaîtra ici.</p>
                 </div>
             {% endfor %}
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // ── Filter buttons ──
+        document.querySelectorAll('.notif-filter').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const filter = this.dataset.filter;
+
+                // Update button styles
+                document.querySelectorAll('.notif-filter').forEach(function (b) {
+                    b.style.background = '#fff';
+                    b.style.color = '#64748b';
+                });
+                this.style.background = '#0d2151';
+                this.style.color = '#fff';
+
+                // Show/hide items
+                document.querySelectorAll('.notif-item').forEach(function (item) {
+                    const type = item.dataset.type;
+                    const isRead = item.dataset.read === '1';
+                    let show = false;
+                    if (filter === 'all') show = true;
+                    else if (filter === 'unread') show = !isRead;
+                    else if (filter === 'offer') show = type === 'offer';
+                    else if (filter === 'request') show = type === 'request';
+                    item.style.display = show ? '' : 'none';
+                });
+            });
+        });
+
+        // ── Mark individual notification as read ──
+        document.querySelectorAll('.mark-read-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const url = this.dataset.url;
+                const token = this.dataset.token;
+                const item = this.closest('.notif-item');
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: '_token=' + encodeURIComponent(token)
+                }).then(function (r) {
+                    if (r.ok) {
+                        item.classList.remove('bg-primary', 'bg-opacity-10');
+                        item.dataset.read = '1';
+                        item.querySelector('.notif-unread-badge')?.remove();
+                        btn.remove();
+                    }
+                });
+            });
+        });
+    });
+    </script>
 {% endblock %}

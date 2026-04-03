@@ -2,6 +2,13 @@
 
 {% block title %}My Offers - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    </style>
+{% endblock %}
+
 {% block body %}
     <div class="drl-card">
         <div class="drl-card-head border-bottom">
@@ -25,6 +32,7 @@
                         <th>Amount</th>
                         <th>Message</th>
                         <th>Date</th>
+                        <th>Lecture</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -60,6 +68,19 @@
                                 {% endif %}
                             </td>
                             <td>
+                                {% if offer.viewedAt %}
+                                    <span class="drl-tag" style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:11px; white-space:nowrap;">
+                                        <i class="feather-eye me-1" style="font-size:10px;"></i>{{ offer.viewedAt|date('d/m') }}
+                                    </span>
+                                {% elseif offer.status in ['PUBLISHED', 'INTERESTED'] %}
+                                    <span class="drl-tag" style="background:#fff7ed; color:#f97316; border:1px solid #fed7aa; font-size:11px; white-space:nowrap;">
+                                        <span style="display:inline-block; width:6px; height:6px; background:#f97316; border-radius:50%; margin-right:4px; animation: pulse 1.5s infinite;"></span>Non lue
+                                    </span>
+                                {% else %}
+                                    <span style="color:#94a3b8; font-size:13px;">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
                                 {% if offer.status == 'DRAFT' %}
                                     <span class="drl-tag drl-tag--draft"><i class="feather-file" style="font-size: 11px;"></i> Draft</span>
                                 {% elseif offer.status == 'PUBLISHED' %}
@@ -70,6 +91,8 @@
                                     {% else %}
                                         <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> Accepted</span>
                                     {% endif %}
+                                {% elseif offer.status == 'INTERESTED' %}
+                                    <span class="drl-tag drl-tag--warning"><i class="feather-bookmark" style="font-size: 11px;"></i> Intéressé</span>
                                 {% elseif offer.status == 'REJECTED' %}
                                     <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size: 11px;"></i> Rejected</span>
                                 {% else %}
@@ -119,7 +142,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="text-center py-5">
+                            <td colspan="7" class="text-center py-5">
                                 <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
                                     <i class="feather-send"></i>
                                 </div>

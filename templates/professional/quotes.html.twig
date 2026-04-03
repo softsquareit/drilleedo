@@ -16,11 +16,12 @@
             <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
-                        <th>Request Details</th>
-                        <th>Category</th>
+                        <th>Demande</th>
+                        <th>Catégorie</th>
                         <th>Client</th>
                         <th>Date</th>
-                        <th>Status</th>
+                        <th>Statut demande</th>
+                        <th>Mon offre</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -47,23 +48,38 @@
                             <td>
                                 <span style="color: #64748b; font-size: 13px;">{{ quote.creationDate|date('d/m/Y') }}</span>
                             </td>
+                            {# Statut demande #}
                             <td>
-                                {# Show if this pro already sent an offer #}
+                                {% set qStatus = quote.status|upper %}
+                                {% if qStatus == 'PUBLISHED' %}
+                                    <span class="drl-tag drl-tag--success"><i class="feather-zap" style="font-size:11px;"></i> Ouverte</span>
+                                {% elseif qStatus in ['ACCEPTED', 'IN_PROGRESS'] %}
+                                    <span class="drl-tag drl-tag--warning"><i class="feather-lock" style="font-size:11px;"></i> En cours</span>
+                                {% elseif qStatus == 'CLOSED' %}
+                                    <span class="drl-tag drl-tag--draft"><i class="feather-check-square" style="font-size:11px;"></i> Clôturée</span>
+                                {% else %}
+                                    <span class="drl-tag drl-tag--draft">{{ quote.status }}</span>
+                                {% endif %}
+                            </td>
+                            {# Mon offre #}
+                            <td>
                                 {% if quote.id in myOfferQuoteIds|keys %}
                                     {% set myStatus = myOfferQuoteIds[quote.id] %}
-                                    {% if myStatus == 'PENDING' %}
-                                        <span class="drl-tag drl-tag--sent"><i class="feather-check" style="font-size: 11px;"></i> Offer Sent</span>
+                                    {% if myStatus in ['PUBLISHED', 'PENDING'] %}
+                                        <span class="drl-tag drl-tag--sent"><i class="feather-send" style="font-size:11px;"></i> Envoyée</span>
+                                    {% elseif myStatus == 'INTERESTED' %}
+                                        <span class="drl-tag drl-tag--warning"><i class="feather-bookmark" style="font-size:11px;"></i> Intéressé</span>
                                     {% elseif myStatus == 'ACCEPTED' %}
-                                        <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> Accepted</span>
+                                        <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size:11px;"></i> Acceptée</span>
                                     {% elseif myStatus == 'REJECTED' %}
-                                        <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size: 11px;"></i> Rejected</span>
+                                        <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size:11px;"></i> Refusée</span>
+                                    {% elseif myStatus == 'DRAFT' %}
+                                        <span class="drl-tag drl-tag--draft"><i class="feather-file" style="font-size:11px;"></i> Brouillon</span>
+                                    {% else %}
+                                        <span class="drl-tag drl-tag--draft">{{ myStatus }}</span>
                                     {% endif %}
                                 {% else %}
-                                    {% if quote.status == 'Accepted' %}
-                                        <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> Taken</span>
-                                    {% else %}
-                                        <span class="drl-tag drl-tag--success"><i class="feather-zap" style="font-size: 11px;"></i> Open</span>
-                                    {% endif %}
+                                    <span style="color:#94a3b8; font-size:13px;">—</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -97,7 +113,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="text-center py-5">
+                            <td colspan="7" class="text-center py-5">
                                 <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
                                     <i class="feather-message-square"></i>
                                 </div>

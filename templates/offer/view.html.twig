@@ -1,81 +1,254 @@
 {% extends app.user and is_granted('ROLE_PROFESSIONAL') ? 'professional/base_professional.html.twig' : (app.user and is_granted('ROLE_COMPANY') ? 'company/base_company.html.twig' : 'base.html.twig') %}
 
-{% block title %}Offer Details{% endblock %}
+{% block title %}Détail offre{% endblock %}
 
 {% block body %}
+    {% set activeRequest = quote ?? directRequest %}
+    {% set offerStatus = offer.status|upper %}
+
+    {# ── Back link ── #}
     <div class="mb-4">
-        <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" class="pro-link d-inline-flex align-items-center gap-2">
-            <i class="ph-bold ph-arrow-left"></i>
-            <span>Back to My Offers</span>
+        <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}"
+           class="pro-link d-inline-flex align-items-center gap-2">
+            <i class="feather-arrow-left"></i>
+            <span>Retour à mes offres</span>
         </a>
     </div>
 
-    <div class="row g-4">
-        <div class="col-lg-8">
-            {# ── Offer Details ── #}
-            <div class="pro-card pro-card-elevated mb-4">
-                <div class="pro-card-header d-flex justify-content-between align-items-center">
-                    <h4 class="pro-card-title mb-0">Your Offer</h4>
-                    {% if offer.status == 'DRAFT' %}
-                        <span class="pro-badge warning">Brouillon</span>
-                    {% elseif offer.status == 'PUBLISHED' %}
-                        <span class="pro-badge info">Envoyée</span>
-                    {% elseif offer.status == 'ACCEPTED' %}
-                        <span class="pro-badge success">Acceptée</span>
-                    {% elseif offer.status == 'REJECTED' %}
-                        <span class="pro-badge danger">Refusée</span>
-                    {% elseif offer.status == 'CLOSED' %}
-                        <span class="pro-badge secondary">Terminée</span>
-                    {% else %}
-                        <span class="pro-badge secondary">{{ offer.status }}</span>
-                    {% endif %}
+    {# ── [Mo6] Workflow Stepper ── #}
+    {% set wSteps = [
+        {'key': 'DRAFT',      'label': 'Brouillon',  'icon': 'feather-file'},
+        {'key': 'PUBLISHED',  'label': 'Envoyée',    'icon': 'feather-send'},
+        {'key': 'VIEWED',     'label': 'Lue',        'icon': 'feather-eye'},
+        {'key': 'DECIDED',    'label': offer.status|upper == 'REJECTED' ? 'Refusée' : 'Acceptée', 'icon': offer.status|upper == 'REJECTED' ? 'feather-x-circle' : 'feather-check-circle'}
+    ] %}
+    {% set wStepIdx = offerStatus == 'DRAFT' ? 0 : (offerStatus == 'PUBLISHED' and not offer.viewedAt ? 1 : (offerStatus == 'PUBLISHED' and offer.viewedAt ? 2 : 3)) %}
+    {# For ACCEPTED/REJECTED/INTERESTED/CLOSED → step 3 #}
+    {% if offerStatus in ['ACCEPTED', 'REJECTED', 'INTERESTED', 'CLOSED'] %}{% set wStepIdx = 3 %}{% endif %}
+
+    <div class="pro-card mb-4 px-4 py-3" style="background: #f8fafc;">
+        <div class="d-flex align-items-center justify-content-between position-relative">
+            <div style="position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: #e2e8f0; z-index: 0; transform: translateY(-50%);"></div>
+            {% for step in wSteps %}
+                {% set idx = loop.index0 %}
+                {% set isDone = idx < wStepIdx %}
+                {% set isCurrent = idx == wStepIdx %}
+                {% set stepColor = offerStatus == 'REJECTED' and isCurrent ? '#ef4444' : (isCurrent ? 'var(--drl-orange, #f97316)' : '#10b981') %}
+                <div class="d-flex flex-column align-items-center gap-1 position-relative" style="z-index: 1; flex: 1;">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                         style="width: 38px; height: 38px; font-size: 16px;
+                                {{ isDone ? 'background: #10b981; color: #fff; border: 2px solid #10b981;' :
+                                   (isCurrent ? 'background: ' ~ stepColor ~ '; color: #fff; border: 2px solid ' ~ stepColor ~ '; box-shadow: 0 0 0 4px rgba(249,115,22,0.15);' :
+                                   'background: #fff; color: #94a3b8; border: 2px solid #e2e8f0;') }}">
+                        {% if isDone %}
+                            <i class="feather-check" style="font-size: 14px;"></i>
+                        {% else %}
+                            <i class="{{ step.icon }}" style="font-size: 14px;"></i>
+                        {% endif %}
+                    </div>
+                    <span style="font-size: 10px; font-weight: {{ isCurrent ? '700' : '500' }};
+                                 color: {{ isDone ? '#10b981' : (isCurrent ? stepColor : '#94a3b8') }};
+                                 white-space: nowrap;">
+                        {{ step.label }}
+                    </span>
                 </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# ── [C4] Viewed / Not Viewed Banner ── #}
+    {% if offerStatus == 'PUBLISHED' %}
+        {% if offer.viewedAt %}
+            <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
+                 style="background: #f0fdf4; border: 1px solid #86efac; border-left: 4px solid #10b981;">
+                <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                     style="width: 42px; height: 42px; background: rgba(16,185,129,0.15);">
+                    <i class="feather-eye" style="color: #059669; font-size: 20px;"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="fw-bold" style="color: #065f46;">Offre lue par le client</div>
+                    <div class="small" style="color: #047857;">Consultée le {{ offer.viewedAt|date('d/m/Y à H:i') }}</div>
+                </div>
+                {# [M4] CTA si lu mais pas encore répondu #}
+                <div class="text-end flex-shrink-0">
+                    <div class="small fw-bold" style="color: #059669;">En attente de décision</div>
+                    <div class="small text-muted">Le client examine votre offre</div>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
+                 style="background: #fff7ed; border: 1px solid #fed7aa; border-left: 4px solid #f97316;">
+                <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                     style="width: 42px; height: 42px; background: rgba(249,115,22,0.15);">
+                    <i class="feather-clock" style="color: #f97316; font-size: 20px;"></i>
+                </div>
+                <div>
+                    <div class="fw-bold" style="color: #c2410c;">En attente de lecture</div>
+                    <div class="small text-muted">Le client n'a pas encore consulté votre offre.</div>
+                </div>
+            </div>
+        {% endif %}
+
+    {# [M5] INTERESTED banner #}
+    {% elseif offerStatus == 'INTERESTED' %}
+        <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
+             style="background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b;">
+            <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                 style="width: 42px; height: 42px; background: rgba(245,158,11,0.15);">
+                <i class="feather-bookmark" style="color: #b45309; font-size: 20px;"></i>
+            </div>
+            <div class="flex-grow-1">
+                <div class="fw-bold" style="color: #92400e;">⭐ Le client a mis votre offre en liste courte</div>
+                <div class="small text-muted">Il n'a pas encore pris de décision finale. Restez disponible — vous êtes bien positionné !</div>
+            </div>
+        </div>
+
+    {% elseif offerStatus == 'ACCEPTED' %}
+        <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
+             style="background: #f0fdf4; border: 1px solid #86efac; border-left: 4px solid #10b981;">
+            <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                 style="width: 42px; height: 42px; background: rgba(16,185,129,0.15);">
+                <i class="feather-check-circle" style="color: #059669; font-size: 20px;"></i>
+            </div>
+            <div>
+                <div class="fw-bold" style="color: #065f46;">🎉 Offre acceptée ! Contactez le client pour démarrer les travaux.</div>
+                <div class="small text-muted">Les coordonnées du client sont disponibles ci-dessous.</div>
+            </div>
+        </div>
+
+    {% elseif offerStatus == 'REJECTED' %}
+        <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
+             style="background: #fef2f2; border: 1px solid #fca5a5; border-left: 4px solid #ef4444;">
+            <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                 style="width: 42px; height: 42px; background: rgba(239,68,68,0.15);">
+                <i class="feather-x-circle" style="color: #ef4444; font-size: 20px;"></i>
+            </div>
+            <div>
+                <div class="fw-bold" style="color: #991b1b;">Offre non retenue</div>
+                <div class="small text-muted">Le client a sélectionné un autre prestataire. N'hésitez pas à répondre à d'autres demandes.</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row g-4">
+        {# ── Left: Offer Details ── #}
+        <div class="col-lg-8">
+            <div class="pro-card pro-card-elevated mb-4">
+                <div class="pro-card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h4 class="pro-card-title mb-0">Votre offre</h4>
+                    <div class="d-flex align-items-center gap-2">
+                        {# Viewed badge in card header #}
+                        {% if offer.viewedAt %}
+                            <span class="drl-tag drl-tag--success" style="font-size: 11px;">
+                                <i class="feather-eye me-1"></i> Vue le {{ offer.viewedAt|date('d/m') }}
+                            </span>
+                        {% elseif offerStatus == 'PUBLISHED' %}
+                            <span style="font-size: 11px; color: #f97316; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+                                <span class="rounded-circle d-inline-block" style="width:7px;height:7px;background:#f97316;animation:pulse 1.5s infinite;"></span>
+                                Non lue
+                            </span>
+                        {% endif %}
+                        {# Status badge #}
+                        {% if offerStatus == 'DRAFT' %}
+                            <span class="pro-badge warning">Brouillon</span>
+                        {% elseif offerStatus == 'PUBLISHED' %}
+                            <span class="pro-badge info">Envoyée</span>
+                        {% elseif offerStatus == 'INTERESTED' %}
+                            <span class="pro-badge" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">
+                                <i class="feather-bookmark me-1" style="font-size:11px;"></i> Intéressé
+                            </span>
+                        {% elseif offerStatus == 'ACCEPTED' %}
+                            <span class="pro-badge success">Acceptée</span>
+                        {% elseif offerStatus == 'REJECTED' %}
+                            <span class="pro-badge danger">Refusée</span>
+                        {% elseif offerStatus == 'CLOSED' %}
+                            <span class="pro-badge secondary">Terminée</span>
+                        {% else %}
+                            <span class="pro-badge secondary">{{ offer.status }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="pro-card-body">
-                    <div class="p-4 mb-4" style="background: rgba(16, 185, 129, 0.04); border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.1);">
+                    {# Price #}
+                    <div class="p-4 mb-4" style="background: rgba(16,185,129,0.04); border-radius: 16px; border: 1px solid rgba(16,185,129,0.1);">
                         <div class="d-flex align-items-center gap-3">
                             <div class="flex-shrink-0 bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border-radius: 12px;">
-                                <i class="ph-bold ph-currency-dollar" style="font-size: 1.5rem; color: #10b981;"></i>
+                                <i class="feather-dollar-sign" style="font-size: 1.4rem; color: #10b981;"></i>
                             </div>
                             <div>
-                                <small class="pro-text-muted d-block" style="text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem;">Your Proposed Price</small>
+                                <small class="pro-text-muted d-block" style="text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem;">Prix proposé</small>
                                 <strong class="h3 mb-0" style="color: #0f172a;">{{ offer.price|number_format(2) }} $</strong>
                             </div>
                         </div>
                     </div>
 
+                    {# Description #}
                     <div class="mb-4">
                         <label class="pro-form-label mb-2 d-block" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">
-                            <i class="ph-bold ph-chat-centered-text me-1"></i> Message to Client
+                            <i class="feather-message-square me-1"></i> Message au client
                         </label>
                         <div class="p-3 bg-light rounded-3" style="white-space: pre-line; color: var(--color-text-body); line-height: 1.6;">{{ offer.description }}</div>
                     </div>
 
+                    {# Documents — differentiate images vs files #}
                     {% if offer.documents|length > 0 %}
-                        <div class="mb-4">
-                            <label class="pro-form-label mb-2 d-block" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">
-                                <i class="ph-bold ph-paperclip me-1"></i> Attached Documents
-                            </label>
-                            <div class="d-flex flex-wrap gap-2">
-                                {% for doc in offer.documents %}
-                                    <a href="{{ asset('uploads/offers/' ~ doc) }}" target="_blank" class="pro-btn pro-btn-outline pro-btn-sm rounded-pill d-inline-flex align-items-center gap-2">
-                                        <i class="ph-bold ph-file-pdf"></i>
-                                        <span>Document {{ loop.index }}</span>
-                                    </a>
-                                {% endfor %}
+                        {% set imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'] %}
+                        {% set docImages = [] %}
+                        {% set docFiles = [] %}
+                        {% for doc in offer.documents %}
+                            {% set ext = doc|split('.')|last|lower %}
+                            {% if ext in imageExts %}
+                                {% set docImages = docImages|merge([doc]) %}
+                            {% else %}
+                                {% set docFiles = docFiles|merge([doc]) %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if docImages|length > 0 %}
+                            <div class="mb-4">
+                                <label class="pro-form-label mb-2 d-block" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">
+                                    <i class="feather-image me-1"></i> Photos jointes ({{ docImages|length }})
+                                </label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for img in docImages %}
+                                        <a href="{{ asset('uploads/offers/' ~ img) }}" target="_blank"
+                                           data-bs-toggle="tooltip" title="Voir en grand">
+                                            <img src="{{ asset('uploads/offers/' ~ img) }}" alt="Photo {{ loop.index }}"
+                                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 2px solid #e2e8f0;"
+                                                 class="shadow-sm">
+                                        </a>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
+
+                        {% if docFiles|length > 0 %}
+                            <div class="mb-4">
+                                <label class="pro-form-label mb-2 d-block" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">
+                                    <i class="feather-paperclip me-1"></i> Documents joints ({{ docFiles|length }})
+                                </label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for doc in docFiles %}
+                                        <a href="{{ asset('uploads/offers/' ~ doc) }}" target="_blank"
+                                           class="pro-btn pro-btn-outline pro-btn-sm rounded-pill d-inline-flex align-items-center gap-2">
+                                            <i class="feather-file-text"></i>
+                                            <span>Document {{ loop.index }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
 
-                    {# ── Nouveaux champs de l'offre ── #}
+                    {# Meta fields #}
                     <div class="row g-3 mb-4">
                         {% if offer.priorVisit is not null %}
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
-                                    <div class="bg-white d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;">
-                                        <i class="ph-bold ph-eye" style="color: var(--color-text-muted);"></i>
-                                    </div>
+                                    <i class="feather-map-pin" style="color: var(--color-text-muted); flex-shrink:0;"></i>
                                     <div>
-                                        <small class="pro-text-muted d-block" style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em;">Visite préalable</small>
+                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem; text-transform:uppercase;">Visite préalable</small>
                                         <span class="pro-fw-semibold">{{ offer.priorVisit ? 'Oui' : 'Non' }}</span>
                                     </div>
                                 </div>
@@ -84,11 +257,9 @@
                         {% if offer.possibleStartDate %}
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
-                                    <div class="bg-white d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;">
-                                        <i class="ph-bold ph-calendar-check" style="color: var(--color-text-muted);"></i>
-                                    </div>
+                                    <i class="feather-calendar" style="color: var(--color-text-muted); flex-shrink:0;"></i>
                                     <div>
-                                        <small class="pro-text-muted d-block" style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em;">Date possible de début</small>
+                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem; text-transform:uppercase;">Début possible</small>
                                         <span class="pro-fw-semibold">{{ offer.possibleStartDate|date('d/m/Y') }}</span>
                                     </div>
                                 </div>
@@ -97,12 +268,10 @@
                         {% if offer.estimatedDuration %}
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
-                                    <div class="bg-white d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;">
-                                        <i class="ph-bold ph-timer" style="color: var(--color-text-muted);"></i>
-                                    </div>
+                                    <i class="feather-clock" style="color: var(--color-text-muted); flex-shrink:0;"></i>
                                     <div>
-                                        <small class="pro-text-muted d-block" style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em;">Délai de réalisation</small>
-                                        <span class="pro-fw-semibold">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit ?? 'jours' }}</span>
+                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem; text-transform:uppercase;">Durée estimée</small>
+                                        <span class="pro-fw-semibold">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('jours') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -112,24 +281,20 @@
                     <div class="row g-3 border-top pt-4 mt-2">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="bg-light d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border-radius: 10px;">
-                                    <i class="ph-bold ph-calendar" style="color: var(--color-text-muted);"></i>
-                                </div>
+                                <i class="feather-calendar" style="color: var(--color-text-muted);"></i>
                                 <div>
                                     <small class="pro-text-muted d-block">Soumis le</small>
-                                    <span class="pro-fw-semibold">{{ offer.createdAt|date('d/m/Y \\à H:i') }}</span>
+                                    <span class="pro-fw-semibold">{{ offer.createdAt|date('d/m/Y à H:i') }}</span>
                                 </div>
                             </div>
                         </div>
                         {% if offer.updatedAt %}
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-light d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; border-radius: 10px;">
-                                        <i class="ph-bold ph-clock-counter-clockwise" style="color: var(--color-text-muted);"></i>
-                                    </div>
+                                    <i class="feather-refresh-cw" style="color: var(--color-text-muted);"></i>
                                     <div>
                                         <small class="pro-text-muted d-block">Dernière mise à jour</small>
-                                        <span class="pro-fw-semibold">{{ offer.updatedAt|date('d/m/Y \\à H:i') }}</span>
+                                        <span class="pro-fw-semibold">{{ offer.updatedAt|date('d/m/Y à H:i') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -140,133 +305,152 @@
 
             {# ── Actions ── #}
             <div class="d-flex gap-3 flex-wrap">
-                {% if offer.status == 'DRAFT' %}
-                    <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="d-inline" data-confirm="Delete this offer?">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
-                        <button type="submit" class="btn btn-outline-danger rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2">
-                            <i class="ph-bold ph-trash"></i> Delete Draft
-                        </button>
-                    </form>
+                {% if offerStatus == 'DRAFT' %}
+                    <button type="button" class="btn btn-outline-danger rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#deleteDraftModal">
+                        <i class="feather-trash-2"></i> Supprimer le brouillon
+                    </button>
                 {% endif %}
                 {% set activeReq = offer.quoteRequest ?? offer.directRequest %}
-                {% if offer.status == 'ACCEPTED' and activeReq and activeReq.status|upper != 'CLOSED' %}
-                    <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="d-inline" data-confirm="Confirmer la fin des travaux ? Le client sera notifié.">
-                        <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                        <button type="submit" class="pro-btn pro-btn-success rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2">
-                            <i class="ph-bold ph-check-circle"></i> Terminer la mission
-                        </button>
-                    </form>
+                {% if offerStatus == 'ACCEPTED' and activeReq and activeReq.status|upper != 'CLOSED' %}
+                    <button type="button" class="pro-btn pro-btn-success rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#finalizeMissionModal">
+                        <i class="feather-check-circle"></i> Terminer la mission
+                    </button>
                 {% endif %}
             </div>
         </div>
 
-        {# ── Request Context Sidebar ── #}
+        {# ── [M3] Right sidebar: Request + Client profile ── #}
         <div class="col-lg-4">
-            {% set activeRequest = quote ?? directRequest %}
             {% if activeRequest %}
-                <div class="pro-card pro-card-elevated sticky-top" style="top: 100px;">
+                <div class="pro-card pro-card-elevated sticky-top mb-4" style="top: 100px;">
                     <div class="pro-card-header">
                         <h5 class="pro-card-title mb-0">
-                            {{ quote ? 'Quote Request' : 'Direct Request' }}
+                            <i class="feather-file-text me-2"></i>
+                            {{ quote ? 'Demande de devis' : 'Demande directe' }}
                         </h5>
                     </div>
                     <div class="pro-card-body">
-                        <h6 class="pro-fw-bold mb-2">{{ activeRequest.title }}</h6>
-                        <p class="pro-text-muted mb-4 small" style="line-height: 1.6;">
-                            {{ activeRequest.description|slice(0, 180) }}{% if activeRequest.description|length > 180 %}...{% endif %}
+                        <h6 class="fw-bold mb-2 text-dark">{{ activeRequest.title }}</h6>
+                        <p class="pro-text-muted mb-3 small" style="line-height: 1.6;">
+                            {{ activeRequest.description|slice(0, 200) }}{% if activeRequest.description|length > 200 %}…{% endif %}
                         </p>
-                        
-                        <div class="space-y-3">
+
+                        {# Request photos #}
+                        {% if activeRequest.images is defined and activeRequest.images|length > 0 %}
+                            <div class="mb-3">
+                                <small class="pro-text-muted d-block mb-1" style="font-size: 0.7rem; text-transform:uppercase; letter-spacing:0.05em;">Photos de la demande</small>
+                                <div class="d-flex flex-wrap gap-1">
+                                    {% for img in activeRequest.images|slice(0, 4) %}
+                                        <a href="{{ asset('uploads/quote_requests/' ~ img) }}" target="_blank">
+                                            <img src="{{ asset('uploads/quote_requests/' ~ img) }}" alt="Photo"
+                                                 style="width: 56px; height: 56px; object-fit: cover; border-radius: 8px; border: 1.5px solid #e2e8f0;"
+                                                 class="shadow-sm">
+                                        </a>
+                                    {% endfor %}
+                                    {% if activeRequest.images|length > 4 %}
+                                        <div class="d-flex align-items-center justify-content-center rounded-2"
+                                             style="width:56px;height:56px;background:#f1f5f9;color:#64748b;font-size:12px;font-weight:700;">
+                                            +{{ activeRequest.images|length - 4 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Meta #}
+                        <div class="d-flex flex-column gap-2 mb-3">
                             {% if quote and quote.category %}
-                                <div class="d-flex align-items-center gap-3">
-                                    <i class="ph-bold ph-tag text-muted"></i>
-                                    <span class="pro-badge info">{{ quote.category.localizedTitle(app.request.locale) }}</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="feather-tag text-muted" style="font-size:13px;"></i>
+                                    <span class="pro-badge info" style="font-size:11px;">{{ quote.category.localizedTitle(app.request.locale) }}</span>
                                 </div>
                             {% endif %}
-
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="ph-bold ph-calendar-blank text-muted"></i>
-                                <small class="pro-text-muted">
-                                    {{ quote ? quote.creationDate|date('d/m/Y') : activeRequest.creationDate|date('d/m/Y') }}
-                                </small>
-                            </div>
-
-                            {% if activeRequest.desiredStartDate %}
-                                <div class="d-flex align-items-center gap-3">
-                                    <i class="ph-bold ph-calendar-check text-muted"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem;">Début souhaité</small>
-                                        <span class="pro-fw-semibold small">{{ activeRequest.desiredStartDate|date('d/m/Y') }}</span>
-                                    </div>
-                                </div>
-                            {% endif %}
-
                             {% if activeRequest.urgentIntervention %}
-                                <div class="d-flex align-items-center gap-3">
-                                    <i class="ph-bold ph-lightning text-muted"></i>
-                                    <span class="pro-badge danger">Intervention urgente</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="feather-zap text-muted" style="font-size:13px;"></i>
+                                    <span class="pro-badge danger" style="font-size:11px;">Intervention urgente</span>
                                 </div>
                             {% endif %}
-
-                            {% if activeRequest.availabilities|length > 0 %}
-                                <div class="d-flex align-items-start gap-3">
-                                    <i class="ph-bold ph-clock text-muted mt-1"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem;">Disponibilités</small>
-                                        <div class="d-flex flex-wrap gap-1 mt-1">
-                                            {% for dispo in activeRequest.availabilities %}
-                                                <span class="pro-badge secondary" style="font-size: 0.7rem;">{{ dispo }}</span>
-                                            {% endfor %}
-                                        </div>
+                            {% if activeRequest.desiredStartDate %}
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="feather-calendar text-muted" style="font-size:13px;"></i>
+                                    <span class="small text-muted">Début souhaité : <strong class="text-dark">{{ activeRequest.desiredStartDate|date('d/m/Y') }}</strong></span>
+                                </div>
+                            {% endif %}
+                            {% if activeRequest.availabilities is defined and activeRequest.availabilities|length > 0 %}
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="feather-clock text-muted mt-1" style="font-size:13px;"></i>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        {% for dispo in activeRequest.availabilities %}
+                                            <span class="pro-badge secondary" style="font-size:10px;">{{ dispo }}</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             {% endif %}
-
-                            {% if activeRequest.languages|length > 0 %}
-                                <div class="d-flex align-items-start gap-3">
-                                    <i class="ph-bold ph-globe text-muted mt-1"></i>
-                                    <div>
-                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem;">Langue(s) souhaitée(s)</small>
-                                        <div class="d-flex flex-wrap gap-1 mt-1">
-                                            {% for lang in activeRequest.languages %}
-                                                <span class="pro-badge info" style="font-size: 0.7rem;">{{ lang }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="ph-bold ph-info text-muted"></i>
-                                {% set reqStatus = activeRequest.status|upper %}
-                                {% if reqStatus == 'CLOSED' %}
-                                    <span class="pro-badge secondary">Clôturée</span>
-                                {% elseif reqStatus == 'IN_PROGRESS' %}
-                                    <span class="pro-badge warning">En cours</span>
-                                {% elseif reqStatus == 'ACCEPTED' %}
-                                    <span class="pro-badge success">Acceptée</span>
-                                {% elseif reqStatus == 'PUBLISHED' %}
-                                    <span class="pro-badge info">Publiée</span>
-                                {% else %}
-                                    <span class="pro-badge primary">{{ activeRequest.status }}</span>
-                                {% endif %}
-                            </div>
                         </div>
 
-                        {# Client contact revealed only if offer is ACCEPTED #}
-                        {% if offer.status == 'ACCEPTED' and activeRequest.individual %}
-                            <div class="mt-4 p-4" style="background: rgba(16, 185, 129, 0.05); border-radius: 12px; border: 1px dashed rgba(16, 185, 129, 0.3);">
-                                <label class="pro-form-label mb-3 d-block" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #10b981; font-weight: 800;">
-                                    <i class="ph-bold ph-lock-key-open me-1"></i> Client Contact
-                                </label>
+                        {# Request status #}
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <i class="feather-info text-muted" style="font-size:13px;"></i>
+                            {% set reqSt = activeRequest.status|upper %}
+                            {% if reqSt == 'CLOSED' %}<span class="pro-badge secondary" style="font-size:11px;">Clôturée</span>
+                            {% elseif reqSt == 'IN_PROGRESS' %}<span class="pro-badge warning" style="font-size:11px;">En cours</span>
+                            {% elseif reqSt == 'ACCEPTED' %}<span class="pro-badge success" style="font-size:11px;">Acceptée</span>
+                            {% elseif reqSt == 'PUBLISHED' %}<span class="pro-badge info" style="font-size:11px;">Publiée</span>
+                            {% else %}<span class="pro-badge secondary" style="font-size:11px;">{{ activeRequest.status }}</span>
+                            {% endif %}
+                        </div>
+
+                        {# Client profile (always show partially, contact only on ACCEPTED) #}
+                        {% set client = activeRequest.individual %}
+                        {% if client %}
+                            <div class="border-top pt-3 mt-2">
+                                <small class="pro-text-muted d-block mb-2" style="font-size: 0.7rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:700;">Profil client</small>
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="bg-white shadow-sm d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; border-radius: 8px;">
-                                        <i class="ph-bold ph-envelope-simple" style="color: #10b981;"></i>
+                                    <div class="drl-stat-icon drl-stat-icon--1 m-0 flex-shrink-0"
+                                         style="width:44px;height:44px;border-radius:50%;font-size:16px;">
+                                        {{ client.personalInfos ? client.personalInfos.firstName|slice(0,1)|upper : client.email|slice(0,1)|upper }}
                                     </div>
-                                    <a href="mailto:{{ activeRequest.individual.email }}" class="pro-fw-bold" style="color: #10b981; text-decoration: none;">
-                                        {{ activeRequest.individual.email }}
-                                    </a>
+                                    <div>
+                                        {% if offerStatus == 'ACCEPTED' %}
+                                            <div class="fw-bold text-dark" style="font-size:14px;">
+                                                {{ client.personalInfos ? (client.personalInfos.firstName ~ ' ' ~ client.personalInfos.lastName) : client.email }}
+                                            </div>
+                                        {% else %}
+                                            <div class="fw-bold text-dark" style="font-size:14px;">
+                                                {{ client.personalInfos ? client.personalInfos.firstName ~ ' ' ~ client.personalInfos.lastName|slice(0,1) ~ '.' : 'Client' }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="text-muted small">Membre depuis {{ client.createdAt is defined ? client.createdAt|date('Y') : '' }}</div>
+                                    </div>
                                 </div>
+
+                                {# Contact only on ACCEPTED #}
+                                {% if offerStatus == 'ACCEPTED' %}
+                                    <div class="mt-3 p-3 rounded-3" style="background: rgba(16,185,129,0.05); border: 1px dashed rgba(16,185,129,0.3);">
+                                        <div class="small fw-bold mb-2" style="color: #10b981; text-transform:uppercase; font-size:10px;">
+                                            <i class="feather-unlock me-1"></i> Coordonnées débloquées
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2 mb-1">
+                                            <i class="feather-mail" style="color:#10b981;font-size:13px;"></i>
+                                            <a href="mailto:{{ client.email }}" class="fw-bold text-decoration-none" style="color: #059669; font-size:13px;">{{ client.email }}</a>
+                                        </div>
+                                        {% if client.phoneNum %}
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="feather-phone" style="color:#10b981;font-size:13px;"></i>
+                                                <span class="fw-bold" style="color: #059669; font-size:13px;">{{ client.phoneNum }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class="mt-2 p-2 rounded-3 d-flex align-items-center gap-2"
+                                         style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                        <i class="feather-lock text-muted" style="font-size:13px;"></i>
+                                        <small class="text-muted">Coordonnées débloquées après acceptation</small>
+                                    </div>
+                                {% endif %}
                             </div>
                         {% endif %}
                     </div>
@@ -274,4 +458,88 @@
             {% endif %}
         </div>
     </div>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+    </style>
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    {% set offerStatus = offer.status|upper %}
+
+    {# Delete Draft Modal #}
+    {% if offerStatus == 'DRAFT' %}
+    <div class="modal fade" id="deleteDraftModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content drl-modal-content">
+                <div class="modal-body drl-modal-body p-5 text-center">
+                    <div class="mb-4">
+                        <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
+                             style="width: 70px; height: 70px; background: rgba(239,68,68,0.1);">
+                            <i class="feather-trash-2" style="font-size: 2rem; color: #ef4444;"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Supprimer ce brouillon ?</h4>
+                    <p class="text-muted px-3 mb-4">Cette action est irréversible. Le brouillon sera définitivement supprimé.</p>
+                    <div class="d-flex flex-column gap-3">
+                        <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
+                            <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
+                                    style="background: #ef4444; color: #fff; font-size: 1rem;">
+                                <i class="feather-trash-2"></i> Oui, supprimer
+                            </button>
+                        </form>
+                        <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# Finalize Mission Modal #}
+    {% set activeReq2 = offer.quoteRequest ?? offer.directRequest %}
+    {% if offerStatus == 'ACCEPTED' and activeReq2 and activeReq2.status|upper != 'CLOSED' %}
+    <div class="modal fade" id="finalizeMissionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content drl-modal-content">
+                <div class="modal-body drl-modal-body p-5 text-center">
+                    <div class="mb-4">
+                        <div class="drl-stat-icon drl-stat-icon--3 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
+                            <i class="feather-check-circle"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Confirmer la fin des travaux ?</h4>
+                    <p class="text-muted px-3 mb-4">Le client sera notifié que les travaux sont accomplis et un rappel d'avis lui sera envoyé.</p>
+                    <div class="d-flex flex-column gap-3">
+                        <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
+                            <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
+                            <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg"
+                                    style="background: #16a34a !important; box-shadow: 0 4px 14px rgba(22,163,74,0.25) !important;">
+                                <i class="feather-check-circle me-2"></i> Oui, terminer la mission
+                            </button>
+                        </form>
+                        <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
+                            Pas encore
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+                new bootstrap.Tooltip(el);
+            });
+        });
+    </script>
 {% endblock %}
