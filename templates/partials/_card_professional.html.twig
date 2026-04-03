@@ -43,12 +43,12 @@
             <li>
                 <div class="category-icon-wrapper-sm">
                     {% if pro.category.icon %}
-                        <img src="{{ asset('uploads/categories/' ~ pro.category.icon) }}" alt="{{ pro.category.name }}" style="width: 100%; height: 100%; object-fit: contain;">
+                        <img src="{{ asset('uploads/categories/' ~ pro.category.icon) }}" alt="{{ pro.category.localizedTitle(app.request.locale) }}" style="width: 100%; height: 100%; object-fit: contain;">
                     {% else %}
                         <i class="fas fa-tools small text-muted"></i>
                     {% endif %}
                 </div>
-                <span class="detail-text">{{ pro.category.name }}</span>
+                <span class="detail-text">{{ pro.category.localizedTitle(app.request.locale) }}</span>
             </li>
             {% endif %}
             

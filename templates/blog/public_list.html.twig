@@ -671,7 +671,7 @@
           </div>
           <div class="si-card-main__body">
             {% if mainItem.category %}
-              <span class="si-card-cat">{{ mainItem.category.name }}</span>
+              <span class="si-card-cat">{{ mainItem.category.localizedTitle(app.request.locale) }}</span>
             {% else %}
               <span class="si-card-cat">{{ 'blog_list.lbl_featured'|trans }}</span>
             {% endif %}
@@ -744,7 +744,7 @@
             </div>
             <div class="si-card-grid__body">
               {% if gridIdea.category %}
-                <span class="si-card-cat">{{ gridIdea.category.name }}</span>
+                <span class="si-card-cat">{{ gridIdea.category.localizedTitle(app.request.locale) }}</span>
               {% endif %}
               <h3 class="si-card-grid__title">
                 <a href="{{ path('public_blog_show', {id: gridIdea.id}) }}">{{ gridIdea.title }}</a>

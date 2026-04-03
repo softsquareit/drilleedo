@@ -9,13 +9,13 @@
         <div class="col-lg-8">
             {# ── Request Details ── #}
             <div class="pro-card pro-card-elevated mb-4"
-                 data-category="{{ parentRequest.category ? parentRequest.category.name : '' }}"
+                 data-category="{{ parentRequest.category ? parentRequest.category.localizedTitle(app.request.locale) : '' }}"
                  data-request-title="{{ parentRequest.title }}"
                  data-request-description="{{ parentRequest.description }}">
                 <div class="pro-card-header">
                     <h4 class="pro-card-title">{{ directRequest is defined ? 'Direct Request' : 'Quote Request' }} Details</h4>
                     {% if parentRequest.category %}
-                        <span class="pro-badge info">{{ parentRequest.category.name }}</span>
+                        <span class="pro-badge info">{{ parentRequest.category.localizedTitle(app.request.locale) }}</span>
                     {% endif %}
                 </div>
                 <div class="pro-card-body">

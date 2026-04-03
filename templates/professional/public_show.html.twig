@@ -256,7 +256,7 @@
                                 <div class="d-flex align-items-center flex-wrap gap-3">
                                     <span class="zenith-verified-badge"><i class="feather-check-circle"></i> Verified Pro</span>
                                     <span class="text-white opacity-75"><i class="feather-map-pin"></i> {{ professional.city|default('Canada') }}</span>
-                                    <span class="text-white opacity-75">| {{ professional.category.name|default('Professional Service') }}</span>
+                                    <span class="text-white opacity-75">| {{ professional.category.localizedTitle(app.request.locale)|default('Professional Service') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -281,7 +281,7 @@
                     {% else %}
                         <p class="lead mb-4" style="color: #334155; font-weight: 500;">
                             {{ professional.tradeName ?: professional.companyName }} is a dedicated professional providing high-quality 
-                            {{ professional.category ? professional.category.name|lower : 'renovation' }} solutions.
+                            {{ professional.category ? professional.category.localizedTitle(app.request.locale)|lower : 'renovation' }} solutions.
                         </p>
                         <p style="color: #64748b; line-height: 1.8;">
                             With over {{ professional.expYears|default('several') }} years of experience in the industry, I have honed my skills to deliver exceptional results for every client.
@@ -317,7 +317,7 @@
                                         <li><i class="feather-tool"></i> {{ item }}</li>
                                     {% endfor %}
                                 {% else %}
-                                    <li><i class="feather-tool"></i> {{ professional.category.name|default('General Service') }}</li>
+                                    <li><i class="feather-tool"></i> {{ professional.category.localizedTitle(app.request.locale)|default('General Service') }}</li>
                                     <li><i class="feather-clipboard"></i> Consultations</li>
                                     <li><i class="feather-settings"></i> Maintenance & Repair</li>
                                     <li><i class="feather-box"></i> Custom Installations</li>

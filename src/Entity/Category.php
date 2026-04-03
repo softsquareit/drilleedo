@@ -20,6 +20,12 @@ class Category
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $titleEn = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $titleFr = null;
+
     // Parent category
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'childs')]
     #[ORM\JoinColumn(nullable: true)]
@@ -77,6 +83,39 @@ class Category
     {
         $this->name = $name;
         return $this;
+    }
+
+    public function getTitleEn(): ?string
+    {
+        return $this->titleEn;
+    }
+
+    public function setTitleEn(?string $titleEn): static
+    {
+        $this->titleEn = $titleEn;
+        return $this;
+    }
+
+    public function getTitleFr(): ?string
+    {
+        return $this->titleFr;
+    }
+
+    public function setTitleFr(?string $titleFr): static
+    {
+        $this->titleFr = $titleFr;
+        return $this;
+    }
+
+    public function getLocalizedTitle(string $locale): string
+    {
+        if (str_starts_with(strtolower($locale), 'en') && !empty($this->titleEn)) {
+            return $this->titleEn;
+        }
+        if (str_starts_with(strtolower($locale), 'fr') && !empty($this->titleFr)) {
+            return $this->titleFr;
+        }
+        return $this->name ?? '';
     }
 
     public function __toString(): string

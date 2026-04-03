@@ -518,7 +518,7 @@
         {% if idea.category %}
           <span class="id-cat-pill">
             <i class="fas fa-tag" aria-hidden="true"></i>
-            {{ idea.category.name }}
+            {{ idea.category.localizedTitle(app.request.locale) }}
           </span>
         {% endif %}
         <span class="id-meta-item">
@@ -582,7 +582,7 @@
         <a href="{{ path('professionals_list') }}?categories[]={{ idea.category.id }}"
            class="id-tag">
           <i class="fas fa-tag" aria-hidden="true"></i>
-          {{ idea.category.name }}
+          {{ idea.category.localizedTitle(app.request.locale) }}
         </a>
         <a href="{{ path('smartideas') }}" class="id-tag">
           <i class="fas fa-lightbulb" aria-hidden="true"></i>
@@ -646,7 +646,7 @@
         <div class="id-author__role">
           {% if idea.author %}
             {% if idea.author.type == 'Professional' %}
-              {{ idea.author.category ? idea.author.category.name : 'Professional' }}
+              {{ idea.author.category ? idea.author.category.localizedTitle(app.request.locale) : 'Professional' }}
             {% elseif idea.author.type == 'Company' %}
               Renovation Company
             {% else %}

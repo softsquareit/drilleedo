@@ -38,7 +38,7 @@
                                         <span style="font-weight: 800; color: #0d2151; display: block;">{{ offer.quoteRequest.title }}</span>
                                         <small style="color: #64748b; font-size: 12px;">
                                             <i class="feather-tag" ></i>
-                                            {{ offer.quoteRequest.category ? offer.quoteRequest.category.name : 'N/A' }}
+                                            {{ offer.quoteRequest.category ? offer.quoteRequest.category.localizedTitle(app.request.locale) : 'N/A' }}
                                         </small>
                                     </div>
                                 {% elseif offer.directRequest is defined and offer.directRequest %}

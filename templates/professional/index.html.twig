@@ -245,7 +245,7 @@
                                             </div>
                                             <div>
                                                 <strong class="text-dark d-block mb-0" style="font-size: 15px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,50) ~ (offer.quoteRequest.title|length > 50 ? '...' : '') : 'Direct Request' }}</strong>
-                                                <span class="text-muted small">#{{ offer.id }} • {{ offer.quoteRequest ? offer.quoteRequest.category.name : 'Direct' }}</span>
+                                                <span class="text-muted small">#{{ offer.id }} • {{ offer.quoteRequest ? offer.quoteRequest.category.localizedTitle(app.request.locale) : 'Direct' }}</span>
                                             </div>
                                         </div>
                                     </td>

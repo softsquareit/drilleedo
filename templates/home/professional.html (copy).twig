@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.name : 'Professional' }} in {{ professional.city ?? 'Montreal' }} | Drilleedo{% endblock %}
+{% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Professional' }} in {{ professional.city ?? 'Montreal' }} | Drilleedo{% endblock %}
 
-{% block meta_description %}Professional {{ professional.category ? professional.category.name : 'services' }} in {{ professional.city ?? 'Montreal' }} provided by {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'View services, projects and client reviews.' }}...{% endblock %}
+{% block meta_description %}Professional {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'services' }} in {{ professional.city ?? 'Montreal' }} provided by {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'View services, projects and client reviews.' }}...{% endblock %}
 
-{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.name : '' }}, {{ professional.city ?? '' }}, home improvement, professional services, Drilleedo{% endblock %}
+{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.localizedTitle(app.request.locale) : '' }}, {{ professional.city ?? '' }}, home improvement, professional services, Drilleedo{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_profile.css') }}">
@@ -49,13 +49,13 @@
                 <div class="drl-pro-category-tag">
                     {% if professional.category.icon %}
                         <img src="{{ asset('uploads/categories/' ~ professional.category.icon) }}" 
-                             alt="{{ professional.category.name }} Category Icon" class="drl-category-icon-img">
+                             alt="{{ professional.category.localizedTitle(app.request.locale) }} Category Icon" class="drl-category-icon-img">
                     {% else %}
                         <div class="drl-category-icon-img d-flex align-items-center justify-content-center">
                             <i class="feather-tool fs-1"></i>
                         </div>
                     {% endif %}
-                    {{ professional.category.name }}
+                    {{ professional.category.localizedTitle(app.request.locale) }}
                 </div>
             {% endif %}
             <h1 class="drl-banner-name-expert">{{ professional.companyName }}</h1>
@@ -260,13 +260,13 @@
                         <li class="py-3">
                             {% if professional.category.icon %}
                                 <img src="{{ asset('uploads/categories/' ~ professional.category.icon) }}" 
-                                    alt="{{ professional.category.name }}" class="drl-category-icon-img">
+                                    alt="{{ professional.category.localizedTitle(app.request.locale) }}" class="drl-category-icon-img">
                             {% else %}
                                 <div class="drl-category-icon-img d-flex align-items-center justify-content-center">
                                     <i class="feather-tool fs-1"></i>
                                 </div>
                             {% endif %}
-                            <span class="fs-4 fw-black">{{ professional.category ? professional.category.name : 'Renovation Expert' }}</span>
+                            <span class="fs-4 fw-black">{{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Renovation Expert' }}</span>
                         </li>
                         <li class="py-3">
                             <i class="feather-map-pin me-3 text-primary"></i>

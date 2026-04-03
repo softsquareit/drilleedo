@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.name : 'Professionnel' }} à {{ professional.city ?? 'Montréal' }} | Drilleedo{% endblock %}
-{% block meta_description %}{{ professional.category ? professional.category.name : 'Services professionnels' }} à {{ professional.city ?? 'Montréal' }} by {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'View services, projects and customer reviews.' }}...{% endblock %}
-{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.name : '' }}, {{ professional.city ?? '' }}, renovation, Drilleedo{% endblock %}
+{% block title %}{{ professional.companyName }} – {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Professionnel' }} à {{ professional.city ?? 'Montréal' }} | Drilleedo{% endblock %}
+{% block meta_description %}{{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Services professionnels' }} à {{ professional.city ?? 'Montréal' }} by {{ professional.companyName }}. {{ professional.about ? professional.about|striptags|slice(0, 150) : 'View services, projects and customer reviews.' }}...{% endblock %}
+{% block meta_keywords %}{{ professional.companyName }}, {{ professional.category ? professional.category.localizedTitle(app.request.locale) : '' }}, {{ professional.city ?? '' }}, renovation, Drilleedo{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_profile.css') }}">
@@ -36,7 +36,7 @@
     {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "{{ url('app_home') }}"},
     {"@type": "ListItem", "position": 2, "name": "Professionnels", "item": "{{ url('professionals_list') }}"},
     {% if professional.category %}
-    {"@type": "ListItem", "position": 3, "name": "{{ professional.category.name|e('js') }}", "item": "{{ url('professionals_list') }}?category={{ professional.category.id }}"},
+    {"@type": "ListItem", "position": 3, "name": "{{ professional.category.localizedTitle(app.request.locale)|e('js') }}", "item": "{{ url('professionals_list') }}?category={{ professional.category.id }}"},
     {"@type": "ListItem", "position": 4, "name": "{{ professional.companyName|e('js') }}"}
     {% else %}
     {"@type": "ListItem", "position": 3, "name": "{{ professional.companyName|e('js') }}"}
@@ -93,7 +93,7 @@
     {% if professional.category %}
     <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <a href="{{ url('professionals_list') }}?category={{ professional.category.id }}" itemprop="item">
-        <span itemprop="name">{{ professional.category.name }}</span>
+        <span itemprop="name">{{ professional.category.localizedTitle(app.request.locale) }}</span>
       </a>
       <meta itemprop="position" content="3">
     </li>
@@ -160,7 +160,7 @@
         </div>
 
         <div class="drl-category-row">
-          {{ professional.category ? professional.category.name : 'Professionnel' }}
+          {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Professionnel' }}
           · {{ professional.city ?? 'Montréal' }}
         </div>
 
@@ -228,7 +228,7 @@
         <div class="drl-stat-ico">🏗️</div>
         <div>
           <div class="drl-stat-label">{{ 'public_profile.category'|trans }}</div>
-          <div class="drl-stat-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
+          <div class="drl-stat-val">{{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Rénovation' }}</div>
         </div>
       </div>
       <div class="drl-stat-cell">
@@ -515,7 +515,7 @@
               <div class="drl-c-ico">🏗️</div>
               <div>
                 <div class="drl-c-lbl">Category</div>
-                <div class="drl-c-val">{{ professional.category ? professional.category.name : 'Rénovation' }}</div>
+                <div class="drl-c-val">{{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Rénovation' }}</div>
               </div>
             </div>
             <div class="drl-c-item">

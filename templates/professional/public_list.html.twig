@@ -93,7 +93,7 @@
                                 </h4>
                                 
                                 <div class="zenith-badges-row">
-                                    <span class="zenith-mini-badge primary">{{ pro.category.name|default('Professional') }}</span>
+                                    <span class="zenith-mini-badge primary">{{ pro.category.localizedTitle(app.request.locale)|default('Professional') }}</span>
                                     
                                     {% if pro.expYears > 0 %}
                                         <span class="zenith-mini-badge"><i class="feather-award"></i> {{ pro.expYears }} Years Exp.</span>

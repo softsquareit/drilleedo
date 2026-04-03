@@ -235,7 +235,7 @@
                 {% if pro.category %}
                   <span>
                     <i class="feather-briefcase"></i>
-                    {{ pro.category.name }}
+                    {{ pro.category.localizedTitle(app.request.locale) }}
                   </span>
                 {% endif %}
                 <span>

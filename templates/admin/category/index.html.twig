@@ -143,6 +143,8 @@
                                                 data-bs-target="#editCategoryModal"
                                                 data-id="{{ category.id }}"
                                                 data-name="{{ category.name }}"
+                                                data-title-en="{{ category.titleEn }}"
+                                                data-title-fr="{{ category.titleFr }}"
                                                 data-parent="{{ category.parent ? category.parent.id : '' }}"
                                                 data-color="{{ category.rawColor|default('#ffc107') }}"
                                                 data-active="{{ category.isActive ? '1' : '0' }}"
@@ -201,6 +203,16 @@
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Category Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[name]" required placeholder="e.g. Construction">
                         <input type="hidden" name="category[_token]" value="{{ csrf_token('category') }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Title (English) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[titleEn]" required placeholder="e.g. Construction">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Title (French) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[titleFr]" required placeholder="e.g. Construction">
+                        </div>
                     </div>
                     <div class="mb-4">
                          <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Parent Category</label>
@@ -275,6 +287,16 @@
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Category Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[name]" id="editCategoryName" required>
                         <input type="hidden" name="category[_token]" value="{{ csrf_token('category') }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Title (English) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[titleEn]" id="editCategoryTitleEn" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Title (French) <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light border-0 rounded-3 fs-6" name="category[titleFr]" id="editCategoryTitleFr" required>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark small text-uppercase letter-spacing-1">Parent Category</label>
@@ -365,6 +387,8 @@
                 const button = event.relatedTarget;
                 const categoryId = button.getAttribute('data-id');
                 const categoryName = button.getAttribute('data-name');
+                const categoryTitleEn = button.getAttribute('data-title-en');
+                const categoryTitleFr = button.getAttribute('data-title-fr');
                 const categoryParent = button.getAttribute('data-parent');
                 const categoryColor = button.getAttribute('data-color');
                 const categoryActive = button.getAttribute('data-active');
@@ -372,6 +396,8 @@
                 const categoryBanner = button.getAttribute('data-banner');
                 
                 document.getElementById('editCategoryName').value = categoryName;
+                document.getElementById('editCategoryTitleEn').value = categoryTitleEn;
+                document.getElementById('editCategoryTitleFr').value = categoryTitleFr;
                 document.getElementById('editCategoryParent').value = categoryParent;
                 document.getElementById('editCategoryColor').value = categoryColor;
                 document.getElementById('editCategoryActive').checked = (categoryActive === '1');

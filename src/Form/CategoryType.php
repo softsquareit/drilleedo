@@ -15,7 +15,9 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', null, ['label' => 'Technical Name (slug origin)'])
+            ->add('titleFr', null, ['label' => 'French Title (Titre_fr)'])
+            ->add('titleEn', null, ['label' => 'English Title (Title_en)'])
             ->add('parent', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

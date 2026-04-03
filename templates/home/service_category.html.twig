@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ category.name }} Services | Hire Verified Professionals in Canada | Drilleedo{% endblock %}
-{% block meta_description %}Find verified {{ category.name }} professionals across Canada on Drilleedo. Compare quotes, read reviews, and hire the best specialist for your home renovation project.{% endblock %}
+{% block title %}{{ category.localizedTitle(app.request.locale) }} Services | Hire Verified Professionals in Canada | Drilleedo{% endblock %}
+{% block meta_description %}Find verified {{ category.localizedTitle(app.request.locale) }} professionals across Canada on Drilleedo. Compare quotes, read reviews, and hire the best specialist for your home renovation project.{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
@@ -25,7 +25,7 @@
 ══════════════════════════════════════════════════════════════════════════ #}
 <div class="fp-hero">
     <img src="{{ asset('uploads/banners/professionels.png') }}"
-         alt="{{ category.name }}"
+         alt="{{ category.localizedTitle(app.request.locale) }}"
          class="fp-hero__img">
     <div class="fp-hero__content">
         <nav aria-label="Breadcrumb" class="svc-breadcrumb">
@@ -39,7 +39,7 @@
                     <meta itemprop="position" content="2">
                 </li>
                 <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
-                    <span itemprop="name">{{ category.name }}</span>
+                    <span itemprop="name">{{ category.localizedTitle(app.request.locale) }}</span>
                     <meta itemprop="position" content="3">
                 </li>
             </ol>
@@ -49,10 +49,10 @@
             {% if category.icon %}
                 <img src="{{ asset('uploads/categories/' ~ category.icon) }}" alt="" style="width: 45px; height: 45px; vertical-align: middle; margin-right: 15px;">
             {% endif %}
-            {{ category.name }} {{ 'public_list.professionals_suffix'|trans }}
+            {{ category.localizedTitle(app.request.locale) }} {{ 'public_list.professionals_suffix'|trans }}
         </h1>
         <p class="fp-hero__sub">
-            {{ totalResults }} {{ 'public_list.specialists_available_in'|trans }} {{ category.name|lower }} au Canada.
+            {{ totalResults }} {{ 'public_list.specialists_available_in'|trans }} {{ category.localizedTitle(app.request.locale)|lower }} au Canada.
         </p>
 
         <div class="fp-hero__search">
@@ -63,9 +63,9 @@
                 <input type="text"
                        name="keyword"
                        class="fp-search-bar__input"
-                       placeholder="{{ 'public_list.search_within'|trans }} {{ category.name }}…"
+                       placeholder="{{ 'public_list.search_within'|trans }} {{ category.localizedTitle(app.request.locale) }}…"
                        value="{{ activeFilters.keyword ?? '' }}"
-                       aria-label="Search within {{ category.name }}">
+                       aria-label="Search within {{ category.localizedTitle(app.request.locale) }}">
                 <button type="submit" class="fp-search-bar__btn">{{ 'public_list.search_btn'|trans }}</button>
             </form>
         </div>
@@ -82,7 +82,7 @@
            class="fp-cat-pill {{ activeFilters.keyword is empty ? 'active' : '' }}" 
            aria-pressed="{{ activeFilters.keyword is empty ? 'true' : 'false' }}">
             <i class="feather-grid"></i>
-            {{ 'public_list.all'|trans }} {{ category.name }}
+            {{ 'public_list.all'|trans }} {{ category.localizedTitle(app.request.locale) }}
             <span class="fp-cat-pill__count">{{ totalResults }}</span>
         </a>
 
@@ -177,7 +177,7 @@
         <div class="fp-content">
             <div class="fp-meta-row">
                 <p class="fp-meta-count">
-                    <span>{{ professionals|length }}</span> {{ 'public_list.specialists_available_in'|trans }} {{ category.name }}
+                    <span>{{ professionals|length }}</span> {{ 'public_list.specialists_available_in'|trans }} {{ category.localizedTitle(app.request.locale) }}
                 </p>
                 <form action="{{ path('service_category_landing', {'categorySlug': categorySlug}) }}" method="GET">
                     {% if activeFilters.keyword %}<input type="hidden" name="keyword" value="{{ activeFilters.keyword }}">{% endif %}
@@ -218,7 +218,7 @@
                             <h3 class="fp-card-name"><a href="{{ profileUrl }}">{{ pro.companyName ?? (pro.personalInfos ? pro.personalInfos.firstName ~ ' ' ~ pro.personalInfos.lastName : pro.email) }}</a></h3>
                             
                             <div class="fp-card-meta">
-                                <span><i class="feather-briefcase"></i> {{ pro.category ? pro.category.name : category.name }}</span>
+                                <span><i class="feather-briefcase"></i> {{ pro.category ? pro.category.localizedTitle(app.request.locale) : category.localizedTitle(app.request.locale) }}</span>
                                 <span><i class="feather-map-pin"></i> {{ pro.city ?? 'Canada' }}</span>
                             </div>
 
@@ -270,7 +270,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": {{ category.name|json_encode|raw }},
+  "name": {{ category.localizedTitle(app.request.locale)|json_encode|raw }},
   "provider": {
     "@type": "Organization",
     "name": "Drilleedo",
@@ -280,7 +280,7 @@
     "@type": "Country",
     "name": "Canada"
   },
-  "description": "Find verified professionals in {{ category.name|escape('js') }} across Canada on Drilleedo.",
+  "description": "Find verified professionals in {{ category.localizedTitle(app.request.locale)|escape('js') }} across Canada on Drilleedo.",
   "url": "{{ url('service_category_landing', {'categorySlug': categorySlug}) }}"
 }
 </script>

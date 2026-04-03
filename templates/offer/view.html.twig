@@ -180,7 +180,7 @@
                             {% if quote and quote.category %}
                                 <div class="d-flex align-items-center gap-3">
                                     <i class="ph-bold ph-tag text-muted"></i>
-                                    <span class="pro-badge info">{{ quote.category.name }}</span>
+                                    <span class="pro-badge info">{{ quote.category.localizedTitle(app.request.locale) }}</span>
                                 </div>
                             {% endif %}
 

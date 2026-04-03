@@ -121,7 +121,7 @@
                         <div class="drl-label text-muted small mb-1">{{ 'individual.category'|trans }}</div>
                         <div class="mb-4">
                             <span class="drl-tag drl-tag--sent">
-                                <i class="feather-tag me-1"></i>{{ quote.category.name|default('individual.general'|trans) }}
+                                <i class="feather-tag me-1"></i>{{ quote.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}
                             </span>
                         </div>
 
@@ -544,7 +544,7 @@
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.publish_confirm'|trans }}</h4>
                     <p class="text-muted px-3 mb-4">
-                        {{ 'individual.publish_desc'|trans({'%title%': quote.title}) }} <span class="fw-bold text-dark">{{ quote.category.name|default('individual.general'|trans) }}</span>.
+                        {{ 'individual.publish_desc'|trans({'%title%': quote.title}) }} <span class="fw-bold text-dark">{{ quote.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}</span>.
                     </p>
                     <div class="d-flex flex-column gap-3 mt-4">
                         <form action="{{ path('individual_quote_publish', {'id': quote.id}) }}" method="POST" class="w-100">

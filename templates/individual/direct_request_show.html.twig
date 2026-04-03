@@ -116,7 +116,7 @@
                         <li class="mb-3">
                             <div class="text-muted small mb-1">{{ 'individual.th_category'|trans }}</div>
                             <span class="drl-tag drl-tag--sent">
-                                <i class="feather-tag me-1"></i>{{ request.category.name|default('individual.general'|trans) }}
+                                <i class="feather-tag me-1"></i>{{ request.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}
                             </span>
                         </li>
                         <li class="mb-3">
@@ -409,16 +409,86 @@
                             </div>
                             <h5 class="fw-bold text-dark">{{ 'individual.no_offer_yet_direct'|trans }}</h5>
                             <p class="text-muted small">{{ 'individual.no_offer_yet_direct_sub'|trans }}</p>
-                    </div>
-                {% endif %}
-            </div>
+                        </div>
+                    {% endif %}
+                </div>{# end .p-3.p-md-4 #}
+            </div>{# end .drl-card #offres #}
 
-        </div>
-    </div>
+        </div>{# end .col-lg-8 #}
+    </div>{# end .row #}
 {% endblock %}
 
 {% block modals %}
     {{ parent() }}
+
+    {# ── Per-offer Accept / Reject Modals ── #}
+    {% for offer in request.offers %}
+        {% if offer.status|upper in ['PUBLISHED', 'INTERESTED'] %}
+            {% set providerName = offer.provider.primaryContact
+                ? (offer.provider.primaryContact.firstName ~ ' ' ~ offer.provider.primaryContact.lastName)
+                : (offer.provider.companyName|default(offer.provider.email)) %}
+
+            {# Accept modal #}
+            <div class="modal fade" id="acceptOfferDRModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content drl-modal-content">
+                        <div class="modal-body drl-modal-body p-5 text-center">
+                            <div class="mb-4">
+                                <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
+                                     style="width: 70px; height: 70px; background: rgba(16,185,129,0.1);">
+                                    <i class="feather-check-circle" style="font-size: 2rem; color: #059669;"></i>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">{{ 'individual.accept_offer_title'|trans }}</h4>
+                            <p class="text-muted px-3 mb-4">{{ 'individual.accept_offer_desc'|trans({'%name%': providerName, '%price%': offer.price|number_format(2)}) }}</p>
+                            <div class="d-flex flex-column gap-3 mt-4">
+                                <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="w-100">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                    <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
+                                            style="background: #059669; color: #fff; font-size: 1rem;">
+                                        <i class="feather-check-circle"></i> {{ 'individual.accept'|trans }}
+                                    </button>
+                                </form>
+                                <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
+                                    {{ 'individual.cancel'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Reject modal #}
+            <div class="modal fade" id="rejectOfferDRModal{{ offer.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content drl-modal-content">
+                        <div class="modal-body drl-modal-body p-5 text-center">
+                            <div class="mb-4">
+                                <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
+                                     style="width: 70px; height: 70px; background: rgba(220,53,69,0.1);">
+                                    <i class="feather-x-circle" style="font-size: 2rem; color: #dc3545;"></i>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">{{ 'individual.reject_offer_title'|trans }}</h4>
+                            <p class="text-muted px-3 mb-4">{{ 'individual.reject_offer_desc'|trans({'%name%': providerName}) }}</p>
+                            <div class="d-flex flex-column gap-3 mt-4">
+                                <form action="{{ path('individual_offer_reject', {'id': offer.id}) }}" method="POST" class="w-100">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
+                                    <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
+                                            style="background: #dc3545; color: #fff; font-size: 1rem;">
+                                        <i class="feather-x-circle"></i> {{ 'individual.reject'|trans }}
+                                    </button>
+                                </form>
+                                <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
+                                    {{ 'individual.cancel'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
 
     {# ── Revert to Published Modal ── #}
     <div class="modal fade" id="revertDirectRequestModal" tabindex="-1" aria-hidden="true">

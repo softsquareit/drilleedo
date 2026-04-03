@@ -107,7 +107,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">Category</p>
-                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.category ? app.user.category.name : 'Not set' }}</p>
+                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.category ? app.user.category.localizedTitle(app.request.locale) : 'Not set' }}</p>
                         </div>
                     </div>
                 </div>

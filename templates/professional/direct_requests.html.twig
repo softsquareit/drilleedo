@@ -41,7 +41,7 @@
                                 <span style="font-weight: 600; color: #475569;">{{ request.individual.personalInfos.firstName|default('User') }} {{ request.individual.personalInfos.lastName|default('') }}</span>
                             </td>
                             <td>
-                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.name|default('General') }}</span>
+                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.localizedTitle(app.request.locale)|default('General') }}</span>
                             </td>
                             <td>
                                 <span style="font-size: 13px; color: #64748b;">{{ request.creationDate|date('M d, Y') }}</span>

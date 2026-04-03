@@ -88,11 +88,12 @@
                 <div class="drl-card-head border-bottom pb-3">
                     <h5 class="drl-card-title mb-0"><i class="feather-file-text me-2 text-primary"></i>{{ 'individual.offer_quote'|trans }}</h5>
                     {% set offerStatusMap = {
-                        'DRAFT':     {'class': 'drl-tag--draft',   'icon': 'feather-file'},
-                        'PUBLISHED': {'class': 'drl-tag--sent',    'icon': 'feather-globe'},
-                        'ACCEPTED':  {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
-                        'REJECTED':  {'class': 'drl-tag--danger',  'icon': 'feather-x-circle'},
-                        'CLOSED':    {'class': 'drl-tag--draft',   'icon': 'feather-check-square'}
+                        'DRAFT':      {'class': 'drl-tag--draft',   'icon': 'feather-file'},
+                        'PUBLISHED':  {'class': 'drl-tag--sent',    'icon': 'feather-globe'},
+                        'INTERESTED': {'class': 'drl-tag--warning', 'icon': 'feather-bookmark'},
+                        'ACCEPTED':   {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
+                        'REJECTED':   {'class': 'drl-tag--danger',  'icon': 'feather-x-circle'},
+                        'CLOSED':     {'class': 'drl-tag--draft',   'icon': 'feather-check-square'}
                     } %}
                     {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle'}) %}
                     <span class="drl-tag {{ offerInfo.class }}">

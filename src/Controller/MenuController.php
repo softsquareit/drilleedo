@@ -6,11 +6,13 @@ use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class MenuController extends AbstractController
 {
-    public function categoryMegaMenu(CategoryRepository $categoryRepository, SluggerInterface $slugger): Response
+    public function categoryMegaMenu(CategoryRepository $categoryRepository, SluggerInterface $slugger, RequestStack $requestStack): Response
     {
+        $locale = $requestStack->getCurrentRequest()->getLocale();
         // Fetch only parent categories
         $parentCategories = $categoryRepository->findBy(['parent' => null]);
         
@@ -23,14 +25,14 @@ class MenuController extends AbstractController
                 // Check if child works/is active if needed. For now, we take all children.
                 $children[] = [
                     'id' => $child->getId(),
-                    'name' => $child->getName(),
+                    'name' => $child->getLocalizedTitle($locale),
                     'slug' => strtolower($slugger->slug($child->getName()))
                 ];
             }
             
             $categoriesData[] = [
                 'id' => $parent->getId(),
-                'name' => $parent->getName(),
+                'name' => $parent->getLocalizedTitle($locale),
                 'slug' => $parentSlug,
                 'icon' => $parent->getIcon(),
                 'banner' => $parent->getBanner(),
