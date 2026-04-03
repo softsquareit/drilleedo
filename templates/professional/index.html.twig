@@ -59,27 +59,47 @@
         }]) %}
     {% endif %}
 
-    {# 3. Scan Notifications for Accepted/Rejected Offers #}
+    {# 3. Scan Notifications for key events (unread only) #}
     {% for n in notifications|filter(n => not n.isRead) %}
-        {% if 'Accepted' in n.title %}
-             {% set priorityAlerts = priorityAlerts|merge([{
+        {% if 'acceptée' in n.title|lower or 'Accepted' in n.title %}
+            {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_accepted',
-                'title': n.title,
+                'title': '🎉 ' ~ n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
-                'action_text': 'View Details',
-                'icon': 'ph-check-circle',
+                'action_text': 'Voir mes offres',
+                'icon': 'feather-check-circle',
                 'color': 'success'
             }]) %}
-        {% elseif 'Rejected' in n.title %}
-             {% set priorityAlerts = priorityAlerts|merge([{
+        {% elseif 'refusée' in n.title|lower or 'Rejected' in n.title or 'non retenue' in n.title|lower %}
+            {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_rejected',
                 'title': n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
-                'action_text': 'View Details',
-                'icon': 'ph-x-circle',
+                'action_text': 'Voir mes offres',
+                'icon': 'feather-x-circle',
                 'color': 'danger'
+            }]) %}
+        {% elseif 'lue' in n.title|lower %}
+            {% set priorityAlerts = priorityAlerts|merge([{
+                'type': 'offer_viewed',
+                'title': '👁 ' ~ n.title,
+                'message': n.message ~ ' Profitez-en pour relancer le client !',
+                'action_url': path('professional_offers'),
+                'action_text': 'Voir mes offres',
+                'icon': 'feather-eye',
+                'color': 'info'
+            }]) %}
+        {% elseif 'examen' in n.title|lower or 'intéressé' in n.title|lower %}
+            {% set priorityAlerts = priorityAlerts|merge([{
+                'type': 'offer_interested',
+                'title': '⭐ Offre en liste courte !',
+                'message': n.message ~ ' Le client est intéressé — c\'est le bon moment pour le relancer.',
+                'action_url': path('professional_offers'),
+                'action_text': 'Voir mes offres',
+                'icon': 'feather-bookmark',
+                'color': 'warning'
             }]) %}
         {% endif %}
     {% endfor %}
@@ -228,9 +248,10 @@
                     <table class="table mb-0 align-middle">
                         <thead class="bg-light">
                             <tr>
-                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Quote Request</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Amount</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Status</th>
+                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Demande</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Montant</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Statut</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Lecture</th>
                                 <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Date</th>
                                 <th class="pe-4 py-3 text-end text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Action</th>
                             </tr>
@@ -254,21 +275,45 @@
                                     </td>
                                     <td class="py-4">
                                         {% if offer.status == 'DRAFT' %}
-                                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-pencil-line me-1"></i> Brouillon</span>
+                                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-file me-1"></i> Brouillon</span>
                                         {% elseif offer.status == 'PUBLISHED' %}
-                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-paper-plane-tilt me-1"></i> Envoyée</span>
+                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-send me-1"></i> Envoyée</span>
+                                        {% elseif offer.status == 'INTERESTED' %}
+                                            <span class="badge rounded-pill fw-bold px-3 py-2" style="font-size: 11px; background: rgba(245,158,11,0.12); color: #b45309;"
+                                                  data-bs-toggle="tooltip" title="Le client a mis votre offre en liste courte — relancez-le !">
+                                                <i class="feather-bookmark me-1"></i> Intéressé
+                                            </span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-x-circle me-1"></i> Refusée</span>
+                                            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-x-circle me-1"></i> Refusée</span>
                                         {% elseif offer.status == 'ACCEPTED' %}
-                                            <span class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-check-circle me-1"></i> Acceptée</span>
+                                            <span class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-circle me-1"></i> Acceptée</span>
                                         {% elseif offer.status == 'CLOSED' %}
-                                            <span class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold px-3 py-2" style="font-size: 11px;"><i class="ph-lock me-1"></i> Terminée</span>
+                                            <span class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-square me-1"></i> Terminée</span>
                                         {% else %}
                                             <span class="badge rounded-pill bg-light text-muted fw-bold px-3 py-2">{{ offer.status }}</span>
                                         {% endif %}
                                     </td>
+                                    {# ── Lecture indicator ── #}
+                                    <td class="py-4">
+                                        {% if offer.viewedAt %}
+                                            <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #059669; white-space: nowrap;"
+                                                  data-bs-toggle="tooltip" title="Consultée le {{ offer.viewedAt|date('d/m/Y à H:i') }}">
+                                                <i class="feather-eye" style="font-size: 14px;"></i>
+                                                <span class="fw-semibold">Vue</span>
+                                                <span class="text-muted fw-normal">{{ offer.viewedAt|date('d/m') }}</span>
+                                            </span>
+                                        {% elseif offer.status == 'PUBLISHED' or offer.status == 'INTERESTED' %}
+                                            <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #f97316; white-space: nowrap;">
+                                                <span class="rounded-circle d-inline-block" style="width: 7px; height: 7px; background: #f97316; animation: pulse 1.5s infinite;"></span>
+                                                <i class="feather-eye-off" style="font-size: 14px;"></i>
+                                                <span class="fw-bold">Non lue</span>
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted small">—</span>
+                                        {% endif %}
+                                    </td>
                                     <td class="py-4 text-muted small">
-                                        {{ offer.createdAt|date('M d, Y') }}
+                                        {{ offer.createdAt|date('d/m/Y') }}
                                     </td>
                                     <td class="pe-4 py-4 text-end">
                                         {% set parentRequest = offer.quoteRequest ?? offer.directRequest %}
@@ -286,7 +331,7 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="5" class="text-center py-5">
+                                    <td colspan="6" class="text-center py-5">
                                         <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
                                             <i class="ph-suitcase ph-3x text-muted opacity-25"></i>
                                         </div>
@@ -340,4 +385,18 @@
             </div>
         {% endif %}
     {% endfor %}
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+                new bootstrap.Tooltip(el);
+            });
+        });
+    </script>
 {% endblock %}

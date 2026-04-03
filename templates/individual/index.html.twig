@@ -4,26 +4,38 @@
 
 {% block body %}
 
-    {# ── Compute pending offers (published, awaiting decision) ── #}
-    {% set pendingOffersCount = 0 %}
-    {% for q in quotes %}
-        {% for o in q.offers %}
-            {% if o.status|upper == 'PUBLISHED' %}
-                {% set pendingOffersCount = pendingOffersCount + 1 %}
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
-
-    {# ── Pending offers alert banner ── #}
-    {% if pendingOffersCount > 0 %}
-    <div class="drl-alert drl-alert--warning d-flex align-items-center gap-3 mb-4 shadow-sm">
-        <i class="feather-inbox alert-icon"></i>
-        <div class="alert-content flex-grow-1">
-            <strong>{{ pendingOffersCount }} {{ pendingOffersCount > 1 ? 'individual.bid'|trans ~ 's' : 'individual.bid'|trans }}</strong>
-            {{ 'individual.pending_offers_alert'|trans }}
+    {# ── Alerts stack ── #}
+    {% if unseenOffersCount > 0 %}
+    <div class="drl-alert d-flex align-items-center gap-3 mb-3 shadow-sm"
+         style="background: #fff7ed; border-color: #fed7aa; border-left: 4px solid #f97316;">
+        <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+             style="width: 40px; height: 40px; background: rgba(249,115,22,0.15);">
+            <i class="feather-eye-off" style="color: #f97316; font-size: 18px;"></i>
         </div>
-        <a href="{{ path('individual_offers') }}" class="drl-act-btn drl-act-btn--view flex-shrink-0 shadow-sm">
-            <i class="feather-eye me-1"></i> {{ 'individual.view_offers'|trans }}
+        <div class="alert-content flex-grow-1">
+            <div class="fw-bold" style="color: #c2410c;">
+                {{ unseenOffersCount }} {{ unseenOffersCount > 1 ? 'offre(s) non lue(s)' : 'offre non lue' }} — action requise
+            </div>
+            <div class="small text-muted">Vous avez des devis que vous n'avez pas encore consultés. Cliquez pour les examiner.</div>
+        </div>
+        <a href="{{ path('individual_offers') }}" class="drl-btn-orange flex-shrink-0 shadow-sm" style="font-size: 13px; padding: 8px 16px;">
+            <i class="feather-eye me-1"></i> Voir les offres
+        </a>
+    </div>
+    {% endif %}
+
+    {% if inProgressCount > 0 %}
+    <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mb-3 shadow-sm">
+        <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+             style="width: 40px; height: 40px; background: rgba(16,185,129,0.15);">
+            <i class="feather-tool" style="color: #059669; font-size: 18px;"></i>
+        </div>
+        <div class="alert-content flex-grow-1">
+            <div class="fw-bold">{{ inProgressCount }} chantier{{ inProgressCount > 1 ? 's' : '' }} en cours</div>
+            <div class="small opacity-75">N'oubliez pas de clôturer vos demandes une fois les travaux terminés.</div>
+        </div>
+        <a href="{{ path('individual_quotes') }}" class="drl-act-btn drl-act-btn--view flex-shrink-0 shadow-sm" style="font-size:13px;">
+            <i class="feather-tool me-1"></i> Voir les chantiers
         </a>
     </div>
     {% endif %}
@@ -44,8 +56,9 @@
     {% endif %}
 
     {# ── KPI Cards ── #}
-    <div class="row g-4 mb-5">
-        <div class="col-md-3 col-sm-6">
+    <div class="row g-3 mb-5">
+        {# Total demandes #}
+        <div class="col-xl col-md-4 col-sm-6">
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--1">
@@ -58,7 +71,8 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-3 col-sm-6">
+        {# Publiées #}
+        <div class="col-xl col-md-4 col-sm-6">
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--2" style="background: #eff6ff; color: #00509e; border-color: #dbeafe;">
@@ -71,25 +85,49 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-3 col-sm-6">
+        {# Offres reçues + badge non vues #}
+        <div class="col-xl col-md-4 col-sm-6">
             <a href="{{ path('individual_offers') }}" class="d-block text-decoration-none h-100">
-                <div class="drl-stat {% if pendingOffersCount > 0 %}drl-stat--highlight{% endif %}">
-                    <div class="drl-stat-icon drl-stat-icon--3" {% if pendingOffersCount > 0 %}style="background: #fff7ed; color: #f97316; border-color: #fed7aa;"{% endif %}>
-                        <i class="feather-inbox"></i>
+                <div class="drl-stat {% if unseenOffersCount > 0 %}drl-stat--highlight{% endif %}" style="{{ unseenOffersCount > 0 ? 'border-color: #fed7aa;' : '' }}">
+                    <div class="position-relative">
+                        <div class="drl-stat-icon drl-stat-icon--3" style="{{ unseenOffersCount > 0 ? 'background: #fff7ed; color: #f97316; border-color: #fed7aa;' : '' }}">
+                            <i class="feather-inbox"></i>
+                        </div>
+                        {% if unseenOffersCount > 0 %}
+                            <span class="position-absolute top-0 end-0 badge rounded-pill"
+                                  style="background: #f97316; font-size: 9px; padding: 3px 6px; transform: translate(25%, -25%);">
+                                {{ unseenOffersCount }}
+                            </span>
+                        {% endif %}
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ receivedOffersCount }}</h3>
                         <p class="drl-stat-lbl">{{ 'individual.stat_offers'|trans }}</p>
-                        {% if pendingOffersCount > 0 %}
+                        {% if unseenOffersCount > 0 %}
                             <span style="font-size: 11px; color: #f97316; font-weight: 700;">
-                                {{ pendingOffersCount }} {{ 'individual.stat_pending'|trans }}
+                                <i class="feather-eye-off" style="font-size: 10px;"></i> {{ unseenOffersCount }} non lue{{ unseenOffersCount > 1 ? 's' : '' }}
                             </span>
                         {% endif %}
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-md-3 col-sm-6">
+        {# En cours #}
+        <div class="col-xl col-md-6 col-sm-6">
+            <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
+                <div class="drl-stat">
+                    <div class="drl-stat-icon" style="background: #fff7ed; color: #f97316; border-color: #fed7aa; width:52px; height:52px; border-radius:14px; border:1.5px solid; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">
+                        <i class="feather-tool"></i>
+                    </div>
+                    <div>
+                        <h3 class="drl-stat-val">{{ inProgressCount }}</h3>
+                        <p class="drl-stat-lbl">Chantiers en cours</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {# Acceptées #}
+        <div class="col-xl col-md-6 col-sm-6">
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--4">
@@ -140,7 +178,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="text-muted small">{{ quote.creationDate|date('M d, Y') }}</span>
+                                        <span class="text-muted small">{{ quote.creationDate|date('d/m/Y') }}</span>
                                     </td>
                                     <td>
                                         {% set offerCount = quote.offers|length %}
@@ -156,7 +194,14 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <span class="drl-tag {{ quote.status|upper == 'PUBLISHED' ? 'drl-tag--sent' : (quote.status|upper == 'CLOSED' ? 'drl-tag--danger' : (quote.status|upper == 'ACCEPTED' ? 'drl-tag--success' : 'drl-tag--draft')) }}">
+                                        {% set qStatusMap = {
+                                            'DRAFT':       'drl-tag--draft',
+                                            'PUBLISHED':   'drl-tag--sent',
+                                            'ACCEPTED':    'drl-tag--success',
+                                            'IN_PROGRESS': 'drl-tag--warning',
+                                            'CLOSED':      'drl-tag--draft'
+                                        } %}
+                                        <span class="drl-tag {{ qStatusMap[quote.status|upper]|default('drl-tag--draft') }}">
                                             {{ ('status.' ~ quote.status)|trans({}, 'messages') }}
                                         </span>
                                     </td>

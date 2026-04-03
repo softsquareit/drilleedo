@@ -36,7 +36,7 @@
                                 <div class="px-2">
                                     <a href="{{ path('individual_direct_request_show', {'id': request.id}) }}" class="fw-bold d-block text-dark text-decoration-none mb-1" style="font-size: 1.05rem;">{{ request.title }}</a>
                                     <div class="text-muted small d-flex align-items-center gap-1">
-                                        <i class="feather-calendar"></i> {{ 'individual.sent_on'|trans }} {{ request.creationDate|date('M d, Y') }}
+                                        <i class="feather-calendar"></i> {{ 'individual.sent_on'|trans }} {{ request.creationDate|date('d/m/Y') }}
                                     </div>
                                     <div class="text-muted mt-2 small text-truncate" style="max-width: 300px;">
                                         {{ request.description|default('')|slice(0, 100) }}{% if (request.description|default(''))|length > 100 %}…{% endif %}

@@ -54,9 +54,9 @@
                                 <span style="color: #64748b; font-size: 13px;">{{ offer.description|slice(0, 50) }}{% if offer.description|length > 50 %}...{% endif %}</span>
                             </td>
                             <td>
-                                <span style="color: #64748b; font-size: 13px;">{{ offer.createdAt|date('M d, Y') }}</span>
+                                <span style="color: #64748b; font-size: 13px;">{{ offer.createdAt|date('d/m/Y') }}</span>
                                 {% if offer.updatedAt %}
-                                    <br><small style="color: #94a3b8; font-size: 11px;" ><i class="feather-edit-3"></i> {{ offer.updatedAt|date('M d') }}</small>
+                                    <br><small style="color: #94a3b8; font-size: 11px;" ><i class="feather-edit-3"></i> {{ offer.updatedAt|date('d/m') }}</small>
                                 {% endif %}
                             </td>
                             <td>

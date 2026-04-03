@@ -44,7 +44,7 @@
                                 <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.localizedTitle(app.request.locale)|default('General') }}</span>
                             </td>
                             <td>
-                                <span style="font-size: 13px; color: #64748b;">{{ request.creationDate|date('M d, Y') }}</span>
+                                <span style="font-size: 13px; color: #64748b;">{{ request.creationDate|date('d/m/Y') }}</span>
                             </td>
                             <td>
                                 {% if request.status == 'PUBLISHED' %}

@@ -24,6 +24,45 @@
         </div>
     {% endif %}
 
+    {# ── Workflow Stepper ── #}
+    {% set drSteps = [
+        {'key': 'DRAFT',       'label': 'Brouillon',  'icon': 'feather-file'},
+        {'key': 'PUBLISHED',   'label': 'Envoyée',    'icon': 'feather-send'},
+        {'key': 'ACCEPTED',    'label': 'Acceptée',   'icon': 'feather-award'},
+        {'key': 'IN_PROGRESS', 'label': 'En cours',   'icon': 'feather-tool'},
+        {'key': 'CLOSED',      'label': 'Clôturée',   'icon': 'feather-check-square'}
+    ] %}
+    {% set drStepOrder = {'DRAFT': 0, 'PUBLISHED': 1, 'ACCEPTED': 2, 'IN_PROGRESS': 3, 'CLOSED': 4} %}
+    {% set drCurrentStep = drStepOrder[request.status|upper]|default(0) %}
+    <div class="drl-card mb-4 px-4 py-3" style="background: #f8fafc;">
+        <div class="d-flex align-items-center justify-content-between position-relative" style="gap: 0;">
+            <div style="position: absolute; top: 50%; left: 10%; right: 10%; height: 2px; background: #e2e8f0; z-index: 0; transform: translateY(-50%);"></div>
+            {% for step in drSteps %}
+                {% set idx = loop.index0 %}
+                {% set isDone = idx < drCurrentStep %}
+                {% set isCurrent = idx == drCurrentStep %}
+                <div class="d-flex flex-column align-items-center gap-1 position-relative" style="z-index: 1; flex: 1;">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                         style="width: 38px; height: 38px; font-size: 16px;
+                                {{ isDone ? 'background: #10b981; color: #fff; border: 2px solid #10b981;' :
+                                   (isCurrent ? 'background: var(--drl-orange); color: #fff; border: 2px solid var(--drl-orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.15);' :
+                                   'background: #fff; color: #94a3b8; border: 2px solid #e2e8f0;') }}">
+                        {% if isDone %}
+                            <i class="feather-check" style="font-size: 14px;"></i>
+                        {% else %}
+                            <i class="{{ step.icon }}" style="font-size: 14px;"></i>
+                        {% endif %}
+                    </div>
+                    <span style="font-size: 10px; font-weight: {{ isCurrent ? '700' : '500' }};
+                                 color: {{ isDone ? '#10b981' : (isCurrent ? 'var(--drl-orange)' : '#94a3b8') }};
+                                 white-space: nowrap;">
+                        {{ step.label }}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
     {# ── Back link + Workflow Actions ── #}
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
         <a href="{{ path('individual_direct_requests') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2" style="font-size: 14px; font-weight: 600;">
@@ -501,7 +540,21 @@
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.revert_published'|trans }}</h4>
-                    <p class="text-muted px-3 mb-4">{{ 'individual.revert_published_confirm'|trans }}</p>
+                    {% set drAcceptedOffer = null %}
+                    {% for o in request.offers %}{% if o.status|upper == 'ACCEPTED' %}{% set drAcceptedOffer = o %}{% endif %}{% endfor %}
+                    {% if drAcceptedOffer %}
+                        {% set drProv = drAcceptedOffer.provider %}
+                        {% set drProvName = drProv.primaryContact
+                            ? (drProv.primaryContact.firstName ~ ' ' ~ drProv.primaryContact.lastName)
+                            : (drProv.companyName|default(drProv.email)) %}
+                        <div class="p-3 rounded-3 mb-3" style="background: #fff7ed; border: 1px solid #fed7aa;">
+                            <div class="small fw-bold" style="color: #c2410c;">
+                                <i class="feather-alert-triangle me-1"></i>
+                                L'offre de <strong>{{ drProvName }}</strong> sera annulée et remise en attente. Vous devrez choisir un nouveau prestataire.
+                            </div>
+                        </div>
+                    {% endif %}
+                    <p class="text-muted px-3 mb-4 small">{{ 'individual.revert_published_confirm'|trans }}</p>
                     <div class="d-flex flex-column gap-3 mt-4">
                         <form action="{{ path('individual_direct_request_revert_published', {'id': request.id}) }}" method="POST" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('revert-direct-request-' ~ request.id) }}">

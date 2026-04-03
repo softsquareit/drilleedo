@@ -44,10 +44,15 @@ class IndividualController extends AbstractController
         $publishedCount = 0;
         $receivedOffersCount = 0;
         $acceptedOffersCount = 0;
+        $inProgressCount = 0;
+        $unseenOffersCount = 0;
 
         foreach ($quotes as $q) {
             if ($q->getStatus() === QuoteRequest::STATUS_PUBLISHED) {
                 $publishedCount++;
+            }
+            if ($q->getStatus() === QuoteRequest::STATUS_IN_PROGRESS) {
+                $inProgressCount++;
             }
             foreach ($q->getOffers() as $offer) {
                 if ($offer->getStatus() !== Offer::STATUS_DRAFT) {
@@ -55,6 +60,21 @@ class IndividualController extends AbstractController
                 }
                 if ($offer->getStatus() === Offer::STATUS_ACCEPTED) {
                     $acceptedOffersCount++;
+                }
+                if (!$offer->isViewed() && in_array($offer->getStatus(), [Offer::STATUS_PUBLISHED, Offer::STATUS_INTERESTED])) {
+                    $unseenOffersCount++;
+                }
+            }
+        }
+
+        // Also count direct requests IN_PROGRESS
+        foreach ($user->getDirectRequests() as $dr) {
+            if ($dr->getStatus() === DirectRequest::STATUS_IN_PROGRESS) {
+                $inProgressCount++;
+            }
+            foreach ($dr->getOffers() as $offer) {
+                if (!$offer->isViewed() && in_array($offer->getStatus(), [Offer::STATUS_PUBLISHED, Offer::STATUS_INTERESTED])) {
+                    $unseenOffersCount++;
                 }
             }
         }
@@ -68,6 +88,8 @@ class IndividualController extends AbstractController
             'publishedCount'      => $publishedCount,
             'receivedOffersCount' => $receivedOffersCount,
             'acceptedOffersCount' => $acceptedOffersCount,
+            'inProgressCount'     => $inProgressCount,
+            'unseenOffersCount'   => $unseenOffersCount,
         ]);
     }
 
@@ -448,9 +470,21 @@ class IndividualController extends AbstractController
             throw $this->createAccessDeniedException('You do not have access to this offer.');
         }
 
-        // Auto-mark viewed on first open
+        // Auto-mark viewed on first open + notify provider
         if (!$offer->isViewed()) {
             $offer->setViewedAt(new \DateTime());
+
+            $provider = $offer->getProvider();
+            if ($provider) {
+                $viewedNotif = new Notification();
+                $viewedNotif->setUser($provider);
+                $viewedNotif->setTitle('Votre offre a été lue');
+                $viewedNotif->setMessage('Le client a consulté votre offre pour "' . $parentRequest->getTitle() . '" le ' . (new \DateTime())->format('d/m/Y à H:i') . '.');
+                $viewedNotif->setRelatedEntityId($offer->getId());
+                $viewedNotif->setRelatedEntityType('offer');
+                $em->persist($viewedNotif);
+            }
+
             $em->flush();
         }
 
@@ -533,11 +567,29 @@ class IndividualController extends AbstractController
 
         $parentRequest->setStatus(QuoteRequest::STATUS_ACCEPTED);
 
-        // Auto-reject other published offers
+        // Auto-reject other published/interested offers and notify each rejected provider
+        $autoRejectedCount = 0;
         foreach ($parentRequest->getOffers() as $otherOffer) {
-            if ($otherOffer->getId() !== $offer->getId() && $otherOffer->getStatus() === Offer::STATUS_PUBLISHED) {
+            if ($otherOffer->getId() !== $offer->getId()
+                && in_array($otherOffer->getStatus(), [Offer::STATUS_PUBLISHED, Offer::STATUS_INTERESTED])) {
                 $otherOffer->setStatus(Offer::STATUS_REJECTED);
                 $otherOffer->setUpdatedAt(new \DateTime());
+                $autoRejectedCount++;
+
+                // Notify each auto-rejected provider with a clear reason
+                $rejectedProvider = $otherOffer->getProvider();
+                if ($rejectedProvider) {
+                    $rejNotif = new Notification();
+                    $rejNotif->setUser($rejectedProvider);
+                    $rejNotif->setTitle('Offre non retenue');
+                    $rejNotif->setMessage(sprintf(
+                        'Le client a sélectionné un autre prestataire pour "%s". Votre offre n\'a pas été retenue cette fois.',
+                        $parentRequest->getTitle()
+                    ));
+                    $rejNotif->setRelatedEntityId($otherOffer->getId());
+                    $rejNotif->setRelatedEntityType('offer');
+                    $em->persist($rejNotif);
+                }
             }
         }
 
@@ -546,8 +598,8 @@ class IndividualController extends AbstractController
         if ($provider) {
             $notification = new Notification();
             $notification->setUser($provider);
-            $notification->setTitle('Offre acceptée');
-            $notification->setMessage('Votre offre pour "' . $parentRequest->getTitle() . '" a été acceptée !');
+            $notification->setTitle('Offre acceptée 🎉');
+            $notification->setMessage('Votre offre pour "' . $parentRequest->getTitle() . '" a été acceptée ! Contactez le client pour démarrer les travaux.');
             $notification->setRelatedEntityId($offer->getId());
             $notification->setRelatedEntityType('offer');
             $em->persist($notification);
@@ -555,7 +607,22 @@ class IndividualController extends AbstractController
 
         $em->flush();
 
-        $this->addFlash('success', 'Offre acceptée ! Le prestataire a été notifié.');
+        $providerName = $provider?->getPrimaryContact()
+            ? ($provider->getPrimaryContact()->getFirstName() . ' ' . $provider->getPrimaryContact()->getLastName())
+            : ($provider?->getCompanyName() ?? 'le prestataire');
+
+        $flashMsg = sprintf('✓ Offre de %s acceptée.', $providerName);
+        if ($autoRejectedCount > 0) {
+            $flashMsg .= sprintf(' %d autre%s offre%s %s été automatiquement refusée%s.',
+                $autoRejectedCount,
+                $autoRejectedCount > 1 ? 's' : '',
+                $autoRejectedCount > 1 ? 's' : '',
+                $autoRejectedCount > 1 ? 'ont' : 'a',
+                $autoRejectedCount > 1 ? 's' : ''
+            );
+        }
+
+        $this->addFlash('success', $flashMsg);
         return $this->returnToParentRequest($offer);
     }
 
@@ -584,7 +651,7 @@ class IndividualController extends AbstractController
             $notification = new Notification();
             $notification->setUser($provider);
             $notification->setTitle('Offre refusée');
-            $notification->setMessage(sprintf('Votre offre pour "%s" a été refusée.', $parentRequest->getTitle()));
+            $notification->setMessage(sprintf('Le client a refusé votre offre pour "%s". N\'hésitez pas à répondre à d\'autres demandes.', $parentRequest->getTitle()));
             $notification->setRelatedEntityId($offer->getId());
             $notification->setRelatedEntityType('offer');
             $em->persist($notification);
