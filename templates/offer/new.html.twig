@@ -83,7 +83,7 @@
 <div class="mb-3">
     <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}"
        class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2" style="font-size: 13px; font-weight: 600;">
-        <i class="feather-arrow-left"></i>
+        <i class="ph-bold ph-arrow-left"></i>
         Retour à mes offres
     </a>
 </div>
@@ -142,10 +142,10 @@
                     </div>
                     <div style="font-size: 1.8rem; font-weight: 800; color: #94a3b8; padding-bottom: 6px;">$</div>
                 </div>
-                {% if parentRequest.desiredBudget is defined and parentRequest.desiredBudget %}
+                {% if parentRequest.budget %}
                     <p class="text-muted small mt-2 mb-0">
-                        <i class="feather-info me-1"></i>
-                        Budget demandé : <strong>{{ parentRequest.desiredBudget|number_format(2) }} $</strong>
+                        <i class="ph-bold ph-info me-1"></i>
+                        Budget demandé : <strong>{{ parentRequest.budget|number_format(2) }} $</strong>
                     </p>
                 {% endif %}
             </div>
@@ -161,7 +161,7 @@
                 </div>
                 <div class="ms-auto d-flex gap-2">
                     <button type="button" id="aiShowPromptBtn" class="ai-btn-outline">
-                        <i class="feather-eye" style="font-size:11px;"></i> Voir prompt
+                        <i class="ph-bold ph-eye" style="font-size:11px;"></i> Voir prompt
                     </button>
                     <button type="button" id="aiImproveBtn" class="ai-btn">
                         <span id="aiBtnIcon">✨</span>
@@ -202,7 +202,7 @@
                     {# Visite préalable #}
                     <div class="col-sm-6">
                         <label class="drl-label mb-2">
-                            <i class="feather-eye me-1 text-primary"></i> Visite préalable nécessaire
+                            <i class="ph-bold ph-eye me-1 text-primary"></i> Visite préalable nécessaire
                         </label>
                         <div class="d-flex gap-4 mt-1">
                             {% for child in form.priorVisit %}
@@ -220,7 +220,7 @@
                     {# Date début possible #}
                     <div class="col-sm-6">
                         <label class="drl-label" for="{{ form.possibleStartDate.vars.id }}">
-                            <i class="feather-calendar me-1 text-primary"></i> Date possible de début
+                            <i class="ph-bold ph-calendar-blank me-1 text-primary"></i> Date possible de début
                         </label>
                         {{ form_widget(form.possibleStartDate, {'attr': {'class': 'drl-input mt-1'}}) }}
                         {{ form_errors(form.possibleStartDate) }}
@@ -229,7 +229,7 @@
                     {# Délai estimé #}
                     <div class="col-12">
                         <label class="drl-label mb-2">
-                            <i class="feather-clock me-1 text-primary"></i> Délai de réalisation estimé
+                            <i class="ph-bold ph-timer me-1 text-primary"></i> Délai de réalisation estimé
                             <span class="text-muted fw-normal ms-1" style="font-size:11px;">(Optionnel)</span>
                         </label>
                         <div class="d-flex gap-2">
@@ -246,10 +246,46 @@
             </div>
         </div>
 
-        {# ── Section 4: Documents ── #}
+        {# ── Section 4: Modalités & Garanties ── #}
         <div class="offer-form-section">
             <div class="offer-form-section-header">
                 <div class="section-num">4</div>
+                <div>
+                    <h6>Modalités &amp; Garanties</h6>
+                    <span class="text-muted" style="font-size:11px;">Précisez vos conditions financières (optionnel)</span>
+                </div>
+            </div>
+            <div class="offer-form-section-body">
+                <div class="row g-4">
+                    <div class="col-sm-6">
+                        <label class="drl-label" for="{{ form.depositPercent.vars.id }}">
+                            <i class="ph-bold ph-percent me-1 text-primary"></i> Acompte demandé (%)
+                        </label>
+                        {{ form_widget(form.depositPercent, {'attr': {'class': 'drl-input mt-1', 'placeholder': 'Ex. : 25'}}) }}
+                        {{ form_errors(form.depositPercent) }}
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="drl-label" for="{{ form.warrantyMonths.vars.id }}">
+                            <i class="ph-bold ph-shield-check me-1 text-primary"></i> Garantie (mois)
+                        </label>
+                        {{ form_widget(form.warrantyMonths, {'attr': {'class': 'drl-input mt-1', 'placeholder': 'Ex. : 24'}}) }}
+                        {{ form_errors(form.warrantyMonths) }}
+                    </div>
+                    <div class="col-12">
+                        <label class="drl-label" for="{{ form.paymentMethod.vars.id }}">
+                            <i class="ph-bold ph-credit-card me-1 text-primary"></i> Mode de paiement
+                        </label>
+                        {{ form_widget(form.paymentMethod, {'attr': {'class': 'drl-input mt-1'}}) }}
+                        {{ form_errors(form.paymentMethod) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ── Section 5: Documents joints ── #}
+        <div class="offer-form-section">
+            <div class="offer-form-section-header">
+                <div class="section-num">5</div>
                 <div>
                     <h6>Documents joints</h6>
                     <span class="text-muted" style="font-size:11px;">Devis détaillé, certifications, portfolio (optionnel)</span>
@@ -258,16 +294,16 @@
             <div class="offer-form-section-body">
                 <div id="dropZone" class="rounded-3 text-center p-4 mb-3"
                      style="border: 2px dashed #e2e8f0; background: #f8fafc; cursor: pointer; transition: all .2s;"
-                     onclick="document.getElementById('offerDocInput').click()"
+                     onclick="document.getElementById('{{ form.documents.vars.id }}').click()"
                      ondragover="event.preventDefault(); this.style.borderColor='#f97316'; this.style.background='#fff7ed';"
                      ondragleave="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';"
                      ondrop="handleDrop(event)">
-                    <i class="feather-upload-cloud" style="font-size: 2rem; color: #94a3b8; display: block; margin-bottom: 8px;"></i>
+                    <i class="ph-bold ph-cloud-arrow-up" style="font-size: 2rem; color: #94a3b8; display: block; margin-bottom: 8px;"></i>
                     <p class="fw-bold text-dark mb-1" style="font-size: 14px;">Glisser des fichiers ici ou <span style="color: #f97316;">cliquer pour parcourir</span></p>
                     <p class="text-muted mb-0" style="font-size: 12px;">PDF, JPG, PNG · Max 10 MB chacun</p>
                 </div>
                 <div id="offerDocWidget" style="display:none;">
-                    {{ form_widget(form.documents, {'attr': {'class': 'drl-input', 'id': 'offerDocInput'}}) }}
+                    {{ form_widget(form.documents, {'attr': {'class': 'drl-input'}}) }}
                 </div>
                 {{ form_errors(form.documents) }}
                 {% if offer is defined and offer.documents|length > 0 %}
@@ -275,10 +311,10 @@
                         <p class="text-muted small mb-2">Documents déjà joints :</p>
                         <div class="d-flex flex-wrap gap-2">
                             {% for doc in offer.documents %}
-                                <span class="drl-tag drl-tag--draft">
-                                    <i class="feather-paperclip me-1" style="font-size:10px;"></i>
+                                <a href="{{ asset('uploads/offers/' ~ doc) }}" target="_blank" class="drl-tag drl-tag--draft text-decoration-none">
+                                    <i class="ph-bold ph-paperclip me-1" style="font-size:10px;"></i>
                                     {{ doc|slice(0, 25) }}{{ doc|length > 25 ? '…' : '' }}
-                                </span>
+                                </a>
                             {% endfor %}
                         </div>
                     </div>
@@ -286,16 +322,16 @@
             </div>
         </div>
 
-        {# ── Profil prévisualisé ── #}
+        {# ── Section 6: Profil prévisualisé ── #}
         <div class="offer-form-section">
             <div class="offer-form-section-header">
-                <div class="section-num">5</div>
+                <div class="section-num">6</div>
                 <div>
                     <h6>Votre profil professionnel</h6>
                     <span class="text-muted" style="font-size:11px;">Ces informations seront visibles par le client</span>
                 </div>
                 <a href="{{ path('professional_profile') }}" class="ms-auto drl-act-btn drl-act-btn--view" style="font-size:11px; white-space:nowrap;">
-                    <i class="feather-edit-2" style="font-size:11px;"></i> Modifier
+                    <i class="ph-bold ph-note-pencil" style="font-size:11px;"></i> Modifier
                 </a>
             </div>
             <div class="offer-form-section-body">
@@ -313,7 +349,7 @@
                         <div class="text-muted small">{{ provider.getType() }}</div>
                         {% if provider.stats and provider.stats.averageRating > 0 %}
                             <div class="d-flex align-items-center gap-1 mt-1">
-                                <i class="feather-star" style="font-size:12px; color:#f59e0b; fill:#f59e0b;"></i>
+                                <i class="ph-bold ph-star" style="font-size:12px; color:#f59e0b; fill:#f59e0b;"></i>
                                 <span style="font-size:12px; font-weight:700; color:#0d2151;">{{ provider.stats.averageRating|number_format(1) }}</span>
                             </div>
                         {% endif %}
@@ -326,7 +362,7 @@
                 {% else %}
                     <div class="mt-3 p-3 rounded-3" style="background:#fffbeb; border:1px solid #fde68a;">
                         <p class="small mb-0" style="color:#92400e;">
-                            <i class="feather-alert-triangle me-1"></i>
+                            <i class="ph-bold ph-warning me-1"></i>
                             Votre profil est incomplet — ajoutez une description pour rassurer les clients.
                             <a href="{{ path('professional_profile') }}" class="fw-bold ms-1" style="color:#f97316;">Compléter mon profil</a>
                         </p>
@@ -339,14 +375,14 @@
         <div class="d-flex align-items-center gap-3 flex-wrap">
             {% if offer is not defined or offer.status != 'PUBLISHED' %}
                 <button type="submit" name="action" value="publish" class="drl-btn-orange px-5 shadow-sm" style="font-size:15px; padding:12px 28px;">
-                    <i class="feather-send me-2"></i> Publier l'offre
+                    <i class="ph-bold ph-paper-plane-tilt me-2"></i> Publier l'offre
                 </button>
                 <button type="submit" name="action" value="draft" class="drl-act-btn drl-act-btn--view" style="padding:12px 20px; font-size:14px;">
-                    <i class="feather-save me-2"></i> Sauvegarder brouillon
+                    <i class="ph-bold ph-floppy-disk me-2"></i> Sauvegarder brouillon
                 </button>
             {% else %}
                 <div class="drl-alert drl-alert--success d-flex align-items-center gap-2">
-                    <i class="feather-check-circle alert-icon"></i>
+                    <i class="ph-bold ph-check-circle alert-icon"></i>
                     <div class="alert-content">Cette offre est publiée et ne peut plus être modifiée.</div>
                 </div>
             {% endif %}
@@ -375,7 +411,7 @@
                             {% endif %}
                             {% if parentRequest.urgentIntervention %}
                                 <span class="drl-tag" style="background:rgba(239,68,68,0.2); color:#fca5a5; border:1px solid rgba(239,68,68,0.3); font-size:10px;">
-                                    <i class="feather-zap me-1" style="font-size:9px;"></i>Urgente
+                                    <i class="ph-bold ph-lightning me-1" style="font-size:9px;"></i>Urgente
                                 </span>
                             {% endif %}
                         </div>
@@ -400,7 +436,7 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if parentRequest.availabilities|length > 0 %}
+                    {% if parentRequest.availabilities is not null and parentRequest.availabilities|length > 0 %}
                     <div class="col-12">
                         <div class="text-muted mb-1" style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;">Disponibilités</div>
                         <div class="d-flex flex-wrap gap-1">
@@ -428,7 +464,7 @@
                     <div>
                         <div class="fw-bold text-dark" style="font-size:13px;">{{ clientName ?: 'Client' }}</div>
                         <div class="text-muted" style="font-size:11px;">
-                            <i class="feather-lock me-1" style="font-size:10px;"></i>Contact révélé si acceptée
+                            <i class="ph-bold ph-lock me-1" style="font-size:10px;"></i>Contact révélé si acceptée
                         </div>
                     </div>
                 </div>
@@ -450,19 +486,19 @@
             </div>
 
             {# Languages #}
-            {% if parentRequest.languages|length > 0 %}
+            {% if parentRequest.languages is not null and parentRequest.languages|length > 0 %}
             <div class="demand-sidebar-section">
                 <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">Langue(s) souhaitée(s)</div>
                 <div class="d-flex flex-wrap gap-1">
                     {% for lang in parentRequest.languages %}
-                        <span class="drl-tag drl-tag--draft" style="font-size:10px;"><i class="feather-globe me-1" style="font-size:9px;"></i>{{ lang }}</span>
+                        <span class="drl-tag drl-tag--draft" style="font-size:10px;"><i class="ph-bold ph-globe me-1" style="font-size:9px;"></i>{{ lang }}</span>
                     {% endfor %}
                 </div>
             </div>
             {% endif %}
 
             {# Photos #}
-            {% if parentRequest.images is defined and parentRequest.images|length > 0 %}
+            {% if parentRequest.images is not null and parentRequest.images|length > 0 %}
             <div class="demand-sidebar-section">
                 <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">
                     Photos ({{ parentRequest.images|length }})
@@ -490,7 +526,7 @@
             {% if existingOffers > 0 %}
             <div class="demand-sidebar-section">
                 <div class="d-flex align-items-center gap-2">
-                    <i class="feather-users" style="font-size:14px; color:#64748b;"></i>
+                    <i class="ph-bold ph-users" style="font-size:14px; color:#64748b;"></i>
                     <span class="text-muted small">
                         <strong>{{ existingOffers }}</strong> offre{{ existingOffers > 1 ? 's' : '' }} déjà reçue{{ existingOffers > 1 ? 's' : '' }} pour cette demande
                     </span>
@@ -535,7 +571,7 @@
                 </div>
                 <div id="aiErrorState" style="display:none;">
                     <div class="drl-alert drl-alert--danger d-flex gap-2">
-                        <i class="feather-alert-circle alert-icon"></i>
+                        <i class="ph-bold ph-warning-circle alert-icon"></i>
                         <div class="alert-content" id="aiErrorMessage"></div>
                     </div>
                 </div>
@@ -547,7 +583,7 @@
                     <label class="drl-label mb-2">Suggestion IA <span class="fw-normal text-muted">(modifiable avant d'appliquer)</span></label>
                     <textarea id="aiSuggestionTextarea" class="drl-input" rows="9" style="border-color:#a78bfa; resize:vertical;"></textarea>
                     <p class="mt-2 mb-0 text-muted" style="font-size:11px;">
-                        <i class="feather-shield me-1"></i>
+                        <i class="ph-bold ph-shield-check me-1"></i>
                         Cette suggestion ne sera pas sauvegardée tant que vous ne cliquez pas sur <strong>Appliquer</strong>.
                     </p>
                 </div>
@@ -555,10 +591,10 @@
             <div class="modal-footer" style="border-top:1px solid #ede9fe;">
                 <button type="button" class="drl-act-btn drl-act-btn--view" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" id="aiRegenerateBtn" class="drl-act-btn drl-act-btn--view" style="display:none;">
-                    <i class="feather-refresh-cw me-1"></i> Régénérer
+                    <i class="ph-bold ph-arrows-clockwise me-1"></i> Régénérer
                 </button>
                 <button type="button" id="aiApplyBtn" class="drl-btn-orange" style="display:none;">
-                    <i class="feather-check me-1"></i> Appliquer la suggestion
+                    <i class="ph-bold ph-check-circle me-1"></i> Appliquer la suggestion
                 </button>
             </div>
         </div>
@@ -738,13 +774,13 @@ Retourne UNIQUEMENT le texte amélioré, sans préambule ni explication.`;
 
         // ── Show doc input on drop zone click ──
         const dropZone = document.getElementById('dropZone');
-        const docInput = document.getElementById('offerDocInput');
+        const docInput = document.getElementById('{{ form.documents.vars.id }}');
         if (docInput) {
             docInput.style.display = 'none';
             docInput.addEventListener('change', function () {
                 if (this.files.length > 0) {
                     const names = Array.from(this.files).map(f => f.name).join(', ');
-                    dropZone.innerHTML = `<i class="feather-check-circle" style="font-size:2rem;color:#10b981;display:block;margin-bottom:8px;"></i><p class="fw-bold mb-0" style="font-size:14px;color:#10b981;">${this.files.length} fichier(s) sélectionné(s)</p><p class="text-muted small mb-0">${names}</p>`;
+                    dropZone.innerHTML = `<i class="ph-bold ph-check-circle" style="font-size:2rem;color:#10b981;display:block;margin-bottom:8px;"></i><p class="fw-bold mb-0" style="font-size:14px;color:#10b981;">\${this.files.length} fichier(s) sélectionné(s)</p><p class="text-muted small mb-0">\${names}</p>`;
                 }
             });
         }

@@ -9,8 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ProfessionalRegistrationFormType extends AbstractType
@@ -64,6 +65,19 @@ class ProfessionalRegistrationFormType extends AbstractType
                 'label' => 'Years of experience *',
                 'attr' => ['min' => 0]
             ]);
+
+        // On validation re-render: pre-select the parent from the already-chosen category
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            $professional = $event->getData();
+            $form = $event->getForm();
+
+            if ($professional instanceof Professional && $professional->getCategory()) {
+                $category = $professional->getCategory();
+                if ($category->getParent()) {
+                    $form->get('parentCategory')->setData($category->getParent());
+                }
+            }
+        });
     }
 
     public function getParent(): string

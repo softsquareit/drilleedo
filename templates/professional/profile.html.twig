@@ -1,316 +1,1011 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}My Profile - {{ app.user.companyName }}{% endblock %}
+{% block title %}Mon Profil – {{ app.user.displayName }}{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+{{ parent() }}
+<style>
+/* ── Profile Page ─────────────────────────────────────────── */
+.prf-header {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(13,33,81,0.06);
+    margin-bottom: 24px;
+}
+
+.prf-header-body {
+    padding: 24px 28px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.prf-avatar-wrap {
+    flex-shrink: 0;
+    position: relative;
+}
+
+.prf-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 16px rgba(13,33,81,0.15);
+    display: block;
+}
+
+.prf-avatar-edit {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 30px;
+    height: 30px;
+    background: #00509e;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+.prf-avatar-edit:hover { background: #0d2151; }
+
+.prf-info { flex: 1; min-width: 0; }
+
+.prf-name {
+    font-size: 22px;
+    font-weight: 900;
+    color: #0d2151;
+    margin: 0 0 6px;
+    line-height: 1.2;
+}
+
+.prf-email {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 12px;
+}
+
+.prf-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+
+.prf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.prf-badge--blue   { background: #eff6ff; color: #00509e; }
+.prf-badge--gold   { background: #fffbeb; color: #b45309; }
+.prf-badge--green  { background: #f0fdf4; color: #16a34a; }
+.prf-badge--avail  { background: #f0fdf4; color: #16a34a; }
+.prf-badge--busy   { background: #fffbeb; color: #d97706; }
+.prf-badge--unavail{ background: #fef2f2; color: #dc2626; }
+.prf-badge--navy   { background: #f0f4ff; color: #0d2151; }
+
+.prf-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 4px;
+}
+
+.prf-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.prf-stat-val {
+    font-size: 20px;
+    font-weight: 900;
+    color: #0d2151;
+    line-height: 1;
+}
+.prf-stat-lbl {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 3px;
+}
+
+.prf-edit-btn {
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+/* Completion bar */
+.prf-completion {
+    padding: 14px 28px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.prf-completion-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    white-space: nowrap;
+}
+.prf-completion-bar {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+}
+.prf-completion-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #00509e, #0d2151);
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+}
+.prf-completion-pct {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0d2151;
+    white-space: nowrap;
+}
+
+/* Tabs */
+.prf-tabs {
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    gap: 4px;
+    padding: 0 4px;
+    margin-bottom: 24px;
+}
+.prf-tab-btn {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748b;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: color 0.2s;
+}
+.prf-tab-btn:hover { color: #00509e; }
+.prf-tab-btn.active {
+    color: #00509e;
+    border-bottom-color: #00509e;
+}
+.prf-tab-btn i { font-size: 16px; }
+
+.prf-tab-pane { display: none; }
+.prf-tab-pane.active { display: block; }
+
+/* Info rows in tab */
+.prf-section-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 16px;
+}
+
+.prf-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+.prf-field:last-child { border-bottom: none; }
+
+.prf-field-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+.prf-field-icon--blue  { background: #eff6ff; color: #00509e; }
+.prf-field-icon--orng  { background: #fff7ed; color: #e8501a; }
+.prf-field-icon--green { background: #f0fdf4; color: #16a34a; }
+.prf-field-icon--navy  { background: #f0f4ff; color: #0d2151; }
+.prf-field-icon--slate { background: #f8fafc; color: #475569; }
+
+.prf-field-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+}
+.prf-field-val {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0d2151;
+    line-height: 1.55;
+    margin: 0;
+}
+.prf-field-empty { color: #94a3b8; font-style: italic; }
+
+/* Tag pills */
+.prf-tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.prf-tag {
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Services list */
+.prf-service-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.prf-service-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0d2151;
+}
+.prf-service-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00509e;
+    flex-shrink: 0;
+}
+
+/* Trust badges row */
+.prf-trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 4px;
+}
+.prf-trust-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+.prf-trust-item.active {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+.prf-trust-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.prf-trust-item:not(.active) .prf-trust-icon { background: #f1f5f9; color: #94a3b8; }
+.prf-trust-item.active .prf-trust-icon { background: #dcfce7; color: #16a34a; }
+.prf-trust-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+}
+.prf-trust-item.active .prf-trust-label { color: #15803d; }
+
+/* Opening hours table */
+.prf-hours-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.prf-hours-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 600;
+    padding: 4px 0;
+    border-bottom: 1px dotted #f1f5f9;
+}
+
+/* Edit modal improvements */
+.prf-modal-tabs { display: flex; gap: 4px; padding-bottom: 16px; border-bottom: 2px solid #f1f5f9; margin-bottom: 24px; }
+.prf-modal-tab-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 8px;
+    border: none;
+    background: #f8fafc;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.prf-modal-tab-btn.active { background: #00509e; color: #fff; }
+
+@media (max-width: 768px) {
+    .prf-header-body { flex-wrap: wrap; }
+    .prf-stats-row { gap: 14px; }
+    .prf-edit-btn { width: 100%; }
+    .prf-trust-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
 {% endblock %}
 
 {% block body %}
-    <div class="drl-card">
-        <div class="drl-card-head">
-            <div>
-                <h4 class="drl-card-title">My Profile</h4>
-                <p class="drl-card-sub">View and manage your professional information</p>
-            </div>
-            <button type="button" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                <i class="feather-edit"></i> Edit Profile
+{% set user = app.user %}
+{% set stats = user.stats %}
+{% set avgRating = stats and stats.averageRating ? stats.averageRating : 0 %}
+{% set reviewCount = stats and stats.reviewCount ? stats.reviewCount : 0 %}
+
+{# ── Profile Completion ── #}
+{% set filled = 0 %}
+{% if user.companyName %}{% set filled = filled + 1 %}{% endif %}
+{% if user.logo %}{% set filled = filled + 1 %}{% endif %}
+{% if user.banner %}{% set filled = filled + 1 %}{% endif %}
+{% if user.about %}{% set filled = filled + 1 %}{% endif %}
+{% if user.category %}{% set filled = filled + 1 %}{% endif %}
+{% if user.city %}{% set filled = filled + 1 %}{% endif %}
+{% if user.expYears %}{% set filled = filled + 1 %}{% endif %}
+{% if user.whyChooseUs %}{% set filled = filled + 1 %}{% endif %}
+{% if user.services %}{% set filled = filled + 1 %}{% endif %}
+{% if user.phoneNum %}{% set filled = filled + 1 %}{% endif %}
+{% set totalFields = 10 %}
+{% set completionPct = ((filled / totalFields) * 100)|round %}
+
+{# ══════════════════════════════════════════════════════════════
+   PROFILE HEADER CARD
+══════════════════════════════════════════════════════════════ #}
+<div class="prf-header">
+    <div class="prf-header-body">
+        {# Avatar #}
+        <div class="prf-avatar-wrap">
+            {% if user.logo %}
+                <img src="{{ asset('uploads/logos/' ~ user.logo) }}" alt="{{ user.displayName }}" class="prf-avatar pro-avatar-img">
+            {% else %}
+                <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="{{ user.displayName }}" class="prf-avatar pro-avatar-img">
+            {% endif %}
+            <button class="prf-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" title="Changer la photo">
+                <i class="feather-camera"></i>
             </button>
         </div>
 
-        <div class="p-4">
-            <!-- Banner and Profile Photo -->
-            <div class="mb-5">
-                <div class="tutor-bg-photo position-relative" style="height: 250px; background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}'); background-size: cover; background-position: center; border-radius: 12px;">
-                    {# Banner edit button #}
-                    <button class="pro-btn-icon" data-bs-toggle="modal" data-bs-target="#editBannerModal"
-                            style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.45); border: 2px solid rgba(255,255,255,0.5); backdrop-filter: blur(4px); width: 38px; height: 38px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;"
-                            title="Change Cover Banner">
-                        <i class="feather-camera" style="font-size:15px;"></i>
-                    </button>
-                </div>
-                <div class="rbt-tutor-information-left" style="margin-top: -60px; position: relative; z-index: 1;">
-                    <div class="thumbnail rbt-avatars size-lg" style="margin-left: 2rem; position: relative; display: inline-block;">
-                        {% if app.user.logo %}
-                            <img src="{{ asset('uploads/logos/' ~ app.user.logo) }}" alt="Professional" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 16px rgba(13,33,81,0.15);">
-                        {% else %}
-                            <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Professional" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 16px rgba(13,33,81,0.15);">
-                        {% endif %}
-                        {# Photo edit button #}
-                        <button class="pro-btn-icon" data-bs-toggle="modal" data-bs-target="#editLogoModal"
-                                style="position: absolute; bottom: 4px; right: 4px; background: #00509e; border: 2px solid white; width: 32px; height: 32px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"
-                                title="Change Profile Photo">
-                            <i class="feather-camera" style="font-size:13px;"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="mt-3 px-3">
-                    <h5 class="mb-1" style="color: #0d2151; font-weight: 800;">{{ app.user.displayName }}</h5>
-                    <p style="color: #64748b; font-size: 14px; margin: 0;">{{ app.user.email }}</p>
-                </div>
+        {# Info #}
+        <div class="prf-info">
+            <h1 class="prf-name">{{ user.displayName }}</h1>
+            <p class="prf-email">{{ user.email }}</p>
+
+            <div class="prf-badges">
+                {# Availability #}
+                {% if user.availabilityStatus == 'AVAILABLE' %}
+                    <span class="prf-badge prf-badge--avail"><i class="feather-check-circle"></i> Disponible</span>
+                {% elseif user.availabilityStatus == 'BUSY' %}
+                    <span class="prf-badge prf-badge--busy"><i class="feather-clock"></i> Occupé</span>
+                {% else %}
+                    <span class="prf-badge prf-badge--unavail"><i class="feather-x-circle"></i> Non disponible</span>
+                {% endif %}
+
+                {# Verified #}
+                {% if user.isVerified %}
+                    <span class="prf-badge prf-badge--blue"><i class="feather-shield"></i> Vérifié Drilleedo</span>
+                {% endif %}
+
+                {# Top Rated #}
+                {% if user.isTopRated %}
+                    <span class="prf-badge prf-badge--gold"><i class="feather-star"></i> Top Noté</span>
+                {% endif %}
+
+                {# RBQ #}
+                {% if user.isRbqCertified %}
+                    <span class="prf-badge prf-badge--navy"><i class="feather-award"></i> Certifié RBQ</span>
+                {% endif %}
+
+                {# Insurance #}
+                {% if user.hasInsurance %}
+                    <span class="prf-badge prf-badge--green"><i class="feather-umbrella"></i> Assuré</span>
+                {% endif %}
+
+                {# Category #}
+                {% if user.category %}
+                    <span class="prf-badge prf-badge--navy"><i class="feather-tag"></i> {{ user.category.localizedTitle(app.request.locale) }}</span>
+                {% endif %}
             </div>
 
-            <!-- Profile Information -->
-            <div class="row g-4 mt-2">
-                <div class="col-md-6">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-briefcase"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">Professional Name</p>
-                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.displayName }}</p>
-                        </div>
+            <div class="prf-stats-row">
+                {% if avgRating > 0 %}
+                <div class="prf-stat-item">
+                    <div class="prf-stat-val" style="color: #f59e0b;">
+                        <i class="feather-star" style="fill: #f59e0b; font-size: 16px; vertical-align: middle;"></i>
+                        {{ avgRating|number_format(1) }}
+                    </div>
+                    <div class="prf-stat-lbl">Évaluation</div>
+                </div>
+                {% endif %}
+                {% if reviewCount > 0 %}
+                <div class="prf-stat-item">
+                    <div class="prf-stat-val">{{ reviewCount }}</div>
+                    <div class="prf-stat-lbl">Avis</div>
+                </div>
+                {% endif %}
+                {% if user.expYears %}
+                <div class="prf-stat-item">
+                    <div class="prf-stat-val">{{ user.expYears }} ans</div>
+                    <div class="prf-stat-lbl">Expérience</div>
+                </div>
+                {% endif %}
+                {% if user.city %}
+                <div class="prf-stat-item">
+                    <div class="prf-stat-val" style="font-size: 15px;">{{ user.city }}</div>
+                    <div class="prf-stat-lbl">Ville</div>
+                </div>
+                {% endif %}
+                {% if user.minPrice %}
+                <div class="prf-stat-item">
+                    <div class="prf-stat-val">{{ user.minPrice }} $</div>
+                    <div class="prf-stat-lbl">Prix min.</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Edit button #}
+        <div class="prf-edit-btn">
+            <button type="button" class="drl-btn-orange" style="padding: 10px 20px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                <i class="feather-edit-2 me-1"></i> Modifier le profil
+            </button>
+        </div>
+    </div>
+
+    {# Completion bar #}
+    <div class="prf-completion">
+        <span class="prf-completion-label">Complétude du profil</span>
+        <div class="prf-completion-bar">
+            <div class="prf-completion-fill" style="width: {{ completionPct }}%;"></div>
+        </div>
+        <span class="prf-completion-pct">{{ completionPct }}%</span>
+        {% if completionPct < 100 %}
+            <a href="#" onclick="document.querySelector('[data-bs-target=\'#editProfileModal\']').click(); return false;" class="drl-tag drl-tag--info ms-2" style="font-size: 11px; text-decoration: none;">Compléter</a>
+        {% endif %}
+    </div>
+</div>
+
+{# ══════════════════════════════════════════════════════════════
+   TABBED CONTENT
+══════════════════════════════════════════════════════════════ #}
+<div class="drl-card p-4">
+
+    {# Tabs nav #}
+    <div class="prf-tabs" role="tablist">
+        <button class="prf-tab-btn active" data-tab="presentation" type="button">
+            <i class="ph-user-circle"></i> Présentation
+        </button>
+        <button class="prf-tab-btn" data-tab="services" type="button">
+            <i class="ph-briefcase"></i> Activité & Services
+        </button>
+        <button class="prf-tab-btn" data-tab="trust" type="button">
+            <i class="ph-shield-check"></i> Confiance & Certifications
+        </button>
+    </div>
+
+    {# ── Tab 1: Présentation ── #}
+    <div class="prf-tab-pane active" id="pane-presentation">
+        <div class="row g-4">
+            <div class="col-lg-8">
+
+                {# About #}
+                <p class="prf-section-title">À propos</p>
+                <div class="prf-field" style="border-bottom: none; padding-top: 0;">
+                    <div class="prf-field-icon prf-field-icon--blue">
+                        <i class="feather-file-text"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        {% if user.about %}
+                            <p class="prf-field-val" style="white-space: pre-line;">{{ user.about }}</p>
+                        {% else %}
+                            <p class="prf-field-val prf-field-empty">Non renseigné</p>
+                        {% endif %}
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #f8fafc; color: #0d2151; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-mail"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">Email</p>
-                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.email }}</p>
-                        </div>
+                <p class="prf-section-title mt-4">Coordonnées</p>
+
+                <div class="prf-field">
+                    <div class="prf-field-icon prf-field-icon--slate">
+                        <i class="feather-mail"></i>
+                    </div>
+                    <div>
+                        <p class="prf-field-label">Email</p>
+                        <p class="prf-field-val">{{ user.email }}</p>
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #fff7ed; color: #e8501a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-map-pin"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">City</p>
-                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.city ?: 'Not set' }}</p>
-                        </div>
+                <div class="prf-field">
+                    <div class="prf-field-icon prf-field-icon--orng">
+                        <i class="feather-map-pin"></i>
+                    </div>
+                    <div>
+                        <p class="prf-field-label">Ville</p>
+                        <p class="prf-field-val {% if not user.city %}prf-field-empty{% endif %}">{{ user.city ?: 'Non renseignée' }}</p>
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-award"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">Years of Experience</p>
-                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.expYears ?: 'Not set' }}</p>
-                        </div>
+                {% if user.phoneNum %}
+                <div class="prf-field">
+                    <div class="prf-field-icon prf-field-icon--navy">
+                        <i class="feather-phone"></i>
+                    </div>
+                    <div>
+                        <p class="prf-field-label">Téléphone</p>
+                        <p class="prf-field-val">{{ user.phoneNum }}</p>
                     </div>
                 </div>
+                {% endif %}
 
-                <div class="col-md-6">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #f8fafc; color: #0d2151; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-tag"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px;">Category</p>
-                            <p style="font-weight: 700; color: #0d2151; margin: 0;">{{ app.user.category ? app.user.category.localizedTitle(app.request.locale) : 'Not set' }}</p>
-                        </div>
+                <div class="prf-field">
+                    <div class="prf-field-icon prf-field-icon--blue">
+                        <i class="feather-navigation"></i>
                     </div>
-                </div>
-
-                <div class="col-md-12 mt-4 pt-3 border-top">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; color: #00509e; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-file-text"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 14px; font-weight: 800; color: #0d2151; margin-bottom: 6px;">About Me</p>
-                            <p class="mb-0 text-break" style="color: #475569; line-height: 1.6;">{{ app.user.about ?: 'Not set' }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 mt-4">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-check-circle"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 14px; font-weight: 800; color: #0d2151; margin-bottom: 6px;">Why Choose Me</p>
-                            {% if app.user.whyChooseUs %}
-                                {% if app.user.whyChooseUs is iterable %}
-                                    <ul class="mb-0 ps-3" style="color: #475569; line-height: 1.6;">
-                                        {% for item in app.user.whyChooseUs %}
-                                            <li>{{ item }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% else %}
-                                    <p class="mb-0" style="color: #475569; line-height: 1.6;">{{ app.user.whyChooseUs }}</p>
-                                {% endif %}
+                    <div>
+                        <p class="prf-field-label">Zone d'intervention</p>
+                        <p class="prf-field-val {% if not user.interventionZone %}prf-field-empty{% endif %}">
+                            {% if user.interventionZone %}
+                                {{ user.interventionZone }}{% if user.interventionRadius %} ({{ user.interventionRadius }} km){% endif %}
+                            {% elseif user.interventionRadius %}
+                                Rayon de {{ user.interventionRadius }} km
                             {% else %}
-                                <p class="mb-0" style="color: #94a3b8;">Not set</p>
+                                Non renseignée
                             {% endif %}
-                        </div>
+                        </p>
                     </div>
                 </div>
 
-                <div class="col-md-6 mt-4">
-                    <div class="d-flex align-items-start gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 10px; background: #fff7ed; color: #e8501a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                            <i class="feather-list"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p style="font-size: 14px; font-weight: 800; color: #0d2151; margin-bottom: 6px;">Services</p>
-                            {% if app.user.services %}
-                                {% if app.user.services is iterable %}
-                                    <ul class="mb-0 ps-3" style="color: #475569; line-height: 1.6;">
-                                        {% for item in app.user.services %}
-                                            <li>{{ item }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                {% else %}
-                                    <p class="mb-0" style="color: #475569; line-height: 1.6;">{{ app.user.services }}</p>
-                                {% endif %}
-                            {% else %}
-                                <p class="mb-0" style="color: #94a3b8;">Not set</p>
-                            {% endif %}
-                        </div>
+            </div>
+
+            <div class="col-lg-4">
+
+                {# Languages #}
+                <p class="prf-section-title">Langues parlées</p>
+                <div class="prf-field" style="padding-top: 0; border-bottom: none;">
+                    <div class="prf-field-icon prf-field-icon--navy">
+                        <i class="feather-globe"></i>
+                    </div>
+                    <div>
+                        {% if user.languages and user.languages|length > 0 %}
+                            <div class="prf-tag-list">
+                                {% set langMap = {'FR': 'Français', 'EN': 'Anglais', 'ES': 'Espagnol', 'IT': 'Italien'} %}
+                                {% for lang in user.languages %}
+                                    <span class="prf-tag">{{ langMap[lang] ?? lang }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="prf-field-val prf-field-empty">Non renseignées</p>
+                        {% endif %}
                     </div>
                 </div>
+
+                {# Opening hours #}
+                {% if user.openingHours and user.openingHours|length > 0 %}
+                <p class="prf-section-title mt-4">Horaires</p>
+                <ul class="prf-hours-list">
+                    {% for line in user.openingHours %}
+                        <li><span>{{ line }}</span></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
             </div>
         </div>
     </div>
-{% endblock %}
 
-{% block script %}
-    <script>
-        document.getElementById('{{ form.logoFile.vars.id }}')?.addEventListener('change', function(event) {
-            const [file] = event.target.files;
-            if (file) {
-                 const reader = new FileReader();
-                 reader.onload = function(e) {
-                     const img = document.getElementById('logo-preview');
-                     if(img) img.src = e.target.result;
-                 };
-                 reader.readAsDataURL(file);
-            }
-        });
+    {# ── Tab 2: Activité & Services ── #}
+    <div class="prf-tab-pane" id="pane-services">
+        <div class="row g-4">
 
-        document.getElementById('{{ form.bannerFile.vars.id }}')?.addEventListener('change', function(event) {
-            const [file] = event.target.files;
-            if (file) {
-                 const reader = new FileReader();
-                 reader.onload = function(e) {
-                     const bannerDiv = document.getElementById('banner-preview-box');
-                     if(bannerDiv) bannerDiv.style.backgroundImage = `url('${e.target.result}')`;
-                 };
-                 reader.readAsDataURL(file);
-            }
-        });
-        // Reopen modal if form has errors
-        {% if not form.vars.valid %}
-            const editModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-            editModal.show();
+            <div class="col-lg-6">
+                <p class="prf-section-title">Secteur d'activité</p>
+                <div class="prf-field" style="padding-top: 0; border-bottom: none;">
+                    <div class="prf-field-icon prf-field-icon--blue">
+                        <i class="feather-grid"></i>
+                    </div>
+                    <div>
+                        {% if user.category %}
+                            {% if user.category.parent %}
+                                <p class="prf-field-label">Secteur</p>
+                                <p class="prf-field-val">{{ user.category.parent.localizedTitle(app.request.locale) }}</p>
+                                <p class="prf-field-label mt-2">Service spécialisé</p>
+                            {% endif %}
+                            <p class="prf-field-val">{{ user.category.localizedTitle(app.request.locale) }}</p>
+                        {% else %}
+                            <p class="prf-field-val prf-field-empty">Non renseigné</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <p class="prf-section-title mt-4">Services proposés</p>
+                {% if user.services and user.services|length > 0 %}
+                    <ul class="prf-service-list">
+                        {% for item in user.services %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="prf-field-val prf-field-empty">Aucun service listé</p>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-6">
+                <p class="prf-section-title">Pourquoi me choisir ?</p>
+                {% if user.whyChooseUs and user.whyChooseUs|length > 0 %}
+                    <ul class="prf-service-list" style="list-style: none;">
+                        {% for item in user.whyChooseUs %}
+                            <li style="color: #16a34a;">
+                                <i class="feather-check-circle" style="font-size: 14px; color: #16a34a; margin-right: 4px;"></i>
+                                <span style="color: #0d2151;">{{ item }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="prf-field-val prf-field-empty">Non renseigné</p>
+                {% endif %}
+
+                <p class="prf-section-title mt-4">Disponibilité</p>
+                <div class="prf-field" style="padding-top: 0; border-bottom: none;">
+                    <div class="prf-field-icon {% if user.availabilityStatus == 'AVAILABLE' %}prf-field-icon--green{% elseif user.availabilityStatus == 'BUSY' %}prf-field-icon--orng{% else %}prf-field-icon--slate{% endif %}">
+                        <i class="feather-clock"></i>
+                    </div>
+                    <div>
+                        <p class="prf-field-label">Statut actuel</p>
+                        <p class="prf-field-val">
+                            {% if user.availabilityStatus == 'AVAILABLE' %}
+                                <span style="color: #16a34a; font-weight: 800;">Disponible</span>
+                            {% elseif user.availabilityStatus == 'BUSY' %}
+                                <span style="color: #d97706; font-weight: 800;">Occupé</span>
+                            {% else %}
+                                <span style="color: #dc2626; font-weight: 800;">Non disponible</span>
+                            {% endif %}
+                        </p>
+                        <form method="post" action="{{ path('professional_update_availability') }}" class="mt-2 d-flex gap-2 flex-wrap">
+                            <input type="hidden" name="_token" value="{{ csrf_token('update-availability') }}">
+                            <button type="submit" name="status" value="AVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'AVAILABLE' %}drl-btn-green{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">Disponible</button>
+                            <button type="submit" name="status" value="BUSY" class="drl-btn btn-sm {% if user.availabilityStatus == 'BUSY' %}drl-btn-orange{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">Occupé</button>
+                            <button type="submit" name="status" value="UNAVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'UNAVAILABLE' %}drl-btn-danger{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">Indisponible</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {# ── Tab 3: Confiance & Certifications ── #}
+    <div class="prf-tab-pane" id="pane-trust">
+        <p class="prf-section-title">Badges de confiance</p>
+        <div class="prf-trust-grid">
+            <div class="prf-trust-item {{ user.isVerified ? 'active' }}">
+                <div class="prf-trust-icon"><i class="feather-shield"></i></div>
+                <span class="prf-trust-label">Vérifié Drilleedo</span>
+            </div>
+            <div class="prf-trust-item {{ user.isTopRated ? 'active' }}">
+                <div class="prf-trust-icon"><i class="feather-star"></i></div>
+                <span class="prf-trust-label">Top Noté</span>
+            </div>
+            <div class="prf-trust-item {{ user.isRbqCertified ? 'active' }}">
+                <div class="prf-trust-icon"><i class="feather-award"></i></div>
+                <span class="prf-trust-label">Certifié RBQ</span>
+            </div>
+            <div class="prf-trust-item {{ user.hasInsurance ? 'active' }}">
+                <div class="prf-trust-icon"><i class="feather-umbrella"></i></div>
+                <span class="prf-trust-label">Assuré R.C.</span>
+            </div>
+            <div class="prf-trust-item {{ user.hasFreeQuotes ? 'active' }}">
+                <div class="prf-trust-icon"><i class="feather-gift"></i></div>
+                <span class="prf-trust-label">Soumissions gratuites</span>
+            </div>
+            <div class="prf-trust-item {{ user.hasGuaranteedWork ? 'active' }}">
+                <div class="prf-trust-icon"><i class="feather-check-square"></i></div>
+                <span class="prf-trust-label">Travaux garantis</span>
+            </div>
+        </div>
+
+        <p class="prf-section-title mt-4">Tarification</p>
+        <div class="row g-3 mt-0">
+            <div class="col-sm-6 col-lg-3">
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+                    <div style="font-size: 22px; font-weight: 900; color: #0d2151;">{{ user.minPrice ? user.minPrice ~ ' $' : '—' }}</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Prix minimum</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+                    <div style="font-size: 22px; font-weight: 900; color: #0d2151;">{{ user.interventionRadius ? user.interventionRadius ~ ' km' : '—' }}</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Rayon d'intervention</div>
+                </div>
+            </div>
+        </div>
+
+        {% if user.licenceNum or user.companyNum %}
+        <p class="prf-section-title mt-4">Numéros légaux</p>
+        <div class="row g-3 mt-0">
+            {% if user.licenceNum %}
+            <div class="col-sm-6">
+                <div class="prf-field" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; gap: 12px;">
+                    <div class="prf-field-icon prf-field-icon--navy"><i class="feather-hash"></i></div>
+                    <div>
+                        <p class="prf-field-label">N° Licence</p>
+                        <p class="prf-field-val">{{ user.licenceNum }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if user.companyNum %}
+            <div class="col-sm-6">
+                <div class="prf-field" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; gap: 12px;">
+                    <div class="prf-field-icon prf-field-icon--navy"><i class="feather-briefcase"></i></div>
+                    <div>
+                        <p class="prf-field-label">N° Entreprise</p>
+                        <p class="prf-field-val">{{ user.companyNum }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
         {% endif %}
-    </script>
+
+    </div>
+
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.prf-tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const tab = this.dataset.tab;
+        document.querySelectorAll('.prf-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.prf-tab-pane').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('pane-' + tab).classList.add('active');
+    });
+});
+
+// Reopen modal on validation error
+{% if not form.vars.valid %}
+    window.addEventListener('load', function() {
+        var modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+        modal.show();
+    });
+{% endif %}
+</script>
 {% endblock %}
 
 {% block modals %}
     {{ parent() }}
-    <!-- Edit Profile Modal -->
+
+    {# ══════════════════════════════════════════════════════════════
+       EDIT PROFILE MODAL — tabbed, fully sectioned
+    ══════════════════════════════════════════════════════════════ #}
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content drl-modal-content">
-                <div class="modal-header drl-modal-header">
-                    <h5 class="modal-title drl-modal-title">
-                        <i class="feather-user me-2"></i>Update Profile Information
-                    </h5>
+                <div class="modal-header drl-modal-header" style="padding-bottom: 0; border-bottom: none;">
+                    <div>
+                        <h5 class="modal-title drl-modal-title mb-1">
+                            <i class="feather-edit-2 me-2"></i>Modifier le profil
+                        </h5>
+                        <p style="font-size: 13px; color: #94a3b8; margin: 0 0 12px;">Toutes les modifications sont sauvegardées immédiatement.</p>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body drl-modal-body" style="max-height: 75vh; overflow-y: auto;">
-                    {{ form_start(form, {'attr': {'class': 'row g-4', 'id': 'profileUpdateForm'}}) }}
-                   
-                        <div class="col-lg-6">
-                            <div>
-                                <label class="drl-label" for="{{ form.company_name.vars.id }}">Professional Name</label>
-                                {{ form_widget(form.company_name, {'attr': {'class': 'drl-input', 'placeholder': 'John Doe Construction'}}) }}
+
+                {{ form_start(form, {'attr': {'id': 'profileUpdateForm', 'novalidate': 'novalidate'}}) }}
+                <div class="modal-body drl-modal-body" style="max-height: 72vh; overflow-y: auto; padding-top: 0;">
+
+                    {# Modal Tabs #}
+                    <div class="prf-modal-tabs sticky-top" style="background: #fff; padding-top: 16px; z-index: 10;">
+                        <button type="button" class="prf-modal-tab-btn active" data-modal-tab="tab-identity">Identité</button>
+                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-activity">Activité</button>
+                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-presence">Présence</button>
+                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-trust">Certifications</button>
+                    </div>
+
+                    {# ── Tab: Identité ── #}
+                    <div class="prf-modal-tab-pane" id="tab-identity">
+                        <div class="row g-3 mt-2">
+                            <div class="col-lg-6">
+                                <label class="drl-label">Nom de l'entreprise / Nom commercial</label>
+                                {{ form_widget(form.company_name, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Construction Tremblay Inc.'}}) }}
                                 {{ form_errors(form.company_name) }}
                             </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="drl-label" for="{{ form.parentCategory.vars.id }}">Industry/Sector</label>
-                                    {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
-                                    {{ form_errors(form.parentCategory) }}
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="drl-label" for="{{ form.category.vars.id }}">Specific Service</label>
-                                    {{ form_widget(form.category, {
-                                        'attr': {
-                                            'class': 'drl-input form-select child-category-select selectpicker',
-                                            'data-selected-id': app.user.category ? app.user.category.id : '',
-                                            'data-live-search': 'true'
-                                        }
-                                    }) }}
-                                    {{ form_errors(form.category) }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div>
-                                <label class="drl-label" for="{{ form.email.vars.id }}">Email</label>
-                                {{ form_widget(form.email, {'attr': {'class': 'drl-input', 'placeholder': 'contact@example.com'}}) }}
+                            <div class="col-lg-6">
+                                <label class="drl-label">Email professionnel</label>
+                                {{ form_widget(form.email, {'attr': {'class': 'drl-input', 'placeholder': 'contact@monentreprise.ca'}}) }}
                                 {{ form_errors(form.email) }}
                             </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div>
-                                <label class="drl-label" for="{{ form.city.vars.id }}">City</label>
-                                {{ form_widget(form.city, {'attr': {'class': 'drl-input', 'placeholder': 'Montreal'}}) }}
+                            <div class="col-lg-6">
+                                <label class="drl-label">Ville</label>
+                                {{ form_widget(form.city, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Montréal'}}) }}
                                 {{ form_errors(form.city) }}
                             </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div>
-                                <label class="drl-label" for="{{ form.exp_years.vars.id }}">Years of Experience</label>
-                                {{ form_widget(form.exp_years, {'attr': {'class': 'drl-input', 'placeholder': '5'}}) }}
+                            <div class="col-lg-6">
+                                <label class="drl-label">Années d'expérience</label>
+                                {{ form_widget(form.exp_years, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 10'}}) }}
                                 {{ form_errors(form.exp_years) }}
                             </div>
-                        </div>
-
-                        <div class="col-12 mt-4 pt-3 border-top">
-                            <div>
-                                <label class="drl-label">About Me</label>
-                                {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': 'Tell clients about your business...'}}) }}
+                            <div class="col-12">
+                                <label class="drl-label">À propos de moi / ma compagnie</label>
+                                {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'Décrivez votre expérience, vos valeurs, votre approche...'}}) }}
                                 {{ form_errors(form.about) }}
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-lg-6">
-                            <div>
-                                <label class="drl-label">Why Choose Me <span class="small opacity-50 fw-normal">(One item per line)</span></label>
-                                {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5'}}) }}
+                    {# ── Tab: Activité ── #}
+                    <div class="prf-modal-tab-pane d-none" id="tab-activity">
+                        <div class="row g-3 mt-2">
+                            <div class="col-lg-6">
+                                <label class="drl-label" for="{{ form.parentCategory.vars.id }}">Secteur d'activité</label>
+                                {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
+                                {{ form_errors(form.parentCategory) }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="drl-label" for="{{ form.category.vars.id }}">Service spécialisé</label>
+                                {{ form_widget(form.category, {
+                                    'attr': {
+                                        'class': 'drl-input form-select child-category-select selectpicker',
+                                        'data-selected-id': app.user.category ? app.user.category.id : '',
+                                        'data-live-search': 'true'
+                                    }
+                                }) }}
+                                {{ form_errors(form.category) }}
+                            </div>
+                            <div class="col-12">
+                                <label class="drl-label">Pourquoi me choisir ? <span class="text-muted fw-normal" style="font-size: 12px;">(un avantage par ligne)</span></label>
+                                {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Expérience reconnue\nTravaux garantis\nRéponse rapide"}}) }}
                                 {{ form_errors(form.whyChooseUs) }}
                             </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div>
-                                <label class="drl-label">Services <span class="small opacity-50 fw-normal">(One item per line)</span></label>
-                                {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5'}}) }}
+                            <div class="col-12">
+                                <label class="drl-label">Mes services <span class="text-muted fw-normal" style="font-size: 12px;">(un service par ligne)</span></label>
+                                {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Rénovation de cuisine\nInstallation de salle de bain\nPeinture intérieure"}}) }}
                                 {{ form_errors(form.services) }}
                             </div>
+                            <div class="col-lg-6">
+                                <label class="drl-label">Zone d'intervention</label>
+                                {{ form_widget(form.interventionZone, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Grand Montréal, 50km de Québec'}}) }}
+                                {{ form_errors(form.interventionZone) }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="drl-label">Rayon d'intervention (km)</label>
+                                {{ form_widget(form.interventionRadius, {'attr': {'class': 'drl-input', 'placeholder': '40'}}) }}
+                                {{ form_errors(form.interventionRadius) }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="drl-label">Disponibilité</label>
+                                {{ form_widget(form.availabilityStatus, {'attr': {'class': 'drl-input form-select'}}) }}
+                                {{ form_errors(form.availabilityStatus) }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="drl-label">Prix minimum ($)</label>
+                                {{ form_widget(form.minPrice, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 200'}}) }}
+                                {{ form_errors(form.minPrice) }}
+                            </div>
+                            <div class="col-12">
+                                <label class="drl-label">Horaires <span class="text-muted fw-normal" style="font-size: 12px;">(une plage par ligne)</span></label>
+                                {{ form_widget(form.openingHours, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': "Lundi – Vendredi: 08:00 – 18:00\nSamedi: 08:00 – 14:00\nDimanche: Fermé"}}) }}
+                                {{ form_errors(form.openingHours) }}
+                            </div>
                         </div>
-                    {{ form_end(form) }}
+                    </div>
+
+                    {# ── Tab: Présence ── #}
+                    <div class="prf-modal-tab-pane d-none" id="tab-presence">
+                        <div class="row g-3 mt-2">
+                            <div class="col-12">
+                                <label class="drl-label">Langues parlées</label>
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px;">
+                                    {{ form_widget(form.languages) }}
+                                </div>
+                                {{ form_errors(form.languages) }}
+                            </div>
+                            <div class="col-12">
+                                <label class="drl-label">Préférences de contact</label>
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px;">
+                                    {{ form_widget(form.contactPrefs) }}
+                                </div>
+                                {{ form_errors(form.contactPrefs) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {# ── Tab: Certifications ── #}
+                    <div class="prf-modal-tab-pane d-none" id="tab-trust">
+                        <div class="row g-3 mt-2">
+                            <div class="col-12">
+                                <p class="prf-section-title">Badges &amp; certifications</p>
+                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+                                    <div class="row g-3">
+                                        <div class="col-sm-6">
+                                            <label class="d-flex align-items-center gap-2 cursor-pointer" style="cursor: pointer;">
+                                                {{ form_widget(form.hasInsurance, {'attr': {'class': 'form-check-input'}}) }}
+                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-umbrella me-1 text-success"></i>Assurance responsabilité civile</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="d-flex align-items-center gap-2" style="cursor: pointer;">
+                                                {{ form_widget(form.rbqCertified, {'attr': {'class': 'form-check-input'}}) }}
+                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-award me-1 text-primary"></i>Certifié RBQ</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="d-flex align-items-center gap-2" style="cursor: pointer;">
+                                                {{ form_widget(form.freeQuotes, {'attr': {'class': 'form-check-input'}}) }}
+                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-gift me-1 text-warning"></i>Soumissions gratuites</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="d-flex align-items-center gap-2" style="cursor: pointer;">
+                                                {{ form_widget(form.guaranteedWork, {'attr': {'class': 'form-check-input'}}) }}
+                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-check-square me-1 text-success"></i>Travaux garantis</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer drl-modal-footer">
-                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Annuler</button>
                     <button type="submit" form="profileUpdateForm" class="drl-btn-orange px-5">
-                        <i class="feather-save me-2"></i> Save Changes
+                        <i class="feather-save me-2"></i> Enregistrer les modifications
                     </button>
                 </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
+
+    <script>
+    // Modal inner tabs
+    document.querySelectorAll('.prf-modal-tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const target = this.dataset.modalTab;
+            document.querySelectorAll('.prf-modal-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.prf-modal-tab-pane').forEach(p => p.classList.add('d-none'));
+            this.classList.add('active');
+            document.getElementById(target).classList.remove('d-none');
+        });
+    });
+    </script>
 {% endblock %}

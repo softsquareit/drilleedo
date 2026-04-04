@@ -5,7 +5,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/drilleedo/js/category-selector.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -414,7 +413,7 @@
                             </div>
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_service'|trans }}</label>
-                                {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select-premium child-category-select selectpicker', 'data-live-search': 'true'}}) }}
+                                {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select-premium child-category-select selectpicker', 'data-live-search': 'true', 'data-selected-id': professionalForm.category.vars.data ? professionalForm.category.vars.data.id : ''}}) }}
                                 <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.category) }}</div>
                             </div>
                         </div>
@@ -520,8 +519,10 @@
             switchTo('ind');
         });
         
-        // Ensure initial state is correct (default to Pro if active or if nothing is set)
-        if (indBtn.classList.contains('active')) {
+        // Restore the correct tab after a validation error (check which form was submitted)
+        const proFormHasErrors = document.querySelector('#tab-professional .text-danger:not(:empty)');
+        const indFormHasErrors = document.querySelector('#tab-individual .text-danger:not(:empty)');
+        if (indFormHasErrors && !proFormHasErrors) {
             switchTo('ind');
         } else {
             switchTo('pro');

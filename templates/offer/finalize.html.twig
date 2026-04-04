@@ -1,51 +1,58 @@
 {% extends app.user and is_granted('ROLE_PROFESSIONAL') ? 'professional/base_professional.html.twig' : (app.user and is_granted('ROLE_COMPANY') ? 'company/base_company.html.twig' : 'base.html.twig') %}
 
-{% block title %}Complete Request - {{ quote.title }}{% endblock %}
+{% block title %}{{ 'professional.finalize_request'|trans|default('Finaliser la mission') }} - {{ quote.title }}{% endblock %}
 
 {% block body %}
-    <div class="pro-card pro-card-elevated mx-auto" style="max-width: 700px;">
-        <div class="pro-card-header text-center" style="border-bottom: none; padding-bottom: 0;">
+    <div class="pro-card pro-card-elevated mx-auto" style="max-width: 600px; border-radius: 24px; overflow: hidden;">
+        <div class="pro-card-header text-center" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #d1fae5; padding: 3rem 2rem 2rem;">
             <div style="width: 100%;">
-                <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(16,185,129,0.12); display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
-                    <i class="feather-check-circle" style="font-size:1.75rem; color:#10b981;"></i>
+                <div class="shadow-sm" style="width: 72px; height: 72px; border-radius: 20px; background: #fff; display:inline-flex; align-items:center; justify-content:center; margin-bottom:20px; border: 2px solid #86efac;">
+                    <i class="ph-bold ph-check-circle" style="font-size:2.25rem; color:#10b981;"></i>
                 </div>
-                <h4 class="pro-card-title">Finalize This Request</h4>
-                <p class="pro-card-subtitle">Confirm that the work for "{{ quote.title }}" is complete</p>
+                <h4 class="fw-800 mb-2" style="color: #065f46; font-size: 1.5rem;">Mission terminée ?</h4>
+                <p class="text-muted small px-4" style="color: #047857 !important;">Confirmez que les travaux pour "{{ quote.title }}" sont achevés.</p>
             </div>
         </div>
         
         <div class="pro-card-body">
             {# Offer Summary #}
-            <div class="pro-alert info mb-4" style="border-radius: var(--pro-radius-md, 8px);">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <strong>Your Offer</strong>
-                    <span class="pro-badge success">Accepted</span>
+            <div class="p-4 mb-4 rounded-4" style="background: #f8fafc; border: 1.5px solid #e2e8f0;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-uppercase fw-bold text-muted" style="font-size: 10px; letter-spacing: .05em;">Votre offre</span>
+                    <span class="drl-tag drl-tag--success" style="font-size: 11px;">Acceptée</span>
                 </div>
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <i class="feather-dollar-sign" style="font-size:0.85rem;"></i>
-                    <strong style="font-size:1.1rem;">{{ offer.price|number_format(2) }} $</strong>
+                <div class="d-flex align-items-baseline gap-2 mb-2">
+                    <span class="h3 fw-800 mb-0" style="color: #0f172a;">{{ offer.price|number_format(0, ',', ' ') }}</span>
+                    <span class="h5 fw-bold text-muted mb-0">$</span>
                 </div>
-                <p class="pro-text-muted small mb-0">{{ offer.description|slice(0, 150) }}{% if offer.description|length > 150 %}...{% endif %}</p>
+                <p class="text-muted small mb-0" style="line-height: 1.5;">{{ offer.description|slice(0, 150) }}{% if offer.description|length > 150 %}...{% endif %}</p>
             </div>
 
             {# Client Info #}
             {% set clientName = quote.individual and quote.individual.personalInfos ? (quote.individual.personalInfos.firstName|default('') ~ ' ' ~ quote.individual.personalInfos.lastName|default(''))|trim : '' %}
-            <p class="mb-4 text-center">
-                By finalizing, you confirm that the work for 
-                <strong>{{ clientName ?: quote.individual.email|default('the client') }}</strong> 
-                is complete. The request will be marked as <strong>Closed</strong>.
-            </p>
+            <div class="text-center mb-5 px-3">
+                <p class="text-muted" style="font-size: 15px; line-height: 1.6;">
+                    En finalisant, vous confirmez que la mission pour 
+                    <strong class="text-dark">{{ clientName ?: quote.individual.email|default('le client') }}</strong> 
+                    est accomplie. La demande sera marquée comme <strong class="text-success">Terminée</strong>.
+                </p>
+                <div class="small text-muted italic">
+                    <i class="ph-bold ph-info me-1"></i> Un email sera envoyé au client pour l'inviter à laisser un avis.
+                </div>
+            </div>
 
             {# Actions #}
             <div class="d-flex flex-column gap-3">
-                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" data-confirm="Are you sure? This will close the request permanently.">
+                <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                    <button type="submit" class="pro-btn pro-btn-primary pro-btn-lg w-100">
-                        <i class="feather-check"></i> Mark as Completed
+                    <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg"
+                            style="background: #16a34a !important; box-shadow: 0 4px 14px rgba(22,163,74,0.3) !important;">
+                        <i class="ph-bold ph-check-circle me-2"></i> {{ 'professional.confirm_completion'|trans|default('Confirmer la fin des travaux') }}
                     </button>
                 </form>
-                <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
-                    <i class="feather-arrow-left"></i> Go Back
+                <a href="{{ is_granted('ROLE_COMPANY') ? path('company_dashboard') : path('professional_offers') }}" 
+                   class="d-flex align-items-center justify-content-center gap-2 text-decoration-none fw-600 py-2" style="color: #64748b; font-size: 14px;">
+                    <i class="ph-bold ph-arrow-left"></i> Retour
                 </a>
             </div>
         </div>

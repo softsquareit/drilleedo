@@ -2,6 +2,13 @@
 
 {% block title %}{{ 'individual.offer_detail_title'|trans }} - Drilleedo{% endblock %}
 
+
+{% set offerStatus = offer.status|upper %}
+{% set provider = offer.provider %}
+{% set providerName = provider ? (provider.primaryContact ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName) : (provider.companyName|default(provider.email))) : 'Prestataire' %}
+{% set avgRating = provider and provider.stats ? provider.stats.averageRating : 0 %}
+{% set reviewCount = provider and provider.stats ? provider.stats.reviewCount : 0 %}
+
 {% block stylesheets %}
 {{ parent() }}
 <style>
@@ -213,11 +220,6 @@
 {% endblock %}
 
 {% block body %}
-{% set offerStatus = offer.status|upper %}
-{% set provider = offer.provider %}
-{% set providerName = provider ? (provider.primaryContact ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName) : (provider.companyName|default(provider.email))) : 'Prestataire' %}
-{% set avgRating = provider and provider.stats ? provider.stats.averageRating : 0 %}
-{% set reviewCount = provider and provider.stats ? provider.stats.reviewCount : 0 %}
 
 {# ── Back link ── #}
 <div class="mb-4">
