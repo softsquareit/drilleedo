@@ -174,6 +174,27 @@ input[type="date"].nq-input { color-scheme: light; }
                             <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.title) }}</div>
                         {% endif %}
                     </div>
+
+                    {# Adresse + Budget #}
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label class="nq-label" for="{{ form.address.vars.id }}">
+                                <i class="feather-map-pin"></i> Adresse des travaux
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.address, {'attr': {'class': 'nq-input', 'placeholder': 'Ex. : 123 Rue Principale, Montréal, QC'}}) }}
+                            {{ form_errors(form.address) }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="nq-label" for="{{ form.budget.vars.id }}">
+                                <i class="feather-dollar-sign"></i> Budget estimé
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.budget, {'attr': {'class': 'nq-input', 'placeholder': '0.00'}}) }}
+                            {{ form_errors(form.budget) }}
+                        </div>
+                    </div>
+
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="nq-label" for="{{ form.parentCategory.vars.id }}">
@@ -291,13 +312,23 @@ input[type="date"].nq-input { color-scheme: light; }
                             {{ form_widget(form.languages, {'attr': {'class': 'nq-input', 'title': 'Sélectionner une ou plusieurs langues'}}) }}
                             {{ form_errors(form.languages) }}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="nq-label" for="{{ form.desiredStartDate.vars.id }}">
-                                <i class="feather-calendar"></i> Date souhaitée de début
+                                <i class="feather-calendar"></i> Début souhaité
                                 <span class="badge-opt">optionnel</span>
                             </label>
                             {{ form_widget(form.desiredStartDate, {'attr': {'class': 'nq-input'}}) }}
                             {{ form_errors(form.desiredStartDate) }}
+                        </div>
+
+                        {# Date souhaitée de fin #}
+                        <div class="col-md-4">
+                            <label class="nq-label" for="{{ form.desiredEndDate.vars.id }}">
+                                <i class="feather-calendar"></i> Fin souhaitée
+                                <span class="badge-opt">optionnel</span>
+                            </label>
+                            {{ form_widget(form.desiredEndDate, {'attr': {'class': 'nq-input'}}) }}
+                            {{ form_errors(form.desiredEndDate) }}
                         </div>
                     </div>
 
@@ -817,6 +848,69 @@ Retourne UNIQUEMENT le texte de description, sans préambule, sans explication.`
             const desc = document.getElementById('{{ form.description.vars.id }}');
             if (desc && sug) { desc.value = sug; desc.dispatchEvent(new Event('input')); }
             bootstrap.Modal.getOrCreateInstance(document.getElementById('aiPreviewModal')).hide();
+        });
+    });
+})();
+</script>
+
+{# ── Auto-save to localStorage (edit — keyed by quote ID) ── #}
+<script>
+(function () {
+    const STORAGE_KEY = 'drl_edit_quote_{{ quote.id }}';
+    const TEXT_FIELDS = [
+        '{{ form.title.vars.id }}',
+        '{{ form.description.vars.id }}',
+        '{{ form.address.vars.id }}',
+    ];
+
+    let saveTimer = null;
+
+    function collectDraft() {
+        const data = {};
+        TEXT_FIELDS.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) data[id] = el.value;
+        });
+        const budgetEl = document.querySelector('[id$="_budget"]') || document.getElementById('{{ form.budget.vars.id }}');
+        if (budgetEl) data['budget'] = budgetEl.value;
+        ['{{ form.desiredStartDate.vars.id }}', '{{ form.desiredEndDate.vars.id }}'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) data[id] = el.value;
+        });
+        return data;
+    }
+
+    function showToast(msg) {
+        let toast = document.getElementById('drl-autosave-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'drl-autosave-toast';
+            toast.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;background:#1e293b;color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;pointer-events:none;';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+    }
+
+    function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(collectDraft()));
+            showToast('💾 Modifications sauvegardées localement');
+        }, 30000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        TEXT_FIELDS.forEach(id => {
+            document.getElementById(id)?.addEventListener('input', scheduleSave);
+        });
+        document.querySelectorAll('select, input[type="date"]').forEach(el => el.addEventListener('change', scheduleSave));
+
+        // Clear local draft on successful submit (server save takes over)
+        document.getElementById('quoteRequestForm')?.addEventListener('submit', function () {
+            localStorage.removeItem(STORAGE_KEY);
         });
     });
 })();

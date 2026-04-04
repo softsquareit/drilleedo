@@ -47,6 +47,15 @@ class QuoteRequest
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $desiredStartDate = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $desiredEndDate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $budget = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $address = null;
+
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $availabilities = [];
 
@@ -221,6 +230,42 @@ class QuoteRequest
     public function setDesiredStartDate(?\DateTimeInterface $desiredStartDate): static
     {
         $this->desiredStartDate = $desiredStartDate;
+
+        return $this;
+    }
+
+    public function getDesiredEndDate(): ?\DateTimeInterface
+    {
+        return $this->desiredEndDate;
+    }
+
+    public function setDesiredEndDate(?\DateTimeInterface $desiredEndDate): static
+    {
+        $this->desiredEndDate = $desiredEndDate;
+
+        return $this;
+    }
+
+    public function getBudget(): ?float
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?float $budget): static
+    {
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }

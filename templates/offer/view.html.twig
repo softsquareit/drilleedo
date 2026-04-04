@@ -241,6 +241,45 @@
                         {% endif %}
                     {% endif %}
 
+                    {# Financial fields #}
+                    {% if offer.depositPercent is not null or offer.warrantyMonths or offer.paymentMethod %}
+                    <div class="row g-3 mb-4">
+                        {% if offer.depositPercent is not null %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                                    <i class="feather-percent" style="color: var(--color-text-muted); flex-shrink:0;"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem; text-transform:uppercase;">Acompte</small>
+                                        <span class="pro-fw-semibold">{{ offer.depositPercent }} %</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if offer.warrantyMonths %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                                    <i class="feather-shield" style="color: var(--color-text-muted); flex-shrink:0;"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem; text-transform:uppercase;">Garantie</small>
+                                        <span class="pro-fw-semibold">{{ offer.warrantyMonths }} mois</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if offer.paymentMethod %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                                    <i class="feather-credit-card" style="color: var(--color-text-muted); flex-shrink:0;"></i>
+                                    <div>
+                                        <small class="pro-text-muted d-block" style="font-size: 0.7rem; text-transform:uppercase;">Paiement</small>
+                                        <span class="pro-fw-semibold">{{ offer.paymentMethod|capitalize }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
                     {# Meta fields #}
                     <div class="row g-3 mb-4">
                         {% if offer.priorVisit is not null %}
@@ -309,6 +348,12 @@
                     <button type="button" class="btn btn-outline-danger rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
                             data-bs-toggle="modal" data-bs-target="#deleteDraftModal">
                         <i class="feather-trash-2"></i> Supprimer le brouillon
+                    </button>
+                {% endif %}
+                {% if offerStatus in ['PUBLISHED', 'INTERESTED'] %}
+                    <button type="button" class="btn btn-outline-danger rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#withdrawOfferModal">
+                        <i class="feather-x-circle"></i> Retirer mon offre
                     </button>
                 {% endif %}
                 {% set activeReq = offer.quoteRequest ?? offer.directRequest %}
@@ -470,6 +515,38 @@
 {% block modals %}
     {{ parent() }}
     {% set offerStatus = offer.status|upper %}
+
+    {# Withdraw Published Offer Modal #}
+    {% if offerStatus in ['PUBLISHED', 'INTERESTED'] %}
+    <div class="modal fade" id="withdrawOfferModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content drl-modal-content">
+                <div class="modal-body drl-modal-body p-5 text-center">
+                    <div class="mb-4">
+                        <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
+                             style="width: 70px; height: 70px; background: rgba(239,68,68,0.1);">
+                            <i class="feather-x-circle" style="font-size: 2rem; color: #ef4444;"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Retirer votre offre ?</h4>
+                    <p class="text-muted px-3 mb-4">Le client sera notifié que vous avez retiré votre offre. Cette action est irréversible.</p>
+                    <div class="d-flex flex-column gap-3">
+                        <form method="post" action="{{ path('offer_withdraw', {id: offer.id}) }}" class="w-100">
+                            <input type="hidden" name="_token" value="{{ csrf_token('withdraw-offer-' ~ offer.id) }}">
+                            <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
+                                    style="background: #ef4444; color: #fff; font-size: 1rem;">
+                                <i class="feather-x-circle"></i> Oui, retirer mon offre
+                            </button>
+                        </form>
+                        <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     {# Delete Draft Modal #}
     {% if offerStatus == 'DRAFT' %}

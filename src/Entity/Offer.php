@@ -56,6 +56,15 @@ class Offer
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $estimatedDurationUnit = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $depositPercent = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $warrantyMonths = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $paymentMethod = null;
+
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: true)]
     private ?QuoteRequest $quoteRequest = null;
@@ -250,5 +259,41 @@ class Offer
     public function isViewed(): bool
     {
         return $this->viewedAt !== null;
+    }
+
+    public function getDepositPercent(): ?int
+    {
+        return $this->depositPercent;
+    }
+
+    public function setDepositPercent(?int $depositPercent): static
+    {
+        $this->depositPercent = $depositPercent;
+
+        return $this;
+    }
+
+    public function getWarrantyMonths(): ?int
+    {
+        return $this->warrantyMonths;
+    }
+
+    public function setWarrantyMonths(?int $warrantyMonths): static
+    {
+        $this->warrantyMonths = $warrantyMonths;
+
+        return $this;
+    }
+
+    public function getPaymentMethod(): ?string
+    {
+        return $this->paymentMethod;
+    }
+
+    public function setPaymentMethod(?string $paymentMethod): static
+    {
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 }

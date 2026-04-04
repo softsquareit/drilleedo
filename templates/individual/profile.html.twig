@@ -3,173 +3,443 @@
 {% block title %}{{ 'individual.my_profile_title'|trans }} - Drilleedo{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+{{ parent() }}
+<style>
+/* ══════════════════════════════════════════
+   PROFIL INDIVIDUEL
+══════════════════════════════════════════ */
+.prof-hero {
+    background: linear-gradient(160deg,#0d2151,#1e3a8a);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.prof-hero::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.04);
+}
+.prof-avatar {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    border: 3px solid rgba(255,255,255,.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem; font-weight: 800; color: #fff;
+    flex-shrink: 0;
+}
+.prof-hero-name { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+.prof-hero-email { opacity: .75; font-size: 13px; margin-bottom: 10px; }
+
+/* Bloc card */
+.prof-bloc {
+    background: #fff;
+    border: 1.5px solid #e8edf5;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+}
+.prof-bloc-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: .9rem 1.25rem;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafafa;
+}
+.prof-bloc-num {
+    width: 26px; height: 26px; border-radius: 8px;
+    background: linear-gradient(135deg,#f97316,#ea580c);
+    color: #fff; font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.prof-bloc-title { font-size: 14px; font-weight: 700; color: #1e293b; margin: 0; }
+.prof-bloc-body { padding: 1.25rem; }
+
+/* Info item (read mode) */
+.prof-info-item {
+    padding: .75rem 1rem;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    margin-bottom: .75rem;
+}
+.prof-info-label { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+.prof-info-val { font-size: 14px; font-weight: 600; color: #1e293b; }
+.prof-info-val.empty { color: #cbd5e1; font-weight: 400; font-style: italic; }
+
+/* Completion bar */
+.prof-completion-bar {
+    height: 6px; border-radius: 4px; background: #e2e8f0; overflow: hidden; margin-top: 6px;
+}
+.prof-completion-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg,#10b981,#059669);
+    transition: width .5s;
+}
+
+/* Stats strip */
+.prof-stat-strip {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+.prof-stat-box {
+    flex: 1; min-width: 100px;
+    background: #fff;
+    border: 1.5px solid #e8edf5;
+    border-radius: 14px;
+    padding: 1rem;
+    text-align: center;
+}
+.prof-stat-box .val { font-size: 1.8rem; font-weight: 800; color: #0d2151; line-height: 1; }
+.prof-stat-box .lbl { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+
+@media (max-width: 575px) {
+    .prof-hero { padding: 1.5rem; gap: 1.25rem; }
+    .prof-hero-name { font-size: 1.25rem; }
+}
+</style>
 {% endblock %}
 
 {% block body %}
-    <div class="drl-card">
-        <div class="drl-card-head">
-            <div>
-                <h4 class="drl-card-title">{{ 'individual.my_profile_title'|trans }}</h4>
-                <p class="drl-card-sub">{{ 'individual.my_profile_sub'|trans }}</p>
-            </div>
-            <button type="button" class="drl-btn-orange shadow-lg" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                <i class="feather-edit me-1"></i> {{ 'individual.btn_edit_profile'|trans }}
-            </button>
+{% set pi = user.personalInfos %}
+{% set firstName = pi and pi.firstName ? pi.firstName : '' %}
+{% set lastName  = pi and pi.lastName  ? pi.lastName  : '' %}
+{% set phone     = pi and pi.phoneNum  ? pi.phoneNum  : '' %}
+{% set adresse   = pi and pi.adresse   ? pi.adresse   : '' %}
+{% set initial   = firstName ? firstName|first|upper : user.email|first|upper %}
+
+{# Completion score #}
+{% set completed = 0 %}
+{% if firstName %}{% set completed = completed + 1 %}{% endif %}
+{% if lastName  %}{% set completed = completed + 1 %}{% endif %}
+{% if phone     %}{% set completed = completed + 1 %}{% endif %}
+{% if adresse   %}{% set completed = completed + 1 %}{% endif %}
+{% set totalFields = 4 %}
+{% set completionPct = (completed / totalFields * 100)|round %}
+
+{# Counts #}
+{% set totalQuotes = user.quoteRequests|length %}
+{% set totalOffers = 0 %}
+{% set acceptedCount = 0 %}
+{% for q in user.quoteRequests %}
+    {% for o in q.offers %}
+        {% if o.status|upper not in ['DRAFT'] %}{% set totalOffers = totalOffers + 1 %}{% endif %}
+        {% if o.status|upper == 'ACCEPTED' %}{% set acceptedCount = acceptedCount + 1 %}{% endif %}
+    {% endfor %}
+{% endfor %}
+
+{# ── Hero ── #}
+<div class="prof-hero">
+    <div class="prof-avatar">{{ initial }}</div>
+    <div class="flex-grow-1">
+        <div class="prof-hero-name">
+            {{ firstName or lastName ? firstName ~ ' ' ~ lastName : 'Votre nom' }}
         </div>
-
-        <div class="p-5">
-            <!-- Profile Photo -->
-            <div class="text-center mb-5 pb-5 border-bottom">
-                <div class="drl-avatar-container mx-auto" style="width: 120px; height: 120px; border-radius: 50%; background: var(--drl-navy); color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 700; border: 4px solid #fff; box-shadow: 0 10px 25px rgba(13, 33, 81, 0.15);">
-                    {{ (user.personalInfos and user.personalInfos.firstName ? user.personalInfos.firstName|first : user.email|first)|upper }}
-                </div> 
-                <h4 class="mt-4 mb-1 fw-bold text-dark">{{ user.personalInfos and (user.personalInfos.firstName or user.personalInfos.lastName) ? user.personalInfos.firstName ~ ' ' ~ user.personalInfos.lastName : 'badge.individual'|trans }}</h4>
-                <p class="text-muted mb-0">{{ user.email }}</p>
-                <div class="mt-3">
-                    <span class="drl-tag drl-tag--sent">{{ 'individual.individual_member'|trans }}</span>
-                </div>
-            </div>
-
-            <!-- Profile Information -->
-            <div class="row g-5">
-                <div class="col-md-6">
-                    <div class="drl-info-item p-4 rounded-4 border bg-light shadow-sm h-100">
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <div class="drl-stat-icon drl-stat-icon--1 m-0 shadow-sm" style="width: 40px; height: 40px; font-size: 16px;">
-                                <i class="feather-user"></i>
-                            </div>
-                            <span class="text-muted small fw-bold text-uppercase ls-1">{{ 'individual.first_name'|trans }}</span>
-                        </div>
-                        <p class="h5 fw-bold text-dark mb-0 ps-5 ms-2">
-                            {{ user.personalInfos and user.personalInfos.firstName ? user.personalInfos.firstName : ('<span class="text-muted fst-italic fw-normal opacity-50">' ~ 'individual.not_provided'|trans ~ '</span>')|raw }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="drl-info-item p-4 rounded-4 border bg-light shadow-sm h-100">
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <div class="drl-stat-icon drl-stat-icon--1 m-0 shadow-sm" style="width: 40px; height: 40px; font-size: 16px;">
-                                <i class="feather-user"></i>
-                            </div>
-                            <span class="text-muted small fw-bold text-uppercase ls-1">{{ 'individual.last_name'|trans }}</span>
-                        </div>
-                        <p class="h5 fw-bold text-dark mb-0 ps-5 ms-2">
-                            {{ user.personalInfos and user.personalInfos.lastName ? user.personalInfos.lastName : ('<span class="text-muted fst-italic fw-normal opacity-50">' ~ 'individual.not_provided'|trans ~ '</span>')|raw }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="drl-info-item p-4 rounded-4 border bg-light shadow-sm h-100">
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <div class="drl-stat-icon drl-stat-icon--2 m-0 shadow-sm" style="width: 40px; height: 40px; font-size: 16px;">
-                                <i class="feather-phone"></i>
-                            </div>
-                            <span class="text-muted small fw-bold text-uppercase ls-1">{{ 'individual.phone_number'|trans }}</span>
-                        </div>
-                        <p class="h5 fw-bold text-dark mb-0 ps-5 ms-2">
-                            {{ user.personalInfos and user.personalInfos.phoneNum ? user.personalInfos.phoneNum : ('<span class="text-muted fst-italic fw-normal opacity-50">' ~ 'individual.not_provided'|trans ~ '</span>')|raw }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="drl-info-item p-4 rounded-4 border bg-light shadow-sm h-100">
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <div class="drl-stat-icon drl-stat-icon--1 m-0 shadow-sm" style="width: 40px; height: 40px; font-size: 16px; background: rgba(54, 162, 235, 0.1); color: #36a2eb;">
-                                <i class="feather-mail"></i>
-                            </div>
-                            <span class="text-muted small fw-bold text-uppercase ls-1">{{ 'individual.email_address'|trans }}</span>
-                        </div>
-                        <p class="h5 fw-bold text-dark mb-0 ps-5 ms-2">{{ user.email }}</p>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="drl-info-item p-4 rounded-4 border bg-light shadow-sm h-100">
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <div class="drl-stat-icon drl-stat-icon--1 m-0 shadow-sm" style="width: 40px; height: 40px; font-size: 16px; background: rgba(255, 159, 64, 0.1); color: #ff9f40;">
-                                <i class="feather-map-pin"></i>
-                            </div>
-                            <span class="text-muted small fw-bold text-uppercase ls-1">{{ 'individual.service_address'|trans }}</span>
-                        </div>
-                        <p class="h5 fw-bold text-dark mb-0 ps-5 ms-2">
-                            {{ user.personalInfos and user.personalInfos.adresse ? user.personalInfos.adresse : ('<span class="text-muted fst-italic fw-normal opacity-50">' ~ 'individual.not_provided'|trans ~ '</span>')|raw }}
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="prof-hero-email">{{ user.email }}</div>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="drl-tag" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:12px;">
+                <i class="feather-user me-1"></i>{{ 'individual.individual_member'|trans }}
+            </span>
+            {% if completionPct == 100 %}
+                <span class="drl-tag" style="background:rgba(16,185,129,.2);color:#6ee7b7;border:1px solid rgba(16,185,129,.3);font-size:12px;">
+                    <i class="feather-check-circle me-1"></i>Profil complet
+                </span>
+            {% endif %}
         </div>
     </div>
+    <div class="text-end flex-shrink-0">
+        <div style="font-size:11px;opacity:.7;margin-bottom:4px;">Complétion du profil</div>
+        <div style="font-size:1.8rem;font-weight:800;">{{ completionPct }}%</div>
+        <div class="prof-completion-bar" style="width:120px;margin-left:auto;">
+            <div class="prof-completion-fill" style="width:{{ completionPct }}%;background:{{ completionPct == 100 ? 'linear-gradient(90deg,#10b981,#059669)' : 'linear-gradient(90deg,#f59e0b,#f97316)' }};"></div>
+        </div>
+    </div>
+</div>
+
+{# ── Completion warning ── #}
+{% if completionPct < 100 %}
+<div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
+     style="background:#fffbeb;border:1.5px solid #fde68a;border-left:4px solid #f59e0b;">
+    <i class="feather-alert-circle" style="color:#f59e0b;font-size:20px;flex-shrink:0;"></i>
+    <div class="flex-grow-1">
+        <div class="fw-bold" style="color:#92400e;">Profil incomplet ({{ completionPct }}%)</div>
+        <div class="small text-muted">Un profil complet rassure les prestataires et améliore la qualité des offres reçues.</div>
+    </div>
+    <button class="drl-btn-orange shadow-sm" style="font-size:13px;padding:8px 16px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+        <i class="feather-edit me-1"></i>Compléter
+    </button>
+</div>
+{% endif %}
+
+{# ── Stats strip ── #}
+<div class="prof-stat-strip">
+    <div class="prof-stat-box">
+        <div class="val">{{ totalQuotes }}</div>
+        <div class="lbl">Demandes</div>
+    </div>
+    <div class="prof-stat-box">
+        <div class="val">{{ totalOffers }}</div>
+        <div class="lbl">Offres reçues</div>
+    </div>
+    <div class="prof-stat-box">
+        <div class="val" style="color:#10b981;">{{ acceptedCount }}</div>
+        <div class="lbl">Missions réalisées</div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+
+        {# ── BLOC 1 : Infos de base ── #}
+        <div class="prof-bloc">
+            <div class="prof-bloc-head d-flex justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="prof-bloc-num">1</div>
+                    <span class="prof-bloc-title">Informations personnelles</span>
+                </div>
+                <button class="drl-act-btn drl-act-btn--view" style="font-size:12px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    <i class="feather-edit-2 me-1"></i>Modifier
+                </button>
+            </div>
+            <div class="prof-bloc-body">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="prof-info-item">
+                            <div class="prof-info-label"><i class="feather-user me-1"></i>Prénom</div>
+                            <div class="prof-info-val {{ not firstName ? 'empty' : '' }}">
+                                {{ firstName ?: 'Non renseigné' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="prof-info-item">
+                            <div class="prof-info-label"><i class="feather-user me-1"></i>Nom</div>
+                            <div class="prof-info-val {{ not lastName ? 'empty' : '' }}">
+                                {{ lastName ?: 'Non renseigné' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="prof-info-item">
+                            <div class="prof-info-label"><i class="feather-mail me-1"></i>Email</div>
+                            <div class="prof-info-val">{{ user.email }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="prof-info-item">
+                            <div class="prof-info-label"><i class="feather-phone me-1"></i>Téléphone</div>
+                            <div class="prof-info-val {{ not phone ? 'empty' : '' }}">
+                                {{ phone ?: 'Non renseigné' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="prof-info-item">
+                            <div class="prof-info-label"><i class="feather-map-pin me-1"></i>Adresse / Localisation</div>
+                            <div class="prof-info-val {{ not adresse ? 'empty' : '' }}">
+                                {{ adresse ?: 'Non renseignée' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ── BLOC 2 : Activité ── #}
+        <div class="prof-bloc">
+            <div class="prof-bloc-head">
+                <div class="prof-bloc-num" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">2</div>
+                <span class="prof-bloc-title">Activité & Historique</span>
+            </div>
+            <div class="prof-bloc-body">
+                {% set recentQuotes = user.quoteRequests|slice(0, 3) %}
+                {% if recentQuotes|length > 0 %}
+                    {% for q in recentQuotes %}
+                        <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-2"
+                             style="background:#f8fafc;border:1px solid #e2e8f0;">
+                            <div class="d-flex align-items-center gap-3">
+                                {% set qst = q.status|lower %}
+                                {% set qstColors = {
+                                    'draft': '#94a3b8', 'published': '#f97316',
+                                    'accepted': '#10b981', 'in_progress': '#f59e0b', 'closed': '#ef4444'
+                                } %}
+                                <div class="rounded-circle flex-shrink-0"
+                                     style="width:8px;height:8px;background:{{ qstColors[qst]|default('#94a3b8') }};"></div>
+                                <div>
+                                    <div class="fw-semibold text-dark" style="font-size:13px;">
+                                        {{ q.title|slice(0,60) }}{% if q.title|length > 60 %}…{% endif %}
+                                    </div>
+                                    <div class="text-muted" style="font-size:11px;">{{ q.creationDate|date('d/m/Y') }} · {{ q.offers|length }} offre{{ q.offers|length > 1 ? 's' : '' }}</div>
+                                </div>
+                            </div>
+                            <a href="{{ path('individual_quote_show', {'id': q.id}) }}"
+                               class="drl-act-btn drl-act-btn--view" style="font-size:11px;padding:5px 10px;">
+                                <i class="feather-eye"></i>
+                            </a>
+                        </div>
+                    {% endfor %}
+                    {% if user.quoteRequests|length > 3 %}
+                        <a href="{{ path('individual_quotes') }}" class="d-block text-center mt-2 text-decoration-none"
+                           style="font-size:13px;color:#3b82f6;">
+                            <i class="feather-arrow-right me-1"></i>Voir toutes les demandes ({{ user.quoteRequests|length }})
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-3 text-muted" style="font-size:13px;">
+                        <i class="feather-file-text me-2"></i>Aucune demande pour l'instant
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        {# ── BLOC 3 : Complétion ── #}
+        <div class="prof-bloc">
+            <div class="prof-bloc-head">
+                <div class="prof-bloc-num" style="background:linear-gradient(135deg,#10b981,#059669);">3</div>
+                <span class="prof-bloc-title">Complétion du profil</span>
+            </div>
+            <div class="prof-bloc-body">
+                {% macro checkItem(done, label) %}
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                             style="width:20px;height:20px;background:{{ done ? 'rgba(16,185,129,.15)' : '#f1f5f9' }};">
+                            <i class="feather-{{ done ? 'check' : 'minus' }}"
+                               style="font-size:11px;color:{{ done ? '#10b981' : '#94a3b8' }};"></i>
+                        </div>
+                        <span style="font-size:13px;color:{{ done ? '#1e293b' : '#94a3b8' }};">{{ label }}</span>
+                    </div>
+                {% endmacro %}
+
+                {{ _self.checkItem(firstName is not empty, 'Prénom renseigné') }}
+                {{ _self.checkItem(lastName is not empty,  'Nom renseigné') }}
+                {{ _self.checkItem(phone is not empty,     'Téléphone renseigné') }}
+                {{ _self.checkItem(adresse is not empty,   'Adresse renseignée') }}
+
+                <div class="mt-3 pt-3 border-top">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span style="font-size:12px;color:#64748b;">Progression</span>
+                        <span style="font-size:13px;font-weight:700;color:{{ completionPct == 100 ? '#10b981' : '#f97316' }};">{{ completionPct }}%</span>
+                    </div>
+                    <div class="prof-completion-bar">
+                        <div class="prof-completion-fill"
+                             style="width:{{ completionPct }}%;background:{{ completionPct == 100 ? 'linear-gradient(90deg,#10b981,#059669)' : 'linear-gradient(90deg,#f59e0b,#f97316)' }};"></div>
+                    </div>
+                </div>
+
+                {% if completionPct < 100 %}
+                <button class="drl-btn-orange w-100 mt-3 justify-content-center" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                    <i class="feather-edit-2 me-1"></i>Compléter maintenant
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        {# ── BLOC 4 : Actions rapides ── #}
+        <div class="prof-bloc">
+            <div class="prof-bloc-head">
+                <div class="prof-bloc-num" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">4</div>
+                <span class="prof-bloc-title">Actions rapides</span>
+            </div>
+            <div class="prof-bloc-body d-flex flex-column gap-2">
+                <a href="{{ path('individual_quote_new') }}"
+                   class="drl-btn-orange justify-content-center shadow-sm">
+                    <i class="feather-plus me-2"></i>Nouvelle demande
+                </a>
+                <a href="{{ path('individual_quotes') }}"
+                   class="drl-act-btn drl-act-btn--view justify-content-center">
+                    <i class="feather-file-text me-2"></i>Mes demandes
+                </a>
+                <a href="{{ path('individual_offers') }}"
+                   class="drl-act-btn drl-act-btn--view justify-content-center">
+                    <i class="feather-inbox me-2"></i>Mes offres reçues
+                </a>
+                <a href="{{ path('individual_settings') }}"
+                   class="drl-act-btn drl-act-btn--view justify-content-center">
+                    <i class="feather-settings me-2"></i>Paramètres du compte
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}
 
 {% block modals %}
-    {{ parent() }}
-    <!-- Edit Profile Modal -->
-    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content drl-modal-content">
-                <div class="modal-header drl-modal-header">
+{{ parent() }}
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content drl-modal-content">
+            <div class="modal-header drl-modal-header">
+                <div>
                     <h5 class="modal-title drl-modal-title" id="editProfileModalLabel">
                         <i class="feather-edit-3 me-2"></i>{{ 'individual.edit_my_profile'|trans }}
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <p class="text-muted small mb-0">Informations visibles par les prestataires sur vos demandes</p>
                 </div>
-                {{ form_start(form, {'attr': {'id': 'profileForm', 'novalidate': 'novalidate'}}) }}
-                    <div class="modal-body drl-modal-body">
-                        <div class="row g-4">
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="drl-label" for="{{ form.first_name.vars.id }}">{{ 'individual.first_name'|trans }}</label>
-                                    {{ form_widget(form.first_name, {'attr': {'class': 'drl-input'}}) }}
-                                    <div class="text-danger small mt-1">{{ form_errors(form.first_name) }}</div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="drl-label" for="{{ form.last_name.vars.id }}">{{ 'individual.last_name'|trans }}</label>
-                                    {{ form_widget(form.last_name, {'attr': {'class': 'drl-input'}}) }}
-                                    <div class="text-danger small mt-1">{{ form_errors(form.last_name) }}</div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="drl-label" for="{{ form.phone_num.vars.id }}">{{ 'individual.phone_number'|trans }}</label>
-                                    {{ form_widget(form.phone_num, {'attr': {'class': 'drl-input'}}) }}
-                                    <div class="text-danger small mt-1">{{ form_errors(form.phone_num) }}</div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="drl-label opacity-50">{{ 'individual.email_readonly'|trans|raw }}</label>
-                                    <input type="email" class="drl-input bg-light" value="{{ user.email }}" disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="form-group mb-0">
-                                    <label class="drl-label" for="{{ form.adresse.vars.id }}">{{ 'individual.service_address'|trans }}</label>
-                                    {{ form_widget(form.adresse, {'attr': {'class': 'drl-input', 'placeholder': 'ex: 123 rue des Érables, Montréal, QC'}}) }}
-                                    <div class="text-danger small mt-1">{{ form_errors(form.adresse) }}</div>
-                                </div>
-                            </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {{ form_start(form, {'attr': {'id': 'profileForm', 'novalidate': 'novalidate'}}) }}
+                <div class="modal-body drl-modal-body">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <label class="drl-label" for="{{ form.first_name.vars.id }}">
+                                <i class="feather-user me-1"></i>{{ 'individual.first_name'|trans }}
+                            </label>
+                            {{ form_widget(form.first_name, {'attr': {'class': 'drl-input', 'placeholder': 'Votre prénom'}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.first_name) }}</div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="drl-label" for="{{ form.last_name.vars.id }}">
+                                <i class="feather-user me-1"></i>{{ 'individual.last_name'|trans }}
+                            </label>
+                            {{ form_widget(form.last_name, {'attr': {'class': 'drl-input', 'placeholder': 'Votre nom'}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.last_name) }}</div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="drl-label" for="{{ form.phone_num.vars.id }}">
+                                <i class="feather-phone me-1"></i>{{ 'individual.phone_number'|trans }}
+                            </label>
+                            {{ form_widget(form.phone_num, {'attr': {'class': 'drl-input', 'placeholder': '+216 XX XXX XXX'}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.phone_num) }}</div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="drl-label opacity-60">
+                                <i class="feather-mail me-1"></i>{{ 'individual.email_readonly'|trans|raw }}
+                            </label>
+                            <input type="email" class="drl-input bg-light" value="{{ user.email }}" disabled>
+                        </div>
+                        <div class="col-12">
+                            <label class="drl-label" for="{{ form.adresse.vars.id }}">
+                                <i class="feather-map-pin me-1"></i>{{ 'individual.service_address'|trans }}
+                            </label>
+                            {{ form_widget(form.adresse, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Tunis, Ariana, Sousse...'}}) }}
+                            <div class="text-danger small mt-1">{{ form_errors(form.adresse) }}</div>
                         </div>
                     </div>
-                    <div class="modal-footer drl-modal-footer">
-                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
-                            {{ 'individual.cancel'|trans }}
-                        </button>
-                        <button type="submit" class="drl-btn-orange px-5">
-                            <i class="feather-save me-2"></i> {{ 'individual.save_changes'|trans }}
-                        </button>
-                    </div>
-                {{ form_end(form) }}
-            </div>
+                </div>
+                <div class="modal-footer drl-modal-footer">
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
+                        {{ 'individual.cancel'|trans }}
+                    </button>
+                    <button type="submit" class="drl-btn-orange px-5">
+                        <i class="feather-save me-2"></i>{{ 'individual.save_changes'|trans }}
+                    </button>
+                </div>
+            {{ form_end(form) }}
         </div>
     </div>
+</div>
 {% endblock %}

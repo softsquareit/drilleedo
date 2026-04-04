@@ -87,7 +87,9 @@
         <a href="{{ path('individual_notifications') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'individual_notifications' %}active{% endif %}">
             <i class="ph-bell"></i> <span>{{ 'menu.notifications'|trans }}</span>
             {% if unreadCount is defined and unreadCount > 0 %}
-                <span class="ms-auto badge bg-danger rounded-pill" style="font-size: 10px;">{{ unreadCount }}</span>
+                <span class="ms-auto badge bg-danger rounded-pill drl-notif-badge" id="drlNotifBadge" style="font-size: 10px;">{{ unreadCount }}</span>
+            {% else %}
+                <span class="ms-auto badge bg-danger rounded-pill drl-notif-badge d-none" id="drlNotifBadge" style="font-size: 10px;"></span>
             {% endif %}
         </a>
         <a href="{{ path('individual_profile') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'individual_profile' %}active{% endif %}">
@@ -114,3 +116,26 @@
         </a>
     </nav>
 </div>
+
+{# ── Notification badge polling (every 30s) ── #}
+<script>
+(function () {
+    const badge = document.getElementById('drlNotifBadge');
+    if (!badge) return;
+    function poll() {
+        fetch('{{ path("notification_unread_count") }}', {credentials: 'same-origin'})
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (!data) return;
+                if (data.count > 0) {
+                    badge.textContent = data.count;
+                    badge.classList.remove('d-none');
+                } else {
+                    badge.classList.add('d-none');
+                }
+            })
+            .catch(() => {});
+    }
+    setInterval(poll, 30000);
+})();
+</script>

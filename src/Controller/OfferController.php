@@ -28,15 +28,15 @@ class OfferController extends AbstractController
 
         // Check if parent request is closed
         if ($quote->getStatus() === QuoteRequest::STATUS_CLOSED) {
-            $this->addFlash('error', 'This request is closed and no longer accepts offers.');
+            $this->addFlash('error', 'Cette demande est clôturée et n\'accepte plus d\'offres.');
             return $this->redirectToRoute('professional_offers');
         }
 
         // Check if offer already sent
         $offer = $em->getRepository(Offer::class)->findOneBy(['quoteRequest' => $quote, 'provider' => $user]);
-        
+
         if ($offer && $offer->getStatus() !== Offer::STATUS_DRAFT) {
-            $this->addFlash('warning', 'Only draft offers can be edited.');
+            $this->addFlash('warning', 'Seules les offres en brouillon peuvent être modifiées.');
             return $this->redirectToRoute('professional_offers');
         }
 
@@ -79,30 +79,30 @@ class OfferController extends AbstractController
             }
 
             $em->persist($offer);
-            
+            $em->flush(); // flush first so $offer->getId() is available for the notification link
+
             // Notification for Individual (only if published/updated)
             $individual = $quote->getIndividual();
             if ($individual && $shouldNotify) {
-                $providerName = $user->getCompanyName() ?? $user->getTradeName() ?? 'a provider';
+                $providerName = $user->getCompanyName() ?? $user->getTradeName() ?? 'un prestataire';
                 $notification = new Notification();
                 $notification->setUser($individual);
-                $notification->setTitle($isEdit ? 'Offer Updated' : 'New Offer Received');
+                $notification->setTitle($isEdit ? 'Offre mise à jour' : 'Nouvelle offre reçue');
                 $notification->setMessage(sprintf(
-                    '%s %s an offer of %s$ for your request "%s".',
+                    '%s %s une offre de %s$ pour votre demande "%s".',
                     $providerName,
-                    $isEdit ? 'updated' : 'sent',
+                    $isEdit ? 'a mis à jour' : 'a envoyé',
                     $offer->getPrice(),
                     $quote->getTitle()
                 ));
-                $notification->setRelatedEntityId($quote->getId());
-                $notification->setRelatedEntityType('quote');
+                $notification->setRelatedEntityId($offer->getId());
+                $notification->setRelatedEntityType('offer');
                 $notification->setRead(false);
                 $em->persist($notification);
+                $em->flush();
             }
 
-            $em->flush();
-
-            $this->addFlash('success', $isEdit ? 'Offer updated successfully!' : 'Offer sent successfully!');
+            $this->addFlash('success', $isEdit ? 'Offre mise à jour avec succès !' : 'Offre envoyée avec succès !');
             
             if ($this->isGranted('ROLE_COMPANY')) {
                 return $this->redirectToRoute('company_dashboard');
@@ -133,7 +133,7 @@ class OfferController extends AbstractController
         }
 
         if ($directRequest->getStatus() === \App\Entity\DirectRequest::STATUS_CLOSED) {
-            $this->addFlash('error', 'This request is closed and no longer accepts offers.');
+            $this->addFlash('error', 'Cette demande est clôturée et n\'accepte plus d\'offres.');
             return $this->redirectToRoute('professional_offers');
         }
 
@@ -157,28 +157,28 @@ class OfferController extends AbstractController
 
             $offer->setStatus(Offer::STATUS_PUBLISHED);
             $em->persist($offer);
-            
+            $em->flush(); // flush first so $offer->getId() is available
+
             // Notification for Individual
             $individual = $directRequest->getIndividual();
             if ($individual) {
                 $notification = new Notification();
                 $notification->setUser($individual);
-                $notification->setTitle('New Offer Received');
+                $notification->setTitle('Nouvelle offre reçue');
                 $notification->setMessage(sprintf(
-                    'You received an offer of %s$ from %s for your direct request "%s".',
+                    'Vous avez reçu une offre de %s$ de %s pour votre demande directe "%s".',
                     $offer->getPrice(),
-                    $user->getCompanyName() ?? $user->getTradeName() ?? 'a provider',
+                    $user->getCompanyName() ?? $user->getTradeName() ?? 'un prestataire',
                     $directRequest->getTitle()
                 ));
                 $notification->setRelatedEntityId($offer->getId());
                 $notification->setRelatedEntityType('offer');
                 $notification->setRead(false);
                 $em->persist($notification);
+                $em->flush();
             }
 
-            $em->flush();
-
-            $this->addFlash('success', 'Offer sent successfully!');
+            $this->addFlash('success', 'Offre envoyée avec succès !');
             
             if ($this->isGranted('ROLE_COMPANY')) {
                 return $this->redirectToRoute('company_dashboard');
@@ -190,6 +190,55 @@ class OfferController extends AbstractController
             'directRequest' => $directRequest,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Professional withdraws their own PUBLISHED offer (sets it to REJECTED and notifies the individual)
+     */
+    #[Route('/{id}/withdraw', name: 'offer_withdraw', methods: ['POST'])]
+    #[IsGranted('ROLE_BUSINESS')]
+    public function withdraw(Offer $offer, Request $request, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        if ($offer->getProvider() !== $user) {
+            throw $this->createAccessDeniedException('This is not your offer.');
+        }
+
+        if (!in_array($offer->getStatus(), [Offer::STATUS_PUBLISHED, Offer::STATUS_INTERESTED], true)) {
+            $this->addFlash('error', 'Seules les offres envoyées ou en examen peuvent être retirées.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
+        if (!$this->isCsrfTokenValid('withdraw-offer-' . $offer->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Jeton de sécurité invalide.');
+            return $this->redirectToRoute('professional_offers');
+        }
+
+        $offer->setStatus(Offer::STATUS_REJECTED);
+        $offer->setUpdatedAt(new \DateTime());
+
+        // Notify the individual
+        $quote = $offer->getQuoteRequest();
+        $directRequest = $offer->getDirectRequest();
+        $parentRequest = $quote ?? $directRequest;
+        if ($parentRequest && $parentRequest->getIndividual()) {
+            $notification = new Notification();
+            $notification->setUser($parentRequest->getIndividual());
+            $notification->setTitle('Offre retirée');
+            $notification->setMessage(sprintf(
+                '%s a retiré son offre pour votre demande "%s".',
+                $user->getCompanyName() ?? 'Un prestataire',
+                $parentRequest->getTitle()
+            ));
+            $notification->setRelatedEntityId($parentRequest->getId());
+            $notification->setRelatedEntityType($quote ? 'quote' : 'direct_request');
+            $em->persist($notification);
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Votre offre a été retirée.');
+        return $this->redirectToRoute('professional_offers');
     }
 
     /**
@@ -205,36 +254,20 @@ class OfferController extends AbstractController
         }
 
         if ($offer->getStatus() !== Offer::STATUS_DRAFT) {
-            $this->addFlash('error', 'Only draft offers can be deleted.');
+            $this->addFlash('error', 'Seules les offres en brouillon peuvent être supprimées.');
             return $this->redirectToRoute('professional_offers');
         }
 
         if (!$this->isCsrfTokenValid('delete-offer-' . $offer->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid security token.');
+            $this->addFlash('error', 'Jeton de sécurité invalide.');
             return $this->redirectToRoute('professional_offers');
         }
 
-        // Notify the individual
-        $quote = $offer->getQuoteRequest();
-        if ($quote && $quote->getIndividual()) {
-            $notification = new Notification();
-            $notification->setUser($quote->getIndividual());
-            $notification->setTitle('Offer Withdrawn');
-            $notification->setMessage(sprintf(
-                '%s has withdrawn their offer for your request "%s".',
-                $user->getCompanyName() ?? 'A provider',
-                $quote->getTitle()
-            ));
-            $notification->setRelatedEntityId($quote->getId());
-            $notification->setRelatedEntityType('quote');
-            $notification->setRead(false);
-            $em->persist($notification);
-        }
-
+        // DRAFT was never visible to the individual — no notification needed
         $em->remove($offer);
         $em->flush();
 
-        $this->addFlash('success', 'Offer deleted successfully.');
+        $this->addFlash('success', 'Brouillon supprimé avec succès.');
         return $this->redirectToRoute('professional_offers');
     }
 
@@ -251,12 +284,12 @@ class OfferController extends AbstractController
         }
 
         if ($offer->getStatus() !== Offer::STATUS_ACCEPTED) {
-            $this->addFlash('error', 'Only accepted offers can be finalized.');
+            $this->addFlash('error', 'Seules les offres acceptées peuvent être finalisées.');
             return $this->redirectToRoute('professional_offers');
         }
 
         if (!$this->isCsrfTokenValid('finalize-offer-' . $offer->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid security token.');
+            $this->addFlash('error', 'Jeton de sécurité invalide.');
             return $this->redirectToRoute('professional_offers');
         }
 
@@ -276,10 +309,10 @@ class OfferController extends AbstractController
         if ($parentRequest && $parentRequest->getIndividual()) {
             $notification = new Notification();
             $notification->setUser($parentRequest->getIndividual());
-            $notification->setTitle('Request Completed');
+            $notification->setTitle('Demande finalisée');
             $notification->setMessage(sprintf(
-                'Good news! %s has confirmed the work for your request "%s" as completed and closed.',
-                $user->getCompanyName() ?? 'Your provider',
+                'Bonne nouvelle ! %s a confirmé la fin des travaux pour votre demande "%s".',
+                $user->getCompanyName() ?? 'Votre prestataire',
                 $parentRequest->getTitle()
             ));
             $notification->setRelatedEntityId($parentRequest->getId());
@@ -290,7 +323,7 @@ class OfferController extends AbstractController
 
         $em->flush();
 
-        $this->addFlash('success', 'Request finalized and closed. Thank you for your service!');
+        $this->addFlash('success', 'Demande finalisée et clôturée. Merci pour votre service !');
 
         if ($this->isGranted('ROLE_COMPANY')) {
             return $this->redirectToRoute('company_dashboard');
@@ -315,6 +348,25 @@ class OfferController extends AbstractController
             'quote' => $offer->getQuoteRequest(),
             'directRequest' => $offer->getDirectRequest(),
         ]);
+    }
+
+    /**
+     * Lightweight polling endpoint — returns unread notification count for the current user
+     */
+    #[Route('/notifications/unread-count', name: 'notification_unread_count', methods: ['GET'])]
+    public function unreadCount(EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['count' => 0]);
+        }
+
+        $count = $em->getRepository(Notification::class)->count([
+            'user'   => $user,
+            'isRead' => false,
+        ]);
+
+        return $this->json(['count' => $count]);
     }
 
     /**

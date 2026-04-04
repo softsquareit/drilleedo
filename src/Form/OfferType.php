@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
 
 class OfferType extends AbstractType
 {
@@ -29,7 +31,7 @@ class OfferType extends AbstractType
                 'row_attr'    => ['class' => 'mb-3'],
             ])
             ->add('description', TextareaType::class, [
-                'constraints' => [new NotBlank()],
+                'constraints' => [new NotBlank(), new Length(['max' => 3000, 'maxMessage' => 'Le message ne peut pas dépasser {{ limit }} caractères.'])],
                 'label'       => 'Message / Description',
                 'attr'        => ['class' => 'form-control', 'rows' => 5],
                 'row_attr'    => ['class' => 'mb-3'],
@@ -69,6 +71,35 @@ class OfferType extends AbstractType
                 ],
                 'required' => false,
                 'data'     => 'jours',
+                'attr'     => ['class' => 'form-select'],
+                'row_attr' => ['class' => 'mb-3'],
+            ])
+            ->add('depositPercent', IntegerType::class, [
+                'label'    => 'Acompte demandé (%)',
+                'required' => false,
+                'attr'     => ['class' => 'form-control', 'min' => 0, 'max' => 100, 'placeholder' => 'Ex. : 25'],
+                'row_attr' => ['class' => 'mb-3'],
+                'constraints' => [new Range(['min' => 0, 'max' => 100])],
+            ])
+            ->add('warrantyMonths', IntegerType::class, [
+                'label'    => 'Garantie (mois)',
+                'required' => false,
+                'attr'     => ['class' => 'form-control', 'min' => 0, 'placeholder' => 'Ex. : 24'],
+                'row_attr' => ['class' => 'mb-3'],
+                'constraints' => [new Range(['min' => 0])],
+            ])
+            ->add('paymentMethod', ChoiceType::class, [
+                'label'    => 'Modalités de paiement',
+                'required' => false,
+                'choices'  => [
+                    'Chèque'              => 'cheque',
+                    'Virement bancaire'   => 'virement',
+                    'Carte de crédit'     => 'carte',
+                    'Espèces'             => 'especes',
+                    'Interac'             => 'interac',
+                    'Flexible'            => 'flexible',
+                ],
+                'placeholder' => 'Sélectionner...',
                 'attr'     => ['class' => 'form-select'],
                 'row_attr' => ['class' => 'mb-3'],
             ])

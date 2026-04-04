@@ -13,7 +13,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
 
     .disableSingleRuntimeChunk()
-    .cleanupOutputBeforeBuild()
+    // .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
 
     // Content-hashed filenames in production (cache-busting)
@@ -28,6 +28,6 @@ Encore
     .addExternals({
         jquery: 'jQuery',
     })
-;
+    ;
 
 module.exports = Encore.getWebpackConfig();

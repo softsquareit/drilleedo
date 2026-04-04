@@ -106,7 +106,21 @@
     </div>
 </div>
 
-{# ── Empty state ── #}
+{% if quotes|length == 0 and not app.user.category is defined %}
+{# Pro without any category assigned — show actionable message #}
+<div class="text-center py-5">
+    <div class="drl-stat-icon mx-auto mb-3" style="width:64px;height:64px;font-size:28px;background:#fffbeb;color:#b45309;border:1.5px solid #fde68a;border-radius:16px;display:flex;align-items:center;justify-content:center;">
+        <i class="feather-alert-triangle"></i>
+    </div>
+    <h5 class="fw-bold text-dark mb-2">Aucune catégorie assignée à votre profil</h5>
+    <p class="text-muted small mb-3">Pour voir les demandes disponibles, vous devez d'abord sélectionner votre domaine d'activité dans votre profil.</p>
+    <a href="{{ path('professional_profile') }}" class="drl-btn-orange shadow-sm">
+        <i class="feather-settings me-2"></i> Compléter mon profil
+    </a>
+</div>
+{% endif %}
+
+{# ── Empty state (category set but no results) ── #}
 <div id="emptyState" style="display:none;" class="text-center py-5">
     <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
         <i class="feather-search"></i>

@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/styles.css') }}">
     
     <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="{{ asset('assets/icons/phosphor/styles.min.css') }}">
     
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
@@ -112,8 +112,8 @@
     
     <script>
         $(document).ready(function() {
-            if ($('.drl-table').length > 0) {
-                $('.drl-table').DataTable({
+            if ($('.drl-table:not(#dashQuoteTable)').length > 0) {
+                $('.drl-table:not(#dashQuoteTable)').DataTable({
                     autoWidth: false,
                     responsive: true,
                     dom: '<"d-flex justify-content-between align-items-center mb-0"fl>rt<"d-flex justify-content-between align-items-center mt-3"ip>',

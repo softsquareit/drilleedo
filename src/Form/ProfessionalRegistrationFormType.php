@@ -11,14 +11,27 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\HttpFoundation\RequestStack;
+
 class ProfessionalRegistrationFormType extends AbstractType
 {
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $locale = $this->requestStack->getCurrentRequest()->getLocale();
+
         $builder
             ->add('parentCategory', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name',
+                'choice_label' => function(Category $category) use ($locale) {
+                    return $category->getLocalizedTitle($locale);
+                },
                 'label' => 'Industry/Sector',
                 'placeholder' => 'Select industry',
                 'mapped' => false,
@@ -32,7 +45,9 @@ class ProfessionalRegistrationFormType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name',
+                'choice_label' => function(Category $category) use ($locale) {
+                    return $category->getLocalizedTitle($locale);
+                },
                 'placeholder' => 'Select a sub-category',
                 'label' => 'Specific Service *',
                 'required' => true,

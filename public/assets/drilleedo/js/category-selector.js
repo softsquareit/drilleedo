@@ -19,15 +19,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 2. Refresh function for SelectPicker
         function refreshSelectPicker(el) {
-            if (typeof $ !== 'undefined' && $(el).data('selectpicker')) {
-                $(el).selectpicker('refresh');
+            if (typeof $ !== 'undefined') {
+                const $el = $(el);
+                // Try to initialize if not already done, or just refresh
+                if ($el.data('selectpicker')) {
+                    $el.selectpicker('refresh');
+                } else if ($el.hasClass('selectpicker')) {
+                    $el.selectpicker();
+                }
+
                 // Ensure the 'disabled' visual state is updated in the custom dropdown
-                if (el.disabled) {
-                    $(el).selectpicker('setStyle', 'disabled', 'add');
-                    $(el).parent().addClass('disabled');
-                } else {
-                    $(el).selectpicker('setStyle', 'disabled', 'remove');
-                    $(el).parent().removeClass('disabled');
+                const $parent = $el.parent('.bootstrap-select');
+                if ($parent.length) {
+                    if (el.disabled) {
+                        $parent.addClass('disabled');
+                        $el.selectpicker('setStyle', 'disabled', 'add');
+                    } else {
+                        $parent.removeClass('disabled');
+                        $el.selectpicker('setStyle', 'disabled', 'remove');
+                    }
                 }
             }
         }
@@ -39,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!parentId) {
                 childSelect.disabled = true;
-                childSelect.innerHTML = '<option value="">Select a sub-category</option>';
+                // Keep the placeholder
+                if (childSelect.options.length === 0 || (childSelect.options.length === 1 && childSelect.options[0].value === "")) {
+                    childSelect.innerHTML = '<option value="">Select a specific service</option>';
+                }
             } else if (childSelect.options.length <= 1) { // If only placeholder exists but parent is selected
                 loadChildren(parentId, currentChildId);
             }
@@ -58,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return response.json();
                 })
                 .then(data => {
-                    childSelect.innerHTML = '<option value="">Select a sub-category</option>';
+                    childSelect.innerHTML = '<option value="">Select a specific service</option>';
                     data.forEach(child => {
                         const option = document.createElement('option');
                         option.value = child.id;
@@ -86,18 +99,24 @@ document.addEventListener('DOMContentLoaded', function () {
         initSelection();
 
         // 5. Handle change events
-        parentSelect.addEventListener('change', function () {
-            const parentId = this.value;
+        // Use both 'change' and 'changed.bs.select' for compatibility
+        const handleChange = function () {
+            const parentId = parentSelect.value;
 
             if (!parentId) {
-                childSelect.innerHTML = '<option value="">Select a sub-category</option>';
+                childSelect.innerHTML = '<option value="">Select a specific service</option>';
                 childSelect.disabled = true;
                 refreshSelectPicker(childSelect);
                 return;
             }
 
             loadChildren(parentId);
-        });
+        };
+
+        parentSelect.addEventListener('change', handleChange);
+        if (typeof $ !== 'undefined') {
+            $(parentSelect).on('changed.bs.select', handleChange);
+        }
     });
 
     // Handle form submission loading state for all forms with category selects
@@ -110,8 +129,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const submitBtn = this.querySelector('button[type="submit"]');
                 if (submitBtn) {
                     const originalText = submitBtn.innerHTML;
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="feather-loader me-2" style="animation: spin 1s linear infinite;"></i> Processing...';
+                    // Don't disable immediately if we want to allow validation, but here we checkValidity above
+                    setTimeout(() => {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="feather-loader me-2" style="animation: spin 1s linear infinite;"></i> Processing...';
+                    }, 10);
                 }
             });
         }

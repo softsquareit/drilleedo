@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/sal.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/icons/phosphor/styles.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/euclid-circulara.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/swiper.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/plugins/odometer.css') }}">
@@ -132,7 +133,7 @@
 
 
     <!-- JS bundles (vendor: concatenated pre-minified; app: webpack encore) -->
-    <script src="/build/vendor.js"></script>
+    <script src="{{ asset('build/vendor.js') }}"></script>
     {{ encore_entry_script_tags('app') }}
 
     {# ── Global Confirmation Modal ── #}

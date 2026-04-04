@@ -9,6 +9,7 @@ use App\Entity\Notification;
 use App\Entity\Professional;
 use App\Form\QuoteRequestType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\LockMode;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,8 +47,12 @@ class IndividualController extends AbstractController
         $acceptedOffersCount = 0;
         $inProgressCount = 0;
         $unseenOffersCount = 0;
+        $draftCount = 0;
 
         foreach ($quotes as $q) {
+            if ($q->getStatus() === QuoteRequest::STATUS_DRAFT) {
+                $draftCount++;
+            }
             if ($q->getStatus() === QuoteRequest::STATUS_PUBLISHED) {
                 $publishedCount++;
             }
@@ -90,6 +95,7 @@ class IndividualController extends AbstractController
             'acceptedOffersCount' => $acceptedOffersCount,
             'inProgressCount'     => $inProgressCount,
             'unseenOffersCount'   => $unseenOffersCount,
+            'draftCount'          => $draftCount,
         ]);
     }
 
@@ -378,23 +384,25 @@ class IndividualController extends AbstractController
             foreach ($professionals as $pro) {
                 $notification = new Notification();
                 $notification->setUser($pro);
-                $notification->setMessage('New quote request published: ' . $quote->getTitle());
+                $notification->setTitle('Nouvelle demande de devis');
+                $notification->setMessage('Une nouvelle demande a été publiée dans votre domaine : "' . $quote->getTitle() . '".');
                 $notification->setRelatedEntityId($quote->getId());
                 $notification->setRelatedEntityType('quote');
                 $em->persist($notification);
             }
- 
+
             $companies = $em->getRepository(\App\Entity\Company::class)
                 ->createQueryBuilder('c')
                 ->where(':category MEMBER OF c.categories')
                 ->setParameter('category', $category)
                 ->getQuery()
                 ->getResult();
- 
+
             foreach ($companies as $comp) {
                 $notification = new Notification();
                 $notification->setUser($comp);
-                $notification->setMessage('New quote request published: ' . $quote->getTitle());
+                $notification->setTitle('Nouvelle demande de devis');
+                $notification->setMessage('Une nouvelle demande a été publiée dans votre domaine : "' . $quote->getTitle() . '".');
                 $notification->setRelatedEntityId($quote->getId());
                 $notification->setRelatedEntityType('quote');
                 $em->persist($notification);
@@ -421,8 +429,14 @@ class IndividualController extends AbstractController
         }
 
         if (!$this->isCsrfTokenValid('delete-quote-' . $quote->getId(), $request->request->get('_token'))) {
-            $this->addFlash('danger', 'Invalid security token.');
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
             return $this->redirectToRoute('individual_quotes');
+        }
+
+        // Only DRAFT requests can be deleted — accepted/in-progress have active provider commitments
+        if ($quote->getStatus() !== QuoteRequest::STATUS_DRAFT) {
+            $this->addFlash('warning', 'Seules les demandes en brouillon peuvent être supprimées. Clôturez d\'abord la demande.');
+            return $this->redirectToRoute('individual_quote_show', ['id' => $quote->getId()]);
         }
 
         $title = $quote->getTitle();
@@ -572,13 +586,46 @@ class IndividualController extends AbstractController
         }
 
         if (!$this->isCsrfTokenValid('offer-action-' . $offer->getId(), $request->request->get('_token'))) {
-            $this->addFlash('danger', 'Invalid security token.');
-            return $this->redirectToRoute('individual_offers');
+            $this->addFlash('danger', 'Jeton de sécurité invalide.');
+            return $this->returnToParentRequest($offer);
         }
 
-        if ($parentRequest->getStatus() === QuoteRequest::STATUS_CLOSED) {
-            $this->addFlash('warning', 'Cette demande est déjà clôturée.');
-            return $this->returnToParentRequest($offer);
+        // Pessimistic write lock — prevents race condition if two requests arrive simultaneously
+        $em->getConnection()->beginTransaction();
+        try {
+            // Re-fetch the parent request with a write lock to serialize concurrent acceptances
+            $lockedRequest = $em->find(
+                $parentRequest instanceof QuoteRequest ? QuoteRequest::class : DirectRequest::class,
+                $parentRequest->getId(),
+                LockMode::PESSIMISTIC_WRITE
+            );
+
+            if ($lockedRequest->getStatus() === QuoteRequest::STATUS_CLOSED) {
+                $em->getConnection()->rollBack();
+                $this->addFlash('warning', 'Cette demande est déjà clôturée.');
+                return $this->returnToParentRequest($offer);
+            }
+
+            if ($lockedRequest->getStatus() === QuoteRequest::STATUS_ACCEPTED) {
+                $em->getConnection()->rollBack();
+                $this->addFlash('warning', 'Une offre a déjà été acceptée pour cette demande.');
+                return $this->returnToParentRequest($offer);
+            }
+
+            // Re-fetch the offer with write lock too
+            $lockedOffer = $em->find(Offer::class, $offer->getId(), LockMode::PESSIMISTIC_WRITE);
+            if ($lockedOffer->getStatus() !== Offer::STATUS_PUBLISHED
+                && $lockedOffer->getStatus() !== Offer::STATUS_INTERESTED) {
+                $em->getConnection()->rollBack();
+                $this->addFlash('warning', 'Cette offre n\'est plus disponible.');
+                return $this->returnToParentRequest($offer);
+            }
+
+            $offer      = $lockedOffer;
+            $parentRequest = $lockedRequest;
+        } catch (\Throwable $e) {
+            $em->getConnection()->rollBack();
+            throw $e;
         }
 
         // Accept this offer → parent request becomes ACCEPTED (not CLOSED)
@@ -626,6 +673,7 @@ class IndividualController extends AbstractController
         }
 
         $em->flush();
+        $em->getConnection()->commit();
 
         $providerName = $provider?->getPrimaryContact()
             ? ($provider->getPrimaryContact()->getFirstName() . ' ' . $provider->getPrimaryContact()->getLastName())

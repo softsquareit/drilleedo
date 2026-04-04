@@ -5,6 +5,25 @@
 {% block body %}
 
     {# ── Alerts stack ── #}
+    {% if draftCount > 0 %}
+    <div class="drl-alert d-flex align-items-center gap-3 mb-3 shadow-sm"
+         style="background: #fefce8; border-color: #fde68a; border-left: 4px solid #f59e0b;">
+        <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+             style="width: 40px; height: 40px; background: rgba(245,158,11,0.15);">
+            <i class="feather-edit" style="color: #f59e0b; font-size: 18px;"></i>
+        </div>
+        <div class="alert-content flex-grow-1">
+            <div class="fw-bold" style="color:#92400e;">
+                {{ draftCount }} demande{{ draftCount > 1 ? 's' : '' }} en brouillon — non publiée{{ draftCount > 1 ? 's' : '' }}
+            </div>
+            <div class="small text-muted">Publiez-les pour commencer à recevoir des offres des professionnels.</div>
+        </div>
+        <a href="{{ path('individual_quotes') }}" class="drl-btn-orange flex-shrink-0 shadow-sm" style="font-size: 13px; padding: 8px 16px; background: #f59e0b !important;">
+            <i class="feather-upload-cloud me-1"></i> Publier maintenant
+        </a>
+    </div>
+    {% endif %}
+
     {% if unseenOffersCount > 0 %}
     <div class="drl-alert d-flex align-items-center gap-3 mb-3 shadow-sm"
          style="background: #fff7ed; border-color: #fed7aa; border-left: 4px solid #f97316;">
@@ -155,8 +174,17 @@
                     <a href="{{ path('individual_quotes') }}" class="drl-act-btn drl-act-btn--view">{{ 'individual.view_all'|trans }}</a>
                 </div>
 
+                {# Quick filter pills #}
+                <div class="d-flex align-items-center gap-2 flex-wrap mb-3 px-1">
+                    <button class="drl-tag drl-tag--sent filter-pill active" data-filter="all" style="cursor:pointer;font-size:12px;">Toutes</button>
+                    <button class="drl-tag drl-tag--draft filter-pill" data-filter="DRAFT" style="cursor:pointer;font-size:12px;">Brouillons</button>
+                    <button class="drl-tag drl-tag--sent filter-pill" data-filter="PUBLISHED" style="cursor:pointer;font-size:12px;">Publiées</button>
+                    <button class="drl-tag drl-tag--warning filter-pill" data-filter="IN_PROGRESS" style="cursor:pointer;font-size:12px;">En cours</button>
+                    <button class="drl-tag drl-tag--success filter-pill" data-filter="ACCEPTED" style="cursor:pointer;font-size:12px;">Acceptées</button>
+                </div>
+
                 <div class="table-responsive">
-                    <table class="drl-table w-100">
+                    <table class="drl-table w-100" id="dashQuoteTable">
                         <thead>
                             <tr>
                                 <th>{{ 'individual.th_title'|trans }}</th>
@@ -167,10 +195,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for quote in quotes|slice(0, 5) %}
+                            {% for quote in quotes|slice(0, 10) %}
                                 {% set pendingOnQuote = 0 %}
                                 {% for o in quote.offers %}{% if o.status|upper == 'PUBLISHED' %}{% set pendingOnQuote = pendingOnQuote + 1 %}{% endif %}{% endfor %}
-                                <tr>
+                                <tr data-status="{{ quote.status|upper }}" class="dash-quote-row">
                                     <td>
                                         <div class="px-2">
                                             <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="fw-bold d-block text-dark text-decoration-none mb-1">{{ quote.title }}</a>
@@ -233,4 +261,30 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pills = document.querySelectorAll('.filter-pill');
+    const rows  = document.querySelectorAll('.dash-quote-row');
+
+    pills.forEach(pill => {
+        pill.addEventListener('click', function () {
+            pills.forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            const filter = this.dataset.filter;
+            rows.forEach(row => {
+                if (filter === 'all' || row.dataset.status === filter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
 {% endblock %}

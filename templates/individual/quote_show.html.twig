@@ -2,7 +2,18 @@
 
 {% block title %}{{ quote.title }} - Drilleedo{% endblock %}
 
-{% block stylesheets %}{{ parent() }}{% endblock %}
+{% block stylesheets %}{{ parent() }}
+<style>
+.qs-photo-thumb {
+    width: 72px; height: 72px; object-fit: cover;
+    border-radius: 10px; border: 2px solid #e2e8f0;
+    cursor: pointer; transition: transform .2s, border-color .2s;
+}
+.qs-photo-thumb:hover { transform: scale(1.06); border-color: #f97316; }
+.qs-offer-rating { display:inline-flex; align-items:center; gap:3px; font-size:12px; }
+.qs-star { color:#fbbf24; font-size:11px; }
+</style>
+{% endblock %}
 
 {% block body %}
     {# ── Status Banners ── #}
@@ -173,11 +184,24 @@
                             </div>
                         </div>
 
-                        {% if quote.desiredStartDate %}
+                        {% if quote.desiredStartDate or quote.desiredEndDate %}
                             <div class="drl-label text-muted small mb-1">{{ 'individual.desired_start'|trans }}</div>
                             <div class="mb-4 fw-semibold text-dark small">
-                                <i class="feather-calendar me-1 text-muted"></i>{{ quote.desiredStartDate|date('F j, Y') }}
+                                <i class="feather-calendar me-1 text-muted"></i>
+                                {% if quote.desiredStartDate %}{{ quote.desiredStartDate|date('d/m/Y') }}{% endif %}
+                                {% if quote.desiredStartDate and quote.desiredEndDate %} → {% endif %}
+                                {% if quote.desiredEndDate %}{{ quote.desiredEndDate|date('d/m/Y') }}{% endif %}
                             </div>
+                        {% endif %}
+
+                        {% if quote.address %}
+                            <div class="drl-label text-muted small mb-1"><i class="feather-map-pin me-1"></i> Adresse</div>
+                            <div class="mb-4 fw-semibold text-dark small">{{ quote.address }}</div>
+                        {% endif %}
+
+                        {% if quote.budget %}
+                            <div class="drl-label text-muted small mb-1"><i class="feather-dollar-sign me-1"></i> Budget estimé</div>
+                            <div class="mb-4 fw-semibold text-dark small">{{ quote.budget|number_format(2) }} $</div>
                         {% endif %}
 
                         {% if quote.languages and quote.languages|length > 0 %}
@@ -213,10 +237,10 @@
                                 <div class="d-flex flex-wrap gap-2 mt-2">
                                     {% for image in quote.images %}
                                         <div class="position-relative">
-                                            <a href="{{ asset('uploads/quote_requests/' ~ image) }}" target="_blank">
-                                                <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Photo"
-                                                     style="width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
-                                            </a>
+                                            <img src="{{ asset('uploads/quote_requests/' ~ image) }}" alt="Photo"
+                                                 class="qs-photo-thumb"
+                                                 onclick="openPhotoLightbox('{{ asset('uploads/quote_requests/' ~ image) }}')"
+                                                 title="Voir en grand">
                                             {% if quote.status|upper != 'CLOSED' %}
                                                 <button type="button"
                                                         class="position-absolute top-0 end-0 d-flex align-items-center justify-content-center"
@@ -286,6 +310,213 @@
                 </div>
             </div>
         </div>
+    {% endif %}
+
+    {# ── Comparison Table (shown when ≥2 non-draft offers) ── #}
+    {% set comparableOffers = [] %}
+    {% for o in quote.offers %}
+        {% if o.status|upper not in ['DRAFT'] %}
+            {% set comparableOffers = comparableOffers|merge([o]) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if comparableOffers|length >= 2 %}
+    <div class="drl-card mb-4" id="compare">
+        <div class="drl-card-head">
+            <div>
+                <h5 class="drl-card-title mb-0"><i class="feather-bar-chart-2 me-2 text-primary"></i>Comparaison des offres</h5>
+                <p class="drl-card-sub mb-0">Comparez les {{ comparableOffers|length }} offres reçues côte à côte</p>
+            </div>
+            <span class="drl-tag drl-tag--sent" style="font-size:12px;">{{ comparableOffers|length }} offres</span>
+        </div>
+        <div class="table-responsive">
+            <table class="w-100" style="border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#f8fafc;">
+                        <th style="padding:12px 16px;font-size:12px;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #f1f5f9;white-space:nowrap;">Critère</th>
+                        {% for o in comparableOffers %}
+                            {% set pName = o.provider.primaryContact
+                                ? (o.provider.primaryContact.firstName ~ ' ' ~ o.provider.primaryContact.lastName)
+                                : (o.provider.companyName|default(o.provider.email)) %}
+                            <th style="padding:12px 16px;border-bottom:2px solid #f1f5f9;text-align:center;min-width:150px;">
+                                <div class="d-flex flex-column align-items-center gap-1">
+                                    {% if o.provider.logo %}
+                                        <img src="{{ asset('uploads/logos/' ~ o.provider.logo) }}" alt="{{ pName }}"
+                                             style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #e2e8f0;">
+                                    {% else %}
+                                        <div class="drl-stat-icon drl-stat-icon--1 m-0" style="width:38px;height:38px;font-size:14px;border-radius:50%;">{{ pName|slice(0,1)|upper }}</div>
+                                    {% endif %}
+                                    <span class="fw-bold text-dark" style="font-size:12px;text-align:center;">{{ pName|slice(0,20) }}{% if pName|length > 20 %}…{% endif %}</span>
+                                    {# Status badge #}
+                                    {% if o.status|upper == 'ACCEPTED' %}
+                                        <span class="drl-tag drl-tag--success" style="font-size:10px;"><i class="feather-check-circle me-1"></i>Acceptée</span>
+                                    {% elseif o.status|upper == 'INTERESTED' %}
+                                        <span class="drl-tag drl-tag--warning" style="font-size:10px;"><i class="feather-bookmark me-1"></i>Intéressé</span>
+                                    {% elseif o.status|upper == 'REJECTED' %}
+                                        <span class="drl-tag drl-tag--danger" style="font-size:10px;"><i class="feather-x-circle me-1"></i>Refusée</span>
+                                    {% else %}
+                                        <span class="drl-tag drl-tag--sent" style="font-size:10px;"><i class="feather-send me-1"></i>Envoyée</span>
+                                    {% endif %}
+                                </div>
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {# Find best price #}
+                    {% set minPrice = null %}
+                    {% for o in comparableOffers %}
+                        {% if minPrice is null or o.price < minPrice %}{% set minPrice = o.price %}{% endif %}
+                    {% endfor %}
+                    {# Find best rating #}
+                    {% set maxRating = 0 %}
+                    {% for o in comparableOffers %}
+                        {% set r = o.provider.stats ? o.provider.stats.averageRating : 0 %}
+                        {% if r > maxRating %}{% set maxRating = r %}{% endif %}
+                    {% endfor %}
+
+                    {# Row: Prix #}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
+                            <i class="feather-dollar-sign me-2 text-muted"></i>Prix proposé
+                        </td>
+                        {% for o in comparableOffers %}
+                            {% set isBest = o.price == minPrice %}
+                            <td style="padding:12px 16px;text-align:center;background:{{ isBest ? 'rgba(16,185,129,.04)' : '' }};">
+                                <span class="fw-bold" style="font-size:1.25rem;color:{{ isBest ? '#059669' : '#0d2151' }};">
+                                    {{ o.price|number_format(0,',',' ') }}
+                                    <span style="font-size:.8rem;color:#94a3b8;">$</span>
+                                </span>
+                                {% if isBest %}
+                                    <div style="font-size:10px;color:#10b981;font-weight:700;margin-top:2px;">
+                                        <i class="feather-trending-down me-1"></i>Meilleur prix
+                                    </div>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {# Row: Note #}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
+                            <i class="feather-star me-2 text-muted"></i>Note prestataire
+                        </td>
+                        {% for o in comparableOffers %}
+                            {% set r = o.provider.stats ? o.provider.stats.averageRating : 0 %}
+                            {% set rc = o.provider.stats ? o.provider.stats.reviewCount : 0 %}
+                            {% set isBest = r > 0 and r == maxRating %}
+                            <td style="padding:12px 16px;text-align:center;background:{{ isBest ? 'rgba(245,158,11,.04)' : '' }};">
+                                {% if r > 0 %}
+                                    <div class="d-flex align-items-center justify-content-center gap-1">
+                                        <i class="feather-star" style="color:#fbbf24;font-size:13px;fill:#fbbf24;"></i>
+                                        <span class="fw-bold" style="color:{{ isBest ? '#b45309' : '#475569' }};">{{ r|number_format(1) }}</span>
+                                        {% if rc > 0 %}<span class="text-muted" style="font-size:11px;">({{ rc }})</span>{% endif %}
+                                    </div>
+                                    {% if isBest %}
+                                        <div style="font-size:10px;color:#f59e0b;font-weight:700;margin-top:2px;">
+                                            <i class="feather-award me-1"></i>Meilleure note
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted" style="font-size:12px;">—</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {# Row: Délai #}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
+                            <i class="feather-clock me-2 text-muted"></i>Durée estimée
+                        </td>
+                        {% for o in comparableOffers %}
+                            <td style="padding:12px 16px;text-align:center;">
+                                {% if o.estimatedDuration %}
+                                    <span class="fw-semibold" style="color:#475569;">{{ o.estimatedDuration }} {{ o.estimatedDurationUnit|default('j') }}</span>
+                                {% else %}
+                                    <span class="text-muted" style="font-size:12px;">—</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {# Row: Début possible #}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
+                            <i class="feather-calendar me-2 text-muted"></i>Début possible
+                        </td>
+                        {% for o in comparableOffers %}
+                            <td style="padding:12px 16px;text-align:center;">
+                                {% if o.possibleStartDate %}
+                                    <span class="fw-semibold" style="color:#475569;">{{ o.possibleStartDate|date('d/m/Y') }}</span>
+                                {% else %}
+                                    <span class="text-muted" style="font-size:12px;">—</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {# Row: Visite préalable #}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
+                            <i class="feather-map-pin me-2 text-muted"></i>Visite préalable
+                        </td>
+                        {% for o in comparableOffers %}
+                            <td style="padding:12px 16px;text-align:center;">
+                                {% if o.priorVisit is not null %}
+                                    {% if o.priorVisit %}
+                                        <span class="drl-tag drl-tag--sent" style="font-size:11px;"><i class="feather-check me-1"></i>Oui</span>
+                                    {% else %}
+                                        <span class="drl-tag drl-tag--draft" style="font-size:11px;">Non</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted" style="font-size:12px;">—</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {# Row: Documents #}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
+                            <i class="feather-paperclip me-2 text-muted"></i>Documents joints
+                        </td>
+                        {% for o in comparableOffers %}
+                            <td style="padding:12px 16px;text-align:center;">
+                                {% if o.documents|length > 0 %}
+                                    <span class="drl-tag drl-tag--sent" style="font-size:11px;">{{ o.documents|length }} fichier{{ o.documents|length > 1 ? 's' : '' }}</span>
+                                {% else %}
+                                    <span class="text-muted" style="font-size:12px;">—</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {# Row: Action #}
+                    {% if quote.status|upper not in ['CLOSED', 'ACCEPTED', 'IN_PROGRESS'] %}
+                    <tr>
+                        <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;">Action</td>
+                        {% for o in comparableOffers %}
+                            <td style="padding:12px 16px;text-align:center;">
+                                {% if o.status|upper in ['PUBLISHED','INTERESTED'] %}
+                                    <a href="{{ path('individual_offer_show', {'id': o.id}) }}"
+                                       class="drl-btn-orange" style="font-size:12px;padding:8px 14px;text-decoration:none;">
+                                        <i class="feather-eye me-1"></i>Voir & Décider
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('individual_offer_show', {'id': o.id}) }}"
+                                       class="drl-act-btn drl-act-btn--view" style="font-size:12px;">
+                                        <i class="feather-eye me-1"></i>Voir
+                                    </a>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     {% endif %}
 
     {# ── Offers Section ── #}
@@ -360,6 +591,15 @@
                                     {% if offer.provider.entrepreneurType %}
                                         <span class="drl-tag drl-tag--sent p-0 px-2" style="font-size: 10px;">
                                             {{ offer.provider.entrepreneurType.name }}
+                                        </span>
+                                    {% endif %}
+                                    {% if offer.provider.stats and offer.provider.stats.averageRating > 0 %}
+                                        <span class="qs-offer-rating">
+                                            <i class="feather-star qs-star" style="fill:#fbbf24;"></i>
+                                            <span class="fw-semibold" style="color:#92400e;">{{ offer.provider.stats.averageRating|number_format(1) }}</span>
+                                            {% if offer.provider.stats.reviewCount > 0 %}
+                                                <span class="text-muted">({{ offer.provider.stats.reviewCount }})</span>
+                                            {% endif %}
                                         </span>
                                     {% endif %}
                                     {% if offer.viewedAt %}
@@ -773,5 +1013,25 @@
                 });
             }
         }
+    </script>
+
+    {# ── Photo Lightbox Modal ── #}
+    <div class="modal fade" id="photoLightboxModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="background:transparent;border:none;">
+                <div class="modal-body p-0 text-center">
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" style="z-index:9;"></button>
+                    <img id="photoLightboxImg" src="" alt="Photo"
+                         style="max-width:100%;max-height:82vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function openPhotoLightbox(src) {
+        document.getElementById('photoLightboxImg').src = src;
+        new bootstrap.Modal(document.getElementById('photoLightboxModal')).show();
+    }
     </script>
 {% endblock %}

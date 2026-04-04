@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class QuoteRequestType extends AbstractType
@@ -37,12 +38,29 @@ class QuoteRequestType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre de la demande',
-                'attr'  => ['placeholder' => 'Ex. : Besoin d\'un électricien pour nouvelle installation', 'class' => 'form-control']
+                'label'       => 'Titre de la demande',
+                'attr'        => ['placeholder' => 'Ex. : Besoin d\'un électricien pour nouvelle installation', 'class' => 'form-control'],
+                'constraints' => [new Assert\Length(['max' => 255])],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description du projet',
-                'attr'  => ['rows' => 5, 'placeholder' => 'Décrivez votre demande en détail...', 'class' => 'form-control']
+                'label'       => 'Description du projet',
+                'attr'        => ['rows' => 5, 'placeholder' => 'Décrivez votre demande en détail...', 'class' => 'form-control'],
+                'constraints' => [new Assert\Length(['max' => 2000, 'maxMessage' => 'La description ne peut pas dépasser {{ limit }} caractères.'])],
+            ])
+            ->add('address', TextType::class, [
+                'label'       => 'Adresse des travaux',
+                'required'    => false,
+                'attr'        => ['placeholder' => 'Ex. : 123 Rue Principale, Montréal, QC', 'class' => 'form-control'],
+                'constraints' => [new Assert\Length(['max' => 500])],
+            ])
+            ->add('budget', MoneyType::class, [
+                'label'    => 'Budget estimé ($)',
+                'currency' => 'CAD',
+                'required' => false,
+                'attr'     => ['class' => 'form-control', 'placeholder' => '0.00'],
+                'constraints' => [
+                    new Assert\PositiveOrZero(message: 'Le budget doit être positif ou zéro.'),
+                ],
             ])
             ->add('parentCategory', EntityType::class, [
                 'class'         => Category::class,
@@ -80,6 +98,13 @@ class QuoteRequestType extends AbstractType
             ])
             ->add('desiredStartDate', DateType::class, [
                 'label'    => 'Date souhaitée de début',
+                'widget'   => 'single_text',
+                'required' => false,
+                'attr'     => ['class' => 'form-control'],
+                'html5'    => true,
+            ])
+            ->add('desiredEndDate', DateType::class, [
+                'label'    => 'Date souhaitée de fin',
                 'widget'   => 'single_text',
                 'required' => false,
                 'attr'     => ['class' => 'form-control'],
