@@ -1,6 +1,6 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Mon Profil – {{ app.user.displayName }}{% endblock %}
+{% block title %}{{ 'Mon Profil'|trans }} – {{ app.user.displayName }}{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -341,19 +341,67 @@
 }
 
 /* Edit modal improvements */
-.prf-modal-tabs { display: flex; gap: 4px; padding-bottom: 16px; border-bottom: 2px solid #f1f5f9; margin-bottom: 24px; }
+.prf-modal-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 0;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.9);
+}
 .prf-modal-tab-btn {
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 13px;
-    font-weight: 700;
-    border-radius: 8px;
-    border: none;
-    background: #f8fafc;
+    font-weight: 800;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: transparent;
     color: #64748b;
     cursor: pointer;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
-.prf-modal-tab-btn.active { background: #00509e; color: #fff; }
+.prf-modal-tab-btn i { font-size: 16px; }
+.prf-modal-tab-btn:hover { color: #00509e; background: #eff6ff; }
+.prf-modal-tab-btn.active {
+    background: #0d2151;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(13,33,81,0.15);
+}
+.drl-modal-header--premium {
+    background: linear-gradient(135deg, #0d2151 0%, #00509e 100%);
+    color: #fff;
+    padding: 32px 32px 24px;
+    border-bottom: none;
+}
+.drl-modal-header--premium .modal-title {
+    font-size: 24px;
+    font-weight: 900;
+}
+.drl-modal-header--premium p {
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    margin-top: 4px;
+}
+.prf-modal-body--scrolled {
+    padding: 32px;
+    max-height: 65vh;
+}
+.prf-modal-section-title {
+    font-size: 12px;
+    font-weight: 900;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
 
 @media (max-width: 768px) {
     .prf-header-body { flex-wrap: wrap; }
@@ -361,6 +409,18 @@
     .prf-edit-btn { width: 100%; }
     .prf-trust-grid { grid-template-columns: repeat(2, 1fr); }
 }
+    .prf-modal-body--scrolled {
+        max-height: 550px;
+        overflow-y: auto;
+        padding: 0;
+    }
+    .prf-modal-tabs.sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #fff;
+        border-bottom: 1px solid #f1f5f9;
+    }
 </style>
 {% endblock %}
 
@@ -397,7 +457,7 @@
             {% else %}
                 <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="{{ user.displayName }}" class="prf-avatar pro-avatar-img">
             {% endif %}
-            <button class="prf-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" title="Changer la photo">
+            <button class="prf-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" title="{{ 'Changer la photo'|trans }}">
                 <i class="feather-camera"></i>
             </button>
         </div>
@@ -410,31 +470,31 @@
             <div class="prf-badges">
                 {# Availability #}
                 {% if user.availabilityStatus == 'AVAILABLE' %}
-                    <span class="prf-badge prf-badge--avail"><i class="feather-check-circle"></i> Disponible</span>
+                    <span class="prf-badge prf-badge--avail"><i class="feather-check-circle"></i> {{ 'Disponible'|trans }}</span>
                 {% elseif user.availabilityStatus == 'BUSY' %}
-                    <span class="prf-badge prf-badge--busy"><i class="feather-clock"></i> Occupé</span>
+                    <span class="prf-badge prf-badge--busy"><i class="feather-clock"></i> {{ 'Occupé'|trans }}</span>
                 {% else %}
-                    <span class="prf-badge prf-badge--unavail"><i class="feather-x-circle"></i> Non disponible</span>
+                    <span class="prf-badge prf-badge--unavail"><i class="feather-x-circle"></i> {{ 'Non disponible'|trans }}</span>
                 {% endif %}
 
                 {# Verified #}
                 {% if user.isVerified %}
-                    <span class="prf-badge prf-badge--blue"><i class="feather-shield"></i> Vérifié Drilleedo</span>
+                    <span class="prf-badge prf-badge--blue"><i class="feather-shield"></i> {{ 'Vérifié Drilleedo'|trans }}</span>
                 {% endif %}
 
                 {# Top Rated #}
                 {% if user.isTopRated %}
-                    <span class="prf-badge prf-badge--gold"><i class="feather-star"></i> Top Noté</span>
+                    <span class="prf-badge prf-badge--gold"><i class="feather-star"></i> {{ 'Top Noté'|trans }}</span>
                 {% endif %}
 
                 {# RBQ #}
                 {% if user.isRbqCertified %}
-                    <span class="prf-badge prf-badge--navy"><i class="feather-award"></i> Certifié RBQ</span>
+                    <span class="prf-badge prf-badge--navy"><i class="feather-award"></i> {{ 'Certifié RBQ'|trans }}</span>
                 {% endif %}
 
                 {# Insurance #}
                 {% if user.hasInsurance %}
-                    <span class="prf-badge prf-badge--green"><i class="feather-umbrella"></i> Assuré</span>
+                    <span class="prf-badge prf-badge--green"><i class="feather-umbrella"></i> {{ 'Assuré'|trans }}</span>
                 {% endif %}
 
                 {# Category #}
@@ -450,31 +510,31 @@
                         <i class="feather-star" style="fill: #f59e0b; font-size: 16px; vertical-align: middle;"></i>
                         {{ avgRating|number_format(1) }}
                     </div>
-                    <div class="prf-stat-lbl">Évaluation</div>
+                    <div class="prf-stat-lbl">{{ 'Évaluation'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if reviewCount > 0 %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val">{{ reviewCount }}</div>
-                    <div class="prf-stat-lbl">Avis</div>
+                    <div class="prf-stat-lbl">{{ 'Avis'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if user.expYears %}
                 <div class="prf-stat-item">
-                    <div class="prf-stat-val">{{ user.expYears }} ans</div>
-                    <div class="prf-stat-lbl">Expérience</div>
+                    <div class="prf-stat-val">{{ user.expYears }} {{ 'ans'|trans }}</div>
+                    <div class="prf-stat-lbl">{{ 'Expérience'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if user.city %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val" style="font-size: 15px;">{{ user.city }}</div>
-                    <div class="prf-stat-lbl">Ville</div>
+                    <div class="prf-stat-lbl">{{ 'Ville'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if user.minPrice %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val">{{ user.minPrice }} $</div>
-                    <div class="prf-stat-lbl">Prix min.</div>
+                    <div class="prf-stat-lbl">{{ 'Prix min.'|trans }}</div>
                 </div>
                 {% endif %}
             </div>
@@ -483,20 +543,20 @@
         {# Edit button #}
         <div class="prf-edit-btn">
             <button type="button" class="drl-btn-orange" style="padding: 10px 20px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                <i class="feather-edit-2 me-1"></i> Modifier le profil
+                <i class="feather-edit-2 me-1"></i> {{ 'Modifier le profil'|trans }}
             </button>
         </div>
     </div>
 
     {# Completion bar #}
     <div class="prf-completion">
-        <span class="prf-completion-label">Complétude du profil</span>
+        <span class="prf-completion-label">{{ 'Complétude du profil'|trans }}</span>
         <div class="prf-completion-bar">
             <div class="prf-completion-fill" style="width: {{ completionPct }}%;"></div>
         </div>
         <span class="prf-completion-pct">{{ completionPct }}%</span>
         {% if completionPct < 100 %}
-            <a href="#" onclick="document.querySelector('[data-bs-target=\'#editProfileModal\']').click(); return false;" class="drl-tag drl-tag--info ms-2" style="font-size: 11px; text-decoration: none;">Compléter</a>
+            <a href="#" onclick="document.querySelector('[data-bs-target=\'#editProfileModal\']').click(); return false;" class="drl-tag drl-tag--info ms-2" style="font-size: 11px; text-decoration: none;">{{ 'Compléter'|trans }}</a>
         {% endif %}
     </div>
 </div>
@@ -509,13 +569,13 @@
     {# Tabs nav #}
     <div class="prf-tabs" role="tablist">
         <button class="prf-tab-btn active" data-tab="presentation" type="button">
-            <i class="ph-user-circle"></i> Présentation
+            <i class="ph-user-circle"></i> {{ 'Présentation'|trans }}
         </button>
         <button class="prf-tab-btn" data-tab="services" type="button">
-            <i class="ph-briefcase"></i> Activité & Services
+            <i class="ph-briefcase"></i> {{ 'Activité & Services'|trans }}
         </button>
         <button class="prf-tab-btn" data-tab="trust" type="button">
-            <i class="ph-shield-check"></i> Confiance & Certifications
+            <i class="ph-shield-check"></i> {{ 'Confiance & Certifications'|trans }}
         </button>
     </div>
 
@@ -525,7 +585,7 @@
             <div class="col-lg-8">
 
                 {# About #}
-                <p class="prf-section-title">À propos</p>
+                <p class="prf-section-title">{{ 'À propos'|trans }}</p>
                 <div class="prf-field" style="border-bottom: none; padding-top: 0;">
                     <div class="prf-field-icon prf-field-icon--blue">
                         <i class="feather-file-text"></i>
@@ -534,12 +594,12 @@
                         {% if user.about %}
                             <p class="prf-field-val" style="white-space: pre-line;">{{ user.about }}</p>
                         {% else %}
-                            <p class="prf-field-val prf-field-empty">Non renseigné</p>
+                            <p class="prf-field-val prf-field-empty">{{ 'Non renseigné'|trans }}</p>
                         {% endif %}
                     </div>
                 </div>
 
-                <p class="prf-section-title mt-4">Coordonnées</p>
+                <p class="prf-section-title mt-4">{{ 'Coordonnées'|trans }}</p>
 
                 <div class="prf-field">
                     <div class="prf-field-icon prf-field-icon--slate">
@@ -556,8 +616,8 @@
                         <i class="feather-map-pin"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">Ville</p>
-                        <p class="prf-field-val {% if not user.city %}prf-field-empty{% endif %}">{{ user.city ?: 'Non renseignée' }}</p>
+                        <p class="prf-field-label">{{ 'Ville'|trans }}</p>
+                        <p class="prf-field-val {% if not user.city %}prf-field-empty{% endif %}">{{ user.city ?: 'Non renseignée'|trans }}</p>
                     </div>
                 </div>
 
@@ -567,7 +627,7 @@
                         <i class="feather-phone"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">Téléphone</p>
+                        <p class="prf-field-label">{{ 'Téléphone'|trans }}</p>
                         <p class="prf-field-val">{{ user.phoneNum }}</p>
                     </div>
                 </div>
@@ -578,14 +638,14 @@
                         <i class="feather-navigation"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">Zone d'intervention</p>
+                        <p class="prf-field-label">{{ "Zone d'intervention"|trans }}</p>
                         <p class="prf-field-val {% if not user.interventionZone %}prf-field-empty{% endif %}">
                             {% if user.interventionZone %}
                                 {{ user.interventionZone }}{% if user.interventionRadius %} ({{ user.interventionRadius }} km){% endif %}
                             {% elseif user.interventionRadius %}
-                                Rayon de {{ user.interventionRadius }} km
+                                {{ 'Rayon de %radius% km'|trans({'%radius%': user.interventionRadius}) }}
                             {% else %}
-                                Non renseignée
+                                {{ 'Non renseignée'|trans }}
                             {% endif %}
                         </p>
                     </div>
@@ -596,7 +656,7 @@
             <div class="col-lg-4">
 
                 {# Languages #}
-                <p class="prf-section-title">Langues parlées</p>
+                <p class="prf-section-title">{{ 'Langues parlées'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon prf-field-icon--navy">
                         <i class="feather-globe"></i>
@@ -604,20 +664,20 @@
                     <div>
                         {% if user.languages and user.languages|length > 0 %}
                             <div class="prf-tag-list">
-                                {% set langMap = {'FR': 'Français', 'EN': 'Anglais', 'ES': 'Espagnol', 'IT': 'Italien'} %}
+                                {% set langMap = {'FR': 'Français'|trans, 'EN': 'Anglais'|trans, 'ES': 'Espagnol'|trans, 'IT': 'Italien'|trans} %}
                                 {% for lang in user.languages %}
                                     <span class="prf-tag">{{ langMap[lang] ?? lang }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            <p class="prf-field-val prf-field-empty">Non renseignées</p>
+                            <p class="prf-field-val prf-field-empty">{{ 'Non renseignées'|trans }}</p>
                         {% endif %}
                     </div>
                 </div>
 
                 {# Opening hours #}
                 {% if user.openingHours and user.openingHours|length > 0 %}
-                <p class="prf-section-title mt-4">Horaires</p>
+                <p class="prf-section-title mt-4">{{ 'Horaires'|trans }}</p>
                 <ul class="prf-hours-list">
                     {% for line in user.openingHours %}
                         <li><span>{{ line }}</span></li>
@@ -634,7 +694,7 @@
         <div class="row g-4">
 
             <div class="col-lg-6">
-                <p class="prf-section-title">Secteur d'activité</p>
+                <p class="prf-section-title">{{ "Secteur d'activité"|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon prf-field-icon--blue">
                         <i class="feather-grid"></i>
@@ -642,18 +702,18 @@
                     <div>
                         {% if user.category %}
                             {% if user.category.parent %}
-                                <p class="prf-field-label">Secteur</p>
+                                <p class="prf-field-label">{{ 'Secteur'|trans }}</p>
                                 <p class="prf-field-val">{{ user.category.parent.localizedTitle(app.request.locale) }}</p>
-                                <p class="prf-field-label mt-2">Service spécialisé</p>
+                                <p class="prf-field-label mt-2">{{ 'Service spécialisé'|trans }}</p>
                             {% endif %}
                             <p class="prf-field-val">{{ user.category.localizedTitle(app.request.locale) }}</p>
                         {% else %}
-                            <p class="prf-field-val prf-field-empty">Non renseigné</p>
+                            <p class="prf-field-val prf-field-empty">{{ 'Non renseigné'|trans }}</p>
                         {% endif %}
                     </div>
                 </div>
 
-                <p class="prf-section-title mt-4">Services proposés</p>
+                <p class="prf-section-title mt-4">{{ 'Services proposés'|trans }}</p>
                 {% if user.services and user.services|length > 0 %}
                     <ul class="prf-service-list">
                         {% for item in user.services %}
@@ -661,12 +721,12 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="prf-field-val prf-field-empty">Aucun service listé</p>
+                    <p class="prf-field-val prf-field-empty">{{ 'Aucun service listé'|trans }}</p>
                 {% endif %}
             </div>
 
             <div class="col-lg-6">
-                <p class="prf-section-title">Pourquoi me choisir ?</p>
+                <p class="prf-section-title">{{ 'Pourquoi me choisir ?'|trans }}</p>
                 {% if user.whyChooseUs and user.whyChooseUs|length > 0 %}
                     <ul class="prf-service-list" style="list-style: none;">
                         {% for item in user.whyChooseUs %}
@@ -677,30 +737,30 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="prf-field-val prf-field-empty">Non renseigné</p>
+                    <p class="prf-field-val prf-field-empty">{{ 'Non renseigné'|trans }}</p>
                 {% endif %}
 
-                <p class="prf-section-title mt-4">Disponibilité</p>
+                <p class="prf-section-title mt-4">{{ 'Disponibilité'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon {% if user.availabilityStatus == 'AVAILABLE' %}prf-field-icon--green{% elseif user.availabilityStatus == 'BUSY' %}prf-field-icon--orng{% else %}prf-field-icon--slate{% endif %}">
                         <i class="feather-clock"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">Statut actuel</p>
+                        <p class="prf-field-label">{{ 'Statut actuel'|trans }}</p>
                         <p class="prf-field-val">
                             {% if user.availabilityStatus == 'AVAILABLE' %}
-                                <span style="color: #16a34a; font-weight: 800;">Disponible</span>
+                                <span style="color: #16a34a; font-weight: 800;">{{ 'Disponible'|trans }}</span>
                             {% elseif user.availabilityStatus == 'BUSY' %}
-                                <span style="color: #d97706; font-weight: 800;">Occupé</span>
+                                <span style="color: #d97706; font-weight: 800;">{{ 'Occupé'|trans }}</span>
                             {% else %}
-                                <span style="color: #dc2626; font-weight: 800;">Non disponible</span>
+                                <span style="color: #dc2626; font-weight: 800;">{{ 'Indisponible'|trans }}</span>
                             {% endif %}
                         </p>
                         <form method="post" action="{{ path('professional_update_availability') }}" class="mt-2 d-flex gap-2 flex-wrap">
                             <input type="hidden" name="_token" value="{{ csrf_token('update-availability') }}">
-                            <button type="submit" name="status" value="AVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'AVAILABLE' %}drl-btn-green{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">Disponible</button>
-                            <button type="submit" name="status" value="BUSY" class="drl-btn btn-sm {% if user.availabilityStatus == 'BUSY' %}drl-btn-orange{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">Occupé</button>
-                            <button type="submit" name="status" value="UNAVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'UNAVAILABLE' %}drl-btn-danger{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">Indisponible</button>
+                            <button type="submit" name="status" value="AVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'AVAILABLE' %}drl-btn-green{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'Disponible'|trans }}</button>
+                            <button type="submit" name="status" value="BUSY" class="drl-btn btn-sm {% if user.availabilityStatus == 'BUSY' %}drl-btn-orange{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'Occupé'|trans }}</button>
+                            <button type="submit" name="status" value="UNAVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'UNAVAILABLE' %}drl-btn-danger{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'Indisponible'|trans }}</button>
                         </form>
                     </div>
                 </div>
@@ -818,177 +878,221 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content drl-modal-content">
-                <div class="modal-header drl-modal-header" style="padding-bottom: 0; border-bottom: none;">
-                    <div>
-                        <h5 class="modal-title drl-modal-title mb-1">
-                            <i class="feather-edit-2 me-2"></i>Modifier le profil
-                        </h5>
-                        <p style="font-size: 13px; color: #94a3b8; margin: 0 0 12px;">Toutes les modifications sont sauvegardées immédiatement.</p>
+                <div class="modal-header drl-modal-header--premium">
+                    <div class="w-100">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="modal-title mb-0">
+                                <i class="ph-user-focus me-2"></i>{{ 'Modifier le profil'|trans }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <p class="mb-0">{{ 'Personnalisez votre présence sur Drilleedo pour attirer plus de clients.'|trans }}</p>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 {{ form_start(form, {'attr': {'id': 'profileUpdateForm', 'novalidate': 'novalidate'}}) }}
-                <div class="modal-body drl-modal-body" style="max-height: 72vh; overflow-y: auto; padding-top: 0;">
-
+                <div class="p-0">
                     {# Modal Tabs #}
-                    <div class="prf-modal-tabs sticky-top" style="background: #fff; padding-top: 16px; z-index: 10;">
-                        <button type="button" class="prf-modal-tab-btn active" data-modal-tab="tab-identity">Identité</button>
-                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-activity">Activité</button>
-                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-presence">Présence</button>
-                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-trust">Certifications</button>
+                    <div class="prf-modal-tabs sticky-top">
+                        <button type="button" class="prf-modal-tab-btn active" data-modal-tab="tab-identity">
+                            <i class="ph-identification-card"></i> {{ 'Identité'|trans }}
+                        </button>
+                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-activity">
+                            <i class="ph-briefcase"></i> {{ 'Activité'|trans }}
+                        </button>
+                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-presence">
+                            <i class="ph-info"></i> {{ 'Présence'|trans }}
+                        </button>
+                        <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-trust">
+                            <i class="ph-shield-check"></i> {{ 'Certifications'|trans }}
+                        </button>
                     </div>
 
-                    {# ── Tab: Identité ── #}
-                    <div class="prf-modal-tab-pane" id="tab-identity">
-                        <div class="row g-3 mt-2">
-                            <div class="col-lg-6">
-                                <label class="drl-label">Nom de l'entreprise / Nom commercial</label>
-                                {{ form_widget(form.company_name, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Construction Tremblay Inc.'}}) }}
-                                {{ form_errors(form.company_name) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Email professionnel</label>
-                                {{ form_widget(form.email, {'attr': {'class': 'drl-input', 'placeholder': 'contact@monentreprise.ca'}}) }}
-                                {{ form_errors(form.email) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Ville</label>
-                                {{ form_widget(form.city, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Montréal'}}) }}
-                                {{ form_errors(form.city) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Années d'expérience</label>
-                                {{ form_widget(form.exp_years, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 10'}}) }}
-                                {{ form_errors(form.exp_years) }}
-                            </div>
-                            <div class="col-12">
-                                <label class="drl-label">À propos de moi / ma compagnie</label>
-                                {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'Décrivez votre expérience, vos valeurs, votre approche...'}}) }}
-                                {{ form_errors(form.about) }}
-                            </div>
-                        </div>
-                    </div>
+                    <div class="prf-modal-body--scrolled">
 
-                    {# ── Tab: Activité ── #}
-                    <div class="prf-modal-tab-pane d-none" id="tab-activity">
-                        <div class="row g-3 mt-2">
-                            <div class="col-lg-6">
-                                <label class="drl-label" for="{{ form.parentCategory.vars.id }}">Secteur d'activité</label>
-                                {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
-                                {{ form_errors(form.parentCategory) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label" for="{{ form.category.vars.id }}">Service spécialisé</label>
-                                {{ form_widget(form.category, {
-                                    'attr': {
-                                        'class': 'drl-input form-select child-category-select selectpicker',
-                                        'data-selected-id': app.user.category ? app.user.category.id : '',
-                                        'data-live-search': 'true'
-                                    }
-                                }) }}
-                                {{ form_errors(form.category) }}
-                            </div>
-                            <div class="col-12">
-                                <label class="drl-label">Pourquoi me choisir ? <span class="text-muted fw-normal" style="font-size: 12px;">(un avantage par ligne)</span></label>
-                                {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Expérience reconnue\nTravaux garantis\nRéponse rapide"}}) }}
-                                {{ form_errors(form.whyChooseUs) }}
-                            </div>
-                            <div class="col-12">
-                                <label class="drl-label">Mes services <span class="text-muted fw-normal" style="font-size: 12px;">(un service par ligne)</span></label>
-                                {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Rénovation de cuisine\nInstallation de salle de bain\nPeinture intérieure"}}) }}
-                                {{ form_errors(form.services) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Zone d'intervention</label>
-                                {{ form_widget(form.interventionZone, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Grand Montréal, 50km de Québec'}}) }}
-                                {{ form_errors(form.interventionZone) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Rayon d'intervention (km)</label>
-                                {{ form_widget(form.interventionRadius, {'attr': {'class': 'drl-input', 'placeholder': '40'}}) }}
-                                {{ form_errors(form.interventionRadius) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Disponibilité</label>
-                                {{ form_widget(form.availabilityStatus, {'attr': {'class': 'drl-input form-select'}}) }}
-                                {{ form_errors(form.availabilityStatus) }}
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="drl-label">Prix minimum ($)</label>
-                                {{ form_widget(form.minPrice, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 200'}}) }}
-                                {{ form_errors(form.minPrice) }}
-                            </div>
-                            <div class="col-12">
-                                <label class="drl-label">Horaires <span class="text-muted fw-normal" style="font-size: 12px;">(une plage par ligne)</span></label>
-                                {{ form_widget(form.openingHours, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': "Lundi – Vendredi: 08:00 – 18:00\nSamedi: 08:00 – 14:00\nDimanche: Fermé"}}) }}
-                                {{ form_errors(form.openingHours) }}
-                            </div>
-                        </div>
-                    </div>
-
-                    {# ── Tab: Présence ── #}
-                    <div class="prf-modal-tab-pane d-none" id="tab-presence">
-                        <div class="row g-3 mt-2">
-                            <div class="col-12">
-                                <label class="drl-label">Langues parlées</label>
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px;">
-                                    {{ form_widget(form.languages) }}
+                        {# ── Tab: Identité ── #}
+                        <div class="prf-modal-tab-pane" id="tab-identity">
+                            <h6 class="prf-modal-section-title">{{ 'Informations de base'|trans }}</h6>
+                            <div class="row g-4 mt-0">
+                                <div class="col-lg-12">
+                                    <label class="drl-label">{{ "Nom de l'entreprise / Nom commercial"|trans }}</label>
+                                    {{ form_widget(form.company_name, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Construction Tremblay Inc.'}}) }}
+                                    {{ form_errors(form.company_name) }}
                                 </div>
-                                {{ form_errors(form.languages) }}
-                            </div>
-                            <div class="col-12">
-                                <label class="drl-label">Préférences de contact</label>
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 16px;">
-                                    {{ form_widget(form.contactPrefs) }}
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Email professionnel'|trans }}</label>
+                                    {{ form_widget(form.email, {'attr': {'class': 'drl-input', 'placeholder': 'contact@monentreprise.ca'}}) }}
+                                    {{ form_errors(form.email) }}
                                 </div>
-                                {{ form_errors(form.contactPrefs) }}
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Téléphone'|trans }}</label>
+                                    {{ form_widget(form.phoneNum, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 514-123-4567'}}) }}
+                                    {{ form_errors(form.phoneNum) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Ville'|trans }}</label>
+                                    {{ form_widget(form.city, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Montréal'}}) }}
+                                    {{ form_errors(form.city) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ "Années d'expérience"|trans }}</label>
+                                    {{ form_widget(form.exp_years, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 10'}}) }}
+                                    {{ form_errors(form.exp_years) }}
+                                </div>
+                                <div class="col-12">
+                                    <label class="drl-label">{{ 'À propos de moi / ma compagnie'|trans }}</label>
+                                    {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '6', 'placeholder': 'Décrivez votre expérience, vos valeurs, votre approche...'|trans}}) }}
+                                    {{ form_errors(form.about) }}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {# ── Tab: Certifications ── #}
-                    <div class="prf-modal-tab-pane d-none" id="tab-trust">
-                        <div class="row g-3 mt-2">
-                            <div class="col-12">
-                                <p class="prf-section-title">Badges &amp; certifications</p>
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
-                                    <div class="row g-3">
-                                        <div class="col-sm-6">
-                                            <label class="d-flex align-items-center gap-2 cursor-pointer" style="cursor: pointer;">
-                                                {{ form_widget(form.hasInsurance, {'attr': {'class': 'form-check-input'}}) }}
-                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-umbrella me-1 text-success"></i>Assurance responsabilité civile</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label class="d-flex align-items-center gap-2" style="cursor: pointer;">
-                                                {{ form_widget(form.rbqCertified, {'attr': {'class': 'form-check-input'}}) }}
-                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-award me-1 text-primary"></i>Certifié RBQ</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label class="d-flex align-items-center gap-2" style="cursor: pointer;">
-                                                {{ form_widget(form.freeQuotes, {'attr': {'class': 'form-check-input'}}) }}
-                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-gift me-1 text-warning"></i>Soumissions gratuites</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label class="d-flex align-items-center gap-2" style="cursor: pointer;">
-                                                {{ form_widget(form.guaranteedWork, {'attr': {'class': 'form-check-input'}}) }}
-                                                <span style="font-size: 14px; font-weight: 700; color: #0d2151;"><i class="feather-check-square me-1 text-success"></i>Travaux garantis</span>
-                                            </label>
+                        {# ── Tab: Activité ── #}
+                        <div class="prf-modal-tab-pane d-none" id="tab-activity">
+                            <h6 class="prf-modal-section-title">{{ 'Domaine expertise'|trans }}</h6>
+                            <div class="row g-4 mt-0">
+                                <div class="col-lg-6">
+                                    <label class="drl-label" for="{{ form.parentCategory.vars.id }}">{{ "Secteur d'activité"|trans }}</label>
+                                    {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
+                                    {{ form_errors(form.parentCategory) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label" for="{{ form.category.vars.id }}">{{ 'Service spécialisé'|trans }}</label>
+                                    {{ form_widget(form.category, {
+                                        'attr': {
+                                            'class': 'drl-input form-select child-category-select selectpicker',
+                                            'data-selected-id': app.user.category ? app.user.category.id : '',
+                                            'data-live-search': 'true'
+                                        }
+                                    }) }}
+                                    {{ form_errors(form.category) }}
+                                </div>
+                                <div class="col-12">
+                                    <label class="drl-label">{{ 'Pourquoi me choisir ?'|trans }} <span class="text-muted fw-normal" style="font-size: 12px; text-transform: none; letter-spacing: 0;">({{ 'un avantage par ligne'|trans }})</span></label>
+                                    {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Expérience reconnue\nTravaux garantis\nRéponse rapide"|trans}}) }}
+                                    {{ form_errors(form.whyChooseUs) }}
+                                </div>
+                                <div class="col-12">
+                                    <label class="drl-label">{{ 'Mes services'|trans }} <span class="text-muted fw-normal" style="font-size: 12px; text-transform: none; letter-spacing: 0;">({{ 'un service par ligne'|trans }})</span></label>
+                                    {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Rénovation de cuisine\nInstallation de salle de bain\nPeinture intérieure"|trans}}) }}
+                                    {{ form_errors(form.services) }}
+                                </div>
+                                
+                                <h6 class="prf-modal-section-title mt-4">{{ 'Conditions & Tarifs'|trans }}</h6>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ "Zone d'intervention"|trans }}</label>
+                                    {{ form_widget(form.interventionZone, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Grand Montréal, 50km de Québec'|trans}}) }}
+                                    {{ form_errors(form.interventionZone) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ "Rayon d'intervention (km)"|trans }}</label>
+                                    {{ form_widget(form.interventionRadius, {'attr': {'class': 'drl-input', 'placeholder': '40'}}) }}
+                                    {{ form_errors(form.interventionRadius) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Disponibilité'|trans }}</label>
+                                    {{ form_widget(form.availabilityStatus, {'attr': {'class': 'drl-input form-select'}}) }}
+                                    {{ form_errors(form.availabilityStatus) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Prix minimum ($)'|trans }}</label>
+                                    {{ form_widget(form.minPrice, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 200'}}) }}
+                                    {{ form_errors(form.minPrice) }}
+                                </div>
+                                <div class="col-12">
+                                    <label class="drl-label">{{ 'Horaires (une plage par ligne)'|trans }}</label>
+                                    {{ form_widget(form.openingHours, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': "Lundi – Vendredi: 08:00 – 18:00\nSamedi: 08:00 – 14:00\nDimanche: Fermé"|trans}}) }}
+                                    {{ form_errors(form.openingHours) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {# ── Tab: Présence ── #}
+                        <div class="prf-modal-tab-pane d-none" id="tab-presence">
+                            <h6 class="prf-modal-section-title">{{ 'Communication'|trans }}</h6>
+                            <div class="row g-4 mt-0">
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Langues parlées'|trans }}</label>
+                                    <div class="drl-input p-3 h-auto" style="min-height: 120px;">
+                                        {{ form_widget(form.languages) }}
+                                    </div>
+                                    {{ form_errors(form.languages) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'Préférences de contact'|trans }}</label>
+                                    <div class="drl-input p-3 h-auto" style="min-height: 120px;">
+                                        {{ form_widget(form.contactPrefs) }}
+                                    </div>
+                                    {{ form_errors(form.contactPrefs) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {# ── Tab: Certifications ── #}
+                        <div class="prf-modal-tab-pane d-none" id="tab-trust">
+                            <h6 class="prf-modal-section-title">{{ 'Preuves de confiance'|trans }}</h6>
+                            <div class="row g-4 mt-0">
+                                <div class="col-12">
+                                    <div class="drl-input h-auto p-4">
+                                        <div class="row g-4">
+                                            <div class="col-md-6">
+                                                <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
+                                                    {{ form_widget(form.hasInsurance, {'attr': {'class': 'form-check-input mt-0'}}) }}
+                                                    <div>
+                                                        <span class="d-block fw-bold text-dark">{{ 'Assurance responsabilité civile'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'Couverture pour les dommages'|trans }}</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
+                                                    {{ form_widget(form.rbqCertified, {'attr': {'class': 'form-check-input mt-0'}}) }}
+                                                    <div>
+                                                        <span class="d-block fw-bold text-dark">{{ 'Certifié RBQ'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'Licence obligatoire au Québec'|trans }}</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
+                                                    {{ form_widget(form.freeQuotes, {'attr': {'class': 'form-check-input mt-0'}}) }}
+                                                    <div>
+                                                        <span class="d-block fw-bold text-dark">{{ 'Soumissions gratuites'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'Devis sans engagement'|trans }}</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
+                                                    {{ form_widget(form.guaranteedWork, {'attr': {'class': 'form-check-input mt-0'}}) }}
+                                                    <div>
+                                                        <span class="d-block fw-bold text-dark">{{ 'Travaux garantis'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'Garantie après service'|trans }}</span>
+                                                    </div>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'N° Licence (RBQ etc.)'|trans }}</label>
+                                    {{ form_widget(form.licenceNum, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 1234-5678-90'}}) }}
+                                    {{ form_errors(form.licenceNum) }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="drl-label">{{ 'N° Entreprise (NEQ)'|trans }}</label>
+                                    {{ form_widget(form.companyNum, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 1160123456'}}) }}
+                                    {{ form_errors(form.companyNum) }}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
                 <div class="modal-footer drl-modal-footer">
-                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'Annuler'|trans }}</button>
                     <button type="submit" form="profileUpdateForm" class="drl-btn-orange px-5">
-                        <i class="feather-save me-2"></i> Enregistrer les modifications
+                        <i class="ph-floppy-disk me-2"></i> {{ 'Enregistrer les modifications'|trans }}
                     </button>
                 </div>
                 {{ form_end(form) }}

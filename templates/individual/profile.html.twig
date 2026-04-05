@@ -204,27 +204,27 @@
             <div class="prof-bloc-head d-flex justify-content-between">
                 <div class="d-flex align-items-center gap-2">
                     <div class="prof-bloc-num">1</div>
-                    <span class="prof-bloc-title">Informations personnelles</span>
+                    <span class="prof-bloc-title">{{ 'Informations personnelles'|trans }}</span>
                 </div>
                 <button class="drl-act-btn drl-act-btn--view" style="font-size:12px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                    <i class="feather-edit-2 me-1"></i>Modifier
+                    <i class="feather-edit-2 me-1"></i>{{ 'Modifier'|trans }}
                 </button>
             </div>
             <div class="prof-bloc-body">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-user me-1"></i>Prénom</div>
+                            <div class="prof-info-label"><i class="feather-user me-1"></i>{{ 'Prénom'|trans }}</div>
                             <div class="prof-info-val {{ not firstName ? 'empty' : '' }}">
-                                {{ firstName ?: 'Non renseigné' }}
+                                {{ firstName ?: 'Non renseigné'|trans }}
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-user me-1"></i>Nom</div>
+                            <div class="prof-info-label"><i class="feather-user me-1"></i>{{ 'Nom'|trans }}</div>
                             <div class="prof-info-val {{ not lastName ? 'empty' : '' }}">
-                                {{ lastName ?: 'Non renseigné' }}
+                                {{ lastName ?: 'Non renseigné'|trans }}
                             </div>
                         </div>
                     </div>
@@ -236,17 +236,17 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-phone me-1"></i>Téléphone</div>
+                            <div class="prof-info-label"><i class="feather-phone me-1"></i>{{ 'Téléphone'|trans }}</div>
                             <div class="prof-info-val {{ not phone ? 'empty' : '' }}">
-                                {{ phone ?: 'Non renseigné' }}
+                                {{ phone ?: 'Non renseigné'|trans }}
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-map-pin me-1"></i>Adresse / Localisation</div>
+                            <div class="prof-info-label"><i class="feather-map-pin me-1"></i>{{ 'Adresse / Localisation'|trans }}</div>
                             <div class="prof-info-val {{ not adresse ? 'empty' : '' }}">
-                                {{ adresse ?: 'Non renseignée' }}
+                                {{ adresse ?: 'Non renseignée'|trans }}
                             </div>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
         <div class="prof-bloc">
             <div class="prof-bloc-head">
                 <div class="prof-bloc-num" style="background:linear-gradient(135deg,#3b82f6,#2563eb);">2</div>
-                <span class="prof-bloc-title">Activité & Historique</span>
+                <span class="prof-bloc-title">{{ 'Activité & Historique'|trans }}</span>
             </div>
             <div class="prof-bloc-body">
                 {% set recentQuotes = user.quoteRequests|slice(0, 3) %}
@@ -278,7 +278,7 @@
                                     <div class="fw-semibold text-dark" style="font-size:13px;">
                                         {{ q.title|slice(0,60) }}{% if q.title|length > 60 %}…{% endif %}
                                     </div>
-                                    <div class="text-muted" style="font-size:11px;">{{ q.creationDate|date('d/m/Y') }} · {{ q.offers|length }} offre{{ q.offers|length > 1 ? 's' : '' }}</div>
+                                    <div class="text-muted" style="font-size:11px;">{{ q.creationDate|date('d/m/Y') }} · {{ q.offers|length }} {{ q.offers|length > 1 ? 'offres'|trans : 'offre'|trans }}</div>
                                 </div>
                             </div>
                             <a href="{{ path('individual_quote_show', {'id': q.id}) }}"
@@ -290,12 +290,12 @@
                     {% if user.quoteRequests|length > 3 %}
                         <a href="{{ path('individual_quotes') }}" class="d-block text-center mt-2 text-decoration-none"
                            style="font-size:13px;color:#3b82f6;">
-                            <i class="feather-arrow-right me-1"></i>Voir toutes les demandes ({{ user.quoteRequests|length }})
+                            <i class="feather-arrow-right me-1"></i>{{ 'Voir toutes les demandes'|trans }} ({{ user.quoteRequests|length }})
                         </a>
                     {% endif %}
                 {% else %}
                     <div class="text-center py-3 text-muted" style="font-size:13px;">
-                        <i class="feather-file-text me-2"></i>Aucune demande pour l'instant
+                        <i class="feather-file-text me-2"></i>{{ 'Aucune demande pour l\\'instant'|trans }}
                     </div>
                 {% endif %}
             </div>
@@ -309,7 +309,7 @@
         <div class="prof-bloc">
             <div class="prof-bloc-head">
                 <div class="prof-bloc-num" style="background:linear-gradient(135deg,#10b981,#059669);">3</div>
-                <span class="prof-bloc-title">Complétion du profil</span>
+                <span class="prof-bloc-title">{{ 'Complétion du profil'|trans }}</span>
             </div>
             <div class="prof-bloc-body">
                 {% macro checkItem(done, label) %}
@@ -323,14 +323,14 @@
                     </div>
                 {% endmacro %}
 
-                {{ _self.checkItem(firstName is not empty, 'Prénom renseigné') }}
-                {{ _self.checkItem(lastName is not empty,  'Nom renseigné') }}
-                {{ _self.checkItem(phone is not empty,     'Téléphone renseigné') }}
-                {{ _self.checkItem(adresse is not empty,   'Adresse renseignée') }}
+                {{ _self.checkItem(firstName is not empty, 'Prénom renseigné'|trans) }}
+                {{ _self.checkItem(lastName is not empty,  'Nom renseigné'|trans) }}
+                {{ _self.checkItem(phone is not empty,     'Téléphone renseigné'|trans) }}
+                {{ _self.checkItem(adresse is not empty,   'Adresse renseignée'|trans) }}
 
                 <div class="mt-3 pt-3 border-top">
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                        <span style="font-size:12px;color:#64748b;">Progression</span>
+                        <span style="font-size:12px;color:#64748b;">{{ 'Progression'|trans }}</span>
                         <span style="font-size:13px;font-weight:700;color:{{ completionPct == 100 ? '#10b981' : '#f97316' }};">{{ completionPct }}%</span>
                     </div>
                     <div class="prof-completion-bar">
@@ -341,7 +341,7 @@
 
                 {% if completionPct < 100 %}
                 <button class="drl-btn-orange w-100 mt-3 justify-content-center" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                    <i class="feather-edit-2 me-1"></i>Compléter maintenant
+                    <i class="feather-edit-2 me-1"></i>{{ 'Compléter maintenant'|trans }}
                 </button>
                 {% endif %}
             </div>
@@ -351,24 +351,24 @@
         <div class="prof-bloc">
             <div class="prof-bloc-head">
                 <div class="prof-bloc-num" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">4</div>
-                <span class="prof-bloc-title">Actions rapides</span>
+                <span class="prof-bloc-title">{{ 'Actions rapides'|trans }}</span>
             </div>
             <div class="prof-bloc-body d-flex flex-column gap-2">
                 <a href="{{ path('individual_quote_new') }}"
                    class="drl-btn-orange justify-content-center shadow-sm">
-                    <i class="feather-plus me-2"></i>Nouvelle demande
+                    <i class="feather-plus me-2"></i>{{ 'Nouvelle demande'|trans }}
                 </a>
                 <a href="{{ path('individual_quotes') }}"
                    class="drl-act-btn drl-act-btn--view justify-content-center">
-                    <i class="feather-file-text me-2"></i>Mes demandes
+                    <i class="feather-file-text me-2"></i>{{ 'Mes demandes'|trans }}
                 </a>
                 <a href="{{ path('individual_offers') }}"
                    class="drl-act-btn drl-act-btn--view justify-content-center">
-                    <i class="feather-inbox me-2"></i>Mes offres reçues
+                    <i class="feather-inbox me-2"></i>{{ 'Mes offres reçues'|trans }}
                 </a>
                 <a href="{{ path('individual_settings') }}"
                    class="drl-act-btn drl-act-btn--view justify-content-center">
-                    <i class="feather-settings me-2"></i>Paramètres du compte
+                    <i class="feather-settings me-2"></i>{{ 'Paramètres du compte'|trans }}
                 </a>
             </div>
         </div>
@@ -387,7 +387,7 @@
                     <h5 class="modal-title drl-modal-title" id="editProfileModalLabel">
                         <i class="feather-edit-3 me-2"></i>{{ 'individual.edit_my_profile'|trans }}
                     </h5>
-                    <p class="text-muted small mb-0">Informations visibles par les prestataires sur vos demandes</p>
+                    <p class="text-muted small mb-0">{{ 'Informations visibles par les prestataires sur vos demandes'|trans }}</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

@@ -1,13 +1,13 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Settings - {{ app.user.companyName }}{% endblock %}
+{% block title %}{{ 'Paramètres'|trans }} - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
     <div class="drl-card">
         <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="drl-card-title">Account Settings</h4>
-                <p class="drl-card-sub">Manage your account preferences, contact information, and business details</p>
+                <h4 class="drl-card-title">{{ 'Paramètres du compte'|trans }}</h4>
+                <p class="drl-card-sub">{{ 'Gérez vos préférences de compte, vos informations de contact et vos détails commerciaux'|trans }}</p>
             </div>
         </div>
 
@@ -18,27 +18,27 @@
                         <ul class="nav flex-column drl-sidebar-nav" style="gap: 4px;">
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="list" href="#contact" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
-                                    <i class="feather-user"></i> Contact Info
+                                    <i class="ph-user"></i> {{ 'Infos de contact'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="list" href="#address" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
-                                    <i class="feather-map-pin"></i> Address Book
+                                    <i class="ph-map-pin"></i> {{ "Carnet d'adresses"|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="list" href="#categories" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
-                                    <i class="feather-tag"></i> Service Category
+                                    <i class="ph-tag"></i> {{ 'Catégorie de service'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="list" href="#links" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
-                                    <i class="feather-link"></i> Social Links
+                                    <i class="ph-link"></i> {{ 'Liens sociaux'|trans }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="list" href="#security" role="tab" style="border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-weight: 700;">
-                                    <i class="feather-lock"></i> Security
+                                    <i class="ph-lock"></i> {{ 'Sécurité'|trans }}
                                 </a>
                             </li>
                         </ul>
@@ -53,37 +53,37 @@
                     <div class="tab-pane fade show active" id="contact" role="tabpanel">
                         <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
                             <div class="drl-card-head border-bottom">
-                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Contact Information</h6>
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">{{ 'Informations de contact'|trans }}</h6>
                             </div>
                             <div class="p-4">
                                 {{ form_start(contactForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-label">First Name</label>
+                                            <label class="drl-label">{{ 'Prénom'|trans }}</label>
                                             {{ form_widget(contactForm.firstName, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-label">Last Name</label>
+                                            <label class="drl-label">{{ 'Nom'|trans }}</label>
                                             {{ form_widget(contactForm.lastName, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-label">Email</label>
+                                            <label class="drl-label">{{ 'Email'|trans }}</label>
                                             {{ form_widget(contactForm.email, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-label">Phone</label>
+                                            <label class="drl-label">{{ 'Téléphone'|trans }}</label>
                                             {{ form_widget(contactForm.phone, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-12 mt-4 pt-3 border-top">
-                                        <button type="submit" class="drl-btn-orange">
-                                            <i class="feather-save"></i> Save Contact Info
+                                         <button type="submit" class="drl-btn-orange">
+                                            <i class="ph-floppy-disk"></i> {{ 'Enregistrer les infos'|trans }}
                                         </button>
                                     </div>
                                 {{ form_end(contactForm) }}
@@ -95,32 +95,32 @@
                     <div class="tab-pane fade" id="address" role="tabpanel">
                         <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
                             <div class="drl-card-head border-bottom">
-                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Add New Address</h6>
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">{{ 'Ajouter une nouvelle adresse'|trans }}</h6>
                             </div>
                             <div class="p-4">
                                 {{ form_start(addressForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label">Street</label>
+                                            <label class="drl-label">{{ 'Rue'|trans }}</label>
                                             {{ form_widget(addressForm.street, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-label">City</label>
+                                            <label class="drl-label">{{ 'Ville'|trans }}</label>
                                             {{ form_widget(addressForm.city, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                      <div class="col-lg-6">
                                         <div>
-                                            <label class="drl-label">Postal Code</label>
+                                            <label class="drl-label">{{ 'Code postal'|trans }}</label>
                                             {{ form_widget(addressForm.postalCode, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-12 mt-4 pt-3 border-top">
-                                        <button type="submit" class="drl-btn-orange">
-                                            <i class="feather-plus"></i> {{ addressForm.save.vars.label|default('Add Address') }}
-                                        </button>
+                                         <button type="submit" class="drl-btn-orange">
+                                            <i class="ph-plus"></i> {{ addressForm.save.vars.label|default('Ajouter cette adresse'|trans) }}
+                                         </button>
                                     </div>
                                 {{ form_end(addressForm) }}
                             </div>
@@ -128,15 +128,15 @@
                         
                         <div class="drl-card" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
                             <div class="drl-card-head border-bottom">
-                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Saved Addresses</h6>
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">{{ 'Adresses enregistrées'|trans }}</h6>
                             </div>
                             <div class="table-responsive">
                                 <table class="table mb-0 drl-table">
                                     <thead>
                                         <tr>
-                                            <th>Address</th>
-                                            <th>City</th>
-                                            <th>Zip</th>
+                                            <th>{{ 'Adresse'|trans }}</th>
+                                            <th>{{ 'Ville'|trans }}</th>
+                                            <th>{{ 'Code postal'|trans }}</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -147,8 +147,8 @@
                                                 <td style="color: #475569;">{{ addr.city }}</td>
                                                 <td style="color: #64748b;">{{ addr.postalCode }}</td>
                                                 <td>
-                                                    <a href="#" class="drl-act-btn" style="background: #fef2f2; color: #ef4444;" title="Delete Address">
-                                                        <i class="feather-trash-2"></i> Delete
+                                                    <a href="#" class="drl-act-btn" style="background: #fef2f2; color: #ef4444;" title="{{ 'Supprimer'|trans }}">
+                                                        <i class="ph-trash"></i> {{ 'Supprimer'|trans }}
                                                     </a>
                                                 </td>
                                             </tr>
@@ -156,9 +156,9 @@
                                              <tr>
                                                  <td colspan="4" class="text-center py-5">
                                                      <div style="width:48px; height:48px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:20px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                                         <i class="feather-map-pin"></i>
+                                                         <i class="ph-map-pin"></i>
                                                      </div>
-                                                     <p style="font-size:14px; color:#64748b; margin:0;">No addresses saved.</p>
+                                                     <p style="font-size:14px; color:#64748b; margin:0;">{{ "Aucune adresse enregistrée."|trans }}</p>
                                                  </td>
                                              </tr>
                                         {% endfor %}
@@ -172,22 +172,22 @@
                     <div class="tab-pane fade" id="categories" role="tabpanel">
                         <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
                             <div class="drl-card-head border-bottom">
-                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Select Service Category</h6>
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">{{ 'Sélecteur de catégorie de service'|trans }}</h6>
                             </div>
                             <div class="p-4">
                                 {{ form_start(categoryForm) }}
-                                    <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">Select the primary service category for your profile.</p>
+                                    <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">{{ 'Sélectionnez la catégorie de service principale pour votre profil.'|trans }}</p>
                                     
                                     <div class="row g-4 mb-4">
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="drl-label" for="{{ categoryForm.parentCategory.vars.id }}">Industry/Sector</label>
+                                                <label class="drl-label" for="{{ categoryForm.parentCategory.vars.id }}">{{ 'Industrie / Secteur'|trans }}</label>
                                                 {{ form_widget(categoryForm.parentCategory, {'attr': {'class': 'drl-input'}}) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="drl-label" for="{{ categoryForm.category.vars.id }}">Specific Service</label>
+                                                <label class="drl-label" for="{{ categoryForm.category.vars.id }}">{{ 'Service spécifique'|trans }}</label>
                                                 {{ form_widget(categoryForm.category, {
                                                     'attr': {
                                                         'class': 'drl-input child-category-select',
@@ -199,9 +199,9 @@
                                     </div>
 
                                     <div class="mt-4 pt-3 border-top">
-                                        <button type="submit" class="drl-btn-orange">
-                                            <i class="feather-tag"></i> Update Category
-                                        </button>
+                                         <button type="submit" class="drl-btn-orange">
+                                            <i class="ph-tag"></i> {{ 'Mettre à jour la catégorie'|trans }}
+                                         </button>
                                     </div>
                                 {{ form_end(categoryForm) }}
                             </div>
@@ -212,50 +212,50 @@
                     <div class="tab-pane fade" id="links" role="tabpanel">
                         <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
                             <div class="drl-card-head border-bottom">
-                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Social Profile</h6>
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">{{ 'Profil social'|trans }}</h6>
                             </div>
                             <div class="p-4">
                                 {{ form_start(socialLinksForm, {'attr': {'class': 'row g-4'}}) }}
                                     
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label"><i class="feather-facebook" style="color: #1877f2;"></i> Facebook</label>
+                                            <label class="drl-label"><i class="ph-facebook-logo" style="color: #1877f2;"></i> Facebook</label>
                                             {{ form_widget(socialLinksForm.facebook, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label"><i class="feather-twitter" style="color: #1da1f2;"></i> Twitter</label>
+                                            <label class="drl-label"><i class="ph-twitter-logo" style="color: #1da1f2;"></i> Twitter</label>
                                             {{ form_widget(socialLinksForm.twitter, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label"><i class="feather-linkedin" style="color: #0a66c2;"></i> LinkedIn</label>
+                                            <label class="drl-label"><i class="ph-linkedin-logo" style="color: #0a66c2;"></i> LinkedIn</label>
                                             {{ form_widget(socialLinksForm.linkedin, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label"><i class="feather-globe" style="color: #64748b;"></i> Website</label>
+                                            <label class="drl-label"><i class="ph-globe" style="color: #64748b;"></i> {{ 'Site web'|trans }}</label>
                                             {{ form_widget(socialLinksForm.website, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label"><i class="feather-instagram" style="color: #e1306c;"></i> Instagram</label>
+                                            <label class="drl-label"><i class="ph-instagram-logo" style="color: #e1306c;"></i> Instagram</label>
                                             {{ form_widget(socialLinksForm.instagram, {'attr': {'class': 'drl-input'}}) }}
                                         </div>
                                     </div>
 
                                     <div class="col-12 mt-4 pt-3 border-top">
-                                        <button type="submit" class="drl-btn-orange">
-                                            <i class="feather-link"></i> Update Social Links
-                                        </button>
+                                         <button type="submit" class="drl-btn-orange">
+                                            <i class="ph-link"></i> {{ 'Mettre à jour les liens'|trans }}
+                                         </button>
                                     </div>
                                 {{ form_end(socialLinksForm) }}
                             </div>
@@ -266,28 +266,28 @@
                     <div class="tab-pane fade" id="security" role="tabpanel">
                         <div class="drl-card mb-4" style="box-shadow: 0 4px 15px rgba(13,33,81,0.05);">
                             <div class="drl-card-head border-bottom">
-                                <h6 class="drl-card-title m-0" style="font-size: 16px;">Change Password</h6>
+                                <h6 class="drl-card-title m-0" style="font-size: 16px;">{{ 'Changer le mot de passe'|trans }}</h6>
                             </div>
                             <div class="p-4">
                                 {{ form_start(passwordForm, {'attr': {'class': 'row g-4'}}) }}
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label">New Password</label>
-                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'drl-input', 'placeholder': 'Enter new password...'}}) }}
+                                            <label class="drl-label">{{ 'Nouveau mot de passe'|trans }}</label>
+                                            {{ form_widget(passwordForm.plainPassword.first, {'attr': {'class': 'drl-input', 'placeholder': '...'}}) }}
                                             {{ form_errors(passwordForm.plainPassword.first) }}
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label">Confirm New Password</label>
-                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'drl-input', 'placeholder': 'Repeat new password...'}}) }}
+                                            <label class="drl-label">{{ 'Confirmer le nouveau mot de passe'|trans }}</label>
+                                            {{ form_widget(passwordForm.plainPassword.second, {'attr': {'class': 'drl-input', 'placeholder': '...'}}) }}
                                             {{ form_errors(passwordForm.plainPassword.second) }}
                                         </div>
                                     </div>
                                     <div class="col-12 mt-4 pt-3 border-top">
-                                        <button type="submit" class="drl-btn-orange">
-                                            <i class="feather-shield"></i> Update Password
-                                        </button>
+                                         <button type="submit" class="drl-btn-orange">
+                                            <i class="ph-shield"></i> {{ 'Mettre à jour le mot de passe'|trans }}
+                                         </button>
                                     </div>
                                 {{ form_end(passwordForm) }}
                             </div>

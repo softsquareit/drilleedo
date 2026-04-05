@@ -25,6 +25,11 @@ class ProfessionalType extends AbstractType
         $builder
             ->add('email')
             ->add('company_name')
+            ->add('phoneNum', TextType::class, [
+                'required' => false,
+                'label' => 'Phone Number',
+                'attr' => ['placeholder' => 'Ex: 514-123-4567']
+            ])
             ->add('parentCategory', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
@@ -159,6 +164,16 @@ class ProfessionalType extends AbstractType
                 'label' => 'RBQ Certified',
                 'label_attr' => ['class' => 'form-check-label'],
                 'attr' => ['class' => 'form-check-input']
+            ])
+            ->add('licenceNum', TextType::class, [
+                'required' => false,
+                'label' => 'Licence Number',
+                'attr' => ['placeholder' => 'Ex: 1234-5678-90']
+            ])
+            ->add('companyNum', TextType::class, [
+                'required' => false,
+                'label' => 'Company Number (NEQ)',
+                'attr' => ['placeholder' => 'Ex: 1160123456']
             ]);
 
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {

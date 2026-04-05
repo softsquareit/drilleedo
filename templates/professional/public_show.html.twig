@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ professional.tradeName ?: professional.companyName ?: 'Professional Profile' }} – Drilleedo{% endblock %}
+{% block title %}{{ professional.tradeName ?: professional.companyName ?: 'Profil Professionnel'|trans }} – Drilleedo{% endblock %}
 
 {% block stylesheets %}
 <style>
@@ -254,9 +254,9 @@
                             <div class="mb-4">
                                 <h1 class="zenith-name">{{ professional.tradeName ?: professional.companyName ?: (professional.firstName ~ ' ' ~ professional.lastName) }}</h1>
                                 <div class="d-flex align-items-center flex-wrap gap-3">
-                                    <span class="zenith-verified-badge"><i class="feather-check-circle"></i> Verified Pro</span>
-                                    <span class="text-white opacity-75"><i class="feather-map-pin"></i> {{ professional.city|default('Canada') }}</span>
-                                    <span class="text-white opacity-75">| {{ professional.category.localizedTitle(app.request.locale)|default('Professional Service') }}</span>
+                                    <span class="zenith-verified-badge"><i class="ph-check-circle"></i> {{ 'Pro Vérifié'|trans }}</span>
+                                    <span class="text-white opacity-75"><i class="ph-map-pin"></i> {{ professional.city|default('Canada') }}</span>
+                                    <span class="text-white opacity-75">| {{ professional.category.localizedTitle(app.request.locale)|default('Service Professionnel'|trans) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -275,18 +275,18 @@
                 
                 <!-- Section: About -->
                 <div class="zenith-box">
-                    <h3 class="zenith-section-title">Professional Bio</h3>
+                    <h3 class="zenith-section-title">{{ 'Bio Professionnelle'|trans }}</h3>
                     {% if professional.about %}
                         <p style="color: #64748b; line-height: 1.8; white-space: pre-wrap;">{{ professional.about }}</p>
                     {% else %}
                         <p class="lead mb-4" style="color: #334155; font-weight: 500;">
-                            {{ professional.tradeName ?: professional.companyName }} is a dedicated professional providing high-quality 
-                            {{ professional.category ? professional.category.localizedTitle(app.request.locale)|lower : 'renovation' }} solutions.
+                            {{ "est un professionnel dévoué offrant des solutions de"|trans }} 
+                            {{ professional.category ? professional.category.localizedTitle(app.request.locale)|lower : 'rénovation'|trans }} {{ 'de haute qualité.'|trans }}
                         </p>
                         <p style="color: #64748b; line-height: 1.8;">
-                            With over {{ professional.expYears|default('several') }} years of experience in the industry, I have honed my skills to deliver exceptional results for every client.
-                            Whether it's a small repair or a major installation, I bring precision, reliability, and a clean workspace to every job.
-                            Client satisfaction is my top priority.
+                            {{ "Avec plus de"|trans }} {{ professional.expYears|default('plusieurs'|trans) }} {{ "ans d'expérience dans l'industrie, j'ai perfectionné mes compétences pour offrir des résultats exceptionnels à chaque client."|trans }}
+                            {{ "Qu'il s'agisse d'une petite réparation ou d'une installation majeure, j'apporte précision, fiabilité et un espace de travail propre à chaque intervention."|trans }}
+                            {{ "La satisfaction du client est ma priorité absolue."|trans }}
                         </p>
                     {% endif %}
                 </div>
@@ -295,41 +295,40 @@
                 <div class="zenith-box">
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <h4 class="mb-4 font-primary">Why Hire Me</h4>
+                            <h4 class="mb-4 font-primary">{{ 'Pourquoi m\'engager'|trans }}</h4>
                             <ul class="zenith-grid-list list-unstyled">
                                 {% if professional.whyChooseUs|length > 0 %}
                                     {% for item in professional.whyChooseUs %}
-                                        <li><i class="feather-award"></i> {{ item }}</li>
+                                        <li><i class="ph-medal"></i> {{ item }}</li>
                                     {% endfor %}
                                 {% else %}
-                                    <li><i class="feather-award"></i> {{ professional.expYears|default(1) }}+ Years Experience</li>
-                                    <li><i class="feather-check-square"></i> Quality Guaranteed</li>
-                                    <li><i class="feather-clock"></i> Punctual & Reliable</li>
-                                    <li><i class="feather-thumbs-up"></i> Customer Focused</li>
+                                    <li><i class="ph-medal"></i> {{ professional.expYears|default(1) }}+ {{ "ans d'expérience"|trans }}</li>
+                                    <li><i class="ph-check-square"></i> {{ 'Qualité Garantie'|trans }}</li>
+                                    <li><i class="ph-clock"></i> {{ 'Ponctuel & Fiable'|trans }}</li>
+                                    <li><i class="ph-thumbs-up"></i> {{ 'Centré sur le client'|trans }}</li>
                                 {% endif %}
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            <h4 class="mb-4 font-primary">Services Offered</h4>
+                            <h4 class="mb-4 font-primary">{{ 'Services Offerts'|trans }}</h4>
                             <ul class="zenith-grid-list list-unstyled">
                                 {% if professional.services|length > 0 %}
                                     {% for item in professional.services %}
-                                        <li><i class="feather-tool"></i> {{ item }}</li>
+                                        <li><i class="ph-wrench"></i> {{ item }}</li>
                                     {% endfor %}
                                 {% else %}
-                                    <li><i class="feather-tool"></i> {{ professional.category.localizedTitle(app.request.locale)|default('General Service') }}</li>
-                                    <li><i class="feather-clipboard"></i> Consultations</li>
-                                    <li><i class="feather-settings"></i> Maintenance & Repair</li>
-                                    <li><i class="feather-box"></i> Custom Installations</li>
+                                    <li><i class="ph-wrench"></i> {{ professional.category.localizedTitle(app.request.locale)|default('Service Général'|trans) }}</li>
+                                    <li><i class="ph-clipboard-text"></i> {{ 'Consultations'|trans }}</li>
+                                    <li><i class="ph-gear-six"></i> {{ 'Maintenance & Réparation'|trans }}</li>
+                                    <li><i class="ph-package"></i> {{ 'Installations Personnalisées'|trans }}</li>
                                 {% endif %}
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section: Projects -->
                 <div class="mb-5">
-                    <h3 class="zenith-section-title">Work Portfolio</h3>
+                    <h3 class="zenith-section-title">{{ 'Portfolio de Travaux'|trans }}</h3>
                     <div class="row g-4">
                         {% for project in professional.projets %}
                             <div class="col-md-6">
@@ -347,40 +346,39 @@
                         {% else %}
                             <div class="col-12">
                                 <div class="p-5 text-center bg-light rounded-3 border border-dashed">
-                                    <p class="mb-0 text-muted">No projects added to portfolio yet.</p>
+                                    <p class="mb-0 text-muted">{{ 'Aucun projet ajouté au portfolio pour le moment.'|trans }}</p>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- Section: FAQ -->
                  <div class="zenith-box p-0 overflow-hidden">
                     <div class="p-4 border-bottom">
-                         <h3 class="zenith-section-title mb-0">Frequently Asked Questions</h3>
+                         <h3 class="zenith-section-title mb-0">{{ 'Questions Fréquemment Posées'|trans }}</h3>
                     </div>
                     <div class="accordion accordion-flush" id="accordionFAQ">
-                        <div class="accordion-item">
+                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    How do I get an estimate?
+                                    {{ 'Comment obtenir un devis ?'|trans }}
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body text-muted">
-                                    Please use the "Request a Quote" button on this sidebar to send me details about your project. I'll get back to you with an estimate or to schedule a visit.
+                                    {{ "Veuillez utiliser le bouton 'Demander un devis' sur cette barre latérale pour m'envoyer des détails sur votre projet. Je vous recontacterai avec une estimation ou pour planifier une visite."|trans }}
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
+                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    What areas do you serve?
+                                    {{ 'Quelles zones desservez-vous ?'|trans }}
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body text-muted">
-                                    I primarily serve clients in {{ professional.city|default('the local area') }} and surrounding neighborhoods.
+                                    {{ "Je sers principalement des clients à"|trans }} {{ professional.city|default('la région locale'|trans) }} {{ 'et les environs.'|trans }}
                                 </div>
                             </div>
                         </div>
@@ -396,29 +394,29 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <span class="text-dark fw-bold ms-1">5.0</span>
                     </div>
-                    <h4 class="mb-4">Let's work together</h4>
+                     <h4 class="mb-4">{{ 'Travaillons ensemble'|trans }}</h4>
                     
                     <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" class="pro-btn pro-btn-primary pro-btn-lg w-100 mb-3">
-                        Request a Quote <i class="feather-arrow-right ms-2"></i>
+                        {{ 'Demander un devis'|trans }} <i class="ph-arrow-right ms-2"></i>
                     </a>
-                    <a href="mailto:{{ professional.email }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
-                        <i class="feather-mail me-2"></i> Contact Professional
+                     <a href="mailto:{{ professional.email }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
+                        <i class="ph-envelope-simple me-2"></i> {{ 'Contacter le Professionnel'|trans }}
                     </a>
 
                     <hr class="my-4 opacity-10">
 
-                    <ul class="list-unstyled d-flex flex-column gap-3 text-muted">
+                     <ul class="list-unstyled d-flex flex-column gap-3 text-muted">
                         <li class="d-flex justify-content-between">
-                            <span>Experience</span>
-                            <span class="text-dark fw-medium">{{ professional.expYears|default(0) }} Years</span>
+                            <span>{{ 'Expérience'|trans }}</span>
+                            <span class="text-dark fw-medium">{{ professional.expYears|default(0) }} {{ 'ans'|trans }}</span>
                         </li>
                         <li class="d-flex justify-content-between">
-                            <span>Projects</span>
-                            <span class="text-dark fw-medium">{{ professional.projets|length }} Completed</span>
+                            <span>{{ 'Projets'|trans }}</span>
+                            <span class="text-dark fw-medium">{{ professional.projets|length }} {{ 'Terminés'|trans }}</span>
                         </li>
                          <li class="d-flex justify-content-between">
-                            <span>Phone</span>
-                            <span class="text-dark fw-medium">{{ professional.phoneNum|default('Hidden') }}</span>
+                            <span>{{ 'Téléphone'|trans }}</span>
+                            <span class="text-dark fw-medium">{{ professional.phoneNum|default('Masqué'|trans) }}</span>
                         </li>
                     </ul>
 

@@ -7,7 +7,7 @@
         <div class="drl-card-head border-bottom">
             <div>
                 <h4 class="drl-card-title">{{ title }}</h4>
-                <p class="drl-card-sub">Add or update project details for your portfolio</p>
+                <p class="drl-card-sub">{{ 'Ajoutez ou mettez à jour les détails du projet pour votre portfolio'|trans }}</p>
             </div>
         </div>
 
@@ -15,28 +15,28 @@
             {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">Project Name</label>
+                        <label class="drl-form-label">{{ 'Nom du projet'|trans }}</label>
                         {{ form_widget(form.name, {'attr': {'class': 'drl-form-control w-100'}}) }}
                         {{ form_errors(form.name) }}
                     </div>
                 </div>
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">Description</label>
+                        <label class="drl-form-label">{{ 'Description'|trans }}</label>
                         {{ form_widget(form.description, {'attr': {'class': 'drl-form-control w-100', 'rows': '5'}}) }}
                         {{ form_errors(form.description) }}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
-                        <label class="drl-form-label">Start Date</label>
+                        <label class="drl-form-label">{{ 'Date de début'|trans }}</label>
                         {{ form_widget(form.startDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
                         {{ form_errors(form.startDate) }}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
-                        <label class="drl-form-label">End Date <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Optional)</span></label>
+                        <label class="drl-form-label">{{ 'Date de fin'|trans }} <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">({{ 'Optionnel'|trans }})</span></label>
                         {{ form_widget(form.EndDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
                         {{ form_errors(form.EndDate) }}
                     </div>
@@ -44,16 +44,16 @@
                 
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">Main Project Photo</label>
+                        <label class="drl-form-label">{{ 'Photo principale du projet'|trans }}</label>
                         {{ form_widget(form.mainPhoto, {'attr': {'class': 'drl-form-control w-100', 'accept': 'image/*'}}) }}
                         {{ form_errors(form.mainPhoto) }}
-                        <p style="font-size: 12px; color: #64748b; margin-top: 8px;">Recommended size: 800x600px</p>
+                        <p style="font-size: 12px; color: #64748b; margin-top: 8px;">{{ 'Taille recommandée : 800x600px'|trans }}</p>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">Project Gallery <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">(Multiple images)</span></label>
+                        <label class="drl-form-label">{{ 'Galerie du projet'|trans }} <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">({{ 'Images multiples'|trans }})</span></label>
                         {{ form_widget(form.gallery, {'attr': {'class': 'drl-form-control w-100', 'accept': 'image/*', 'multiple': 'multiple'}}) }}
                         {{ form_errors(form.gallery) }}
                     </div>
@@ -62,17 +62,17 @@
                 <div class="col-12">
                     <div class="form-check form-switch mb-0 d-flex align-items-center gap-2">
                         {{ form_widget(form.state, {'attr': {'class': 'form-check-input', 'style': 'margin-top:0;'}}) }}
-                        <label class="drl-form-label mb-0" for="{{ form.state.vars.id }}">Published / Visible in portfolio</label>
+                        <label class="drl-form-label mb-0" for="{{ form.state.vars.id }}">{{ 'Publié / Visible dans le portfolio'|trans }}</label>
                     </div>
                 </div>
 
                 <div class="col-12 mt-4 pt-4 border-top">
                     <div class="d-flex gap-3">
                         <button type="submit" class="drl-btn-orange">
-                            <i class="feather-save"></i> Save Project
+                            <i class="ph-floppy-disk"></i> {{ 'Enregistrer le projet'|trans }}
                         </button>
                         <a href="{{ path('professional_projects') }}" style="display:inline-flex; align-items:center; gap:8px; padding: 12px 24px; font-weight: 700; color: #64748b; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration:none;">
-                            <i class="feather-x"></i> Cancel
+                            <i class="ph-x"></i> {{ 'Annuler'|trans }}
                         </a>
                     </div>
                 </div>

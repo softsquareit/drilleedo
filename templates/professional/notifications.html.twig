@@ -1,37 +1,37 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Notifications - Drilleedo Pro{% endblock %}
+{% block title %}{{ 'Notifications'|trans }} - Drilleedo Pro{% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom flex-wrap gap-3">
         <div>
-            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">Historique des notifications</h2>
-            <p style="font-size: 15px; color: #64748b; margin: 0;">Toutes vos alertes et activités récentes.</p>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'Historique des notifications'|trans }}</h2>
+            <p style="font-size: 15px; color: #64748b; margin: 0;">{{ 'Toutes vos alertes et activités récentes.'|trans }}</p>
         </div>
         <div class="d-flex gap-2 flex-wrap align-items-center">
             {# Filtres #}
             <div class="d-flex gap-1 flex-wrap" id="notif-filters">
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter active" data-filter="all"
                         style="font-size:12px; border: 1px solid #e2e8f0; background:#0d2151; color:#fff;">
-                    Toutes
+                    {{ 'Toutes'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="unread"
                         style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
-                    Non lues
+                    {{ 'Non lues'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="offer"
                         style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
-                    Offres
+                    {{ 'Offres'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="request"
                         style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
-                    Demandes
+                    {{ 'Demandes'|trans }}
                 </button>
             </div>
             <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
                 <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
                 <button type="submit" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold">
-                    <i class="feather-check me-1"></i> Tout marquer lu
+                    <i class="feather-check me-1"></i> {{ 'Tout marquer lu'|trans }}
                 </button>
             </form>
         </div>
@@ -48,19 +48,19 @@
                 {# Build precise link from relatedEntityId #}
                 {% if notification.relatedEntityType == 'offer' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_view', {'id': notification.relatedEntityId}) %}
-                    {% set notifLinkLabel = 'Voir l\'offre' %}
+                    {% set notifLinkLabel = 'Voir l\'offre'|trans %}
                     {% set notifLinkIcon = 'feather-file-text' %}
                 {% elseif notification.relatedEntityType == 'quote' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_send', {'id': notification.relatedEntityId}) %}
-                    {% set notifLinkLabel = 'Voir la demande' %}
+                    {% set notifLinkLabel = 'Voir la demande'|trans %}
                     {% set notifLinkIcon = 'feather-inbox' %}
                 {% elseif notification.relatedEntityType == 'direct_request' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_send_direct', {'id': notification.relatedEntityId}) %}
-                    {% set notifLinkLabel = 'Voir la demande directe' %}
+                    {% set notifLinkLabel = 'Voir la demande directe'|trans %}
                     {% set notifLinkIcon = 'feather-send' %}
                 {% else %}
                     {% set notifLink = path('professional_dashboard') %}
-                    {% set notifLinkLabel = 'Dashboard' %}
+                    {% set notifLinkLabel = 'Dashboard'|trans %}
                     {% set notifLinkIcon = 'feather-home' %}
                 {% endif %}
 
@@ -92,7 +92,7 @@
 
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
-                                <h5 class="mb-0 fw-bold text-dark" style="font-size: 16px;">{{ notification.title|default('Notification') }}</h5>
+                                <h5 class="mb-0 fw-bold text-dark" style="font-size: 16px;">{{ notification.title|default('Notification'|trans) }}</h5>
                                 <div class="d-flex align-items-center gap-2 flex-shrink-0">
                                     <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">
                                         {{ notification.createdAt|date('d/m/Y à H:i') }}
@@ -103,7 +103,7 @@
                                                 data-id="{{ notification.id }}"
                                                 data-token="{{ csrf_token('mark-read-' ~ notification.id) }}"
                                                 data-url="{{ path('notification_mark_read', {'id': notification.id}) }}"
-                                                title="Marquer comme lu"
+                                                title="{{ 'Marquer comme lu'|trans }}"
                                                 style="color: #94a3b8; font-size: 14px; line-height:1;">
                                             <i class="feather-check-circle"></i>
                                         </button>
@@ -123,7 +123,7 @@
 
                                 {% if not notification.isRead %}
                                     <span class="drl-tag notif-unread-badge" style="background:#eff6ff; color:#00509e; font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700;">
-                                        <i class="feather-circle" style="font-size:7px;"></i> Non lue
+                                        <i class="feather-circle" style="font-size:7px;"></i> {{ 'Non lue'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -135,8 +135,8 @@
                     <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
                         <i class="feather-bell-off" style="font-size: 3rem; color: #cbd5e1;"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-2">Aucune notification</h5>
-                    <p class="text-muted mb-0">Votre historique d'activité apparaîtra ici.</p>
+                    <h5 class="fw-bold text-dark mb-2">{{ 'Aucune notification'|trans }}</h5>
+                    <p class="text-muted mb-0">{{ "Votre historique d'activité apparaîtra ici."|trans }}</p>
                 </div>
             {% endfor %}
         </div>

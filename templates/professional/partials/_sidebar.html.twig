@@ -17,7 +17,7 @@
         <h4 style="font-size: 18px; font-weight: 800; color: #0d2151; margin: 0 0 6px; line-height: 1.2;">{{ app.user.companyName|default(app.user.email) }}</h4>
         
         <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
-            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase;">Professional</span>
+            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase;">{{ 'Professionnel'|trans }}</span>
             {% set avgRating = app.user.stats ? app.user.stats.averageRating : 0 %}
             {% if avgRating > 0 %}
             <div class="pro-rating" style="display: flex; align-items: center; gap: 4px; font-size: 13px;">
@@ -28,7 +28,7 @@
         </div>
         
         <a href="{{ path('professional_projects') }}" class="drl-btn-orange w-100" style="padding: 10px; font-size: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
-            <i class="feather-plus"></i> New Project
+            <i class="feather-plus"></i> {{ 'Nouveau Projet'|trans }}
         </a>
     </div>
 
@@ -89,12 +89,12 @@
             }
         </style>
 
-        <div class="drl-sidebar-section-title">Overview</div>
+        <div class="drl-sidebar-section-title">{{ "Vue d'ensemble"|trans }}</div>
         <a href="{{ path('professional_dashboard') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'professional_dashboard' %}active{% endif %}">
-            <i class="ph-squares-four"></i> <span>Dashboard</span>
+            <i class="ph-squares-four"></i> <span>{{ 'Tableau de bord'|trans }}</span>
         </a>
         <a href="{{ path('professional_notifications') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'professional_notifications' %}active{% endif %}">
-            <i class="ph-bell"></i> <span>Notifications</span>
+            <i class="ph-bell"></i> <span>{{ 'Notifications'|trans }}</span>
             {% if unreadCount is defined and unreadCount > 0 %}
                 <span class="ms-auto badge bg-danger rounded-pill drl-notif-badge" id="drlNotifBadge" style="font-size: 10px;">{{ unreadCount }}</span>
             {% else %}
@@ -102,19 +102,19 @@
             {% endif %}
         </a>
         <a href="{{ path('professional_profile') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'professional_profile' %}active{% endif %}">
-            <i class="ph-user"></i> <span>My Profile</span>
+            <i class="ph-user"></i> <span>{{ 'Mon Profil'|trans }}</span>
         </a>
         <a href="{{ path('professional_projects') }}" class="drl-sidebar-link {% if app.request.get('_route') starts with 'professional_project' %}active{% endif %}">
-            <i class="ph-portfolio"></i> <span>Portfolio Projects</span>
+            <i class="ph-portfolio"></i> <span>{{ 'Mes Projets'|trans }}</span>
         </a>
 
-        <div class="drl-sidebar-section-title">Lead Management</div>
+        <div class="drl-sidebar-section-title">{{ 'Gestion des prospects'|trans }}</div>
         <a href="{{ path('professional_quotes') }}" class="drl-sidebar-link {% if app.request.get('_route') in ['professional_quotes', 'offer_send'] %}active{% endif %}">
-            <i class="ph-clipboard-text"></i> <span>Quote Requests</span>
+            <i class="ph-clipboard-text"></i> <span>{{ 'Demandes de devis'|trans }}</span>
         </a>
         <a href="{{ path('professional_direct_requests') }}" class="drl-sidebar-link d-flex justify-content-between align-items-center {% if app.request.get('_route') == 'professional_direct_requests' %}active{% endif %}">
             <div class="d-flex align-items-center gap-3">
-                <i class="ph-inbox"></i> <span>Direct Requests</span>
+                <i class="ph-inbox"></i> <span>{{ 'Demandes directes'|trans }}</span>
             </div>
             {# Optional badge for pending requests #}
             {% if pendingDirectRequestsCount is defined and pendingDirectRequestsCount > 0 %}
@@ -122,15 +122,15 @@
             {% endif %}
         </a>
         <a href="{{ path('professional_offers') }}" class="drl-sidebar-link {% if app.request.get('_route') in ['professional_offers', 'offer_view', 'offer_finalize'] %}active{% endif %}">
-            <i class="ph-paper-plane-tilt"></i> <span>My Offers</span>
+            <i class="ph-paper-plane-tilt"></i> <span>{{ 'Mes offres'|trans }}</span>
         </a>
 
-        <div class="drl-sidebar-section-title">Account</div>
+        <div class="drl-sidebar-section-title">{{ 'Compte'|trans }}</div>
         <a href="{{ path('professional_settings') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'professional_settings' %}active{% endif %}">
-            <i class="ph-gear"></i> <span>Settings</span>
+            <i class="ph-gear"></i> <span>{{ 'Paramètres'|trans }}</span>
         </a>
         <a href="{{ path('app_logout') }}" class="drl-sidebar-link danger mt-2 pt-2 border-top">
-            <i class="ph-sign-out"></i> <span>Logout</span>
+            <i class="ph-sign-out"></i> <span>{{ 'Déconnexion'|trans }}</span>
         </a>
     </nav>
 </div>

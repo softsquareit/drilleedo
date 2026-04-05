@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ProfessionalType;
+use App\Form\ProfessionalProfileType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\ChangePasswordType;
@@ -208,7 +209,7 @@ class ProfessionalController extends AbstractController
     public function profile(Request $request, \App\Service\FileUploader $fileUploader, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(ProfessionalType::class, $user);
+        $form = $this->createForm(ProfessionalProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

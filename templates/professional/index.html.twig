@@ -5,20 +5,20 @@
 {% block body %}
     <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4 pb-3 border-bottom">
         <div>
-            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">Welcome back, {{ app.user.personalInfos.firstName|default('Pro') }}! 👋</h2>
-            <p style="font-size: 15px; color: #64748b; margin: 0;">Here is what's happening with your business today.</p>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'Ravi de vous revoir,'|trans }} {{ app.user.personalInfos.firstName|default('Pro'|trans) }}! 👋</h2>
+            <p style="font-size: 15px; color: #64748b; margin: 0;">{{ "Voici ce qui se passe aujourd'hui avec vos projets."|trans }}</p>
         </div>
         <div>
             <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex align-items-center gap-2 bg-white p-1" style="border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(13,33,81,0.02);">
                 <input type="hidden" name="status" id="availability_status_input">
                 <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'AVAILABLE' %}active-avail{% endif %}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; margin-right:4px;"></span> Available
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; margin-right:4px;"></span> {{ 'Available'|trans }}
                 </button>
                 <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'BUSY' %}active-busy{% endif %}" onclick="document.getElementById('availability_status_input').value='BUSY'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#f59e0b; margin-right:4px;"></span> Busy
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#f59e0b; margin-right:4px;"></span> {{ 'Busy'|trans }}
                 </button>
                 <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'UNAVAILABLE' %}active-off{% endif %}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#94a3b8; margin-right:4px;"></span> Off
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#94a3b8; margin-right:4px;"></span> {{ 'Off'|trans }}
                 </button>
             </form>
             <style>
@@ -37,10 +37,10 @@
     {% if quoteCount > 0 %}
         {% set priorityAlerts = priorityAlerts|merge([{
             'type': 'new_request',
-            'title': 'New Opportunities!',
-            'message': 'There are ' ~ quoteCount ~ ' new requests matching your category: ' ~ (userCategory.name|default('your specialty')) ~ '.',
+            'title': 'New Opportunities!'|trans,
+            'message': 'There are %count% new requests matching your category: %category%.'|trans({'%count%': quoteCount, '%category%': userCategory ? userCategory.localizedTitle(app.request.locale) : 'your specialty'|trans}),
             'action_url': path('professional_quotes'),
-            'action_text': 'View Demands',
+            'action_text': 'View Demands'|trans,
             'icon': 'ph-sparkle',
             'color': 'primary'
         }]) %}
@@ -50,10 +50,10 @@
     {% if pendingDirectRequestsCount > 0 %}
         {% set priorityAlerts = priorityAlerts|merge([{
             'type': 'direct_request',
-            'title': 'Pending Direct ' ~ (pendingDirectRequestsCount == 1 ? 'Request' : 'Requests'),
-            'message': 'You have ' ~ pendingDirectRequestsCount ~ ' direct requests waiting for your response.',
+            'title': (pendingDirectRequestsCount == 1 ? 'Pending Direct Request'|trans : 'Pending Direct Requests'|trans),
+            'message': 'You have %count% direct requests waiting for your response.'|trans({'%count%': pendingDirectRequestsCount}),
             'action_url': path('professional_direct_requests'),
-            'action_text': 'Respond Now',
+            'action_text': 'Respond Now'|trans,
             'icon': 'ph-envelope-simple-open',
             'color': 'info'
         }]) %}
@@ -67,7 +67,7 @@
                 'title': '🎉 ' ~ n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres',
+                'action_text': 'Voir mes offres'|trans,
                 'icon': 'feather-check-circle',
                 'color': 'success'
             }]) %}
@@ -77,7 +77,7 @@
                 'title': n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres',
+                'action_text': 'Voir mes offres'|trans,
                 'icon': 'feather-x-circle',
                 'color': 'danger'
             }]) %}
@@ -85,9 +85,9 @@
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_viewed',
                 'title': '👁 ' ~ n.title,
-                'message': n.message ~ ' Profitez-en pour relancer le client !',
+                'message': n.message ~ ' Profitez-en pour relancer le client !'|trans,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres',
+                'action_text': 'Voir mes offres'|trans,
                 'icon': 'feather-eye',
                 'color': 'info'
             }]) %}
@@ -95,9 +95,9 @@
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_interested',
                 'title': '⭐ Offre en liste courte !',
-                'message': n.message ~ ' Le client est intéressé — c\'est le bon moment pour le relancer.',
+                'message': n.message ~ " Le client est intéressé — c'est le bon moment pour le relancer."|trans,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres',
+                'action_text': 'Voir mes offres'|trans,
                 'icon': 'feather-bookmark',
                 'color': 'warning'
             }]) %}
@@ -148,12 +148,12 @@
         </div>
         <div class="alert-content flex-grow-1">
             <div class="fw-bold" style="color: #92400e;">
-                {{ draftCount }} offre{{ draftCount > 1 ? 's' : '' }} en brouillon — non envoyée{{ draftCount > 1 ? 's' : '' }}
+                {{ '%count% offre en brouillon — non envoyée|%count% offres en brouillon — non envoyées'|trans({'%count%': draftCount}) }}
             </div>
-            <div class="small text-muted">Finalisez et publiez vos brouillons pour maximiser vos chances de décrocher des contrats.</div>
+            <div class="small text-muted">{{ 'Finalisez et publiez vos brouillons pour maximiser vos chances de décrocher des contrats.'|trans }}</div>
         </div>
         <a href="{{ path('professional_offers') }}" class="drl-btn-orange flex-shrink-0 shadow-sm" style="font-size: 13px; padding: 8px 16px; background: #f59e0b !important; box-shadow: 0 4px 12px rgba(245,158,11,0.3) !important;">
-            <i class="feather-send me-1"></i> Publier les brouillons
+            <i class="feather-send me-1"></i> {{ 'Publier les brouillons'|trans }}
         </a>
     </div>
     {% endif %}
@@ -166,15 +166,15 @@
                 <i class="ph-user-focus"></i>
             </div>
             <div>
-                <h5 style="margin: 0 0 4px; font-size: 17px; font-weight: 800; color: #0d2151;">Complete your business profile ({{ profileCompletion }}%)</h5>
-                <p style="margin: 0; font-size: 14px; color: #64748b;">Profiles with logos and banners receive <strong>300% more matching leads</strong>.</p>
+                <h5 style="margin: 0 0 4px; font-size: 17px; font-weight: 800; color: #0d2151;">{{ 'Complete your business profile (%pct%%)'|trans({'%pct%': profileCompletion}) }}</h5>
+                <p style="margin: 0; font-size: 14px; color: #64748b;">{{ 'Profiles with logos and banners receive <strong>300% more matching leads</strong>.'|trans|raw }}</p>
             </div>
         </div>
         <div class="d-flex flex-column align-items-end gap-2" style="flex-shrink:0;">
             <div class="drl-pro-warn-bar" style="width:180px; height:8px; border-radius:999px; background: #f1f5f9;">
                 <div class="drl-pro-warn-progress" style="width:{{ profileCompletion }}%; height:100%; border-radius:999px; background: linear-gradient(to right, #f97316, #fb923c);"></div>
             </div>
-            <a href="{{ path('professional_profile') }}" class="text-decoration-none fw-bold" style="font-size: 14px; color: #f97316;">Finish Profile Setup <i class="ph-arrow-right"></i></a>
+            <a href="{{ path('professional_profile') }}" class="text-decoration-none fw-bold" style="font-size: 14px; color: #f97316;">{{ 'Finish Profile Setup'|trans }} <i class="ph-arrow-right"></i></a>
         </div>
     </div>
     {% endif %}
@@ -185,7 +185,7 @@
             <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Quotes Available</p>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Demandes disponibles'|trans }}</p>
                         <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ quoteCount }}</h3>
                     </div>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #eff6ff; color: #00509e; font-size: 22px;">
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #00509e;">
-                    <i class="ph-trend-up me-2"></i> Opportunities
+                    <i class="ph-trend-up me-2"></i> {{ 'Opportunités'|trans }}
                 </div>
             </div>
         </div>
@@ -202,7 +202,7 @@
             <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Offers Sent</p>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Offres envoyées'|trans }}</p>
                         <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ offerCount }}</h3>
                     </div>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #fff7ed; color: #ea580c; font-size: 22px;">
@@ -210,7 +210,7 @@
                     </div>
                 </div>
                 <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #64748b;">
-                    <i class="ph-clock me-2"></i> Awaiting Client
+                    <i class="ph-clock me-2"></i> {{ 'En attente client'|trans }}
                 </div>
             </div>
         </div>
@@ -219,7 +219,7 @@
             <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Win Rate</p>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Taux de succès'|trans }}</p>
                         <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ conversionRate }}<span class="fs-6 opacity-50">%</span></h3>
                     </div>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #f0fdf4; color: #16a34a; font-size: 22px;">
@@ -227,7 +227,7 @@
                     </div>
                 </div>
                 <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #16a34a;">
-                    <i class="ph-check-circle me-2"></i> {{ acceptedCount }} Won
+                    <i class="ph-check-circle me-2"></i> {{ '%count% gagnés'|trans({'%count%': acceptedCount}) }}
                 </div>
             </div>
         </div>
@@ -236,15 +236,15 @@
             <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">Avg Response</p>
-                        <h3 class="fw-bold mb-0" style="font-size: 22px; color: #0d2151;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instant' }}</h3>
+                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Réponse moyenne'|trans }}</p>
+                        <h3 class="fw-bold mb-0" style="font-size: 22px; color: #0d2151;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instantané'|trans }}</h3>
                     </div>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #f8fafc; color: #475569; font-size: 22px;">
                         <i class="ph-timer"></i>
                     </div>
                 </div>
                 <div class="mt-3 py-2 px-3 rounded-pill bg-navy-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #0d2151;">
-                    <i class="ph-lightning me-2"></i> Market Leader
+                    <i class="ph-lightning me-2"></i> {{ 'Leader du marché'|trans }}
                 </div>
             </div>
         </div>
@@ -256,11 +256,11 @@
             <div class="drl-card border-0 shadow-sm" style="border-radius: 16px; overflow: hidden;">
                 <div class="drl-card-head p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
                     <div>
-                        <h4 class="fw-bold text-dark mb-1" style="font-size: 20px;">Recent Business Actions</h4>
-                        <p class="text-muted small mb-0">Track the lifecycle of your submitted quotes and incoming leads.</p>
+                        <h4 class="fw-bold text-dark mb-1" style="font-size: 20px;">{{ 'Actions récentes'|trans }}</h4>
+                        <p class="text-muted small mb-0">{{ 'Suivez le cycle de vie de vos devis et demandes.'|trans }}</p>
                     </div>
                     <a href="{{ path('professional_offers') }}" class="btn btn-light rounded-pill px-4 fw-bold border" style="font-size: 13px;">
-                        View All Offers <i class="ph-arrow-right ms-1"></i>
+                        {{ 'Voir toutes les offres'|trans }} <i class="ph-arrow-right ms-1"></i>
                     </a>
                 </div>
 
@@ -268,12 +268,12 @@
                     <table class="table mb-0 align-middle">
                         <thead class="bg-light">
                             <tr>
-                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Demande</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Montant</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Statut</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Lecture</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Date</th>
-                                <th class="pe-4 py-3 text-end text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">Action</th>
+                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Demande'|trans }}</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Montant'|trans }}</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Statut'|trans }}</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Lecture'|trans }}</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Date'|trans }}</th>
+                                <th class="pe-4 py-3 text-end text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Action'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -285,8 +285,8 @@
                                                 <i class="ph-{% if offer.quoteRequest %}file-text{% else %}user{% endif %}"></i>
                                             </div>
                                             <div>
-                                                <strong class="text-dark d-block mb-0" style="font-size: 15px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,50) ~ (offer.quoteRequest.title|length > 50 ? '...' : '') : 'Direct Request' }}</strong>
-                                                <span class="text-muted small">#{{ offer.id }} • {{ offer.quoteRequest ? offer.quoteRequest.category.localizedTitle(app.request.locale) : 'Direct' }}</span>
+                                                <strong class="text-dark d-block mb-0" style="font-size: 15px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,50) ~ (offer.quoteRequest.title|length > 50 ? '...' : '') : 'Demande Directe'|trans }}</strong>
+                                                <span class="text-muted small">#{{ offer.id }} • {{ offer.quoteRequest ? offer.quoteRequest.category.localizedTitle(app.request.locale) : 'Direct'|trans }}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -295,20 +295,20 @@
                                     </td>
                                     <td class="py-4">
                                         {% if offer.status == 'DRAFT' %}
-                                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-file me-1"></i> Brouillon</span>
+                                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-file me-1"></i> {{ 'Brouillon'|trans }}</span>
                                         {% elseif offer.status == 'PUBLISHED' %}
-                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-send me-1"></i> Envoyée</span>
+                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-send me-1"></i> {{ 'Envoyée'|trans }}</span>
                                         {% elseif offer.status == 'INTERESTED' %}
                                             <span class="badge rounded-pill fw-bold px-3 py-2" style="font-size: 11px; background: rgba(245,158,11,0.12); color: #b45309;"
-                                                  data-bs-toggle="tooltip" title="Le client a mis votre offre en liste courte — relancez-le !">
-                                                <i class="feather-bookmark me-1"></i> Intéressé
+                                                  data-bs-toggle="tooltip" title="{{ 'Le client a mis votre offre en liste courte — relancez-le !'|trans }}">
+                                                <i class="feather-bookmark me-1"></i> {{ 'Intéressé'|trans }}
                                             </span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-x-circle me-1"></i> Refusée</span>
+                                            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-x-circle me-1"></i> {{ 'Refusée'|trans }}</span>
                                         {% elseif offer.status == 'ACCEPTED' %}
-                                            <span class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-circle me-1"></i> Acceptée</span>
+                                            <span class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-circle me-1"></i> {{ 'Acceptée'|trans }}</span>
                                         {% elseif offer.status == 'CLOSED' %}
-                                            <span class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-square me-1"></i> Terminée</span>
+                                            <span class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-square me-1"></i> {{ 'Terminée'|trans }}</span>
                                         {% else %}
                                             <span class="badge rounded-pill bg-light text-muted fw-bold px-3 py-2">{{ offer.status }}</span>
                                         {% endif %}
@@ -317,16 +317,16 @@
                                     <td class="py-4">
                                         {% if offer.viewedAt %}
                                             <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #059669; white-space: nowrap;"
-                                                  data-bs-toggle="tooltip" title="Consultée le {{ offer.viewedAt|date('d/m/Y à H:i') }}">
+                                                  data-bs-toggle="tooltip" title="{{ 'Consultée le %date%'|trans({'%date%': offer.viewedAt|date('d/m/Y à H:i')}) }}">
                                                 <i class="feather-eye" style="font-size: 14px;"></i>
-                                                <span class="fw-semibold">Vue</span>
+                                                <span class="fw-semibold">{{ 'Vue'|trans }}</span>
                                                 <span class="text-muted fw-normal">{{ offer.viewedAt|date('d/m') }}</span>
                                             </span>
                                         {% elseif offer.status == 'PUBLISHED' or offer.status == 'INTERESTED' %}
                                             <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #f97316; white-space: nowrap;">
                                                 <span class="rounded-circle d-inline-block" style="width: 7px; height: 7px; background: #f97316; animation: pulse 1.5s infinite;"></span>
                                                 <i class="feather-eye-off" style="font-size: 14px;"></i>
-                                                <span class="fw-bold">Non lue</span>
+                                                <span class="fw-bold">{{ 'Non lue'|trans }}</span>
                                             </span>
                                         {% else %}
                                             <span class="text-muted small">—</span>
@@ -339,12 +339,12 @@
                                         {% set parentRequest = offer.quoteRequest ?? offer.directRequest %}
                                         {% if offer.status == 'ACCEPTED' and parentRequest and parentRequest.status|upper != 'CLOSED' %}
                                             <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
-                                                <i class="ph-check-circle"></i> Terminer
+                                                <i class="ph-check-circle"></i> {{ 'Terminer'|trans }}
                                             </button>
                                         {% endif %}
                                         {% if parentRequest %}
                                             <a href="{{ path('offer_view', {id: offer.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
-                                                <i class="ph-eye"></i> Voir
+                                                <i class="ph-eye"></i> {{ 'Voir'|trans }}
                                             </a>
                                         {% endif %}
                                     </td>
@@ -355,10 +355,10 @@
                                         <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
                                             <i class="ph-suitcase ph-3x text-muted opacity-25"></i>
                                         </div>
-                                        <h5 class="fw-bold text-dark mb-2">No recent offers</h5>
-                                        <p class="text-muted mb-4 px-5">Submit your first offer to start winning new clients and growing your business.</p>
+                                        <h5 class="fw-bold text-dark mb-2">{{ 'No recent offers'|trans }}</h5>
+                                        <p class="text-muted mb-4 px-5">{{ 'Submit your first offer to start winning new clients and growing your business.'|trans }}</p>
                                         <a href="{{ path('professional_quotes') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
-                                            <i class="ph-magnifying-glass me-2"></i> Find Demands
+                                            <i class="ph-magnifying-glass me-2"></i> {{ 'Find Demands'|trans }}
                                         </a>
                                     </td>
                                 </tr>
@@ -386,17 +386,17 @@
                             <i class="feather-check-circle"></i>
                         </div>
                     </div>
-                    <h4 class="drl-card-title mb-2" style="font-size: 22px;">Confirmer la fin des travaux ?</h4>
-                    <p class="text-muted mb-4">Marquer cette demande comme terminée ? Le client sera notifié que les travaux sont accomplis.</p>
+                    <h4 class="drl-card-title mb-2" style="font-size: 22px;">{{ 'Confirmer la fin des travaux ?'|trans }}</h4>
+                    <p class="text-muted mb-4">{{ 'Marquer cette demande comme terminée ? Le client sera notifié que les travaux sont accomplis.'|trans }}</p>
                     <div class="d-flex flex-column gap-2 mt-4">
                         <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
-                                <i class="feather-check-circle me-2"></i> Oui, terminer la mission
+                                <i class="feather-check-circle me-2"></i> {{ 'Oui, terminer la mission'|trans }}
                             </button>
                         </form>
                         <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
-                            Non, pas encore
+                            {{ 'Non, pas encore'|trans }}
                         </button>
                     </div>
                 </div>

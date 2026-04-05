@@ -1,27 +1,27 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}Direct Requests - {{ app.user.companyName }}{% endblock %}
+{% block title %}{{ 'Demandes directes'|trans }} - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
     <div class="drl-card">
         <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="drl-card-title">Direct Requests</h4>
-                <p class="drl-card-sub">Requests sent directly to you by individuals</p>
+                <h4 class="drl-card-title">{{ 'Demandes directes'|trans }}</h4>
+                <p class="drl-card-sub">{{ 'Demandes qui vous sont envoyées directement par des particuliers'|trans }}</p>
             </div>
-            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ directRequests|length }} Total</span>
+            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ directRequests|length }} {{ 'Total'|trans }}</span>
         </div>
 
         <div class="table-responsive">
             <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
-                        <th>Request Details</th>
-                        <th>Individual</th>
-                        <th>Category</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>{{ 'Détails de la demande'|trans }}</th>
+                        <th>{{ 'Particulier'|trans }}</th>
+                        <th>{{ 'Catégorie'|trans }}</th>
+                        <th>{{ 'Date'|trans }}</th>
+                        <th>{{ 'Statut'|trans }}</th>
+                        <th>{{ 'Action'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,23 +38,23 @@
                                 </div>
                             </td>
                             <td>
-                                <span style="font-weight: 600; color: #475569;">{{ request.individual.personalInfos.firstName|default('User') }} {{ request.individual.personalInfos.lastName|default('') }}</span>
+                                <span style="font-weight: 600; color: #475569;">{{ request.individual.personalInfos.firstName|default('Utilisateur'|trans) }} {{ request.individual.personalInfos.lastName|default('') }}</span>
                             </td>
                             <td>
-                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.localizedTitle(app.request.locale)|default('General') }}</span>
+                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.localizedTitle(app.request.locale)|default('Général'|trans) }}</span>
                             </td>
                             <td>
                                 <span style="font-size: 13px; color: #64748b;">{{ request.creationDate|date('d/m/Y') }}</span>
                             </td>
                             <td>
                                 {% if request.status == 'PUBLISHED' %}
-                                    <span class="drl-tag drl-tag--sent"><i class="feather-globe" style="font-size: 11px;"></i> Published</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="feather-globe" style="font-size: 11px;"></i> {{ 'Publiée'|trans }}</span>
                                 {% elseif request.status in ['Accepted'] %}
-                                    <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> Accepted</span>
+                                    <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> {{ 'Acceptée'|trans }}</span>
                                 {% elseif request.status in ['Closed'] %}
-                                    <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> Closed</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> {{ 'Clôturée'|trans }}</span>
                                 {% else %}
-                                    <span class="drl-tag drl-tag--draft">{{ request.status }}</span>
+                                    <span class="drl-tag drl-tag--draft">{{ request.status|trans }}</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -63,9 +63,9 @@
                                 <a href="{{ path('offer_send_direct', {id: request.id}) }}"
                                    class="drl-act-btn drl-act-btn--view"
                                    style="text-decoration:none; font-size:12px; padding: 5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"
-                                   title="View Request Details">
+                                   title="{{ 'Voir les détails de la demande'|trans }}">
                                     <i class="feather-eye"></i>
-                                    <span>Details</span>
+                                    <span>{{ 'Détails'|trans }}</span>
                                 </a>
 
                                 {# Submit offer — only if request is PUBLISHED and not yet Accepted/Closed #}
@@ -74,11 +74,11 @@
                                        class="drl-btn-orange"
                                        style="padding: 5px 12px; font-size:12px; text-decoration:none; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
                                         <i class="feather-send"></i>
-                                        <span>Respond</span>
+                                        <span>{{ 'Répondre'|trans }}</span>
                                     </a>
                                 {% elseif request.status in ['Accepted', 'Closed'] %}
                                     <span class="drl-tag drl-tag--draft" style="font-size:11px;">
-                                        <i class="feather-lock" style="font-size:10px;"></i> Closed
+                                        <i class="feather-lock" style="font-size:10px;"></i> {{ 'Clôturée'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -90,8 +90,8 @@
                                 <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
                                     <i class="feather-inbox"></i>
                                 </div>
-                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">No direct requests</h6>
-                                <p style="font-size:14px; color:#64748b; margin:0;">No direct requests have been sent to you yet</p>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'Aucune demande directe'|trans }}</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0;">{{ "Aucune demande directe ne vous a été envoyée pour le moment"|trans }}</p>
                             </td>
                         </tr>
                     {% endfor %}

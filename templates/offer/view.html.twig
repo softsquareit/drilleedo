@@ -97,7 +97,7 @@
             </div>
             <div class="flex-grow-1">
                 <div class="fw-bold" style="color: #92400e; font-size: 16px;">Mise en liste courte</div>
-                <div class="small text-muted">Le client a marqué votre offre comme intéressante. Restez disponible !</div>
+                <div class="small text-muted">{{ 'Le client a marqué votre offre comme intéressante. Restez disponible !'|trans }}</div>
             </div>
         </div>
 
@@ -109,8 +109,8 @@
                 <i class="ph-bold ph-check-circle" style="color: #059669; font-size: 24px;"></i>
             </div>
             <div>
-                <div class="fw-bold" style="color: #065f46; font-size: 16px;">Offre acceptée !</div>
-                <div class="small text-muted">Contactez le client pour démarrer les travaux. Ses coordonnées sont débloquées.</div>
+                <div class="fw-bold" style="color: #065f46; font-size: 16px;">{{ 'Offre acceptée !'|trans }}</div>
+                <div class="small text-muted">{{ 'Contactez le client pour démarrer les travaux. Ses coordonnées sont débloquées.'|trans }}</div>
             </div>
         </div>
 
@@ -122,8 +122,8 @@
                 <i class="ph-bold ph-x-circle" style="color: #ef4444; font-size: 24px;"></i>
             </div>
             <div>
-                <div class="fw-bold" style="color: #991b1b; font-size: 16px;">Offre non retenue</div>
-                <div class="small text-muted">Le client a sélectionné un autre prestataire pour ce projet.</div>
+                <div class="fw-bold" style="color: #991b1b; font-size: 16px;">{{ 'Offre non retenue'|trans }}</div>
+                <div class="small text-muted">{{ 'Le client a sélectionné un autre prestataire pour ce projet.'|trans }}</div>
             </div>
         </div>
     {% endif %}
@@ -133,34 +133,34 @@
         <div class="col-lg-8">
             <div class="pro-card pro-card-elevated mb-4">
                 <div class="pro-card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <h4 class="pro-card-title mb-0">Votre offre</h4>
+                    <h4 class="pro-card-title mb-0">{{ 'Votre offre'|trans }}</h4>
                     <div class="d-flex align-items-center gap-2">
                         {# Viewed badge in card header #}
                         {% if offer.viewedAt %}
                             <span class="drl-tag drl-tag--success" style="font-size: 11px;">
-                                <i class="ph-bold ph-eye me-1"></i> Vue le {{ offer.viewedAt|date('d/m') }}
+                                <i class="ph-bold ph-eye me-1"></i> {{ 'Vue le %date%'|trans({'%date%': offer.viewedAt|date('d/m')}) }}
                             </span>
                         {% elseif offerStatus == 'PUBLISHED' %}
                             <span style="font-size: 11px; color: #f97316; font-weight: 700; display: flex; align-items: center; gap: 6px;">
                                 <span class="rounded-circle d-inline-block" style="width:8px;height:8px;background:#f97316;animation:pulse 1.5s infinite;"></span>
-                                Non lue par le client
+                                {{ 'Non lue par le client'|trans }}
                             </span>
                         {% endif %}
                         {# Status badge #}
                         {% if offerStatus == 'DRAFT' %}
-                            <span class="drl-tag drl-tag--draft">Brouillon</span>
+                            <span class="drl-tag drl-tag--draft">{{ 'Brouillon'|trans }}</span>
                         {% elseif offerStatus == 'PUBLISHED' %}
-                            <span class="drl-tag drl-tag--sent">Envoyée</span>
+                            <span class="drl-tag drl-tag--sent">{{ 'Envoyée'|trans }}</span>
                         {% elseif offerStatus == 'INTERESTED' %}
                             <span class="drl-tag drl-tag--warning" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">
-                                <i class="ph-bold ph-star me-1" style="font-size:11px;"></i> Intéressé
+                                <i class="ph-bold ph-star me-1" style="font-size:11px;"></i> {{ 'Intéressé'|trans }}
                             </span>
                         {% elseif offerStatus == 'ACCEPTED' %}
-                            <span class="drl-tag drl-tag--success">Acceptée</span>
+                            <span class="drl-tag drl-tag--success">{{ 'Acceptée'|trans }}</span>
                         {% elseif offerStatus == 'REJECTED' %}
-                            <span class="drl-tag drl-tag--danger">Refusée</span>
+                            <span class="drl-tag drl-tag--danger">{{ 'Refusée'|trans }}</span>
                         {% elseif offerStatus == 'CLOSED' %}
-                            <span class="drl-tag drl-tag--draft">Terminée</span>
+                            <span class="drl-tag drl-tag--draft">{{ 'Terminée'|trans }}</span>
                         {% else %}
                             <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
                         {% endif %}
@@ -175,7 +175,7 @@
                                 <i class="ph-bold ph-currency-dollar" style="font-size: 1.8rem; color: #10b981;"></i>
                             </div>
                             <div>
-                                <small class="text-muted d-block fw-bold" style="text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: #059669 !important;">Montant total proposé</small>
+                                <small class="text-muted d-block fw-bold" style="text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: #059669 !important;">{{ 'Montant total proposé'|trans }}</small>
                                 <div class="d-flex align-items-baseline gap-1">
                                     <span class="h2 mb-0 fw-800" style="color: #065f46;">{{ offer.price|number_format(0, ',', ' ') }}</span>
                                     <span class="h4 mb-0 fw-bold" style="color: #059669;">$</span>
@@ -209,13 +209,13 @@
                         {% if docImages|length > 0 %}
                             <div class="mb-4">
                                 <label class="d-block mb-3 text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 0.08em; color: #94a3b8;">
-                                    <i class="ph-bold ph-image me-1"></i> Photos jointes ({{ docImages|length }})
+                                    <i class="ph-bold ph-image me-1"></i> {{ 'Photos jointes'|trans }} ({{ docImages|length }})
                                 </label>
                                 <div class="d-flex flex-wrap gap-2">
                                     {% for img in docImages %}
                                         <a href="{{ asset('uploads/offers/' ~ img) }}" target="_blank"
-                                           data-bs-toggle="tooltip" title="Voir en grand">
-                                            <img src="{{ asset('uploads/offers/' ~ img) }}" alt="Photo {{ loop.index }}"
+                                           data-bs-toggle="tooltip" title="{{ 'Voir en grand'|trans }}">
+                                            <img src="{{ asset('uploads/offers/' ~ img) }}" alt="{{ 'Photo'|trans }} {{ loop.index }}"
                                                  style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 2px solid #e2e8f0;"
                                                  class="shadow-sm">
                                         </a>
@@ -227,14 +227,14 @@
                         {% if docFiles|length > 0 %}
                             <div class="mb-4">
                                 <label class="d-block mb-3 text-uppercase fw-bold" style="font-size: 0.7rem; letter-spacing: 0.08em; color: #94a3b8;">
-                                    <i class="ph-bold ph-paperclip me-1"></i> Documents joints ({{ docFiles|length }})
+                                    <i class="ph-bold ph-paperclip me-1"></i> {{ 'Documents joints'|trans }} ({{ docFiles|length }})
                                 </label>
                                 <div class="d-flex flex-wrap gap-2">
                                     {% for doc in docFiles %}
                                         <a href="{{ asset('uploads/offers/' ~ doc) }}" target="_blank"
                                            class="pro-btn pro-btn-outline pro-btn-sm rounded-pill d-inline-flex align-items-center gap-2">
                                             <i class="ph-bold ph-file-pdf"></i>
-                                            <span>Document {{ loop.index }}</span>
+                                            <span>{{ 'Document'|trans }} {{ loop.index }}</span>
                                         </a>
                                     {% endfor %}
                                 </div>
@@ -250,7 +250,7 @@
                                 <div class="d-flex align-items-center gap-3 p-3 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                                     <i class="ph-bold ph-percent" style="color: #94a3b8; font-size: 20px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">Acompte</small>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">{{ 'Acompte'|trans }}</small>
                                         <span class="fw-bold" style="color: #0f172a;">{{ offer.depositPercent }} %</span>
                                     </div>
                                 </div>
@@ -261,8 +261,8 @@
                                 <div class="d-flex align-items-center gap-3 p-3 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                                     <i class="ph-bold ph-shield-check" style="color: #94a3b8; font-size: 20px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">Garantie</small>
-                                        <span class="fw-bold" style="color: #0f172a;">{{ offer.warrantyMonths }} mois</span>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">{{ 'Garantie'|trans }}</small>
+                                        <span class="fw-bold" style="color: #0f172a;">{{ '%count% mois'|trans({'%count%': offer.warrantyMonths}) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                                 <div class="d-flex align-items-center gap-3 p-3 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                                     <i class="ph-bold ph-credit-card" style="color: #94a3b8; font-size: 20px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">Paiement</small>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">{{ 'Paiement'|trans }}</small>
                                         <span class="fw-bold" style="color: #0f172a;">{{ offer.paymentMethod|capitalize }}</span>
                                     </div>
                                 </div>
@@ -288,8 +288,8 @@
                                 <div class="d-flex align-items-center gap-3 p-3 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                                     <i class="ph-bold ph-map-pin" style="color: #94a3b8; font-size: 20px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">Visite préalable</small>
-                                        <span class="fw-bold" style="color: #0f172a;">{{ offer.priorVisit ? 'Oui' : 'Non' }}</span>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">{{ 'Visite préalable'|trans }}</small>
+                                        <span class="fw-bold" style="color: #0f172a;">{{ offer.priorVisit ? 'Oui'|trans : 'Non'|trans }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +299,7 @@
                                 <div class="d-flex align-items-center gap-3 p-3 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                                     <i class="ph-bold ph-calendar-blank" style="color: #94a3b8; font-size: 20px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">Début possible</small>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">{{ 'Début possible'|trans }}</small>
                                         <span class="fw-bold" style="color: #0f172a;">{{ offer.possibleStartDate|date('d/m/Y') }}</span>
                                     </div>
                                 </div>
@@ -310,8 +310,8 @@
                                 <div class="d-flex align-items-center gap-3 p-3 rounded-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                                     <i class="ph-bold ph-timer" style="color: #94a3b8; font-size: 20px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">Durée estimée</small>
-                                        <span class="fw-bold" style="color: #0f172a;">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('jours') }}</span>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 0.65rem; text-transform:uppercase; letter-spacing: .05em;">{{ 'Durée estimée'|trans }}</small>
+                                        <span class="fw-bold" style="color: #0f172a;">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('jours'|trans) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +323,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <i class="ph-bold ph-calendar-plus" style="color: #94a3b8; font-size: 18px;"></i>
                                 <div>
-                                    <small class="text-muted d-block fw-bold" style="font-size: 11px;">Soumis le</small>
+                                    <small class="text-muted d-block fw-bold" style="font-size: 11px;">{{ 'Soumis le'|trans }}</small>
                                     <span class="fw-bold" style="color: #0f172a; font-size: 13px;">{{ offer.createdAt|date('d/m/Y à H:i') }}</span>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <i class="ph-bold ph-arrows-clockwise" style="color: #94a3b8; font-size: 18px;"></i>
                                     <div>
-                                        <small class="text-muted d-block fw-bold" style="font-size: 11px;">Dernière mise à jour</small>
+                                        <small class="text-muted d-block fw-bold" style="font-size: 11px;">{{ 'Dernière mise à jour'|trans }}</small>
                                         <span class="fw-bold" style="color: #0f172a; font-size: 13px;">{{ offer.updatedAt|date('d/m/Y à H:i') }}</span>
                                     </div>
                                 </div>
@@ -348,20 +348,20 @@
                 {% if offerStatus == 'DRAFT' %}
                     <button type="button" class="pro-btn pro-btn-outline-danger rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
                             data-bs-toggle="modal" data-bs-target="#deleteDraftModal">
-                        <i class="ph-bold ph-trash"></i> Supprimer le brouillon
+                        <i class="ph-bold ph-trash"></i> {{ 'Supprimer le brouillon'|trans }}
                     </button>
                 {% endif %}
                 {% if offerStatus in ['PUBLISHED', 'INTERESTED'] %}
                     <button type="button" class="pro-btn pro-btn-outline-danger rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
                             data-bs-toggle="modal" data-bs-target="#withdrawOfferModal">
-                        <i class="ph-bold ph-x-circle"></i> Retirer mon offre
+                        <i class="ph-bold ph-x-circle"></i> {{ 'Retirer mon offre'|trans }}
                     </button>
                 {% endif %}
                 {% set activeReq = offer.quoteRequest ?? offer.directRequest %}
                 {% if offerStatus == 'ACCEPTED' and activeReq and activeReq.status|upper != 'CLOSED' %}
                     <button type="button" class="pro-btn pro-btn-success rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2"
                             data-bs-toggle="modal" data-bs-target="#finalizeMissionModal">
-                        <i class="ph-bold ph-check-circle"></i> Terminer la mission
+                        <i class="ph-bold ph-check-circle"></i> {{ 'Terminer la mission'|trans }}
                     </button>
                 {% endif %}
             </div>
@@ -374,7 +374,7 @@
                     <div class="pro-card-header" style="background: linear-gradient(135deg, #0d2151, #1e3a8a); color: #fff; padding: 1.25rem 1.5rem;">
                         <h5 class="pro-card-title mb-0 d-flex align-items-center gap-2" style="color: #fff; font-size: 15px;">
                             <i class="ph-bold ph-clipboard-text" style="opacity: .8;"></i>
-                            {{ quote ? 'Demande de devis' : 'Demande directe' }}
+                            {{ quote ? 'Demande de devis'|trans : 'Demande directe'|trans }}
                         </h5>
                     </div>
                     <div class="pro-card-body">
@@ -386,7 +386,7 @@
                         {# Request photos #}
                         {% if activeRequest.images is defined and activeRequest.images|length > 0 %}
                             <div class="mb-3">
-                                <small class="pro-text-muted d-block mb-1" style="font-size: 0.7rem; text-transform:uppercase; letter-spacing:0.05em;">Photos de la demande</small>
+                                <small class="pro-text-muted d-block mb-1" style="font-size: 0.7rem; text-transform:uppercase; letter-spacing:0.05em;">{{ 'Photos de la demande'|trans }}</small>
                                 <div class="d-flex flex-wrap gap-1">
                                     {% for img in activeRequest.images|slice(0, 4) %}
                                         <a href="{{ asset('uploads/quote_requests/' ~ img) }}" target="_blank">
@@ -416,13 +416,13 @@
                             {% if activeRequest.urgentIntervention %}
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="ph-bold ph-lightning text-danger" style="font-size:13px;"></i>
-                                    <span class="drl-tag drl-tag--danger" style="font-size:11px;">Intervention urgente</span>
+                                    <span class="drl-tag drl-tag--danger" style="font-size:11px;">{{ 'Intervention urgente'|trans }}</span>
                                 </div>
                             {% endif %}
                             {% if activeRequest.desiredStartDate %}
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="ph-bold ph-calendar-blank text-muted" style="font-size:13px;"></i>
-                                    <span class="small text-muted">Début souhaité : <strong class="text-dark">{{ activeRequest.desiredStartDate|date('d/m/Y') }}</strong></span>
+                                    <span class="small text-muted">{{ 'Début souhaité :'|trans }} <strong class="text-dark">{{ activeRequest.desiredStartDate|date('d/m/Y') }}</strong></span>
                                 </div>
                             {% endif %}
                             {% if activeRequest.availabilities is defined and activeRequest.availabilities|length > 0 %}
@@ -441,11 +441,11 @@
                         <div class="d-flex align-items-center gap-2 mb-3">
                             <i class="ph-bold ph-info text-muted" style="font-size:13px;"></i>
                             {% set reqSt = activeRequest.status|upper %}
-                            {% if reqSt == 'CLOSED' %}<span class="drl-tag drl-tag--draft" style="font-size:11px;">Clôturée</span>
-                            {% elseif reqSt == 'IN_PROGRESS' %}<span class="drl-tag drl-tag--warning" style="font-size:11px;">En cours</span>
-                            {% elseif reqSt == 'ACCEPTED' %}<span class="drl-tag drl-tag--success" style="font-size:11px;">Acceptée</span>
-                            {% elseif reqSt == 'PUBLISHED' %}<span class="drl-tag drl-tag--sent" style="font-size:11px;">Publiée</span>
-                            {% else %}<span class="drl-tag drl-tag--draft" style="font-size:11px;">{{ activeRequest.status }}</span>
+                            {% if reqSt == 'CLOSED' %}<span class="drl-tag drl-tag--draft" style="font-size:11px;">{{ 'Clôturée'|trans }}</span>
+                            {% elseif reqSt == 'IN_PROGRESS' %}<span class="drl-tag drl-tag--warning" style="font-size:11px;">{{ 'En cours'|trans }}</span>
+                            {% elseif reqSt == 'ACCEPTED' %}<span class="drl-tag drl-tag--success" style="font-size:11px;">{{ 'Acceptée'|trans }}</span>
+                            {% elseif reqSt == 'PUBLISHED' %}<span class="drl-tag drl-tag--sent" style="font-size:11px;">{{ 'Publiée'|trans }}</span>
+                            {% else %}<span class="drl-tag drl-tag--draft" style="font-size:11px;">{{ activeRequest.status|trans }}</span>
                             {% endif %}
                         </div>
 
@@ -453,7 +453,7 @@
                         {% set client = activeRequest.individual %}
                         {% if client %}
                             <div class="border-top pt-3 mt-2">
-                                <small class="pro-text-muted d-block mb-2" style="font-size: 0.7rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:700;">Profil client</small>
+                                <small class="pro-text-muted d-block mb-2" style="font-size: 0.7rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:700;">{{ 'Profil client'|trans }}</small>
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="drl-stat-icon drl-stat-icon--1 m-0 flex-shrink-0"
                                          style="width:44px;height:44px;border-radius:50%;font-size:16px;">
@@ -466,10 +466,10 @@
                                             </div>
                                         {% else %}
                                             <div class="fw-bold text-dark" style="font-size:14px;">
-                                                {{ client.personalInfos ? client.personalInfos.firstName ~ ' ' ~ client.personalInfos.lastName|slice(0,1) ~ '.' : 'Client' }}
+                                                {{ client.personalInfos ? client.personalInfos.firstName ~ ' ' ~ client.personalInfos.lastName|slice(0,1) ~ '.' : 'Client'|trans }}
                                             </div>
                                         {% endif %}
-                                        <div class="text-muted small">Membre depuis {{ client.createdAt is defined ? client.createdAt|date('Y') : '' }}</div>
+                                        <div class="text-muted small">{{ 'Membre depuis %year%'|trans({'%year%': client.createdAt is defined ? client.createdAt|date('Y') : ''}) }}</div>
                                     </div>
                                 </div>
 
@@ -477,7 +477,7 @@
                                 {% if offerStatus == 'ACCEPTED' %}
                                   <div class="mt-3 p-3 rounded-4" style="background: rgba(16,185,129,0.05); border: 1.5px dashed rgba(16,185,129,0.3);">
                                         <div class="small fw-bold mb-2" style="color: #10b981; text-transform:uppercase; font-size:10px; letter-spacing: .05em;">
-                                            <i class="ph-bold ph-lock-key-open me-1"></i> Coordonnées débloquées
+                                            <i class="ph-bold ph-lock-key-open me-1"></i> {{ 'Coordonnées débloquées'|trans }}
                                         </div>
                                         <div class="d-flex align-items-center gap-2 mb-1">
                                             <i class="ph-bold ph-envelope-simple" style="color:#10b981;font-size:14px;"></i>
@@ -494,7 +494,7 @@
                                     <div class="mt-2 p-3 rounded-4 d-flex align-items-center gap-2"
                                          style="background: #f8fafc; border: 1.5px solid #e2e8f0;">
                                         <i class="ph-bold ph-lock text-muted" style="font-size:14px;"></i>
-                                        <small class="text-muted fw-500">Coordonnées débloquées après acceptation</small>
+                                        <small class="text-muted fw-500">{{ 'Coordonnées débloquées après acceptation'|trans }}</small>
                                     </div>
                                 {% endif %}
                             </div>
@@ -529,18 +529,18 @@
                             <i class="ph-bold ph-x-circle" style="font-size: 2rem; color: #ef4444;"></i>
                         </div>
                     </div>
-                    <h4 class="fw-bold text-dark mb-2">Retirer votre offre ?</h4>
-                    <p class="text-muted px-3 mb-4">Le client sera notifié que vous avez retiré votre offre. Cette action est irréversible.</p>
+                    <h4 class="fw-bold text-dark mb-2">{{ 'Retirer votre offre ?'|trans }}</h4>
+                    <p class="text-muted px-3 mb-4">{{ 'Le client sera notifié que vous avez retiré votre offre. Cette action est irréversible.'|trans }}</p>
                     <div class="d-flex flex-column gap-3">
                         <form method="post" action="{{ path('offer_withdraw', {id: offer.id}) }}" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('withdraw-offer-' ~ offer.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg"
                                     style="background: #ef4444 !important; box-shadow: 0 4px 14px rgba(239,68,68,0.3) !important;">
-                                <i class="ph-bold ph-x-circle me-2"></i> Oui, retirer mon offre
+                                <i class="ph-bold ph-x-circle me-2"></i> {{ 'Oui, retirer mon offre'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
-                            Annuler
+                            {{ 'Annuler'|trans }}
                         </button>
                     </div>
                 </div>
@@ -561,18 +561,18 @@
                             <i class="ph-bold ph-trash" style="font-size: 2rem; color: #ef4444;"></i>
                         </div>
                     </div>
-                    <h4 class="fw-bold text-dark mb-2">Supprimer ce brouillon ?</h4>
-                    <p class="text-muted px-3 mb-4">Cette action est irréversible. Le brouillon sera définitivement supprimé.</p>
+                    <h4 class="fw-bold text-dark mb-2">{{ 'Supprimer ce brouillon ?'|trans }}</h4>
+                    <p class="text-muted px-3 mb-4">{{ 'Cette action est irréversible. Le brouillon sera définitivement supprimé.'|trans }}</p>
                     <div class="d-flex flex-column gap-3">
                         <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg"
                                     style="background: #ef4444 !important; box-shadow: 0 4px 14px rgba(239,68,68,0.3) !important;">
-                                <i class="ph-bold ph-trash me-2"></i> Oui, supprimer
+                                <i class="ph-bold ph-trash me-2"></i> {{ 'Oui, supprimer'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
-                            Annuler
+                            {{ 'Annuler'|trans }}
                         </button>
                     </div>
                 </div>
@@ -593,18 +593,18 @@
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                     </div>
-                    <h4 class="fw-bold text-dark mb-2">Confirmer la fin des travaux ?</h4>
-                    <p class="text-muted px-3 mb-4">Le client sera notifié que les travaux sont accomplis et un rappel d'avis lui sera envoyé.</p>
+                    <h4 class="fw-bold text-dark mb-2">{{ 'Confirmer la fin des travaux ?'|trans }}</h4>
+                    <p class="text-muted px-3 mb-4">{{ "Le client sera notifié que les travaux sont accomplis et un rappel d'avis lui sera envoyé."|trans }}</p>
                     <div class="d-flex flex-column gap-3">
                         <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg"
                                     style="background: #16a34a !important; box-shadow: 0 4px 14px rgba(22,163,74,0.3) !important;">
-                                <i class="ph-bold ph-check-circle me-2"></i> Oui, terminer la mission
+                                <i class="ph-bold ph-check-circle me-2"></i> {{ 'Oui, terminer la mission'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
-                            Pas encore
+                            {{ 'Pas encore'|trans }}
                         </button>
                     </div>
                 </div>
