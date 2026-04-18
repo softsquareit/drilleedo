@@ -6,1082 +6,674 @@
 {% block body %}
 <main id="main-content">
 <style>
-/* ══ ABOUT PAGE — design charter matches index.html.twig ════════════════
-   Colours: #00509e (blue), #e8501a (orange), #0d2151 (navy), #1e293b (dark)
-   Patterns: discovery-pill, discovery-title, about-stat-card style, hero-btn
-   ═══════════════════════════════════════════════════════════════════════ */
-
-/* ── 1. Hero Banner ── */
-.au-hero {
-  height: 280px;
-  background: linear-gradient(120deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+/* ══ ABOUT PAGE v2 — Senior UI/UX ═══════════════════════════════════════
+   #1A3D6E blue · #F5821F orange · #3FA9F5 sky · Instrument Sans
+   ════════════════════════════════════════════════════════════════════════ */
+:root {
+  --ab:  #1A3D6E;
+  --ao:  #F5821F;
+  --as:  #3FA9F5;
+  --ad:  #0C1825;
+  --am:  #475569;
+  --al:  #E4EBF2;
+  --aw:  #fff;
+  --at:  all .22s ease;
+  --ar:  16px;
+  --arx: 22px;
+  --ash: 0 4px 28px rgba(26,61,110,.10);
 }
 
-.au-hero__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+/* ── HERO ── */
+.ab-hero {
+  min-height: 420px;
+  background: linear-gradient(135deg, #1A3D6E 0%, #2e6db4 50%, #3FA9F5 100%);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 24px;
 }
-
-.au-hero__content {
-  position: relative;
-  z-index: 2;
-  padding: 0 24px;
+.ab-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
-
-.au-hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.9);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
+.ab-hero::after {
+  content: '';
+  position: absolute; left: 50%; top: -120px; transform: translateX(-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,130,31,.15) 0%, transparent 65%);
+  pointer-events: none;
 }
-
-.au-hero__title {
-  font-size: clamp(28px, 5vw, 50px);
-  font-weight: 900;
-  color: #fff;
-  margin: 0 0 14px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+.ab-hero-inner { position: relative; z-index: 2; max-width: 700px; }
+.ab-breadcrumb {
+  font-size: 12px; color: rgba(255,255,255,.5);
+  margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-
-.au-hero__title span { color: #f97316; }
-
-.au-hero__sub {
-  font-size: 17px;
-  color: rgba(255,255,255,0.75);
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.7;
+.ab-breadcrumb a { color: rgba(255,255,255,.65); text-decoration: none; }
+.ab-breadcrumb a:hover { color: #fff; }
+.ab-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.12); color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
+  padding: 7px 18px; font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px;
 }
-
-/* Breadcrumb */
-.au-breadcrumb {
-  font-size: 13px;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 16px;
+.ab-eyebrow i { color: var(--ao); }
+.ab-hero-title {
+  font-size: clamp(32px, 5vw, 54px); font-weight: 900; color: #fff;
+  margin: 0 0 16px; line-height: 1.08; letter-spacing: -.03em;
 }
+.ab-hero-title span { color: var(--ao); }
+.ab-hero-sub {
+  font-size: 17px; color: rgba(255,255,255,.72);
+  max-width: 520px; margin: 0 auto 32px; line-height: 1.7;
+}
+.ab-hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.ab-btn-o {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ao); color: #fff; font-weight: 700; font-size: 15px;
+  padding: 13px 26px; border-radius: var(--ar); text-decoration: none;
+  box-shadow: 0 4px 18px rgba(245,130,31,.35); transition: var(--at);
+}
+.ab-btn-o:hover { background: #d96e10; transform: translateY(-2px); color: #fff; }
+.ab-btn-w {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #fff; font-weight: 700; font-size: 15px;
+  padding: 12px 24px; border-radius: var(--ar); text-decoration: none;
+  border: 2px solid rgba(255,255,255,.3); transition: var(--at);
+}
+.ab-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); color: #fff; }
 
-.au-breadcrumb a { color: rgba(255,255,255,0.7); text-decoration: none; }
-.au-breadcrumb a:hover { color: #fff; }
-.au-breadcrumb span { margin: 0 8px; }
-
-/* ── 2. Stats Strip ── */
-.au-stats-strip {
+/* ── STATS STRIP ── */
+.ab-stats {
   background: #fff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 2px 12px rgba(13,33,81,0.06);
+  border-bottom: 1px solid var(--al);
+  border-top: 3px solid var(--ao);
+}
+.ab-stats-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  max-width: 1100px; margin: 0 auto; padding: 0 28px;
+}
+.ab-stat-cell {
+  display: flex; align-items: center; gap: 14px;
+  padding: 24px 20px; border-right: 1px solid var(--al);
+}
+.ab-stat-cell:last-child { border-right: none; }
+.ab-stat-ico {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.ab-ico-b { background: linear-gradient(135deg,#1A3D6E,#2e6db4); color: #fff; }
+.ab-ico-s { background: linear-gradient(135deg,#2196f3,#3FA9F5); color: #fff; }
+.ab-ico-g { background: linear-gradient(135deg,#16a34a,#22c55e); color: #fff; }
+.ab-ico-o { background: linear-gradient(135deg,#c95a08,#F5821F); color: #fff; }
+.ab-stat-num { font-size: 22px; font-weight: 900; color: var(--ab); line-height: 1; }
+.ab-stat-lbl { font-size: 12px; color: var(--am); font-weight: 600; margin-top: 3px; }
+
+/* ── PAGE BG ── */
+.ab-page-bg {
+  background: linear-gradient(180deg, #cde0f5 0%, #daeaf9 25%, #e8f2fb 55%, #f2f7fd 100%);
+  padding: 56px 0 80px;
 }
 
-.au-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 28px;
-}
-
-.au-stat-cell {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 24px 20px;
-  border-right: 1px solid #f1f5f9;
-}
-
-.au-stat-cell:last-child { border-right: none; }
-
-.au-stat-ico {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.au-stat-ico.bg-navy  { background: linear-gradient(135deg, #0d2151, #1a3a6b); color: #fff; }
-.au-stat-ico.bg-blue  { background: linear-gradient(135deg, #00509e, #2196f3); color: #fff; }
-.au-stat-ico.bg-green { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
-.au-stat-ico.bg-orng  { background: linear-gradient(135deg, #c73d0d, #e8501a); color: #fff; }
-
-.au-stat-num {
-  font-size: 24px;
-  font-weight: 900;
-  color: #0d2151;
-  line-height: 1;
-}
-
-.au-stat-lbl {
-  font-size: 12px;
-  color: #64748b;
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-/* ── 3. Section utility ── */
-.au-section { padding: 80px 0; }
-.au-section--gray { background: #f8fafc; }
-.au-section--navy { background: linear-gradient(135deg, #0d2151 0%, #1a3a6b 100%); }
-.au-section--blue { background: linear-gradient(170deg, #f0f6ff 0%, #e8eeff 100%); }
-
-.au-section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: #e8f4fd;
-  color: #00509e;
-  border: 1px solid rgba(0,80,158,0.18);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.au-section-title {
-  font-size: clamp(24px, 3.5vw, 36px);
-  font-weight: 900;
-  color: #1e293b;
-  margin: 0 0 14px;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.au-section-title span { color: #00509e; }
-.au-section-sub {
-  font-size: 16px;
-  color: #64748b;
-  line-height: 1.7;
-  max-width: 600px;
-}
-
-/* ── 4. Story section ── */
-.au-story-img {
-  border-radius: 16px;
+/* ── SECTION CARDS ── */
+.ab-section {
+  background: var(--aw);
+  border-radius: var(--arx);
+  box-shadow: var(--ash);
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(13,33,81,0.14);
-  height: 100%;
-  min-height: 400px;
+  margin-bottom: 24px;
+  transition: box-shadow .22s, transform .22s;
+  border-left: 5px solid transparent;
 }
+.ab-section:hover { box-shadow: 0 10px 44px rgba(26,61,110,.14); transform: translateY(-2px); }
+.ab-section--story   { border-left-color: var(--ab); }
+.ab-section--mission { border-left-color: var(--ao); }
+.ab-section--vision  { border-left-color: var(--as); }
+.ab-section--canada  { border-left-color: #16a34a; }
 
-.au-story-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.ab-row {
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  min-height: 300px;
 }
+.ab-row--rev { grid-template-columns: 1.4fr 1fr; }
 
-.au-story-content { padding: 0 48px 0 0; }
-
-.au-feature-list {
-  list-style: none;
-  padding: 0;
-  margin: 24px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* Photo side */
+.ab-photo { overflow: hidden; position: relative; }
+.ab-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  min-height: 300px; transition: transform .5s ease;
 }
-
-.au-feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 15px;
-  color: #334155;
-  line-height: 1.6;
+.ab-section:hover .ab-photo img { transform: scale(1.04); }
+.ab-photo-tag {
+  position: absolute; bottom: 16px; left: 16px;
+  background: rgba(255,255,255,.94); backdrop-filter: blur(6px);
+  border-radius: 10px; padding: 8px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; color: var(--ab);
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
 }
+.ab-photo-tag i { color: var(--ao); font-size: 14px; }
 
-.au-feature-ico {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #00509e, #2196f3);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-/* ── 5. Values 3-col grid ── */
-.au-values-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 48px;
-}
-
-.au-val-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 28px 22px;
-  transition: transform 0.22s, box-shadow 0.22s;
-}
-
-.au-val-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(13,33,81,0.1);
-}
-
-.au-val-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  margin-bottom: 18px;
-}
-
-.au-val-title {
-  font-size: 17px;
-  font-weight: 800;
-  color: #0d2151;
-  margin: 0 0 10px;
-}
-
-.au-val-desc {
-  font-size: 14px;
-  color: #64748b;
-  line-height: 1.7;
-  margin: 0;
-}
-
-/* ── 6. Mission / Vision split ── */
-.au-mv-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 48px;
-}
-
-.au-mv-card {
-  border-radius: 16px;
-  padding: 36px 30px;
-  position: relative;
-  overflow: hidden;
-}
-
-.au-mv-card--mission {
-  background: linear-gradient(135deg, #0d2151 0%, #1a3a6b 100%);
-  color: #fff;
-}
-
-.au-mv-card--vision {
-  background: linear-gradient(135deg, #e8501a 0%, #f06030 100%);
-  color: #fff;
-}
-
-.au-mv-card__icon {
-  font-size: 40px;
-  opacity: 0.25;
-  position: absolute;
-  top: 20px;
-  right: 24px;
-}
-
-.au-mv-card__label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.7;
+/* Text side */
+.ab-body { padding: 44px 48px; display: flex; flex-direction: column; justify-content: center; }
+.ab-eyebrow2 {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ao);
   margin-bottom: 10px;
 }
+.ab-title {
+  font-size: 22px; font-weight: 900; color: var(--ab);
+  margin: 0 0 6px; line-height: 1.2; letter-spacing: -.02em;
+}
+.ab-subtitle {
+  font-size: 14px; font-weight: 600; color: var(--am);
+  margin: 0 0 18px; font-style: italic;
+}
+.ab-p { font-size: 15px; color: var(--am); line-height: 1.78; margin: 0 0 10px; }
+.ab-p:last-of-type { margin-bottom: 0; }
+.ab-p strong { color: var(--ab); }
 
-.au-mv-card__title {
-  font-size: 22px;
-  font-weight: 900;
-  margin: 0 0 14px;
-  line-height: 1.2;
-  color:white;
+/* Bullet list */
+.ab-list { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.ab-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: #334155; line-height: 1.6;
+}
+.ab-list-ico {
+  width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #fff; margin-top: 1px;
 }
 
-.au-mv-card__text {
-  font-size: 14px;
-  opacity: 0.85;
-  line-height: 1.75;
-  margin: 0;
+/* Mission pillars */
+.ab-pillars { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; }
+.ab-pillar {
+  background: #F8FAFC; border: 1.5px solid var(--al);
+  border-radius: 14px; padding: 16px 14px; text-align: center;
+  transition: var(--at);
+}
+.ab-pillar:hover { border-color: var(--as); background: #EEF4FF; }
+.ab-pillar-ico { font-size: 22px; color: var(--ao); margin-bottom: 8px; }
+.ab-pillar-lbl { font-size: 12px; font-weight: 700; color: var(--ab); }
+
+/* Stats grid inside card */
+.ab-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+.ab-kpi {
+  background: #EEF4FF; border-radius: 14px; padding: 16px 18px;
+  border: 1.5px solid #d5e4f5; transition: var(--at);
+}
+.ab-kpi:hover { background: #dbeafe; border-color: var(--as); }
+.ab-kpi-num { font-size: 26px; font-weight: 900; color: var(--ab); line-height: 1; margin-bottom: 4px; }
+.ab-kpi-num span { color: var(--ao); }
+.ab-kpi-lbl { font-size: 12px; color: var(--am); font-weight: 600; }
+
+/* Values strip — 3 icônes sous Story */
+.ab-values { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--al); }
+.ab-val {
+  padding: 22px 24px; display: flex; align-items: center; gap: 14px;
+  border-right: 1px solid var(--al); transition: background .18s;
+}
+.ab-val:last-child { border-right: none; }
+.ab-val:hover { background: #F8FAFC; }
+.ab-val-ico {
+  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.ab-val-name { font-size: 13px; font-weight: 800; color: var(--ab); margin-bottom: 2px; }
+.ab-val-desc { font-size: 12px; color: var(--am); line-height: 1.5; }
+
+/* CTA final */
+.ab-cta {
+  background: linear-gradient(135deg, #1A3D6E 0%, #2662ab 60%, #3FA9F5 100%);
+  border-radius: var(--arx); padding: 64px 48px; text-align: center;
+  box-shadow: 0 12px 48px rgba(26,61,110,.22);
+  position: relative; overflow: hidden; margin-top: 8px;
+}
+.ab-cta::before {
+  content:''; position:absolute; top:-100px; right:-80px;
+  width:320px; height:320px; border-radius:50%;
+  background: rgba(255,255,255,.05); pointer-events:none;
+}
+.ab-cta::after {
+  content:''; position:absolute; bottom:-80px; left:-60px;
+  width:260px; height:260px; border-radius:50%;
+  background: rgba(245,130,31,.08); pointer-events:none;
+}
+.ab-cta-inner { position: relative; z-index: 2; }
+.ab-cta-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.12); color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
+  padding: 7px 18px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px;
+}
+.ab-cta h2 { font-size: clamp(24px,3.5vw,36px); font-weight: 900; color: #fff; margin: 0 0 12px; }
+.ab-cta p  { font-size: 16px; color: rgba(255,255,255,.72); margin: 0 0 32px; max-width:480px; margin-left:auto; margin-right:auto; }
+.ab-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ── WHY DRILLEEDO MATTERS ── */
+.ab-matters {
+  border-radius: var(--arx);
+  overflow: hidden; margin-bottom: 24px;
+  box-shadow: 0 8px 40px rgba(26,61,110,.18);
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 520px;
 }
 
-/* ── 7. Team ── */
-.au-team-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 48px;
+/* Photo half */
+.ab-matters-photo {
+  position: relative; overflow: hidden;
 }
-
-.au-team-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.22s, box-shadow 0.22s;
+.ab-matters-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s ease;
 }
-
-.au-team-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(13,33,81,0.1); }
-
-.au-team-img {
-  height: 200px;
-  overflow: hidden;
-  position: relative;
-}
-
-.au-team-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  transition: transform 0.38s;
-}
-
-.au-team-card:hover .au-team-img img { transform: scale(1.06); }
-
-.au-team-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: linear-gradient(transparent, rgba(13,33,81,0.6));
-}
-
-.au-team-body { padding: 20px 18px 22px; }
-
-.au-team-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0d2151, #00509e);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 900;
-  margin: -50px auto 12px;
-  border: 4px solid #fff;
-  box-shadow: 0 4px 12px rgba(13,33,81,0.2);
-  position: relative;
-  z-index: 2;
-}
-
-.au-team-name {
-  font-size: 17px;
-  font-weight: 800;
-  color: #0d2151;
-  margin: 0 0 4px;
-}
-
-.au-team-role {
-  font-size: 13px;
-  font-weight: 700;
-  color: #00509e;
-  margin: 0 0 10px;
-}
-
-.au-team-bio {
-  font-size: 13px;
-  color: #64748b;
-  line-height: 1.65;
-  margin: 0;
-}
-
-/* ── 8. Why Choose Us ── */
-.au-why-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 40px;
-}
-
-.au-why-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 12px;
-  padding: 20px 18px;
-}
-
-.au-why-ico {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.au-why-name {
-  font-size: 15px;
-  font-weight: 800;
-  color: #fff;
-  margin: 0 0 5px;
-}
-
-.au-why-desc {
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
-  margin: 0;
-  line-height: 1.6;
-}
-
-/* ── 9. FAQ ── */
-.au-faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 40px;
-  max-width: 780px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.au-faq-item {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.au-faq-trigger {
-  width: 100%;
-  text-align: left;
-  padding: 18px 22px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 700;
-  color: #0d2151;
-  transition: background 0.15s;
-}
-
-.au-faq-trigger:hover { background: #f8fafc; }
-.au-faq-trigger.open { color: #00509e; }
-.au-faq-trigger.open .au-faq-arrow { transform: rotate(45deg); }
-
-.au-faq-arrow {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #e2e8f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: transform 0.2s, background 0.15s;
-  line-height: 1;
-}
-
-.au-faq-trigger.open .au-faq-arrow { background: #00509e; color: #fff; }
-
-.au-faq-body {
-  display: none;
-  padding: 0 22px 18px;
-  font-size: 14px;
-  color: #64748b;
-  line-height: 1.75;
-}
-
-.au-faq-body.open { display: block; }
-
-/* ── 10. CTA section ── */
-.au-cta {
-  background: linear-gradient(120deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
-  padding: 80px 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.au-cta::before {
+.ab-matters:hover .ab-matters-photo img { transform: scale(1.04); }
+.ab-matters-photo::after {
   content: '';
-  position: absolute;
-  right: -100px;
-  top: -100px;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.04);
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(26,61,110,.45) 0%, rgba(26,61,110,.1) 60%, transparent 100%);
+}
+.ab-matters-photo-flag {
+  position: absolute; top: 20px; left: 20px; z-index: 2;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+  border-radius: 10px; padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 800; color: var(--ab);
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+}
+.ab-matters-photo-badge {
+  position: absolute; bottom: 20px; left: 20px; z-index: 2;
+  background: rgba(26,61,110,.88); backdrop-filter: blur(8px);
+  border-radius: 12px; padding: 12px 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+}
+.ab-matters-photo-badge-num {
+  font-size: 22px; font-weight: 900; color: #fff; line-height: 1;
+}
+.ab-matters-photo-badge-num span { color: var(--ao); }
+.ab-matters-photo-badge-lbl {
+  font-size: 11px; color: rgba(255,255,255,.65); font-weight: 600; margin-top: 3px;
 }
 
-.au-cta__title {
-  font-size: clamp(24px, 3.5vw, 38px);
-  font-weight: 900;
-  color: #fff;
-  margin: 0 0 14px;
-  line-height: 1.2;
+/* Content half */
+.ab-matters-content {
+  background: linear-gradient(160deg, #0C1825 0%, #1A3D6E 60%, #1e4f8a 100%);
+  padding: 52px 48px;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.ab-matters-content::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 0h20v20H0zM20 20h20v20H20z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.ab-matters-content::after {
+  content: ''; position: absolute; bottom: -80px; right: -80px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,130,31,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ab-matters-inner { position: relative; z-index: 2; }
+
+.ab-matters-flag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 999px; padding: 7px 18px;
+  font-size: 11px; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.8);
+  margin-bottom: 20px;
+}
+.ab-matters-flag span { color: #F5821F; }
+.ab-matters-title {
+  font-size: clamp(22px, 2.8vw, 34px); font-weight: 900; color: #fff;
+  line-height: 1.15; letter-spacing: -.02em; margin: 0 0 18px;
+}
+.ab-matters-title em { color: var(--ao); font-style: normal; }
+.ab-matters-lead {
+  font-size: 15px; color: rgba(255,255,255,.65);
+  line-height: 1.78; margin-bottom: 32px;
+}
+.ab-matters-lead strong { color: rgba(255,255,255,.9); }
+
+/* Problem → Solution items */
+.ab-matters-items { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+.ab-matters-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+  border-radius: 14px; padding: 16px 18px;
+  transition: background .2s, border-color .2s;
+}
+.ab-matters-item:hover { background: rgba(255,255,255,.1); border-color: rgba(245,130,31,.35); }
+.ab-matters-item-ico {
+  width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.ab-matters-item-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.ab-matters-item-body { font-size: 12px; color: rgba(255,255,255,.55); line-height: 1.6; }
+.ab-matters-item-badge {
+  display: inline-block; margin-top: 6px;
+  background: rgba(245,130,31,.18); color: #F5821F;
+  border: 1px solid rgba(245,130,31,.3);
+  border-radius: 999px; padding: 3px 10px;
+  font-size: 10px; font-weight: 700;
 }
 
-.au-cta__sub {
-  font-size: 16px;
-  color: rgba(255,255,255,0.75);
-  max-width: 520px;
-  margin: 0 auto 32px;
-  line-height: 1.7;
+/* Market stats row */
+.ab-matters-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
-
-.au-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #e8501a;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 14px 30px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: opacity 0.18s, transform 0.15s;
-  box-shadow: 0 4px 18px rgba(232,80,26,0.35);
-  margin-right: 10px;
+.ab-matters-stat {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px; padding: 16px 14px; text-align: center;
+  transition: background .2s;
 }
-
-.au-btn-primary:hover { opacity: 0.9; transform: translateY(-2px); color: #fff; }
-
-.au-btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 13px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  border: 2px solid rgba(255,255,255,0.3);
-  transition: background 0.15s, border-color 0.15s;
+.ab-matters-stat:hover { background: rgba(255,255,255,.1); }
+.ab-matters-stat-num {
+  font-size: 22px; font-weight: 900; color: #fff;
+  line-height: 1; margin-bottom: 5px;
 }
+.ab-matters-stat-num sup { color: var(--ao); font-size: 14px; }
+.ab-matters-stat-lbl { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 600; }
 
-.au-btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); color: #fff; }
+/* Scroll animation */
+.ab-fade { opacity: 0; transform: translateY(28px); transition: opacity .55s ease, transform .55s ease; }
+.ab-fade.in { opacity: 1; transform: none; }
 
-/* ── Responsive ── */
-@media (max-width: 1024px) {
-  .au-values-grid { grid-template-columns: repeat(2, 1fr); }
-  .au-team-grid   { grid-template-columns: repeat(2, 1fr); }
+/* Responsive */
+@media(max-width:900px){
+  .ab-row,.ab-row--rev { grid-template-columns: 1fr; }
+  .ab-photo img { min-height: 220px; height: 240px; }
+  .ab-body { padding: 28px 28px; }
+  .ab-pillars { grid-template-columns: 1fr 1fr; }
+  .ab-values { grid-template-columns: 1fr; }
+  .ab-val { border-right: none; border-bottom: 1px solid var(--al); }
+  .ab-val:last-child { border-bottom: none; }
+  .ab-matters { grid-template-columns: 1fr; min-height: auto; }
+  .ab-matters-photo { min-height: 280px; }
+  .ab-matters-content { padding: 36px 28px; }
+  .ab-matters-stats { grid-template-columns: repeat(3, 1fr); }
 }
-
-@media (max-width: 768px) {
-  .au-stats-grid  { grid-template-columns: repeat(2, 1fr); }
-  .au-mv-grid     { grid-template-columns: 1fr; }
-  .au-why-grid    { grid-template-columns: 1fr; }
-  .au-story-content { padding: 0; margin-bottom: 32px; }
-  .au-section     { padding: 54px 0; }
-  .au-hero        { height: 220px; }
+@media(max-width:600px){
+  .ab-stats-grid { grid-template-columns: 1fr 1fr; }
+  .ab-stat-cell { border-right: none; border-bottom: 1px solid var(--al); }
+  .ab-stat-cell:nth-child(2n) { padding-left: 20px; }
+  .ab-pillars { grid-template-columns: 1fr; }
+  .ab-kpis { grid-template-columns: 1fr 1fr; }
+  .ab-hero-title { font-size: 28px; }
+  .ab-cta { padding: 40px 24px; }
+  .ab-matters-grid { grid-template-columns: 1fr; }
+  .ab-matters-stats { grid-template-columns: 1fr 1fr; }
+  .ab-matters { padding: 32px 20px; }
 }
-
-@media (max-width: 540px) {
-  .au-stats-grid  { grid-template-columns: 1fr 1fr; }
-  .au-values-grid { grid-template-columns: 1fr; }
-  .au-team-grid   { grid-template-columns: 1fr; }
-  .au-btn-outline { display: none; }
-}
-
-.au-scroll { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
-.au-scroll.visible { opacity: 1; transform: none; }
 </style>
 
-
-{# ══════════════════════════════════════════════════════════════════════════
-   1. HERO BANNER
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-hero" aria-labelledby="au-hero-title">
-  <div class="au-hero__bg"></div>
-  <div class="au-hero__content">
-    <div class="au-breadcrumb">
-      <a href="{{ path('app_home') }}">{{ 'about.breadcrumb_home'|trans }}</a>
-      <span>›</span>
-      <span>{{ 'about.breadcrumb_about'|trans }}</span>
+{# ══ HERO ══ #}
+<section class="ab-hero" aria-labelledby="ab-hero-title">
+  <div class="ab-hero-inner">
+    <nav class="ab-breadcrumb" aria-label="breadcrumb">
+      <a href="{{ path('app_home') }}">Accueil</a>
+      <span aria-hidden="true">›</span>
+      <span>À propos</span>
+    </nav>
+    <div class="ab-eyebrow">
+      <i class="feather-info"></i>
+      Notre histoire &amp; nos valeurs
     </div>
-    <div class="au-hero__eyebrow">
-      <i class="ph-bold ph-info" aria-hidden="true"></i>
-      {{ 'about.hero_eyebrow'|trans }}
-    </div>
-    <h1 class="au-hero__title" id="au-hero-title">
+    <h1 class="ab-hero-title" id="ab-hero-title">
       {{ 'about.hero_title_1'|trans }} <span>{{ 'about.hero_title_2'|trans }}</span>
     </h1>
-    <p class="au-hero__sub">
-      {{ 'about.hero_sub'|trans }}
-    </p>
+    <p class="ab-hero-sub">{{ 'about.hero_sub'|trans }}</p>
+    <div class="ab-hero-btns">
+      <a href="{{ path('professionals_list') }}" class="ab-btn-o">
+        <i class="feather-search"></i> Trouver un professionnel
+      </a>
+      <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
+        <i class="feather-user-plus"></i> Inscrire mon entreprise
+      </a>
+    </div>
   </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   2. STATS STRIP
-══════════════════════════════════════════════════════════════════════════ #}
-<div class="au-stats-strip">
-  <div class="au-stats-grid">
-    <div class="au-stat-cell">
-      <div class="au-stat-ico bg-navy"><i class="ph-bold ph-users" aria-hidden="true"></i></div>
-      <div>
-        <div class="au-stat-num">10,000+</div>
-        <div class="au-stat-lbl">{{ 'about.stat_homeowners'|trans }}</div>
-      </div>
-    </div>
-    <div class="au-stat-cell">
-      <div class="au-stat-ico bg-blue"><i class="ph-bold ph-hard-hat" aria-hidden="true"></i></div>
-      <div>
-        <div class="au-stat-num">1,500+</div>
-        <div class="au-stat-lbl">{{ 'about.stat_pros'|trans }}</div>
-      </div>
-    </div>
-    <div class="au-stat-cell">
-      <div class="au-stat-ico bg-green"><i class="ph-bold ph-check-circle" aria-hidden="true"></i></div>
-      <div>
-        <div class="au-stat-num">35,000+</div>
-        <div class="au-stat-lbl">{{ 'about.stat_projects'|trans }}</div>
-      </div>
-    </div>
-    <div class="au-stat-cell">
-      <div class="au-stat-ico bg-orng"><i class="ph-bold ph-star" aria-hidden="true"></i></div>
-      <div>
-        <div class="au-stat-num">4.8 / 5</div>
-        <div class="au-stat-lbl">{{ 'about.stat_rating'|trans }}</div>
-      </div>
-    </div>
-  </div>
-</div>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   3. OUR STORY
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-section au-scroll" aria-labelledby="story-heading">
+{# ══ CONTENT ══ #}
+<div class="ab-page-bg">
   <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-6 order-lg-2">
-        <div class="au-story-img">
-          <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}"
-               alt="Drilleedo team — verified renovation professionals working together"
-               loading="lazy">
-        </div>
-      </div>
-      <div class="col-lg-6 order-lg-1">
-        <div class="au-story-content">
-          <div class="au-section-eyebrow">
-            <i class="ph-bold ph-clock-counter-clockwise" aria-hidden="true"></i>
-            {{ 'about.story_eyebrow'|trans }}
-          </div>
-          <h2 class="au-section-title" id="story-heading">
-            {{ 'about.story_title_1'|trans }} <span>Drilleedo</span> {{ 'about.story_title_2'|trans }}
-          </h2>
-          <p class="au-section-sub">
-            {{ 'about.story_sub_1'|trans|raw }}
-          </p>
-          <p class="au-section-sub mt-3">
-            {{ 'about.story_sub_2'|trans|raw }}
-          </p>
-          <ul class="au-feature-list">
-            <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
-              {{ 'about.story_feat_1'|trans }}
+
+    {# ── 1. Notre histoire ── #}
+    <div class="ab-section ab-section--story ab-fade">
+      <div class="ab-row">
+        <div class="ab-body">
+          <div class="ab-eyebrow2"><i class="feather-clock"></i> Notre histoire</div>
+          <h2 class="ab-title">Pourquoi Drilleedo a été créé</h2>
+          <p class="ab-subtitle">Un constat simple, une solution puissante.</p>
+          <p class="ab-p">Drilleedo est né d'un constat simple : les propriétaires peinent à trouver des professionnels fiables, tandis que les artisans qualifiés manquent de visibilité pour atteindre les bons clients.</p>
+          <p class="ab-p">Nous avons créé Drilleedo pour combler ce fossé — une plateforme qui réunit <strong>confiance, expertise et efficacité</strong> en un seul endroit.</p>
+          <ul class="ab-list">
+            <li>
+              <span class="ab-list-ico" style="background:linear-gradient(135deg,#1A3D6E,#2e6db4)"><i class="feather-shield" style="font-size:11px;"></i></span>
+              Professionnels vérifiés avec licences et assurances
             </li>
-            <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
-              {{ 'about.story_feat_2'|trans }}
+            <li>
+              <span class="ab-list-ico" style="background:linear-gradient(135deg,#F5821F,#d96e10)"><i class="feather-zap" style="font-size:11px;"></i></span>
+              Devis reçus en 24 à 48 h, sans engagement
             </li>
-            <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
-              {{ 'about.story_feat_3'|trans }}
-            </li>
-            <li class="au-feature-item">
-              <span class="au-feature-ico"><i class="ph-bold ph-check" aria-hidden="true"></i></span>
-              {{ 'about.story_feat_4'|trans }}
+            <li>
+              <span class="ab-list-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><i class="feather-trending-up" style="font-size:11px;"></i></span>
+              +40% de visibilité pour les professionnels inscrits
             </li>
           </ul>
         </div>
+        <div class="ab-photo">
+          <img src="{{ asset('assets/drilleedo/images/stock/about_story.jpg') }}"
+               alt="Entrepreneurs Drilleedo au travail" loading="lazy">
+          <div class="ab-photo-tag">
+            <i class="feather-award"></i> Fondé pour simplifier vos projets
+          </div>
+        </div>
+      </div>
+      {# Valeurs sous Story #}
+      <div class="ab-values">
+        <div class="ab-val">
+          <div class="ab-val-ico" style="background:#EEF4FF;"><i class="feather-shield" style="color:#1A3D6E;"></i></div>
+          <div><div class="ab-val-name">Confiance</div><div class="ab-val-desc">Chaque professionnel est vérifié et évalué</div></div>
+        </div>
+        <div class="ab-val">
+          <div class="ab-val-ico" style="background:#FFF4EE;"><i class="feather-zap" style="color:#F5821F;"></i></div>
+          <div><div class="ab-val-name">Rapidité</div><div class="ab-val-desc">Projets lancés en quelques minutes</div></div>
+        </div>
+        <div class="ab-val">
+          <div class="ab-val-ico" style="background:#E8F8EE;"><i class="feather-eye" style="color:#16a34a;"></i></div>
+          <div><div class="ab-val-name">Transparence</div><div class="ab-val-desc">Tarifs clairs, avis certifiés, zéro surprise</div></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   4. CORE VALUES
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-section au-section--gray au-scroll" aria-labelledby="values-heading">
-  <div class="container">
-    <div class="text-center">
-      <div class="au-section-eyebrow">
-        <i class="ph-bold ph-diamond" aria-hidden="true"></i>
-        {{ 'about.val_eyebrow'|trans }}
-      </div>
-      <h2 class="au-section-title" id="values-heading">{{ 'about.val_title'|trans }}</h2>
-      <p class="au-section-sub mx-auto">
-        {{ 'about.val_sub'|trans }}
-      </p>
-    </div>
-
-    <div class="au-values-grid">
-      <div class="au-val-card">
-        <div class="au-val-icon" style="background: linear-gradient(135deg,#0d2151,#1a3a6b);">
-          <i class="ph-bold ph-shield-check" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
-        </div>
-        <h3 class="au-val-title">{{ 'about.val_1_title'|trans }}</h3>
-        <p class="au-val-desc">{{ 'about.val_1_desc'|trans }}</p>
-      </div>
-      <div class="au-val-card">
-        <div class="au-val-icon" style="background: linear-gradient(135deg,#00509e,#2196f3);">
-          <i class="ph-bold ph-eye" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
-        </div>
-        <h3 class="au-val-title">{{ 'about.val_2_title'|trans }}</h3>
-        <p class="au-val-desc">{{ 'about.val_2_desc'|trans }}</p>
-      </div>
-      <div class="au-val-card">
-        <div class="au-val-icon" style="background: linear-gradient(135deg,#16a34a,#22c55e);">
-          <i class="ph-bold ph-medal" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
-        </div>
-        <h3 class="au-val-title">{{ 'about.val_3_title'|trans }}</h3>
-        <p class="au-val-desc">{{ 'about.val_3_desc'|trans }}</p>
-      </div>
-      <div class="au-val-card">
-        <div class="au-val-icon" style="background: linear-gradient(135deg,#c73d0d,#e8501a);">
-          <i class="ph-bold ph-lightning" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
-        </div>
-        <h3 class="au-val-title">{{ 'about.val_4_title'|trans }}</h3>
-        <p class="au-val-desc">{{ 'about.val_4_desc'|trans }}</p>
-      </div>
-      <div class="au-val-card">
-        <div class="au-val-icon" style="background: linear-gradient(135deg,#7c3aed,#a855f7);">
-          <i class="ph-bold ph-users" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
-        </div>
-        <h3 class="au-val-title">{{ 'about.val_5_title'|trans }}</h3>
-        <p class="au-val-desc">{{ 'about.val_5_desc'|trans }}</p>
-      </div>
-      <div class="au-val-card">
-        <div class="au-val-icon" style="background: linear-gradient(135deg,#0891b2,#06b6d4);">
-          <i class="ph-bold ph-trend-up" aria-hidden="true" style="font-size:24px;color:#fff;"></i>
-        </div>
-        <h3 class="au-val-title">{{ 'about.val_6_title'|trans }}</h3>
-        <p class="au-val-desc">{{ 'about.val_6_desc'|trans }}</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ══════════════════════════════════════════════════════════════════════════
-   5. MISSION & VISION
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-section au-scroll" aria-labelledby="mission-heading">
-  <div class="container">
-    <div class="text-center">
-      <div class="au-section-eyebrow">
-        <i class="ph-bold ph-crosshair" aria-hidden="true"></i>
-        {{ 'about.mv_eyebrow'|trans }}
-      </div>
-      <h2 class="au-section-title" id="mission-heading">{{ 'about.mv_title'|trans }}</h2>
-    </div>
-    <div class="au-mv-grid">
-      <div class="au-mv-card au-mv-card--mission">
-        <i class="ph-bold ph-crosshair au-mv-card__icon" aria-hidden="true"></i>
-        <div class="au-mv-card__label">{{ 'about.mv_lbl_mission'|trans }}</div>
-        <h3 class="au-mv-card__title">{{ 'about.mv_title_mission'|trans }}</h3>
-        <p class="au-mv-card__text">
-          {{ 'about.mv_desc_mission'|trans }}
-        </p>
-      </div>
-      <div class="au-mv-card au-mv-card--vision">
-        <i class="fas fa-eye au-mv-card__icon" aria-hidden="true"></i>
-        <div class="au-mv-card__label">{{ 'about.mv_lbl_vision'|trans }}</div>
-        <h3 class="au-mv-card__title">{{ 'about.mv_title_vision'|trans }}</h3>
-        <p class="au-mv-card__text">
-          {{ 'about.mv_desc_vision'|trans }}
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{# ══════════════════════════════════════════════════════════════════════════
-   6. WHY CHOOSE US (on dark navy bg)
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-section au-section--navy au-scroll" aria-labelledby="why-heading">
-  <div class="container">
-    <div class="row align-items-start g-5">
-      <div class="col-lg-5">
-        <div class="au-section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.2);">
-          <i class="ph-bold ph-check-circle" aria-hidden="true"></i>
-          {{ 'about.why_eyebrow'|trans }}
-        </div>
-        <h2 class="au-section-title" id="why-heading" style="color:#fff;">
-          {{ 'about.why_title_1'|trans }} <span style="color:#f97316;">{{ 'about.why_title_2'|trans }}</span>
-        </h2>
-        <p class="au-section-sub" style="color:rgba(255,255,255,0.7);">
-          {{ 'about.why_sub'|trans }}
-        </p>
-        <div class="mt-4 d-flex gap-3 flex-wrap">
-          <a href="{{ path('professionals_list') }}" class="au-btn-primary">{{ 'about.why_btn_find'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i></a>
-          <a href="{{ path('app_register') }}" class="au-btn-outline">{{ 'about.why_btn_join'|trans }}</a>
-        </div>
-      </div>
-      <div class="col-lg-7">
-        <div class="au-why-grid">
-          <div class="au-why-item">
-            <div class="au-why-ico"><i class="ph-bold ph-check-circle" aria-hidden="true"></i></div>
-            <div>
-              <div class="au-why-name">{{ 'about.why_lbl_1'|trans }}</div>
-              <div class="au-why-desc">{{ 'about.why_desc_1'|trans }}</div>
+    {# ── 2. Notre mission ── #}
+    <div class="ab-section ab-section--mission ab-fade">
+      <div class="ab-row ab-row--rev">
+        <div class="ab-body">
+          <div class="ab-eyebrow2"><i class="feather-target"></i> Notre mission</div>
+          <h2 class="ab-title">Rendre les services à domicile plus simples et fiables</h2>
+          <p class="ab-subtitle">Une plateforme numérique de confiance pour chaque projet.</p>
+          <p class="ab-p">Notre mission est de transformer la façon dont propriétaires et professionnels se connectent, en offrant une <strong>plateforme de confiance</strong> où les projets avancent plus vite et la qualité est accessible à tous.</p>
+          <p class="ab-p">Nous accompagnons les propriétaires partout au Canada en rendant les services à domicile plus faciles d'accès, à comparer et à gérer.</p>
+          <div class="ab-pillars">
+            <div class="ab-pillar">
+              <div class="ab-pillar-ico"><i class="feather-zap"></i></div>
+              <div class="ab-pillar-lbl">Plus rapide</div>
+            </div>
+            <div class="ab-pillar">
+              <div class="ab-pillar-ico"><i class="feather-check-circle"></i></div>
+              <div class="ab-pillar-lbl">Plus simple</div>
+            </div>
+            <div class="ab-pillar">
+              <div class="ab-pillar-ico"><i class="feather-shield"></i></div>
+              <div class="ab-pillar-lbl">Plus fiable</div>
             </div>
           </div>
-          <div class="au-why-item">
-            <div class="au-why-ico"><i class="ph-bold ph-file-text" aria-hidden="true"></i></div>
-            <div>
-              <div class="au-why-name">{{ 'about.why_lbl_2'|trans }}</div>
-              <div class="au-why-desc">{{ 'about.why_desc_2'|trans }}</div>
-            </div>
-          </div>
-          <div class="au-why-item">
-            <div class="au-why-ico"><i class="ph-bold ph-star" aria-hidden="true"></i></div>
-            <div>
-              <div class="au-why-name">{{ 'about.why_lbl_3'|trans }}</div>
-              <div class="au-why-desc">{{ 'about.why_desc_3'|trans }}</div>
-            </div>
-          </div>
-          <div class="au-why-item">
-            <div class="au-why-ico"><i class="ph-bold ph-shield-check" aria-hidden="true"></i></div>
-            <div>
-              <div class="au-why-name">{{ 'about.why_lbl_4'|trans }}</div>
-              <div class="au-why-desc">{{ 'about.why_desc_4'|trans }}</div>
-            </div>
-          </div>
-          <div class="au-why-item">
-            <div class="au-why-ico"><i class="ph-bold ph-clock" aria-hidden="true"></i></div>
-            <div>
-              <div class="au-why-name">{{ 'about.why_lbl_5'|trans }}</div>
-              <div class="au-why-desc">{{ 'about.why_desc_5'|trans }}</div>
-            </div>
-          </div>
-          <div class="au-why-item">
-            <div class="au-why-ico"><i class="ph-bold ph-headphones" aria-hidden="true"></i></div>
-            <div>
-              <div class="au-why-name">{{ 'about.why_lbl_6'|trans }}</div>
-              <div class="au-why-desc">{{ 'about.why_desc_6'|trans }}</div>
-            </div>
+        </div>
+        <div class="ab-photo">
+          <img src="{{ asset('assets/drilleedo/images/stock/about_mission.jpg') }}"
+               alt="Mission Drilleedo — propriétaire et entrepreneur" loading="lazy">
+          <div class="ab-photo-tag">
+            <i class="feather-users"></i> 10 000+ propriétaires accompagnés
           </div>
         </div>
       </div>
     </div>
+
+    {# ── 3. Notre vision ── #}
+    <div class="ab-section ab-section--vision ab-fade">
+      <div class="ab-row">
+        <div class="ab-body">
+          <div class="ab-eyebrow2"><i class="feather-eye"></i> Notre vision</div>
+          <h2 class="ab-title">Façonner l'avenir des services à domicile</h2>
+          <p class="ab-subtitle">L'écosystème numérique de référence au Canada.</p>
+          <p class="ab-p">Nous envisageons Drilleedo comme un <strong>écosystème numérique de référence</strong> pour les projets résidentiels, où la technologie aide chaque propriétaire à réaliser ses projets avec confiance.</p>
+          <ul class="ab-list">
+            <li>
+              <span class="ab-list-ico" style="background:linear-gradient(135deg,#3FA9F5,#2196f3)"><i class="feather-monitor" style="font-size:11px;"></i></span>
+              Utiliser la technologie pour simplifier chaque étape
+            </li>
+            <li>
+              <span class="ab-list-ico" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><i class="feather-trending-up" style="font-size:11px;"></i></span>
+              Permettre à chaque professionnel de croître durablement
+            </li>
+            <li>
+              <span class="ab-list-ico" style="background:linear-gradient(135deg,#0891b2,#06b6d4)"><i class="feather-globe" style="font-size:11px;"></i></span>
+              Devenir la référence canadienne des services à domicile
+            </li>
+          </ul>
+        </div>
+        <div class="ab-photo">
+          <img src="{{ asset('assets/drilleedo/images/stock/about_vision.jpg') }}"
+               alt="Vision Drilleedo — avenir des services" loading="lazy">
+          <div class="ab-photo-tag">
+            <i class="feather-trending-up"></i> En pleine croissance au Canada
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {# ── 5. Why Drilleedo Matters in Canada ── #}
+    <div class="ab-matters ab-fade">
+
+      {# Photo half #}
+      <div class="ab-matters-photo">
+        <img src="{{ asset('assets/drilleedo/images/stock/about_canada_homes.jpg') }}"
+             alt="Maisons canadiennes — quartier résidentiel" loading="lazy">
+        <div class="ab-matters-photo-flag">
+          🍁 Partout au Canada
+        </div>
+        <div class="ab-matters-photo-badge">
+          <div class="ab-matters-photo-badge-num">14M<span>+</span></div>
+          <div class="ab-matters-photo-badge-lbl">logements résidentiels</div>
+        </div>
+      </div>
+
+      {# Content half #}
+      <div class="ab-matters-content">
+        <div class="ab-matters-inner">
+
+          <div class="ab-matters-flag">
+            <span>🍁</span> Pourquoi Drilleedo est important au Canada
+          </div>
+          <h2 class="ab-matters-title">
+            Pourquoi Drilleedo est<br><em>important au Canada</em>
+          </h2>
+          <p class="ab-matters-lead">
+            Partout au Canada, les propriétaires recherchent de plus en plus un accès
+            <strong>fiable, transparent et rapide</strong> à des professionnels de confiance
+            pour leurs services à domicile, rénovations, réparations et projets spécialisés.
+          </p>
+
+          <div class="ab-matters-items">
+            <div class="ab-matters-item">
+              <div class="ab-matters-item-ico" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
+                <i class="feather-alert-triangle" style="color:#fff"></i>
+              </div>
+              <div>
+                <div class="ab-matters-item-title">Manque de confiance &amp; de transparence</div>
+                <div class="ab-matters-item-body">58 % des propriétaires ont vécu une mauvaise expérience — tarifs cachés, travaux incomplets ou absence de suivi.</div>
+                <span class="ab-matters-item-badge">Résolu par Drilleedo</span>
+              </div>
+            </div>
+            <div class="ab-matters-item">
+              <div class="ab-matters-item-ico" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">
+                <i class="feather-clock" style="color:#fff"></i>
+              </div>
+              <div>
+                <div class="ab-matters-item-title">Délais de recherche trop longs</div>
+                <div class="ab-matters-item-body">7 à 14 jours en moyenne pour trouver un entrepreneur. Avec Drilleedo, recevez vos premiers devis en 24–48 h.</div>
+                <span class="ab-matters-item-badge">24–48 h seulement</span>
+              </div>
+            </div>
+            <div class="ab-matters-item">
+              <div class="ab-matters-item-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e)">
+                <i class="feather-trending-up" style="color:#fff"></i>
+              </div>
+              <div>
+                <div class="ab-matters-item-title">Artisans sous-visibles, marché fragmenté</div>
+                <div class="ab-matters-item-body">Les meilleurs pros locaux manquent de présence numérique. Drilleedo leur offre visibilité et mise en relation directe.</div>
+                <span class="ab-matters-item-badge">+40 % de visibilité</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ab-matters-stats">
+            <div class="ab-matters-stat">
+              <div class="ab-matters-stat-num">100G<sup>$</sup></div>
+              <div class="ab-matters-stat-lbl">Marché rénovation/an</div>
+            </div>
+            <div class="ab-matters-stat">
+              <div class="ab-matters-stat-num">72<sup>%</sup></div>
+              <div class="ab-matters-stat-lbl">Recherches en ligne</div>
+            </div>
+            <div class="ab-matters-stat">
+              <div class="ab-matters-stat-num">3x</div>
+              <div class="ab-matters-stat-lbl">Plus rapide</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    {# ── CTA ── #}
+    <div class="ab-cta ab-fade">
+      <div class="ab-cta-inner">
+        <div class="ab-cta-tag"><i class="feather-send"></i> Commencer maintenant</div>
+        <h2>Prêt à démarrer votre prochain projet résidentiel ?</h2>
+        <p>Découvrez comment Drilleedo vous connecte avec des professionnels de confiance partout au Canada.</p>
+        <div class="ab-cta-btns">
+          <a href="{{ path('professionals_list') }}" class="ab-btn-o">
+            <i class="feather-search"></i> Explorer les services
+          </a>
+          <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
+            <i class="feather-user-plus"></i> Inscrire mon entreprise
+          </a>
+        </div>
+      </div>
+    </div>
+
   </div>
-</section>
-
-{# ══════════════════════════════════════════════════════════════════════════
-   7. TEAM
-══════════════════════════════════════════════════════════════════════════ 
-<section class="au-section au-section--blue au-scroll" aria-labelledby="team-heading">
-  <div class="container">
-    <div class="text-center">
-      <div class="au-section-eyebrow">
-        <i class="ph-bold ph-users" aria-hidden="true"></i>
-        {{ 'about.team_eyebrow'|trans }}
-      </div>
-      <h2 class="au-section-title" id="team-heading">{{ 'about.team_title'|trans }}</h2>
-      <p class="au-section-sub mx-auto">{{ 'about.team_sub'|trans }}</p>
-    </div>
-    <div class="au-team-grid">
-
-      <div class="au-team-card">
-        <div class="au-team-img">
-          <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Gacem Laghouan — Chief Operating Officer" loading="lazy">
-          <div class="au-team-overlay"></div>
-        </div>
-        <div class="au-team-body">
-          <div class="au-team-avatar" aria-hidden="true">GL</div>
-          <h3 class="au-team-name">Gacem Laghouan</h3>
-          <p class="au-team-role">Chief Operating Officer</p>
-          <p class="au-team-bio">Leading our operations and ensuring excellence in every project we support across Canada.</p>
-        </div>
-      </div>
-
-      <div class="au-team-card">
-        <div class="au-team-img">
-          <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Rafaa Somai — Chief Business Officer" loading="lazy">
-          <div class="au-team-overlay"></div>
-        </div>
-        <div class="au-team-body">
-          <div class="au-team-avatar" aria-hidden="true">RS</div>
-          <h3 class="au-team-name">Rafaa Somai</h3>
-          <p class="au-team-role">Chief Business Officer</p>
-          <p class="au-team-bio">Driving growth and building strategic partnerships across the home services industry.</p>
-        </div>
-      </div>
-
-      <div class="au-team-card">
-        <div class="au-team-img">
-          <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Oussama Ben Krima — Chief Technology Officer" loading="lazy">
-          <div class="au-team-overlay"></div>
-        </div>
-        <div class="au-team-body">
-          <div class="au-team-avatar" aria-hidden="true">OBK</div>
-          <h3 class="au-team-name">Oussama Ben Krima</h3>
-          <p class="au-team-role">Chief Technology Officer</p>
-          <p class="au-team-bio">The architect of our platform, pushing the boundaries of technology in home services.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-#}
-{# ══════════════════════════════════════════════════════════════════════════
-   8. FAQ
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-section au-section--gray au-scroll" aria-labelledby="faq-heading">
-  <div class="container">
-    <div class="text-center">
-      <div class="au-section-eyebrow">
-        <i class="ph-bold ph-question" aria-hidden="true"></i>
-        {{ 'about.faq_eyebrow'|trans }}
-      </div>
-      <h2 class="au-section-title" id="faq-heading">{{ 'about.faq_title'|trans }}</h2>
-      <p class="au-section-sub mx-auto">{{ 'about.faq_sub'|trans }}</p>
-    </div>
-
-    <div class="au-faq-list" role="list">
-
-      <div class="au-faq-item" role="listitem">
-        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          {{ 'about.faq_q1'|trans }}
-          <span class="au-faq-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="au-faq-body">
-          {{ 'about.faq_a1'|trans }}
-        </div>
-      </div>
-
-      <div class="au-faq-item" role="listitem">
-        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          {{ 'about.faq_q2'|trans }}
-          <span class="au-faq-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="au-faq-body">
-          {{ 'about.faq_a2'|trans }}
-        </div>
-      </div>
-
-      <div class="au-faq-item" role="listitem">
-        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          {{ 'about.faq_q3'|trans }}
-          <span class="au-faq-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="au-faq-body">
-          {{ 'about.faq_a3'|trans }}
-        </div>
-      </div>
-
-      <div class="au-faq-item" role="listitem">
-        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          {{ 'about.faq_q4'|trans }}
-          <span class="au-faq-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="au-faq-body">
-          {{ 'about.faq_a4'|trans }}
-        </div>
-      </div>
-
-      <div class="au-faq-item" role="listitem">
-        <button class="au-faq-trigger" aria-expanded="false" onclick="auFaq(this)">
-          {{ 'about.faq_q5'|trans }}
-          <span class="au-faq-arrow" aria-hidden="true">+</span>
-        </button>
-        <div class="au-faq-body">
-          {{ 'about.faq_a5'|trans }}
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-{# ══════════════════════════════════════════════════════════════════════════
-   9. CTA
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="au-cta au-scroll" aria-labelledby="cta-heading">
-  <div class="container" style="position:relative;z-index:2;">
-    <div class="text-center">
-      <div class="au-section-eyebrow" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.2);margin-bottom:16px;display:inline-flex;">
-        <i class="ph-bold ph-rocket-launch" aria-hidden="true"></i>
-        {{ 'about.cta_eyebrow'|trans }}
-      </div>
-      <h2 class="au-cta__title" id="cta-heading">{{ 'about.cta_title'|trans }}</h2>
-      <p class="au-cta__sub">{{ 'about.cta_sub'|trans }}</p>
-      <div>
-        <a href="{{ path('professionals_list') }}" class="au-btn-primary">
-          {{ 'about.cta_btn_find'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
-        </a>
-        <a href="{{ path('app_register') }}" class="au-btn-outline">
-          {{ 'about.cta_btn_join'|trans }}
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 </main>
 
 <script>
-// FAQ accordion
-function auFaq(btn) {
-  const body  = btn.nextElementSibling;
-  const arrow = btn.querySelector('.au-faq-arrow');
-  const isOpen = body.classList.contains('open');
-
-  // Close all
-  document.querySelectorAll('.au-faq-body.open').forEach(b => b.classList.remove('open'));
-  document.querySelectorAll('.au-faq-trigger.open').forEach(b => {
-    b.classList.remove('open');
-    b.setAttribute('aria-expanded', 'false');
-  });
-
-  if (!isOpen) {
-    body.classList.add('open');
-    btn.classList.add('open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
-}
-
-// Scroll animations
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.08 });
-
-document.querySelectorAll('.au-scroll').forEach(el => obs.observe(el));
+(function(){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.ab-fade').forEach(function(el){ obs.observe(el); });
+})();
 </script>
 
 {% endblock %}

@@ -205,11 +205,71 @@ final class HomeController extends AbstractController
     }
 
     #[Route('/company/{id}/{slug}', name: 'company_details', defaults: ['slug' => ''])]
-    public function companyDetails(\App\Entity\Company $company): Response
-    {
+    public function companyDetails(
+        \App\Entity\Company $company,
+        Request $request,
+        \Doctrine\ORM\EntityManagerInterface $em,
+        \App\Service\FileUploader $fileUploader
+    ): Response {
+        $user = $this->getUser();
+        $directRequest = new \App\Entity\DirectRequest();
+        $directRequest->setTargetCompany($company);
+
+        $form = $this->createForm(\App\Form\ProContactType::class, $directRequest);
+        $form->handleRequest($request);
+
+        $isXhr = $request->isXmlHttpRequest() || $request->headers->get('X-Requested-With') === 'XMLHttpRequest';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isGranted('ROLE_INDIVIDUAL')) {
+                if ($isXhr) {
+                    return new JsonResponse(['success' => false, 'error' => 'not_logged_in'], 403);
+                }
+                $this->addFlash('error', 'You must be logged in as an individual to send requests.');
+                return $this->redirectToRoute('company_details', ['id' => $company->getId()]);
+            }
+
+            $directRequest->setIndividual($user);
+            $directRequest->setStatus(\App\Entity\DirectRequest::STATUS_PUBLISHED);
+
+            $images = $form->get('images')->getData();
+            if ($images) {
+                $imagePaths = [];
+                foreach ($images as $image) {
+                    $imagePaths[] = $fileUploader->upload($image, 'quote_requests');
+                }
+                $directRequest->setImages($imagePaths);
+            }
+
+            $em->persist($directRequest);
+
+            $notification = new \App\Entity\Notification();
+            $notification->setUser($company);
+            $notification->setMessage('New direct request from ' . ($user->getPersonalInfos()?->getFirstName() ?? 'an individual') . ': ' . $directRequest->getTitle());
+            $notification->setRelatedEntityId($directRequest->getId());
+            $notification->setRelatedEntityType('direct_request');
+            $em->persist($notification);
+
+            $em->flush();
+
+            if ($isXhr) {
+                return new JsonResponse(['success' => true]);
+            }
+            return $this->redirectToRoute('company_details', ['id' => $company->getId()]);
+        }
+
+        if ($isXhr && $form->isSubmitted()) {
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+            return new JsonResponse(['success' => false, 'errors' => $errors], 422);
+        }
+
         return $this->render('home/company.html.twig', [
             'company' => $company,
             'controller_name' => 'HomeController',
+            'contactForm' => $form->createView(),
         ]);
     }
 
@@ -230,11 +290,16 @@ final class HomeController extends AbstractController
         $directRequest = new \App\Entity\DirectRequest();
         $directRequest->setTargetProfessional($professional);
         
-        $form = $this->createForm(\App\Form\DirectRequestType::class, $directRequest);
+        $form = $this->createForm(\App\Form\ProContactType::class, $directRequest);
         $form->handleRequest($request);
+
+        $isXhr = $request->isXmlHttpRequest() || $request->headers->get('X-Requested-With') === 'XMLHttpRequest';
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$this->isGranted('ROLE_INDIVIDUAL')) {
+                if ($isXhr) {
+                    return new JsonResponse(['success' => false, 'error' => 'not_logged_in'], 403);
+                }
                 $this->addFlash('error', 'You must be logged in as an individual to send requests.');
                 return $this->redirectToRoute('professional_details', ['id' => $professional->getId()]);
             }
@@ -264,8 +329,23 @@ final class HomeController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Your request has been sent successfully to ' . $professional->getCompanyName());
-            return $this->redirectToRoute('professional_details', ['id' => $professional->getId()]);
+            if ($isXhr) {
+                return new JsonResponse(['success' => true]);
+            }
+
+            return $this->redirectToRoute('professional_details', [
+                'id'   => $professional->getId(),
+                'sent' => '1',
+            ]);
+        }
+
+        if ($isXhr && $form->isSubmitted()) {
+            // Return form validation errors as JSON
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+            return new JsonResponse(['success' => false, 'errors' => $errors], 422);
         }
 
         return $this->render('home/professional.html.twig', [

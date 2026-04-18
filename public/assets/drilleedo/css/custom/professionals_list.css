@@ -4,16 +4,15 @@
    All classes prefixed "fp-" (find-professionals)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@300;400;600;700&display=swap');
 
 /* ── Tokens (same palette) ──────────────────────────────────────────────── */
 :root {
-    --fp-navy: #0d2151;
-    --fp-navy-mid: #1a3a6b;
-    --fp-blue: #1976d2;
-    --fp-blue-light: #2196f3;
+    --fp-navy: #0C1825;
+    --fp-navy-mid: #003660;
+    --fp-blue: #00497F;
+    --fp-blue-light: #3FA9F5;
     --fp-blue-pale: #e8f4fd;
-    --fp-orange: #e8501a;
+    --fp-orange: #FF8A3D;
     --fp-orange-pale: #fff3ef;
     --fp-green: #16a34a;
     --fp-green-pale: #e8faf1;
@@ -34,8 +33,8 @@
     --fp-shadow-md: 0 4px 24px rgba(13, 33, 81, 0.12);
     --fp-shadow-lg: 0 8px 40px rgba(13, 33, 81, 0.16);
 
-    --fp-font-head: "Instrument Sans", sans-serif;
-    --fp-font-body: 'Nunito Sans', sans-serif;
+    --fp-font-head: 'Instrument Sans', system-ui, sans-serif;
+    --fp-font-body: 'Instrument Sans', system-ui, sans-serif;
 }
 
 /* ── Base reset for page ── */
@@ -61,7 +60,7 @@
    ══════════════════════════════════════════════════════════════════════════ */
 .fp-hero {
     height: 260px;
-    background: linear-gradient(120deg, var(--fp-navy) 0%, var(--fp-navy-mid) 45%, var(--fp-blue) 100%);
+    background: linear-gradient(120deg, var(--fp-blue) 0%, var(--fp-blue-light) 100%);
     position: relative;
     overflow: hidden;
 }
@@ -178,7 +177,7 @@
 }
 
 .fp-search-bar__btn:hover {
-    background: #c43d10;
+    background: #e87830;
 }
 
 /* ── Stats row in hero ── */
@@ -319,7 +318,7 @@
 }
 
 .fp-sidebar-card__header {
-    background: linear-gradient(135deg, var(--fp-navy) 0%, var(--fp-navy-mid) 100%);
+    background: linear-gradient(135deg, var(--fp-blue) 0%, var(--fp-blue-light) 100%);
     padding: 14px 18px;
     font-family: var(--fp-font-head);
     font-size: 14px;
@@ -718,7 +717,7 @@
 }
 
 .fp-btn-solid:hover {
-    background: #c43d10;
+    background: #e87830;
     color: var(--fp-white);
     transform: translateY(-1px);
 }

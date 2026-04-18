@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% set firstCity   = company.Adresse|length > 0 ? company.Adresse|first.city : 'Canada' %}
+{% set firstCity    = company.Adresse|length > 0 ? company.Adresse|first.city : 'Canada' %}
 {% set firstCatName = company.categories|length > 0 ? company.categories|first.name : 'Services' %}
+{% set yearsExp     = company.foundationYear ? ("now"|date("Y") - company.foundationYear) : null %}
+{% set projectCount = company.projets|length %}
+{% set initials     = company.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2) %}
+{% set langMap      = {'FR': 'Français', 'EN': 'English', 'ES': 'Español', 'IT': 'Italiano', 'AR': 'العربية', 'PT': 'Português'} %}
 
-{% block title %}{{ company.companyName }} – {{ firstCatName }} in {{ firstCity }} | Drilleedo{% endblock %}
-{% block meta_description %}{{ company.about ? company.about|striptags|slice(0,150) : 'Découvrez ' ~ company.companyName ~ ', entreprise spécialisée en ' ~ firstCatName ~ ' à ' ~ firstCity ~ '. Obtenez une soumission gratuite out of Drilleedo.' }}{% endblock %}
+{% block title %}{{ company.companyName }} – {{ firstCatName }} à {{ firstCity }} | Drilleedo{% endblock %}
+{% block meta_description %}{{ company.about ? company.about|striptags|slice(0,150) : 'Découvrez ' ~ company.companyName ~ ', entreprise spécialisée en ' ~ firstCatName ~ ' à ' ~ firstCity ~ '. Obtenez une soumission gratuite sur Drilleedo.' }}{% endblock %}
 {% block meta_keywords %}{{ company.companyName }}, {{ firstCatName }}, {{ firstCity }}, rénovation, entreprise, Drilleedo{% endblock %}
 {% block og_title %}{{ company.companyName }} | Drilleedo{% endblock %}
 {% block og_description %}{{ firstCatName }} à {{ firstCity }}. Découvrez les projets et demandez une soumission.{% endblock %}
@@ -12,43 +16,6 @@
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professional_profile.css') }}">
-<style>
-  /* Company-specific overrides */
-  .drl-co-badge-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
-  .drl-co-link-row   { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
-  .drl-co-link-btn {
-    display:inline-flex; align-items:center; gap:6px;
-    padding:6px 14px; border-radius:20px;
-    background:rgba(13,33,81,0.07); border:1px solid rgba(13,33,81,0.15);
-    color:#0d2151; font-size:13px; font-weight:600; text-decoration:none;
-    transition:all .2s;
-  }
-  .drl-co-link-btn:hover { background:rgba(13,33,81,0.15); color:#0d2151; }
-  .drl-pay-chip {
-    display:inline-flex; align-items:center; gap:5px;
-    padding:5px 12px; border-radius:20px;
-    background:#f1f5f9; border:1px solid #e2e8f0;
-    color:#475569; font-size:12px; font-weight:600;
-  }
-  .drl-emp-tag {
-    font-size:12px; font-weight:600; color:#64748b;
-    background:#f8fafc; padding:3px 10px; border-radius:20px;
-    border:1px solid #e2e8f0;
-  }
-  .drl-addr-item {
-    display:flex; align-items:flex-start; gap:10px;
-    padding:10px 0; border-bottom:1px solid #f1f5f9;
-  }
-  .drl-addr-item:last-child { border-bottom:none; }
-  .drl-addr-ico { font-size:16px; margin-top:2px; }
-  .drl-addr-text { font-size:13px; color:#374151; font-weight:600; }
-  .drl-addr-city { font-size:12px; color:#64748b; }
-  .drl-years-tag {
-    font-size:11px; font-weight:700; letter-spacing:.5px;
-    color:#0d2151; background:rgba(13,33,81,.08);
-    border-radius:20px; padding:2px 10px; text-transform:uppercase;
-  }
-</style>
 {% endblock %}
 
 {% block structured_data %}
@@ -63,6 +30,7 @@
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "{{ firstCity|e('js') }}",
+    "addressRegion": "QC",
     "addressCountry": "CA"
   },
   "description": "{{ company.about ? company.about|striptags|slice(0,200)|e('js') : '' }}"
@@ -73,8 +41,8 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "{{ url('app_home') }}"},
-    {"@type": "ListItem", "position": 2, "name": "Entreprises", "item": "{{ url('companies_list') }}"},
+    {"@type": "ListItem", "position": 1, "name": "Accueil",    "item": "{{ url('app_home') }}"},
+    {"@type": "ListItem", "position": 2, "name": "Entreprises","item": "{{ url('companies_list') }}"},
     {% if company.categories|length > 0 %}
     {"@type": "ListItem", "position": 3, "name": "{{ company.categories|first.name|e('js') }}", "item": "{{ url('companies_list') }}?category={{ company.categories|first.id }}"},
     {"@type": "ListItem", "position": 4, "name": "{{ company.companyName|e('js') }}"}
@@ -88,622 +56,592 @@
 
 {% block body %}
 
-{# ── Variables ─────────────────────────────────────────────────────────────── #}
-{% set yearsExp     = company.foundationYear ? ("now"|date("Y") - company.foundationYear) : null %}
-{% set projectCount = company.projets|length %}
-{% set initials     = company.companyName|split(' ')|map(w => w|slice(0,1))|join('')|upper|slice(0,2) %}
-{% set primaryCity  = company.Adresse|length > 0 ? company.Adresse|first.city ~ ', QC' : 'Canada' %}
-{% set langMap = {'FR': 'French', 'EN': 'English', 'ES': 'Español', 'IT': 'Italiano'} %}
-{% set contactMap = {'email': '📧 Email', 'phone': '📞 Phone', 'sms': '💬 SMS', 'whatsapp': '💚 WhatsApp'} %}
+{% set starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' %}
 
-<div class="drl-page">
+<div class="pp-page">
 
-{# ── Breadcrumb navigation ─────────────────────────────────────────────────── #}
-<nav aria-label="breadcrumb" class="container pt-3 pb-1">
-  <ol class="breadcrumb mb-0" itemscope itemtype="https://schema.org/BreadcrumbList">
-    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
-      <meta itemprop="position" content="1">
-    </li>
-    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <a href="{{ url('companies_list') }}" itemprop="item"><span itemprop="name">Entreprises</span></a>
-      <meta itemprop="position" content="2">
-    </li>
-    {% if company.categories|length > 0 %}
-    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <a href="{{ url('companies_list') }}?category={{ company.categories|first.id }}" itemprop="item">
-        <span itemprop="name">{{ company.categories|first.name }}</span>
-      </a>
-      <meta itemprop="position" content="3">
-    </li>
-    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <span itemprop="name">{{ company.companyName }}</span>
-      <meta itemprop="position" content="4">
-    </li>
-    {% else %}
-    <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <span itemprop="name">{{ company.companyName }}</span>
-      <meta itemprop="position" content="3">
-    </li>
-    {% endif %}
-  </ol>
-</nav>
-
-{# ══════════════════════════════════════════════════════════════════
-   1. HERO BANNER
-══════════════════════════════════════════════════════════════════ #}
-<div class="drl-hero-banner">
+{# ══════════════════════════════════════════════════════════════════════════
+   HERO BANNER
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="pp-hero">
   {% if company.banner %}
     <img src="{{ asset('uploads/banners/' ~ company.banner) }}"
          alt="Bannière {{ company.companyName }}"
-         class="drl-hero-banner__img">
+         class="pp-hero__img">
   {% else %}
     <img src="{{ asset('uploads/banners/companies.png') }}"
          alt="Company banner"
-         class="drl-hero-banner__img">
+         class="pp-hero__img"
+         onerror="this.src='{{ asset('uploads/banners/professionels.png') }}'">
   {% endif %}
-</div>
 
-{# ══════════════════════════════════════════════════════════════════
-   2. PROFILE CARD
-══════════════════════════════════════════════════════════════════ #}
-<div class="drl-wrap">
-  <div class="drl-profile-card drl-fade d1">
-
-    {# ── Profile top row ── #}
-    <div class="drl-profile-top">
-
-      {# Avatar / Logo #}
-      <div class="drl-avatar-wrap">
-        <div class="drl-avatar-img">
-          {% if company.logo %}
-            <img src="{{ asset('uploads/logos/' ~ company.logo) }}"
-                 alt="Logo {{ company.companyName }}"
-                 style="object-fit:contain; padding:4px;">
-          {% else %}
-            {{ initials }}
-          {% endif %}
-        </div>
-        {% if company.isVerified %}
-          <div class="drl-verified-dot" title="Company vérifiée">✔</div>
-        {% endif %}
-      </div>
-
-      {# Info #}
-      <div class="drl-profile-info">
-        <div class="drl-company-row">
-          <span class="drl-company-name">{{ company.companyName }}</span>
-          {% if company.tradeName and company.tradeName != company.companyName %}
-            <span class="drl-emp-tag">DBA: {{ company.tradeName }}</span>
-          {% endif %}
-          {% if yearsExp %}
-            <span class="drl-years-tag">{{ yearsExp }}+ years</span>
-          {% endif %}
-        </div>
-
-        <div class="drl-category-row">
+  <div class="pp-breadcrumb">
+    <div class="pp-wrap">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
+            <meta itemprop="position" content="1">
+          </li>
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ url('companies_list') }}" itemprop="item"><span itemprop="name">Entreprises</span></a>
+            <meta itemprop="position" content="2">
+          </li>
           {% if company.categories|length > 0 %}
-            {{ company.categories|map(c => c.name)|join(' · ') }}
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ url('companies_list') }}?category={{ company.categories|first.id }}" itemprop="item">
+              <span itemprop="name">{{ company.categories|first.name }}</span>
+            </a>
+            <meta itemprop="position" content="3">
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <span>{{ company.companyName }}</span>
+          </li>
           {% else %}
-            Company de rénovation
+          <li class="breadcrumb-item active" aria-current="page">
+            <span>{{ company.companyName }}</span>
+          </li>
           {% endif %}
-          {% if firstCity != 'Canada' %}
-            · {{ firstCity }}
-          {% endif %}
-        </div>
+        </ol>
+      </nav>
+    </div>
+  </div>
 
-        <div class="drl-badges-row">
-          {% if company.isVerified %}
-            <span class="drl-chip drl-chip-green" title="Company vérifiée">✔ Verified</span>
-          {% endif %}
-          {% if company.isTopRated %}
-            <span class="drl-chip drl-chip-orange" title="Company Elite">⭐ Elite</span>
-          {% endif %}
-          {% if company.hasInsurance %}
-            <span class="drl-chip drl-chip-blue" title="Assurance responsabilité civile">🛡️ Insured</span>
-          {% endif %}
-          {% if company.rbqCertified %}
-            <span class="drl-chip drl-chip-blue" style="background:rgba(251,146,60,0.1);color:#c2410c;border-color:rgba(251,146,60,0.25);">📋 RBQ</span>
-          {% endif %}
-          {% if company.freeQuotes %}
-            <span class="drl-chip" style="background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.2);">📄 Soumissions gratuites</span>
-          {% endif %}
-        </div>
-      </div>
+  <div class="pp-hero-stripe"></div>
+</div>{# /hero #}
 
-      {# CTA #}
-      <div class="drl-profile-cta">
-        <button class="drl-btn-contact"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#contactCompanyModal"
-                aria-haspopup="dialog">
-          Nous contacter →
-        </button>
-        {% if company.Website %}
-          <a href="{{ company.Website }}" target="_blank" rel="noopener noreferrer" class="drl-phone-btn">
-            🌐 Site Web
-          </a>
+<div class="pp-wrap">
+
+{# ══════════════════════════════════════════════════════════════════════════
+   IDENTITY CARD
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="pp-identity pp-fade d1">
+
+  <div class="pp-id-top">
+
+    {# Avatar #}
+    <div class="pp-avatar-wrap">
+      <div class="pp-avatar">
+        {% if company.logo %}
+          <img src="{{ asset('uploads/logos/' ~ company.logo) }}"
+               alt="Logo {{ company.companyName }}"
+               style="object-fit:contain;padding:4px;">
+        {% else %}
+          {{ initials }}
         {% endif %}
       </div>
-
-    </div>{# /profile-top #}
-
-    {# ── Stats Strip ── #}
-    <div class="drl-stats-strip">
-      <div class="drl-stat-cell">
-        <div class="drl-stat-ico">🏢</div>
-        <div>
-          <div class="drl-stat-label">Company Type</div>
-          <div class="drl-stat-val">{{ company.entrepreneurType ? company.entrepreneurType.type : 'Général' }}</div>
+      {% if company.isVerified %}
+        <div class="pp-verified-ring" title="Entreprise vérifiée">
+          <i class="feather-check" style="font-size:12px;"></i>
         </div>
-      </div>
-      {% if yearsExp %}
-      <div class="drl-stat-cell">
-        <div class="drl-stat-ico">📅</div>
-        <div>
-          <div class="drl-stat-label">Experience</div>
-          <div class="drl-stat-val">{{ yearsExp }} years (depuis {{ company.foundationYear }})</div>
-        </div>
-      </div>
-      {% endif %}
-      {% if company.EmpNum %}
-      <div class="drl-stat-cell">
-        <div class="drl-stat-ico">👥</div>
-        <div>
-          <div class="drl-stat-label">Team</div>
-          <div class="drl-stat-val">{{ company.EmpNum }} employee{{ company.EmpNum > 1 ? 's' : '' }}</div>
-        </div>
-      </div>
-      {% endif %}
-      <div class="drl-stat-cell">
-        <div class="drl-stat-ico">✅</div>
-        <div>
-          <div class="drl-stat-label">Completed Projects</div>
-          <div class="drl-stat-val">
-            {% if projectCount > 0 %}
-              {{ projectCount }} projet{{ projectCount > 1 ? 's' : '' }}
-            {% else %}
-              —
-            {% endif %}
-          </div>
-        </div>
-      </div>
-      {% if company.languages|length > 0 %}
-      <div class="drl-stat-cell">
-        <div class="drl-stat-ico">💬</div>
-        <div>
-          <div class="drl-stat-label">Languages Spoken</div>
-          <div class="drl-stat-val">
-            {% for code in company.languages %}
-              {{ langMap[code] ?? code }}{{ not loop.last ? ' & ' : '' }}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
       {% endif %}
     </div>
 
-  </div>{# /profile-card #}
+    {# Info #}
+    <div class="pp-id-info">
+      <div class="pp-id-name-row">
+        <span class="pp-id-name">{{ company.companyName }}</span>
+        {% if company.tradeName and company.tradeName != company.companyName %}
+          <span class="pp-fast-badge" style="font-size:11px;">
+            <i class="feather-tag"></i> {{ company.tradeName }}
+          </span>
+        {% endif %}
+      </div>
 
+      <div class="pp-id-meta">
+        {% if company.categories|length > 0 %}
+        <span>
+          <i class="feather-briefcase"></i>
+          {{ company.categories|map(c => c.name)|join(' · ') }}
+        </span>
+        {% endif %}
+        {% if firstCity != 'Canada' %}
+        <span>
+          <i class="feather-map-pin"></i>
+          {{ firstCity }}, QC
+        </span>
+        {% endif %}
+        {% if yearsExp %}
+        <span>
+          <i class="feather-award"></i>
+          {{ yearsExp }}+ ans d'expérience
+        </span>
+        {% endif %}
+      </div>
 
-  {# ══════════════════════════════════════════════════════════════════
-     3. MAIN LAYOUT
-  ══════════════════════════════════════════════════════════════════ #}
-  <div class="drl-main-layout">
+      <div class="pp-badges">
+        {% if company.isVerified %}
+          <span class="pp-chip pp-chip--green"><i class="feather-shield"></i> Vérifiée</span>
+        {% endif %}
+        {% if company.isTopRated %}
+          <span class="pp-chip pp-chip--orange"><i class="feather-star"></i> Top Évaluée</span>
+        {% endif %}
+        {% if company.hasInsurance %}
+          <span class="pp-chip pp-chip--blue"><i class="feather-shield"></i> Assurée</span>
+        {% endif %}
+        {% if company.rbqCertified %}
+          <span class="pp-chip pp-chip--blue"><i class="feather-check-square"></i> Certifiée RBQ</span>
+        {% endif %}
+        {% if company.freeQuotes %}
+          <span class="pp-chip pp-chip--green"><i class="feather-file-text"></i> Devis gratuit</span>
+        {% endif %}
+        {% if company.guaranteedWork %}
+          <span class="pp-chip pp-chip--green"><i class="feather-check-circle"></i> Travaux garantis</span>
+        {% endif %}
+      </div>
+    </div>
 
-    {# ── LEFT COLUMN ── #}
-    <div class="drl-left-col">
+    {# CTA #}
+    <div class="pp-id-cta">
+      <button class="pp-btn-primary"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#contactCompanyModal"
+              aria-haspopup="dialog">
+        <i class="feather-send"></i>
+        Demander un devis
+      </button>
+      {% if company.Website %}
+      <a href="{{ company.Website }}" target="_blank" rel="noopener noreferrer" class="pp-btn-outline">
+        <i class="feather-globe"></i>
+        Site Web
+      </a>
+      {% endif %}
+    </div>
 
-      {# À propos & services #}
-      {% if company.about or company.services|length > 0 or company.whyChooseUs|length > 0 %}
-      <div class="drl-s-card drl-fade d2">
-        <div class="drl-s-head">
-          <div class="drl-s-title">
-            <span class="drl-s-title-dot"></span>
-            About the Company
-          </div>
-        </div>
-        <div class="drl-s-body">
-          {% if company.about %}
-            <p style="font-size:14px;color:#64748b;line-height:1.7;margin-bottom:16px;">
-              {{ company.about|nl2br }}
-            </p>
-          {% endif %}
+  </div>{# /pp-id-top #}
 
-          {% if company.services|length > 0 %}
-            <div class="mb-3">
-              <div style="font-size:11px;font-weight:700;letter-spacing:.5px;color:#94a3b8;text-transform:uppercase;margin-bottom:10px;">Services Offered</div>
-              <div class="d-flex flex-wrap gap-2">
-                {% for svc in company.services %}
-                  {% if svc|trim %}
-                  <span class="badge bg-light border text-muted px-3 py-2 rounded-pill small fw-normal shadow-sm" style="font-size:0.75rem;">
-                    <i class="fas fa-check-circle text-primary me-1 opacity-50"></i> {{ svc|trim }}
-                  </span>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
-
-          {# Preview 4 projects if any #}
-          {% if projectCount > 0 %}
-            <div class="drl-pres-grid">
-              {% for project in company.projets|slice(0, 4) %}
-                <div class="drl-pres-item"
-                     data-bs-toggle="modal"
-                     data-bs-target="#projectModal{{ project.id }}"
-                     role="button"
-                     tabindex="0"
-                     aria-haspopup="dialog"
-                     aria-label="Voir {{ project.name }}">
-                  <img src="{{ project.mainPhoto
-                          ? asset('uploads/projects/' ~ project.mainPhoto)
-                          : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
-                       alt="{{ project.name }}"
-                       loading="lazy">
-                  <div class="drl-pres-caption">{{ project.name }}</div>
-                </div>
-              {% endfor %}
-            </div>
-          {% endif %}
+  {# Stats strip #}
+  <div class="pp-stats-strip">
+    <div class="pp-stat-cell">
+      <div class="pp-stat-ico"><i class="feather-briefcase"></i></div>
+      <div>
+        <div class="pp-stat-lbl">Type</div>
+        <div class="pp-stat-val">{{ company.entrepreneurType ? company.entrepreneurType.type : 'Général' }}</div>
+      </div>
+    </div>
+    {% if yearsExp %}
+    <div class="pp-stat-cell">
+      <div class="pp-stat-ico"><i class="feather-calendar"></i></div>
+      <div>
+        <div class="pp-stat-lbl">Fondée en</div>
+        <div class="pp-stat-val">{{ company.foundationYear }} ({{ yearsExp }} ans)</div>
+      </div>
+    </div>
+    {% endif %}
+    {% if company.EmpNum %}
+    <div class="pp-stat-cell">
+      <div class="pp-stat-ico"><i class="feather-users"></i></div>
+      <div>
+        <div class="pp-stat-lbl">Employés</div>
+        <div class="pp-stat-val">{{ company.EmpNum }}</div>
+      </div>
+    </div>
+    {% endif %}
+    <div class="pp-stat-cell">
+      <div class="pp-stat-ico"><i class="feather-layers"></i></div>
+      <div>
+        <div class="pp-stat-lbl">Projets</div>
+        <div class="pp-stat-val">
+          {% if projectCount > 0 %}{{ projectCount }} projet{{ projectCount > 1 ? 's' : '' }}
+          {% else %}—{% endif %}
         </div>
       </div>
-      {% endif %}
-
-      {# Project Gallery #}
-      {% if projectCount > 0 %}
-      <div class="drl-s-card drl-fade d3">
-        <div class="drl-s-head">
-          <div class="drl-s-title">
-            <span class="drl-s-title-dot"></span>
-            Project Portfolio
-            <span class="drl-count-badge">({{ projectCount }})</span>
-          </div>
-        </div>
-        <div class="drl-s-body">
-          <div class="drl-gallery-grid">
-            {% for project in company.projets %}
-              {% if project.state %}
-              <div class="drl-gal-item"
-                   data-bs-toggle="modal"
-                   data-bs-target="#projectModal{{ project.id }}"
-                   role="button"
-                   tabindex="0"
-                   aria-haspopup="dialog"
-                   aria-label="{{ project.name }}">
-                <img src="{{ project.mainPhoto
-                        ? asset('uploads/projects/' ~ project.mainPhoto)
-                        : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
-                     alt="{{ project.name }}"
-                     loading="lazy">
-                <div class="drl-gal-lbl">{{ project.name }}</div>
-              </div>
-              {% endif %}
-            {% endfor %}
-          </div>
+    </div>
+    {% if company.languages|length > 0 %}
+    <div class="pp-stat-cell">
+      <div class="pp-stat-ico"><i class="feather-globe"></i></div>
+      <div>
+        <div class="pp-stat-lbl">Langues</div>
+        <div class="pp-stat-val">
+          {% for code in company.languages %}{{ langMap[code] ?? code }}{{ not loop.last ? ', ' : '' }}{% endfor %}
         </div>
       </div>
-      {% endif %}
+    </div>
+    {% endif %}
+  </div>
 
-      {# Categories #}
-      {% if company.categories|length > 0 %}
-      <div class="drl-s-card drl-fade d4">
-        <div class="drl-s-head">
-          <div class="drl-s-title">
-            <span class="drl-s-title-dot"></span>
-            Categorys de Services
-          </div>
-        </div>
-        <div class="drl-s-body">
-          <div class="drl-co-badge-list">
-            {% for cat in company.categories %}
-              <span class="drl-chip drl-chip-blue" style="font-size:13px;">
-                🏗️ {{ cat.name }}
-              </span>
-            {% endfor %}
-          </div>
-        </div>
+</div>{# /pp-identity #}
+
+
+{# ══════════════════════════════════════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="pp-layout">
+
+  {# ── LEFT COLUMN ── #}
+  <div class="pp-left">
+
+    {# About #}
+    {% if company.about or company.services|length > 0 %}
+    <div class="pp-card pp-fade d2">
+      <div class="pp-card-head">
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>À propos de l'entreprise</div>
       </div>
-      {% endif %}
-
-      {# Social Links #}
-      {% if company.links|length > 0 %}
-      <div class="drl-s-card drl-fade d4">
-        <div class="drl-s-head">
-          <div class="drl-s-title">
-            <span class="drl-s-title-dot"></span>
-            Social Networks & Links
-          </div>
-        </div>
-        <div class="drl-s-body">
-          <div class="drl-co-link-row">
-            {% for lnk in company.links %}
-              {% set ico = lnk.type|lower %}
-              <a href="{{ lnk.link }}" target="_blank" rel="noopener noreferrer" class="drl-co-link-btn">
-                {% if 'facebook' in ico %}🔵{% elseif 'instagram' in ico %}🟣{% elseif 'linkedin' in ico %}🔷{% elseif 'youtube' in ico %}🔴{% elseif 'twitter' in ico or 'x' in ico %}🐦{% else %}🔗{% endif %}
-                {{ lnk.type|capitalize }}
-              </a>
+      <div class="pp-card-body">
+        {% if company.about %}
+          <p class="pp-about-text">{{ company.about|nl2br }}</p>
+        {% endif %}
+        {% if company.services|length > 0 %}
+          <div class="pp-services-grid">
+            {% for svc in company.services %}
+              {% if svc|trim %}<span class="pp-service-chip"><i class="feather-tool"></i> {{ svc|trim }}</span>{% endif %}
             {% endfor %}
           </div>
-        </div>
+        {% endif %}
       </div>
-      {% endif %}
+    </div>
+    {% endif %}
 
-    </div>{# /left-col #}
-
-    {# ── RIGHT SIDEBAR ── #}
-    <div class="drl-right-col">
-      <div class="drl-sidebar-sticky">
-
-        {# Devis / Contact Card #}
-        <div class="drl-devis-card drl-fade d2">
-          <div class="drl-devis-header">
-            <h3>📋 Request a Quote</h3>
-            <p>Réponse garantie dans les 24h</p>
-          </div>
-          <div class="drl-devis-body">
-            <button class="drl-btn-devis"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#contactCompanyModal"
-                    aria-haspopup="dialog">
-              Get a free quote →
-            </button>
-
-            {# Opening Hours #}
-            {% if company.openingHours and company.openingHours|length > 0 %}
-            <div class="drl-hours-title">Opening Hours</div>
-            {% for hour in company.openingHours %}
-              {% if ':' in hour %}
-                {% set parts = hour|split(':') %}
-                {% set day  = parts[0]|trim %}
-                {% set time = parts[1:]|join(':')|trim %}
-                {% set isClosed = (time|lower == 'closed' or time|lower == 'fermé' or time|lower == 'ferme') %}
-                <div class="drl-hour-row">
-                  <span class="drl-hour-day">{{ day }}</span>
-                  <span class="{{ isClosed ? 'drl-hour-closed' : 'drl-hour-time' }}">{{ time }}</span>
-                </div>
-              {% else %}
-                <div class="drl-hour-row"><span class="drl-hour-day">{{ hour|trim }}</span></div>
-              {% endif %}
-            {% endfor %}
-            {% endif %}
-          </div>
-        </div>
-
-        {# Contact Details #}
-        <div class="drl-contact-card drl-fade d3">
-          <div class="drl-contact-head">📞 Contact Details</div>
-          <div class="drl-contact-body">
-            <div class="drl-c-item">
-              <div class="drl-c-ico">🏢</div>
-              <div>
-                <div class="drl-c-lbl">Company</div>
-                <div class="drl-c-val">{{ company.companyName }}</div>
-              </div>
-            </div>
-            {% if company.Adresse|length > 0 %}
-              {% for addr in company.Adresse %}
-              <div class="drl-c-item">
-                <div class="drl-c-ico">📍</div>
-                <div>
-                  <div class="drl-c-lbl">{{ loop.first ? 'Headquarters' : 'Branch' }}</div>
-                  <div class="drl-c-val">{{ addr.city }}{% if addr.postalCode %}, {{ addr.postalCode }}{% endif %}</div>
-                  {% if addr.street %}<div style="font-size:11px;color:#94a3b8;">{{ addr.street }}</div>{% endif %}
-                </div>
-              </div>
-              {% endfor %}
-            {% endif %}
-            {% if company.primaryContact %}
-            <div class="drl-c-item">
-              <div class="drl-c-ico">👤</div>
-              <div>
-                <div class="drl-c-lbl">Contact</div>
-                <div class="drl-c-val">{{ company.primaryContact.firstName }} {{ company.primaryContact.lastName }}</div>
-                {% if company.primaryContact.phone %}
-                  <div style="font-size:12px;color:#0d2151;font-weight:600;">
-                    <a href="tel:{{ company.primaryContact.phone }}" style="color:inherit;">{{ company.primaryContact.phone }}</a>
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-            {% endif %}
-            {% if company.Website %}
-            <hr class="drl-c-divider">
-            <div class="drl-c-item">
-              <div class="drl-c-ico">🌐</div>
-              <div>
-                <div class="drl-c-lbl">Site Web</div>
-                <div class="drl-c-val">
-                  <a href="{{ company.Website }}" target="_blank" rel="noopener" style="color:#0d2151;font-size:12px;">{{ company.Website|replace({'https://': '', 'http://': ''}) }}</a>
-                </div>
-              </div>
-            </div>
-            {% endif %}
-            {% if company.categories|length > 0 %}
-            <hr class="drl-c-divider">
-            <div class="drl-c-item">
-              <div class="drl-c-ico">🏗️</div>
-              <div>
-                <div class="drl-c-lbl">Specialties</div>
-                <div class="drl-c-val" style="font-size:12px;line-height:1.6;">{{ company.categories|map(c => c.name)|join(', ') }}</div>
-              </div>
-            </div>
-            {% endif %}
-            {% if company.EmpNum %}
-            <div class="drl-c-item">
-              <div class="drl-c-ico">👥</div>
-              <div>
-                <div class="drl-c-lbl">Workforce</div>
-                <div class="drl-c-val">{{ company.EmpNum }} employee{{ company.EmpNum > 1 ? 's' : '' }}</div>
-              </div>
-            </div>
-            {% endif %}
-          </div>
-        </div>
-
-        {# Advantages / Why Choose Us #}
-        <div class="drl-adv-card drl-fade d3">
-          <a class="drl-btn-see-all" role="button" tabindex="0">Our advantages</a>
-          <div class="drl-adv-body">
-            {% if company.whyChooseUs and company.whyChooseUs|length > 0 %}
+    {# Why choose us #}
+    {% if company.whyChooseUs and company.whyChooseUs|length > 0 %}
+    <div class="pp-card pp-fade d2">
+      <div class="pp-card-head">
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Points forts</div>
+      </div>
+      <div class="pp-card-body">
+        <div class="pp-highlights-grid">
+          <div>
+            <div class="pp-hl-subtitle"><i class="feather-award"></i> Pourquoi nous choisir</div>
+            <ul class="pp-hl-list">
               {% for item in company.whyChooseUs %}
                 {% if item|trim %}
-                <div class="drl-adv-item">
-                  <span class="drl-adv-ico">✔</span>
-                  <span class="drl-adv-txt">{{ item|trim }}</span>
-                </div>
+                <li class="pp-hl-item">
+                  <span class="pp-hl-ico"><i class="feather-check"></i></span>
+                  {{ item|trim }}
+                </li>
                 {% endif %}
               {% endfor %}
-            {% else %}
-              {% if company.interventionRadius %}
-              <div class="drl-adv-item">
-                <span class="drl-adv-ico">📍</span>
-                <span class="drl-adv-txt">Service Zone</span>
-                <span class="drl-adv-val">{{ company.interventionRadius }} km</span>
-              </div>
+            </ul>
+          </div>
+          <div>
+            <div class="pp-hl-subtitle"><i class="feather-tool"></i> Certifications & Garanties</div>
+            <ul class="pp-hl-list">
+              {% if company.rbqCertified %}
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-square"></i></span> Certifiée RBQ</li>
               {% endif %}
-              {% if company.minPrice %}
-              <div class="drl-adv-item">
-                <span class="drl-adv-ico">💲</span>
-                <span class="drl-adv-txt">Minimum Price</span>
-                <span class="drl-adv-val">${{ company.minPrice }}</span>
-              </div>
-              {% endif %}
-              {% if company.freeQuotes %}
-              <div class="drl-adv-item">
-                <span class="drl-adv-ico">📄</span>
-                <span class="drl-adv-txt">100% Free Quotes</span>
-              </div>
-              {% endif %}
-              {% if company.rbqCertified or company.hasInsurance %}
-              <div class="drl-adv-item">
-                <span class="drl-adv-ico">🛡️</span>
-                <span class="drl-adv-txt">
-                  {% if company.rbqCertified and company.hasInsurance %}Insured &amp; certifié RBQ
-                  {% elseif company.rbqCertified %}RBQ Certified
-                  {% else %}Fully Insured{% endif %}
-                </span>
-              </div>
+              {% if company.hasInsurance %}
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-shield"></i></span> Assurance responsabilité civile</li>
               {% endif %}
               {% if company.guaranteedWork %}
-              <div class="drl-adv-item">
-                <span class="drl-adv-ico">✔</span>
-                <span class="drl-adv-txt">Guaranteed Work</span>
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-circle"></i></span> Travaux garantis</li>
+              {% endif %}
+              {% if company.freeQuotes %}
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-file-text"></i></span> Soumissions gratuites</li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Categories #}
+    {% if company.categories|length > 0 %}
+    <div class="pp-card pp-fade d3">
+      <div class="pp-card-head">
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Catégories de services</div>
+      </div>
+      <div class="pp-card-body">
+        <div class="pp-services-grid">
+          {% for cat in company.categories %}
+            <span class="pp-service-chip"><i class="feather-grid"></i> {{ cat.name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Project overview 2×2 #}
+    {% if projectCount > 0 %}
+    <div class="pp-card pp-fade d3">
+      <div class="pp-card-head">
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Aperçu des projets</div>
+        <span class="pp-card-link">{{ projectCount }} projet{{ projectCount > 1 ? 's' : '' }}</span>
+      </div>
+      <div class="pp-card-body">
+        <div class="pp-project-grid">
+          {% for project in company.projets|slice(0, 4) %}
+            <div class="pp-project-item"
+                 data-bs-toggle="modal"
+                 data-bs-target="#projectModal{{ project.id }}"
+                 role="button" tabindex="0"
+                 aria-haspopup="dialog"
+                 aria-label="{{ project.name }}">
+              <img src="{{ project.mainPhoto
+                       ? asset('uploads/projects/' ~ project.mainPhoto)
+                       : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
+                   alt="{{ project.name }}" loading="lazy">
+              <div class="pp-project-caption">
+                <i class="feather-layers" style="font-size:11px;margin-right:4px;"></i>
+                {{ project.name }}
               </div>
-              {% endif %}
-              {% if not company.interventionRadius and not company.minPrice and not company.freeQuotes and not company.rbqCertified and not company.hasInsurance and not company.guaranteedWork %}
-              <div class="drl-adv-item"><span class="drl-adv-ico">📍</span><span class="drl-adv-txt">Service Zone</span><span class="drl-adv-val">40 km</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">📄</span><span class="drl-adv-txt">Soumissions gratuites</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">🛡️</span><span class="drl-adv-txt">Insured &amp; certifié RBQ</span></div>
-              <div class="drl-adv-item"><span class="drl-adv-ico">✔</span><span class="drl-adv-txt">Guaranteed Work</span></div>
-              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Full gallery #}
+    {% if projectCount > 4 %}
+    <div class="pp-card pp-fade d4">
+      <div class="pp-card-head">
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Portfolio complet</div>
+      </div>
+      <div class="pp-card-body">
+        <div class="pp-gallery-grid">
+          {% for project in company.projets %}
+            {% if project.state %}
+            <div class="pp-gal-item"
+                 data-bs-toggle="modal"
+                 data-bs-target="#projectModal{{ project.id }}"
+                 role="button" tabindex="0"
+                 aria-label="{{ project.name }}">
+              <img src="{{ project.mainPhoto
+                       ? asset('uploads/projects/' ~ project.mainPhoto)
+                       : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
+                   alt="{{ project.name }}" loading="lazy">
+              <div class="pp-gal-lbl">{{ project.name }}</div>
+            </div>
             {% endif %}
-          </div>
+          {% endfor %}
         </div>
+      </div>
+    </div>
+    {% endif %}
 
-        {# Payment Methods #}
-        {% if company.paymentMethod|length > 0 %}
-        <div class="drl-adv-card drl-fade d4" style="padding:16px 20px;">
-          <div style="font-size:12px;font-weight:700;letter-spacing:.5px;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Payment Methods</div>
-          <div class="d-flex flex-wrap gap-2">
-            {% for payment in company.paymentMethod %}
-              <span class="drl-pay-chip">✔ {{ payment.name }}</span>
-            {% endfor %}
-          </div>
+    {# Social links #}
+    {% if company.links|length > 0 %}
+    <div class="pp-card pp-fade d4">
+      <div class="pp-card-head">
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Réseaux sociaux</div>
+      </div>
+      <div class="pp-card-body">
+        <div class="d-flex flex-wrap gap-2">
+          {% for lnk in company.links %}
+            {% set ico = lnk.type|lower %}
+            <a href="{{ lnk.link }}" target="_blank" rel="noopener noreferrer"
+               class="pp-service-chip text-decoration-none" style="cursor:pointer;">
+              {% if 'facebook' in ico %}<i class="feather-facebook"></i>
+              {% elseif 'instagram' in ico %}<i class="feather-instagram"></i>
+              {% elseif 'linkedin' in ico %}<i class="feather-linkedin"></i>
+              {% elseif 'youtube' in ico %}<i class="feather-youtube"></i>
+              {% elseif 'twitter' in ico or 'x' in ico %}<i class="feather-twitter"></i>
+              {% else %}<i class="feather-link"></i>{% endif %}
+              {{ lnk.type|capitalize }}
+            </a>
+          {% endfor %}
         </div>
-        {% endif %}
+      </div>
+    </div>
+    {% endif %}
 
-        {# Service Zone #}
-        <div class="drl-zone-card drl-fade d4">
-          <div class="drl-zone-title">📍 Service Zone: {{ firstCity }}</div>
-          <div class="drl-zone-sub">This company works in the following areas:</div>
-          <div class="drl-zone-chips">
-            {% if company.interventionZone %}
-              {% for zone in company.interventionZone|split(',') %}
-                <span class="drl-zone-chip">{{ zone|trim }}</span>
-              {% endfor %}
+  </div>{# /pp-left #}
+
+  {# ── RIGHT SIDEBAR ── #}
+  <div class="pp-right">
+    <div class="pp-sidebar-sticky">
+
+      {# Quote CTA card #}
+      <div class="pp-quote-card pp-fade d2">
+        <div class="pp-quote-head">
+          <h3><i class="feather-clipboard" style="margin-right:8px;"></i>Demander un devis</h3>
+          <p>Réponse garantie sous 24h</p>
+        </div>
+        <div class="pp-quote-body">
+          <button class="pp-btn-cta-full"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#contactCompanyModal"
+                  aria-haspopup="dialog">
+            <i class="feather-send"></i> Envoyer ma demande
+          </button>
+
+          {% if company.openingHours and company.openingHours|length > 0 %}
+          <div class="pp-hours-title"><i class="feather-clock"></i> Horaires d'ouverture</div>
+          {% for hour in company.openingHours %}
+            {% if ':' in hour %}
+              {% set parts = hour|split(':') %}
+              {% set day   = parts[0]|trim %}
+              {% set time  = parts[1:]|join(':')|trim %}
+              {% set isClosed = (time|lower == 'closed' or time|lower == 'fermé' or time|lower == 'ferme') %}
+              <div class="pp-hour-row">
+                <span class="pp-hour-day">{{ day }}</span>
+                <span class="{{ isClosed ? 'pp-hour-closed' : 'pp-hour-time' }}">{{ time }}</span>
+              </div>
             {% else %}
-              {% for addr in company.Adresse %}
-                <span class="drl-zone-chip">🏙️ {{ addr.city }}</span>
-              {% endfor %}
-              {% if company.Adresse|length == 0 %}
-                <span class="drl-zone-chip">🏙️ {{ firstCity }}</span>
-              {% endif %}
+              <div class="pp-hour-row"><span class="pp-hour-day">{{ hour|trim }}</span></div>
             {% endif %}
-            {% if company.interventionRadius %}
-              <span class="drl-zone-chip">📏 {{ company.interventionRadius }} km</span>
-            {% endif %}
-          </div>
+          {% endfor %}
+          {% endif %}
         </div>
+      </div>
 
-      </div>{# /sidebar-sticky #}
-    </div>{# /right-col #}
+      {# Contact details #}
+      <div class="pp-contact-card pp-fade d3">
+        <div class="pp-contact-head"><i class="feather-phone"></i> Coordonnées</div>
+        <div class="pp-contact-body">
 
-  </div>{# /main-layout #}
+          <div class="pp-c-item">
+            <div class="pp-c-ico"><i class="feather-home"></i></div>
+            <div>
+              <div class="pp-c-lbl">Entreprise</div>
+              <div class="pp-c-val">{{ company.companyName }}</div>
+            </div>
+          </div>
 
-</div>{# /drl-wrap #}
-</div>{# /drl-page #}
+          {% if company.Adresse|length > 0 %}
+            {% for addr in company.Adresse %}
+            <div class="pp-c-item">
+              <div class="pp-c-ico"><i class="feather-map-pin"></i></div>
+              <div>
+                <div class="pp-c-lbl">{{ loop.first ? 'Siège social' : 'Succursale' }}</div>
+                <div class="pp-c-val">{{ addr.city }}{% if addr.postalCode %}, {{ addr.postalCode }}{% endif %}</div>
+                {% if addr.street %}<div style="font-size:11px;color:#94a3b8;">{{ addr.street }}</div>{% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+
+          {% if company.primaryContact %}
+          <div class="pp-c-item">
+            <div class="pp-c-ico"><i class="feather-user"></i></div>
+            <div>
+              <div class="pp-c-lbl">Contact</div>
+              <div class="pp-c-val">{{ company.primaryContact.firstName }} {{ company.primaryContact.lastName }}</div>
+              {% if company.primaryContact.phone %}
+                <div><a href="tel:{{ company.primaryContact.phone }}" style="color:var(--pp-blue);font-weight:600;font-size:13px;">{{ company.primaryContact.phone }}</a></div>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if company.Website %}
+          <hr class="pp-c-divider">
+          <div class="pp-c-item">
+            <div class="pp-c-ico"><i class="feather-globe"></i></div>
+            <div>
+              <div class="pp-c-lbl">Site Web</div>
+              <div class="pp-c-val"><a href="{{ company.Website }}" target="_blank" rel="noopener" style="font-size:12px;">{{ company.Website|replace({'https://': '', 'http://': ''}) }}</a></div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if company.interventionRadius %}
+          <div class="pp-c-item">
+            <div class="pp-c-ico"><i class="feather-navigation"></i></div>
+            <div>
+              <div class="pp-c-lbl">Rayon d'intervention</div>
+              <div class="pp-c-val">{{ company.interventionRadius }} km</div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {# Service zones #}
+      {% if company.interventionZone or company.Adresse|length > 0 %}
+      <div class="pp-zone-card pp-fade d3">
+        <div class="pp-zone-title"><i class="feather-map"></i> Zones desservies</div>
+        <div class="pp-zone-sub">Cette entreprise intervient dans les zones suivantes :</div>
+        <div class="pp-zone-chips">
+          {% if company.interventionZone %}
+            {% for zone in company.interventionZone|split(',') %}
+              {% if zone|trim %}<span class="pp-zone-chip"><i class="feather-map-pin"></i> {{ zone|trim }}</span>{% endif %}
+            {% endfor %}
+          {% else %}
+            {% for addr in company.Adresse %}
+              <span class="pp-zone-chip"><i class="feather-map-pin"></i> {{ addr.city }}</span>
+            {% endfor %}
+          {% endif %}
+          {% if company.interventionRadius %}
+            <span class="pp-zone-chip"><i class="feather-navigation"></i> {{ company.interventionRadius }} km</span>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {# Payment methods #}
+      {% if company.paymentMethod|length > 0 %}
+      <div class="pp-adv-card pp-fade d4">
+        <div class="pp-adv-head"><i class="feather-credit-card"></i> Modes de paiement</div>
+        <div class="pp-adv-list">
+          {% for payment in company.paymentMethod %}
+          <div class="pp-adv-item">
+            <div class="pp-adv-ico"><i class="feather-check"></i></div>
+            <span class="pp-adv-txt">{{ payment.name }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>{# /pp-right #}
+
+</div>{# /pp-layout #}
+
+</div>{# /pp-wrap #}
+</div>{# /pp-page #}
 
 
-{# ══════════════════════════════════════════════════════════════════
-   MODALS
-══════════════════════════════════════════════════════════════════ #}
-
-{# Project detail modals #}
+{# ══════════════════════════════════════════════════════════════════════════
+   MODALS — Projects
+══════════════════════════════════════════════════════════════════════════ #}
 {% for project in company.projets %}
 {% if project.state %}
-<div class="modal fade" id="projectModal{{ project.id }}" tabindex="-1" aria-modal="true" aria-hidden="true">
+<div class="modal fade pp-modal" id="projectModal{{ project.id }}" tabindex="-1" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content drl-modal-content">
+    <div class="modal-content">
       <div class="modal-body p-0">
         <div class="row g-0">
           <div class="col-lg-7">
             <img src="{{ project.mainPhoto
                     ? asset('uploads/projects/' ~ project.mainPhoto)
                     : asset('assets/drilleedo/images/event/grid-type-01.jpg') }}"
-                 class="drl-modal-project-img"
+                 class="pp-modal-project-img"
                  alt="{{ project.name }}">
           </div>
           <div class="col-lg-5">
-            <div class="p-4 drl-modal-scroll-pane">
-              <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
-              <h2 class="drl-modal-title mt-3">{{ project.name }}</h2>
-              <div class="mb-3">
+            <div class="pp-modal-scroll">
+              <div class="d-flex align-items-start justify-content-between mb-3">
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fermer"></button>
+              </div>
+              <div class="pp-modal-title mb-3">{{ project.name }}</div>
+              <div class="mb-3 d-flex flex-wrap gap-2">
                 {% if project.startDate %}
-                  <span class="drl-chip drl-chip-blue drl-modal-badge-sm">
+                  <span class="pp-chip pp-chip--blue" style="font-size:12px;">
                     {{ project.startDate|date('M Y') }}{% if project.EndDate %} – {{ project.EndDate|date('M Y') }}{% endif %}
                   </span>
                 {% endif %}
-                <span class="drl-chip drl-modal-badge-sm" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">
-                  {{ project.state ? 'Published' : 'Project' }}
+                <span class="pp-chip pp-chip--green" style="font-size:12px;">
+                  <i class="feather-check-circle"></i> Publié
                 </span>
               </div>
               {% if project.description %}
-                <div class="drl-modal-desc mb-3">{{ project.description|nl2br }}</div>
+                <div class="pp-modal-desc mb-4">{{ project.description|nl2br }}</div>
               {% endif %}
               {% if project.gallery %}
-                <p class="drl-modal-gallery-title">Gallery</p>
-                <div class="row g-2 mb-3">
+                <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;margin-bottom:8px;">Galerie</p>
+                <div class="row g-2 mb-4">
                   {% for photo in project.gallery %}
                     <div class="col-6">
                       <img src="{{ asset('uploads/projects/' ~ photo) }}"
                            alt="Photo {{ project.name }}"
-                           class="drl-modal-gallery-img">
+                           class="pp-modal-gallery-img">
                     </div>
                   {% endfor %}
                 </div>
               {% endif %}
-              <div class="drl-modal-action-row">
-                <button class="drl-btn-submit"
-                        type="button"
-                        data-bs-dismiss="modal"
-                        data-bs-toggle="modal"
-                        data-bs-target="#contactCompanyModal">
-                  Request a Quote similaire
-                </button>
-              </div>
+              <button class="pp-btn-submit w-100 justify-content-center"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      data-bs-toggle="modal"
+                      data-bs-target="#contactCompanyModal">
+                <i class="feather-send"></i> Demander un devis similaire
+              </button>
             </div>
           </div>
         </div>
@@ -714,50 +652,247 @@
 {% endif %}
 {% endfor %}
 
-{# Contact / Quote modal #}
-<div class="modal fade" id="contactCompanyModal" tabindex="-1" aria-modal="true" aria-hidden="true">
+
+{# ══════════════════════════════════════════════════════════════════════════
+   MODAL — Contact / Devis
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="modal fade pp-modal" id="contactCompanyModal" tabindex="-1" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content drl-modal-content">
-      <div class="drl-modal-header">
-        Contact {{ company.companyName }}
-        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-content">
+      <div class="pp-modal-header d-flex align-items-center justify-content-between">
+        Contacter {{ company.companyName }}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
-      <div class="drl-modal-body">
-        <p class="drl-modal-intro">
-          Send a direct quote request, information, or project consultation to {{ company.companyName }}.
+      <div class="pp-modal-body">
+        <p class="pp-modal-intro">
+          <i class="feather-info" style="color:var(--pp-sky);margin-right:6px;"></i>
+          Envoyez une demande de devis directement à {{ company.companyName }}.
+          Vous recevrez une réponse dans les 24 heures.
         </p>
 
-        {# Contact preferences chips #}
-        {% if company.contactPrefs|length > 0 %}
-        <div class="d-flex flex-wrap gap-2 mb-4">
-          <span style="font-size:12px;font-weight:600;color:#94a3b8;align-self:center;">Preferences:</span>
-          {% for pref in company.contactPrefs %}
-            <span class="drl-chip" style="font-size:12px;">{{ contactMap[pref|lower] ?? pref }}</span>
-          {% endfor %}
-        </div>
-        {% endif %}
+        <div class="pp-form">
+          {{ form_start(contactForm) }}
+            <div class="row g-3">
 
-        <div class="drl-modal-form">
-          <div class="row g-3">
-            <div class="col-12">
-              <label class="form-label small fw-bold text-muted text-uppercase">Subject of your request</label>
-              <a href="{{ path('individual_quote_new') }}" class="drl-btn-submit d-block text-center text-decoration-none">
-                Submit a quote request →
-              </a>
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="feather-edit-3"></i> Sujet de votre demande
+                </label>
+                {{ form_widget(contactForm.title) }}
+                {{ form_errors(contactForm.title) }}
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="feather-align-left"></i> Description de vos besoins
+                </label>
+                {{ form_widget(contactForm.description) }}
+                {{ form_errors(contactForm.description) }}
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="feather-calendar"></i> Date souhaitée de début
+                </label>
+                {{ form_widget(contactForm.desiredStartDate) }}
+                {{ form_errors(contactForm.desiredStartDate) }}
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="feather-clock"></i> Disponibilités pour visite / devis
+                </label>
+                <div class="pp-chips">
+                  {% for child in contactForm.availabilities %}
+                    <label class="pp-toggle-chip" id="cc-avail-{{ loop.index }}" for="{{ child.vars.id }}">
+                      {{ form_widget(child) }}
+                      {% if child.vars.label == 'Matin' %}<i class="feather-sun"></i>
+                      {% elseif child.vars.label == 'Après-midi' %}<i class="feather-sunset"></i>
+                      {% elseif child.vars.label == 'Week-end' %}<i class="feather-coffee"></i>
+                      {% else %}<i class="feather-sliders"></i>{% endif %}
+                      {{ child.vars.label }}
+                    </label>
+                  {% endfor %}
+                </div>
+                {{ form_errors(contactForm.availabilities) }}
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="feather-alert-circle"></i> Intervention urgente ?
+                </label>
+                <div class="pp-chips">
+                  {% for child in contactForm.urgentIntervention %}
+                    <label class="pp-toggle-chip pp-toggle-chip--urgence" id="cc-urg-{{ loop.index }}" for="{{ child.vars.id }}">
+                      {{ form_widget(child) }}
+                      {% if child.vars.label == 'Oui' %}<i class="feather-zap"></i>
+                      {% else %}<i class="feather-minus-circle"></i>{% endif %}
+                      {{ child.vars.label }}
+                    </label>
+                  {% endfor %}
+                </div>
+                {{ form_errors(contactForm.urgentIntervention) }}
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="feather-image"></i> Photos du projet (optionnel)
+                </label>
+                {{ form_widget(contactForm.images) }}
+                {{ form_errors(contactForm.images) }}
+              </div>
+
+              <div class="mt-4">
+                <button type="submit" class="pp-btn-submit">
+                  <i class="feather-send"></i>
+                  Envoyer ma demande
+                </button>
+              </div>
             </div>
-          </div>
-          {% if company.primaryContact and company.primaryContact.phone %}
-          <div class="mt-3 p-3 rounded-3 bg-light border text-center">
-            <div class="small text-muted mb-1">Or contact directly:</div>
-            <a href="tel:{{ company.primaryContact.phone }}" class="fw-bold text-primary text-decoration-none fs-5">
-              📞 {{ company.primaryContact.phone }}
-            </a>
-          </div>
-          {% endif %}
+          {{ form_widget(contactForm._token) }}
+          {{ form_end(contactForm, {'render_rest': false}) }}
         </div>
       </div>
     </div>
   </div>
 </div>
 
+{# ══════════════════════════════════════════════════════════════════════════
+   MODAL — Confirmation envoi demande
+══════════════════════════════════════════════════════════════════════════ #}
+<div class="modal fade pp-modal" id="companySuccessModal" tabindex="-1" aria-modal="true" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:440px;">
+    <div class="modal-content" style="border-radius:20px;overflow:hidden;border:none;box-shadow:0 12px 48px rgba(0,73,127,.18);">
+      <div class="modal-body p-0">
+        <div style="background:linear-gradient(135deg,var(--pp-blue),#0066b8);padding:32px 28px 24px;text-align:center;color:#fff;">
+          <div style="width:64px;height:64px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;">
+            <i class="feather-check-circle"></i>
+          </div>
+          <h3 style="font-size:20px;font-weight:700;margin:0 0 6px;">Demande envoyée !</h3>
+          <p style="font-size:14px;opacity:.85;margin:0;">{{ company.companyName }} va vous répondre sous 24h</p>
+        </div>
+        <div style="padding:24px 28px;text-align:center;">
+          <p style="font-size:14px;color:#64748b;line-height:1.6;margin-bottom:20px;">
+            Votre demande a bien été transmise.
+            Vous recevrez une notification dès qu'une réponse est disponible.
+          </p>
+          <button type="button"
+                  class="pp-btn-primary w-100 justify-content-center"
+                  data-bs-dismiss="modal">
+            <i class="feather-thumbs-up"></i> Parfait, merci !
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  function initChips(selector, urgency) {
+    urgency = urgency || false;
+    document.querySelectorAll(selector).forEach(function (chip) {
+      var input = chip.querySelector('input');
+      if (!input) return;
+      if (input.checked) {
+        chip.classList.add(urgency && (input.value === '1' || input.value === 'true') ? 'checked-urgent' : 'checked');
+      }
+      input.addEventListener('change', function () {
+        if (input.type === 'radio') {
+          document.querySelectorAll(selector).forEach(function (c) {
+            c.classList.remove('checked', 'checked-urgent');
+          });
+        }
+        if (input.checked) {
+          chip.classList.add(urgency && (input.value === '1' || input.value === 'true') ? 'checked-urgent' : 'checked');
+        } else {
+          chip.classList.remove('checked', 'checked-urgent');
+        }
+      });
+      chip.addEventListener('click', function (e) {
+        if (e.target.tagName === 'INPUT') return;
+        e.preventDefault();
+        if (input.type === 'checkbox') {
+          input.checked = !input.checked;
+          input.dispatchEvent(new Event('change'));
+        } else if (input.type === 'radio' && !input.checked) {
+          input.checked = true;
+          input.dispatchEvent(new Event('change'));
+        }
+      });
+    });
+  }
+
+  initChips('#contactCompanyModal .pp-toggle-chip:not(.pp-toggle-chip--urgence)');
+  initChips('#contactCompanyModal .pp-toggle-chip--urgence', true);
+
+});
+</script>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.querySelector('#contactCompanyModal form');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var submitBtn = form.querySelector('[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi...';
+    }
+
+    fetch(window.location.pathname, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      body: new FormData(form),
+    })
+    .then(function (res) {
+      if (!res.ok && res.status !== 422) throw new Error('server_error');
+      return res.json();
+    })
+    .then(function (json) {
+      if (json.success) {
+        var contactModalEl = document.getElementById('contactCompanyModal');
+        var bsContact = contactModalEl ? bootstrap.Modal.getInstance(contactModalEl) : null;
+        if (bsContact) {
+          contactModalEl.addEventListener('hidden.bs.modal', function openSuccess() {
+            contactModalEl.removeEventListener('hidden.bs.modal', openSuccess);
+            var successEl = document.getElementById('companySuccessModal');
+            if (successEl) new bootstrap.Modal(successEl, { backdrop: 'static' }).show();
+          }, { once: true });
+          bsContact.hide();
+        } else {
+          var successEl = document.getElementById('companySuccessModal');
+          if (successEl) new bootstrap.Modal(successEl, { backdrop: 'static' }).show();
+        }
+        form.reset();
+        form.querySelectorAll('.pp-toggle-chip').forEach(function (c) {
+          c.classList.remove('checked', 'checked-urgent');
+        });
+      } else if (json.error === 'not_logged_in') {
+        alert('Vous devez être connecté en tant que particulier pour envoyer une demande.');
+      } else if (json.errors && json.errors.length) {
+        alert(json.errors.join('\n'));
+      }
+    })
+    .catch(function () {
+      alert('Une erreur est survenue. Veuillez réessayer.');
+    })
+    .finally(function () {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="feather-send me-2"></i>Envoyer ma demande';
+      }
+    });
+  });
+});
+</script>
 {% endblock %}

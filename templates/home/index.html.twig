@@ -1,643 +1,972 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'site.title'|trans }}{% endblock %}
-{% block meta_description %}{{ 'site.meta_description'|trans }}{% endblock %}
-{% block meta_keywords %}home renovation Canada, find contractors, renovation quotes, home improvement marketplace{% endblock %}
-{% block og_title %}{{ 'site.title'|trans }}{% endblock %}
-{% block og_description %}{{ 'site.meta_description'|trans }}{% endblock %}
+{% block title %}Drilleedo – Devis gratuits, pros vérifiés | Canada{% endblock %}
+{% block meta_description %}Trouvez des professionnels vérifiés pour votre rénovation, jardinage, déménagement et plus. Devis gratuits, sans engagement. 35 000+ projets réalisés partout au Canada.{% endblock %}
+{% block meta_keywords %}rénovation Canada, devis gratuits, professionnels vérifiés, plomberie, électricité, jardinage, Drilleedo{% endblock %}
+{% block og_title %}Drilleedo — easy help, fast solutions{% endblock %}
+{% block og_description %}Marketplace canadienne : connectez propriétaires et professionnels vérifiés. Devis gratuits, 35 000+ projets, 1 500+ pros.{% endblock %}
 
 {% block structured_data %}
 {{ parent() }}
 <script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Drilleedo",
-    "description": "Canadian home improvement marketplace connecting homeowners with trusted renovation professionals.",
-    "url": "{{ url('app_home') }}",
-    "telephone": "+14065550120",
-    "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Toronto",
-        "addressRegion": "ON",
-        "addressCountry": "CA"
-    },
-    "areaServed": {
-        "@type": "Country",
-        "name": "Canada"
-    },
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "10000",
-        "bestRating": "5",
-        "worstRating": "1"
-    },
-    "sameAs": []
-}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Drilleedo","url":"{{ url('app_home') }}","description":"Marketplace canadienne connectant propriétaires et professionnels vérifiés.","areaServed":{"@type":"Country","name":"Canada"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2500","bestRating":"5"}}
 </script>
 {% endblock %}
 
-{% block body %}
+{% block stylesheets %}
 <style>
-/* ── Drilleedo Pro Design Charter (Modern Skin) ── */
+/* ═══════════════════════════════════════════════════════════
+   DRILLEEDO HOMEPAGE v3 — Inspired by brand guidelines
+   Helper Blue #00497F · Action Sky #3FA9F5 · Toolbox Orange #FF8A3D · Wall White #FFFBEB
+   ═══════════════════════════════════════════════════════════ */
 :root {
-    --drl-navy: #0d2151;
-    --drl-blue: #00509e;
-    --drl-orange: #e8501a;
-    --drl-soft-blue: rgba(0, 80, 158, 0.08);
-    --drl-white: #ffffff;
-    --drl-gray: #64748b;
-    --radius-premium: 20px;
-    --shadow-premium: 0 20px 40px rgba(13, 33, 81, 0.08);
+  --B:   #00497F;
+  --S:   #3FA9F5;
+  --O:   #FF8A3D;
+  --C:   #FFFBEB;
+  --D:   #0C1825;
+  --M:   #4A6073;
+  --L:   #E4EBF2;
+  --W:   #FFFFFF;
+  --F:   'Instrument Sans', system-ui, sans-serif;
+  --r:   12px;
+  --rl:  20px;
+  --rx:  28px;
+  --sh:  0 4px 24px rgba(0,73,127,.12);
+  --t:   all .22s ease;
+}
+.hp { font-family: var(--F); color: var(--D); line-height: 1.65; }
+.hp * { box-sizing: border-box; }
+.hp h1,.hp h2,.hp h3,.hp h4 { font-family: var(--F); font-weight: 900; letter-spacing: -.6px; line-height: 1.15; }
+.hp a { text-decoration: none; }
+.hw { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.hs  { padding: 96px 0; }
+.hss { padding: 64px 0; }
+.hc  { text-align: center; }
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0); }
+
+/* ── Pill labels ── */
+.hpill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px; border-radius: 50px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .3px; margin-bottom: 18px;
+}
+.hpill-s { background: rgba(63,169,245,.12); color: var(--S); }
+.hpill-o { background: rgba(255,138,61,.12);  color: var(--O); }
+.hpill-w { background: rgba(255,255,255,.18); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+
+/* ── Headings ── */
+.hh2 { font-size: 40px; font-weight: 900; color: var(--D); margin-bottom: 14px; letter-spacing: -1px; }
+.hh2-w { color: #fff; }
+.hl  { font-size: 16px; color: var(--M); line-height: 1.7; max-width: 580px; }
+.hlc { margin-left: auto; margin-right: auto; }
+
+/* ── Buttons ── */
+.hbtn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--F); font-weight: 700; font-size: 15px;
+  border-radius: var(--r); border: none; cursor: pointer;
+  transition: var(--t); padding: 13px 26px; line-height: 1;
+}
+.hbtn-o { background: var(--O); color: #fff; box-shadow: 0 4px 16px rgba(255,138,61,.3); }
+.hbtn-o:hover { background: #e87830; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,138,61,.4); color: #fff; }
+.hbtn-b { background: var(--B); color: #fff; }
+.hbtn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
+.hbtn-g { background: transparent; border: 2px solid rgba(0,73,127,.2); color: var(--B); }
+.hbtn-g:hover { background: var(--B); color: #fff; border-color: var(--B); }
+.hbtn-w { background: var(--W); color: var(--B); font-weight: 700; }
+.hbtn-w:hover { background: var(--C); color: var(--B); }
+.hbtn-ow { background: transparent; border: 2px solid rgba(255,255,255,.35); color: #fff; }
+.hbtn-ow:hover { border-color: #fff; background: rgba(255,255,255,.1); color: #fff; }
+.hbtn-lg { font-size: 16px; padding: 15px 32px; }
+.hbtn i  { font-size: 15px; }
+
+/* ════════════════════════════════════════
+   HERO — Photo left + blue right
+   ════════════════════════════════════════ */
+.hp-hero {
+  display: grid; grid-template-columns: 2fr 1fr;
+  min-height: 720px; overflow: hidden; position: relative;
+}
+/* Left: full photo background */
+.hp-hero-photo {
+  position: relative; overflow: hidden;
+  background: #eef4fa;
+}
+.hp-hero-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  opacity: .18;
+  mix-blend-mode: multiply;
+}
+/* Floating card over photo */
+.hp-hero-card {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,.97);
+    border-radius: var(--rx);
+    padding: 44px 40px;
+    max-width: 78%;
+    width: 78%;
+    box-shadow: 0 8px 40px rgba(0,73,127,.13);
+}
+.hp-eyebrow {
+  font-size: 11px; font-weight: 700; color: var(--O);
+  text-transform: uppercase; letter-spacing: 1.8px;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 6px;
+}
+.hp-h1 {
+  font-size: clamp(40px,4.2vw,54px); font-weight: 900; color: var(--D);
+  margin-bottom: 8px; letter-spacing: -2px; line-height: 1.08;
+}
+.hp-h1 span { color: var(--B); display: block; }
+.hp-tagline {
+  font-size: 13px; color: var(--O); font-weight: 700;
+  letter-spacing: .4px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 8px;
+}
+.hp-tagline::before {
+  content: '';
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--O); flex-shrink: 0;
+}
+/* Search bar */
+.hp-search {
+  display: flex; align-items: center;
+  background: #F8FAFC; border: 2px solid var(--L);
+  border-radius: 50px; padding: 6px 6px 6px 18px;
+  margin-bottom: 14px; transition: var(--t);
+}
+.hp-search:focus-within { border-color: var(--S); box-shadow: 0 0 0 4px rgba(63,169,245,.12); }
+.hp-search i { color: var(--M); font-size: 16px; margin-right: 8px; flex-shrink: 0; }
+.hp-search input {
+  flex: 1; border: none; background: transparent;
+  font-family: var(--F); font-size: 14px; color: var(--D);
+  outline: none;
+}
+.hp-search input::placeholder { color: #b0bec5; }
+.hp-search button {
+  background: var(--O); color: #fff; border: none;
+  border-radius: 50px; padding: 11px 22px;
+  font-family: var(--F); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: var(--t); display: flex; align-items: center; gap: 6px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.hp-search button:hover { background: #d96e10; transform: scale(1.02); }
+/* Quick category chips */
+.hp-qchips {
+  display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px;
+}
+.hp-qchip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 13px; border-radius: 50px;
+  font-size: 12px; font-weight: 600; color: var(--M);
+  background: #F0F4F8; border: 1.5px solid var(--L);
+  transition: var(--t); text-decoration: none; cursor: pointer;
+}
+.hp-qchip:hover { background: var(--B); color: #fff; border-color: var(--B); }
+/* Social proof row */
+.hp-social-proof {
+  display: flex; align-items: center; gap: 12px;
+  padding-top: 16px; border-top: 1px solid #F0F4F8;
+}
+.hp-avatars { display: flex; }
+.hp-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  margin-left: -8px; flex-shrink: 0;
+}
+.hp-avatars .hp-av:first-child { margin-left: 0; }
+.hp-proof-stars { color: #F59E0B; font-size: 13px; line-height: 1; margin-bottom: 2px; }
+.hp-proof-text { font-size: 11.5px; color: var(--M); font-weight: 500; }
+
+/* Right: blue pro panel — illustration en absolu bas-droite */
+.hp-hero-pro {
+  background: #00497F;
+  position: relative;
+  display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden;
+}
+.hp-hero-pro::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+/* Subtle bottom glow */
+.hp-hero-pro::after {
+  content: '';
+  position: absolute; left: 50%; bottom: -60px;
+  transform: translateX(-50%);
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hp-hero-pro-bg      { display: none; }
+.hp-hero-pro-overlay { display: none; }
+.hp-hero-pro-inner {
+  position: relative; z-index: 2;
+  padding: 40px 32px;
+}
+/* Illustration SVG artisan — collée bas-droite */
+.hp-hero-pro-art {
+  position: absolute;
+  bottom: 0; right: 0;
+  height: 88%; z-index: 1;
+  pointer-events: none;
+}
+.hp-hero-pro-art img {
+  height: 100%; width: auto;
+  display: block;
+  object-fit: contain;
+  object-position: bottom right;
+  filter: drop-shadow(-6px 0 20px rgba(0,0,0,.2));
+}
+/* Pro photo badge */
+.hp-pro-photo-badge {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  border-radius: var(--rl); padding: 14px 18px;
+  margin-bottom: 24px; backdrop-filter: blur(8px);
+}
+.hp-pro-photo-badge img {
+  width: 56px; height: 56px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--O);
+}
+.hp-pro-photo-badge-text { font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.5; }
+.hp-pro-photo-badge-name { font-weight: 700; color: #fff; }
+.hp-hero-pro-inner h2 {
+  font-size: 32px; font-weight: 800; color: #fff;
+  margin-bottom: 10px; letter-spacing: -.8px;
+}
+.hp-hero-pro-sub {
+  font-size: 15px; color: rgba(255,255,255,.72);
+  margin-bottom: 24px; line-height: 1.65;
+}
+.hp-pro-form {
+  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: var(--rl); padding: 22px; margin-bottom: 22px;
+}
+.hp-pro-form label {
+  display: block; font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,.6); text-transform: uppercase;
+  letter-spacing: .6px; margin-bottom: 7px;
+}
+.hp-pro-input {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,.95); border: 1.5px solid transparent;
+  border-radius: var(--r); font-family: var(--F); font-size: 15px;
+  outline: none; transition: var(--t); margin-bottom: 14px; color: var(--D);
+}
+.hp-pro-input:focus { border-color: var(--S); }
+.hp-pro-badges { display: flex; flex-direction: column; gap: 8px; }
+.hp-pro-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.75); }
+.hp-pro-badge i { color: var(--S); }
+/* Hero search card */
+.hp-hero-card { background: #fff; }
+.hp-mini-trust { gap: 16px; margin-top: 8px; }
+.hp-mini-trust-item { font-size: 12.5px; }
+.hp-stars { color: var(--O); font-size: 13px; letter-spacing: 1px; }
+
+/* ════════════════════════════════════════
+   TRUST BAR
+   ════════════════════════════════════════ */
+.hp-tbar {
+  background: var(--W);
+  border-top: 3px solid var(--O);
+  border-bottom: 1px solid var(--L);
+  padding: 20px 0;
+}
+.hp-tbar-inner {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 0;
+}
+.hp-tb {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 36px; border-right: 1px solid var(--L);
+  font-size: 13px; font-weight: 500; color: var(--M); white-space: nowrap;
+}
+.hp-tb:last-child { border-right: none; }
+.hp-tb i { color: var(--O); font-size: 20px; }
+.hp-tb strong { color: var(--B); font-size: 19px; font-weight: 900; letter-spacing: -.3px; }
+
+/* ════════════════════════════════════════
+   VALUE PROPS
+   ════════════════════════════════════════ */
+.hp-val { background: var(--W); }
+.hp-val-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+.hp-vc {
+  background: var(--C); border: 1.5px solid #EDE9D4;
+  border-radius: var(--rx); padding: 30px 24px; transition: var(--t);
+}
+.hp-vc:hover { border-color: var(--S); transform: translateY(-4px); box-shadow: var(--sh); }
+.hp-vc-ico {
+  width: 52px; height: 52px; border-radius: var(--r);
+  background: linear-gradient(135deg,#00497F,#3FA9F5);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+}
+.hp-vc-ico i { font-size: 22px; color: #fff; }
+.hp-vc h3 { font-size: 17px; font-weight: 700; color: var(--D); margin-bottom: 9px; }
+.hp-vc p  { font-size: 14px; color: var(--M); line-height: 1.65; margin: 0; }
+
+/* ════════════════════════════════════════
+   HOW IT WORKS — Photo strip + steps
+   ════════════════════════════════════════ */
+.hp-hiw { background: var(--B); overflow: hidden; position: relative; }
+.hp-hiw::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 350px; height: 350px; border-radius: 50%;
+  background: rgba(63,169,245,.08); pointer-events: none;
+}
+.hp-hiw-tabs {
+  display: flex; background: rgba(255,255,255,.1);
+  border-radius: var(--rl); padding: 4px;
+  width: fit-content; margin: 0 auto 52px;
+}
+.hp-hiw-tab {
+  padding: 10px 26px; border-radius: calc(var(--rl) - 4px);
+  font-family: var(--F); font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,.6); background: none; border: none;
+  cursor: pointer; transition: var(--t);
+}
+.hp-hiw-tab.active { background: #fff; color: var(--B); }
+.hp-hiw-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; }
+.hp-hiw-steps::before {
+  content: ''; position: absolute; top: 24px;
+  left: calc(12.5% + 24px); right: calc(12.5% + 24px);
+  height: 2px; background: linear-gradient(90deg, rgba(255,138,61,.5), rgba(63,169,245,.5));
+}
+.hp-step { padding: 0 18px; text-align: center; }
+.hp-step-n {
+  width: 48px; height: 48px; background: var(--O);
+  border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; color: #fff;
+  margin: 0 auto 18px; position: relative; z-index: 1;
+  box-shadow: 0 4px 14px rgba(255,138,61,.5);
+}
+.hp-step h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.hp-step p  { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.6; margin: 0; }
+
+/* ════════════════════════════════════════
+   SHOWCASE — Designer match (photo cards + stat pills)
+   ════════════════════════════════════════ */
+.hp-showcase {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fe 40%, #deedfb 100%);
+  padding: 40px;
+  overflow: hidden;
+}
+.hp-showcase-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 460px;
 }
 
-/* Hero Modernization */
-.hero-main-container {
-    background: #fff !important;
-    border-bottom: 1px solid #f1f5f9;
+/* ── LEFT : Photo composition (man_woman.png — PNG transparent) ── */
+.hp-showcase-photos {
+  display: flex; align-items: flex-end; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.hp-sc-collage {
+  width: 100%; height: 100%;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-top: 20px;
+}
+.hp-sc-collage img {
+  width: 100%; max-height: 460px;
+  object-fit: contain; object-position: bottom center;
+  display: block;
 }
 
-.hero-content-card {
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 30px 60px rgba(13, 33, 81, 0.12) !important;
-    border-radius: var(--radius-premium) !important;
-    padding: 50px !important;
+/* ── RIGHT : Text content ── */
+.hp-showcase-text {
+  padding: 56px 48px 56px 56px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.hp-sc-eyebrow {
+  font-size: 13px; font-weight: 700; color: var(--S);
+  margin-bottom: 14px; letter-spacing: .3px;
+}
+.hp-sc-h2 {
+  font-size: clamp(28px, 3.5vw, 44px); font-weight: 900;
+  color: var(--D); line-height: 1.1; letter-spacing: -1.5px;
+  margin: 0 0 24px;
+}
+/* 3 action buttons */
+.hp-sc-btns {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
+}
+.hp-sc-btn-filled {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--B); color: #fff;
+  font-family: var(--F); font-weight: 700; font-size: 14px;
+  padding: 10px 20px; border-radius: 999px;
+  border: 2px solid var(--B); text-decoration: none; transition: var(--t);
+}
+.hp-sc-btn-filled:hover { background: #003865; border-color: #003865; color: #fff; }
+.hp-sc-btn-outline {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: transparent; color: var(--B);
+  font-family: var(--F); font-weight: 700; font-size: 14px;
+  padding: 10px 20px; border-radius: 999px;
+  border: 2px solid rgba(0,73,127,.25); text-decoration: none; transition: var(--t);
+}
+.hp-sc-btn-outline:hover { background: var(--B); color: #fff; border-color: var(--B); }
+/* Body text */
+.hp-sc-p {
+  font-size: 15px; color: var(--M); line-height: 1.72; margin: 0 0 28px;
+}
+/* Stat pills row */
+.hp-sc-stats {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.hp-sc-stat {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.75); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 999px; padding: 7px 14px;
+  font-size: 12px; font-weight: 700; color: var(--D);
+  box-shadow: 0 2px 8px rgba(0,73,127,.08);
+}
+.hp-sc-stat-ico {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0;
+}
+.hp-sc-stat-ico--green  { background: #22c55e; color: #fff; }
+.hp-sc-stat-ico--blue   { background: var(--S); color: #fff; }
+.hp-sc-stat-ico--purple { background: #a855f7; color: #fff; }
+.hp-sc-stat-lbl { font-size: 11px; color: var(--M); font-weight: 600; }
+
+/* ════════════════════════════════════════
+   CATEGORIES
+   ════════════════════════════════════════ */
+.hp-cats { background: var(--W); }
+.hp-cats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.hp-cc {
+  background: var(--C); border: 1.5px solid #EDE9D4;
+  border-radius: var(--rx); padding: 0; overflow: hidden;
+  transition: var(--t); text-decoration: none; display: block;
+}
+.hp-cc:hover { border-color: var(--S); transform: translateY(-4px); box-shadow: var(--sh); }
+.hp-cc-img { width: 100%; height: 160px; overflow: hidden; position: relative; }
+.hp-cc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.hp-cc:hover .hp-cc-img img { transform: scale(1.06); }
+.hp-cc-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(0,73,127,.7) 0%, transparent 65%);
+}
+.hp-cc-body { padding: 20px 22px; }
+.hp-cc-ico {
+  width: 44px; height: 44px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px; margin-top: -32px; position: relative; z-index: 1;
+  border: 2px solid var(--W);
+}
+.hp-cc-body h3 { font-size: 16px; font-weight: 700; color: var(--D); margin-bottom: 5px; }
+.hp-cc-body p  { font-size: 13px; color: var(--M); margin: 0 0 12px; line-height: 1.5; }
+.hp-cc-link { font-size: 13px; font-weight: 700; color: var(--S); display: inline-flex; align-items: center; gap: 4px; }
+.hp-cc:hover .hp-cc-link { color: var(--O); }
+
+/* ════════════════════════════════════════
+   STATS — dark blue band
+   ════════════════════════════════════════ */
+.hp-stats {
+  background: linear-gradient(135deg, #003a66 0%, var(--B) 100%);
+  padding: 72px 0; position: relative; overflow: hidden;
+}
+.hp-stats::after {
+  content: ''; position: absolute; bottom: -80px; left: -80px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: rgba(63,169,245,.07);
+}
+.hp-sg { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; text-align: center; }
+.hp-sn { font-size: 50px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 8px; }
+.hp-sn span { color: var(--S); }
+.hp-sl { font-size: 14px; color: rgba(255,255,255,.65); font-weight: 500; }
+.hp-si { font-size: 28px; color: var(--O); margin-bottom: 12px; }
+
+/* ════════════════════════════════════════
+   DUAL CTA — avec images artisans
+   ════════════════════════════════════════ */
+.hp-dual { background: var(--C); }
+.hp-dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.hp-db {
+  border-radius: var(--rx); overflow: hidden;
+  border: 1.5px solid var(--L); transition: var(--t);
+  position: relative;
+}
+.hp-db:hover { box-shadow: 0 12px 40px rgba(0,73,127,.18); transform: translateY(-3px); }
+.hp-db-photo {
+  width: 100%; height: 200px; overflow: hidden; position: relative;
+}
+.hp-db-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.hp-db-photo-overlay {
+  position: absolute; inset: 0;
+}
+.hp-db--blue .hp-db-photo-overlay { background: linear-gradient(0deg, var(--B) 0%, rgba(0,73,127,.3) 100%); }
+.hp-db--cream .hp-db-photo-overlay { background: linear-gradient(0deg, var(--C) 0%, rgba(255,251,235,.2) 100%); }
+.hp-db-body { padding: 28px 32px 36px; }
+.hp-db--blue  { background: var(--B); border-color: var(--B); }
+.hp-db--cream { background: var(--W); }
+.hp-db--blue  h2 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.hp-db--cream h2 { font-size: 24px; font-weight: 800; color: var(--D); margin-bottom: 12px; }
+.hp-db--blue  p  { font-size: 15px; color: rgba(255,255,255,.72); margin-bottom: 24px; line-height: 1.65; }
+.hp-db--cream p  { font-size: 15px; color: var(--M); margin-bottom: 24px; line-height: 1.65; }
+.hp-db-r { margin-top: 14px; font-size: 12px; }
+.hp-db--blue  .hp-db-r { color: rgba(255,255,255,.5); }
+.hp-db--cream .hp-db-r { color: var(--M); }
+.hp-db-r span { display: inline-flex; align-items: center; gap: 4px; margin-right: 12px; }
+.hp-db-r i { color: var(--S); font-size: 11px; }
+
+/* ════════════════════════════════════════
+   TESTIMONIALS
+   ════════════════════════════════════════ */
+.hp-testi { background: var(--W); }
+.hp-tg { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.hp-tc {
+  background: var(--C); border: 1.5px solid #EDE9D4;
+  border-radius: var(--rx); padding: 28px; transition: var(--t);
+  display: flex; flex-direction: column;
+}
+.hp-tc:hover { border-color: var(--S); box-shadow: 0 4px 20px rgba(0,73,127,.1); transform: translateY(-3px); }
+.hp-tc-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 50px;
+  font-size: 11px; font-weight: 700; margin-bottom: 14px; width: fit-content;
+}
+.hp-tc-pill-o { background: rgba(255,138,61,.1);  color: var(--O); }
+.hp-tc-pill-s { background: rgba(63,169,245,.1);  color: var(--S); }
+.hp-tc-stars  { display: flex; gap: 3px; margin-bottom: 14px; }
+.hp-tc-stars i { color: #F59E0B; font-size: 14px; }
+.hp-tc-q { font-size: 14px; color: var(--D); line-height: 1.75; font-style: italic; margin: 0 0 20px; flex: 1; }
+.hp-tc-q::before { content: '\201C'; color: var(--S); font-size: 22px; font-style: normal; margin-right: 2px; }
+.hp-tc-foot { display: flex; align-items: center; gap: 12px; }
+.hp-tc-ava {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--B), var(--S));
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.hp-tc-name { font-size: 14px; font-weight: 700; color: var(--D); margin-bottom: 2px; }
+.hp-tc-role { font-size: 12px; color: var(--M); }
+
+/* ════════════════════════════════════════
+   FEATURED PROS
+   ════════════════════════════════════════ */
+.hp-pros { background: var(--C); }
+.hp-pg { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+
+/* Nouvelle carte Pro "Zen" d'après les guidelines 2025 */
+.hp-pro-card {
+  background: var(--C); border-radius: 20px; padding: 12px;
+  transition: var(--t); box-shadow: 0 4px 20px rgba(0,73,127,.06);
+  position: relative; display: flex; flex-direction: column;
+}
+.hp-pro-card:hover { transform: translateY(-4px); box-shadow: var(--sh); }
+.hp-pro-card-badge {
+  position: absolute; top: 22px; left: 22px; z-index: 2;
+  background: #fff; color: var(--B); font-size: 12px; font-weight: 800;
+  padding: 6px 12px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  display: flex; align-items: center; gap: 5px;
+}
+.hp-pro-card-badge i { color: var(--O); font-size: 14px; }
+.hp-pro-card-img {
+  width: 100%; height: 210px; overflow: hidden; border-radius: 12px;
+  background: var(--L);
+}
+.hp-pro-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.hp-pro-card:hover .hp-pro-card-img img { transform: scale(1.05); }
+
+.hp-pro-card-body { padding: 16px 4px 4px; display: flex; flex-direction: column; flex: 1; }
+.hp-pro-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+.hp-pro-card-title { font-size: 16px; font-weight: 800; color: var(--D); margin: 0; line-height: 1.2; }
+.hp-pro-card-title a { color: inherit; text-decoration: none; }
+.hp-pro-card-rating { font-size: 13px; font-weight: 700; color: var(--D); display: flex; align-items: center; gap: 4px; }
+.hp-pro-card-rating i { color: #F59E0B; font-size: 15px; }
+
+.hp-pro-card-sub { font-size: 13px; color: var(--M); margin-bottom: 14px; }
+
+.hp-pro-card-foot { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-top: auto; }
+.hp-pro-btn-contact {
+  background: var(--B); color: #fff; border-radius: 50px;
+  padding: 8px 16px; font-size: 13px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none; transition: var(--t);
+}
+.hp-pro-btn-contact:hover { background: #003865; color: #fff; }
+.hp-pro-tag {
+  background: var(--O); color: #fff; border-radius: 50px;
+  padding: 8px 14px; font-size: 13px; font-weight: 800;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.hp-pro-btn-view {
+  margin-left: auto; color: var(--B); font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--t); text-decoration: none;
+}
+.hp-pro-btn-view:hover { color: var(--S); }
+
+/* ════════════════════════════════════════
+   NEWSLETTER
+   ════════════════════════════════════════ */
+.hp-nl { background: var(--B); position: relative; overflow: hidden; }
+.hp-nl::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(63,169,245,.1); }
+.hp-nl-inner { max-width: 580px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+.hp-nl-form { display: flex; border-radius: var(--r); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.2); max-width: 460px; margin: 0 auto 14px; }
+.hp-nl-in { flex: 1; padding: 14px 18px; border: none; background: var(--W); font-family: var(--F); font-size: 15px; outline: none; }
+.hp-nl-btn { background: var(--O); color: #fff; border: none; padding: 14px 24px; font-family: var(--F); font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--t); }
+.hp-nl-btn:hover { background: #d96e10; transform: scale(1.02); }
+.hp-nl-hint { font-size: 12px; color: rgba(255,255,255,.55); }
+
+/* ════════════════════════════════════════
+   APP BANNER — fond Helper Blue, split
+   ════════════════════════════════════════ */
+.hp-app-banner {
+  background: linear-gradient(135deg, #003a66 0%, var(--B) 60%, #0d5c99 100%);
+  padding: 80px 0; overflow: hidden; position: relative;
+}
+.hp-app-banner::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: rgba(63,169,245,.08); pointer-events: none;
+}
+.hp-app-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center; position: relative; z-index: 1;
+}
+.hp-app-text {}
+.hp-app-img img {
+  width: 100%; border-radius: var(--rx);
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  display: block;
+}
+@media (max-width: 900px) {
+  .hp-app-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hp-app-img { order: -1; max-width: 480px; margin: 0 auto; }
 }
 
-.hero-main-title {
-    color: var(--drl-navy) !important;
-    font-weight: 900 !important;
+/* ════════════════════════════════════════
+   ANIMATIONS
+   ════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  .hf { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+  .hf.in { opacity: 1; transform: none; }
 }
 
-.hero-subtitle-text {
-    color: var(--drl-gray) !important;
-    font-size: 18px !important;
+/* ════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hp-val-grid { grid-template-columns: repeat(2,1fr); }
+  .hp-cats-grid { grid-template-columns: repeat(2,1fr); }
+  .hp-pg { grid-template-columns: repeat(2,1fr); }
 }
-
-.hero-trust-badge {
-    background: var(--drl-soft-blue) !important;
-    color: var(--drl-blue) !important;
-    border: none !important;
-    padding: 8px 16px !important;
-    border-radius: 100px !important;
-    font-weight: 700 !important;
+@media (max-width: 900px) {
+  .hp-hero { grid-template-columns: 1fr; }
+  .hp-hero-photo { min-height: 420px; }
+  .hp-hero-card { left: 24px; right: 24px; max-width: none; }
+  .hp-hero-pro-inner { padding: 40px 24px; }
+  .hp-hiw-steps { grid-template-columns: repeat(2,1fr); }
+  .hp-hiw-steps::before { display: none; }
+  /* Showcase */
+  .hp-showcase-grid { grid-template-columns: 1fr; }
+  .hp-showcase-photos { padding: 36px 36px 0; }
+  .hp-sc-collage { height: 280px; }
+  .hp-showcase-text { padding: 32px 36px 48px; }
+  .hp-sc-h2 { font-size: 30px; }
+  .hp-cats-grid { grid-template-columns: repeat(2,1fr); }
+  .hp-sg { grid-template-columns: repeat(2,1fr); }
+  .hp-dual-grid { grid-template-columns: 1fr; }
+  .hp-tg { grid-template-columns: 1fr; }
 }
-
-.btn-primary-hero {
-    background: var(--drl-blue) !important;
-    color: #fff !important;
-    border-radius: 100px !important;
-    padding: 16px 32px !important;
-    font-weight: 800 !important;
-    box-shadow: 0 10px 20px rgba(0, 80, 158, 0.2) !important;
+@media (max-width: 600px) {
+  .hp-h1 { font-size: 30px; }
+  .hh2 { font-size: 28px; }
+  .hp-sc-stats { flex-direction: column; gap: 8px; }
+  .hp-sc-btns { flex-direction: column; }
+  .hp-sc-btn-filled,.hp-sc-btn-outline { justify-content: center; }
+  .hp-hiw-tabs { width: 100%; }
+  .hp-hiw-tab { flex: 1; text-align: center; }
+  .hp-hiw-steps { grid-template-columns: 1fr; }
+  .hp-cats-grid { grid-template-columns: 1fr; }
+  .hp-val-grid { grid-template-columns: 1fr; }
+  .hp-pg { grid-template-columns: 1fr; }
+  .hs { padding: 64px 0; }
+  .hp-tb { padding: 0 16px; }
+  .hp-nl-form { flex-direction: column; }
+  .hp-nl-in { border-radius: var(--r) var(--r) 0 0; }
+  .hp-nl-btn { border-radius: 0 0 var(--r) var(--r); }
 }
-
-.btn-secondary-hero {
-    background: #fff !important;
-    color: var(--drl-navy) !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 100px !important;
-    font-weight: 700 !important;
-}
-
-.hero-right-side {
-    background: linear-gradient(135deg, #00509e, #1a3a6b);
-    border-radius: 0 0 0 40px !important;
-}
-
-.pro-submit-button {
-    background: var(--drl-orange) !important;
-    border-radius: 12px !important;
-    font-weight: 800 !important;
-}
-
-/* About Section */
-.about-new-section {
-    background: #f8fafc !important;
-}
-
-.about-pill-btn.btn-solid-blue {
-    background: var(--drl-blue) !important;
-    border-radius: 100px !important;
-}
-
-.about-stat-card {
-    background: #fff !important;
-    border-radius: 16px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03) !important;
-    padding: 20px !important;
-    border: 1px solid #f1f5f9 !important;
-}
-
-.about-stats-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-@media (max-width: 1200px) {
-    .about-stat-card {
-        flex: 1 1 calc(33.333% - 20px);
-        min-width: 180px;
-    }
-}
-
-@media (max-width: 992px) {
-    .about-stat-card {
-        flex: 1 1 calc(50% - 20px);
-    }
-}
-
-@media (max-width: 576px) {
-    .about-stat-card {
-        flex: 1 1 100%;
-    }
-}
-
-/* Discovery Area Modernization */
-.discovery-section-container {
-    padding: 20px 0 !important;
-    background: #fff !important;
-}
-
-.discovery-card {
-    background: #fff !important;
-    border-radius: 32px !important;
-    padding: 28px !important;
-    box-shadow: 0 15px 45px rgba(13, 33, 81, 0.04) !important;
-    border: 1px solid #f1f5f9 !important;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-    height: 100% !important;
-}
-
-.discovery-card:hover {
-    transform: translateY(-12px) !important;
-    box-shadow: 0 40px 80px rgba(13, 33, 81, 0.12) !important;
-    border-color: var(--drl-blue) !important;
-}
-
-.img-overlay-box {
-    border-radius: 24px !important;
-    margin-bottom: 24px !important;
-    position: relative;
-    overflow: hidden !important;
-    aspect-ratio: 16/9 !important;
-}
-
-.img-overlay-box img {
-    transition: transform 0.8s ease !important;
-    object-fit: cover !important;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.discovery-card:hover .img-overlay-box img {
-    transform: scale(1.1) !important;
-}
-
-.icon-square-overlay {
-    width: 50px !important;
-    height: 50px !important;
-    background: var(--drl-orange) !important;
-    color: #fff !important;
-    border-radius: 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 22px !important;
-    box-shadow: 0 10px 20px rgba(232, 80, 26, 0.3) !important;
-    bottom: 12px !important;
-    right: 12px !important;
-}
-
-.discovery-card-title {
-    color: var(--drl-navy) !important;
-    font-weight: 800 !important;
-    font-size: 24px !important;
-    margin-bottom: 12px !important;
-    letter-spacing: -0.5px !important;
-}
-
-.discovery-card-desc {
-    color: var(--drl-gray) !important;
-    font-size: 16px !important;
-    line-height: 1.6 !important;
-    margin-bottom: 24px !important;
-    opacity: 0.85 !important;
-}
-
-.discovery-card-stats {
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    padding: 8px 16px !important;
-    border-radius: 100px !important;
-    background: var(--drl-soft-blue) !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    transition: all 0.3s !important;
-}
-
-.discovery-card:hover .discovery-card-stats {
-    background: var(--drl-blue) !important;
-    color: #fff !important;
-}
-
-.discovery-pill {
-    background: var(--drl-soft-blue) !important;
-    color: var(--drl-blue) !important;
-    border-radius: 100px !important;
-    font-weight: 800 !important;
-    text-transform: uppercase !important;
-    padding: 8px 20px !important;
-    font-size: 13px !important;
-    letter-spacing: 1px !important;
-    display: inline-block !important;
-    margin-bottom: 16px !important;
-}
-
-.discovery-title {
-    color: var(--drl-navy) !important;
-    font-weight: 900 !important;
-    font-size: 42px !important;
-    margin-bottom: 16px !important;
-}
-
-.discovery-subtitle {
-    color: var(--drl-gray) !important;
-    font-size: 18px !important;
-    max-width: 700px !important;
-    margin: 0 auto 60px !important;
-}
-
-/* App Banner */
-.rbt-banner-8 {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
-    border-radius: 40px !important;
-    margin: 60px 20px !important;
-    padding: 80px 0 !important;
-    box-shadow: inset 0 0 100px rgba(0, 80, 158, 0.05) !important;
-}
-
-.rbt-banner-8 .title {
-    color: var(--drl-navy) !important;
-    font-weight: 900 !important;
-}
-
-.rbt-banner-8 .description {
-    color: var(--drl-gray) !important;
-}
-
-.video-popup-wrapper img {
-    border-radius: 32px !important;
-    box-shadow: 0 40px 80px rgba(13, 33, 81, 0.15) !important;
-    border: 8px solid #fff !important;
-}
-
-.rbt-btn.radius-round:not(.btn-white) {
-    background: var(--drl-blue) !important;
-    color: #fff !important;
-}
-
-.rbt-btn.btn-white.radius-round {
-    background: #fff !important;
-    color: var(--drl-navy) !important;
-    border: 1px solid #e2e8f0 !important;
-}
-
-/* Featured Pros */
-.rbt-card {
-    border-radius: 16px !important;
-    border: 1px solid #f1f5f9 !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
-}
-
-.pro-badge {
-    background: var(--drl-soft-blue) !important;
-    color: var(--drl-blue) !important;
-}
-
-@media (max-width: 992px) {
-    .hero-right-side { border-radius: 0 !important; }
+@media (max-width: 480px) {
+  .hp-tbar-inner { flex-direction: column; gap: 0; }
+  .hp-tb { border-right: none; border-bottom: 1px solid var(--L); padding: 12px 0; width: 100%; justify-content: center; }
+  .hp-tb:last-child { border-bottom: none; }
 }
 </style>
+{% endblock %}
 
-<main id="main-content">
+{% block body %}
+<div class="hp">
 
-{# ── Hero Section ── #}
-<section class="hero-main-container" aria-labelledby="hero-heading">
-    <!-- Left Side - Glassmorphism Content -->
-    <div class="hero-left-side">
-        <div class="hero-content-card">
-            <h1 class="hero-main-title" id="hero-heading">{{ 'home.hero_title'|trans }}
-            <div style="background: linear-gradient(90deg, rgb(255 57 0) 0%, rgb(255 52 0) 100%) text;">{{ 'home.hero_title_suffix'|trans }}</div></h1>
-            
-            <p class="hero-subtitle-text">
-                {{ 'home.hero_subtitle'|trans }}
-            </p>
-            
-            <div class="hero-trust-badges" role="list" aria-label="Platform guarantees">
-                <div class="hero-trust-badge" role="listitem">
-                    <i class="feather-check-circle" aria-hidden="true"></i> {{ 'home.hero_badge_verified'|trans }}
-                </div>
-                <div class="hero-trust-badge" role="listitem">
-                    <i class="feather-shield" aria-hidden="true"></i> {{ 'home.hero_badge_free'|trans }}
-                </div>
-            </div>
+{# ═══════════════════════════════════════════════════
+   HERO — Photo left + Blue pro panel right
+   ═══════════════════════════════════════════════════ #}
+<section class="hp-hero" aria-labelledby="hp-h1">
 
-            <div class="hero-actions">
-                <a href="{{ path('professionals_list') }}"
-                   class="hero-btn btn-primary-hero"
-                   aria-label="Find and hire a renovation professional near you">
-                    {{ 'home.hero_cta_hire'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
-                </a>
-                <a href="{{ path('companies_list') }}"
-                   class="hero-btn btn-secondary-hero"
-                   aria-label="Browse specialized renovation companies">
-                    {{ 'home.hero_cta_companies'|trans }}
-                </a>
-            </div>
-            
-            <div class="hero-reviews-section" aria-label="Customer ratings">
-                <div class="hero-reviews-avatars" aria-hidden="true">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Verified homeowner" loading="lazy" width="40" height="40">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Satisfied client" loading="lazy" width="40" height="40" style="margin-left:-12px">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Renovation project owner" loading="lazy" width="40" height="40" style="margin-left:-12px">
-                    <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="Drilleedo user" loading="lazy" width="40" height="40" style="margin-left:-12px">
-                </div>
-                <div class="hero-reviews-text">
-                    <div class="hero-star-rating" aria-label="4.8 out of 5 stars">★★★★★</div>
-                    {{ 'home.hero_trust'|trans|raw }}
-                </div>
-            </div>
+  {# Left — background photo with floating card #}
+  <div class="hp-hero-photo">
+    <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}"
+         alt="Bricolage et rénovation maison"
+         loading="eager">
+
+    <div class="hp-hero-card">
+      <p class="hp-eyebrow">
+        <i class="feather-map-pin"></i>
+        Canada · Québec · Ontario · Alberta
+      </p>
+      <h1 class="hp-h1" id="hp-h1">
+        Vos travaux,
+        <span>les bons pros.</span>
+      </h1>
+      <p class="hp-tagline">easy help, fast solutions — Drilleedo</p>
+
+      {# Search bar #}
+      <form class="hp-search" action="{{ path('professionals_list') }}" method="get" role="search">
+        <i class="feather-search"></i>
+        <input type="text" name="keyword" placeholder="Ex: plombier, électricien, peintre..." aria-label="Rechercher un professionnel">
+        <button type="submit" class="hbtn hbtn-o" style="padding:0;width:44px;height:44px;border-radius:50%;justify-content:center;flex-shrink:0;">
+          <i class="feather-arrow-right" style="font-size:18px;"></i>
+        </button>
+        
+      </form>
+
+      {# Quick category chips #}
+      <div class="hp-qchips">
+        <a href="{{ path('professionals_list', {keyword:'plomberie'}) }}" class="hp-qchip"><i class="feather-droplet"></i> Plomberie</a>
+        <a href="{{ path('professionals_list', {keyword:'électricité'}) }}" class="hp-qchip"><i class="feather-zap"></i> Électricité</a>
+        <a href="{{ path('professionals_list', {keyword:'peinture'}) }}" class="hp-qchip"><i class="feather-edit-2"></i> Peinture</a>
+        <a href="{{ path('professionals_list', {keyword:'jardinage'}) }}" class="hp-qchip"><i class="feather-sun"></i> Jardinage</a>
+        <a href="{{ path('professionals_list') }}" class="hp-qchip" style="color:var(--B);border-color:rgba(0,73,127,.25);">+ Voir tout</a>
+      </div>
+
+      {# Social proof — avatars + étoiles (avant CTA = build trust first) #}
+      <div class="hp-social-proof">
+        <div class="hp-avatars">
+          <div class="hp-av" style="background:linear-gradient(135deg,#00497F,#3FA9F5);">M</div>
+          <div class="hp-av" style="background:linear-gradient(135deg,#FF8A3D,#c95a08);">I</div>
+          <div class="hp-av" style="background:linear-gradient(135deg,#16a34a,#22c55e);">L</div>
+          <div class="hp-av" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">S</div>
         </div>
+        <div>
+          <div class="hp-proof-stars">★★★★★</div>
+          <div class="hp-proof-text">2 500+ avis clients vérifiés</div>
+        </div>
+      </div>
+
+      {# CTAs — orange primaire, outline secondaire #}
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+        <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o" style="flex:1;justify-content:center;">
+          <i class="feather-send"></i> Publier votre projet gratuitement
+        </a>
+        <a href="{{ path('professionals_list') }}" class="hbtn hbtn-g">
+          <i class="feather-search"></i> Voir les pros
+        </a>
+      </div>
     </div>
-    
-    <!-- Right Side - Professional Blue Section -->
-    <div class="hero-right-side">
-        <div class="pro-header-section">
-            <div class="pro-worker-image">
-                <img src="{{ asset('assets/drilleedo/images/team/banner_man .svg') }}"
-                     alt="Professional renovation contractor ready to take on your project"
-                     width="400" height="400"
-                     style="object-fit:cover; width:100%; height:100%; border-radius: 8px;">
-            </div>
-            <div class="pro-label-wrapper">
-                <div class="pro-logo-text">Drilleedo</div>
-                <div class="pro-small-label">{{ 'home.pro_label'|trans }}</div>
-            </div>
-        </div>
-        
-        <h2 class="pro-main-heading">{{ 'home.pro_heading'|trans }}</h2>
-        
-        <p class="pro-description-text">
-            {{ 'home.pro_desc'|trans }}
-        </p>
+  </div>
 
-        <p class="pro-description-text" style="margin-top: -15px; font-size: 13px; opacity: 0.7;">
-            {{ 'home.pro_desc2'|trans }}
-        </p>
-        
-        <form class="pro-signup-form" action="{{ path('app_register') }}" method="post"
-              novalidate aria-label="Quick professional registration">
-            <label for="hero-pro-email" class="sr-only">Your professional email address</label>
-            <input type="email" id="hero-pro-email" name="email"
-                   class="pro-email-input"
-                   placeholder="{{ 'home.pro_email_placeholder'|trans }}"
-                   required autocomplete="email"
-                   style="background: white;"
-                   aria-required="true">
-            <button type="submit" class=" df-btn-orange pro-submit-button" style="display: flow;">{{ 'home.pro_cta'|trans }}</button>
+  {# Right — blue pro panel : content left + illustration right #}
+  <div class="hp-hero-pro">
+    <div class="hp-hero-pro-inner">
+
+      {# Badge "Drilleedo / for the professionals" #}
+      <div class="hp-pro-photo-badge">
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+          <i class="feather-briefcase" style="color:#fff;font-size:20px;"></i>
+        </div>
+        <div class="hp-pro-photo-badge-text">
+          <div class="hp-pro-photo-badge-name" style="font-size:15px;letter-spacing:.2px;">Drilleedo</div>
+          <span style="color:rgba(255,255,255,.55);font-size:11.5px;letter-spacing:.3px;">for the professionals</span>
+        </div>
+      </div>
+
+      <h2>Développez<br>votre clientèle.</h2>
+      <p class="hp-hero-pro-sub">Rejoignez 1 500+ pros vérifiés. Recevez des demandes qualifiées dans votre secteur, construisez votre réputation, sans frais d'abonnement.</p>
+
+      <div class="hp-pro-form">
+        <form action="{{ path('app_register') }}" method="post" novalidate>
+          <label for="hero-email">Votre adresse courriel</label>
+          <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="pro@exemple.ca" required autocomplete="email" style="background: white;">
+          <a href="{{ path('app_register_pro') }}" class="hbtn hbtn-o" style="width:100%;justify-content:center;text-decoration:none;font-size:15px;">
+            <i class="feather-user-plus"></i> Créer mon profil pro
+          </a>
         </form>
+      </div>
+
+      <div class="hp-pro-badges">
+        <span class="hp-pro-badge"><i class="feather-zap"></i> Profil actif en moins de 24 h</span>
+        <span class="hp-pro-badge"><i class="feather-shield"></i> Zéro abonnement requis</span>
+        <span class="hp-pro-badge"><i class="feather-trending-up"></i> +40% de demandes en moyenne</span>
+      </div>
     </div>
+
+  </div>
+
 </section>
-{# ── /Hero ── #}
 
-{# ── How It Works ── #}
-{% include 'home/_how_it_works.html.twig' %}
-{# ── /How It Works ── #}
-{# ── /How It Works ── #}
 
-{# ── About Section ── #}
-<section class="about-new-section" aria-labelledby="about-heading">
-    <div class="about-images-wrapper">
-        <div class="about-img-group-1">
-            <div class="about-purple-bg" aria-hidden="true"></div>
-            <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}"
-                 alt="Drilleedo certified renovation professionals — a man and woman contractor team in Canada"
-                 class="about-img-1"
-                 loading="lazy"
-                 width="680" height="500">
-        </div>
+
+
+{# ═══════════════════════════════════════════════════
+   WELCOME / SHOWCASE — Designer match
+   ═══════════════════════════════════════════════════ #}
+<section class="hp-showcase" aria-labelledby="hp-sc-h2">
+  <div class="hp-showcase-grid">
+
+    {# LEFT — Image composition complète (man_woman.png) #}
+    <div class="hp-showcase-photos hf">
+      <div class="hp-sc-collage">
+        <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}"
+             alt="Professionnels Drilleedo" loading="lazy">
+      </div>
     </div>
 
-    <!-- Right Content -->
-    <div class="about-content-wrapper">
-        <p class="about-subtitle">{{ 'home.about_subtitle'|trans }}</p>
-        <h2 class="about-title" id="about-heading">{{ 'home.about_title'|trans }}</h2>
+    {# RIGHT — Texte + boutons + stats #}
+    <div class="hp-showcase-text hf" style="transition-delay:.15s">
 
-        <div class="about-buttons-row" role="tablist" aria-label="Learn more about Drilleedo">
-            <button class="about-pill-btn btn-solid-blue"
-                    role="tab" id="tab-about"
-                    aria-selected="true" aria-controls="about-content-about"
-                    onclick="switchAboutTab('about', this)">{{ 'home.about_tab_about'|trans }}</button>
-            <button class="about-pill-btn btn-outline-blue"
-                    role="tab" id="tab-mission"
-                    aria-selected="false" aria-controls="about-content-mission"
-                    onclick="switchAboutTab('mission', this)">{{ 'home.about_tab_mission'|trans }}</button>
-            <button class="about-pill-btn btn-outline-blue"
-                    role="tab" id="tab-contact"
-                    aria-selected="false" aria-controls="about-content-contact"
-                    onclick="switchAboutTab('contact', this)">{{ 'home.about_tab_contact'|trans }}</button>
+      <p class="hp-sc-eyebrow">Welcome to Drilleedo</p>
+      <h2 class="hp-sc-h2" id="hp-sc-h2">
+        Trouvez les Bons Pros<br>Facilement.
+      </h2>
+
+      {# 3 boutons pills : 1 filled + 2 outline #}
+      <div class="hp-sc-btns">
+        <a href="{{ path('app_about') }}" class="hp-sc-btn-filled">
+          À propos de Drilleedo
+        </a>
+        <a href="{{ path('app_about') }}" class="hp-sc-btn-outline">
+          Notre mission
+        </a>
+        <a href="{{ path('contact') }}" class="hp-sc-btn-outline">
+          Nous contacter
+        </a>
+      </div>
+
+      <p class="hp-sc-p">
+        Drilleedo connecte les propriétaires canadiens avec des professionnels fiables et vérifiés.
+        Qualité, confiance et transparence sont au cœur de notre plateforme.
+      </p>
+
+      {# Stat pills — 3 badges colorés #}
+      <div class="hp-sc-stats">
+        <div class="hp-sc-stat">
+          <div class="hp-sc-stat-ico hp-sc-stat-ico--green">
+            <i class="feather-check"></i>
+          </div>
+          <div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">35k+</div>
+            <div class="hp-sc-stat-lbl">Projets réalisés</div>
+          </div>
         </div>
-
-        <div id="about-content-about" class="about-text-content"
-             role="tabpanel" aria-labelledby="tab-about">
-            <p class="about-desc">{{ 'home.about_text_about'|trans }}</p>
+        <div class="hp-sc-stat">
+          <div class="hp-sc-stat-ico hp-sc-stat-ico--blue">
+            <i class="feather-star"></i>
+          </div>
+          <div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">Vérifiés</div>
+            <div class="hp-sc-stat-lbl">Professionnels seulement</div>
+          </div>
         </div>
-
-        <div id="about-content-mission" class="about-text-content"
-             role="tabpanel" aria-labelledby="tab-mission" hidden>
-            <p class="about-desc">{{ 'home.about_text_mission'|trans }}</p>
+        <div class="hp-sc-stat">
+          <div class="hp-sc-stat-ico hp-sc-stat-ico--purple">
+            <i class="feather-heart"></i>
+          </div>
+          <div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">98%</div>
+            <div class="hp-sc-stat-lbl">Satisfaction client</div>
+          </div>
         </div>
+      </div>
 
-        <div id="about-content-contact" class="about-text-content"
-             role="tabpanel" aria-labelledby="tab-contact" hidden>
-            <p class="about-desc">{{ 'home.about_text_contact'|trans|raw }}</p>
-        </div>
-
-        <script>
-        function switchAboutTab(tabName, btn) {
-            document.querySelectorAll('.about-text-content').forEach(el => { el.hidden = true; });
-            document.querySelectorAll('.about-buttons-row [role="tab"]').forEach(b => {
-                b.setAttribute('aria-selected', 'false');
-                b.classList.replace('btn-solid-blue', 'btn-outline-blue');
-            });
-            document.getElementById('about-content-' + tabName).hidden = false;
-            btn.setAttribute('aria-selected', 'true');
-            btn.classList.replace('btn-outline-blue', 'btn-solid-blue');
-        }
-        </script>
-
-        <dl class="about-stats-row" aria-label="Drilleedo platform statistics">
-            <div class="about-stat-card">
-                <div class="stat-icon-circle bg-green-grad" aria-hidden="true"><i class="fas fa-check"></i></div>
-                <div class="stat-info">
-                    <dt><strong>+35,000</strong></dt>
-                    <dd>{{ 'home.stat_projects'|trans }}</dd>
-                </div>
-            </div>
-            <div class="about-stat-card">
-                <div class="stat-icon-circle bg-blue-grad" aria-hidden="true"><i class="fas fa-star"></i></div>
-                <div class="stat-info">
-                    <dt><strong>100%</strong></dt>
-                    <dd>{{ 'home.stat_pros'|trans }}</dd>
-                </div>
-            </div>
-            <div class="about-stat-card">
-                <div class="stat-icon-circle bg-purple-grad" aria-hidden="true"><i class="fas fa-heart"></i></div>
-                <div class="stat-info">
-                    <dt><strong>+85%</strong></dt>
-                    <dd>{{ 'home.stat_satisfaction'|trans }}</dd>
-                </div>
-            </div>
-        </dl>
     </div>
+  </div>
 </section>
-{# ── /About ── #}
 
 
-  <!-- Start Inspiration Area -->
-<!-- Start Discovery Area -->
-<section class="discovery-section-container ">
-   <div class="container">
-    <!-- Header -->
-    <div class="text-center">
-        <span class="discovery-pill">{{ 'home.discovery_pill'|trans }}</span>
-        <h2 class="discovery-title">{{ 'home.discovery_title'|trans }}</h2>
-        <p class="discovery-subtitle">{{ 'home.discovery_subtitle'|trans }}</p>
+
+{# ═══════════════════════════════════════════════════
+   HOW IT WORKS
+   ═══════════════════════════════════════════════════ #}
+<section class="hs hp-hiw" aria-labelledby="hp-hiw-h2">
+  <div class="hw">
+    <div class="hc" style="margin-bottom:44px;">
+      <span class="hpill hpill-o"><i class="feather-zap"></i> Simple et rapide</span>
+      <h2 class="hh2 hh2-w" id="hp-hiw-h2">Comment ça marche</h2>
+    </div>
+    <div class="hc" style="margin-bottom:52px;">
+      <div class="hp-hiw-tabs" role="tablist">
+        <button class="hp-hiw-tab active" role="tab" aria-selected="true" id="tab-o" aria-controls="steps-o" onclick="hiwSwitch('o',this)">Je cherche un Professionel</button>
+        <button class="hp-hiw-tab" role="tab" aria-selected="false" id="tab-p" aria-controls="steps-p" onclick="hiwSwitch('p',this)">Je suis professionnel</button>
+      </div>
     </div>
 
-    <div class="row g-4">
-        <article class="col-lg-4 col-md-6">
-            <a href="{{ path('smartideas') }}" class="discovery-card d-block text-decoration-none">
-                <div class="img-overlay-box">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}" alt="Browse thousands of Canadian home renovation and interior design ideas" loading="lazy" width="400" height="220">
-                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-home"></i></div>
-                </div>
-                <h3 class="discovery-card-title">{{ 'home.discovery_card1_title'|trans }}</h3>
-                <p class="discovery-card-desc">{{ 'home.discovery_card1_desc'|trans }}</p>
-                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>{{ 'home.discovery_card1_stats'|trans }}</span>
-                </div>
-            </a>
-        </article>
-
-        <article class="col-lg-4 col-md-6">
-            <a href="{{ path('professionals_list') }}" class="discovery-card d-block text-decoration-none">
-                <div class="img-overlay-box" style="background: #e6f7ff;">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}" alt="Search for verified renovation professionals and certified contractors across Canada" loading="lazy" width="400" height="220">
-                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-box"></i></div>
-                </div>
-                <h3 class="discovery-card-title">{{ 'home.discovery_card2_title'|trans }}</h3>
-                <p class="discovery-card-desc">{{ 'home.discovery_card2_desc'|trans }}</p>
-                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-success">
-                    <i class="fas fa-user-tie"></i>
-                    <span>{{ 'home.discovery_card2_stats'|trans }}</span>
-                </div>
-            </a>
-        </article>
-
-        <article class="col-lg-4 col-md-6">
-            <a href="{{ path('companies_list') }}" class="discovery-card d-block text-decoration-none">
-                <div class="img-overlay-box">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}" alt="Browse specialized renovation companies" loading="lazy" width="400" height="220" style="filter: hue-rotate(45deg);">
-                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-building"></i></div>
-                </div>
-                <h3 class="discovery-card-title">{{ 'home.discovery_card3_title'|trans }}</h3>
-                <p class="discovery-card-desc">{{ 'home.discovery_card3_desc'|trans }}</p>
-                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-warning">
-                    <i class="fas fa-building"></i>
-                    <span>{{ 'home.discovery_card3_stats'|trans }}</span>
-                </div>
-            </a>
-        </article>
+    <div class="hp-hiw-steps" id="steps-o" role="tabpanel" aria-labelledby="tab-o">
+      <div class="hp-step hf"><div class="hp-step-n">1</div><h3>Publiez votre projet</h3><p>Décrivez vos besoins, localisation, budget. Gratuit et sans engagement.</p></div>
+      <div class="hp-step hf" style="transition-delay:.08s"><div class="hp-step-n">2</div><h3>Comparez les pros</h3><p>Profils vérifiés, portfolios, avis certifiés de vrais clients.</p></div>
+      <div class="hp-step hf" style="transition-delay:.16s"><div class="hp-step-n">3</div><h3>Recevez des devis</h3><p>Plusieurs devis compétitifs de spécialistes qualifiés.</p></div>
+      <div class="hp-step hf" style="transition-delay:.24s"><div class="hp-step-n">4</div><h3>Démarrez en confiance</h3><p>Choisissez le meilleur pro et lancez votre projet.</p></div>
     </div>
-</div>
+
+    <div class="hp-hiw-steps" id="steps-p" role="tabpanel" aria-labelledby="tab-p" style="display:none">
+      <div class="hp-step"><div class="hp-step-n">1</div><h3>Créez votre profil</h3><p>Inscrivez-vous, ajoutez certifications et portfolio.</p></div>
+      <div class="hp-step"><div class="hp-step-n">2</div><h3>Recevez des demandes</h3><p>Projets qualifiés dans votre secteur géographique.</p></div>
+      <div class="hp-step"><div class="hp-step-n">3</div><h3>Envoyez vos devis</h3><p>Répondez directement aux clients sans intermédiaire.</p></div>
+      <div class="hp-step"><div class="hp-step-n">4</div><h3>Développez votre réputation</h3><p>Collectez des avis vérifiés et attirez plus de clients.</p></div>
+    </div>
+
+    <div class="hc" style="margin-top:48px;">
+      <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
+        <i class="feather-arrow-right"></i> Commencer maintenant
+      </a>
+    </div>
+  </div>
 </section>
-{# ── /Discovery ── #}
 
 
 
-{# ── App Banner ── #}
-<section class="rbt-banner-area rbt-banner-8 variation-01 bg_image bg_image--9"
-         style="background-image: linear-gradient(to right, #b7d9f8, #b7d9f8, #b7d9f8, #b7d9f8);"
-         aria-labelledby="app-banner-heading">
-    <div class="wrapper w-100">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-
-                <!-- Text Content -->
-                <div class="col-lg-6 order-2 order-lg-1">
-                    <div class="content">
-                        <div class="inner">
-
-                            <!-- Badge -->
-                        <div class="rbt-badge-group justify-content-start">
-                            <span class="meta-text d-flex align-items-center">{{ 'home.app_badge'|trans }}</span>
-                        </div>
-                        <h2 class="title" id="app-banner-heading">{{ 'home.app_title'|trans }}</h2>
-                        <p class="description has-medium-font-size mt--20">{{ 'home.app_desc'|trans }}</p>
-                        <div class="slider-btn rbt-button-group justify-content-start">
-                            <a class="rbt-btn radius-round hover-icon-reverse" href="#">
-                                <span class="icon-reverse-wrapper">
-                                    <span class="btn-text">{{ 'home.app_store'|trans }}</span>
-                                    <span class="btn-icon"><i class="fab fa-apple"></i></span>
-                                    <span class="btn-icon"><i class="feather-arrow-down"></i></span>
-                                </span>
-                            </a>
-                            <a class="rbt-btn radius-round hover-icon-reverse btn-white" href="#">
-                                <span class="icon-reverse-wrapper">
-                                    <span class="btn-text">{{ 'home.google_play'|trans }}</span>
-                                    <span class="btn-icon"><i class="fab fa-google-play"></i></span>
-                                    <span class="btn-icon"><i class="feather-arrow-down"></i></span>
-                                </span>
-                            </a>
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Image Right -->
-                <div class="col-lg-5 offset-xl-1 order-1 order-lg-2">
-                    <div class="video-popup-wrapper">
-                        <img class="w-100 rbt-radius"
-                             src="assets/drilleedo/images/others/video-02.jpg"
-                             alt="Drilleedo mobile app — manage your renovation projects, quotes, and contractors from your phone anytime"
-                             loading="lazy" width="540" height="400">
-
-                        <!-- Download Icon -->
-                        <a class="rbt-btn rounded-player-2 position-to-top with-animation"
-                        href="#">
-                            <span class="download-icon">
-                                <span class="play-icon"></span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
+{# ── App Banner — Drilleedo brand style ── #}
+<section class="hp-app-banner" aria-labelledby="app-banner-heading">
+  <div class="hw">
+    <div class="hp-app-grid">
+      <div class="hp-app-text hf">
+        <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-smartphone"></i> {{ 'home.app_badge'|trans }}</span>
+        <h2 class="hh2 hh2-w" id="app-banner-heading">{{ 'home.app_title'|trans }}</h2>
+        <p class="hl" style="color:rgba(255,255,255,.75);margin-bottom:32px;">{{ 'home.app_desc'|trans }}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#" class="hbtn hbtn-w">
+            <i class="fab fa-apple" style="font-size:18px;"></i> {{ 'home.app_store'|trans }}
+          </a>
+          <a href="#" class="hbtn hbtn-ow">
+            <i class="fab fa-google-play" style="font-size:16px;"></i> {{ 'home.google_play'|trans }}
+          </a>
         </div>
+      </div>
+      <div class="hp-app-img hf" style="transition-delay:.15s">
+        <img src="{{ asset('assets/drilleedo/images/others/video-02.jpg') }}"
+             alt="Drilleedo application mobile — gérez vos projets de rénovation depuis votre téléphone"
+             loading="lazy">
+      </div>
     </div>
+  </div>
 </section>
 {# ── /App Banner ── #}
+
+{# ═══════════════════════════════════════════════════
+   TESTIMONIALS
+   ═══════════════════════════════════════════════════ #}
 
 {# ── Testimonials ── #}
     {% if testimonials|length > 0 %}
@@ -683,77 +1012,75 @@
             </div>
         </div>
 
-        {% if testimonials|length > 1 %}
-        <div class="scroll-animation-wrapper mt--30">
-            <div class="scroll-animation scroll-left-right">
-                {% for i in 1..3 %}
-                    {% for testimonial in testimonials|reverse %}
-                    <!-- Start Single Testimonial  -->
-                    <div class="single-column-20">
-                        <div class="rbt-testimonial-box">
-                            <div class="inner">
-                                <div class="clint-info-wrapper">
-                                    <div class="thumb">
-                                        {% if testimonial.image %}
-                                            <img src="{{ asset('uploads/testimonials/' ~ testimonial.image) }}"
-                                                 alt="{{ testimonial.clientName }} — verified Drilleedo customer review"
-                                                 loading="lazy" width="60" height="60">
-                                        {% else %}
-                                            <img src="{{ asset('assets/drilleedo/images/testimonial/client-01.png') }}"
-                                                 alt="Drilleedo customer avatar"
-                                                 loading="lazy" width="60" height="60">
-                                        {% endif %}
-                                    </div>
-                                    <div class="client-info">
-                                        <h5 class="title">{{ testimonial.clientName }}</h5>
-                                        {% if testimonial.clientRole %}<span>{{ testimonial.clientRole|raw }}</span>{% endif %}
-                                    </div>
-                                </div>
-                                <div class="description mt-3">
-                                    <p class="subtitle-3">{{ testimonial.getLocalizedContent(app.request.locale) }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Testimonial  -->
-                    {% endfor %}
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-
     </section>
     {% endif %}
     {# ── /Testimonials ── #}
 
-
-{# ── Featured Professionals ── #}
-<section class="featured-pro-section" aria-labelledby="featured-pros-heading">
-    <div class="container">
-        <!-- Header -->
-        <div class="text-center mb-5">
-            <div class="pro-badge"><i class="fas fa-check-circle"></i> <span>PRO</span></div>
-            <h2 class="discovery-title" id="featured-pros-heading">{{ 'home.featured_title'|trans }}</h2>
-            <p class="discovery-subtitle">{{ 'home.featured_subtitle'|trans }}</p>
-        </div>
-
-        <div class="row g-4">
-            {% for pro in featuredProfessionals %}
-                <article class="col-lg-3 col-md-6">
-                    {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
-                </article>
-            {% else %}
-                <div class="col-12 text-center">
-                    <p>{{ 'home_featured.no_featured_pros'|trans }}</p>
-                </div>
-            {% endfor %}
-        </div>
+{# ═══════════════════════════════════════════════════
+   FEATURED PROS
+   ═══════════════════════════════════════════════════ #}
+{% if featuredProfessionals|length > 0 %}
+<section class="hs hp-pros" aria-labelledby="hp-fp-h2">
+  <div class="hw">
+    <div class="hc" style="margin-bottom:52px;">
+      <span class="hpill hpill-o"><i class="feather-award"></i> Nos mieux notés</span>
+      <h2 class="hh2" id="hp-fp-h2">Professionnels vedettes</h2>
+      <p class="hl hlc">Vérifiés, évalués et plébiscités par notre communauté de propriétaires.</p>
     </div>
+    <div class="hp-pg">
+      {% for pro in featuredProfessionals|slice(0, 8) %}
+      <article class="hf" style="transition-delay:{{ loop.index0 * 0.07 }}s">
+        {% include 'partials/_card_professional.html.twig' with {'pro': pro} %}
+      </article>
+      {% endfor %}
+    </div>
+    <div class="hc" style="margin-top:48px;">
+      <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
+        Voir tous les professionnels <i class="feather-arrow-right"></i>
+      </a>
+    </div>
+  </div>
 </section>
-{# ── /Featured Professionals ── #}
-
-</main>
-{# ── /main ── #}
+{% endif %}
 
 
+{# ═══════════════════════════════════════════════════
+   NEWSLETTER — blue section (brand ref)
+   ═══════════════════════════════════════════════════ #}
+<section class="hss hp-nl" aria-labelledby="hp-nl-h2">
+  <div class="hw">
+    <div class="hp-nl-inner">
+      <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-mail"></i> Restez informé</span>
+      <h2 class="hh2 hh2-w" id="hp-nl-h2" style="font-size:30px;margin-bottom:10px;">Conseils rénovation & offres exclusives</h2>
+      <p class="hl hlc" style="color:rgba(255,255,255,.72);margin-bottom:28px;">Astuces de pros, tendances et meilleures offres directement dans votre boîte.</p>
+      <form class="hp-nl-form" action="#" method="post" novalidate>
+        <label for="nl-email" class="sr-only">Votre adresse courriel</label>
+        <input type="email" id="nl-email" name="newsletter_email" class="hp-nl-in" placeholder="votre@courriel.ca" required autocomplete="email">
+        <button type="submit" class="hp-nl-btn">S'inscrire</button>
+      </form>
+      <p class="hp-nl-hint"><i class="feather-lock" style="margin-right:4px;color:rgba(255,255,255,.4);"></i> Pas de spam. Désabonnement facile à tout moment.</p>
+    </div>
+  </div>
+</section>
+
+</div>{# /hp #}
+
+<script>
+function hiwSwitch(tab, btn) {
+  ['o','p'].forEach(function(t) {
+    var el = document.getElementById('steps-' + t);
+    var b  = document.getElementById('tab-'   + t);
+    if (el) el.style.display = (t === tab) ? 'grid' : 'none';
+    if (b)  { b.classList.toggle('active', t === tab); b.setAttribute('aria-selected', t === tab ? 'true' : 'false'); }
+  });
+}
+(function () {
+  var els = document.querySelectorAll('.hf');
+  if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(function (e) { obs.observe(e); });
+})();
+</script>
 {% endblock %}

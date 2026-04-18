@@ -3,94 +3,43 @@
    - pro: Professional entity object 
 #}
 
-<div class="drl-pro-card-new">
-    {% if pro.isTopRated or (pro.stats and pro.stats.averageRating >= 4.5) %}
-    <div class="pro-badge-top-rated">
-        <i class="fas fa-star" aria-hidden="true"></i> {{ 'home_card.top_rated'|trans }}
-    </div>
-    {% endif %}
-
-    <!-- Image Area -->
-    <div class="pro-card-img-wrapper">
+<div class="hp-pro-card">
+    <div class="hp-pro-card-img">
         <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) }}">
             <img src="{{ pro.banner ? asset('uploads/banners/' ~ pro.banner) : asset('assets/drilleedo/images/team/plumber.png') }}"
-                 alt="{{ pro.displayName }} — verified renovation pro on Drilleedo"
+                 alt="{{ pro.displayName }} — Drilleedo pro"
                  loading="lazy">
         </a>
     </div>
 
-    <!-- Body Area -->
-    <div class="pro-card-body">
+    <div class="hp-pro-card-body">
         
-        {# Verified Status #}
-        {% if pro.isVerified %}
-        <div class="pro-verified-status">
-            <i class="fas fa-check-circle text-success" aria-hidden="true"></i> {{ 'home_card.verified_by'|trans|raw }}
-        </div>
-        {% endif %}
-
-        {# Title #}
-        <h3 class="pro-card-title">
-            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) }}">
-                {{ pro.displayName }}
-            </a>
-        </h3>
-
-        {# Details List (Icon + Text) #}
-        <ul class="pro-card-details-list">
-            {# Category #}
-            {% if pro.category %}
-            <li>
-                <div class="category-icon-wrapper-sm">
-                    {% if pro.category.icon %}
-                        <img src="{{ asset('uploads/categories/' ~ pro.category.icon) }}" alt="{{ pro.category.localizedTitle(app.request.locale) }}" style="width: 100%; height: 100%; object-fit: contain;">
-                    {% else %}
-                        <i class="fas fa-tools small text-muted"></i>
-                    {% endif %}
-                </div>
-                <span class="detail-text">{{ pro.category.localizedTitle(app.request.locale) }}</span>
-            </li>
-            {% endif %}
-            
-            {# Location #}
-            <li>
-                <i class="feather-map-pin" aria-hidden="true"></i>
-                <span class="detail-text">{{ pro.city ?? 'Canada' }}</span>
-            </li>
-            
-            {# Experience #}
-            <li>
-                <i class="feather-briefcase" aria-hidden="true"></i>
-                <span class="detail-text">{{ pro.expYears ?? '5' }} {{ 'home_card.years_exp_suffix'|trans }}</span>
-            </li>
-        </ul>
-
-        {# Ratings & Reviews #}
-        <div class="pro-card-ratings-row">
-            <div class="pro-stars">
-                {% set rating = pro.stats ? pro.stats.averageRating : 5.0 %}
-                {% set fullStars = rating|round(0, 'floor') %}
-                {% set halfStar = (rating - fullStars) >= 0.5 ? 1 : 0 %}
-                {% set emptyStars = 5 - fullStars - halfStar %}
-                
-                {% if fullStars > 0 %}{% for i in range(1, fullStars) %}<i class="fas fa-star"></i>{% endfor %}{% endif %}
-                {% if halfStar %}<i class="fas fa-star-half-alt"></i>{% endif %}
-                {% if emptyStars > 0 %}{% for i in range(1, emptyStars) %}<i class="far fa-star"></i>{% endfor %}{% endif %}
+        <div class="hp-pro-card-header">
+            <h3 class="hp-pro-card-title">
+                <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) }}">
+                    {{ pro.category ? pro.category.localizedTitle(app.request.locale) : 'Plumber' }}
+                </a>
+            </h3>
+            <div class="hp-pro-card-rating">
+                <i class="ph-fill ph-star"></i> {{ (pro.stats ? pro.stats.averageRating : 4.5)|number_format(1) }}
             </div>
-            <span class="pro-rating-number">{{ rating|number_format(1) }}</span>
-            <span class="pro-review-count">({{ pro.stats ? pro.stats.reviewCount : 0 }})</span>
+        </div>
+        
+        <div class="hp-pro-card-sub">
+            {{ pro.displayName }}
         </div>
 
-        {# Action Buttons #}
-        <div class="pro-card-actions">
-            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) }}" 
-               class="btn-pro-outline">
-                {{ 'home_card.view_profile'|trans }}
+        <div class="hp-pro-card-foot">
+            <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" class="hp-pro-btn-contact">
+                <i class="ph-fill ph-check-circle" style="font-size:18px;"></i> Contact
             </a>
             
-            <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" 
-               class="btn-pro-solid">
-                {{ 'home_card.get_quote'|trans }}
+            <span class="hp-pro-tag">
+                {{ pro.minPrice ?? '15' }}$
+            </span>
+            
+            <a href="{{ path('professional_details', {'id': pro.id, 'slug': pro.displayName|trim|lower|replace({' ': '-'})}) }}" class="hp-pro-btn-view">
+                <i class="ph-bold ph-list"></i>
             </a>
         </div>
     </div>

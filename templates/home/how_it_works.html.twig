@@ -13,7 +13,7 @@
 /* ── 1. Hero ── */
 .hiw-hero {
   min-height: 480px;
-  background: linear-gradient(135deg, #0d2151 0%, #1a3a6b 50%, #00509e 100%);
+  background: linear-gradient(135deg, #00497F 0%, #3FA9F5 100%);
   display: flex;
   align-items: center;
   position: relative;
@@ -38,7 +38,7 @@
   width: 800px;
   height: 800px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(232,80,26,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -65,7 +65,7 @@
   margin-bottom: 24px;
 }
 
-.hiw-eyebrow i { color: #f97316; }
+.hiw-eyebrow i { color: #FF8A3D; }
 
 .hiw-hero__title {
   font-size: clamp(36px, 5vw, 64px);
@@ -77,7 +77,7 @@
 }
 
 .hiw-hero__title span {
-  background: linear-gradient(90deg, #f97316, #e8501a);
+  background: linear-gradient(90deg, #FF8A3D, #FF8A3D);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -103,19 +103,19 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #e8501a;
+  background: #FF8A3D;
   color: #fff;
   font-size: 16px;
   font-weight: 800;
   padding: 16px 36px;
   border-radius: 12px;
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(232,80,26,0.3);
+  box-shadow: 0 8px 24px rgba(255,138,61,0.3);
   transition: transform 0.2s, background 0.2s;
 }
 
 .hiw-btn-primary:hover {
-  background: #c43d10;
+  background: #e87830;
   transform: translateY(-3px);
   color: #fff;
 }
@@ -162,9 +162,9 @@
 
 .hiw-nav__link:hover,
 .hiw-nav__link.active {
-  background: #0d2151;
+  background: #00497F;
   color: #fff;
-  border-color: #0d2151;
+  border-color: #00497F;
 }
 
 /* ── 3. General Section Styling ── */
@@ -188,8 +188,8 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e8501a;
-  background: rgba(232,80,26,0.1);
+  color: #FF8A3D;
+  background: rgba(255,138,61,0.1);
   padding: 6px 16px;
   border-radius: 999px;
   margin-bottom: 16px;
@@ -262,7 +262,7 @@
 
 .hiw-step-card:nth-child(1) .hiw-step-icon { background: linear-gradient(135deg, #0d2151, #1a3a6b); color:#fff; }
 .hiw-step-card:nth-child(2) .hiw-step-icon { background: linear-gradient(135deg, #00509e, #3b82f6); color:#fff; }
-.hiw-step-card:nth-child(3) .hiw-step-icon { background: linear-gradient(135deg, #e8501a, #f97316); color:#fff; }
+.hiw-step-card:nth-child(3) .hiw-step-icon { background: linear-gradient(135deg, #FF8A3D, #FF8A3D); color:#fff; }
 .hiw-step-card:nth-child(4) .hiw-step-icon { background: linear-gradient(135deg, #16a34a, #22c55e); color:#fff; }
 
 .hiw-step-title {
@@ -537,7 +537,7 @@ html { scroll-behavior: smooth; }
   <div class="container">
     <div class="hiw-split">
       <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#f97316; background:#fff7ed;">{{ 'hiw.phase3_label'|trans }}</span>
+        <span class="hiw-section-label" style="color:#FF8A3D; background:#fff7ed;">{{ 'hiw.phase3_label'|trans }}</span>
         <h2 class="hiw-section-title">{{ 'hiw.phase3_title'|trans }}</h2>
         <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
           {{ 'hiw.phase3_desc'|trans }}
@@ -545,14 +545,14 @@ html { scroll-behavior: smooth; }
 
         <ul class="hiw-feature-list">
           <li class="hiw-feature-item">
-            <div class="hiw-feature-icon" style="background:#fff7ed; color:#f97316;"><i class="feather-shield"></i></div>
+            <div class="hiw-feature-icon" style="background:#fff7ed; color:#FF8A3D;"><i class="feather-shield"></i></div>
             <div class="hiw-feature-text">
               <h4>{{ 'hiw.phase3_feat1_title'|trans }}</h4>
               <p>{{ 'hiw.phase3_feat1_desc'|trans }}</p>
             </div>
           </li>
           <li class="hiw-feature-item">
-            <div class="hiw-feature-icon" style="background:#fff7ed; color:#f97316;"><i class="feather-star"></i></div>
+            <div class="hiw-feature-icon" style="background:#fff7ed; color:#FF8A3D;"><i class="feather-star"></i></div>
             <div class="hiw-feature-text">
               <h4>{{ 'hiw.phase3_feat2_title'|trans }}</h4>
               <p>{{ 'hiw.phase3_feat2_desc'|trans }}</p>
@@ -574,7 +574,7 @@ html { scroll-behavior: smooth; }
 {# ══════════════════════════════════════════════════════════════════════════
    7. FINAL CTA
 ══════════════════════════════════════════════════════════════════════════ #}
-<section class="hiw-section" style="background:#0d2151; text-align:center; padding: 120px 0;">
+<section class="hiw-section" style="background:linear-gradient(135deg, #00497F 0%, #3FA9F5 100%); text-align:center; padding: 120px 0;">
   <div class="container">
     <h2 class="hiw-hero__title" style="margin-bottom:24px;">{{ 'hiw.cta_title'|trans }}</h2>
     <p class="hiw-hero__sub" style="margin-bottom:40px;">{{ 'hiw.cta_sub'|trans }}</p>

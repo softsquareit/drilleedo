@@ -23,7 +23,13 @@
                     <nav class="mainmenu-nav">
                         <ul class="mainmenu">
                             <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>{{ 'nav.how_it_works'|trans }}</a>
+                             <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>{{ 'nav.how_it_works'|trans }}<i class="feather-chevron-down"></i></a>
+                                <ul class="submenu">
+                                    <li><a href="{{ path('app_for_professionals') }}">{{ 'nav.why_join'|trans }}</a></li>
+                                    <li><a href="{{ path('app_register_pro') }}">{{ 'nav.create_profile'|trans }}</a></li>
+                                    <li><a href="{{ path('app_grow_business') }}">{{ 'nav.grow_business'|trans }}</a></li>
+                                    <li><a href="{{ path('app_how_it_works_pros') }}">{{ 'nav.how_it_works_pros'|trans }}</a></li>
+                                </ul>
                             </li>
 
                             <li class="with-megamenu has-menu-child-item position-static">
@@ -40,17 +46,6 @@
                             </li>
 
                             <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}class="active"{% endif %}>{{ 'nav.about_us'|trans }}</a></li>
-
-                            <li class="has-dropdown has-menu-child-item">
-                                <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}class="active"{% endif %}>{{ 'nav.for_professionals'|trans }} <i class="feather-chevron-down"></i></a>
-                                <ul class="submenu">
-                                    <li><a href="{{ path('app_for_professionals') }}">{{ 'nav.why_join'|trans }}</a></li>
-                                    <li><a href="{{ path('app_register_pro') }}">{{ 'nav.create_profile'|trans }}</a></li>
-                                    <li><a href="{{ path('app_grow_business') }}">{{ 'nav.grow_business'|trans }}</a></li>
-                                    <li><a href="{{ path('app_how_it_works_pros') }}">{{ 'nav.how_it_works_pros'|trans }}</a></li>
-                                </ul>
-                            </li>
-
                             <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}class="active"{% endif %}>{{ 'nav.blog'|trans }}</a></li>
                         </ul>
                     </nav>
@@ -124,11 +119,6 @@
                             <li class="access-icon d-none d-xl-flex">
                                 <a class="login-link" href="{{ path('app_login') }}" aria-label="{{ 'auth.login'|trans }}">
                                     <i class="fas fa-user-alt" aria-hidden="true"></i> {{ 'auth.login'|trans }}
-                                </a>
-                            </li>
-                            <li class="access-icon d-none d-xl-flex">
-                                <a class="pro-signin-btn" href="{{ path('app_register') }}" aria-label="{{ 'auth.signup'|trans }}">
-                                    <i class="far fa-check-square" aria-hidden="true"></i> {{ 'auth.signup'|trans }}
                                 </a>
                             </li>
                         {% endif %}

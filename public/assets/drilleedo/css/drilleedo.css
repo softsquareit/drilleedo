@@ -1,4 +1,185 @@
 /* ==========================================================================
+   DRILLEEDO BRAND CHARTER — Official tokens (Brand Guidelines 2025)
+   Helper Blue #00497F · Action Sky #3FA9F5 · Toolbox Orange #FF8A3D · Wall White #FFFBEB
+   ========================================================================== */
+
+/* ── Global brand font ── */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  /* ── Official brand colors ── */
+  --brand-blue:   #00497F;   /* Helper Blue — logos, hero, CTAs bleus */
+  --brand-sky:    #3FA9F5;   /* Action Sky — accents, icônes, liens */
+  --brand-orange: #FF8A3D;   /* Toolbox Orange — CTA primaire, badges */
+  --brand-cream:  #FFFBEB;   /* Wall White — fonds clairs, cartes */
+  --brand-dark:   #0C1825;   /* Texte très sombre */
+  --brand-body:   #475569;   /* Corps de texte */
+  --brand-muted:  #94A3B8;   /* Labels, captions */
+  --brand-border: #E4EBF2;   /* Bordures légères */
+
+  /* ── Brand gradients ── */
+  --grad-hero-pro: linear-gradient(135deg, #00497F 0%, #3FA9F5 100%);
+  --grad-dark:     linear-gradient(135deg, #0C1825 0%, #1A3D6E 55%, #1e4f8a 100%);
+  --grad-cta:      linear-gradient(135deg, #1A3D6E 0%, #2662ab 60%, #3FA9F5 100%);
+  --grad-ico-blue: linear-gradient(135deg, #00497F, #2e6db4);
+  --grad-ico-sky:  linear-gradient(135deg, #2196f3, #3FA9F5);
+  --grad-ico-orange: linear-gradient(135deg, #c95a08, #FF8A3D);
+  --grad-ico-green:  linear-gradient(135deg, #16a34a, #22c55e);
+
+  /* ── Brand shadows ── */
+  --shadow-card:   0 4px 28px rgba(0,73,127,.10);
+  --shadow-hover:  0 10px 44px rgba(0,73,127,.14);
+  --shadow-btn:    0 4px 18px rgba(255,138,61,.35);
+  --shadow-search: 0 4px 24px rgba(0,73,127,.15);
+
+  /* ── Brand radius ── */
+  --radius-sm: 8px;
+  --radius:    16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* ── Brand font ── */
+  --font-brand: 'Instrument Sans', system-ui, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+
+  /* ── Brand transition ── */
+  --transition: all .22s ease;
+}
+
+/* ── Global brand button styles (shared across pages) ── */
+.btn-brand-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-orange); color: #fff;
+  font-family: var(--font-brand); font-weight: 700; font-size: 15px;
+  padding: 13px 26px; border-radius: var(--radius);
+  border: none; cursor: pointer; text-decoration: none;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+}
+.btn-brand-primary:hover {
+  background: #d96e10; color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,138,61,.45);
+}
+
+.btn-brand-blue {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-blue); color: #fff;
+  font-family: var(--font-brand); font-weight: 700; font-size: 15px;
+  padding: 13px 26px; border-radius: var(--radius);
+  border: none; cursor: pointer; text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0,73,127,.3);
+  transition: var(--transition);
+}
+.btn-brand-blue:hover {
+  background: #003865; color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-brand-outline-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #fff;
+  font-family: var(--font-brand); font-weight: 700; font-size: 15px;
+  padding: 12px 24px; border-radius: var(--radius);
+  border: 2px solid rgba(255,255,255,.3);
+  cursor: pointer; text-decoration: none;
+  transition: var(--transition);
+}
+.btn-brand-outline-white:hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.6);
+  color: #fff;
+}
+
+/* ── Brand pro card (shared, matches guidelines screenshot) ── */
+.pro-card-brand {
+  background: #fff; border-radius: 20px;
+  padding: 12px; overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  position: relative; display: flex; flex-direction: column;
+}
+.pro-card-brand:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+.pro-card-brand-img {
+  width: 100%; aspect-ratio: 4/3; overflow: hidden; border-radius: 12px;
+  position: relative; background: var(--brand-border);
+}
+.pro-card-brand-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .5s ease;
+}
+.pro-card-brand:hover .pro-card-brand-img img { transform: scale(1.05); }
+.pro-card-brand-body { padding: 14px 4px 4px; flex: 1; display: flex; flex-direction: column; }
+.pro-card-brand-header {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 2px;
+}
+.pro-card-brand-title {
+  font-size: 16px; font-weight: 800;
+  color: var(--brand-dark); margin: 0; line-height: 1.2;
+}
+.pro-card-brand-rating {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 700; color: var(--brand-dark);
+}
+.pro-card-brand-rating::before { content: '★'; color: #F59E0B; font-size: 15px; }
+.pro-card-brand-sub {
+  font-size: 13px; color: var(--brand-body); margin-bottom: 14px;
+}
+.pro-card-brand-foot {
+  display: flex; align-items: center; gap: 8px; margin-top: auto;
+}
+.pro-card-brand-contact {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--brand-sky); color: #fff;
+  border-radius: var(--radius-pill); padding: 8px 16px;
+  font-family: var(--font-brand); font-weight: 700; font-size: 13px;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: var(--transition);
+}
+.pro-card-brand-contact:hover { background: #2196f3; color: #fff; }
+.pro-card-brand-price {
+  display: inline-flex; align-items: center;
+  background: var(--brand-orange); color: #fff;
+  border-radius: var(--radius-pill); padding: 8px 14px;
+  font-weight: 800; font-size: 13px;
+}
+.pro-card-brand-verified {
+  position: absolute; top: 20px; left: 20px; z-index: 2;
+  background: #fff; color: var(--brand-blue);
+  font-size: 11px; font-weight: 800;
+  padding: 5px 11px; border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  display: flex; align-items: center; gap: 4px;
+}
+.pro-card-brand-verified i { color: var(--brand-orange); font-size: 13px; }
+
+/* ── Brand chip (shared) ── */
+.chip-brand {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 13px; border-radius: var(--radius-pill);
+  font-family: var(--font-brand); font-size: 12px; font-weight: 600;
+  color: var(--brand-body); background: #F0F4F8;
+  border: 1.5px solid var(--brand-border);
+  text-decoration: none; cursor: pointer;
+  transition: var(--transition);
+}
+.chip-brand:hover, .chip-brand.active {
+  background: var(--brand-blue); color: #fff; border-color: var(--brand-blue);
+}
+
+/* ── Brand eyebrow tag (shared) ── */
+.eyebrow-brand {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-brand); font-size: 11px; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--brand-orange);
+}
+
+/* ==========================================================================
    DRILLEEDO DESIGN TOKENS — Single Source of Truth
    ========================================================================== */
 :root {
@@ -2800,7 +2981,7 @@ body {
 .drld-footer {
     background-color: #14568c;
     color: #ffffff;
-    font-family: 'Euclid Circular A', 'Instrument Sans', sans-serif;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
     position: relative;
     overflow: hidden;
 }
@@ -3064,7 +3245,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    font-family: var(--font-primary, "Inter", sans-serif);
+    font-family: var(--font-primary, 'Instrument Sans', system-ui, sans-serif);
     border: 1px solid rgba(0, 0, 0, 0.03);
 }
 

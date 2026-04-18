@@ -1,168 +1,215 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact Drilleedo – Get Help With Your Renovation Project | Canada{% endblock %}
-{% block meta_description %}Have a question about your renovation project? Contact Drilleedo's team. We connect Canadian homeowners with trusted professionals. Call, email, or fill out our form.{% endblock %}
-{% block meta_keywords %}contact Drilleedo, renovation help Canada, home improvement support{% endblock %}
-{% block og_title %}Contact Drilleedo | Get Help With Your Renovation Project{% endblock %}
-{% block og_description %}Have a question? Contact our team for help finding the right renovation professional in Canada.{% endblock %}
+{% block title %}Contactez Drilleedo – Votre projet de rénovation au Canada{% endblock %}
+{% block meta_description %}Une question sur votre projet de rénovation ? Contactez l'équipe Drilleedo. Nous connectons les propriétaires canadiens avec des professionnels vérifiés.{% endblock %}
+{% block meta_keywords %}contact Drilleedo, aide rénovation Canada, support projet{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+/* Variables communes au design 2025 */
+:root {
+  --B: #00497F; /* Helper Blue */
+  --S: #3FA9F5; /* Action Sky */
+  --O: #FF8A3D; /* Toolbox Orange */
+  --D: #0C1825; /* Dark */
+  --M: #4B5563; /* Muted text */
+  --L: #E5E7EB; /* Border/Lines */
+  --W: #FFFBEB; /* Wall White */
+  --C: #FDFBF4; /* Cream */
+  --rx: 24px;   /* Large radius */
+  --rl: 16px;   /* Medium radius */
+  --r: 8px;     /* Small radius */
+  --t: all .3s cubic-bezier(.4,0,.2,1);
+  --sh: 0 12px 32px rgba(0,73,127,.08);
+}
+
+.cp-hero {
+  background: var(--W); position: relative; overflow: hidden;
+  padding: 80px 0 60px; border-bottom: 1px solid var(--L);
+}
+.cp-hero::after {
+  content: ''; position: absolute; right: -100px; top: -50px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: rgba(63,169,245,.06); z-index: 0; pointer-events: none;
+}
+.cp-header { text-align: center; position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.cp-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px; border-radius: 50px; background: rgba(63,169,245,.1); color: var(--S);
+  font-size: 13px; font-weight: 700; margin-bottom: 20px;
+}
+.cp-h1 { font-size: 46px; font-weight: 800; color: var(--B); line-height: 1.15; margin-bottom: 20px; }
+.cp-subtitle { font-size: 18px; color: var(--M); line-height: 1.6; }
+
+.cp-cards { padding: 60px 0; background: #fff; }
+.cp-cg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.cp-c {
+  background: #fff; border: 1.5px solid var(--L); border-radius: var(--rx);
+  padding: 32px; display: flex; flex-direction: column; align-items: center; text-align: center;
+  transition: var(--t);
+}
+.cp-c:hover { border-color: var(--S); box-shadow: var(--sh); transform: translateY(-4px); }
+.cp-c-ico {
+  width: 64px; height: 64px; border-radius: 20px; background: rgba(63,169,245,.1);
+  color: var(--S); font-size: 28px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.cp-c-o { background: rgba(255,138,61,.1); color: var(--O); }
+.cp-c-d { background: rgba(0,73,127,.1); color: var(--B); }
+.cp-c h3 { font-size: 20px; font-weight: 800; color: var(--D); margin-bottom: 12px; }
+.cp-c p, .cp-c a { font-size: 15px; color: var(--M); margin: 0; line-height: 1.6; text-decoration: none; }
+.cp-c a:hover { color: var(--S); }
+
+.cp-main { padding: 80px 0; background: var(--C); }
+.cp-main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+
+.cp-form-box { background: #fff; border-radius: var(--rx); padding: 40px; box-shadow: var(--sh); }
+.cp-form-box h3 { font-size: 26px; font-weight: 800; color: var(--B); margin-bottom: 30px; }
+.cp-fg { margin-bottom: 20px; }
+.cp-fg label { display: block; font-size: 13px; font-weight: 700; color: var(--D); margin-bottom: 8px; }
+.cp-inp {
+  width: 100%; border: 1.5px solid var(--L); border-radius: var(--r);
+  padding: 14px 16px; font-size: 15px; background: #fff; transition: var(--t); outline: none;
+}
+.cp-inp:focus { border-color: var(--S); box-shadow: 0 0 0 3px rgba(63,169,245,.15); }
+textarea.cp-inp { resize: vertical; min-height: 120px; }
+
+.hbtn {
+  display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+  font-family: 'Instrument Sans', sans-serif; border-radius: 8px;
+  text-decoration: none; transition: var(--t); cursor: pointer; border: none; outline: none;
+}
+.hbtn-o { background: var(--O); color: #fff; font-weight: 700; border: 1.5px solid var(--O); }
+.hbtn-o:hover { background: #e87830; }
+.hbtn-lg { padding: 14px 28px; font-size: 16px; width: 100%; }
+
+.cp-img-side { position: relative; }
+.cp-img-side img { width: 100%; border-radius: var(--rx); box-shadow: var(--sh); }
+.cp-img-badge {
+  position: absolute; bottom: -20px; left: -20px; background: #fff;
+  padding: 16px 24px; border-radius: var(--rl); box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; color: var(--B);
+}
+.cp-img-badge i { font-size: 32px; color: var(--O); }
+
+.cp-map { display: block; width: 100%; height: 400px; border: none; filter: grayscale(20%); }
+
+@media (max-width: 900px) {
+  .cp-cg { grid-template-columns: repeat(2, 1fr); }
+  .cp-main-grid { grid-template-columns: 1fr; }
+  .cp-img-side { order: -1; margin-bottom: 40px; }
+}
+@media (max-width: 600px) {
+  .cp-cg { grid-template-columns: 1fr; }
+  .cp-h1 { font-size: 36px; }
+  .cp-form-box { padding: 24px; }
+}
+</style>
+{% endblock %}
 
 {% block body %}
 
+{# HERO HEADER #}
+<div class="cp-hero">
+  <div class="container">
+    <div class="cp-header">
+      <span class="cp-pill"><i class="ph-fill ph-chat-circle"></i> Service Client</span>
+      <h1 class="cp-h1">Nous sommes là<br>pour vous aider.</h1>
+      <p class="cp-subtitle">Vous avez des questions sur un projet, besoin d'assistance ou envie de nous faire un retour ? L'équipe Drilleedo est à votre disposition.</p>
+    </div>
+  </div>
+</div>
 
-    <div class="rbt-conatct-area bg-gradient-11 rbt-section-gap" style="padding: 20px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title text-center mb--60">
-                        <span class="subtitle bg-secondary-opacity">Contact Drilleedo</span>
-                        <h2 class="title">
-                            Let’s Talk About <br>Your Renovation Project
-                        </h2>
-                    </div>
+{# CONTACT CARDS #}
+<div class="cp-cards">
+  <div class="container">
+    <div class="cp-cg">
+      
+      <div class="cp-c">
+        <div class="cp-c-ico"><i class="ph ph-phone"></i></div>
+        <h3>Téléphone</h3>
+        <p><a href="tel:+1444555666777">+1 444 555 666 777</a></p>
+        <p><a href="tel:+12222222333">+1 222 222 222 333</a></p>
+      </div>
+
+      <div class="cp-c">
+        <div class="cp-c-ico cp-c-o"><i class="ph ph-envelope-simple"></i></div>
+        <h3>Courriel</h3>
+        <p><a href="mailto:support@drilleedo.com">support@drilleedo.com</a></p>
+        <p><a href="mailto:contact@drilleedo.com">contact@drilleedo.com</a></p>
+      </div>
+
+      <div class="cp-c">
+        <div class="cp-c-ico cp-c-d"><i class="ph ph-map-pin"></i></div>
+        <h3>Bureaux</h3>
+        <p>Toronto, Ontario <br>Canada</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{# MAIN FORM & IMAGE #}
+<div class="cp-main">
+  <div class="container">
+    <div class="cp-main-grid">
+
+      {# LEFT: FORM #}
+      <div class="cp-form-box">
+        <h3>Laissez-nous un message</h3>
+
+        {# Flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div style="background: {% if label == 'danger' %}#FEE2E2{% else %}#DCFCE7{% endif %}; color: {% if label == 'danger' %}#991B1B{% else %}#166534{% endif %}; padding: 12px 16px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; font-weight: 600; display:flex; align-items:center; gap:8px;">
+                    <i class="ph-fill {% if label == 'danger' %}ph-warning-circle{% else %}ph-check-circle{% endif %}" style="font-size:18px;"></i>
+                    {{ message }}
                 </div>
-            </div>
+            {% endfor %}
+        {% endfor %}
 
-            <div class="row g-5">
+        <form method="POST" action="{{ path('app_contact_send') }}">
+          <div class="cp-fg">
+            <label for="contact-name">Nom complet *</label>
+            <input type="text" id="contact-name" name="contact-name" class="cp-inp" required placeholder="Ex: Jean Tremblay">
+          </div>
+          <div class="cp-fg">
+            <label for="contact-email">Adresse courriel *</label>
+            <input type="email" id="contact-email" name="contact-email" class="cp-inp" required placeholder="jean@exemple.ca">
+          </div>
+          <div class="cp-fg">
+            <label for="subject">Sujet de votre demande</label>
+            <input type="text" id="subject" name="subject" class="cp-inp" placeholder="Renseignement, problème technique...">
+          </div>
+          <div class="cp-fg">
+            <label for="contact-message">Message *</label>
+            <textarea id="contact-message" name="contact-message" class="cp-inp" required placeholder="Comment pouvons-nous vous aider ?"></textarea>
+          </div>
+          
+          <button type="submit" name="submit" class="hbtn hbtn-o hbtn-lg" style="margin-top:10px;">
+            Envoyer le message <i class="ph-bold ph-paper-plane-right"></i>
+          </button>
+        </form>
+      </div>
 
-                <!-- Phone -->
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12 sal-animate" data-sal="slide-up" data-sal-delay="150"
-                    data-sal-duration="800">
-                    <div class="rbt-address">
-                        <div class="icon">
-                            <i class="feather-headphones"></i>
-                        </div>
-                        <div class="inner">
-                            <h4 class="title">Call Us</h4>
-                            <p><a href="tel:+1444555666777">+1 444 555 666 777</a></p>
-                            <p><a href="tel:+12222222333">+1 222 222 222 333</a></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Email -->
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12 sal-animate" data-sal="slide-up" data-sal-delay="200"
-                    data-sal-duration="800">
-                    <div class="rbt-address">
-                        <div class="icon">
-                            <i class="feather-mail"></i>
-                        </div>
-                        <div class="inner">
-                            <h4 class="title">Email Drilleedo</h4>
-                            <p><a href="mailto:support@drilleedo.com">support@drilleedo.com</a></p>
-                            <p><a href="mailto:contact@drilleedo.com">contact@drilleedo.com</a></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Location -->
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12 sal-animate" data-sal="slide-up" data-sal-delay="250"
-                    data-sal-duration="800">
-                    <div class="rbt-address">
-                        <div class="icon">
-                            <i class="feather-map-pin"></i>
-                        </div>
-                        <div class="inner">
-                            <h4 class="title">Head Office</h4>
-                            <p>
-                                Toronto, Ontario <br>
-                                Canada
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+      {# RIGHT: IMAGE #}
+      <div class="cp-img-side">
+        <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}" alt="Support clientèle Drilleedo">
+        <div class="cp-img-badge">
+          <i class="ph-fill ph-headset"></i>
+          <div>
+            <div style="color:var(--M); font-size:12px; font-weight:600;">Service client 7j/7</div>
+            Nous vous répondons en 24h ouvrées
+          </div>
         </div>
+      </div>
+
     </div>
+  </div>
+</div>
 
-    <!-- Contact Form -->
-    <div class="rbt-contact-address">
-        <div class="container">
-            <div class="row g-5">
+{# MAP #}
+<iframe class="cp-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11546.732924151703!2d-79.39054700000001!3d43.653226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cb3409d1a0b3%3A0xe8d011c34a949f2b!2sToronto%2C%20ON%2C%20Canada!5e0!3m2!1sfr!2sca!4v1680000000000!5m2!1sfr!2sca" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
-                <!-- Image -->
-                <div class="col-lg-6">
-                    <div class="thumbnail">
-                        <img class="w-100 radius-6" src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}"
-                            alt="Drilleedo renovation professionals">
-                    </div>
-                </div>
-
-                <!-- Form -->
-                <div class="col-lg-6">
-                    <div class="rbt-contact-form contact-form-style-1 max-width-auto">
-
-                        {# Flash messages #}
-                        {% for label, messages in app.flashes %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ label == 'danger' ? 'danger' : 'success' }} alert-dismissible fade show mb-4" role="alert">
-                                    <i class="feather-{{ label == 'danger' ? 'alert-circle' : 'check-circle' }} me-2"></i>{{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            {% endfor %}
-                        {% endfor %}
-
-                        <div class="section-title text-start">
-                            <span class="subtitle bg-primary-opacity">
-                                DRILLEEDO CONNECTS YOU WITH TRUSTED EXPERTS
-                            </span>
-                        </div>
-
-                        <h3 class="title">
-                            Tell Us About Your Project
-                        </h3>
-
-                        <form id="contact-form" method="POST" action="{{ path('app_contact_send') }}"
-                            class="rainbow-dynamic-form max-width-auto">
-
-                            <div class="form-group">
-                                <input name="contact-name" id="contact-name" type="text" required>
-                                <label>Full Name</label>
-                                <span class="focus-border"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <input name="contact-email" type="email" required>
-                                <label>Email Address</label>
-                                <span class="focus-border"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <input type="text" id="subject" name="subject">
-                                <label>Project Type (optional)</label>
-                                <span class="focus-border"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <textarea name="contact-message" id="contact-message" required></textarea>
-                                <label>Your Message</label>
-                                <span class="focus-border"></span>
-                            </div>
-
-                            <div class="form-submit-group">
-                                <button name="submit" type="submit" id="submit"
-                                    class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
-                                    <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Send to Drilleedo</span>
-                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                    </span>
-                                </button>
-                            </div>
-
-                        </form>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <div class="rbt-google-map bg-color-white rbt-section-gapTop">
-        <iframe class="w-100"
-            src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2965.0824050173574!2d-93.63905729999999!3d41.998507000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sWebFilings%2C+University+Boulevard%2C+Ames%2C+IA!5e0!3m2!1sen!2sus!4v1390839289319"
-            height="600" style="border:0"></iframe>
-    </div>
 {% endblock %}
