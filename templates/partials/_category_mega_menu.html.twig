@@ -72,26 +72,6 @@
             {% endfor %}
         </div>
 
-        {# RIGHT COLUMN: Enhanced Directory CTAs #}
-        <div class="drl-mega-cta-side">
-            <a href="{{ path('professionals_list') }}" class="drl-mega-cta-card-v2 pro" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}')">
-                <div class="card-overlay"></div>
-                <div class="card-content">
-                    <div class="card-icon"><i class="feather-users"></i></div>
-                    <h4>{{ 'mega.find_pro'|trans }}</h4>
-                    <p>{{ 'mega.connect_pro'|trans }}</p>
-                </div>
-            </a>
-
-            <a  href="{{ path('companies_list') }}" class="drl-mega-cta-card-v2 company" style="background-image: url('{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}')">
-                <div class="card-overlay"></div>
-                <div class="card-content">
-                    <div class="card-icon"><i class="feather-briefcase"></i></div>
-                    <h4>{{ 'mega.find_company'|trans }}</h4>
-                    <p>{{ 'mega.explore_companies'|trans }}</p>
-                </div>
-            </a>
-        </div>
     </div>
     
     {# BOTTOM AREA: Illustrative Image Section #}
@@ -120,7 +100,7 @@
 
     .drl-mega-container {
         display: grid;
-        grid-template-columns: 280px 1fr 320px;
+        grid-template-columns: 280px 1fr;
         min-height: 500px;
     }
 
@@ -518,8 +498,8 @@
 
     /* Responsive adjustments */
     @media (max-width: 1200px) {
-        .drl-mega-wrapper { min-width: 960px; }
-        .drl-mega-container { grid-template-columns: 240px 1fr 280px; }
+        .drl-mega-wrapper { min-width: 720px; }
+        .drl-mega-container { grid-template-columns: 240px 1fr; }
     }
 </style>
 

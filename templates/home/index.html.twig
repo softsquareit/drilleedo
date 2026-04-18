@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Drilleedo – Devis gratuits, pros vérifiés | Canada{% endblock %}
-{% block meta_description %}Trouvez des professionnels vérifiés pour votre rénovation, jardinage, déménagement et plus. Devis gratuits, sans engagement. 35 000+ projets réalisés partout au Canada.{% endblock %}
-{% block meta_keywords %}rénovation Canada, devis gratuits, professionnels vérifiés, plomberie, électricité, jardinage, Drilleedo{% endblock %}
-{% block og_title %}Drilleedo — easy help, fast solutions{% endblock %}
-{% block og_description %}Marketplace canadienne : connectez propriétaires et professionnels vérifiés. Devis gratuits, 35 000+ projets, 1 500+ pros.{% endblock %}
+{% block title %}Drilleedo – Trouvez un Pro Vérifié au Canada | Devis Gratuits Sans Engagement{% endblock %}
+{% block meta_description %}Besoin d'un plombier, électricien ou rénovateur fiable au Canada ? Drilleedo vous connecte à 1 500+ pros vérifiés. Devis gratuits, 35 000+ projets réalisés, avis certifiés. Essayez maintenant.{% endblock %}
+{% block meta_keywords %}professionnels vérifiés Canada, devis gratuits rénovation, plombier Québec, électricien Ontario, peintre rénovation, service à domicile Canada, Drilleedo, trouver artisan fiable{% endblock %}
+{% block og_title %}Drilleedo — Trouvez le Bon Pro, Rapidement.{% endblock %}
+{% block og_description %}Marketplace #1 au Canada pour services résidentiels : 1 500+ artisans vérifiés, devis gratuits, 35 000+ projets réalisés. Publiez votre projet en 2 minutes.{% endblock %}
 
 {% block structured_data %}
 {{ parent() }}
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Drilleedo","url":"{{ url('app_home') }}","description":"Marketplace canadienne connectant propriétaires et professionnels vérifiés.","areaServed":{"@type":"Country","name":"Canada"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2500","bestRating":"5"}}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Drilleedo","url":"{{ url('app_home') }}","description":"Drilleedo est la marketplace canadienne de référence pour les services résidentiels : plomberie, électricité, rénovation, jardinage. 1 500+ pros vérifiés, devis gratuits, 35 000+ projets réalisés.","areaServed":{"@type":"Country","name":"Canada"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2500","bestRating":"5"}}
 </script>
 {% endblock %}
 
@@ -29,15 +29,17 @@
   --L:   #E4EBF2;
   --W:   #FFFFFF;
   --F:   'Instrument Sans', system-ui, sans-serif;
-  --r:   12px;
-  --rl:  20px;
+  --r:   14px;
+  --rl:  22px;
   --rx:  28px;
   --sh:  0 4px 24px rgba(0,73,127,.12);
+  --sh-md: 0 8px 40px rgba(0,73,127,.15);
+  --sh-lg: 0 16px 60px rgba(0,73,127,.18);
   --t:   all .22s ease;
 }
-.hp { font-family: var(--F); color: var(--D); line-height: 1.65; }
+.hp { font-family: var(--F); color: var(--D); line-height: 1.6; }
 .hp * { box-sizing: border-box; }
-.hp h1,.hp h2,.hp h3,.hp h4 { font-family: var(--F); font-weight: 900; letter-spacing: -.6px; line-height: 1.15; }
+.hp h1,.hp h2,.hp h3,.hp h4 { font-family: var(--F); font-weight: 900; letter-spacing: -.8px; line-height: 1.13; }
 .hp a { text-decoration: none; }
 .hw { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .hs  { padding: 96px 0; }
@@ -48,37 +50,39 @@
 /* ── Pill labels ── */
 .hpill {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 16px; border-radius: 50px;
-  font-size: 12.5px; font-weight: 700; letter-spacing: .3px; margin-bottom: 18px;
+  padding: 7px 18px; border-radius: 50px;
+  font-size: 12px; font-weight: 700; letter-spacing: .6px;
+  text-transform: uppercase; margin-bottom: 20px;
 }
-.hpill-s { background: rgba(63,169,245,.12); color: var(--S); }
-.hpill-o { background: rgba(255,138,61,.12);  color: var(--O); }
-.hpill-w { background: rgba(255,255,255,.18); color: #fff; border: 1px solid rgba(255,255,255,.25); }
+.hpill-s { background: rgba(63,169,245,.10); color: var(--S); border: 1px solid rgba(63,169,245,.2); }
+.hpill-o { background: rgba(255,138,61,.10);  color: var(--O); border: 1px solid rgba(255,138,61,.2); }
+.hpill-w { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3); }
 
 /* ── Headings ── */
-.hh2 { font-size: 40px; font-weight: 900; color: var(--D); margin-bottom: 14px; letter-spacing: -1px; }
+.hh2 { font-size: clamp(28px,3.5vw,40px); font-weight: 900; color: var(--D); margin-bottom: 16px; letter-spacing: -1.5px; }
 .hh2-w { color: #fff; }
-.hl  { font-size: 16px; color: var(--M); line-height: 1.7; max-width: 580px; }
-.hlc { margin-left: auto; margin-right: auto; }
+.hl  { font-size: 17px; color: var(--M); line-height: 1.75; max-width: 560px; }
+.hlc { margin-left: auto; margin-right: auto; text-align: center; }
 
 /* ── Buttons ── */
 .hbtn {
   display: inline-flex; align-items: center; gap: 9px;
   font-family: var(--F); font-weight: 700; font-size: 15px;
-  border-radius: var(--r); border: none; cursor: pointer;
-  transition: var(--t); padding: 13px 26px; line-height: 1;
+  border-radius: 50px; border: none; cursor: pointer;
+  transition: var(--t); padding: 13px 28px; line-height: 1;
+  letter-spacing: .2px;
 }
-.hbtn-o { background: var(--O); color: #fff; box-shadow: 0 4px 16px rgba(255,138,61,.3); }
-.hbtn-o:hover { background: #e87830; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,138,61,.4); color: #fff; }
-.hbtn-b { background: var(--B); color: #fff; }
-.hbtn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
-.hbtn-g { background: transparent; border: 2px solid rgba(0,73,127,.2); color: var(--B); }
+.hbtn-o { background: var(--O); color: #fff; box-shadow: 0 4px 18px rgba(255,138,61,.35); }
+.hbtn-o:hover { background: #e87830; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,138,61,.45); color: #fff; }
+.hbtn-b { background: var(--B); color: #fff; box-shadow: 0 4px 16px rgba(0,73,127,.25); }
+.hbtn-b:hover { background: #003a66; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,73,127,.3); color: #fff; }
+.hbtn-g { background: transparent; border: 2px solid rgba(0,73,127,.22); color: var(--B); }
 .hbtn-g:hover { background: var(--B); color: #fff; border-color: var(--B); }
-.hbtn-w { background: var(--W); color: var(--B); font-weight: 700; }
+.hbtn-w { background: var(--W); color: var(--B); font-weight: 700; box-shadow: 0 2px 12px rgba(0,0,0,.1); }
 .hbtn-w:hover { background: var(--C); color: var(--B); }
 .hbtn-ow { background: transparent; border: 2px solid rgba(255,255,255,.35); color: #fff; }
-.hbtn-ow:hover { border-color: #fff; background: rgba(255,255,255,.1); color: #fff; }
-.hbtn-lg { font-size: 16px; padding: 15px 32px; }
+.hbtn-ow:hover { border-color: #fff; background: rgba(255,255,255,.12); color: #fff; }
+.hbtn-lg { font-size: 16px; padding: 16px 36px; }
 .hbtn i  { font-size: 15px; }
 
 /* ════════════════════════════════════════
@@ -105,12 +109,13 @@
     top: 50%;
     left: 8%;
     transform: translateY(-50%);
-    background: rgba(255,255,255,.97);
+    background: #fff;
     border-radius: var(--rx);
+    border-left: 5px solid var(--O);
     padding: 44px 40px;
     max-width: 78%;
     width: 78%;
-    box-shadow: 0 8px 40px rgba(0,73,127,.13);
+    box-shadow: 0 12px 48px rgba(0,73,127,.14), 0 2px 8px rgba(0,0,0,.04);
 }
 .hp-eyebrow {
   font-size: 11px; font-weight: 700; color: var(--O);
@@ -121,7 +126,7 @@
   font-size: clamp(40px,4.2vw,54px); font-weight: 900; color: var(--D);
   margin-bottom: 8px; letter-spacing: -2px; line-height: 1.08;
 }
-.hp-h1 span { color: var(--B); display: block; }
+.hp-h1 span { color: var(--B); display: block; line-height: 1.05; }
 .hp-tagline {
   font-size: 13px; color: var(--O); font-weight: 700;
   letter-spacing: .4px; margin-bottom: 24px;
@@ -135,26 +140,28 @@
 /* Search bar */
 .hp-search {
   display: flex; align-items: center;
-  background: #F8FAFC; border: 2px solid var(--L);
-  border-radius: 50px; padding: 6px 6px 6px 18px;
-  margin-bottom: 14px; transition: var(--t);
+  background: #F8FAFC; border: 2px solid #d8e6f0;
+  border-radius: 50px; padding: 6px 6px 6px 20px;
+  margin-bottom: 16px; transition: var(--t);
+  box-shadow: 0 2px 8px rgba(0,73,127,.06);
 }
 .hp-search:focus-within { border-color: var(--S); box-shadow: 0 0 0 4px rgba(63,169,245,.12); }
-.hp-search i { color: var(--M); font-size: 16px; margin-right: 8px; flex-shrink: 0; }
+.hp-search i { color: #ffffff; font-size: 17px;  flex-shrink: 0; }
 .hp-search input {
   flex: 1; border: none; background: transparent;
-  font-family: var(--F); font-size: 14px; color: var(--D);
+  font-family: var(--F); font-size: 15px; color: var(--D);
   outline: none;
 }
 .hp-search input::placeholder { color: #b0bec5; }
 .hp-search button {
   background: var(--O); color: #fff; border: none;
-  border-radius: 50px; padding: 11px 22px;
-  font-family: var(--F); font-size: 13px; font-weight: 700;
-  cursor: pointer; transition: var(--t); display: flex; align-items: center; gap: 6px;
-  white-space: nowrap; flex-shrink: 0;
+  border-radius: 50%; width: 44px; height: 44px;
+  font-family: var(--F); font-weight: 700;
+  cursor: pointer; transition: var(--t);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; box-shadow: 0 2px 8px rgba(255,138,61,.3);
 }
-.hp-search button:hover { background: #d96e10; transform: scale(1.02); }
+.hp-search button:hover { background: #d96e10; transform: scale(1.06); }
 /* Quick category chips */
 .hp-qchips {
   display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px;
@@ -286,82 +293,173 @@
   flex-wrap: wrap; gap: 0;
 }
 .hp-tb {
-  display: flex; align-items: center; gap: 10px;
-  padding: 0 36px; border-right: 1px solid var(--L);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 40px; border-right: 1px solid var(--L);
   font-size: 13px; font-weight: 500; color: var(--M); white-space: nowrap;
 }
 .hp-tb:last-child { border-right: none; }
-.hp-tb i { color: var(--O); font-size: 20px; }
-.hp-tb strong { color: var(--B); font-size: 19px; font-weight: 900; letter-spacing: -.3px; }
+.hp-tb i {
+  color: var(--O); font-size: 22px;
+  background: rgba(255,138,61,.1); padding: 8px; border-radius: 10px;
+  flex-shrink: 0;
+}
+.hp-tb strong { color: var(--B); font-size: 22px; font-weight: 900; letter-spacing: -.5px; }
 
 /* ════════════════════════════════════════
    VALUE PROPS
    ════════════════════════════════════════ */
-.hp-val { background: var(--W); }
-.hp-val-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+.hp-val { background: var(--C); }
+.hp-val-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
 .hp-vc {
-  background: var(--C); border: 1.5px solid #EDE9D4;
-  border-radius: var(--rx); padding: 30px 24px; transition: var(--t);
+  background: var(--W); border: 1.5px solid var(--L);
+  border-radius: var(--rx); padding: 32px 26px; transition: var(--t);
+  box-shadow: 0 2px 12px rgba(0,73,127,.05);
 }
-.hp-vc:hover { border-color: var(--S); transform: translateY(-4px); box-shadow: var(--sh); }
+.hp-vc:hover {
+  border-color: var(--S); transform: translateY(-5px);
+  box-shadow: var(--sh-md); border-bottom: 3px solid var(--S);
+}
 .hp-vc-ico {
-  width: 52px; height: 52px; border-radius: var(--r);
+  width: 54px; height: 54px; border-radius: var(--rl);
   background: linear-gradient(135deg,#00497F,#3FA9F5);
-  display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
 }
 .hp-vc-ico i { font-size: 22px; color: #fff; }
-.hp-vc h3 { font-size: 17px; font-weight: 700; color: var(--D); margin-bottom: 9px; }
-.hp-vc p  { font-size: 14px; color: var(--M); line-height: 1.65; margin: 0; }
+.hp-vc h3 { font-size: 17px; font-weight: 800; color: var(--D); margin-bottom: 10px; }
+.hp-vc p  { font-size: 14px; color: var(--M); line-height: 1.7; margin: 0; }
 
 /* ════════════════════════════════════════
-   HOW IT WORKS — Photo strip + steps
+   HOW IT WORKS
    ════════════════════════════════════════ */
-.hp-hiw { background: var(--B); overflow: hidden; position: relative; }
-.hp-hiw::before {
-  content: ''; position: absolute; top: -100px; right: -100px;
-  width: 350px; height: 350px; border-radius: 50%;
-  background: rgba(63,169,245,.08); pointer-events: none;
+.hp-hiw {
+  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  overflow: hidden; position: relative; padding-bottom: 80px;
 }
+.hp-hiw::before {
+  content: ''; position: absolute; top: -120px; right: -120px;
+  width: 450px; height: 450px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(63,169,245,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hp-hiw::after {
+  content: ''; position: absolute; bottom: -80px; left: -60px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,138,61,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Tabs principaux ── */
 .hp-hiw-tabs {
-  display: flex; background: rgba(255,255,255,.1);
-  border-radius: var(--rl); padding: 4px;
-  width: fit-content; margin: 0 auto 52px;
+  display: flex; background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 50px; padding: 5px;
+  width: fit-content; margin: 0 auto 32px;
+  backdrop-filter: blur(8px);
 }
 .hp-hiw-tab {
-  padding: 10px 26px; border-radius: calc(var(--rl) - 4px);
+  padding: 11px 28px; border-radius: 50px;
   font-family: var(--F); font-size: 14px; font-weight: 600;
-  color: rgba(255,255,255,.6); background: none; border: none;
+  color: rgba(255,255,255,.55); background: none; border: none;
+  cursor: pointer; transition: var(--t); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.hp-hiw-tab i { font-size: 14px; }
+.hp-hiw-tab.active {
+  background: #fff; color: var(--B);
+  box-shadow: 0 2px 12px rgba(0,0,0,.15);
+  font-weight: 700;
+}
+.hp-hiw-tab:not(.active):hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.06); }
+
+/* ── Sous-tabs scénarios ── */
+.hp-hiw-subtabs {
+  display: flex; gap: 10px; justify-content: center;
+  margin-bottom: 48px; flex-wrap: wrap;
+}
+.hp-hiw-subtab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px; border-radius: 50px;
+  font-family: var(--F); font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.06);
+  border: 1.5px solid rgba(255,255,255,.15);
   cursor: pointer; transition: var(--t);
 }
-.hp-hiw-tab.active { background: #fff; color: var(--B); }
-.hp-hiw-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; }
+.hp-hiw-subtab i { font-size: 14px; }
+.hp-hiw-subtab.active {
+  background: var(--O); color: #fff;
+  border-color: var(--O);
+  box-shadow: 0 4px 16px rgba(255,138,61,.4);
+  font-weight: 700;
+}
+.hp-hiw-subtab:not(.active):hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.3);
+  color: #fff;
+}
+
+/* ── Grille de steps ── */
+.hp-hiw-steps {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 16px; position: relative;
+}
 .hp-hiw-steps::before {
-  content: ''; position: absolute; top: 24px;
-  left: calc(12.5% + 24px); right: calc(12.5% + 24px);
-  height: 2px; background: linear-gradient(90deg, rgba(255,138,61,.5), rgba(63,169,245,.5));
+  content: ''; position: absolute;
+  top: 50px; left: calc(12.5% + 26px); right: calc(12.5% + 26px);
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,138,61,.6), rgba(63,169,245,.6));
+  z-index: 0;
 }
-.hp-step { padding: 0 18px; text-align: center; }
+
+/* ── Card step ── */
+.hp-step {
+  padding: 28px 20px 24px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--rx);
+  text-align: center;
+  backdrop-filter: blur(6px);
+  transition: var(--t);
+  position: relative;
+}
+.hp-step:hover {
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.25);
+  transform: translateY(-4px);
+}
+/* Flèche entre steps */
+.hp-step:not(:last-child)::after {
+  content: '';
+  position: absolute; right: -8px; top: 46px;
+  width: 16px; height: 16px;
+  border-top: 2px solid rgba(255,138,61,.6);
+  border-right: 2px solid rgba(255,138,61,.6);
+  transform: rotate(45deg);
+  z-index: 2;
+}
 .hp-step-n {
-  width: 48px; height: 48px; background: var(--O);
-  border-radius: var(--r); display: flex; align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 800; color: #fff;
+  width: 52px; height: 52px; background: var(--O);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 19px; font-weight: 900; color: #fff;
   margin: 0 auto 18px; position: relative; z-index: 1;
-  box-shadow: 0 4px 14px rgba(255,138,61,.5);
+  box-shadow: 0 4px 18px rgba(255,138,61,.5);
+  border: 3px solid rgba(255,255,255,.25);
 }
-.hp-step h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-.hp-step p  { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.6; margin: 0; }
+.hp-step h3 { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -.3px; }
+.hp-step p  { font-size: 13px; color: rgba(255,255,255,.62); line-height: 1.65; margin: 0; }
 
 /* ════════════════════════════════════════
    SHOWCASE — Designer match (photo cards + stat pills)
    ════════════════════════════════════════ */
 .hp-showcase {
-  background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fe 40%, #deedfb 100%);
+  background: linear-gradient(160deg, #eef6ff 0%, #e3f0fd 50%, #d9ecfb 100%);
   padding: 40px;
   overflow: hidden;
 }
 .hp-showcase-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  min-height: 460px;
+  min-height: 500px;
+  max-width: 1300px; margin: 0 auto;
 }
 
 /* ── LEFT : Photo composition (man_woman.png — PNG transparent) ── */
@@ -382,7 +480,7 @@
 
 /* ── RIGHT : Text content ── */
 .hp-showcase-text {
-  padding: 56px 48px 56px 56px;
+  padding: 64px 56px 64px 64px;
   display: flex; flex-direction: column; justify-content: center;
 }
 .hp-sc-eyebrow {
@@ -444,16 +542,20 @@
    CATEGORIES
    ════════════════════════════════════════ */
 .hp-cats { background: var(--W); }
-.hp-cats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.hp-cats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
 .hp-cc {
-  background: var(--C); border: 1.5px solid #EDE9D4;
+  background: var(--W); border: 1.5px solid var(--L);
   border-radius: var(--rx); padding: 0; overflow: hidden;
   transition: var(--t); text-decoration: none; display: block;
+  box-shadow: 0 2px 10px rgba(0,73,127,.05);
 }
-.hp-cc:hover { border-color: var(--S); transform: translateY(-4px); box-shadow: var(--sh); }
-.hp-cc-img { width: 100%; height: 160px; overflow: hidden; position: relative; }
-.hp-cc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-.hp-cc:hover .hp-cc-img img { transform: scale(1.06); }
+.hp-cc:hover {
+  border-color: var(--S); transform: translateY(-5px);
+  box-shadow: var(--sh-md);
+}
+.hp-cc-img { width: 100%; height: 180px; overflow: hidden; position: relative; }
+.hp-cc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.hp-cc:hover .hp-cc-img img { transform: scale(1.07); }
 .hp-cc-img-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(0deg, rgba(0,73,127,.7) 0%, transparent 65%);
@@ -474,19 +576,37 @@
    STATS — dark blue band
    ════════════════════════════════════════ */
 .hp-stats {
-  background: linear-gradient(135deg, #003a66 0%, var(--B) 100%);
-  padding: 72px 0; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #002d50 0%, var(--B) 55%, #0d5c99 100%);
+  padding: 80px 0; position: relative; overflow: hidden;
+}
+.hp-stats::before {
+  content: ''; position: absolute; top: -100px; right: -80px;
+  width: 350px; height: 350px; border-radius: 50%;
+  background: rgba(63,169,245,.06); pointer-events: none;
 }
 .hp-stats::after {
   content: ''; position: absolute; bottom: -80px; left: -80px;
   width: 300px; height: 300px; border-radius: 50%;
-  background: rgba(63,169,245,.07);
+  background: rgba(255,138,61,.05);
 }
-.hp-sg { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; text-align: center; }
-.hp-sn { font-size: 50px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 8px; }
+.hp-sg {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 0; text-align: center;
+}
+.hp-sg > * {
+  padding: 0 32px;
+  border-right: 1px solid rgba(255,255,255,.1);
+}
+.hp-sg > *:last-child { border-right: none; }
+.hp-sn { font-size: 54px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 8px; letter-spacing: -2px; }
 .hp-sn span { color: var(--S); }
-.hp-sl { font-size: 14px; color: rgba(255,255,255,.65); font-weight: 500; }
-.hp-si { font-size: 28px; color: var(--O); margin-bottom: 12px; }
+.hp-sl { font-size: 14px; color: rgba(255,255,255,.6); font-weight: 500; letter-spacing: .2px; }
+.hp-si {
+  font-size: 22px; color: var(--O); margin-bottom: 14px;
+  background: rgba(255,138,61,.12); display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 12px;
+}
 
 /* ════════════════════════════════════════
    DUAL CTA — avec images artisans
@@ -500,7 +620,7 @@
 }
 .hp-db:hover { box-shadow: 0 12px 40px rgba(0,73,127,.18); transform: translateY(-3px); }
 .hp-db-photo {
-  width: 100%; height: 200px; overflow: hidden; position: relative;
+  width: 100%; height: 220px; overflow: hidden; position: relative;
 }
 .hp-db-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .hp-db-photo-overlay {
@@ -508,7 +628,7 @@
 }
 .hp-db--blue .hp-db-photo-overlay { background: linear-gradient(0deg, var(--B) 0%, rgba(0,73,127,.3) 100%); }
 .hp-db--cream .hp-db-photo-overlay { background: linear-gradient(0deg, var(--C) 0%, rgba(255,251,235,.2) 100%); }
-.hp-db-body { padding: 28px 32px 36px; }
+.hp-db-body { padding: 32px 36px 40px; }
 .hp-db--blue  { background: var(--B); border-color: var(--B); }
 .hp-db--cream { background: var(--W); }
 .hp-db--blue  h2 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 12px; }
@@ -561,7 +681,7 @@
 
 /* Nouvelle carte Pro "Zen" d'après les guidelines 2025 */
 .hp-pro-card {
-  background: var(--C); border-radius: 20px; padding: 12px;
+  background: white; border-radius: 20px; padding: 12px;
   transition: var(--t); box-shadow: 0 4px 20px rgba(0,73,127,.06);
   position: relative; display: flex; flex-direction: column;
 }
@@ -582,7 +702,7 @@
 
 .hp-pro-card-body { padding: 16px 4px 4px; display: flex; flex-direction: column; flex: 1; }
 .hp-pro-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
-.hp-pro-card-title { font-size: 16px; font-weight: 800; color: var(--D); margin: 0; line-height: 1.2; }
+.hp-pro-card-title { font-size: 16px; font-weight: 800; color: var(--B); margin: 0; line-height: 1.2; }
 .hp-pro-card-title a { color: inherit; text-decoration: none; }
 .hp-pro-card-rating { font-size: 13px; font-weight: 700; color: var(--D); display: flex; align-items: center; gap: 4px; }
 .hp-pro-card-rating i { color: #F59E0B; font-size: 15px; }
@@ -591,7 +711,7 @@
 
 .hp-pro-card-foot { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-top: auto; }
 .hp-pro-btn-contact {
-  background: var(--B); color: #fff; border-radius: 50px;
+  background: var(--S); color: #fff; border-radius: 50px;
   padding: 8px 16px; font-size: 13px; font-weight: 700;
   display: inline-flex; align-items: center; gap: 6px;
   text-decoration: none; transition: var(--t);
@@ -615,18 +735,18 @@
 .hp-nl { background: var(--B); position: relative; overflow: hidden; }
 .hp-nl::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(63,169,245,.1); }
 .hp-nl-inner { max-width: 580px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
-.hp-nl-form { display: flex; border-radius: var(--r); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.2); max-width: 460px; margin: 0 auto 14px; }
-.hp-nl-in { flex: 1; padding: 14px 18px; border: none; background: var(--W); font-family: var(--F); font-size: 15px; outline: none; }
-.hp-nl-btn { background: var(--O); color: #fff; border: none; padding: 14px 24px; font-family: var(--F); font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--t); }
-.hp-nl-btn:hover { background: #d96e10; transform: scale(1.02); }
+.hp-nl-form { display: flex; border-radius: 50px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.22); max-width: 480px; margin: 0 auto 14px; }
+.hp-nl-in { flex: 1; padding: 16px 22px; border: none; background: var(--W); font-family: var(--F); font-size: 15px; outline: none; border-radius: 50px 0 0 50px; }
+.hp-nl-btn { background: var(--O); color: #fff; border: none; padding: 16px 28px; font-family: var(--F); font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--t); border-radius: 0 50px 50px 0; white-space: nowrap; }
+.hp-nl-btn:hover { background: #d96e10; }
 .hp-nl-hint { font-size: 12px; color: rgba(255,255,255,.55); }
 
 /* ════════════════════════════════════════
    APP BANNER — fond Helper Blue, split
    ════════════════════════════════════════ */
 .hp-app-banner {
-  background: linear-gradient(135deg, #003a66 0%, var(--B) 60%, #0d5c99 100%);
-  padding: 80px 0; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, #002d50 0%, var(--B) 55%, #0d5c99 100%);
+  padding: 88px 0; overflow: hidden; position: relative;
 }
 .hp-app-banner::before {
   content: ''; position: absolute; top: -100px; right: -100px;
@@ -652,7 +772,7 @@
    ANIMATIONS
    ════════════════════════════════════════ */
 @media (prefers-reduced-motion: no-preference) {
-  .hf { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+  .hf { opacity: 0; transform: translateY(28px); transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1); }
   .hf.in { opacity: 1; transform: none; }
 }
 
@@ -667,7 +787,7 @@
 @media (max-width: 900px) {
   .hp-hero { grid-template-columns: 1fr; }
   .hp-hero-photo { min-height: 420px; }
-  .hp-hero-card { left: 24px; right: 24px; max-width: none; }
+  .hp-hero-card { left: 20px; right: 20px; max-width: none; width: auto; border-left-width: 4px; }
   .hp-hero-pro-inner { padding: 40px 24px; }
   .hp-hiw-steps { grid-template-columns: repeat(2,1fr); }
   .hp-hiw-steps::before { display: none; }
@@ -688,9 +808,11 @@
   .hp-sc-stats { flex-direction: column; gap: 8px; }
   .hp-sc-btns { flex-direction: column; }
   .hp-sc-btn-filled,.hp-sc-btn-outline { justify-content: center; }
-  .hp-hiw-tabs { width: 100%; }
-  .hp-hiw-tab { flex: 1; text-align: center; }
+  .hp-hiw-tabs { width: 100%; flex-direction: column; }
+  .hp-hiw-tab { flex: 1; text-align: center; justify-content: center; }
+  .hp-hiw-subtabs { flex-direction: column; align-items: center; }
   .hp-hiw-steps { grid-template-columns: 1fr; }
+  .hp-step:not(:last-child)::after { display: none; }
   .hp-cats-grid { grid-template-columns: 1fr; }
   .hp-val-grid { grid-template-columns: 1fr; }
   .hp-pg { grid-template-columns: 1fr; }
@@ -719,24 +841,24 @@
   {# Left — background photo with floating card #}
   <div class="hp-hero-photo">
     <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}"
-         alt="Bricolage et rénovation maison"
+         alt="Artisan en rénovation résidentielle au Canada — service professionnel vérifié"
          loading="eager">
 
     <div class="hp-hero-card">
       <p class="hp-eyebrow">
         <i class="feather-map-pin"></i>
-        Canada · Québec · Ontario · Alberta
+        Canada · Québec · Ontario · Alberta · C.-B.
       </p>
       <h1 class="hp-h1" id="hp-h1">
         Vos travaux,
-        <span>les bons pros.</span>
+        <span>le bon pro.</span>
       </h1>
-      <p class="hp-tagline">easy help, fast solutions — Drilleedo</p>
+      <p class="hp-tagline">Drilleedo · Easy help, Fast solutions.</p>
 
       {# Search bar #}
       <form class="hp-search" action="{{ path('professionals_list') }}" method="get" role="search">
         <i class="feather-search"></i>
-        <input type="text" name="keyword" placeholder="Ex: plombier, électricien, peintre..." aria-label="Rechercher un professionnel">
+        <input type="text" name="keyword" placeholder="Plombier, électricien, peintre, déménageur…" aria-label="Rechercher un professionnel">
         <button type="submit" class="hbtn hbtn-o" style="padding:0;width:44px;height:44px;border-radius:50%;justify-content:center;flex-shrink:0;">
           <i class="feather-arrow-right" style="font-size:18px;"></i>
         </button>
@@ -762,17 +884,17 @@
         </div>
         <div>
           <div class="hp-proof-stars">★★★★★</div>
-          <div class="hp-proof-text">2 500+ avis clients vérifiés</div>
+          <div class="hp-proof-text">2 500+ propriétaires satisfaits</div>
         </div>
       </div>
 
       {# CTAs — orange primaire, outline secondaire #}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
         <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o" style="flex:1;justify-content:center;">
-          <i class="feather-send"></i> Publier votre projet gratuitement
+          <i class="feather-send"></i> Publier mon projet — c'est gratuit
         </a>
         <a href="{{ path('professionals_list') }}" class="hbtn hbtn-g">
-          <i class="feather-search"></i> Voir les pros
+          <i class="feather-search"></i> Explorer les pros
         </a>
       </div>
     </div>
@@ -793,23 +915,23 @@
         </div>
       </div>
 
-      <h2>Développez<br>votre clientèle.</h2>
-      <p class="hp-hero-pro-sub">Rejoignez 1 500+ pros vérifiés. Recevez des demandes qualifiées dans votre secteur, construisez votre réputation, sans frais d'abonnement.</p>
+      <h2>Développez<br>votre activité.</h2>
+      <p class="hp-hero-pro-sub">Rejoignez 1 500+ artisans vérifiés au Canada. Recevez des demandes qualifiées près de chez vous, construisez votre réputation en ligne — sans abonnement, sans commission.</p>
 
       <div class="hp-pro-form">
         <form action="{{ path('app_register') }}" method="post" novalidate>
-          <label for="hero-email">Votre adresse courriel</label>
-          <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="pro@exemple.ca" required autocomplete="email" style="background: white;">
+          <label for="hero-email">Adresse courriel professionnelle</label>
+          <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="mon@entreprise.ca" required autocomplete="email" style="background: white;">
           <a href="{{ path('app_register_pro') }}" class="hbtn hbtn-o" style="width:100%;justify-content:center;text-decoration:none;font-size:15px;">
-            <i class="feather-user-plus"></i> Créer mon profil pro
+            <i class="feather-user-plus"></i> Rejoindre gratuitement
           </a>
         </form>
       </div>
 
       <div class="hp-pro-badges">
-        <span class="hp-pro-badge"><i class="feather-zap"></i> Profil actif en moins de 24 h</span>
-        <span class="hp-pro-badge"><i class="feather-shield"></i> Zéro abonnement requis</span>
-        <span class="hp-pro-badge"><i class="feather-trending-up"></i> +40% de demandes en moyenne</span>
+        <span class="hp-pro-badge"><i class="feather-zap"></i> Profil en ligne en moins de 24 h</span>
+        <span class="hp-pro-badge"><i class="feather-shield"></i> Sans abonnement ni commission</span>
+        <span class="hp-pro-badge"><i class="feather-trending-up"></i> +40% de demandes dès le 1er mois</span>
       </div>
     </div>
 
@@ -830,16 +952,16 @@
     <div class="hp-showcase-photos hf">
       <div class="hp-sc-collage">
         <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}"
-             alt="Professionnels Drilleedo" loading="lazy">
+             alt="Professionnels Drilleedo — plombier et jardinière vérifiés au Canada" loading="lazy">
       </div>
     </div>
 
     {# RIGHT — Texte + boutons + stats #}
     <div class="hp-showcase-text hf" style="transition-delay:.15s">
 
-      <p class="hp-sc-eyebrow">Welcome to Drilleedo</p>
+      <p class="hp-sc-eyebrow">Bienvenue sur Drilleedo</p>
       <h2 class="hp-sc-h2" id="hp-sc-h2">
-        Trouvez les Bons Pros<br>Facilement.
+        Des pros fiables,<br>partout au Canada.
       </h2>
 
       {# 3 boutons pills : 1 filled + 2 outline #}
@@ -856,8 +978,8 @@
       </div>
 
       <p class="hp-sc-p">
-        Drilleedo connecte les propriétaires canadiens avec des professionnels fiables et vérifiés.
-        Qualité, confiance et transparence sont au cœur de notre plateforme.
+        Drilleedo est la plateforme canadienne qui met en relation les propriétaires avec des artisans qualifiés et vérifiés.
+        Rénovation, plomberie, électricité, jardinage — trouvez le bon expert pour chaque besoin.
       </p>
 
       {# Stat pills — 3 badges colorés #}
@@ -867,7 +989,7 @@
             <i class="feather-check"></i>
           </div>
           <div>
-            <div style="font-weight:800;font-size:13px;color:var(--D);">35k+</div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">35 000+</div>
             <div class="hp-sc-stat-lbl">Projets réalisés</div>
           </div>
         </div>
@@ -876,8 +998,8 @@
             <i class="feather-star"></i>
           </div>
           <div>
-            <div style="font-weight:800;font-size:13px;color:var(--D);">Vérifiés</div>
-            <div class="hp-sc-stat-lbl">Professionnels seulement</div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">100 %</div>
+            <div class="hp-sc-stat-lbl">Pros certifiés &amp; vérifiés</div>
           </div>
         </div>
         <div class="hp-sc-stat">
@@ -902,36 +1024,129 @@
    ═══════════════════════════════════════════════════ #}
 <section class="hs hp-hiw" aria-labelledby="hp-hiw-h2">
   <div class="hw">
-    <div class="hc" style="margin-bottom:44px;">
-      <span class="hpill hpill-o"><i class="feather-zap"></i> Simple et rapide</span>
+
+    {# Titre de section #}
+    <div class="hc" style="margin-bottom:40px;">
+      <span class="hpill hpill-o"><i class="feather-zap"></i> Rapide &amp; facile</span>
       <h2 class="hh2 hh2-w" id="hp-hiw-h2">Comment ça marche</h2>
+      <p class="hl hlc" style="color:rgba(255,255,255,.65);">Deux façons de trouver votre artisan idéal — publiez un projet ou cherchez directement par vous-même.</p>
     </div>
-    <div class="hc" style="margin-bottom:52px;">
+
+    {# Tabs principaux : Propriétaire vs Pro #}
+    <div class="hc" style="margin-bottom:28px;">
       <div class="hp-hiw-tabs" role="tablist">
-        <button class="hp-hiw-tab active" role="tab" aria-selected="true" id="tab-o" aria-controls="steps-o" onclick="hiwSwitch('o',this)">Je cherche un Professionel</button>
-        <button class="hp-hiw-tab" role="tab" aria-selected="false" id="tab-p" aria-controls="steps-p" onclick="hiwSwitch('p',this)">Je suis professionnel</button>
+        <button class="hp-hiw-tab active" role="tab" aria-selected="true"
+                id="tab-o" aria-controls="panel-o"
+                onclick="hiwSwitch('o',this)">
+          <i class="feather-home"></i> Je cherche un Professionnel
+        </button>
+        <button class="hp-hiw-tab" role="tab" aria-selected="false"
+                id="tab-p" aria-controls="panel-p"
+                onclick="hiwSwitch('p',this)">
+          <i class="feather-tool"></i> Je suis professionnel
+        </button>
       </div>
     </div>
 
-    <div class="hp-hiw-steps" id="steps-o" role="tabpanel" aria-labelledby="tab-o">
-      <div class="hp-step hf"><div class="hp-step-n">1</div><h3>Publiez votre projet</h3><p>Décrivez vos besoins, localisation, budget. Gratuit et sans engagement.</p></div>
-      <div class="hp-step hf" style="transition-delay:.08s"><div class="hp-step-n">2</div><h3>Comparez les pros</h3><p>Profils vérifiés, portfolios, avis certifiés de vrais clients.</p></div>
-      <div class="hp-step hf" style="transition-delay:.16s"><div class="hp-step-n">3</div><h3>Recevez des devis</h3><p>Plusieurs devis compétitifs de spécialistes qualifiés.</p></div>
-      <div class="hp-step hf" style="transition-delay:.24s"><div class="hp-step-n">4</div><h3>Démarrez en confiance</h3><p>Choisissez le meilleur pro et lancez votre projet.</p></div>
-    </div>
+    {# ── Panneau Propriétaire (2 scénarios) ── #}
+    <div id="panel-o" role="tabpanel" aria-labelledby="tab-o">
 
-    <div class="hp-hiw-steps" id="steps-p" role="tabpanel" aria-labelledby="tab-p" style="display:none">
-      <div class="hp-step"><div class="hp-step-n">1</div><h3>Créez votre profil</h3><p>Inscrivez-vous, ajoutez certifications et portfolio.</p></div>
-      <div class="hp-step"><div class="hp-step-n">2</div><h3>Recevez des demandes</h3><p>Projets qualifiés dans votre secteur géographique.</p></div>
-      <div class="hp-step"><div class="hp-step-n">3</div><h3>Envoyez vos devis</h3><p>Répondez directement aux clients sans intermédiaire.</p></div>
-      <div class="hp-step"><div class="hp-step-n">4</div><h3>Développez votre réputation</h3><p>Collectez des avis vérifiés et attirez plus de clients.</p></div>
-    </div>
+      {# Sous-tabs scénarios #}
+      <div class="hc">
+        <div class="hp-hiw-subtabs">
+          <button class="hp-hiw-subtab active"
+                  id="stab-o1" onclick="hiwSubSwitch('o1', this)">
+            <i class="feather-file-text"></i> Publier mon projet
+          </button>
+          <button class="hp-hiw-subtab"
+                  id="stab-o2" onclick="hiwSubSwitch('o2', this)">
+            <i class="feather-search"></i> Je cherche moi-même
+          </button>
+        </div>
+      </div>
 
-    <div class="hc" style="margin-top:48px;">
+      {# Scénario 1 — Publier un projet #}
+      <div class="hp-hiw-steps" id="steps-o1">
+        <div class="hp-step hf">
+          <div class="hp-step-n">1</div>
+          <h3>Publiez votre projet</h3>
+          <p>Décrivez vos besoins, localisation, budget. Gratuit et sans engagement.</p>
+        </div>
+        <div class="hp-step hf" style="transition-delay:.08s">
+          <div class="hp-step-n">2</div>
+          <h3>Comparez les pros</h3>
+          <p>Profils vérifiés, portfolios, avis certifiés de vrais clients.</p>
+        </div>
+        <div class="hp-step hf" style="transition-delay:.16s">
+          <div class="hp-step-n">3</div>
+          <h3>Recevez vos devis</h3>
+          <p>Jusqu'à 5 devis compétitifs de spécialistes qualifiés, en moins de 24 h.</p>
+        </div>
+        <div class="hp-step hf" style="transition-delay:.24s">
+          <div class="hp-step-n">4</div>
+          <h3>Démarrez sereinement</h3>
+          <p>Comparez, choisissez le meilleur rapport qualité-prix et lancez votre projet.</p>
+        </div>
+      </div>
+
+      {# Scénario 2 — Je cherche moi-même #}
+      <div class="hp-hiw-steps" id="steps-o2" style="display:none">
+        <div class="hp-step">
+          <div class="hp-step-n">1</div>
+          <h3>Recherchez un professionnel</h3>
+          <p>Parcourez les profils selon votre besoin et votre localisation.</p>
+        </div>
+        <div class="hp-step">
+          <div class="hp-step-n">2</div>
+          <h3>Comparez les meilleurs profils</h3>
+          <p>Consultez avis, réalisations et expériences en détail.</p>
+        </div>
+        <div class="hp-step">
+          <div class="hp-step-n">3</div>
+          <h3>Envoyez une demande</h3>
+          <p>Contactez directement les professionnels qui vous intéressent.</p>
+        </div>
+        <div class="hp-step">
+          <div class="hp-step-n">4</div>
+          <h3>Lancez en toute confiance</h3>
+          <p>Échangez, choisissez et démarrez votre projet.</p>
+        </div>
+      </div>
+
+    </div>{# /panel-o #}
+
+    {# ── Panneau Professionnel ── #}
+    <div id="panel-p" role="tabpanel" aria-labelledby="tab-p" style="display:none">
+      <div class="hp-hiw-steps" id="steps-p">
+        <div class="hp-step">
+          <div class="hp-step-n">1</div>
+          <h3>Créez votre profil</h3>
+          <p>Inscrivez-vous gratuitement, ajoutez vos certifications, licences et portfolio de réalisations.</p>
+        </div>
+        <div class="hp-step">
+          <div class="hp-step-n">2</div>
+          <h3>Recevez des demandes</h3>
+          <p>Recevez des projets qualifiés dans votre secteur — clients sérieux, besoins précis, localisation ciblée.</p>
+        </div>
+        <div class="hp-step">
+          <div class="hp-step-n">3</div>
+          <h3>Envoyez vos devis</h3>
+          <p>Soumettez vos devis directement aux propriétaires intéressés — sans intermédiaire, sans commission.</p>
+        </div>
+        <div class="hp-step">
+          <div class="hp-step-n">4</div>
+          <h3>Développez votre réputation</h3>
+          <p>Accumulez des avis certifiés, renforcez votre crédibilité en ligne et attirez toujours plus de clients.</p>
+        </div>
+      </div>
+    </div>{# /panel-p #}
+
+    <div class="hc" style="margin-top:52px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
-        <i class="feather-arrow-right"></i> Commencer maintenant
+        <i class="feather-arrow-right"></i> Trouver mon pro maintenant
       </a>
     </div>
+
   </div>
 </section>
 
@@ -1023,9 +1238,9 @@
 <section class="hs hp-pros" aria-labelledby="hp-fp-h2">
   <div class="hw">
     <div class="hc" style="margin-bottom:52px;">
-      <span class="hpill hpill-o"><i class="feather-award"></i> Nos mieux notés</span>
-      <h2 class="hh2" id="hp-fp-h2">Professionnels vedettes</h2>
-      <p class="hl hlc">Vérifiés, évalués et plébiscités par notre communauté de propriétaires.</p>
+      <span class="hpill hpill-o"><i class="feather-award"></i> Top professionnels</span>
+      <h2 class="hh2" id="hp-fp-h2">Professionnels en vedette</h2>
+      <p class="hl hlc">Les mieux notés par notre communauté : identité vérifiée, avis certifiés et portfolio complet.</p>
     </div>
     <div class="hp-pg">
       {% for pro in featuredProfessionals|slice(0, 8) %}
@@ -1050,15 +1265,15 @@
 <section class="hss hp-nl" aria-labelledby="hp-nl-h2">
   <div class="hw">
     <div class="hp-nl-inner">
-      <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-mail"></i> Restez informé</span>
-      <h2 class="hh2 hh2-w" id="hp-nl-h2" style="font-size:30px;margin-bottom:10px;">Conseils rénovation & offres exclusives</h2>
-      <p class="hl hlc" style="color:rgba(255,255,255,.72);margin-bottom:28px;">Astuces de pros, tendances et meilleures offres directement dans votre boîte.</p>
+      <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-mail"></i> Infolettre gratuite</span>
+      <h2 class="hh2 hh2-w" id="hp-nl-h2" style="font-size:30px;margin-bottom:10px;">Projets, tendances &amp; bons plans rénovation</h2>
+      <p class="hl hlc" style="color:rgba(255,255,255,.72);margin-bottom:28px;">Conseils d'experts, idées de projets et offres exclusives — directement dans votre boîte une fois par mois.</p>
       <form class="hp-nl-form" action="#" method="post" novalidate>
         <label for="nl-email" class="sr-only">Votre adresse courriel</label>
         <input type="email" id="nl-email" name="newsletter_email" class="hp-nl-in" placeholder="votre@courriel.ca" required autocomplete="email">
         <button type="submit" class="hp-nl-btn">S'inscrire</button>
       </form>
-      <p class="hp-nl-hint"><i class="feather-lock" style="margin-right:4px;color:rgba(255,255,255,.4);"></i> Pas de spam. Désabonnement facile à tout moment.</p>
+      <p class="hp-nl-hint"><i class="feather-lock" style="margin-right:4px;color:rgba(255,255,255,.4);"></i> Aucun spam. Désabonnement en un clic, à tout moment.</p>
     </div>
   </div>
 </section>
@@ -1066,12 +1281,26 @@
 </div>{# /hp #}
 
 <script>
+/* Tabs principaux : propriétaire / professionnel */
 function hiwSwitch(tab, btn) {
   ['o','p'].forEach(function(t) {
-    var el = document.getElementById('steps-' + t);
-    var b  = document.getElementById('tab-'   + t);
-    if (el) el.style.display = (t === tab) ? 'grid' : 'none';
-    if (b)  { b.classList.toggle('active', t === tab); b.setAttribute('aria-selected', t === tab ? 'true' : 'false'); }
+    var panel = document.getElementById('panel-' + t);
+    var b     = document.getElementById('tab-'   + t);
+    if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
+    if (b) {
+      b.classList.toggle('active', t === tab);
+      b.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+    }
+  });
+}
+
+/* Sous-tabs scénarios propriétaire */
+function hiwSubSwitch(sub, btn) {
+  ['o1','o2'].forEach(function(s) {
+    var panel = document.getElementById('steps-' + s);
+    var b     = document.getElementById('stab-'  + s);
+    if (panel) panel.style.display = (s === sub) ? 'grid' : 'none';
+    if (b) b.classList.toggle('active', s === sub);
   });
 }
 (function () {
