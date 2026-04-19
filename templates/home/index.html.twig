@@ -72,7 +72,7 @@
   transition: var(--t); padding: 13px 28px; line-height: 1;
   letter-spacing: .2px;
 }
-.hbtn-o { background: var(--O); color: #fff; box-shadow: 0 4px 18px rgba(255,138,61,.35); }
+.hbtn-o { background: var(--B); color: #fff;}
 .hbtn-o:hover { background: #e87830; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,138,61,.45); color: #fff; }
 .hbtn-b { background: var(--B); color: #fff; box-shadow: 0 4px 16px rgba(0,73,127,.25); }
 .hbtn-b:hover { background: #003a66; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,73,127,.3); color: #fff; }
@@ -109,8 +109,7 @@
     left: 8%;
     transform: translateY(-50%);
     background: #fff;
-    border-radius: var(--rx);
-    border-left: 5px solid var(--O);
+    border-radius: var(--r);
     padding: 44px 40px;
     max-width: 78%;
     width: 78%;
@@ -190,88 +189,86 @@
 .hp-proof-stars { color: #F59E0B; font-size: 13px; line-height: 1; margin-bottom: 2px; }
 .hp-proof-text { font-size: 11.5px; color: var(--M); font-weight: 500; }
 
-/* Right: blue pro panel — illustration en absolu bas-droite */
+/* Right: panel pro — style référence exacte */
+/* ── Panel pro — style exact référence ── */
 .hp-hero-pro {
-  background: #00497F;
+  background: #0f52a0;
   position: relative;
   display: flex; flex-direction: column; justify-content: center;
   overflow: hidden;
 }
-.hp-hero-pro::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
-}
-/* Subtle bottom glow */
-.hp-hero-pro::after {
-  content: '';
-  position: absolute; left: 50%; bottom: -60px;
-  transform: translateX(-50%);
-  width: 300px; height: 300px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,.05) 0%, transparent 70%);
-  pointer-events: none;
-}
 .hp-hero-pro-bg      { display: none; }
 .hp-hero-pro-overlay { display: none; }
+.hp-hero-pro-art     { display: none; }
+.hp-hero-pro-illus   { display: none; }
+
 .hp-hero-pro-inner {
   position: relative; z-index: 2;
-  padding: 40px 32px;
+  padding: 36px 30px;
 }
-/* Illustration SVG artisan — collée bas-droite */
-.hp-hero-pro-art {
-  position: absolute;
-  bottom: 0; right: 0;
-  height: 88%; z-index: 1;
-  pointer-events: none;
-}
-.hp-hero-pro-art img {
-  height: 100%; width: auto;
-  display: block;
-  object-fit: contain;
-  object-position: bottom right;
-  filter: drop-shadow(-6px 0 20px rgba(0,0,0,.2));
-}
-/* Pro photo badge */
+
+/* Badge : carte portrait sky-blue à gauche + texte à droite */
 .hp-pro-photo-badge {
-  display: flex; align-items: center; gap: 14px;
-  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
-  border-radius: var(--rl); padding: 14px 18px;
-  margin-bottom: 24px; backdrop-filter: blur(8px);
+  display: flex; align-items: flex-end; gap: 16px;
+  margin-bottom: 22px;
+  background: none; border: none; padding: 0; backdrop-filter: none;
 }
-.hp-pro-photo-badge img {
-  width: 56px; height: 56px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--O);
+.hp-pro-photo-badge-img {
+  width: 108px; height: 130px;
+  border-radius: 4px;
+  overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: flex-end; justify-content: center;
 }
-.hp-pro-photo-badge-text { font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.5; }
-.hp-pro-photo-badge-name { font-weight: 700; color: #fff; }
+.hp-pro-photo-badge-img img {
+  width: 105px; height: auto; display: block;
+  object-fit: contain; object-position: bottom center;
+}
+.hp-pro-photo-badge-text {
+  padding-bottom: 6px;
+  font-size: 13px; color: rgba(255,255,255,.8); line-height: 1.5;
+}
+.hp-pro-photo-badge-name {
+  font-size: 22px; font-weight: 800; color: var(--S) !important;
+  letter-spacing: -.3px; line-height: 1.1;
+}
+
+/* H2 et sous-titre */
 .hp-hero-pro-inner h2 {
-  font-size: 32px; font-weight: 800; color: #fff;
-  margin-bottom: 10px; letter-spacing: -.8px;
+  font-size: 30px; font-weight: 800; color: #fff;
+  margin-bottom: 8px; letter-spacing: -.6px; line-height: 1.15;
 }
 .hp-hero-pro-sub {
-  font-size: 15px; color: rgba(255,255,255,.72);
-  margin-bottom: 24px; line-height: 1.65;
+  font-size: 14px; color: rgba(255,255,255,.7);
+  margin-bottom: 20px; line-height: 1.6;
 }
+
+/* Form — sans container glass, direct */
 .hp-pro-form {
-  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.2);
-  border-radius: var(--rl); padding: 22px; margin-bottom: 22px;
+  background: none; border: none;
+  padding: 0; margin-bottom: 16px;
 }
 .hp-pro-form label {
   display: block; font-size: 11px; font-weight: 700;
-  color: rgba(255,255,255,.6); text-transform: uppercase;
+  color: rgba(255,255,255,.55); text-transform: uppercase;
   letter-spacing: .6px; margin-bottom: 7px;
 }
 .hp-pro-input {
-  width: 100%; padding: 12px 16px;
-  background: rgba(255,255,255,.95); border: 1.5px solid transparent;
-  border-radius: var(--r); font-family: var(--F); font-size: 15px;
-  outline: none; transition: var(--t); margin-bottom: 14px; color: var(--D);
+  width: 100%; padding: 13px 16px;
+  background: #fff; border: 1.5px solid #3FA9F5;
+  border-radius: var(--r); font-family: var(--F); font-size: 14px;
+  outline: none; transition: var(--t); margin-bottom: 10px; color: var(--D);
 }
-.hp-pro-input:focus { border-color: var(--S); }
-.hp-pro-badges { display: flex; flex-direction: column; gap: 8px; }
-.hp-pro-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.75); }
-.hp-pro-badge i { color: var(--S); }
+.hp-pro-input:focus { border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.25); }
+/* Bouton pleine largeur bleu ciel — comme référence */
+.hp-pro-form .hbtn-o {
+  background: var(--S) !important; color: #fff !important;
+  box-shadow: 0 4px 16px rgba(63,169,245,.4) !important;
+}
+.hp-pro-form .hbtn-o:hover { background: #2a95e0 !important; }
+
+.hp-pro-badges { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+.hp-pro-badge { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(255,255,255,.7); }
+.hp-pro-badge i { color: var(--S); font-size: 14px; }
 /* Hero search card */
 .hp-hero-card { background: #fff; }
 .hp-mini-trust { gap: 16px; margin-top: 8px; }
@@ -849,7 +846,7 @@
         Canada · Québec · Ontario · Alberta · C.-B.
       </p>
       <h1 class="hp-h1" id="hp-h1">
-        Vos travaux,
+        <span>Vos travaux,</span>
         <span>le bon pro.</span>
       </h1>
       <p class="hp-tagline">Drilleedo · Easy help, Fast solutions.</p>
@@ -899,18 +896,19 @@
     </div>
   </div>
 
-  {# Right — blue pro panel : content left + illustration right #}
+  {# Right — panel pro — style exact référence #}
   <div class="hp-hero-pro">
     <div class="hp-hero-pro-inner">
 
-      {# Badge "Drilleedo / for the professionals" #}
+      {# Badge : carte sky-blue avec Banner Man + texte Drilleedo #}
       <div class="hp-pro-photo-badge">
-        <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
-          <i class="feather-briefcase" style="color:#fff;font-size:20px;"></i>
+        <div class="hp-pro-photo-badge-img">
+          <img src="{{ asset('assets/drilleedo/images/stock/banner_man.svg') }}"
+               alt="Professionnel Drilleedo" loading="eager">
         </div>
         <div class="hp-pro-photo-badge-text">
-          <div class="hp-pro-photo-badge-name" style="font-size:15px;letter-spacing:.2px;">Drilleedo</div>
-          <span style="color:rgba(255,255,255,.55);font-size:11.5px;letter-spacing:.3px;">for the professionals</span>
+          <div class="hp-pro-photo-badge-name">Drilleedo</div>
+          <span>| For the professionals</span>
         </div>
       </div>
 
@@ -922,14 +920,14 @@
           <label for="hero-email">Adresse courriel professionnelle</label>
           <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="mon@entreprise.ca" required autocomplete="email" style="background: white;">
           <a href="{{ path('app_register_pro') }}" class="hbtn hbtn-o" style="width:100%;justify-content:center;text-decoration:none;font-size:15px;">
-            <i class="feather-user-plus"></i> Rejoindre gratuitement
+            <i class="feather-user-plus"></i> Rejoindre maintenant
           </a>
         </form>
       </div>
 
       <div class="hp-pro-badges">
         <span class="hp-pro-badge"><i class="feather-zap"></i> Profil en ligne en moins de 24 h</span>
-        <span class="hp-pro-badge"><i class="feather-shield"></i> Sans abonnement ni commission</span>
+        <span class="hp-pro-badge"><i class="feather-shield"></i> Sans commission</span>
         <span class="hp-pro-badge"><i class="feather-trending-up"></i> +40% de demandes dès le 1er mois</span>
       </div>
     </div>
