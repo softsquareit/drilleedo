@@ -672,58 +672,96 @@
 /* ════════════════════════════════════════
    FEATURED PROS
    ════════════════════════════════════════ */
-.hp-pros { background: var(--C); }
-.hp-pg { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+/* ════════════════════════════════════════
+   CARTE PROFESSIONNEL — Style officiel maquette
+   Section fond bleu ciel · carte blanche avec padding photo
+   Rating badge absolu top-right · footer pill buttons
+   ════════════════════════════════════════ */
+.hp-pros { background: var(--S); }
+.hp-pg   { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
 
-/* Nouvelle carte Pro "Zen" d'après les guidelines 2025 */
 .hp-pro-card {
-  background: white; border-radius: 20px; padding: 12px;
-  transition: var(--t); box-shadow: 0 4px 20px rgba(0,73,127,.06);
-  position: relative; display: flex; flex-direction: column;
+  background: #fff; border-radius: 18px; padding: 10px;
+  box-shadow: 0 4px 20px rgba(0,73,127,.08);
+  display: flex; flex-direction: column;
+  transition: var(--t);
 }
-.hp-pro-card:hover { transform: translateY(-4px); box-shadow: var(--sh); }
-.hp-pro-card-badge {
-  position: absolute; top: 22px; left: 22px; z-index: 2;
-  background: #fff; color: var(--B); font-size: 12px; font-weight: 800;
-  padding: 6px 12px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,.15);
-  display: flex; align-items: center; gap: 5px;
-}
-.hp-pro-card-badge i { color: var(--O); font-size: 14px; }
+.hp-pro-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,73,127,.16); }
+
+/* Photo — inside padding with rounded corners */
 .hp-pro-card-img {
-  width: 100%; height: 210px; overflow: hidden; border-radius: 12px;
-  background: var(--L);
+  width: 100%; height: 175px; border-radius: 12px;
+  overflow: hidden; position: relative; background: var(--L);
 }
-.hp-pro-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
-.hp-pro-card:hover .hp-pro-card-img img { transform: scale(1.05); }
+.hp-pro-card-img a { display: block; width: 100%; height: 100%; }
+.hp-pro-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  transition: transform .5s;
+}
+.hp-pro-card:hover .hp-pro-card-img img { transform: scale(1.04); }
 
-.hp-pro-card-body { padding: 16px 4px 4px; display: flex; flex-direction: column; flex: 1; }
-.hp-pro-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
-.hp-pro-card-title { font-size: 16px; font-weight: 800; color: var(--B); margin: 0; line-height: 1.2; }
+/* Rating badge — absolu top-right SUR la photo */
+.hp-pro-card-rating {
+position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background: #ffffff;
+    border-radius: 50px;
+    padding: 2px 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--B);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+    pointer-events: none;
+}
+.hp-pro-card-rating i { color: #fff; font-size: 12px; }
+.hp-pro-card-rating .hp-star-icon {
+  color: var(--B);
+  font-size: 14px; line-height: 1;
+}
+.hp-pros .hh2 { color: var(--B); }
+
+/* Body */
+.hp-pro-card-body   { padding: 12px 4px 4px; display: flex; flex-direction: column; flex: 1; }
+.hp-pro-card-header { margin-bottom: 2px; }
+.hp-pro-card-title  { font-size: 18px; font-weight: 800; color: var(--B); margin: 0; line-height: 1.2; }
 .hp-pro-card-title a { color: inherit; text-decoration: none; }
-.hp-pro-card-rating { font-size: 13px; font-weight: 700; color: var(--D); display: flex; align-items: center; gap: 4px; }
-.hp-pro-card-rating i { color: #F59E0B; font-size: 15px; }
+.hp-pro-card-sub    { font-size: 13px; color: var(--M); margin-bottom: 12px; }
 
-.hp-pro-card-sub { font-size: 13px; color: var(--M); margin-bottom: 14px; }
-
-.hp-pro-card-foot { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-top: auto; }
+/* Footer : Contact pill · Prix pill · Icône liste cercle */
+.hp-pro-card-foot { display: flex; align-items: center; gap: 8px; margin-top: auto; }
 .hp-pro-btn-contact {
   background: var(--S); color: #fff; border-radius: 50px;
-  padding: 8px 16px; font-size: 13px; font-weight: 700;
-  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px 5px 5px; font-size: 13px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 8px;
   text-decoration: none; transition: var(--t);
 }
-.hp-pro-btn-contact:hover { background: #003865; color: #fff; }
+.hp-pro-btn-contact:hover { background: #2a95e0; color: #fff; }
+.hp-pro-btn-contact .hp-btn-icon-circle {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--B);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hp-pro-btn-contact .hp-btn-icon-circle i { color: #fff; font-size: 13px; }
 .hp-pro-tag {
   background: var(--O); color: #fff; border-radius: 50px;
-  padding: 8px 14px; font-size: 13px; font-weight: 800;
-  display: inline-flex; align-items: center; gap: 5px;
+  padding: 9px 12px; font-size: 13px; font-weight: 800;
+  display: inline-flex; align-items: center;
 }
 .hp-pro-btn-view {
-  margin-left: auto; color: var(--B); font-size: 18px;
+  margin-left: auto;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #eef2f7; color: var(--M); font-size: 15px;
   display: flex; align-items: center; justify-content: center;
-  transition: var(--t); text-decoration: none;
+  text-decoration: none; transition: var(--t); flex-shrink: 0;
 }
-.hp-pro-btn-view:hover { color: var(--S); }
+.hp-pro-btn-view:hover { background: var(--S); color: #fff; }
 
 /* ════════════════════════════════════════
    NEWSLETTER
@@ -731,8 +769,8 @@
 .hp-nl { background: var(--B); position: relative; overflow: hidden; }
 .hp-nl::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(63,169,245,.1); }
 .hp-nl-inner { max-width: 580px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
-.hp-nl-form { display: flex; border-radius: 50px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.22); max-width: 480px; margin: 0 auto 14px; }
-.hp-nl-in { flex: 1; padding: 16px 22px; border: none; background: var(--W); font-family: var(--F); font-size: 15px; outline: none; border-radius: 50px 0 0 50px; }
+.hp-nl-form { display: flex; border-radius: var(--radius) 1  var(--radius) 1  !important; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.22); max-width: 480px; margin: 0 auto 14px; }
+.hp-nl-in { flex: 1; padding: 16px 22px; border: none; background: var(--W) !important; font-family: var(--F); font-size: 15px; outline: none; border-radius: 50px 0 0 50px; }
 .hp-nl-btn { background: var(--O); color: #fff; border: none; padding: 16px 28px; font-family: var(--F); font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--t); border-radius: 0 50px 50px 0; white-space: nowrap; }
 .hp-nl-btn:hover { background: #d96e10; }
 .hp-nl-hint { font-size: 12px; color: rgba(255,255,255,.55); }
@@ -1235,7 +1273,7 @@
 <section class="hs hp-pros" aria-labelledby="hp-fp-h2">
   <div class="hw">
     <div class="hc" style="margin-bottom:52px;">
-      <span class="hpill hpill-o"><i class="feather-award"></i> Top professionnels</span>
+      <span class="hpill hpill-w"><i class="feather-award"></i> Top professionnels</span>
       <h2 class="hh2" id="hp-fp-h2">Professionnels en vedette</h2>
       <p class="hl hlc">Les mieux notés par notre communauté : identité vérifiée, avis certifiés et portfolio complet.</p>
     </div>

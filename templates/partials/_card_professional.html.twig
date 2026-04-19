@@ -13,7 +13,7 @@
                  loading="lazy">
         </a>
         <div class="hp-pro-card-rating">
-            <i class="feather-star"></i> {{ (pro.stats ? pro.stats.averageRating : 4.5)|number_format(1) }}
+            <span class="hp-star-icon">&#9733;</span>{{ (pro.stats ? pro.stats.averageRating : 4.5)|number_format(1) }}
         </div>
     </div>
 
@@ -33,7 +33,8 @@
 
         <div class="hp-pro-card-foot">
             <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': pro.id}) }}" class="hp-pro-btn-contact">
-                <i class="feather-phone" style="font-size:14px;"></i> Contact
+                <span class="hp-btn-icon-circle"><i class="feather-phone"></i></span>
+                Contact
             </a>
 
             <span class="hp-pro-tag">

@@ -456,68 +456,145 @@ Pattern standard pour icônes avec fond coloré :
 
 ### 7.3 Card Professionnel
 
-Design de référence extrait des maquettes officielles (p. 18 Brand Guidelines + screenshot) :
+> **Style officiel validé** — extrait de la maquette `web-site-better-version.jpg`.  
+> À utiliser sur toutes les pages qui affichent des listes de professionnels.
+
+#### Structure visuelle
 
 ```
-┌─────────────────────────┐
-│                         │
-│    [PHOTO DU PRO]       │  ← Photo carrée/portrait, object-fit: cover
-│                         │
-├─────────────────────────┤
-│  Plumber          ★4.5  │  ← Titre métier (bold) + étoile jaune + note
-│  Mike D                 │  ← Prénom/Nom (smaller, gris)
-├─────────────────────────┤
-│  [⊙ Contact] [15$] [≡] │  ← CTA bleu pill + badge prix orange + menu
-└─────────────────────────┘
+┌──────────────────────────────┐  ← carte blanche, border-radius: 18px, padding: 10px
+│  ┌────────────────────┐ ★4.5│  ← photo arrondie (12px) + badge rating absolu top-right
+│  │                    │     │     badge: fond blanc, pill, ombre légère
+│  │   [PHOTO PRO]      │     │     étoile: #F59E0B
+│  │                    │     │
+│  └────────────────────┘     │
+│  Plumber                    │  ← titre profession: 18px, 800, #0C1825
+│  Mike D.                    │  ← nom: 13px, #4A6073
+│  [📞 Contact] [15$]    [≡] │  ← Contact pill sky (#3FA9F5) · prix pill orange (#FF8A3D)
+└──────────────────────────────┘    icône liste: cercle gris 36px, hover → sky blue
 ```
+
+#### Couleurs de la section
+| Élément | Valeur |
+|---|---|
+| Fond de section | `#dde9ff` (bleu ciel très clair) |
+| Fond carte | `#ffffff` |
+| Titre profession | `#0C1825` (--D) |
+| Nom | `#4A6073` (--M) |
+| Bouton Contact | `#3FA9F5` (--S, Action Sky) |
+| Badge prix | `#FF8A3D` (--O, Toolbox Orange) |
+| Bouton liste | `#eef2f7` → hover `#3FA9F5` |
+| Rating étoile | `#F59E0B` |
+
+#### CSS de référence (classes Twig `_card_professional.html.twig`)
 
 ```css
-.pro-card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 20px rgba(26,61,110,.12);
-  overflow: hidden;
-  transition: transform .22s, box-shadow .22s;
-  max-width: 240px;
+/* Section */
+.hp-pros { background: var(--S);}
+.hp-pg   { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+
+/* Carte */
+.hp-pro-card {
+  background: #fff; border-radius: 18px; padding: 10px;
+  box-shadow: 0 4px 20px rgba(0,73,127,.08);
+  display: flex; flex-direction: column;
+  transition: all .22s ease;
 }
-.pro-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 36px rgba(26,61,110,.18);
+.hp-pro-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,73,127,.16); }
+
+/* Photo — à l'intérieur du padding, coins arrondis */
+.hp-pro-card-img {
+  width: 100%; height: 175px; border-radius: 12px;
+  overflow: hidden; position: relative; background: #E4EBF2;
 }
-.pro-card-photo {
-  width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+.hp-pro-card-img a { display: block; width: 100%; height: 100%; }
+.hp-pro-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  transition: transform .5s;
 }
-.pro-card-body {
-  padding: 14px 16px 12px;
-}
-.pro-card-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 4px;
-}
-.pro-card-title {
-  font-size: 16px; font-weight: 800; color: #0C1825;
-}
-.pro-card-rating {
+.hp-pro-card:hover .hp-pro-card-img img { transform: scale(1.04); }
+
+/* Badge rating — ABSOLU top-right SUR la photo */
+.hp-pro-card-rating {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  background: #fff; border-radius: 50px;
+  padding: 5px 10px 5px 8px;
+  font-size: 12.5px; font-weight: 800; color: #0C1825;
   display: flex; align-items: center; gap: 4px;
-  font-size: 13px; font-weight: 700; color: #F5821F;
+  box-shadow: 0 2px 10px rgba(0,0,0,.13);
 }
-.pro-card-rating::before { content: '★'; }
-.pro-card-name {
-  font-size: 13px; color: #475569; margin-bottom: 12px;
+.hp-pro-card-rating i { color: #F59E0B; font-size: 13px; } /* feather-star */
+
+/* Corps */
+.hp-pro-card-body  { padding: 12px 4px 4px; display: flex; flex-direction: column; flex: 1; }
+.hp-pro-card-title { font-size: 18px; font-weight: 800; color: #0C1825; margin: 0; line-height: 1.2; }
+.hp-pro-card-sub   { font-size: 13px; color: #4A6073; margin-bottom: 12px; }
+
+/* Footer */
+.hp-pro-card-foot { display: flex; align-items: center; gap: 8px; margin-top: auto; }
+
+.hp-pro-btn-contact {
+  background: #3FA9F5; color: #fff; border-radius: 50px;
+  padding: 9px 14px; font-size: 13px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none;
 }
-.pro-card-actions {
-  display: flex; align-items: center; gap: 8px;
+.hp-pro-btn-contact:hover { background: #2a95e0; }
+
+.hp-pro-tag {
+  background: #FF8A3D; color: #fff; border-radius: 50px;
+  padding: 9px 12px; font-size: 13px; font-weight: 800;
+  display: inline-flex; align-items: center;
 }
-/* btn-contact + badge-price définis ci-dessus */
-.pro-card-menu {
+
+.hp-pro-btn-view {
   margin-left: auto;
-  width: 32px; height: 32px; border-radius: 8px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #eef2f7; color: #4A6073; font-size: 15px;
   display: flex; align-items: center; justify-content: center;
-  background: #F0F4F8; cursor: pointer;
-  transition: background .2s;
+  text-decoration: none; flex-shrink: 0;
 }
-.pro-card-menu:hover { background: #E4EBF2; }
+.hp-pro-btn-view:hover { background: #3FA9F5; color: #fff; }
 ```
+
+#### HTML Twig minimal (partiel réutilisable)
+
+```twig
+<div class="hp-pro-card">
+  <div class="hp-pro-card-img">
+    <a href="{{ path('professional_details', ...) }}">
+      <img src="{{ pro.banner ? asset('uploads/banners/'~pro.banner) : asset('assets/drilleedo/images/team/plumber.png') }}"
+           alt="{{ pro.displayName }}" loading="lazy">
+    </a>
+    <div class="hp-pro-card-rating">
+      <i class="feather-star"></i> {{ pro.stats.averageRating|number_format(1) }}
+    </div>
+  </div>
+  <div class="hp-pro-card-body">
+    <div class="hp-pro-card-header">
+      <h3 class="hp-pro-card-title"><a href="...">{{ pro.category.name }}</a></h3>
+    </div>
+    <div class="hp-pro-card-sub">{{ pro.displayName }}</div>
+    <div class="hp-pro-card-foot">
+      <a href="{{ path('individual_direct_request_new', ...) }}" class="hp-pro-btn-contact">
+        <i class="feather-phone"></i> Contact
+      </a>
+      <span class="hp-pro-tag">{{ pro.minPrice ?? '15' }}$</span>
+      <a href="{{ path('professional_details', ...) }}" class="hp-pro-btn-view">
+        <i class="feather-list"></i>
+      </a>
+    </div>
+  </div>
+</div>
+```
+
+> **Règles importantes :**
+> - Icônes : `feather-star`, `feather-phone`, `feather-list` — jamais Phosphor
+> - Le badge rating est **positionné en absolu sur la photo**, pas dans le body
+> - Le titre affiche la **profession/catégorie**, pas le nom
+> - Le nom s'affiche en sous-titre gris
+> - Le bouton Contact utilise `--S` (Action Sky `#3FA9F5`), jamais `--B`
 
 #### Variante étendue (list view)
 Pour les listings, la card peut être horizontale :
