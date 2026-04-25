@@ -49,8 +49,8 @@
     position: relative; z-index: 1;
 }
 .nq-step.active .nq-step-dot {
-    background: #f97316; color: #fff; border-color: #f97316;
-    box-shadow: 0 0 0 4px rgba(249,115,22,.15);
+    background: var(--B); color: #fff; border-color: var(--B);
+    box-shadow: 0 0 0 4px rgba(0,73,127,.15);
 }
 .nq-step.done .nq-step-dot {
     background: #10b981; color: #fff; border-color: #10b981;
@@ -60,7 +60,7 @@
     font-size: 11px; color: #94a3b8; margin-top: 6px;
     font-weight: 500; text-align: center; white-space: nowrap;
 }
-.nq-step.active .nq-step-label { color: #f97316; font-weight: 600; }
+.nq-step.active .nq-step-label { color: var(--B); font-weight: 600; }
 .nq-step.done .nq-step-label   { color: #10b981; }
 
 /* ═══════════════════════════════════════════════
@@ -75,7 +75,7 @@
     overflow: hidden;
     transition: box-shadow .2s;
 }
-.nq-section:focus-within { box-shadow: 0 4px 12px rgba(249,115,22,.1); border-color: #fed7aa; }
+.nq-section:focus-within { box-shadow: 0 4px 12px rgba(0,73,127,.1); border-color: #bdd4ea; }
 .nq-section-head {
     display: flex; align-items: center; gap: 12px;
     padding: 1rem 1.5rem;
@@ -84,12 +84,12 @@
 }
 .nq-section-num {
     width: 28px; height: 28px; border-radius: 8px;
-    background: linear-gradient(135deg,#f97316,#ea580c);
+    background: var(--B);
     color: #fff; font-size: 12px; font-weight: 800;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
 }
-.nq-section-title { font-size: 14px; font-weight: 700; color: #1e293b; margin: 0; }
+.nq-section-title { font-size: 14px; font-weight: 700; color: var(--D); margin: 0; }
 .nq-section-sub   { font-size: 12px; color: #94a3b8; margin: 0; }
 .nq-section-body  { padding: 1.5rem; }
 
@@ -97,7 +97,7 @@
    INPUTS
 ═══════════════════════════════════════════════ */
 .nq-label {
-    font-size: 12px; font-weight: 600; color: #64748b;
+    font-size: 12px; font-weight: 600; color: var(--M);
     text-transform: uppercase; letter-spacing: .05em;
     margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
 }
@@ -110,15 +110,15 @@
     padding: 10px 14px;
     border: 1.5px solid #e2e8f0;
     border-radius: 10px;
-    font-size: 14px; color: #1e293b;
+    font-size: 14px; color: var(--D);
     background: #f8fafc;
     transition: all .2s;
     outline: none;
 }
 .nq-input:focus {
-    border-color: #f97316;
+    border-color: var(--B);
     background: #fff;
-    box-shadow: 0 0 0 3px rgba(249,115,22,.1);
+    box-shadow: 0 0 0 3px rgba(0,73,127,.1);
 }
 .nq-input::placeholder { color: #cbd5e1; }
 textarea.nq-input { resize: vertical; min-height: 120px; line-height: 1.6; }
@@ -139,25 +139,25 @@ select.nq-input { appearance: none; background-image: url("data:image/svg+xml,%3
     user-select: none;
 }
 .nq-dropzone:hover, .nq-dropzone.drag-over {
-    border-color: #f97316;
-    background: linear-gradient(135deg, #fff7ed, #fff);
-    box-shadow: 0 4px 12px rgba(249,115,22,.1);
+    border-color: var(--B);
+    background: linear-gradient(135deg, #eef4ff, #fff);
+    box-shadow: 0 4px 12px rgba(0,73,127,.1);
 }
 .nq-dropzone-icon {
     width: 52px; height: 52px; border-radius: 14px;
-    background: linear-gradient(135deg,rgba(249,115,22,.12),rgba(249,115,22,.06));
-    color: #f97316; font-size: 22px;
+    background: linear-gradient(135deg,rgba(0,73,127,.12),rgba(0,73,127,.06));
+    color: var(--B); font-size: 22px;
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 12px;
 }
-.nq-dropzone-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.nq-dropzone-title { font-size: 14px; font-weight: 700; color: var(--D); margin-bottom: 4px; }
 .nq-dropzone-sub   { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
 .nq-dropzone-specs {
     display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center;
 }
 .nq-dropzone-specs span {
     font-size: 11px; background: #fff; border: 1px solid #e2e8f0;
-    border-radius: 20px; padding: 3px 10px; color: #64748b;
+    border-radius: 20px; padding: 3px 10px; color: var(--M);
     display: inline-flex; align-items: center; gap: 4px;
 }
 .nq-dropzone-specs span i { color: #10b981; font-size: 10px; }
@@ -191,10 +191,10 @@ select.nq-input { appearance: none; background-image: url("data:image/svg+xml,%3
 }
 .nq-photo-remove:hover { background: #ef4444; }
 .nq-photo-count {
-    font-size: 12px; color: #64748b; margin-top: 10px;
+    font-size: 12px; color: var(--M); margin-top: 10px;
     display: flex; align-items: center; gap: 5px;
 }
-.nq-photo-count span { color: #f97316; font-weight: 700; }
+.nq-photo-count span { color: var(--O); font-weight: 700; }
 
 /* ═══════════════════════════════════════════════
    TOGGLE CHIPS (availabilities / urgence)
@@ -204,13 +204,13 @@ select.nq-input { appearance: none; background-image: url("data:image/svg+xml,%3
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 16px; border-radius: 50px;
     border: 1.5px solid #e2e8f0; background: #f8fafc;
-    font-size: 13px; font-weight: 500; color: #64748b;
+    font-size: 13px; font-weight: 500; color: var(--M);
     cursor: pointer; transition: all .2s; user-select: none;
 }
 .nq-chip input[type="checkbox"],
 .nq-chip input[type="radio"] { display: none; }
-.nq-chip:hover { border-color: #f97316; color: #f97316; background: #fff7ed; }
-.nq-chip.checked { border-color: #f97316; background: linear-gradient(135deg,#fff7ed,#fff); color: #f97316; font-weight: 600; }
+.nq-chip:hover { border-color: var(--B); color: var(--B); background: #eef4ff; }
+.nq-chip.checked { border-color: var(--B); background: linear-gradient(135deg,#eef4ff,#fff); color: var(--B); font-weight: 600; }
 .nq-chip.checked-urgent { border-color: #ef4444; background: #fef2f2; color: #ef4444; font-weight: 600; }
 
 /* ═══════════════════════════════════════════════
@@ -224,10 +224,10 @@ input[type="date"].nq-input { color-scheme: light; }
 .nq-ai-btn {
     display: inline-flex; align-items: center; gap: 7px;
     padding: 9px 18px; border-radius: 10px; border: none;
-    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    background: linear-gradient(135deg,var(--B),var(--S));
     color: #fff; font-size: 13px; font-weight: 600; cursor: pointer;
     transition: opacity .2s, transform .15s;
-    box-shadow: 0 3px 10px rgba(99,102,241,.3);
+    box-shadow: 0 3px 10px rgba(0,73,127,.3);
 }
 .nq-ai-btn:hover { opacity: .9; transform: translateY(-1px); }
 
@@ -238,7 +238,7 @@ input[type="date"].nq-input { color-scheme: light; }
 .nq-tip-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
 .nq-tip-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; }
 .nq-tip-icon.green  { background: #dcfce7; color: #16a34a; }
-.nq-tip-icon.orange { background: #fff7ed; color: #f97316; }
+.nq-tip-icon.orange { background: #fff0e5; color: var(--O); }
 .nq-tip-icon.blue   { background: #eff6ff; color: #2563eb; }
 
 /* ═══════════════════════════════════════════════
@@ -255,21 +255,21 @@ input[type="date"].nq-input { color-scheme: light; }
 .nq-btn-submit {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 12px 32px; border-radius: 12px; border: none;
-    background: linear-gradient(135deg,#f97316,#ea580c);
+    background: var(--B);
     color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
-    box-shadow: 0 4px 14px rgba(249,115,22,.35);
+    box-shadow: 0 4px 14px rgba(0,73,127,.35);
     transition: all .2s;
 }
-.nq-btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,.4); }
+.nq-btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,73,127,.4); }
 .nq-btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
 .nq-btn-cancel {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 10px 20px; border-radius: 10px;
-    color: #64748b; font-size: 14px; font-weight: 500;
+    color: var(--M); font-size: 14px; font-weight: 500;
     text-decoration: none; border: 1.5px solid #e2e8f0;
     background: #f8fafc; transition: all .2s;
 }
-.nq-btn-cancel:hover { border-color: #94a3b8; color: #1e293b; background: #fff; }
+.nq-btn-cancel:hover { border-color: #94a3b8; color: var(--D); background: #fff; }
 
 /* Responsive */
 @media (max-width: 767px) {
@@ -285,7 +285,7 @@ input[type="date"].nq-input { color-scheme: light; }
     {# ── Page Header ── #}
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:#1e293b;">{{ 'individual.post_new_request'|trans }}</h4>
+            <h4 class="fw-bold mb-1" style="color:var(--D);">{{ 'individual.post_new_request'|trans }}</h4>
             <p class="text-muted small mb-0">{{ 'individual.post_new_request_sub'|trans }}</p>
         </div>
         <a href="{{ path('individual_quotes') }}" class="nq-btn-cancel">
@@ -592,7 +592,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 {# Tips card #}
                 <div class="nq-section mb-3">
                     <div class="nq-section-head">
-                        <div class="nq-section-num" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">
+                        <div class="nq-section-num" style="background:var(--S);">
                             <i class="feather-info" style="font-size:13px;"></i>
                         </div>
                         <div>
@@ -616,11 +616,11 @@ input[type="date"].nq-input { color-scheme: light; }
                 </div>
 
                 {# AI card #}
-                <div style="padding:1rem 1.25rem;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#f5f3ff);border:1px solid #c4b5fd;">
-                    <p style="font-size:13px;font-weight:700;color:#5b21b6;margin-bottom:6px;">
+                <div style="padding:1rem 1.25rem;border-radius:14px;background:linear-gradient(135deg,#dde9ff,#eef4ff);border:1px solid #bdd4ea;">
+                    <p style="font-size:13px;font-weight:700;color:var(--B);margin-bottom:6px;">
                         ✨ {{ 'individual.ai_writing_assistant'|trans|replace({'✨ ': ''}) }}
                     </p>
-                    <p style="font-size:12px;color:#6d28d9;margin:0;line-height:1.5;">
+                    <p style="font-size:12px;color:var(--M);margin:0;line-height:1.5;">
                         {{ 'individual.ai_writing_desc'|trans|raw }}
                     </p>
                 </div>
@@ -628,7 +628,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 {# Progress summary card (live) #}
                 <div class="nq-section mt-3" id="nqSummaryCard">
                     <div class="nq-section-head">
-                        <div class="nq-section-num" style="background:linear-gradient(135deg,#10b981,#059669);">
+                        <div class="nq-section-num" style="background:#10b981;">
                             <i class="feather-check-square" style="font-size:13px;"></i>
                         </div>
                         <div><p class="nq-section-title">Récapitulatif</p></div>
@@ -664,7 +664,7 @@ input[type="date"].nq-input { color-scheme: light; }
 <div class="modal fade" id="aiPreviewModal" tabindex="-1" aria-labelledby="aiPreviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="border-radius:18px;border:none;box-shadow:0 25px 60px rgba(0,0,0,.15);">
-            <div class="modal-header border-0 px-4 pt-4 pb-3" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:18px 18px 0 0;">
+            <div class="modal-header border-0 px-4 pt-4 pb-3" style="background:linear-gradient(135deg,var(--B),var(--S));border-radius:18px 18px 0 0;">
                 <h5 class="modal-title text-white d-flex align-items-center gap-2 fw-bold" id="aiPreviewModalLabel">
                     ✨ Assistant de rédaction IA
                 </h5>
@@ -672,8 +672,8 @@ input[type="date"].nq-input { color-scheme: light; }
             </div>
             <div class="modal-body p-4">
                 <div id="aiLoadingState" class="text-center py-5">
-                    <div class="spinner-border mb-3" role="status" style="width:2.5rem;height:2.5rem;color:#6366f1;border-width:3px;"><span class="visually-hidden">Chargement...</span></div>
-                    <p class="fw-semibold mb-1" style="color:#6366f1;">{{ 'individual.ai_loading'|trans }}</p>
+                    <div class="spinner-border mb-3" role="status" style="width:2.5rem;height:2.5rem;color:var(--B);border-width:3px;"><span class="visually-hidden">Chargement...</span></div>
+                    <p class="fw-semibold mb-1" style="color:var(--B);">{{ 'individual.ai_loading'|trans }}</p>
                     <small class="text-muted">{{ 'individual.ai_analyzing'|trans }}</small>
                 </div>
                 <div id="aiErrorState" style="display:none;">
@@ -683,12 +683,12 @@ input[type="date"].nq-input { color-scheme: light; }
                     </div>
                 </div>
                 <div id="aiResultState" style="display:none;">
-                    <div class="mb-3 p-3 rounded-3" style="background:#f5f3ff;border:1px solid #ddd6fe;">
-                        <p class="mb-1" style="font-size:0.78rem;font-weight:600;color:#5b21b6;">Contexte utilisé</p>
-                        <div id="aiContextSummary" style="font-size:0.75rem;color:#6d28d9;"></div>
+                    <div class="mb-3 p-3 rounded-3" style="background:#eef4ff;border:1px solid #bdd4ea;">
+                        <p class="mb-1" style="font-size:0.78rem;font-weight:600;color:var(--B);">Contexte utilisé</p>
+                        <div id="aiContextSummary" style="font-size:0.75rem;color:var(--M);"></div>
                     </div>
                     <label class="nq-label mb-2">Suggestion IA <span style="text-transform:none;font-weight:400;color:#94a3b8;">(modifiable avant application)</span></label>
-                    <textarea id="aiSuggestionTextarea" class="nq-input" rows="8" style="border-color:#a78bfa;resize:vertical;"></textarea>
+                    <textarea id="aiSuggestionTextarea" class="nq-input" rows="8" style="border-color:var(--S);resize:vertical;"></textarea>
                     <p class="mt-2 mb-0" style="font-size:11px;color:#6b7280;">
                         <i class="feather-shield" style="font-size:10px;"></i>
                         Cette suggestion <strong>ne sera pas enregistrée</strong> tant que vous ne cliquez pas sur "Appliquer".
@@ -699,7 +699,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 <button type="button" class="nq-btn-cancel" data-bs-dismiss="modal">
                     <i class="feather-x"></i> Annuler
                 </button>
-                <button type="button" id="aiRegenerateBtn" style="display:none;" class="nq-btn-cancel" style="border-color:#c4b5fd;color:#6366f1;">
+                <button type="button" id="aiRegenerateBtn" style="display:none;" class="nq-btn-cancel" style="border-color:var(--S);color:var(--B);">
                     <i class="feather-refresh-cw"></i> Regénérer
                 </button>
                 <button type="button" id="aiApplyBtn" style="display:none;" class="nq-ai-btn">
@@ -799,9 +799,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const remaining = MAX_FILES - selectedFiles.length;
         photoCount.style.display = 'flex';
-        photoCount.innerHTML = `<i class="feather-image" style="color:#f97316;font-size:13px;"></i>
+        photoCount.innerHTML = `<i class="feather-image" style="color:var(--O);font-size:13px;"></i>
             <span>${selectedFiles.length}</span> photo${selectedFiles.length > 1 ? 's' : ''} sélectionnée${selectedFiles.length > 1 ? 's' : ''}
-            ${remaining > 0 ? `<span style="color:#94a3b8;margin-left:6px;">· ${remaining} emplacement${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''}</span>` : '<span style="color:#f97316;margin-left:6px;">· Limite atteinte</span>'}`;
+            ${remaining > 0 ? `<span style="color:#94a3b8;margin-left:6px;">· ${remaining} emplacement${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''}</span>` : '<span style="color:var(--O);margin-left:6px;">· Limite atteinte</span>'}`;
     }
 
     function syncFileInput() {
@@ -869,9 +869,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const update = () => {
             const len  = descTA.value.length;
             const pct  = Math.min(len / 50, 1) * 100; // fills at 50 chars
-            const color = len >= 50 ? '#10b981' : (len >= 20 ? '#f97316' : '#e2e8f0');
+            const color = len >= 50 ? '#10b981' : (len >= 20 ? 'var(--O)' : '#e2e8f0');
             descCount.textContent = `${len} caractère${len > 1 ? 's' : ''}`;
-            descCount.style.color = len >= 50 ? '#10b981' : (len >= 20 ? '#f97316' : '#94a3b8');
+            descCount.style.color = len >= 50 ? '#10b981' : (len >= 20 ? 'var(--O)' : '#94a3b8');
             if (descBar) { descBar.style.width = pct + '%'; descBar.style.background = color; }
             updateStep(4, len > 10);
         };
@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const span = el.querySelector('span');
         if (val) {
             dot.style.background   = '#10b981';
-            span.style.color       = '#1e293b';
+            span.style.color       = 'var(--D)';
             span.style.fontWeight  = '500';
             span.textContent       = val;
         } else {
@@ -1166,7 +1166,7 @@ Retourne UNIQUEMENT le texte de description, sans préambule, sans explication.`
         if (!toast) {
             toast = document.createElement('div');
             toast.id = 'drl-autosave-toast';
-            toast.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;background:#1e293b;color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;pointer-events:none;';
+            toast.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--D);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;pointer-events:none;';
             document.body.appendChild(toast);
         }
         toast.textContent = msg;

@@ -26,25 +26,25 @@
 }
 .offer-form-section-header .section-num {
     width: 28px; height: 28px; border-radius: 50%;
-    background: var(--drl-navy, #0d2151); color: #fff;
+    background: var(--B); color: #fff;
     font-size: 12px; font-weight: 800;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
 }
 .offer-form-section-header h6 {
-    font-size: 14px; font-weight: 800; color: #0d2151; margin: 0;
+    font-size: 14px; font-weight: 800; color: var(--D); margin: 0;
 }
 .offer-form-section-body { padding: 20px; }
 .offer-price-input {
-    font-size: 2.5rem; font-weight: 800; color: #0d2151;
+    font-size: 2.5rem; font-weight: 800; color: var(--D);
     border: none; border-bottom: 3px solid #e2e8f0;
     outline: none; width: 100%; background: transparent;
     padding: 4px 0; transition: border-color 0.2s;
 }
-.offer-price-input:focus { border-color: #f97316; }
+.offer-price-input:focus { border-color: var(--B); }
 .offer-price-input::placeholder { color: #cbd5e1; }
 .char-counter { font-size: 11px; color: #94a3b8; transition: color 0.2s; }
-.char-counter.warn { color: #f97316; }
+.char-counter.warn { color: var(--O); }
 .char-counter.danger { color: #ef4444; font-weight: 700; }
 .demand-sidebar-card {
     border-radius: 14px; border: 1px solid #e2e8f0;
@@ -59,7 +59,7 @@
     display: flex; align-items: center; justify-content: center; font-size: 14px;
 }
 .ai-btn {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, var(--B), var(--S));
     color: #fff; border: none; border-radius: 20px;
     padding: 5px 14px; font-size: 12px; font-weight: 700;
     cursor: pointer; transition: opacity 0.2s;
@@ -67,8 +67,8 @@
 }
 .ai-btn:hover { opacity: 0.85; }
 .ai-btn-outline {
-    background: transparent; color: #6366f1;
-    border: 1px solid #c4b5fd; border-radius: 20px;
+    background: transparent; color: var(--B);
+    border: 1px solid var(--S); border-radius: 20px;
     padding: 5px 14px; font-size: 12px; font-weight: 700;
     cursor: pointer; transition: all 0.2s;
     display: inline-flex; align-items: center; gap: 6px;
@@ -91,7 +91,7 @@
 {# ── Page header ── #}
 <div class="mb-4 d-flex align-items-start justify-content-between flex-wrap gap-3">
     <div>
-        <h2 style="font-size: 22px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">
+        <h2 style="font-size: 22px; font-weight: 800; color: var(--D); margin: 0 0 4px;">
             {{ isEdit|default(false) ? 'Modifier votre offre'|trans : 'Créer une offre'|trans }}
         </h2>
         <p class="text-muted small mb-0">
@@ -165,7 +165,7 @@
                     </button>
                     <button type="button" id="aiImproveBtn" class="ai-btn">
                         <span id="aiBtnIcon">✨</span>
-                        <span id="aiBtnText">{{ 'Améliorer avec l\\'IA'|trans }}</span>
+                        <span id="aiBtnText">{{ "Améliorer avec l'IA"|trans }}</span>
                     </button>
                 </div>
             </div>
@@ -177,12 +177,12 @@
                         'placeholder': "Décrivez votre approche, les matériaux utilisés, ce qui est inclus, vos délais, et pourquoi vous êtes le meilleur choix pour cette mission...",
                         'required': 'required',
                         'rows': '7',
-                        'style': 'resize: vertical;'
+                        'style': 'resize: vertical'
                     }
                 }) }}
                 {{ form_errors(form.description) }}
                 <div class="d-flex justify-content-between align-items-center mt-2">
-                    <small class="text-muted" style="font-size:11px; color:#6366f1;">✨ {{ 'Utilisez l\\'IA pour améliorer votre message'|trans }}</small>
+                    <small class="text-muted" style="font-size:11px; color:var(--B);">✨ {{ "Utilisez l'IA pour améliorer votre message"|trans }}</small>
                     <span class="char-counter" id="descCounter">0 / 2000</span>
                 </div>
             </div>
@@ -295,11 +295,11 @@
                 <div id="dropZone" class="rounded-3 text-center p-4 mb-3"
                      style="border: 2px dashed #e2e8f0; background: #f8fafc; cursor: pointer; transition: all .2s;"
                      onclick="document.getElementById('{{ form.documents.vars.id }}').click()"
-                     ondragover="event.preventDefault(); this.style.borderColor='#f97316'; this.style.background='#fff7ed';"
+                     ondragover="event.preventDefault(); this.style.borderColor='var(--B)'; this.style.background='#eef4ff';"
                      ondragleave="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';"
                      ondrop="handleDrop(event)">
                     <i class="ph-bold ph-cloud-arrow-up" style="font-size: 2rem; color: #94a3b8; display: block; margin-bottom: 8px;"></i>
-                    <p class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ 'Glisser des fichiers ici ou'|trans }} <span style="color: #f97316;">{{ 'cliquer pour parcourir'|trans }}</span></p>
+                    <p class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ 'Glisser des fichiers ici ou'|trans }} <span style="color: var(--B);">{{ 'cliquer pour parcourir'|trans }}</span></p>
                     <p class="text-muted mb-0" style="font-size: 12px;">{{ 'PDF, JPG, PNG · Max 10 MB chacun'|trans }}</p>
                 </div>
                 <div id="offerDocWidget" style="display:none;">
@@ -350,7 +350,7 @@
                         {% if provider.stats and provider.stats.averageRating > 0 %}
                             <div class="d-flex align-items-center gap-1 mt-1">
                                 <i class="ph-bold ph-star" style="font-size:12px; color:#f59e0b; fill:#f59e0b;"></i>
-                                <span style="font-size:12px; font-weight:700; color:#0d2151;">{{ provider.stats.averageRating|number_format(1) }}</span>
+                                <span style="font-size:12px; font-weight:700; color:var(--B);">{{ provider.stats.averageRating|number_format(1) }}</span>
                             </div>
                         {% endif %}
                     </div>
@@ -364,7 +364,7 @@
                         <p class="small mb-0" style="color:#92400e;">
                             <i class="ph-bold ph-warning me-1"></i>
                             {{ 'Votre profil est incomplet — ajoutez une description pour rassurer les clients.'|trans }}
-                            <a href="{{ path('professional_profile') }}" class="fw-bold ms-1" style="color:#f97316;">{{ 'Compléter mon profil'|trans }}</a>
+                            <a href="{{ path('professional_profile') }}" class="fw-bold ms-1" style="color:var(--B);">{{ 'Compléter mon profil'|trans }}</a>
                         </p>
                     </div>
                 {% endif %}
@@ -375,7 +375,7 @@
         <div class="d-flex align-items-center gap-3 flex-wrap">
             {% if offer is not defined or offer.status != 'PUBLISHED' %}
                 <button type="submit" name="action" value="publish" class="drl-btn-orange px-5 shadow-sm" style="font-size:15px; padding:12px 28px;">
-                    <i class="ph-bold ph-paper-plane-tilt me-2"></i> {{ 'Publier l\\'offre'|trans }}
+                    <i class="ph-bold ph-paper-plane-tilt me-2"></i> {{ "Publier l'offre"|trans }}
                 </button>
                 <button type="submit" name="action" value="draft" class="drl-act-btn drl-act-btn--view" style="padding:12px 20px; font-size:14px;">
                     <i class="ph-bold ph-floppy-disk me-2"></i> {{ 'Sauvegarder brouillon'|trans }}
@@ -396,7 +396,7 @@
         <div class="demand-sidebar-card sticky-top" style="top: 90px;">
 
             {# Header #}
-            <div class="demand-sidebar-section" style="background: linear-gradient(135deg, #0d2151, #1e3a7a);">
+            <div class="demand-sidebar-section" style="background: linear-gradient(135deg, var(--D), var(--B));">
                 <div class="d-flex align-items-start justify-content-between gap-2">
                     <div>
                         <div class="text-white opacity-75 small fw-bold text-uppercase mb-1" style="letter-spacing:.05em; font-size:10px;">
@@ -475,7 +475,7 @@
             <div class="demand-sidebar-section">
                 <div class="text-muted mb-2" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;">Description</div>
                 <p class="text-dark mb-0" style="font-size:13px; line-height:1.6;" id="sidebarDesc">
-                    {{ parentRequest.description|slice(0, 200) }}{% if parentRequest.description|length > 200 %}<span id="sidebarDescEllipsis">… <button type="button" onclick="document.getElementById('sidebarDescFull').style.display='inline'; document.getElementById('sidebarDescShort').style.display='none';" style="background:none;border:none;color:#f97316;font-size:12px;font-weight:700;padding:0;cursor:pointer;">Lire plus</button></span>{% endif %}
+                    {{ parentRequest.description|slice(0, 200) }}{% if parentRequest.description|length > 200 %}<span id="sidebarDescEllipsis">… <button type="button" onclick="document.getElementById('sidebarDescFull').style.display='inline'; document.getElementById('sidebarDescShort').style.display='none';" style="background:none;border:none;color:var(--B);font-size:12px;font-weight:700;padding:0;cursor:pointer;">Lire plus</button></span>{% endif %}
                 </p>
                 {% if parentRequest.description|length > 200 %}
                     <span id="sidebarDescShort" style="display:block;"></span>
@@ -513,7 +513,7 @@
                     {% endfor %}
                     {% if parentRequest.images|length > 4 %}
                         <div class="d-flex align-items-center justify-content-center rounded-2"
-                             style="width:64px; height:64px; flex-shrink:0; background:#f1f5f9; border:1px solid #e2e8f0; font-size:13px; font-weight:700; color:#64748b;">
+                             style="width:64px; height:64px; flex-shrink:0; background:#f1f5f9; border:1px solid #e2e8f0; font-size:13px; font-weight:700; color:var(--M);">
                             +{{ parentRequest.images|length - 4 }}
                         </div>
                     {% endif %}
@@ -526,7 +526,7 @@
             {% if existingOffers > 0 %}
             <div class="demand-sidebar-section">
                 <div class="d-flex align-items-center gap-2">
-                    <i class="ph-bold ph-users" style="font-size:14px; color:#64748b;"></i>
+                    <i class="ph-bold ph-users" style="font-size:14px; color:var(--M);"></i>
                     <span class="text-muted small">
                         <strong>{{ existingOffers }}</strong> offre{{ existingOffers > 1 ? 's' : '' }} déjà reçue{{ existingOffers > 1 ? 's' : '' }} pour cette demande
                     </span>
@@ -535,12 +535,12 @@
             {% endif %}
 
             {# AI tip #}
-            <div class="demand-sidebar-section" style="background: linear-gradient(135deg, #ede9fe, #f5f3ff);">
+            <div class="demand-sidebar-section" style="background: linear-gradient(135deg, #dde9ff, #eef4ff);">
                 <div class="d-flex gap-2 align-items-start">
                     <span style="font-size:20px; flex-shrink:0;">✨</span>
                     <div>
-                        <p class="fw-bold mb-1" style="font-size:12px; color:#5b21b6;">Assistant IA disponible</p>
-                        <p class="mb-0" style="font-size:11px; color:#6d28d9;">
+                        <p class="fw-bold mb-1" style="font-size:12px; color:var(--B);">Assistant IA disponible</p>
+                        <p class="mb-0" style="font-size:11px; color:var(--M);">
                             Rédigez votre description puis cliquez <strong>Améliorer avec l'IA</strong> pour obtenir une version professionnelle alignée à cette demande.
                         </p>
                     </div>
@@ -557,7 +557,7 @@
 <div class="modal fade" id="aiPreviewModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content drl-modal-content" style="border-radius:16px;">
-            <div class="modal-header" style="background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:16px 16px 0 0; padding:1.25rem 1.5rem;">
+            <div class="modal-header" style="background:linear-gradient(135deg,var(--B),var(--S)); border-radius:16px 16px 0 0; padding:1.25rem 1.5rem;">
                 <h5 class="modal-title text-white d-flex align-items-center gap-2">
                     <span>✨</span> Assistant IA — Amélioration de votre offre
                 </h5>
@@ -565,8 +565,8 @@
             </div>
             <div class="modal-body p-4">
                 <div id="aiLoadingState" class="text-center py-5">
-                    <div class="spinner-border mb-3" style="width:2.5rem;height:2.5rem;color:#6366f1;border-width:3px;" role="status"></div>
-                    <p class="fw-semibold mb-1" style="color:#6366f1;">Génération en cours…</p>
+                    <div class="spinner-border mb-3" style="width:2.5rem;height:2.5rem;color:var(--B);border-width:3px;" role="status"></div>
+                    <p class="fw-semibold mb-1" style="color:var(--B);">Génération en cours…</p>
                     <small class="text-muted">Analyse du contexte et de la demande</small>
                 </div>
                 <div id="aiErrorState" style="display:none;">
@@ -576,19 +576,19 @@
                     </div>
                 </div>
                 <div id="aiResultState" style="display:none;">
-                    <div class="mb-3 p-3 rounded-3" style="background:#f5f3ff; border:1px solid #ddd6fe;">
-                        <p class="mb-1" style="font-size:11px; font-weight:700; color:#5b21b6;">Contexte utilisé</p>
-                        <div id="aiContextSummary" style="font-size:11px; color:#6d28d9;"></div>
+                    <div class="mb-3 p-3 rounded-3" style="background:#eef4ff; border:1px solid #bdd4ea;">
+                        <p class="mb-1" style="font-size:11px; font-weight:700; color:var(--B);">Contexte utilisé</p>
+                        <div id="aiContextSummary" style="font-size:11px; color:var(--M);"></div>
                     </div>
                     <label class="drl-label mb-2">Suggestion IA <span class="fw-normal text-muted">(modifiable avant d'appliquer)</span></label>
-                    <textarea id="aiSuggestionTextarea" class="drl-input" rows="9" style="border-color:#a78bfa; resize:vertical;"></textarea>
+                    <textarea id="aiSuggestionTextarea" class="drl-input" rows="9" style="border-color:var(--S); resize:vertical;"></textarea>
                     <p class="mt-2 mb-0 text-muted" style="font-size:11px;">
                         <i class="ph-bold ph-shield-check me-1"></i>
                         Cette suggestion ne sera pas sauvegardée tant que vous ne cliquez pas sur <strong>Appliquer</strong>.
                     </p>
                 </div>
             </div>
-            <div class="modal-footer" style="border-top:1px solid #ede9fe;">
+            <div class="modal-footer" style="border-top:1px solid #e2e8f0;">
                 <button type="button" class="drl-act-btn drl-act-btn--view" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" id="aiRegenerateBtn" class="drl-act-btn drl-act-btn--view" style="display:none;">
                     <i class="ph-bold ph-arrows-clockwise me-1"></i> Régénérer

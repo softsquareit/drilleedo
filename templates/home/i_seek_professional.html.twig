@@ -1,0 +1,826 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Je cherche un professionnel | Drilleedo Canada{% endblock %}
+{% block meta_description %}Trouvez des professionnels qualifiés dans votre région. Comparez les profils, les avis et les réalisations. Service gratuit, sans engagement.{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+/* ══════════════════════════════════════
+   BRAND TOKENS (page-scoped)
+══════════════════════════════════════ */
+:root {
+    --B: #00497F;
+    --S: #3FA9F5;
+    --O: #FF8A3D;
+    --D: #0C1825;
+    --M: #4A6073;
+}
+
+/* ══════════════════════════════════════
+   SEEK PAGE — GLOBAL
+══════════════════════════════════════ */
+.sk-page { font-family:'Instrument Sans',system-ui,sans-serif; }
+
+/* ══════════════════════════════════════
+   BREADCRUMB
+══════════════════════════════════════ */
+.sk-breadcrumb { background:var(--D); padding:11px 0; }
+.sk-breadcrumb a { color:rgba(255,255,255,.5); font-size:12px; text-decoration:none; transition:color .15s; }
+.sk-breadcrumb a:hover { color:#fff; }
+.sk-breadcrumb .sep { color:rgba(255,255,255,.25); margin:0 7px; font-size:12px; }
+.sk-breadcrumb strong { color:rgba(255,255,255,.9); font-size:12px; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.sk-hero {
+    background: linear-gradient(135deg, var(--D) 0%, #003a6b 60%, #005a9e 100%);
+    padding: 70px 0 0; overflow: hidden; position: relative;
+}
+/* dot texture */
+.sk-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(63,169,245,.12) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+}
+.sk-hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(to top, #f0f8ff, transparent);
+    pointer-events: none;
+}
+.sk-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(63,169,245,.15); border: 1px solid rgba(63,169,245,.4);
+    color: var(--S); font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 50px; margin-bottom: 22px;
+}
+.sk-hero h1 {
+    font-size: clamp(2.1rem, 4.2vw, 3rem);
+    font-weight: 900; color: #fff; line-height: 1.1;
+    margin-bottom: 20px; letter-spacing: -.02em;
+}
+.sk-hero h1 .hl { color: var(--S); }
+.sk-hero-lead {
+    font-size: 1.05rem; color: rgba(255,255,255,.75);
+    line-height: 1.75; margin-bottom: 34px; max-width: 520px;
+}
+.sk-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
+.btn-sk-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--O); color: #fff; font-size: 15px; font-weight: 700;
+    padding: 14px 30px; border-radius: 12px; text-decoration: none;
+    box-shadow: 0 4px 18px rgba(255,138,61,.4); transition: all .2s;
+}
+.btn-sk-primary:hover { background: #e07830; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,138,61,.45); }
+.btn-sk-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.1); color: #fff; font-size: 15px; font-weight: 600;
+    padding: 13px 26px; border-radius: 12px; text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,.3); transition: all .2s;
+}
+.btn-sk-outline:hover { background: rgba(255,255,255,.18); color: #fff; }
+.sk-hero-trust { display: flex; align-items: center; gap: 14px; }
+.sk-trust-faces { display: flex; }
+.sk-trust-faces img {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.4); object-fit: cover; margin-left: -8px;
+}
+.sk-trust-faces img:first-child { margin-left: 0; }
+.sk-trust-text { font-size: 13px; color: rgba(255,255,255,.75); }
+.sk-trust-text strong { color: #fff; }
+
+/* Hero image */
+.sk-hero-img-col { position: relative; display: flex; align-items: flex-end; justify-content: center; }
+.sk-hero-img {
+    width: 100%; max-width: 460px;
+    border-radius: 20px 20px 0 0;
+    object-fit: cover; object-position: center top;
+    height: 460px; display: block;
+    box-shadow: -20px 0 60px rgba(0,0,0,.3);
+}
+/* floating cards */
+.sk-float {
+    position: absolute; background: #fff; border-radius: 14px;
+    padding: 13px 18px; box-shadow: 0 8px 32px rgba(0,0,0,.15);
+    display: flex; align-items: center; gap: 12px; white-space: nowrap;
+}
+.sk-float-1 { left: -10px; top: 60px; }
+.sk-float-2 { right: 8px; top: 190px; }
+.sk-float-3 { left: 0; bottom: 90px; }
+.sk-float-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+}
+.sk-float-icon.blue   { background: #dde9ff; color: var(--B); }
+.sk-float-icon.green  { background: #d1fae5; color: #059669; }
+.sk-float-icon.orange { background: #fff0e0; color: var(--O); }
+.sk-float-val { font-size: 18px; font-weight: 900; color: var(--D); line-height: 1; }
+.sk-float-lbl { font-size: 11px; color: var(--M); margin-top: 2px; }
+
+/* ══════════════════════════════════════
+   STATS BAND
+══════════════════════════════════════ */
+.sk-stats-band { background: #f0f8ff; padding: 44px 0; border-bottom: 1px solid #dde9ff; }
+.sk-stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 0;
+}
+.sk-stat-item { text-align: center; padding: 18px 20px; border-right: 1px solid #dde9ff; }
+.sk-stat-item:last-child { border-right: none; }
+.sk-stat-val {
+    font-size: 2.3rem; font-weight: 900; color: var(--B); line-height: 1;
+    margin-bottom: 5px; letter-spacing: -.03em;
+}
+.sk-stat-val span { color: var(--S); }
+.sk-stat-lbl { font-size: 13px; color: var(--M); font-weight: 500; }
+
+/* ══════════════════════════════════════
+   SECTION SHARED LABELS
+══════════════════════════════════════ */
+.sk-label {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;
+}
+.sk-label.blue { background: #dde9ff; color: var(--B); }
+.sk-label.orange { background: #fff0e0; color: var(--O); }
+.sk-section-title {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 900; color: var(--D); line-height: 1.2;
+    letter-spacing: -.02em; margin-bottom: 14px;
+}
+.sk-section-title .hl { color: var(--B); }
+.sk-section-sub { font-size: 15px; color: var(--M); line-height: 1.8; margin-bottom: 30px; }
+
+/* ══════════════════════════════════════
+   OBJECTIF (white section)
+══════════════════════════════════════ */
+.sk-objectif { background: #fff; padding: 80px 0; }
+.sk-objectif-img {
+    width: 100%; border-radius: 20px; object-fit: cover; height: 380px;
+    box-shadow: 0 16px 48px rgba(0,73,127,.12);
+}
+/* image badge floating on photo */
+.sk-img-wrap { position: relative; display: inline-block; width: 100%; }
+.sk-img-badge {
+    position: absolute; bottom: 20px; left: 20px;
+    background: #fff; border-radius: 12px;
+    padding: 10px 16px; box-shadow: 0 6px 20px rgba(0,0,0,.15);
+    display: flex; align-items: center; gap: 10px;
+}
+.sk-img-badge-icon { width: 32px; height: 32px; border-radius: 8px; background: #dde9ff; color: var(--B); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.sk-img-badge-val { font-size: 16px; font-weight: 900; color: var(--D); line-height: 1; }
+.sk-img-badge-lbl { font-size: 11px; color: var(--M); }
+
+.sk-check-list { list-style: none; padding: 0; margin: 0 0 32px; }
+.sk-check-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+    font-size: 14px; color: var(--D); line-height: 1.5;
+}
+.sk-check-list li:last-child { border-bottom: none; }
+.sk-check-icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--B); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 11px; margin-top: 1px;
+}
+
+/* ══════════════════════════════════════
+   HOW IT WORKS — TIMELINE
+══════════════════════════════════════ */
+.sk-how { background: #f4f8ff; padding: 80px 0; }
+.sk-how-header { text-align: center; margin-bottom: 56px; }
+.sk-steps-timeline { display: flex; flex-direction: column; gap: 0; }
+.sk-step-row {
+    display: grid; grid-template-columns: 1fr 60px 1fr;
+    align-items: center; margin-bottom: 8px;
+}
+.sk-step-row.reverse .sk-step-content { order: 3; text-align: right; }
+.sk-step-row.reverse .sk-step-center { order: 2; }
+.sk-step-row.reverse .sk-step-img-col { order: 1; }
+.sk-step-center {
+    display: flex; flex-direction: column; align-items: center; z-index: 2;
+}
+.sk-step-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--B); color: #fff;
+    font-size: 18px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 6px rgba(0,73,127,.12); flex-shrink: 0;
+}
+.sk-step-line { width: 2px; height: 60px; background: linear-gradient(to bottom, var(--B), rgba(0,73,127,.1)); }
+.sk-step-row:last-child .sk-step-line { display: none; }
+.sk-step-content {
+    background: #fff; border: 1px solid #e2e8f0;
+    border-radius: 16px; padding: 24px 26px;
+    transition: box-shadow .2s, transform .2s;
+}
+.sk-step-content:hover { box-shadow: 0 6px 24px rgba(0,73,127,.1); transform: translateY(-2px); }
+.sk-step-tag { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--S); margin-bottom: 6px; }
+.sk-step-title { font-size: 16px; font-weight: 800; color: var(--D); margin-bottom: 8px; }
+.sk-step-text { font-size: 13px; color: var(--M); line-height: 1.7; margin: 0; }
+.sk-step-img-col img {
+    width: 100%; height: 180px; object-fit: cover;
+    border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+
+/* ══════════════════════════════════════
+   MISSION (dark section)
+══════════════════════════════════════ */
+.sk-mission {
+    background: linear-gradient(135deg, var(--D), #0f3d6b);
+    padding: 80px 0; position: relative; overflow: hidden;
+}
+.sk-mission::before {
+    content: ''; position: absolute; top: -80px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: rgba(63,169,245,.07); pointer-events: none;
+}
+.sk-mission::after {
+    content: ''; position: absolute; bottom: -60px; left: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(63,169,245,.05); pointer-events: none;
+}
+.sk-mission-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(63,169,245,.15); border: 1px solid rgba(63,169,245,.3);
+    color: var(--S); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 50px; margin-bottom: 18px;
+}
+.sk-mission h2 {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 900; color: #fff; line-height: 1.2;
+    letter-spacing: -.02em; margin-bottom: 18px;
+}
+.sk-mission h2 span { color: var(--S); }
+.sk-mission-lead { font-size: 15px; color: rgba(255,255,255,.72); line-height: 1.8; margin-bottom: 28px; }
+.sk-mission-points { display: flex; flex-direction: column; gap: 14px; }
+.sk-mission-point {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+    border-radius: 12px; padding: 16px 18px;
+}
+.sk-mission-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(63,169,245,.18); color: var(--S);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px;
+}
+.sk-mission-pt-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.sk-mission-pt-text { font-size: 13px; color: rgba(255,255,255,.62); line-height: 1.5; }
+.sk-mission-img-wrap { position: relative; }
+.sk-mission-img {
+    width: 100%; border-radius: 20px; object-fit: cover; height: 440px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+}
+.sk-mission-img-tag {
+    position: absolute; bottom: 24px; right: 24px;
+    background: rgba(255,255,255,.12); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.25); border-radius: 12px;
+    padding: 10px 16px; color: #fff;
+}
+.sk-mission-img-tag-num { font-size: 20px; font-weight: 900; line-height: 1; }
+.sk-mission-img-tag-lbl { font-size: 11px; opacity: .75; margin-top: 2px; }
+
+/* ══════════════════════════════════════
+   AVANTAGES
+══════════════════════════════════════ */
+.sk-adv { background: #fff; padding: 80px 0; }
+.sk-adv-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap: 22px; margin-top: 48px;
+}
+.sk-adv-card {
+    background: #f4f8ff; border: 1px solid #dde9ff;
+    border-radius: 18px; padding: 28px 24px;
+    position: relative; overflow: hidden;
+    transition: box-shadow .2s, transform .2s;
+}
+.sk-adv-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--B), var(--S));
+    border-radius: 18px 18px 0 0;
+}
+.sk-adv-card:hover { box-shadow: 0 12px 32px rgba(0,73,127,.1); transform: translateY(-4px); }
+.sk-adv-icon {
+    width: 50px; height: 50px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--B), #0066b3); color: #fff;
+    font-size: 20px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px; box-shadow: 0 6px 16px rgba(0,73,127,.25);
+}
+.sk-adv-title { font-size: 16px; font-weight: 800; color: var(--D); margin-bottom: 10px; }
+.sk-adv-text { font-size: 13px; color: var(--M); line-height: 1.7; margin: 0; }
+
+/* ══════════════════════════════════════
+   SOCIAL PROOF
+══════════════════════════════════════ */
+.sk-proof {
+    background: linear-gradient(135deg, #f0f8ff, #e8f2fb);
+    padding: 70px 0; border-top: 1px solid #dde9ff;
+}
+.sk-proof-faces { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.sk-proof-face {
+    width: 54px; height: 54px; border-radius: 50%;
+    object-fit: cover; border: 3px solid #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1); transition: transform .2s;
+}
+.sk-proof-face:hover { transform: scale(1.1) translateY(-3px); }
+.sk-proof-stats { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.sk-proof-stat-num { font-size: 1.7rem; font-weight: 900; color: var(--B); line-height: 1; }
+.sk-proof-stat-lbl { font-size: 12px; color: var(--M); margin-top: 3px; }
+.sk-proof-divider { width: 1px; height: 38px; background: #dde9ff; }
+.sk-testimonial {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+    padding: 26px 28px; position: relative; margin-top: 4px;
+}
+.sk-testimonial::before {
+    content: '"'; position: absolute; top: 8px; left: 20px;
+    font-size: 72px; font-weight: 900; color: #dde9ff; line-height: 1;
+    font-family: Georgia, serif;
+}
+.sk-testimonial-text { font-size: 14px; color: var(--M); line-height: 1.7; margin: 0 0 14px; padding-top: 20px; }
+.sk-testimonial-author { font-size: 13px; font-weight: 700; color: var(--B); }
+.sk-stars { color: var(--O); font-size: 13px; margin-bottom: 8px; }
+
+/* ══════════════════════════════════════
+   CTA FINALE
+══════════════════════════════════════ */
+.sk-cta {
+    background: linear-gradient(135deg, var(--D), var(--B));
+    padding: 90px 0; text-align: center; position: relative; overflow: hidden;
+}
+.sk-cta::before {
+    content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: rgba(63,169,245,.06); pointer-events: none;
+}
+.sk-cta h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 900; color: #fff; line-height: 1.2;
+    letter-spacing: -.02em; margin-bottom: 16px;
+}
+.sk-cta h2 span { color: var(--S); }
+.sk-cta p { font-size: 1.05rem; color: rgba(255,255,255,.75); margin-bottom: 38px; }
+.sk-cta-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
+.sk-cta-note { font-size: 12px; color: rgba(255,255,255,.45); margin-top: 22px; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 991px) {
+    .sk-hero { padding: 50px 0 0; }
+    .sk-hero-img { height: 320px; }
+    .sk-float { display: none; }
+    .sk-step-row { grid-template-columns: 1fr; gap: 10px; }
+    .sk-step-row.reverse .sk-step-content { order: 0; text-align: left; }
+    .sk-step-row.reverse .sk-step-center { order: 0; }
+    .sk-step-row.reverse .sk-step-img-col { order: 0; }
+    .sk-step-center { flex-direction: row; gap: 12px; }
+    .sk-step-line { width: 40px; height: 2px; }
+    .sk-step-img-col { display: none; }
+    .sk-stat-item { border-right: none; border-bottom: 1px solid #dde9ff; }
+    .sk-stat-item:last-child { border-bottom: none; }
+}
+@media (max-width: 767px) {
+    .sk-hero h1 { font-size: 1.9rem; }
+    .sk-cta h2 { font-size: 1.7rem; }
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="sk-page">
+
+{# ── Breadcrumb ── #}
+<div class="sk-breadcrumb">
+    <div class="container">
+        <a href="{{ path('app_home') }}">Accueil</a>
+        <span class="sep">/</span>
+        <a href="{{ path('app_how_it_works') }}">Comment ça marche</a>
+        <span class="sep">/</span>
+        <strong>Je cherche un professionnel</strong>
+    </div>
+</div>
+
+{# ══════════════════════
+   HERO
+══════════════════════ #}
+<section class="sk-hero">
+    <div class="container">
+        <div class="row align-items-end g-4">
+            <div class="col-lg-6 pb-5">
+                <div class="sk-hero-eyebrow">
+                    <i class="feather-search"></i> Pour les particuliers
+                </div>
+                <h1>Trouvez le <span class="hl">bon professionnel</span><br>pour vos travaux</h1>
+                <p class="sk-hero-lead">
+                    Parcourez des centaines de profils vérifiés, consultez les réalisations et les avis
+                    clients. Comparez facilement et contactez directement le bon partenaire — gratuitement.
+                </p>
+                <div class="sk-hero-actions">
+                    <a href="{{ path('professionals_list') }}" class="btn-sk-primary">
+                        <i class="feather-search"></i> Parcourir les professionnels
+                    </a>
+                    <a href="#how-it-works" class="btn-sk-outline">
+                        <i class="feather-play-circle"></i> Comment ça marche
+                    </a>
+                </div>
+                <div class="sk-hero-trust">
+                    <div class="sk-trust-faces">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="">
+                    </div>
+                    <div class="sk-trust-text">
+                        <strong>+8 000 projets</strong> complétés avec succès au Canada
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 sk-hero-img-col">
+                <img src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
+                     alt="Trouver un professionnel qualifié" class="sk-hero-img">
+                <div class="sk-float sk-float-1">
+                    <div class="sk-float-icon blue"><i class="feather-users"></i></div>
+                    <div>
+                        <div class="sk-float-val">+1 500</div>
+                        <div class="sk-float-lbl">Pros vérifiés</div>
+                    </div>
+                </div>
+                <div class="sk-float sk-float-2">
+                    <div class="sk-float-icon green"><i class="feather-star"></i></div>
+                    <div>
+                        <div class="sk-float-val">★ 4,8/5</div>
+                        <div class="sk-float-lbl">Note moyenne</div>
+                    </div>
+                </div>
+                <div class="sk-float sk-float-3">
+                    <div class="sk-float-icon orange"><i class="feather-gift"></i></div>
+                    <div>
+                        <div class="sk-float-val">100 %</div>
+                        <div class="sk-float-lbl">Gratuit pour vous</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   STATS BAND
+══════════════════════ #}
+<section class="sk-stats-band">
+    <div class="container">
+        <div class="sk-stats-grid">
+            <div class="sk-stat-item">
+                <div class="sk-stat-val">+1 500</div>
+                <div class="sk-stat-lbl">Professionnels actifs</div>
+            </div>
+            <div class="sk-stat-item">
+                <div class="sk-stat-val">+8 000</div>
+                <div class="sk-stat-lbl">Projets réalisés</div>
+            </div>
+            <div class="sk-stat-item">
+                <div class="sk-stat-val">★ 4,8</div>
+                <div class="sk-stat-lbl">Note moyenne</div>
+            </div>
+            <div class="sk-stat-item">
+                <div class="sk-stat-val">0<span> $</span></div>
+                <div class="sk-stat-lbl">Frais pour les particuliers</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   OBJECTIF
+══════════════════════ #}
+<section class="sk-objectif">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <div class="sk-img-wrap">
+                    <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
+                         alt="Professionnel de confiance" class="sk-objectif-img">
+                    <div class="sk-img-badge">
+                        <div class="sk-img-badge-icon"><i class="feather-shield"></i></div>
+                        <div>
+                            <div class="sk-img-badge-val">Profils vérifiés</div>
+                            <div class="sk-img-badge-lbl">100 % authentiques</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="sk-label blue"><i class="feather-target"></i> Notre objectif</div>
+                <h2 class="sk-section-title">
+                    Trouver un expert de confiance,<br>
+                    <span class="hl">sans effort</span>
+                </h2>
+                <p class="sk-section-sub">
+                    Nous regroupons les meilleurs professionnels du Québec pour vous permettre de
+                    comparer, contacter et choisir en toute liberté — sans frais et sans engagement.
+                </p>
+                <ul class="sk-check-list">
+                    <li>
+                        <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Accès à des centaines de profils dans toutes les catégories de travaux, partout au Québec</span>
+                    </li>
+                    <li>
+                        <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Profils détaillés : photos de réalisations, services offerts, avis clients certifiés</span>
+                    </li>
+                    <li>
+                        <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Contact direct et rapide avec le professionnel de votre choix</span>
+                    </li>
+                    <li>
+                        <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Service entièrement gratuit, sans abonnement ni commission cachée</span>
+                    </li>
+                </ul>
+                <a href="{{ path('professionals_list') }}" class="btn-sk-primary">
+                    <i class="feather-arrow-right"></i> Voir les professionnels
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   COMMENT ÇA MARCHE
+══════════════════════ #}
+<section class="sk-how" id="how-it-works">
+    <div class="container">
+        <div class="sk-how-header">
+            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:10px;">Simple et rapide</span>
+            <h2 class="sk-section-title" style="margin-bottom:8px;">Comment ça fonctionne</h2>
+            <p style="font-size:15px;color:var(--M);max-width:520px;margin:0 auto;">
+                4 étapes pour trouver le professionnel qu'il vous faut
+            </p>
+        </div>
+        <div class="sk-steps-timeline">
+
+            <div class="sk-step-row">
+                <div class="sk-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/hero_diy.jpg') }}" alt="Créer votre profil">
+                </div>
+                <div class="sk-step-center">
+                    <div class="sk-step-circle">1</div>
+                    <div class="sk-step-line"></div>
+                </div>
+                <div class="sk-step-content">
+                    <div class="sk-step-tag">Étape 1</div>
+                    <div class="sk-step-title">Créez votre profil</div>
+                    <p class="sk-step-text">
+                        Inscrivez-vous en quelques minutes pour sauvegarder vos recherches, contacter des
+                        professionnels et suivre vos échanges depuis votre espace personnel.
+                    </p>
+                </div>
+            </div>
+
+            <div class="sk-step-row reverse">
+                <div class="sk-step-content">
+                    <div class="sk-step-tag">Étape 2</div>
+                    <div class="sk-step-title">Recherchez par catégorie et région</div>
+                    <p class="sk-step-text">
+                        Utilisez nos filtres pour cibler les professionnels selon votre type de projet
+                        et votre localisation. Trouvez exactement ce dont vous avez besoin.
+                    </p>
+                </div>
+                <div class="sk-step-center">
+                    <div class="sk-step-circle">2</div>
+                    <div class="sk-step-line"></div>
+                </div>
+                <div class="sk-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_plumber.jpg') }}" alt="Recherche">
+                </div>
+            </div>
+
+            <div class="sk-step-row">
+                <div class="sk-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_electrician.jpg') }}" alt="Comparer">
+                </div>
+                <div class="sk-step-center">
+                    <div class="sk-step-circle">3</div>
+                    <div class="sk-step-line"></div>
+                </div>
+                <div class="sk-step-content">
+                    <div class="sk-step-tag">Étape 3</div>
+                    <div class="sk-step-title">Comparez les professionnels</div>
+                    <p class="sk-step-text">
+                        Consultez les informations clés : services offerts, photos de réalisations,
+                        avis clients et expériences. Évaluez plusieurs profils pour choisir celui
+                        qui correspond le mieux à vos attentes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="sk-step-row reverse">
+                <div class="sk-step-content">
+                    <div class="sk-step-tag">Étape 4</div>
+                    <div class="sk-step-title">Contactez directement</div>
+                    <p class="sk-step-text">
+                        Entrez en contact avec le professionnel sélectionné pour discuter de votre
+                        projet, obtenir un devis et démarrer vos travaux en toute confiance.
+                    </p>
+                </div>
+                <div class="sk-step-center">
+                    <div class="sk-step-circle">4</div>
+                    <div class="sk-step-line"></div>
+                </div>
+                <div class="sk-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_painter.jpg') }}" alt="Contact">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   MISSION
+══════════════════════ #}
+<section class="sk-mission">
+    <div class="container" style="position:relative;z-index:2;">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+                <div class="sk-mission-img-wrap">
+                    <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
+                         alt="Notre mission" class="sk-mission-img">
+                    <div class="sk-mission-img-tag">
+                        <div class="sk-mission-img-tag-num">98 %</div>
+                        <div class="sk-mission-img-tag-lbl">trouvent leur pro</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <div class="sk-mission-tag"><i class="feather-flag"></i> Notre mission</div>
+                <h2>Simplifier la recherche<br>d'un <span>expert de confiance</span></h2>
+                <p class="sk-mission-lead">
+                    Plus besoin de chercher sur plusieurs plateformes. Tout est centralisé pour vous
+                    permettre de trouver le bon professionnel en quelques clics.
+                </p>
+                <div class="sk-mission-points">
+                    <div class="sk-mission-point">
+                        <div class="sk-mission-icon"><i class="feather-shield"></i></div>
+                        <div>
+                            <div class="sk-mission-pt-title">Qualité et fiabilité garanties</div>
+                            <div class="sk-mission-pt-text">Chaque profil est examiné. Avis vérifiés et réalisations visibles avant de contacter.</div>
+                        </div>
+                    </div>
+                    <div class="sk-mission-point">
+                        <div class="sk-mission-icon"><i class="feather-clock"></i></div>
+                        <div>
+                            <div class="sk-mission-pt-title">Gagnez un temps précieux</div>
+                            <div class="sk-mission-pt-text">Tous les professionnels qualifiés de votre région, dans un seul endroit centralisé.</div>
+                        </div>
+                    </div>
+                    <div class="sk-mission-point">
+                        <div class="sk-mission-icon"><i class="feather-heart"></i></div>
+                        <div>
+                            <div class="sk-mission-pt-title">Expérience sans stress</div>
+                            <div class="sk-mission-pt-text">Parcourez, comparez et décidez à votre rythme. Aucune pression, aucuns frais.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   AVANTAGES
+══════════════════════ #}
+<section class="sk-adv">
+    <div class="container">
+        <div class="text-center">
+            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:10px;">Ce que vous gagnez</span>
+            <h2 class="sk-section-title" style="margin-bottom:8px;">Vos avantages</h2>
+            <p style="font-size:15px;color:var(--M);max-width:500px;margin:0 auto;">
+                Des outils conçus pour vous aider à faire le meilleur choix, sans effort.
+            </p>
+        </div>
+        <div class="sk-adv-grid">
+            <div class="sk-adv-card">
+                <div class="sk-adv-icon"><i class="feather-check-circle"></i></div>
+                <div class="sk-adv-title">Choix libre et personnalisé</div>
+                <p class="sk-adv-text">Aucune obligation, aucune pression. Vous parcourez les profils à votre rythme et décidez en toute autonomie.</p>
+            </div>
+            <div class="sk-adv-card">
+                <div class="sk-adv-icon"><i class="feather-shield"></i></div>
+                <div class="sk-adv-title">Profils vérifiés et détaillés</div>
+                <p class="sk-adv-text">Chaque professionnel fournit ses compétences, zones d'intervention et photos de réalisations. Vous savez à qui vous avez affaire.</p>
+            </div>
+            <div class="sk-adv-card">
+                <div class="sk-adv-icon"><i class="feather-star"></i></div>
+                <div class="sk-adv-title">Avis clients certifiés</div>
+                <p class="sk-adv-text">Consultez les évaluations laissées par d'autres clients. Des avis authentiques pour décider en toute confiance.</p>
+            </div>
+            <div class="sk-adv-card">
+                <div class="sk-adv-icon"><i class="feather-zap"></i></div>
+                <div class="sk-adv-title">Rapidité de prise de contact</div>
+                <p class="sk-adv-text">Un formulaire simple et direct. Le professionnel reçoit votre message immédiatement et peut vous répondre rapidement.</p>
+            </div>
+            <div class="sk-adv-card">
+                <div class="sk-adv-icon"><i class="feather-gift"></i></div>
+                <div class="sk-adv-title">Service 100 % gratuit</div>
+                <p class="sk-adv-text">Aucun frais pour les particuliers. Aucun abonnement, aucune commission cachée. Toujours gratuit.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   SOCIAL PROOF
+══════════════════════ #}
+<section class="sk-proof">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:12px;">Ils nous font confiance</span>
+                <h2 class="sk-section-title">Des milliers de particuliers<br>satisfaits</h2>
+                <p class="sk-section-sub">
+                    Partout au Québec, des propriétaires ont trouvé leur professionnel idéal
+                    grâce à Drilleedo. Rejoignez une communauté grandissante.
+                </p>
+                <div class="sk-proof-faces">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-05.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-06.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-07.jpg') }}" alt="" class="sk-proof-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-08.jpg') }}" alt="" class="sk-proof-face">
+                </div>
+                <div class="sk-proof-stats">
+                    <div>
+                        <div class="sk-proof-stat-num">★★★★★</div>
+                        <div class="sk-proof-stat-lbl">Satisfaction clients</div>
+                    </div>
+                    <div class="sk-proof-divider"></div>
+                    <div>
+                        <div class="sk-proof-stat-num">98 %</div>
+                        <div class="sk-proof-stat-lbl">Trouvent leur pro</div>
+                    </div>
+                    <div class="sk-proof-divider"></div>
+                    <div>
+                        <div class="sk-proof-stat-num">+8 000</div>
+                        <div class="sk-proof-stat-lbl">Projets réalisés</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="sk-testimonial">
+                    <div class="sk-stars">★★★★★</div>
+                    <p class="sk-testimonial-text">
+                        "J'ai trouvé un excellent plombier en moins de 24h. Les profils sont clairs,
+                        les avis sont fiables et le contact s'est fait facilement. J'ai pu comparer
+                        3 professionnels avant de choisir. Je recommande fortement Drilleedo à tous
+                        mes proches qui cherchent un entrepreneur sérieux."
+                    </p>
+                    <div class="sk-testimonial-author">— Marie-Josée L., Montréal</div>
+                </div>
+                <div class="sk-testimonial mt-3">
+                    <div class="sk-stars">★★★★★</div>
+                    <p class="sk-testimonial-text">
+                        "Service rapide et professionnel. J'ai pu trouver un électricien certifié
+                        dans ma région en quelques minutes. Très pratique et complètement gratuit !"
+                    </p>
+                    <div class="sk-testimonial-author">— Robert M., Québec</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════
+   CTA
+══════════════════════ #}
+<section class="sk-cta">
+    <div class="container" style="position:relative;z-index:2;">
+        <h2>Trouvez votre <span>professionnel</span><br>dès maintenant</h2>
+        <p>Des centaines de professionnels qualifiés vous attendent sur Drilleedo.<br>Gratuit, rapide, sans engagement.</p>
+        <div class="sk-cta-actions">
+            <a href="{{ path('professionals_list') }}" class="btn-sk-primary">
+                <i class="feather-search"></i> Parcourir les professionnels
+            </a>
+            <a href="{{ path('app_register') }}" class="btn-sk-outline">
+                <i class="feather-user-plus"></i> Créer un compte gratuit
+            </a>
+        </div>
+        <p class="sk-cta-note">
+            <i class="feather-lock"></i> Aucun frais · Aucun engagement · Résultats immédiats
+        </p>
+    </div>
+</section>
+
+</div>
+{% endblock %}

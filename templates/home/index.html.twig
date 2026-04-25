@@ -47,6 +47,12 @@
 .hc  { text-align: center; }
 .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0); }
 
+/* ── Brand icons (public/icons/*.svg) ── */
+.drl-icon    { width: 20px; height: 20px; display: inline-block; flex-shrink: 0; vertical-align: middle; }
+.drl-icon-sm { width: 16px; height: 16px; }
+.drl-icon-xs { width: 14px; height: 14px; }
+.drl-icon-white  { filter: brightness(0) invert(1); }
+
 /* ── Pill labels ── */
 .hpill {
   display: inline-flex; align-items: center; gap: 6px;
@@ -165,12 +171,14 @@
   display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px;
 }
 .hp-qchip {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 6px 13px; border-radius: 50px;
-  font-size: 12px; font-weight: 600; color: var(--M);
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 15px; border-radius: 50px;
+  font-size: 13px; font-weight: 600; color: var(--M);
   background: #F0F4F8; border: 1.5px solid var(--L);
   transition: var(--t); text-decoration: none; cursor: pointer;
 }
+.hp-qchip img { width: 15px; height: 15px; flex-shrink: 0; }
+.hp-qchip:hover img { filter: brightness(0) invert(1); }
 .hp-qchip:hover { background: var(--B); color: #fff; border-color: var(--B); }
 /* Social proof row */
 .hp-social-proof {
@@ -894,17 +902,17 @@ position: absolute;
         <i class="feather-search"></i>
         <input type="text" name="keyword" placeholder="Plombier, électricien, peintre, déménageur…" aria-label="Rechercher un professionnel">
         <button type="submit" class="hbtn hbtn-o" style="padding:0;width:44px;height:44px;border-radius:50%;justify-content:center;flex-shrink:0;">
-          <i class="feather-arrow-right" style="font-size:18px;"></i>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" width="20" height="20" fill="#fff" aria-hidden="true"><rect x="88.42" y="120.08" width="63.93" height="9.85"/><polygon points="161.58 125.02 154.62 131.98 147.66 125.02 124.02 101.39 131.76 95.21 161.58 125.02"/><polygon points="161.58 125.02 154.62 131.98 131.8 154.79 124.01 148.62 142.73 129.95 147.66 125.02 154.62 118.06 161.58 125.02"/></svg>
         </button>
         
       </form>
 
       {# Quick category chips #}
       <div class="hp-qchips">
-        <a href="{{ path('professionals_list', {keyword:'plomberie'}) }}" class="hp-qchip"><i class="feather-droplet"></i> Plomberie</a>
-        <a href="{{ path('professionals_list', {keyword:'électricité'}) }}" class="hp-qchip"><i class="feather-zap"></i> Électricité</a>
-        <a href="{{ path('professionals_list', {keyword:'peinture'}) }}" class="hp-qchip"><i class="feather-edit-2"></i> Peinture</a>
-        <a href="{{ path('professionals_list', {keyword:'jardinage'}) }}" class="hp-qchip"><i class="feather-sun"></i> Jardinage</a>
+        <a href="{{ path('professionals_list', {keyword:'plomberie'}) }}" class="hp-qchip"><img src="{{ asset('icons/Plumber.svg') }}" class="drl-icon-xs" alt=""> Plomberie</a>
+        <a href="{{ path('professionals_list', {keyword:'électricité'}) }}" class="hp-qchip"><img src="{{ asset('icons/Handyman.svg') }}" class="drl-icon-xs" alt=""> Électricité</a>
+        <a href="{{ path('professionals_list', {keyword:'peinture'}) }}" class="hp-qchip"><img src="{{ asset('icons/Painter.svg') }}" class="drl-icon-xs" alt=""> Peinture</a>
+        <a href="{{ path('professionals_list', {keyword:'jardinage'}) }}" class="hp-qchip"><img src="{{ asset('icons/Gardener.svg') }}" class="drl-icon-xs" alt=""> Jardinage</a>
         <a href="{{ path('professionals_list') }}" class="hp-qchip" style="color:var(--B);border-color:rgba(0,73,127,.25);">+ Voir tout</a>
       </div>
 
@@ -964,9 +972,9 @@ position: absolute;
       </div>
 
       <div class="hp-pro-badges">
-        <span class="hp-pro-badge"><i class="feather-zap"></i> Profil en ligne en moins de 24 h</span>
-        <span class="hp-pro-badge"><i class="feather-shield"></i> Sans commission</span>
-        <span class="hp-pro-badge"><i class="feather-trending-up"></i> +40% de demandes dès le 1er mois</span>
+        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt=""> Profil en ligne en moins de 24 h</span>
+        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt=""> Sans commission</span>
+        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt=""> +40% de demandes dès le 1er mois</span>
       </div>
     </div>
 
@@ -1067,13 +1075,18 @@ position: absolute;
       <p class="hl hlc" style="color:rgba(255,255,255,.65);">Deux façons de trouver votre artisan idéal — publiez un projet ou cherchez directement par vous-même.</p>
     </div>
 
-    {# Tabs principaux : Propriétaire vs Pro #}
-    <div class="hc" style="margin-bottom:28px;">
+    {# Tabs principaux : 3 scénarios #}
+    <div class="hc" style="margin-bottom:40px;">
       <div class="hp-hiw-tabs" role="tablist">
         <button class="hp-hiw-tab active" role="tab" aria-selected="true"
                 id="tab-o" aria-controls="panel-o"
                 onclick="hiwSwitch('o',this)">
-          <i class="feather-home"></i> Je cherche un Professionnel
+          <i class="feather-search"></i> Je cherche un Professionnel
+        </button>
+        <button class="hp-hiw-tab" role="tab" aria-selected="false"
+                id="tab-pub" aria-controls="panel-pub"
+                onclick="hiwSwitch('pub',this)">
+          <i class="feather-file-text"></i> Je publie mon projet
         </button>
         <button class="hp-hiw-tab" role="tab" aria-selected="false"
                 id="tab-p" aria-controls="panel-p"
@@ -1083,25 +1096,35 @@ position: absolute;
       </div>
     </div>
 
-    {# ── Panneau Propriétaire (2 scénarios) ── #}
+    {# ── Panneau : Je cherche un Professionnel ── #}
     <div id="panel-o" role="tabpanel" aria-labelledby="tab-o">
-
-      {# Sous-tabs scénarios #}
-      <div class="hc">
-        <div class="hp-hiw-subtabs">
-          <button class="hp-hiw-subtab active"
-                  id="stab-o1" onclick="hiwSubSwitch('o1', this)">
-            <i class="feather-file-text"></i> Publier mon projet
-          </button>
-          <button class="hp-hiw-subtab"
-                  id="stab-o2" onclick="hiwSubSwitch('o2', this)">
-            <i class="feather-search"></i> Je cherche moi-même
-          </button>
+      <div class="hp-hiw-steps">
+        <div class="hp-step hf">
+          <div class="hp-step-n">1</div>
+          <h3>Recherchez un professionnel</h3>
+          <p>Parcourez les profils selon votre besoin et votre localisation.</p>
+        </div>
+        <div class="hp-step hf" style="transition-delay:.08s">
+          <div class="hp-step-n">2</div>
+          <h3>Comparez les meilleurs profils</h3>
+          <p>Consultez avis, réalisations et expériences en détail.</p>
+        </div>
+        <div class="hp-step hf" style="transition-delay:.16s">
+          <div class="hp-step-n">3</div>
+          <h3>Envoyez une demande</h3>
+          <p>Contactez directement les professionnels qui vous intéressent.</p>
+        </div>
+        <div class="hp-step hf" style="transition-delay:.24s">
+          <div class="hp-step-n">4</div>
+          <h3>Lancez en toute confiance</h3>
+          <p>Échangez, choisissez et démarrez votre projet.</p>
         </div>
       </div>
+    </div>{# /panel-o #}
 
-      {# Scénario 1 — Publier un projet #}
-      <div class="hp-hiw-steps" id="steps-o1">
+    {# ── Panneau : Je publie mon projet ── #}
+    <div id="panel-pub" role="tabpanel" aria-labelledby="tab-pub" style="display:none">
+      <div class="hp-hiw-steps">
         <div class="hp-step hf">
           <div class="hp-step-n">1</div>
           <h3>Publiez votre projet</h3>
@@ -1123,52 +1146,27 @@ position: absolute;
           <p>Comparez, choisissez le meilleur rapport qualité-prix et lancez votre projet.</p>
         </div>
       </div>
+    </div>{# /panel-pub #}
 
-      {# Scénario 2 — Je cherche moi-même #}
-      <div class="hp-hiw-steps" id="steps-o2" style="display:none">
-        <div class="hp-step">
-          <div class="hp-step-n">1</div>
-          <h3>Recherchez un professionnel</h3>
-          <p>Parcourez les profils selon votre besoin et votre localisation.</p>
-        </div>
-        <div class="hp-step">
-          <div class="hp-step-n">2</div>
-          <h3>Comparez les meilleurs profils</h3>
-          <p>Consultez avis, réalisations et expériences en détail.</p>
-        </div>
-        <div class="hp-step">
-          <div class="hp-step-n">3</div>
-          <h3>Envoyez une demande</h3>
-          <p>Contactez directement les professionnels qui vous intéressent.</p>
-        </div>
-        <div class="hp-step">
-          <div class="hp-step-n">4</div>
-          <h3>Lancez en toute confiance</h3>
-          <p>Échangez, choisissez et démarrez votre projet.</p>
-        </div>
-      </div>
-
-    </div>{# /panel-o #}
-
-    {# ── Panneau Professionnel ── #}
+    {# ── Panneau : Je suis professionnel ── #}
     <div id="panel-p" role="tabpanel" aria-labelledby="tab-p" style="display:none">
-      <div class="hp-hiw-steps" id="steps-p">
-        <div class="hp-step">
+      <div class="hp-hiw-steps">
+        <div class="hp-step hf">
           <div class="hp-step-n">1</div>
           <h3>Créez votre profil</h3>
           <p>Inscrivez-vous gratuitement, ajoutez vos certifications, licences et portfolio de réalisations.</p>
         </div>
-        <div class="hp-step">
+        <div class="hp-step hf" style="transition-delay:.08s">
           <div class="hp-step-n">2</div>
           <h3>Recevez des demandes</h3>
           <p>Recevez des projets qualifiés dans votre secteur — clients sérieux, besoins précis, localisation ciblée.</p>
         </div>
-        <div class="hp-step">
+        <div class="hp-step hf" style="transition-delay:.16s">
           <div class="hp-step-n">3</div>
           <h3>Envoyez vos devis</h3>
           <p>Soumettez vos devis directement aux propriétaires intéressés — sans intermédiaire, sans commission.</p>
         </div>
-        <div class="hp-step">
+        <div class="hp-step hf" style="transition-delay:.24s">
           <div class="hp-step-n">4</div>
           <h3>Développez votre réputation</h3>
           <p>Accumulez des avis certifiés, renforcez votre crédibilité en ligne et attirez toujours plus de clients.</p>
@@ -1316,9 +1314,9 @@ position: absolute;
 </div>{# /hp #}
 
 <script>
-/* Tabs principaux : propriétaire / professionnel */
+/* Tabs principaux : 3 scénarios */
 function hiwSwitch(tab, btn) {
-  ['o','p'].forEach(function(t) {
+  ['o','pub','p'].forEach(function(t) {
     var panel = document.getElementById('panel-' + t);
     var b     = document.getElementById('tab-'   + t);
     if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
@@ -1326,16 +1324,6 @@ function hiwSwitch(tab, btn) {
       b.classList.toggle('active', t === tab);
       b.setAttribute('aria-selected', t === tab ? 'true' : 'false');
     }
-  });
-}
-
-/* Sous-tabs scénarios propriétaire */
-function hiwSubSwitch(sub, btn) {
-  ['o1','o2'].forEach(function(s) {
-    var panel = document.getElementById('steps-' + s);
-    var b     = document.getElementById('stab-'  + s);
-    if (panel) panel.style.display = (s === sub) ? 'grid' : 'none';
-    if (b) b.classList.toggle('active', s === sub);
   });
 }
 (function () {

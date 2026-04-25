@@ -1,568 +1,464 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'hitwp.meta_title'|trans }}{% endblock %}
-{% block meta_description %}{{ 'hitwp.meta_desc'|trans }}{% endblock %}
+{% block title %}Comment ça marche pour les professionnels — Drilleedo{% endblock %}
+{% block meta_description %}Commencez à recevoir des projets de rénovation qualifiés près de chez vous — simple, rapide et sans intermédiaire.{% endblock %}
 
 {% block body %}
 <main id="main-content">
 <style>
-/* ══ HOW IT WORKS PAGE ════════════════════════════════════════════════════
-   Follows the Drilleedo brand charter: navy #0d2151, blue #00509e, orange #FF8A3D
-   Reuses the .gyb- prefix structural system.
+/* ══ HOW IT WORKS — PROS ══════════════════════════════════════════════════
+   Charte Drilleedo : #00497F · #3FA9F5 · #FF8A3D · #FFFBEB
    ═════════════════════════════════════════════════════════════════════════ */
-
-/* ── 1. Hero ── */
-.gyb-hero {
-  min-height: 480px;
-  background: linear-gradient(135deg, #00497F 0%, #3FA9F5 100%);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+:root {
+  --B: #00497F; --S: #3FA9F5; --O: #FF8A3D;
+  --D: #0C1825; --M: #4A6073; --L: #E4EBF2; --W: #fff;
+  --F: 'Instrument Sans', system-ui, sans-serif;
+  --t: all .22s ease;
 }
+* { box-sizing: border-box; }
+.hw  { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
-.gyb-hero__pattern {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-4.5h5V30H15v-4h5v-5.5zm0 0V30H20v-4.5h5V30H15v-4h5v-5.5zM0 5h5v5H0V5zm15 0h5v5h-5V5z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+/* ── Hero ── */
+.hiw-hero {
+  background: var(--B);
+  padding: 80px 0 70px;
+  position: relative; overflow: hidden;
 }
-
-.gyb-hero::before {
-  content: '';
-  position: absolute;
-  right: -50px;
-  top: -50px;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
+.hiw-hero::after {
+  content: ''; position: absolute;
+  right: -80px; top: -80px;
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(63,169,245,.18) 0%, transparent 70%);
   pointer-events: none;
 }
-
-.gyb-hero__inner {
-  position: relative;
-  z-index: 2;
-  padding: 80px 0;
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
+.hiw-hero-inner { position: relative; z-index: 2; max-width: 760px; }
+.hiw-hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.12); color: #fff;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 999px; padding: 6px 18px;
+  font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; margin-bottom: 24px;
+  font-family: var(--F);
 }
-
-.gyb-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 999px;
-  padding: 6px 18px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+.hiw-hero-pill i { color: var(--S); }
+.hiw-hero h1 {
+  font-family: var(--F); font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: 900; color: #fff; margin: 0 0 20px;
+  line-height: 1.1; letter-spacing: -1.5px;
 }
-
-.gyb-eyebrow i { color: #16a34a; }
-
-.gyb-hero__title {
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 900;
-  color: #fff;
-  margin: 0 0 20px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+.hiw-hero h1 span { color: var(--S); }
+.hiw-hero-sub {
+  font-family: var(--F); font-size: 17px;
+  color: rgba(255,255,255,.82); line-height: 1.75; margin-bottom: 36px;
 }
-
-.gyb-hero__title span {
-  color: #FF8A3D;
-  position: relative;
-  display: inline-block;
+.hiw-hero-badges {
+  display: flex; flex-wrap: wrap; gap: 10px;
 }
-
-.gyb-hero__title span::after {
-  content: '';
-  position: absolute;
-  bottom: 8px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: rgba(255,138,61,0.3);
-  z-index: -1;
-  border-radius: 4px;
-}
-
-.gyb-hero__sub {
-  font-size: 18px;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.7;
-  margin-bottom: 36px;
-}
-
-/* ── 2. Sections ── */
-.gyb-section { padding: 100px 0; }
-.gyb-section--gray { background: #f8fafc; }
-.gyb-section--blue { background: linear-gradient(170deg, #f0f6ff 0%, #e8eeff 100%); }
-
-.gyb-section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #e8f4fd;
-  color: #00509e;
-  border: 1px solid rgba(0,73,127,0.15);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-
-.gyb-section-title {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 900;
-  color: #0d2151;
-  margin: 0 0 16px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-.gyb-section-title span { color: #FF8A3D; }
-
-.gyb-section-sub {
-  font-size: 17px;
-  color: #64748b;
-  line-height: 1.75;
-  max-width: 650px;
-}
-
-/* ── 3. Vertical Timeline (The Process) ── */
-.gyb-timeline {
-  position: relative;
-  max-width: 900px;
-  margin: 60px auto 0;
-  padding: 20px 0;
-}
-
-.gyb-timeline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: #e2e8f0;
-  transform: translateX(-50%);
-}
-
-.gyb-timeline-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 60px;
-  position: relative;
-  width: 100%;
-}
-
-.gyb-timeline-item:last-child { margin-bottom: 0; }
-
-.gyb-timeline-item:nth-child(even) { flex-direction: row-reverse; }
-
-.gyb-timeline-content {
-  width: calc(50% - 50px);
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 32px;
-  position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.gyb-timeline-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 40px rgba(12,24,37,0.08);
-  border-color: #bfdbfe;
-}
-
-/* Timeline pointer arrow */
-.gyb-timeline-content::before {
-  content: '';
-  position: absolute;
-  top: 32px;
-  width: 0; height: 0;
-  border-style: solid;
-}
-
-.gyb-timeline-item:nth-child(odd) .gyb-timeline-content::before {
-  right: -12px;
-  border-width: 12px 0 12px 12px;
-  border-color: transparent transparent transparent #e2e8f0;
-}
-.gyb-timeline-item:nth-child(even) .gyb-timeline-content::before {
-  left: -12px;
-  border-width: 12px 12px 12px 0;
-  border-color: transparent #e2e8f0 transparent transparent;
-}
-
-/* Timeline pointer arrow Inner (white) */
-.gyb-timeline-content::after {
-  content: '';
-  position: absolute;
-  top: 33px;
-  width: 0; height: 0;
-  border-style: solid;
-}
-
-.gyb-timeline-item:nth-child(odd) .gyb-timeline-content::after {
-  right: -10px;
-  border-width: 11px 0 11px 11px;
-  border-color: transparent transparent transparent #fff;
-}
-.gyb-timeline-item:nth-child(even) .gyb-timeline-content::after {
-  left: -10px;
-  border-width: 11px 11px 11px 0;
-  border-color: transparent #fff transparent transparent;
-}
-
-.gyb-timeline-icon {
-  position: absolute;
-  left: 50%;
-  top: 24px;
-  width: 56px;
-  height: 56px;
-  transform: translateX(-50%);
-  background: #0d2151;
-  border: 4px solid #f8fafc;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  color: #fff;
-  z-index: 2;
-  box-shadow: 0 4px 12px rgba(12,24,37,0.15);
-}
-
-.gyb-timeline-item:nth-child(1) .gyb-timeline-icon { background: linear-gradient(135deg, #0d2151, #003660); }
-.gyb-timeline-item:nth-child(2) .gyb-timeline-icon { background: linear-gradient(135deg, #00509e, #2196f3); }
-.gyb-timeline-item:nth-child(3) .gyb-timeline-icon { background: linear-gradient(135deg, #16a34a, #22c55e); }
-.gyb-timeline-item:nth-child(4) .gyb-timeline-icon { background: linear-gradient(135deg, #FF8A3D, #FF8A3D); }
-
-.gyb-timeline-step {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #94a3b8;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.gyb-timeline-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #0d2151;
-  margin: 0 0 12px;
-  line-height: 1.25;
-}
-
-.gyb-timeline-desc {
-  font-size: 15px;
-  color: #64748b;
-  line-height: 1.7;
-  margin: 0;
-}
-
-/* ── 4. Lead Breakdown Block ── */
-.gyb-anatomy {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 48px;
-  box-shadow: 0 20px 40px rgba(12,24,37,0.05);
-  margin-top: 50px;
-}
-
-.gyb-anatomy__header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.gyb-anatomy__title {
-  font-size: 24px;
-  font-weight: 900;
-  color: #0d2151;
-  margin: 0 0 12px;
-}
-
-.gyb-anatomy__sub {
-  font-size: 15px;
-  color: #64748b;
-}
-
-.gyb-anatomy-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.gyb-anatomy-card {
-  background: #f8fafc;
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-}
-
-.gyb-anatomy-card i {
-  font-size: 28px;
-  color: #00509e;
-  margin-bottom: 16px;
-}
-
-.gyb-anatomy-card h4 {
-  font-size: 16px;
-  font-weight: 800;
-  color: #0d2151;
-  margin: 0 0 8px;
-}
-
-.gyb-anatomy-card p {
-  font-size: 14px;
-  color: #64748b;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* ── 5. Final CTA ── */
-.gyb-final {
-  background: #0d2151;
-  padding: 100px 0;
-  text-align: center;
-  position: relative;
-}
-
-.gyb-final__title {
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 900;
-  color: #fff;
-  margin: 0 0 24px;
-}
-
-.gyb-btn-orange {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #FF8A3D;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 800;
-  padding: 16px 36px;
-  border-radius: 8px;
+.hiw-hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1); color: #fff;
+  border: 1.5px solid rgba(255,255,255,.22);
+  border-radius: 999px; padding: 9px 20px;
+  font-family: var(--F); font-size: 14px; font-weight: 700;
   text-decoration: none;
-  border: none;
-  box-shadow: 0 6px 24px rgba(255,138,61,0.35);
-  transition: all 0.2s ease;
 }
-.gyb-btn-orange:hover { background: #e87830; transform: translateY(-3px); color: #fff; box-shadow: 0 8px 32px rgba(255,138,61,0.45); }
+.hiw-hero-badge i { color: var(--S); font-size: 15px; }
 
-.gyb-btn-white {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 800;
-  padding: 14px 32px;
-  border-radius: 8px;
-  text-decoration: none;
-  border: 2px solid rgba(255,255,255,0.4);
-  transition: all 0.2s ease;
+/* ── Steps Section ── */
+.hiw-steps { padding: 90px 0; background: #f5f8ff; }
+.hiw-steps-header { text-align: center; margin-bottom: 56px; }
+.hiw-steps-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(63,169,245,.1); color: var(--S);
+  border: 1px solid rgba(63,169,245,.2);
+  border-radius: 999px; padding: 6px 18px;
+  font-family: var(--F); font-size: 12px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: 16px;
 }
-.gyb-btn-white:hover { background: #fff; color: #0d2151; border-color: #fff; }
+.hiw-steps-title {
+  font-family: var(--F); font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 900; color: var(--B); margin: 0;
+  letter-spacing: -1px; line-height: 1.15;
+}
+.hiw-steps-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+.hiw-step-card {
+  background: #fff; border-radius: 20px; padding: 36px;
+  border: 1px solid #e2ecf8;
+  box-shadow: 0 4px 20px rgba(0,73,127,.07);
+  transition: var(--t);
+}
+.hiw-step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,73,127,.13);
+  border-color: rgba(63,169,245,.3);
+}
+.hiw-step-num {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--B); color: #fff;
+  font-family: var(--F); font-size: 18px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; flex-shrink: 0;
+}
+.hiw-step-title {
+  font-family: var(--F); font-size: 20px; font-weight: 800;
+  color: var(--D); margin: 0 0 8px; line-height: 1.25;
+}
+.hiw-step-sub {
+  font-family: var(--F); font-size: 14px; color: var(--M);
+  line-height: 1.6; margin-bottom: 18px;
+}
+.hiw-checklist { list-style: none; padding: 0; margin: 0 0 16px; display: flex; flex-direction: column; gap: 9px; }
+.hiw-checklist li {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-family: var(--F); font-size: 14px; color: var(--D); line-height: 1.5;
+}
+.hiw-checklist li::before {
+  content: '';
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--S); flex-shrink: 0; margin-top: 1px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 250'%3E%3Cpolygon fill='%23fff' points='147.41 87.9 147.38 87.92 147.36 87.9 117.99 117.26 117.99 117.26 102.59 101.87 80.15 124.31 117.94 162.1 118 162.04 118.05 162.1 118.08 162.08 118.1 162.1 147.47 132.73 169.85 110.34 147.41 87.9'/%3E%3C/svg%3E");
+  background-size: 70%; background-repeat: no-repeat; background-position: center;
+}
+.hiw-step-note {
+  background: #f0f6ff; border-left: 3px solid var(--S);
+  border-radius: 0 8px 8px 0; padding: 10px 14px;
+  font-family: var(--F); font-size: 13px; color: var(--B); font-weight: 600;
+  margin-top: 8px;
+}
 
-/* ── Responsive ── */
+/* ── FAQ Section ── */
+.hiw-faq { padding: 90px 0; background: #fff; }
+.hiw-faq-inner { display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: start; }
+.hiw-faq-left {}
+.hiw-faq-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(0,73,127,.07); color: var(--B);
+  border: 1px solid rgba(0,73,127,.15);
+  border-radius: 999px; padding: 6px 18px;
+  font-family: var(--F); font-size: 12px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: 16px;
+}
+.hiw-faq-title {
+  font-family: var(--F); font-size: clamp(24px, 3vw, 34px);
+  font-weight: 900; color: var(--B); margin: 0 0 36px;
+  letter-spacing: -1px; line-height: 1.15;
+}
+.hiw-faq-item {
+  border: 1px solid #e2ecf8; border-radius: 14px;
+  padding: 24px 28px; margin-bottom: 16px;
+  background: #fff; transition: var(--t);
+}
+.hiw-faq-item:hover { border-color: rgba(63,169,245,.35); box-shadow: 0 4px 16px rgba(0,73,127,.07); }
+.hiw-faq-q {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--F); font-size: 16px; font-weight: 800;
+  color: var(--D); margin-bottom: 14px;
+}
+.hiw-faq-q-icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--B); color: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 900;
+}
+.hiw-faq-p {
+  font-family: var(--F); font-size: 14px; color: var(--M);
+  line-height: 1.65; margin: 0 0 14px;
+}
+.hiw-faq-checks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.hiw-faq-checks li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-family: var(--F); font-size: 14px; color: var(--D);
+}
+.hiw-faq-checks li i { color: var(--S); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.hiw-faq-note {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,138,61,.1); color: var(--O);
+  border-radius: 8px; padding: 8px 14px;
+  font-family: var(--F); font-size: 13px; font-weight: 700;
+  margin-top: 12px;
+}
+
+/* Right: Trust block */
+.hiw-trust {
+  position: sticky; top: 100px;
+  background: var(--B); border-radius: 20px;
+  overflow: hidden; text-align: center;
+}
+.hiw-trust img { width: 100%; height: 240px; object-fit: cover; display: block; }
+.hiw-trust-body { padding: 28px; }
+.hiw-trust-title {
+  font-family: var(--F); font-size: 20px; font-weight: 900;
+  color: #fff; margin: 0 0 16px; line-height: 1.25;
+}
+.hiw-trust-stats { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.hiw-trust-stat {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.1); border-radius: 10px; padding: 12px 16px;
+}
+.hiw-trust-stat i { color: var(--S); font-size: 18px; flex-shrink: 0; }
+.hiw-trust-stat-text { text-align: left; }
+.hiw-trust-stat-val {
+  font-family: var(--F); font-size: 18px; font-weight: 900; color: #fff; line-height: 1;
+}
+.hiw-trust-stat-lbl {
+  font-family: var(--F); font-size: 12px; color: rgba(255,255,255,.65);
+}
+.hiw-trust-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--S); color: #fff;
+  font-family: var(--F); font-size: 14px; font-weight: 800;
+  border-radius: 10px; padding: 13px 20px; text-decoration: none;
+  transition: var(--t);
+}
+.hiw-trust-cta:hover { background: #2a95e0; color: #fff; }
+
+/* ── Final CTA ── */
+.hiw-cta {
+  background: linear-gradient(135deg, var(--B) 0%, #0a3d70 100%);
+  padding: 90px 0; text-align: center; position: relative; overflow: hidden;
+}
+.hiw-cta::before {
+  content: ''; position: absolute; right: -100px; bottom: -100px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(63,169,245,.15) 0%, transparent 70%);
+}
+.hiw-cta-title {
+  font-family: var(--F); font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; color: #fff; margin: 0 0 12px; letter-spacing: -1px;
+}
+.hiw-cta-sub {
+  font-family: var(--F); font-size: 17px;
+  color: rgba(255,255,255,.75); margin-bottom: 36px;
+}
+.hiw-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hiw-btn-o {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--O); color: #fff;
+  font-family: var(--F); font-size: 15px; font-weight: 800;
+  padding: 14px 32px; border-radius: 50px; text-decoration: none;
+  box-shadow: 0 6px 24px rgba(255,138,61,.35); transition: var(--t);
+}
+.hiw-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
+.hiw-btn-w {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1); color: #fff;
+  font-family: var(--F); font-size: 15px; font-weight: 700;
+  padding: 14px 32px; border-radius: 50px; text-decoration: none;
+  border: 2px solid rgba(255,255,255,.35); transition: var(--t);
+}
+.hiw-btn-w:hover { background: #fff; color: var(--B); }
+
+/* Responsive */
 @media (max-width: 900px) {
-  .gyb-timeline::before { left: 30px; }
-  .gyb-timeline-icon { left: 30px; transform: translateX(-50%); }
-  .gyb-timeline-content { width: calc(100% - 80px); margin-left: auto; }
-  .gyb-timeline-item:nth-child(even) { flex-direction: row; }
-  
-  /* Fix arrows for mobile (all left side) */
-  .gyb-timeline-item:nth-child(odd) .gyb-timeline-content::before,
-  .gyb-timeline-item:nth-child(even) .gyb-timeline-content::before {
-    left: -12px; right: auto;
-    border-width: 12px 12px 12px 0;
-    border-color: transparent #e2e8f0 transparent transparent;
-  }
-  .gyb-timeline-item:nth-child(odd) .gyb-timeline-content::after,
-  .gyb-timeline-item:nth-child(even) .gyb-timeline-content::after {
-    left: -10px; right: auto;
-    border-width: 11px 11px 11px 0;
-    border-color: transparent #fff transparent transparent;
-  }
-  
-  .gyb-anatomy-grid { grid-template-columns: 1fr; }
+  .hiw-steps-grid { grid-template-columns: 1fr; }
+  .hiw-faq-inner  { grid-template-columns: 1fr; }
+  .hiw-trust { position: static; }
 }
-
 @media (max-width: 600px) {
-  .gyb-anatomy { padding: 32px 20px; }
-  .gyb-section { padding: 60px 0; }
+  .hiw-steps { padding: 60px 0; }
+  .hiw-faq   { padding: 60px 0; }
+  .hiw-step-card { padding: 24px; }
+  .hiw-hero-badges { flex-direction: column; }
 }
 
-/* Scroll Animations */
-.gyb-scroll { opacity: 0; transform: translateY(24px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.gyb-scroll.visible { opacity: 1; transform: none; }
+/* Scroll reveal */
+.hiw-scroll { opacity: 0; transform: translateY(20px); transition: all .55s cubic-bezier(.16,1,.3,1); }
+.hiw-scroll.visible { opacity: 1; transform: none; }
 </style>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   1. HERO
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-hero" aria-labelledby="hero-title">
-  <div class="gyb-hero__pattern"></div>
-  <div class="container">
-    <div class="gyb-hero__inner gyb-scroll">
-      <div class="gyb-eyebrow">
-        <i class="feather-check-circle"></i> {{ 'hitwp.hero_eyebrow'|trans }}
+{# ══ 1. HERO ══════════════════════════════════════════════════════════════ #}
+<section class="hiw-hero">
+  <div class="hw">
+    <div class="hiw-hero-inner hiw-scroll">
+      <div class="hiw-hero-pill">
+        <i class="feather-award"></i> Pour les professionnels
       </div>
-      <h1 class="gyb-hero__title" id="hero-title">
-        {{ 'hitwp.hero_title_1'|trans }} <span>{{ 'hitwp.hero_title_2'|trans }}</span>
-      </h1>
-      <p class="gyb-hero__sub">
-        {{ 'hitwp.hero_sub'|trans }}
+      <h1>Comment ça marche<br>pour les <span>professionnels</span></h1>
+      <p class="hiw-hero-sub">
+        Commencez à recevoir des projets de rénovation qualifiés près de chez vous —<br>
+        simple, rapide et sans intermédiaire.
       </p>
+      <div class="hiw-hero-badges">
+        <span class="hiw-hero-badge"><i class="feather-dollar-sign"></i> Aucun Commission</span>
+        <span class="hiw-hero-badge"><i class="feather-shield"></i> Leads Vérifiés</span>
+        <span class="hiw-hero-badge"><i class="feather-users"></i> Clients Directs</span>
+      </div>
     </div>
   </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   2. TIMELINE PROCESS
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section bg-color-white">
-  <div class="container">
-    <div class="text-center gyb-scroll">
-      <div class="gyb-section-eyebrow">
-        <i class="fas fa-route"></i> {{ 'hitwp.process_eyebrow'|trans }}
-      </div>
-      <h2 class="gyb-section-title">{{ 'hitwp.process_title_1'|trans }} <span>{{ 'hitwp.process_title_2'|trans }}</span></h2>
-      <p class="gyb-section-sub mx-auto">
-        {{ 'hitwp.process_sub'|trans }}
-      </p>
+{# ══ 2. 4 ÉTAPES ══════════════════════════════════════════════════════════ #}
+<section class="hiw-steps">
+  <div class="hw">
+    <div class="hiw-steps-header hiw-scroll">
+      <div class="hiw-steps-pill"><i class="feather-list"></i> Processus simple</div>
+      <h2 class="hiw-steps-title">Démarrez en 4 étapes simples</h2>
     </div>
 
-    <div class="gyb-timeline">
-      
-      {# Step 1 #}
-      <div class="gyb-timeline-item gyb-scroll">
-        <div class="gyb-timeline-icon"><i class="feather-edit-3"></i></div>
-        <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">{{ 'hitwp.step1_lbl'|trans }}</span>
-          <h3 class="gyb-timeline-title">{{ 'hitwp.step1_title'|trans }}</h3>
-          <p class="gyb-timeline-desc">
-            {{ 'hitwp.step1_desc'|trans }}
-          </p>
-        </div>
+    <div class="hiw-steps-grid">
+
+      {# Étape 1 #}
+      <div class="hiw-step-card hiw-scroll">
+        <div class="hiw-step-num">1</div>
+        <h3 class="hiw-step-title">Créez votre profil professionnel</h3>
+        <p class="hiw-step-sub">Créez et personnalisez votre profil en quelques minutes.</p>
+        <ul class="hiw-checklist">
+          <li>Présentez vos services</li>
+          <li>Indiquez votre zone géographique</li>
+          <li>Accédez à votre tableau de bord pour suivre vos projets, devis et visibilité</li>
+        </ul>
       </div>
 
-      {# Step 2 #}
-      <div class="gyb-timeline-item gyb-scroll">
-        <div class="gyb-timeline-icon"><i class="feather-shield"></i></div>
-        <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">{{ 'hitwp.step2_lbl'|trans }}</span>
-          <h3 class="gyb-timeline-title">{{ 'hitwp.step2_title'|trans }}</h3>
-          <p class="gyb-timeline-desc">
-            {{ 'hitwp.step2_desc'|trans|raw }}
-          </p>
-        </div>
+      {# Étape 2 #}
+      <div class="hiw-step-card hiw-scroll">
+        <div class="hiw-step-num">2</div>
+        <h3 class="hiw-step-title">Recevez des projets vérifiés</h3>
+        <p class="hiw-step-sub">Recevez des demandes de rénovation réelles et validées.</p>
+        <ul class="hiw-checklist">
+          <li>Des clients sérieux publient leurs projets</li>
+          <li>Notre équipe vérifie chaque demande avant diffusion</li>
+          <li>Les projets sont adaptés à votre expertise et à votre région</li>
+        </ul>
       </div>
 
-      {# Step 3 #}
-      <div class="gyb-timeline-item gyb-scroll">
-        <div class="gyb-timeline-icon"><i class="feather-bell"></i></div>
-        <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">{{ 'hitwp.step3_lbl'|trans }}</span>
-          <h3 class="gyb-timeline-title">{{ 'hitwp.step3_title'|trans }}</h3>
-          <p class="gyb-timeline-desc">
-            {{ 'hitwp.step3_desc'|trans }}
-          </p>
-        </div>
+      {# Étape 3 #}
+      <div class="hiw-step-card hiw-scroll">
+        <div class="hiw-step-num">3</div>
+        <h3 class="hiw-step-title">Analysez et envoyez vos devis</h3>
+        <p class="hiw-step-sub">Consultez les détails du projet et proposez votre offre.</p>
+        <ul class="hiw-checklist">
+          <li>Vous définissez votre prix et votre disponibilité</li>
+          <li>Vous gardez le contrôle total sur vos réponses</li>
+        </ul>
       </div>
 
-      {# Step 4 #}
-      <div class="gyb-timeline-item gyb-scroll">
-        <div class="gyb-timeline-icon"><i class="feather-briefcase"></i></div>
-        <div class="gyb-timeline-content">
-          <span class="gyb-timeline-step">{{ 'hitwp.step4_lbl'|trans }}</span>
-          <h3 class="gyb-timeline-title">{{ 'hitwp.step4_title'|trans }}</h3>
-          <p class="gyb-timeline-desc">
-            {{ 'hitwp.step4_desc'|trans }}
-          </p>
-        </div>
+      {# Étape 4 #}
+      <div class="hiw-step-card hiw-scroll">
+        <div class="hiw-step-num">4</div>
+        <h3 class="hiw-step-title">Entrez en contact avec le client</h3>
+        <p class="hiw-step-sub">Une fois votre offre acceptée, le client vous contacte directement.</p>
+        <ul class="hiw-checklist">
+          <li>Vous confirmez le rendez-vous</li>
+          <li>Vous démarrez le projet</li>
+        </ul>
       </div>
 
     </div>
   </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   3. LEAD ANATOMY
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section gyb-section--blue">
-  <div class="container">
-    <div class="text-center gyb-scroll">
-      <div class="gyb-section-eyebrow">
-        <i class="feather-target"></i> {{ 'hitwp.lead_eyebrow'|trans }}
-      </div>
-      <h2 class="gyb-section-title">{{ 'hitwp.lead_title_1'|trans }} <span>{{ 'hitwp.lead_title_2'|trans }}</span></h2>
-      <p class="gyb-section-sub mx-auto">
-        {{ 'hitwp.lead_sub'|trans }}
-      </p>
-    </div>
+{# ══ 3. FAQ + TRUST ════════════════════════════════════════════════════════ #}
+<section class="hiw-faq">
+  <div class="hw">
+    <div class="hiw-faq-inner">
 
-    <div class="gyb-anatomy gyb-scroll">
-      <div class="gyb-anatomy__header">
-        <h3 class="gyb-anatomy__title">{{ 'hitwp.lead_hdr_title'|trans }}</h3>
-        <p class="gyb-anatomy__sub">{{ 'hitwp.lead_hdr_sub'|trans }}</p>
+      {# Left: FAQ #}
+      <div class="hiw-faq-left hiw-scroll">
+        <div class="hiw-faq-pill"><i class="feather-help-circle"></i> FAQ</div>
+        <h2 class="hiw-faq-title">Ce que vous devez savoir</h2>
+
+        <div class="hiw-faq-item">
+          <div class="hiw-faq-q">
+            <span class="hiw-faq-q-icon">?</span>
+            Comment fonctionne le service ?
+          </div>
+          <p class="hiw-faq-p">Les clients décrivent leur projet sur la plateforme et chaque demande est validée.</p>
+          <ul class="hiw-faq-checks">
+            <li><i class="feather-check-circle"></i> Vous recevez une notification</li>
+            <li><i class="feather-check-circle"></i> Vous choisissez d'y répondre ou non</li>
+          </ul>
+        </div>
+
+        <div class="hiw-faq-item">
+          <div class="hiw-faq-q">
+            <span class="hiw-faq-q-icon">?</span>
+            Quelles sont les exigences ?
+          </div>
+          <ul class="hiw-faq-checks">
+            <li><i class="feather-check-circle"></i> Avoir une licence valide si nécessaire</li>
+            <li><i class="feather-check-circle"></i> Avoir une bonne réputation professionnelle</li>
+            <li><i class="feather-check-circle"></i> Fournir des informations fiables</li>
+          </ul>
+        </div>
+
+        <div class="hiw-faq-item">
+          <div class="hiw-faq-q">
+            <span class="hiw-faq-q-icon">$</span>
+            Combien coûte le service ?
+          </div>
+          <ul class="hiw-faq-checks">
+            <li><i class="feather-check-circle"></i> Un abonnement mensuel uniquement</li>
+            <li><i class="feather-check-circle"></i> Aucune commission</li>
+            <li><i class="feather-check-circle"></i> Aucun coût supplémentaire sur les leads</li>
+          </ul>
+        </div>
+
+        <div class="hiw-faq-item">
+          <div class="hiw-faq-q">
+            <span class="hiw-faq-q-icon">?</span>
+            Combien d'entrepreneurs par projet ?
+          </div>
+          <ul class="hiw-faq-checks">
+            <li><i class="feather-check-circle"></i> Plusieurs professionnels peuvent répondre</li>
+            <li><i class="feather-check-circle"></i> Le client choisit la meilleure offre</li>
+            <li><i class="feather-check-circle"></i> Répondez rapidement avec une offre compétitive</li>
+          </ul>
+        </div>
       </div>
-      <div class="gyb-anatomy-grid">
-        <div class="gyb-anatomy-card">
-          <i class="feather-map-pin"></i>
-          <h4>{{ 'hitwp.lead_card1_title'|trans }}</h4>
-          <p>{{ 'hitwp.lead_card1_desc'|trans }}</p>
-        </div>
-        <div class="gyb-anatomy-card">
-          <i class="feather-align-left"></i>
-          <h4>{{ 'hitwp.lead_card2_title'|trans }}</h4>
-          <p>{{ 'hitwp.lead_card2_desc'|trans }}</p>
-        </div>
-        <div class="gyb-anatomy-card">
-          <i class="feather-lock"></i>
-          <h4>{{ 'hitwp.lead_card3_title'|trans }}</h4>
-          <p>{{ 'hitwp.lead_card3_desc'|trans }}</p>
+
+      {# Right: Trust block #}
+      <div class="hiw-trust hiw-scroll">
+        <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
+             alt="Professionnel Drilleedo — confiance et qualité" loading="lazy">
+        <div class="hiw-trust-body">
+          <h3 class="hiw-trust-title">Pourquoi les pros font confiance à Drilleedo</h3>
+          <div class="hiw-trust-stats">
+            <div class="hiw-trust-stat">
+              <i class="feather-users"></i>
+              <div class="hiw-trust-stat-text">
+                <div class="hiw-trust-stat-val">1 500+</div>
+                <div class="hiw-trust-stat-lbl">Professionnels vérifiés</div>
+              </div>
+            </div>
+            <div class="hiw-trust-stat">
+              <i class="feather-trending-up"></i>
+              <div class="hiw-trust-stat-text">
+                <div class="hiw-trust-stat-val">+40%</div>
+                <div class="hiw-trust-stat-lbl">de demandes dès le 1er mois</div>
+              </div>
+            </div>
+            <div class="hiw-trust-stat">
+              <i class="feather-dollar-sign"></i>
+              <div class="hiw-trust-stat-text">
+                <div class="hiw-trust-stat-val">0%</div>
+                <div class="hiw-trust-stat-lbl">Commission sur vos contrats</div>
+              </div>
+            </div>
+          </div>
+          <a href="{{ path('app_register_pro') }}" class="hiw-trust-cta">
+            <i class="feather-user-plus"></i> Rejoindre maintenant
+          </a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   4. FINAL CTA
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-final gyb-scroll">
-  <div class="container">
-    <div class="gyb-eyebrow" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
-      <i class="feather-power" style="color: #FF8A3D;"></i> {{ 'hitwp.cta_eyebrow'|trans }}
-    </div>
-    <h2 class="gyb-final__title">{{ 'hitwp.cta_title'|trans }}</h2>
-    <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <a href="{{ path('app_register_pro') }}" class="gyb-btn-orange">
-        {{ 'hitwp.cta_btn_create'|trans }}
+{# ══ 4. FINAL CTA ══════════════════════════════════════════════════════════ #}
+<section class="hiw-cta hiw-scroll">
+  <div class="hw">
+    <h2 class="hiw-cta-title">Prêt à développer votre activité ?</h2>
+    <p class="hiw-cta-sub">Rejoignez 1 500+ professionnels vérifiés au Canada — sans commission.</p>
+    <div class="hiw-cta-btns">
+      <a href="{{ path('app_register_pro') }}" class="hiw-btn-o">
+        <i class="feather-user-plus"></i> Créer mon profil pro
       </a>
-      <a href="{{ path('packages') }}" class="gyb-btn-white">
-        {{ 'hitwp.cta_btn_explore'|trans }}
+      <a href="{{ path('packages') }}" class="hiw-btn-w">
+        <i class="feather-package"></i> Voir les forfaits
       </a>
     </div>
   </div>
@@ -571,18 +467,13 @@
 </main>
 
 <script>
-// Scroll reveal animation
 document.addEventListener('DOMContentLoaded', () => {
   const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { 
-      if (e.isIntersecting) { 
-        e.target.classList.add('visible'); 
-        obs.unobserve(e.target); 
-      } 
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
     });
-  }, { threshold: 0.1 });
-  
-  document.querySelectorAll('.gyb-scroll').forEach(el => obs.observe(el));
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.hiw-scroll').forEach(el => obs.observe(el));
 });
 </script>
 {% endblock %}

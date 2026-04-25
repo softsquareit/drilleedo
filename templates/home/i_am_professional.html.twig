@@ -1,0 +1,933 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Je suis un professionnel | Drilleedo Canada{% endblock %}
+{% block meta_description %}Développez votre activité, accédez à des clients qualifiés et maximisez vos opportunités grâce à notre plateforme.{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+/* ═══════════════════════════════════════════
+   BRAND TOKENS (page-scoped)
+═══════════════════════════════════════════ */
+:root {
+    --B: #00497F;   /* Helper Blue */
+    --S: #3FA9F5;   /* Action Sky  */
+    --O: #FF8A3D;   /* Toolbox Orange */
+    --D: #0C1825;   /* Dark navy */
+    --M: #4A6073;   /* Medium body */
+}
+
+/* ═══════════════════════════════════════════
+   GLOBAL
+═══════════════════════════════════════════ */
+.pro-page { font-family: 'Instrument Sans', system-ui, sans-serif; }
+
+/* ═══════════════════════════════════════════
+   BREADCRUMB
+═══════════════════════════════════════════ */
+.pro-breadcrumb {
+    background: var(--D);
+    padding: 10px 0;
+}
+.pro-breadcrumb a { color: rgba(255,255,255,.55); font-size: 12px; text-decoration: none; transition: color .15s; }
+.pro-breadcrumb a:hover { color: #fff; }
+.pro-breadcrumb .sep { color: rgba(255,255,255,.3); margin: 0 7px; font-size: 12px; }
+.pro-breadcrumb strong { color: rgba(255,255,255,.9); font-size: 12px; }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.pro-hero {
+    background: linear-gradient(135deg, var(--D) 0%, #0a3660 60%, var(--B) 100%);
+    padding: 70px 0 0;
+    overflow: hidden;
+    position: relative;
+}
+/* dot texture */
+.pro-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(63,169,245,.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+}
+.pro-hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, #f0f6ff, transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+.pro-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(63,169,245,.15); border: 1px solid rgba(63,169,245,.4);
+    color: var(--S); font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 50px; margin-bottom: 22px;
+}
+.pro-hero h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    font-weight: 900; color: #fff; line-height: 1.1;
+    margin-bottom: 22px; letter-spacing: -.02em;
+}
+.pro-hero h1 .hl { color: var(--S); }
+.pro-hero-lead {
+    font-size: 1.1rem; color: rgba(255,255,255,.75);
+    line-height: 1.75; margin-bottom: 36px; max-width: 540px;
+}
+.pro-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
+.btn-cta-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--O); color: #fff;
+    font-size: 15px; font-weight: 700;
+    padding: 15px 32px; border-radius: 12px;
+    text-decoration: none; transition: all .2s;
+    box-shadow: 0 4px 18px rgba(255,138,61,.4);
+}
+.btn-cta-primary:hover { background: #e07830; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,138,61,.45); }
+.btn-cta-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.1); color: #fff;
+    font-size: 15px; font-weight: 600;
+    padding: 14px 28px; border-radius: 12px;
+    text-decoration: none; border: 1.5px solid rgba(255,255,255,.3);
+    transition: all .2s;
+}
+.btn-cta-outline:hover { background: rgba(255,255,255,.18); color: #fff; }
+.pro-hero-trust { display: flex; align-items: center; gap: 16px; }
+.pro-hero-trust-faces { display: flex; }
+.pro-hero-trust-faces img {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.4); object-fit: cover;
+    margin-left: -8px;
+}
+.pro-hero-trust-faces img:first-child { margin-left: 0; }
+.pro-hero-trust-text { font-size: 13px; color: rgba(255,255,255,.75); }
+.pro-hero-trust-text strong { color: #fff; }
+
+/* Hero image col */
+.pro-hero-img-col { position: relative; display: flex; align-items: flex-end; justify-content: center; z-index: 2; }
+.pro-hero-img {
+    width: 100%; max-width: 460px;
+    border-radius: 20px 20px 0 0;
+    object-fit: cover; object-position: top;
+    height: 460px;
+    display: block;
+    box-shadow: -20px 0 60px rgba(0,0,0,.3);
+}
+
+/* Floating stat cards */
+.pro-stat-float {
+    position: absolute;
+    background: #fff; border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.15);
+    display: flex; align-items: center; gap: 12px;
+    white-space: nowrap;
+}
+.pro-stat-float-1 { left: -10px; top: 60px; }
+.pro-stat-float-2 { right: 10px; top: 180px; }
+.pro-stat-float-3 { left: 0px; bottom: 80px; }
+.pro-stat-float-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+}
+.pro-stat-float-icon.blue  { background: #dde9ff; color: var(--B); }
+.pro-stat-float-icon.green { background: #d1fae5; color: #059669; }
+.pro-stat-float-icon.orange { background: #fff0e0; color: var(--O); }
+.pro-stat-float-val { font-size: 18px; font-weight: 900; color: var(--D); line-height: 1; }
+.pro-stat-float-lbl { font-size: 11px; color: var(--M); font-weight: 500; margin-top: 2px; }
+
+/* Image badge overlay */
+.pro-img-wrap { position: relative; display: inline-block; width: 100%; }
+.pro-img-badge {
+    position: absolute; bottom: 20px; right: 20px;
+    background: #fff; border-radius: 12px;
+    padding: 10px 16px; box-shadow: 0 6px 20px rgba(0,0,0,.15);
+    display: flex; align-items: center; gap: 10px;
+}
+.pro-img-badge-icon { width: 32px; height: 32px; border-radius: 8px; background: #fff0e0; color: var(--O); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.pro-img-badge-val { font-size: 16px; font-weight: 900; color: var(--D); line-height: 1; }
+.pro-img-badge-lbl { font-size: 11px; color: var(--M); }
+.pro-mission-img-wrap { position: relative; }
+.pro-mission-img-tag {
+    position: absolute; bottom: 24px; right: 24px;
+    background: rgba(255,255,255,.12); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.25); border-radius: 12px;
+    padding: 10px 16px; color: #fff;
+}
+.pro-mission-img-tag-num { font-size: 20px; font-weight: 900; line-height: 1; color: var(--S); }
+.pro-mission-img-tag-lbl { font-size: 11px; opacity: .75; margin-top: 2px; }
+
+/* ═══════════════════════════════════════════
+   OBJECTIF / STATS BAND
+═══════════════════════════════════════════ */
+.pro-stats-band {
+    background: #f0f6ff;
+    padding: 48px 0;
+    border-bottom: 1px solid #dde9ff;
+}
+.pro-stats-band-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+}
+.pro-stat-item {
+    text-align: center;
+    padding: 20px 24px;
+    border-right: 1px solid #dde9ff;
+}
+.pro-stat-item:last-child { border-right: none; }
+.pro-stat-val {
+    font-size: 2.4rem; font-weight: 900; color: var(--B);
+    line-height: 1; margin-bottom: 6px;
+    letter-spacing: -.03em;
+}
+.pro-stat-val span { color: var(--O); }
+.pro-stat-lbl { font-size: 13px; color: var(--M); font-weight: 500; }
+
+/* ═══════════════════════════════════════════
+   OBJECTIF SECTION
+═══════════════════════════════════════════ */
+.pro-objective {
+    background: #fff;
+    padding: 80px 0;
+}
+.pro-objective-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: #fff0e0; color: var(--O);
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 50px;
+    margin-bottom: 16px;
+}
+.pro-section-title {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 900; color: var(--D); line-height: 1.2;
+    letter-spacing: -.02em; margin-bottom: 16px;
+}
+.pro-section-title .hl { color: var(--B); }
+.pro-section-sub { font-size: 15px; color: var(--M); line-height: 1.8; margin-bottom: 32px; }
+
+.pro-objective-img {
+    width: 100%; border-radius: 20px;
+    object-fit: cover; height: 380px;
+    box-shadow: 0 16px 48px rgba(0,73,127,.12);
+}
+
+.pro-check-list { list-style: none; padding: 0; margin: 0 0 32px; }
+.pro-check-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+    font-size: 14px; color: var(--D); line-height: 1.5;
+}
+.pro-check-list li:last-child { border-bottom: none; }
+.pro-check-list li .check-icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--B); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 11px; margin-top: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   BUT / MISSION SPLIT SECTION
+═══════════════════════════════════════════ */
+.pro-mission {
+    background: linear-gradient(135deg, var(--D), #0f3d6b);
+    padding: 80px 0;
+    position: relative; overflow: hidden;
+}
+.pro-mission::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: rgba(63,169,245,.08);
+    pointer-events: none;
+}
+.pro-mission-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(63,169,245,.15); border: 1px solid rgba(63,169,245,.3);
+    color: var(--S); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 50px; margin-bottom: 18px;
+}
+.pro-mission h2 {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 900; color: #fff; line-height: 1.2;
+    letter-spacing: -.02em; margin-bottom: 18px;
+}
+.pro-mission h2 span { color: var(--S); }
+.pro-mission-lead {
+    font-size: 15px; color: rgba(255,255,255,.75); line-height: 1.8; margin-bottom: 32px;
+}
+.pro-mission-points { display: flex; flex-direction: column; gap: 16px; }
+.pro-mission-point {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px; padding: 16px 18px;
+}
+.pro-mission-point-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(63,169,245,.2); color: var(--S);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px;
+}
+.pro-mission-point-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.pro-mission-point-text { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.5; }
+.pro-mission-img {
+    width: 100%; border-radius: 20px;
+    object-fit: cover; height: 440px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+}
+
+/* ═══════════════════════════════════════════
+   STEPS SECTION
+═══════════════════════════════════════════ */
+.pro-steps {
+    background: #f4f8ff;
+    padding: 80px 0;
+}
+.pro-steps-header { text-align: center; margin-bottom: 60px; }
+.pro-section-label {
+    display: inline-block;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--S);
+    margin-bottom: 10px;
+}
+.pro-steps-timeline { display: flex; flex-direction: column; gap: 0; }
+.pro-step-row {
+    display: grid; grid-template-columns: 1fr 60px 1fr;
+    gap: 0; align-items: center;
+    margin-bottom: 8px;
+}
+.pro-step-row.reverse .pro-step-content { order: 3; text-align: right; }
+.pro-step-row.reverse .pro-step-center { order: 2; }
+.pro-step-row.reverse .pro-step-img-col { order: 1; }
+.pro-step-center {
+    display: flex; flex-direction: column; align-items: center;
+}
+.pro-step-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--B); color: #fff;
+    font-size: 18px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 6px rgba(0,73,127,.12);
+    position: relative; z-index: 2;
+    flex-shrink: 0;
+}
+.pro-step-line {
+    width: 2px; height: 60px;
+    background: linear-gradient(to bottom, var(--B), rgba(0,73,127,.1));
+}
+.pro-step-row:last-child .pro-step-line { display: none; }
+.pro-step-content {
+    background: #fff; border: 1px solid #e2e8f0;
+    border-radius: 16px; padding: 24px 26px;
+    transition: box-shadow .2s;
+}
+.pro-step-content:hover { box-shadow: 0 6px 24px rgba(0,73,127,.1); }
+.pro-step-tag {
+    font-size: 10px; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--S); margin-bottom: 6px;
+}
+.pro-step-title { font-size: 16px; font-weight: 800; color: var(--D); margin-bottom: 8px; }
+.pro-step-text { font-size: 13px; color: var(--M); line-height: 1.7; margin: 0; }
+.pro-step-img-col img {
+    width: 100%; height: 180px; object-fit: cover;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+
+/* ═══════════════════════════════════════════
+   ADVANTAGES SECTION
+═══════════════════════════════════════════ */
+.pro-adv {
+    background: #fff;
+    padding: 80px 0;
+}
+.pro-adv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 50px;
+}
+.pro-adv-card {
+    background: #f4f8ff;
+    border: 1px solid #dde9ff;
+    border-radius: 18px;
+    padding: 30px 26px;
+    transition: box-shadow .2s, transform .2s;
+    position: relative; overflow: hidden;
+}
+.pro-adv-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--B), var(--S));
+    border-radius: 18px 18px 0 0;
+}
+.pro-adv-card:hover { box-shadow: 0 12px 32px rgba(0,73,127,.1); transform: translateY(-4px); }
+.pro-adv-card-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--B), #0066b3);
+    color: #fff; font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 16px rgba(0,73,127,.25);
+}
+.pro-adv-card-title { font-size: 16px; font-weight: 800; color: var(--D); margin-bottom: 10px; }
+.pro-adv-card-text { font-size: 13px; color: var(--M); line-height: 1.7; margin: 0; }
+
+/* ═══════════════════════════════════════════
+   SOCIAL PROOF
+═══════════════════════════════════════════ */
+.pro-social {
+    background: linear-gradient(135deg, #f0f6ff, #e8f0fb);
+    padding: 70px 0;
+    border-top: 1px solid #dde9ff;
+}
+.pro-social-faces-grid {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 20px;
+}
+.pro-social-face {
+    width: 54px; height: 54px; border-radius: 50%;
+    object-fit: cover; border: 3px solid #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    transition: transform .2s;
+}
+.pro-social-face:hover { transform: scale(1.1) translateY(-3px); }
+.pro-social-stats { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.pro-social-stat-num { font-size: 1.7rem; font-weight: 900; color: var(--B); line-height: 1; }
+.pro-social-stat-lbl { font-size: 12px; color: var(--M); margin-top: 3px; }
+.pro-social-divider { width: 1px; height: 38px; background: #dde9ff; }
+.pro-testimonial {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+    padding: 26px 28px; position: relative; margin-top: 4px;
+}
+.pro-testimonial::before {
+    content: '"'; position: absolute; top: 8px; left: 20px;
+    font-size: 72px; font-weight: 900; color: #dde9ff; line-height: 1;
+    font-family: Georgia, serif;
+}
+.pro-testimonial-text { font-size: 14px; color: var(--M); line-height: 1.7; margin: 0 0 14px; padding-top: 20px; }
+.pro-testimonial-author { font-size: 13px; font-weight: 700; color: var(--B); }
+.pro-stars { color: var(--O); font-size: 13px; margin-bottom: 8px; }
+
+/* ═══════════════════════════════════════════
+   CTA FINALE
+═══════════════════════════════════════════ */
+.pro-cta {
+    background: linear-gradient(135deg, var(--D), var(--B));
+    padding: 90px 0;
+    text-align: center;
+    position: relative; overflow: hidden;
+}
+.pro-cta::before {
+    content: '';
+    position: absolute; top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: rgba(63,169,245,.06);
+    pointer-events: none;
+}
+.pro-cta h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 900; color: #fff; line-height: 1.2;
+    letter-spacing: -.02em; margin-bottom: 16px;
+}
+.pro-cta h2 span { color: var(--S); }
+.pro-cta p { font-size: 1.05rem; color: rgba(255,255,255,.75); margin-bottom: 38px; }
+.pro-cta-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
+.pro-cta-note { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 20px; }
+.pro-cta-note i { margin-right: 4px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 991px) {
+    .pro-hero { padding: 50px 0 0; }
+    .pro-hero-img { height: 320px; }
+    .pro-stat-float { display: none; }
+    .pro-step-row { grid-template-columns: 1fr; gap: 12px; }
+    .pro-step-row.reverse .pro-step-content { order: 0; text-align: left; }
+    .pro-step-row.reverse .pro-step-center { order: 0; }
+    .pro-step-row.reverse .pro-step-img-col { order: 0; }
+    .pro-step-center { flex-direction: row; gap: 12px; }
+    .pro-step-line { width: 40px; height: 2px; }
+    .pro-step-img-col { display: none; }
+    .pro-stat-item { border-right: none; border-bottom: 1px solid #dde9ff; }
+    .pro-stat-item:last-child { border-bottom: none; }
+}
+@media (max-width: 767px) {
+    .pro-hero h1 { font-size: 1.9rem; }
+    .pro-cta h2 { font-size: 1.7rem; }
+    .btn-cta-outline { margin-top: 0; }
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="pro-page">
+
+{# ── Breadcrumb ── #}
+<div class="pro-breadcrumb">
+    <div class="container">
+        <a href="{{ path('app_home') }}">Accueil</a>
+        <span class="sep">/</span>
+        <a href="{{ path('app_how_it_works') }}">Comment ça marche</a>
+        <span class="sep">/</span>
+        <strong>Je suis un professionnel</strong>
+    </div>
+</div>
+
+{# ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ #}
+<section class="pro-hero">
+    <div class="container">
+        <div class="row align-items-end g-4">
+            <div class="col-lg-6 pb-5" style="position:relative;z-index:2;">
+                <div class="pro-hero-eyebrow">
+                    <i class="feather-briefcase"></i> Pour les entrepreneurs &amp; professionnels
+                </div>
+                <h1>
+                    Remplissez votre carnet de<br>
+                    <span class="hl">commandes en continu</span>
+                </h1>
+                <p class="pro-hero-lead">
+                    Accédez à des clients qualifiés, développez votre visibilité et concentrez-vous
+                    sur ce que vous faites de mieux — pendant que Drilleedo s'occupe du reste.
+                </p>
+                <div class="pro-hero-actions">
+                    <a href="{{ path('app_register') }}" class="btn-cta-primary">
+                        <i class="feather-user-plus"></i> Créer mon profil gratuitement
+                    </a>
+                    <a href="#how-it-works" class="btn-cta-outline">
+                        <i class="feather-play-circle"></i> Voir comment ça marche
+                    </a>
+                </div>
+                <div class="pro-hero-trust">
+                    <div class="pro-hero-trust-faces">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="Pro">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="Pro">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="Pro">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="Pro">
+                    </div>
+                    <div class="pro-hero-trust-text">
+                        <strong>+1 500 professionnels</strong> nous font confiance au Canada
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 pro-hero-img-col">
+                <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
+                     alt="Professionnel Drilleedo"
+                     class="pro-hero-img">
+                <div class="pro-stat-float pro-stat-float-1">
+                    <div class="pro-stat-float-icon blue"><i class="feather-briefcase"></i></div>
+                    <div>
+                        <div class="pro-stat-float-val">+1 500</div>
+                        <div class="pro-stat-float-lbl">Pros inscrits</div>
+                    </div>
+                </div>
+                <div class="pro-stat-float pro-stat-float-2">
+                    <div class="pro-stat-float-icon green"><i class="feather-trending-up"></i></div>
+                    <div>
+                        <div class="pro-stat-float-val">+40%</div>
+                        <div class="pro-stat-float-lbl">De nouveaux contrats</div>
+                    </div>
+                </div>
+                <div class="pro-stat-float pro-stat-float-3">
+                    <div class="pro-stat-float-icon orange"><i class="feather-percent"></i></div>
+                    <div>
+                        <div class="pro-stat-float-val">0%</div>
+                        <div class="pro-stat-float-lbl">Commission prélevée</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   STATS BAND
+══════════════════════════════════════════ #}
+<section class="pro-stats-band">
+    <div class="container">
+        <div class="pro-stats-band-grid">
+            <div class="pro-stat-item">
+                <div class="pro-stat-val">+1 500</div>
+                <div class="pro-stat-lbl">Professionnels inscrits</div>
+            </div>
+            <div class="pro-stat-item">
+                <div class="pro-stat-val">+40<span>%</span></div>
+                <div class="pro-stat-lbl">de contrats supplémentaires</div>
+            </div>
+            <div class="pro-stat-item">
+                <div class="pro-stat-val">0<span>%</span></div>
+                <div class="pro-stat-lbl">Commission sur vos projets</div>
+            </div>
+            <div class="pro-stat-item">
+                <div class="pro-stat-val">&lt;24h</div>
+                <div class="pro-stat-lbl">Pour être en ligne</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   OBJECTIF
+══════════════════════════════════════════ #}
+<section class="pro-objective">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="pro-img-wrap">
+                    <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
+                         alt="Rénovation professionnelle"
+                         class="pro-objective-img">
+                    <div class="pro-img-badge">
+                        <div class="pro-img-badge-icon"><i class="feather-trending-up"></i></div>
+                        <div>
+                            <div class="pro-img-badge-val">+40 %</div>
+                            <div class="pro-img-badge-lbl">Contrats supplémentaires</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="pro-objective-tag">
+                    <i class="feather-target"></i> Notre objectif
+                </div>
+                <h2 class="pro-section-title">
+                    Moins de temps à chercher,<br>
+                    <span class="hl">plus de temps à réaliser</span>
+                </h2>
+                <p class="pro-section-sub">
+                    Que vous soyez entrepreneur général ou spécialisé, Drilleedo répond aux défis
+                    concrets du terrain : trouver des clients fiables, optimiser votre temps et
+                    maximiser la rentabilité de chaque projet.
+                </p>
+                <ul class="pro-check-list">
+                    <li>
+                        <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Accès à des demandes réelles avec des besoins clairement définis dans votre zone géographique</span>
+                    </li>
+                    <li>
+                        <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Réduction considérable du temps consacré à la prospection et aux démarches commerciales</span>
+                    </li>
+                    <li>
+                        <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Augmentation de vos chances de conclure des contrats pertinents et rentables</span>
+                    </li>
+                    <li>
+                        <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
+                        <span>Carnet de commandes rempli de manière continue et sécurisée</span>
+                    </li>
+                </ul>
+                <a href="{{ path('app_register') }}" class="btn-cta-primary" style="background:var(--B); box-shadow:0 4px 18px rgba(0,73,127,.3);">
+                    <i class="feather-arrow-right"></i> Démarrer maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   MISSION / BUT
+══════════════════════════════════════════ #}
+<section class="pro-mission">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+                <div class="pro-mission-img-wrap">
+                    <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
+                         alt="Mission Drilleedo"
+                         class="pro-mission-img">
+                    <div class="pro-mission-img-tag">
+                        <div class="pro-mission-img-tag-num">0 %</div>
+                        <div class="pro-mission-img-tag-lbl">commission prélevée</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <div class="pro-mission-tag">
+                    <i class="feather-flag"></i> Notre but
+                </div>
+                <h2>
+                    Soutenir la <span>croissance durable</span><br>de votre entreprise
+                </h2>
+                <p class="pro-mission-lead">
+                    Notre système intelligent de mise en relation vous connecte avec des clients sérieux,
+                    dans votre secteur d'activité et votre région — sans effort de votre part.
+                </p>
+                <div class="pro-mission-points">
+                    <div class="pro-mission-point">
+                        <div class="pro-mission-point-icon"><i class="feather-users"></i></div>
+                        <div>
+                            <div class="pro-mission-point-title">Clients vérifiés &amp; qualifiés</div>
+                            <div class="pro-mission-point-text">Chaque demande est soumise par un client sérieux, avec un besoin réel et un budget défini.</div>
+                        </div>
+                    </div>
+                    <div class="pro-mission-point">
+                        <div class="pro-mission-point-icon"><i class="feather-map-pin"></i></div>
+                        <div>
+                            <div class="pro-mission-point-title">Projets dans votre zone</div>
+                            <div class="pro-mission-point-text">Ne recevez que les projets qui correspondent à votre secteur géographique et votre expertise.</div>
+                        </div>
+                    </div>
+                    <div class="pro-mission-point">
+                        <div class="pro-mission-point-icon"><i class="feather-shield"></i></div>
+                        <div>
+                            <div class="pro-mission-point-title">Croissance sécurisée</div>
+                            <div class="pro-mission-point-text">Concentrez-vous sur l'exécution — nous gérons la mise en relation et la visibilité pour vous.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   COMMENT ÇA MARCHE
+══════════════════════════════════════════ #}
+<section class="pro-steps" id="how-it-works">
+    <div class="container">
+        <div class="pro-steps-header">
+            <span class="pro-section-label">Processus simple</span>
+            <h2 class="pro-section-title" style="margin-bottom:8px;">Comment ça fonctionne</h2>
+            <p style="font-size:15px; color:var(--M); max-width:540px; margin:0 auto;">
+                4 étapes pour commencer à recevoir des projets qualifiés
+            </p>
+        </div>
+        <div class="pro-steps-timeline">
+
+            <div class="pro-step-row">
+                <div class="pro-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_plumber.jpg') }}" alt="Créer profil">
+                </div>
+                <div class="pro-step-center">
+                    <div class="pro-step-circle">1</div>
+                    <div class="pro-step-line"></div>
+                </div>
+                <div class="pro-step-content">
+                    <div class="pro-step-tag">Étape 1</div>
+                    <div class="pro-step-title">Créez votre profil professionnel</div>
+                    <p class="pro-step-text">
+                        Inscrivez-vous en quelques minutes et complétez votre profil avec vos services,
+                        vos zones d'intervention, vos certifications et vos réalisations passées.
+                        Votre vitrine est immédiatement visible par des milliers de clients.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pro-step-row reverse">
+                <div class="pro-step-content">
+                    <div class="pro-step-tag">Étape 2</div>
+                    <div class="pro-step-title">Recevez des demandes ciblées</div>
+                    <p class="pro-step-text">
+                        Notre plateforme vous propose automatiquement des projets correspondant à
+                        votre expertise et à votre localisation. Plus besoin de chercher — les
+                        opportunités viennent à vous.
+                    </p>
+                </div>
+                <div class="pro-step-center">
+                    <div class="pro-step-circle">2</div>
+                    <div class="pro-step-line"></div>
+                </div>
+                <div class="pro-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_electrician.jpg') }}" alt="Demandes ciblées">
+                </div>
+            </div>
+
+            <div class="pro-step-row">
+                <div class="pro-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_painter.jpg') }}" alt="Soumettez offres">
+                </div>
+                <div class="pro-step-center">
+                    <div class="pro-step-circle">3</div>
+                    <div class="pro-step-line"></div>
+                </div>
+                <div class="pro-step-content">
+                    <div class="pro-step-tag">Étape 3</div>
+                    <div class="pro-step-title">Soumettez vos offres</div>
+                    <p class="pro-step-text">
+                        Sélectionnez uniquement les projets qui vous intéressent. Envoyez vos
+                        soumissions directement aux clients et échangez avec eux pour affiner
+                        leurs besoins et afficher votre expertise.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pro-step-row reverse">
+                <div class="pro-step-content">
+                    <div class="pro-step-tag">Étape 4</div>
+                    <div class="pro-step-title">Gagnez des contrats</div>
+                    <p class="pro-step-text">
+                        Développez votre portefeuille clients, obtenez des avis certifiés et
+                        augmentez votre visibilité en ligne. Chaque contrat remporté renforce
+                        votre réputation sur la plateforme.
+                    </p>
+                </div>
+                <div class="pro-step-center">
+                    <div class="pro-step-circle">4</div>
+                    <div class="pro-step-line"></div>
+                </div>
+                <div class="pro-step-img-col">
+                    <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}" alt="Gagnez contrats">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   AVANTAGES
+══════════════════════════════════════════ #}
+<section class="pro-adv">
+    <div class="container">
+        <div class="text-center">
+            <span class="pro-section-label">Ce que vous gagnez</span>
+            <h2 class="pro-section-title" style="margin-bottom:8px;">Vos avantages exclusifs</h2>
+            <p style="font-size:15px; color:var(--M); max-width:500px; margin:0 auto;">
+                Drilleedo a été conçu pour les professionnels qui veulent grandir sans se disperser.
+            </p>
+        </div>
+        <div class="pro-adv-grid">
+            <div class="pro-adv-card">
+                <div class="pro-adv-card-icon"><i class="feather-users"></i></div>
+                <div class="pro-adv-card-title">Accès à des clients qualifiés</div>
+                <p class="pro-adv-card-text">
+                    Finis les contacts peu sérieux. Chaque client sur Drilleedo a soumis une demande
+                    réelle avec un projet défini et un budget estimé.
+                </p>
+            </div>
+            <div class="pro-adv-card">
+                <div class="pro-adv-card-icon"><i class="feather-clock"></i></div>
+                <div class="pro-adv-card-title">Gain de temps sur la prospection</div>
+                <p class="pro-adv-card-text">
+                    Éliminez les heures perdues en démarches commerciales. Concentrez votre énergie
+                    sur vos chantiers, pas sur la recherche de clients.
+                </p>
+            </div>
+            <div class="pro-adv-card">
+                <div class="pro-adv-card-icon"><i class="feather-trending-up"></i></div>
+                <div class="pro-adv-card-title">Visibilité accrue en ligne</div>
+                <p class="pro-adv-card-text">
+                    Votre profil professionnel apparaît dans les résultats de recherche et attire
+                    des clients sans effort supplémentaire de votre part.
+                </p>
+            </div>
+            <div class="pro-adv-card">
+                <div class="pro-adv-card-icon"><i class="feather-check-square"></i></div>
+                <div class="pro-adv-card-title">Liberté totale de choix</div>
+                <p class="pro-adv-card-text">
+                    Vous choisissez les projets qui correspondent à votre agenda, vos compétences
+                    et vos objectifs. Jamais d'obligation, toujours le contrôle.
+                </p>
+            </div>
+            <div class="pro-adv-card">
+                <div class="pro-adv-card-icon"><i class="feather-layout"></i></div>
+                <div class="pro-adv-card-title">Outil simple et efficace</div>
+                <p class="pro-adv-card-text">
+                    Tableau de bord clair, notifications en temps réel, messagerie intégrée.
+                    Gérez toutes vos opportunités depuis un seul endroit.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   SOCIAL PROOF
+══════════════════════════════════════════ #}
+<section class="pro-social">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:12px;">Ils nous font confiance</span>
+                <h2 class="pro-section-title">+1 500 professionnels<br>développent leur activité</h2>
+                <p class="pro-section-sub">
+                    Plombiers, électriciens, peintres, entrepreneurs généraux — ils font confiance
+                    à Drilleedo pour remplir leur carnet de commandes.
+                </p>
+                <div class="pro-social-faces-grid">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-05.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-06.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-07.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-08.jpg') }}" alt="Pro" class="pro-social-face">
+                </div>
+                <div class="pro-social-stats">
+                    <div>
+                        <div class="pro-social-stat-num">★★★★★</div>
+                        <div class="pro-social-stat-lbl">Note moyenne</div>
+                    </div>
+                    <div class="pro-social-divider"></div>
+                    <div>
+                        <div class="pro-social-stat-num">98 %</div>
+                        <div class="pro-social-stat-lbl">Satisfaction</div>
+                    </div>
+                    <div class="pro-social-divider"></div>
+                    <div>
+                        <div class="pro-social-stat-num">+8 000</div>
+                        <div class="pro-social-stat-lbl">Projets réalisés</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="pro-testimonial">
+                    <div class="pro-stars">★★★★★</div>
+                    <p class="pro-testimonial-text">
+                        "Depuis que je suis inscrit sur Drilleedo, j'ai augmenté mon nombre de
+                        contrats de plus de 40 %. Les clients sont sérieux, les projets bien définis
+                        et je n'ai plus à perdre du temps en démarchage. Je me concentre sur mon
+                        travail — c'est exactement ce que je cherchais."
+                    </p>
+                    <div class="pro-testimonial-author">— Jean-François B., Plombier, Montréal</div>
+                </div>
+                <div class="pro-testimonial mt-3">
+                    <div class="pro-stars">★★★★★</div>
+                    <p class="pro-testimonial-text">
+                        "La plateforme est simple, efficace et gratuite. En moins d'une semaine
+                        après mon inscription, j'avais déjà 3 nouveaux chantiers. Je recommande
+                        à tous les entrepreneurs qui veulent développer leur activité."
+                    </p>
+                    <div class="pro-testimonial-author">— Mario T., Électricien, Laval</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══════════════════════════════════════════
+   CTA FINALE
+══════════════════════════════════════════ #}
+<section class="pro-cta">
+    <div class="container">
+        <h2>Prêt à <span>remplir votre carnet</span><br>de commandes ?</h2>
+        <p>Créez votre profil en moins de 5 minutes. Gratuit, sans engagement.</p>
+        <div class="pro-cta-actions">
+            <a href="{{ path('app_register') }}" class="btn-cta-primary">
+                <i class="feather-user-plus"></i> Créer mon profil gratuitement
+            </a>
+            <a href="{{ path('professionals_list') }}" class="btn-cta-outline">
+                <i class="feather-search"></i> Explorer la plateforme
+            </a>
+        </div>
+        <p class="pro-cta-note">
+            <i class="feather-lock"></i> Aucune carte de crédit requise · Profil en ligne en moins de 24 h
+        </p>
+    </div>
+</section>
+
+</div>
+{% endblock %}

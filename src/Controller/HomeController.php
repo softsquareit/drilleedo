@@ -85,6 +85,30 @@ final class HomeController extends AbstractController
     {
         return $this->render('home/how_it_works_pros.html.twig');
     }
+
+    #[Route('/find-a-pro', name: 'app_find_a_pro')]
+    public function findAPro(): Response
+    {
+        return $this->render('home/find_a_pro.html.twig');
+    }
+
+    #[Route('/je-suis-un-professionnel', name: 'app_i_am_professional')]
+    public function iAmProfessional(): Response
+    {
+        return $this->render('home/i_am_professional.html.twig');
+    }
+
+    #[Route('/je-cherche-un-professionnel', name: 'app_i_seek_professional')]
+    public function iSeekProfessional(): Response
+    {
+        return $this->render('home/i_seek_professional.html.twig');
+    }
+
+    #[Route('/je-veux-soumettre-un-projet', name: 'app_submit_project')]
+    public function submitProject(): Response
+    {
+        return $this->render('home/submit_project.html.twig');
+    }
     
     #[Route('/find-professionals', name: 'professionals_list')]
     public function professionals(

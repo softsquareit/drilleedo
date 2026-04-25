@@ -1,613 +1,710 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}How It Works | Drilleedo Canada{% endblock %}
-{% block meta_description %}Learn how Drilleedo connects homeowners with trusted renovation professionals. Post a request, compare quotes, and hire the best contractor for your project.{% endblock %}
+{% block title %}Comment ça marche | Drilleedo Canada{% endblock %}
+{% block meta_description %}Soumettez votre projet de rénovation 100 % gratuitement et recevez des offres de professionnels vérifiés. Simple, rapide, sans engagement.{% endblock %}
 
 {% block body %}
 <main id="main-content">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
 <style>
-/* ══ UNIFIED HOW IT WORKS PAGE ═════════════════════════════════════════════
-   Design charter based on Drilleedo Pro & Smart Ideas.
-   ═════════════════════════════════════════════════════════════════════════ */
+/* ══ HOW IT WORKS ══════════════════════════════════════════════════════════
+   Charte : #00497F · #3FA9F5 · #FF8A3D · #0C1825 · #4A6073
+   ══════════════════════════════════════════════════════════════════════════ */
+:root { --B:#00497F; --S:#3FA9F5; --O:#FF8A3D; --D:#0C1825; --M:#4A6073; }
 
-/* ── 1. Hero ── */
-.hiw-hero {
-  min-height: 480px;
-  background: linear-gradient(135deg, #00497F 0%, #3FA9F5 100%);
-  display: flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding: 80px 0;
+.hw-wrap { max-width:1140px; margin:0 auto; padding:0 24px; }
+
+/* ────────────────────────────────────────────────
+   1. HERO
+   ──────────────────────────────────────────────── */
+.hw-hero {
+    background: linear-gradient(125deg, #0C1825 0%, #00497F 60%, #003660 100%);
+    padding: 88px 0 76px;
+    position: relative; overflow: hidden;
+}
+.hw-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+}
+.hw-hero::after {
+    content: '';
+    position: absolute; right: -100px; top: -100px;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,138,61,.14) 0%, transparent 68%);
+    pointer-events: none;
+}
+.hw-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px; align-items: center;
+    position: relative; z-index: 2;
+}
+/* text col */
+.hw-hero-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.9);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 999px; padding: 6px 16px;
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.hw-hero h1 {
+    font-size: clamp(28px,4.2vw,52px);
+    font-weight: 900; color: #fff; margin: 0 0 6px;
+    line-height: 1.08; letter-spacing: -.025em;
+    text-shadow: 0 4px 28px rgba(0,0,0,.3);
+}
+.hw-hero h1 .hl-free {
+    display: inline-block;
+    color: #FF8A3D;
+}
+.hw-hero__sub {
+    font-size: 17px; color: rgba(255,255,255,.75);
+    max-width: 500px; line-height: 1.75; margin: 16px 0 28px;
+}
+.hw-hero-trust {
+    display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 32px;
+}
+.hw-hero-trust span {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: rgba(255,255,255,.8); font-size: 13px; font-weight: 600;
+}
+.hw-hero-trust i { color: #FF8A3D; font-size: 15px; }
+.hw-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* image col */
+.hw-hero-img-col { position: relative; }
+.hw-hero-img {
+    width: 100%; height: 430px; object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 28px 64px rgba(0,0,0,.35);
+    display: block;
+}
+.hw-hero-badge {
+    position: absolute; bottom: 28px; left: -18px;
+    background: #FF8A3D; color: #fff;
+    padding: 14px 22px; border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(255,138,61,.45);
+}
+.hw-hero-badge__num {
+    font-size: 26px; font-weight: 900; line-height: 1;
+    display: block;
+}
+.hw-hero-badge__lbl {
+    font-size: 11px; font-weight: 700; opacity: .9;
+    text-transform: uppercase; letter-spacing: .05em;
+}
+.hw-hero-badge2 {
+    position: absolute; top: 28px; right: -14px;
+    background: #fff; color: #0C1825;
+    padding: 10px 16px; border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.15);
+    display: flex; align-items: center; gap: 8px;
+}
+.hw-hero-badge2 i { color: #FF8A3D; font-size: 20px; }
+.hw-hero-badge2__text { font-size: 12px; font-weight: 800; line-height: 1.3; }
+
+/* ────────────────────────────────────────────────
+   2. GRATUIT STRIP
+   ──────────────────────────────────────────────── */
+.hw-free {
+    background: #fff;
+    padding: 60px 0 52px;
+    border-bottom: 1px solid #e4ebf2;
+}
+.hw-free__headline {
+    text-align: center;
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 900; color: #0C1825;
+    letter-spacing: -.02em; margin: 0 0 8px;
+}
+.hw-free__headline span { color: #FF8A3D; }
+.hw-free__sub {
+    text-align: center; font-size: 15px; color: #4A6073;
+    max-width: 480px; margin: 0 auto 40px; line-height: 1.65;
+}
+.hw-free-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: #e4ebf2;
+    border: 1px solid #e4ebf2; border-radius: 16px; overflow: hidden;
+    max-width: 860px; margin: 0 auto;
+}
+.hw-free-cell {
+    background: #fff; padding: 28px 24px; text-align: center;
+    transition: background .2s;
+}
+.hw-free-cell:hover { background: #f8faff; }
+.hw-free-cell__ico {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin: 0 auto 14px;
+}
+.hw-free-cell__title { font-size: 15px; font-weight: 800; color: #0C1825; margin: 0 0 5px; }
+.hw-free-cell__text  { font-size: 13px; color: #4A6073; margin: 0; line-height: 1.6; }
+
+/* ────────────────────────────────────────────────
+   3. 4 ÉTAPES — OVERVIEW
+   ──────────────────────────────────────────────── */
+.hw-overview {
+    background: #f4f8ff;
+    padding: 90px 0;
+}
+.hw-section-hd { text-align: center; margin-bottom: 56px; }
+.hw-section-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.1); color: #FF8A3D;
+    border: 1px solid rgba(255,138,61,.2);
+    border-radius: 999px; padding: 6px 16px;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 14px;
+}
+.hw-section-title {
+    font-size: clamp(24px,3.5vw,36px);
+    font-weight: 900; color: #0C1825; letter-spacing: -.02em;
+    margin: 0 0 10px; line-height: 1.15;
+}
+.hw-section-title span { color: #00497F; }
+.hw-section-sub {
+    font-size: 15px; color: #4A6073;
+    max-width: 500px; margin: 0 auto; line-height: 1.7;
 }
 
-.hiw-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+/* Connected cards row */
+.hw-steps-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+    gap: 12px;
 }
-
-.hiw-hero::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: -150px;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 800px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,138,61,0.15) 0%, transparent 70%);
-  pointer-events: none;
+.hw-steps-row::before {
+    content: '';
+    position: absolute;
+    top: 31px;
+    left: calc(12.5% + 8px);
+    right: calc(12.5% + 8px);
+    height: 0;
+    border-top: 2px dashed rgba(0,73,127,.22);
+    z-index: 0;
 }
-
-.hiw-hero__inner {
-  position: relative;
-  z-index: 2;
-  max-width: 800px;
-  margin: 0 auto;
+.hw-ovr-step {
+    text-align: center;
+    padding: 0 8px;
+    position: relative; z-index: 1;
 }
-
-.hiw-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 999px;
-  padding: 8px 20px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+.hw-ovr-circle {
+    width: 62px; height: 62px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin: 0 auto 16px;
+    position: relative; z-index: 2;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12);
 }
-
-.hiw-eyebrow i { color: #FF8A3D; }
-
-.hiw-hero__title {
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 900;
-  color: #fff;
-  margin: 0 0 20px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+.hw-ovr-circle--1 { background: linear-gradient(135deg, #00497F, #003a66); color: #fff; }
+.hw-ovr-circle--2 { background: linear-gradient(135deg, #3FA9F5, #1e88e5); color: #fff; }
+.hw-ovr-circle--3 { background: linear-gradient(135deg, #FF8A3D, #e05000); color: #fff; }
+.hw-ovr-circle--4 { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
+.hw-ovr-num {
+    position: absolute; top: -4px; right: -4px;
+    width: 21px; height: 21px; border-radius: 50%;
+    background: #fff; color: #0C1825;
+    font-size: 10px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
 }
-
-.hiw-hero__title span {
-  background: linear-gradient(90deg, #FF8A3D, #FF8A3D);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.hw-ovr-card {
+    background: #fff; border-radius: 16px; padding: 20px 16px 22px;
+    border: 1px solid #dde8f8;
+    box-shadow: 0 2px 10px rgba(0,73,127,.06);
+    transition: box-shadow .2s, transform .2s;
+    margin-top: 0;
 }
-
-.hiw-hero__sub {
-  font-size: 18px;
-  color: rgba(255,255,255,0.8);
-  line-height: 1.6;
-  margin-bottom: 36px;
-  max-width: 640px;
-  margin-left: auto;
-  margin-right: auto;
+.hw-ovr-card:hover {
+    box-shadow: 0 10px 30px rgba(0,73,127,.1);
+    transform: translateY(-3px);
 }
+.hw-ovr-title { font-size: 14px; font-weight: 800; color: #0C1825; margin: 0 0 6px; }
+.hw-ovr-text  { font-size: 12px; color: #4A6073; line-height: 1.6; margin: 0; }
 
-.hiw-hero__actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
+/* ────────────────────────────────────────────────
+   4. SPLIT PHASES
+   ──────────────────────────────────────────────── */
+.hw-phase { padding: 88px 0; }
+.hw-phase--alt { background: #fafbff; }
+.hw-phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
 }
+.hw-phase-grid--rev { direction: rtl; }
+.hw-phase-grid--rev > * { direction: ltr; }
 
-.hiw-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #FF8A3D;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 800;
-  padding: 16px 36px;
-  border-radius: 12px;
-  text-decoration: none;
-  box-shadow: 0 8px 24px rgba(255,138,61,0.3);
-  transition: transform 0.2s, background 0.2s;
+/* image */
+.hw-phase-img-wrap {
+    position: relative; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 18px 54px rgba(0,73,127,.14);
 }
-
-.hiw-btn-primary:hover {
-  background: #e87830;
-  transform: translateY(-3px);
-  color: #fff;
+.hw-phase-img-wrap img {
+    width: 100%; height: 380px; object-fit: cover; display: block;
 }
-
-/* ── 2. Sticky Navigation ── */
-.hiw-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+.hw-phase-img-tag {
+    position: absolute; bottom: 20px; right: 20px;
+    background: rgba(12,24,37,.82); backdrop-filter: blur(10px);
+    color: #fff; padding: 10px 16px; border-radius: 10px;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
 }
+.hw-phase-img-tag i { color: #FF8A3D; }
 
-.hiw-nav__list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  margin: 0;
-  list-style: none;
-  overflow-x: auto;
+/* text */
+.hw-phase-label {
+    display: inline-flex; align-items: center; gap: 7px;
+    border-radius: 999px; padding: 5px 14px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
 }
-
-.hiw-nav__list::-webkit-scrollbar { display: none; }
-
-.hiw-nav__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 24px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #64748b;
-  text-decoration: none;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  transition: all 0.2s ease;
-  white-space: nowrap;
+.hw-phase-step {
+    font-size: 12px; font-weight: 700; color: rgba(0,0,0,.3);
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
 }
-
-.hiw-nav__link:hover,
-.hiw-nav__link.active {
-  background: #00497F;
-  color: #fff;
-  border-color: #00497F;
+.hw-phase-title {
+    font-size: clamp(22px,2.8vw,32px);
+    font-weight: 900; color: #0C1825;
+    letter-spacing: -.02em; margin: 0 0 12px; line-height: 1.2;
 }
-
-/* ── 3. General Section Styling ── */
-.hiw-section {
-  padding: 100px 0;
-  position: relative;
+.hw-phase-desc {
+    font-size: 15px; color: #4A6073; line-height: 1.8; margin-bottom: 24px;
 }
-
-.hiw-section--alt {
-  background: linear-gradient(170deg, #f8fafc 0%, #f1f5f9 100%);
+.hw-feat-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 14px; }
+.hw-feat-item { display: flex; gap: 12px; align-items: flex-start; }
+.hw-feat-ico {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
 }
+.hw-feat-item h4 { font-size: 14px; font-weight: 800; color: #0C1825; margin: 0 0 2px; }
+.hw-feat-item p  { font-size: 13px; color: #4A6073; margin: 0; line-height: 1.55; }
 
-.hiw-section-header {
-  text-align: center;
-  margin-bottom: 60px;
+/* ────────────────────────────────────────────────
+   5. CTA FINAL
+   ──────────────────────────────────────────────── */
+.hw-cta {
+    background: linear-gradient(135deg, #0C1825 0%, #003660 100%);
+    padding: 88px 0; text-align: center;
+    position: relative; overflow: hidden;
 }
-
-.hiw-section-label {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #FF8A3D;
-  background: rgba(255,138,61,0.1);
-  padding: 6px 16px;
-  border-radius: 999px;
-  margin-bottom: 16px;
+.hw-cta::before {
+    content: ''; position: absolute;
+    right: -100px; bottom: -100px;
+    width: 440px; height: 440px; border-radius: 50%;
+    background: rgba(255,138,61,.08); pointer-events: none;
 }
-
-.hiw-section-title {
-  font-size: clamp(30px, 4vw, 42px);
-  font-weight: 900;
-  color: #0d2151;
-  margin: 0 0 16px;
-  line-height: 1.2;
+.hw-cta::after {
+    content: ''; position: absolute;
+    left: -60px; top: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: rgba(63,169,245,.06); pointer-events: none;
 }
-
-.hiw-section-desc {
-  font-size: 18px;
-  color: #64748b;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
+.hw-cta__inner { position: relative; z-index: 2; }
+.hw-cta-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+    color: #FF8A3D; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 18px;
 }
-
-/* ── 4. Process Grid (Overview) ── */
-.hiw-process {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-  position: relative;
+.hw-cta h2 {
+    font-size: clamp(26px,4vw,44px);
+    font-weight: 900; color: #fff; margin: 0 0 12px;
+    letter-spacing: -.02em; line-height: 1.15;
 }
-
-.hiw-process::before {
-  content: '';
-  position: absolute;
-  top: 45px;
-  left: 12%;
-  right: 12%;
-  height: 3px;
-  background: repeating-linear-gradient(90deg, #cbd5e1 0, #cbd5e1 10px, transparent 10px, transparent 20px);
-  z-index: 0;
+.hw-cta h2 span { color: #FF8A3D; }
+.hw-cta__sub {
+    font-size: 16px; color: rgba(255,255,255,.7);
+    margin: 0 auto 36px; max-width: 460px; line-height: 1.7;
 }
+.hw-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-.hiw-step-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 40px 24px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 10px 30px rgba(13,33,81,0.03);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ── Buttons ── */
+.hw-btn-o {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #FF8A3D; color: #fff;
+    font-size: 15px; font-weight: 800;
+    padding: 14px 30px; border-radius: 8px; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(255,138,61,.4); transition: all .2s;
 }
-
-.hiw-step-card:hover {
-  transform: translateY(-10px);
-  border-color: #bfdbfe;
-  box-shadow: 0 20px 40px rgba(13,33,81,0.08);
+.hw-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
+.hw-btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.1); color: #fff;
+    font-size: 15px; font-weight: 700;
+    padding: 13px 24px; border-radius: 8px; text-decoration: none;
+    border: 2px solid rgba(255,255,255,.25); transition: all .18s;
 }
-
-.hiw-step-icon {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  margin: 0 auto 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.hw-btn-ghost:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.5); color: #fff; }
+.hw-btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: #fff;
+    font-size: 15px; font-weight: 700;
+    padding: 13px 26px; border-radius: 8px; text-decoration: none;
+    border: 2px solid rgba(255,255,255,.3); transition: all .18s;
 }
-
-.hiw-step-card:nth-child(1) .hiw-step-icon { background: linear-gradient(135deg, #0d2151, #1a3a6b); color:#fff; }
-.hiw-step-card:nth-child(2) .hiw-step-icon { background: linear-gradient(135deg, #00509e, #3b82f6); color:#fff; }
-.hiw-step-card:nth-child(3) .hiw-step-icon { background: linear-gradient(135deg, #FF8A3D, #FF8A3D); color:#fff; }
-.hiw-step-card:nth-child(4) .hiw-step-icon { background: linear-gradient(135deg, #16a34a, #22c55e); color:#fff; }
-
-.hiw-step-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1e293b;
-  margin-bottom: 12px;
+.hw-btn-outline:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); color: #fff; }
+.hw-btn-b {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #00497F; color: #fff;
+    font-size: 15px; font-weight: 800;
+    padding: 13px 26px; border-radius: 8px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,73,127,.3); transition: all .18s;
 }
+.hw-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
 
-.hiw-step-text {
-  font-size: 15px;
-  color: #64748b;
-  line-height: 1.6;
-}
-
-/* ── 5. Split Sections ── */
-.hiw-split {
-  display: flex;
-  align-items: center;
-  gap: 60px;
-}
-
-.hiw-split--reverse {
-  flex-direction: row-reverse;
-}
-
-.hiw-split__content { flex: 1; }
-.hiw-split__image {
-  flex: 1;
-  position: relative;
-}
-
-.hiw-split__image img {
-  width: 100%;
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(13,33,81,0.15);
-}
-
-.hiw-split__image::before {
-  content: '';
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  width: 100%;
-  height: 100%;
-  border-radius: 24px;
-  background: #f1f5f9;
-  z-index: -1;
-}
-
-.hiw-split--reverse .hiw-split__image::before {
-  left: auto;
-  right: -20px;
-}
-
-.hiw-feature-list {
-  list-style: none;
-  padding: 0;
-  margin: 30px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.hiw-feature-item {
-  display: flex;
-  gap: 16px;
-}
-
-.hiw-feature-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #e8f4fd;
-  color: #00509e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.hiw-feature-text h4 {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0d2151;
-  margin: 0 0 6px;
-}
-
-.hiw-feature-text p {
-  font-size: 15px;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.6;
-}
+/* Scroll reveal */
+.hw-anim { opacity: 0; transform: translateY(22px); transition: all .55s cubic-bezier(.16,1,.3,1); }
+.hw-anim.visible { opacity: 1; transform: none; }
 
 /* ── Responsive ── */
-@media (max-width: 1024px) {
-  .hiw-process { grid-template-columns: repeat(2, 1fr); gap: 40px; }
-  .hiw-process::before { display: none; }
-  .hiw-split { flex-direction: column; text-align: center; gap: 40px; }
-  .hiw-split--reverse { flex-direction: column; }
-  .hiw-feature-item { text-align: left; }
-  .hiw-split__image::before { display: none; }
+@media (max-width: 992px) {
+    .hw-hero-grid { grid-template-columns: 1fr; }
+    .hw-hero-img-col { display: none; }
+    .hw-steps-row { grid-template-columns: repeat(2, 1fr); }
+    .hw-steps-row::before { display: none; }
+    .hw-phase-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hw-phase-grid--rev { direction: ltr; }
 }
-
-@media (max-width: 540px) {
-  .hiw-process { grid-template-columns: 1fr; }
-  .hiw-hero { padding: 60px 0; }
-  .hiw-section { padding: 60px 0; }
-  .hiw-btn-primary { width: 100%; justify-content: center; }
+@media (max-width: 600px) {
+    .hw-free-grid { grid-template-columns: 1fr; }
+    .hw-steps-row { grid-template-columns: 1fr 1fr; }
+    .hw-overview, .hw-phase, .hw-cta, .hw-free { padding: 60px 0; }
+    .hw-hero { padding: 64px 0 52px; }
+    .hw-phase-img-wrap img { height: 260px; }
 }
-
-html { scroll-behavior: smooth; }
 </style>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   1. HERO
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="hiw-hero">
-  <div class="container hiw-hero__inner">
-    <div class="hiw-eyebrow">
-      <i class="fas fa-home"></i> {{ 'hiw.eyebrow'|trans }}
+{# ══ 1. HERO ═══════════════════════════════════════════════════════════════ #}
+<section class="hw-hero">
+    <div class="hw-wrap">
+        <div class="hw-hero-grid">
+
+            {# — Texte — #}
+            <div class="hw-anim">
+                <div class="hw-hero-pill">
+                    <i class="ph-bold ph-house-line"></i> Propriétaires &amp; locataires
+                </div>
+                <h1>
+                    Trouvez le bon pro.<br>
+                    <span class="hl-free">100 % gratuit.</span>
+                </h1>
+                <p class="hw-hero__sub">
+                    Décrivez votre projet en 2 minutes, recevez plusieurs soumissions
+                    de professionnels vérifiés dans votre région — sans rien débourser.
+                </p>
+                <div class="hw-hero-trust">
+                    <span><i class="ph-bold ph-currency-dollar-simple"></i> Soumissions gratuites</span>
+                    <span><i class="ph-bold ph-shield-check"></i> Pros vérifiés</span>
+                    <span><i class="ph-bold ph-check-circle"></i> Sans obligation</span>
+                </div>
+                <div class="hw-hero-actions">
+                    <a href="{{ path('app_register') }}" class="hw-btn-o">
+                        Soumettre mon projet <i class="ph-bold ph-arrow-right"></i>
+                    </a>
+                    <a href="{{ path('professionals_list') }}" class="hw-btn-ghost">
+                        Explorer les pros
+                    </a>
+                </div>
+            </div>
+
+            {# — Image — #}
+            <div class="hw-hero-img-col hw-anim" style="transition-delay:.1s;">
+                <img class="hw-hero-img"
+                     src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
+                     alt="Projet de rénovation">
+                <div class="hw-hero-badge">
+                    <span class="hw-hero-badge__num">GRATUIT</span>
+                    <span class="hw-hero-badge__lbl">Aucun frais pour soumettre</span>
+                </div>
+                <div class="hw-hero-badge2">
+                    <i class="ph-bold ph-star"></i>
+                    <div class="hw-hero-badge2__text">Pros vérifiés<br>et évalués</div>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <h1 class="hiw-hero__title">
-      {{ 'hiw.hero_title'|trans }} <span>{{ 'hiw.hero_title_span'|trans }}</span>
-    </h1>
-    <p class="hiw-hero__sub">
-      {{ 'hiw.hero_sub'|trans }}
-    </p>
-    <div class="hiw-hero__actions">
-      <a href="{{ path('app_register') }}" class="hiw-btn-primary">
-        {{ 'hiw.hero_cta'|trans }} <i class="feather-arrow-right"></i>
-      </a>
-    </div>
-  </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   2. STICKY NAVIGATION
-══════════════════════════════════════════════════════════════════════════ #}
-<nav class="hiw-nav">
-  <ul class="hiw-nav__list">
-    <li><a href="#overview" class="hiw-nav__link active"><i class="feather-grid"></i> {{ 'hiw.nav_overview'|trans }}</a></li>
-    <li><a href="#post-request" class="hiw-nav__link"><i class="feather-edit-3"></i> {{ 'hiw.nav_post'|trans }}</a></li>
-    <li><a href="#receive-quotes" class="hiw-nav__link"><i class="feather-message-square"></i> {{ 'hiw.nav_quotes'|trans }}</a></li>
-    <li><a href="#find-pro" class="hiw-nav__link"><i class="feather-users"></i> {{ 'hiw.nav_find'|trans }}</a></li>
-  </ul>
-</nav>
-
-{# ══════════════════════════════════════════════════════════════════════════
-   3. OVERVIEW SECTION (4 Steps)
-══════════════════════════════════════════════════════════════════════════ #}
-<section id="overview" class="hiw-section">
-  <div class="container">
-    <div class="hiw-section-header">
-      <span class="hiw-section-label">{{ 'hiw.overview_label'|trans }}</span>
-      <h2 class="hiw-section-title">{{ 'hiw.overview_title'|trans }}</h2>
-      <p class="hiw-section-desc">{{ 'hiw.overview_desc'|trans }}</p>
+{# ══ 2. C'EST GRATUIT ══════════════════════════════════════════════════════ #}
+<section class="hw-free hw-anim">
+    <div class="hw-wrap">
+        <h2 class="hw-free__headline">C'est <span>100&nbsp;% gratuit</span> — vraiment.</h2>
+        <p class="hw-free__sub">Pas de frais cachés, pas de surprise. Vous comparez librement et mandatez uniquement si une offre vous convient.</p>
+        <div class="hw-free-grid">
+            <div class="hw-free-cell">
+                <div class="hw-free-cell__ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                    <i class="ph-bold ph-currency-dollar-simple"></i>
+                </div>
+                <div class="hw-free-cell__title">Aucun frais de soumission</div>
+                <p class="hw-free-cell__text">Décrivez votre projet et recevez des offres sans rien payer.</p>
+            </div>
+            <div class="hw-free-cell">
+                <div class="hw-free-cell__ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                    <i class="ph-bold ph-scales"></i>
+                </div>
+                <div class="hw-free-cell__title">Comparez sans engagement</div>
+                <p class="hw-free-cell__text">Analysez les propositions en toute liberté, sans obligation d'accepter.</p>
+            </div>
+            <div class="hw-free-cell">
+                <div class="hw-free-cell__ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                    <i class="ph-bold ph-check-fat"></i>
+                </div>
+                <div class="hw-free-cell__title">Mandatez si ça vous convient</div>
+                <p class="hw-free-cell__text">Vous choisissez uniquement si une offre correspond vraiment à vos attentes.</p>
+            </div>
+        </div>
     </div>
-
-    <div class="hiw-process">
-      <div class="hiw-step-card">
-        <div class="hiw-step-icon"><i class="feather-edit-2"></i></div>
-        <h3 class="hiw-step-title">{{ 'hiw.step1_title'|trans }}</h3>
-        <p class="hiw-step-text">{{ 'hiw.step1_text'|trans }}</p>
-      </div>
-
-      <div class="hiw-step-card">
-        <div class="hiw-step-icon"><i class="feather-mail"></i></div>
-        <h3 class="hiw-step-title">{{ 'hiw.step2_title'|trans }}</h3>
-        <p class="hiw-step-text">{{ 'hiw.step2_text'|trans }}</p>
-      </div>
-
-      <div class="hiw-step-card">
-        <div class="hiw-step-icon"><i class="feather-search"></i></div>
-        <h3 class="hiw-step-title">{{ 'hiw.step3_title'|trans }}</h3>
-        <p class="hiw-step-text">{{ 'hiw.step3_text'|trans }}</p>
-      </div>
-
-      <div class="hiw-step-card">
-        <div class="hiw-step-icon"><i class="feather-check-circle"></i></div>
-        <h3 class="hiw-step-title">{{ 'hiw.step4_title'|trans }}</h3>
-        <p class="hiw-step-text">{{ 'hiw.step4_text'|trans }}</p>
-      </div>
-    </div>
-  </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   4. POST A REQUEST
-══════════════════════════════════════════════════════════════════════════ #}
-<section id="post-request" class="hiw-section hiw-section--alt">
-  <div class="container">
-    <div class="hiw-split">
-      <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#00509e; background:#e8f4fd;">{{ 'hiw.phase1_label'|trans }}</span>
-        <h2 class="hiw-section-title">{{ 'hiw.phase1_title'|trans }}</h2>
-        <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
-          {{ 'hiw.phase1_desc'|trans }}
-        </p>
+{# ══ 3. LES 4 ÉTAPES — VUE D'ENSEMBLE ═════════════════════════════════════ #}
+<section class="hw-overview">
+    <div class="hw-wrap">
 
-        <ul class="hiw-feature-list">
-          <li class="hiw-feature-item">
-            <div class="hiw-feature-icon"><i class="feather-image"></i></div>
-            <div class="hiw-feature-text">
-              <h4>{{ 'hiw.phase1_feat1_title'|trans }}</h4>
-              <p>{{ 'hiw.phase1_feat1_desc'|trans }}</p>
+        <div class="hw-section-hd hw-anim">
+            <div class="hw-section-pill">
+                <i class="ph-bold ph-list-numbers"></i> Comment ça fonctionne
             </div>
-          </li>
-          <li class="hiw-feature-item">
-            <div class="hiw-feature-icon"><i class="feather-map-pin"></i></div>
-            <div class="hiw-feature-text">
-              <h4>{{ 'hiw.phase1_feat2_title'|trans }}</h4>
-              <p>{{ 'hiw.phase1_feat2_desc'|trans }}</p>
-            </div>
-          </li>
-        </ul>
+            <h2 class="hw-section-title">Simple, rapide, <span>en 4 étapes</span></h2>
+            <p class="hw-section-sub">De la description de votre projet au choix du bon professionnel — en quelques minutes.</p>
+        </div>
 
-        <a href="{{ path('app_register') }}" class="hiw-btn-primary" style="margin-top:20px;">
-          {{ 'hiw.phase1_cta'|trans }}
-        </a>
-      </div>
-      <div class="hiw-split__image">
-        <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}" alt="Homeowner posting a renovation request on Drilleedo">
-      </div>
+        <div class="hw-steps-row hw-anim">
+
+            <div class="hw-ovr-step">
+                <div class="hw-ovr-circle hw-ovr-circle--1">
+                    <i class="ph-bold ph-user-plus"></i>
+                    <span class="hw-ovr-num">1</span>
+                </div>
+                <div class="hw-ovr-card">
+                    <div class="hw-ovr-title">Créez votre profil</div>
+                    <p class="hw-ovr-text">Inscrivez-vous en quelques minutes pour gérer vos projets et suivre vos échanges.</p>
+                </div>
+            </div>
+
+            <div class="hw-ovr-step">
+                <div class="hw-ovr-circle hw-ovr-circle--2">
+                    <i class="ph-bold ph-note-pencil"></i>
+                    <span class="hw-ovr-num">2</span>
+                </div>
+                <div class="hw-ovr-card">
+                    <div class="hw-ovr-title">Décrivez votre projet</div>
+                    <p class="hw-ovr-text">Type de travaux, budget, délais, localisation — formulaire simple, 2 minutes chrono.</p>
+                </div>
+            </div>
+
+            <div class="hw-ovr-step">
+                <div class="hw-ovr-circle hw-ovr-circle--3">
+                    <i class="ph-bold ph-envelope-open"></i>
+                    <span class="hw-ovr-num">3</span>
+                </div>
+                <div class="hw-ovr-card">
+                    <div class="hw-ovr-title">Recevez des soumissions</div>
+                    <p class="hw-ovr-text">Des pros qualifiés de votre zone vous envoient leurs offres avec prix et délais.</p>
+                </div>
+            </div>
+
+            <div class="hw-ovr-step">
+                <div class="hw-ovr-circle hw-ovr-circle--4">
+                    <i class="ph-bold ph-check-fat"></i>
+                    <span class="hw-ovr-num">4</span>
+                </div>
+                <div class="hw-ovr-card">
+                    <div class="hw-ovr-title">Comparez et choisissez</div>
+                    <p class="hw-ovr-text">Analysez les propositions et mandatez uniquement si une offre vous convient.</p>
+                </div>
+            </div>
+
+        </div>
     </div>
-  </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   5. RECEIVE QUOTES
-══════════════════════════════════════════════════════════════════════════ #}
-<section id="receive-quotes" class="hiw-section">
-  <div class="container">
-    <div class="hiw-split hiw-split--reverse">
-      <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#16a34a; background:#f0fdf4;">{{ 'hiw.phase2_label'|trans }}</span>
-        <h2 class="hiw-section-title">{{ 'hiw.phase2_title'|trans }}</h2>
-        <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
-          {{ 'hiw.phase2_desc'|trans }}
-        </p>
+{# ══ 4. ÉTAPE 1 + 2 — PUBLIEZ VOTRE PROJET ════════════════════════════════ #}
+<section class="hw-phase hw-anim">
+    <div class="hw-wrap">
+        <div class="hw-phase-grid">
 
-        <ul class="hiw-feature-list">
-          <li class="hiw-feature-item">
-            <div class="hiw-feature-icon" style="background:#f0fdf4; color:#16a34a;"><i class="feather-dollar-sign"></i></div>
-            <div class="hiw-feature-text">
-              <h4>{{ 'hiw.phase2_feat1_title'|trans }}</h4>
-              <p>{{ 'hiw.phase2_feat1_desc'|trans }}</p>
+            <div>
+                <div class="hw-phase-step">Étapes 1 &amp; 2</div>
+                <div class="hw-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
+                    <i class="ph-bold ph-note-pencil"></i> Publiez votre demande
+                </div>
+                <h2 class="hw-phase-title">Créez votre profil,<br>décrivez votre projet</h2>
+                <p class="hw-phase-desc">Inscrivez-vous gratuitement, puis remplissez un formulaire clair avec les détails essentiels. Notre système transmet votre demande aux professionnels correspondants dans votre région.</p>
+                <ul class="hw-feat-list">
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-map-pin"></i>
+                        </div>
+                        <div>
+                            <h4>Localisé et ciblé</h4>
+                            <p>Votre demande est envoyée uniquement aux pros actifs dans votre secteur.</p>
+                        </div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-image-square"></i>
+                        </div>
+                        <div>
+                            <h4>Ajoutez des photos</h4>
+                            <p>Illustrez votre projet pour obtenir des soumissions plus précises et pertinentes.</p>
+                        </div>
+                    </li>
+                </ul>
+                <a href="{{ path('app_register') }}" class="hw-btn-b">
+                    Créer mon profil gratuitement <i class="ph-bold ph-arrow-right"></i>
+                </a>
             </div>
-          </li>
-          <li class="hiw-feature-item">
-            <div class="hiw-feature-icon" style="background:#f0fdf4; color:#16a34a;"><i class="feather-inbox"></i></div>
-            <div class="hiw-feature-text">
-              <h4>{{ 'hiw.phase2_feat2_title'|trans }}</h4>
-              <p>{{ 'hiw.phase2_feat2_desc'|trans }}</p>
+
+            <div class="hw-phase-img-wrap">
+                <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
+                     alt="Soumettre un projet de rénovation" loading="lazy">
+                <div class="hw-phase-img-tag">
+                    <i class="ph-bold ph-currency-dollar-simple"></i> 100 % gratuit
+                </div>
             </div>
-          </li>
-        </ul>
-      </div>
-      <div class="hiw-split__image">
-        <img src="{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}" alt="Comparing quotes and chatting">
-      </div>
+
+        </div>
     </div>
-  </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   6. FIND A PRO
-══════════════════════════════════════════════════════════════════════════ #}
-<section id="find-pro" class="hiw-section hiw-section--alt">
-  <div class="container">
-    <div class="hiw-split">
-      <div class="hiw-split__content">
-        <span class="hiw-section-label" style="color:#FF8A3D; background:#fff7ed;">{{ 'hiw.phase3_label'|trans }}</span>
-        <h2 class="hiw-section-title">{{ 'hiw.phase3_title'|trans }}</h2>
-        <p class="hiw-section-desc" style="margin-left:0; text-align:left;">
-          {{ 'hiw.phase3_desc'|trans }}
-        </p>
+{# ══ 5. ÉTAPE 3 — RECEVEZ DES SOUMISSIONS ══════════════════════════════════ #}
+<section class="hw-phase hw-phase--alt hw-anim">
+    <div class="hw-wrap">
+        <div class="hw-phase-grid hw-phase-grid--rev">
 
-        <ul class="hiw-feature-list">
-          <li class="hiw-feature-item">
-            <div class="hiw-feature-icon" style="background:#fff7ed; color:#FF8A3D;"><i class="feather-shield"></i></div>
-            <div class="hiw-feature-text">
-              <h4>{{ 'hiw.phase3_feat1_title'|trans }}</h4>
-              <p>{{ 'hiw.phase3_feat1_desc'|trans }}</p>
+            <div>
+                <div class="hw-phase-step">Étape 3</div>
+                <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
+                    <i class="ph-bold ph-envelope-open"></i> Recevez des offres
+                </div>
+                <h2 class="hw-phase-title">Des soumissions<br>dans votre boîte</h2>
+                <p class="hw-phase-desc">Les professionnels intéressés vous envoient leurs offres directement — prix, délais et détails des services. Tout centralisé dans votre tableau de bord.</p>
+                <ul class="hw-feat-list">
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-shield-check"></i>
+                        </div>
+                        <div>
+                            <h4>Pros vérifiés seulement</h4>
+                            <p>Chaque professionnel est validé avant d'accéder à la plateforme.</p>
+                        </div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-chat-circle-dots"></i>
+                        </div>
+                        <div>
+                            <h4>Échangez directement</h4>
+                            <p>Posez vos questions, précisez vos attentes avant de décider.</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-          </li>
-          <li class="hiw-feature-item">
-            <div class="hiw-feature-icon" style="background:#fff7ed; color:#FF8A3D;"><i class="feather-star"></i></div>
-            <div class="hiw-feature-text">
-              <h4>{{ 'hiw.phase3_feat2_title'|trans }}</h4>
-              <p>{{ 'hiw.phase3_feat2_desc'|trans }}</p>
+
+            <div class="hw-phase-img-wrap">
+                <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
+                     alt="Recevoir et comparer des devis" loading="lazy">
+                <div class="hw-phase-img-tag">
+                    <i class="ph-bold ph-shield-check"></i> Pros vérifiés
+                </div>
             </div>
-          </li>
-        </ul>
-        
-        <a href="{{ path('professionals_list') }}" class="hiw-btn-primary" style="margin-top:20px; background:#0d2151;">
-          {{ 'hiw.phase3_cta'|trans }}
-        </a>
-      </div>
-      <div class="hiw-split__image">
-        <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}" alt="Directory of verified professionals">
-      </div>
+
+        </div>
     </div>
-  </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   7. FINAL CTA
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="hiw-section" style="background:linear-gradient(135deg, #00497F 0%, #3FA9F5 100%); text-align:center; padding: 120px 0;">
-  <div class="container">
-    <h2 class="hiw-hero__title" style="margin-bottom:24px;">{{ 'hiw.cta_title'|trans }}</h2>
-    <p class="hiw-hero__sub" style="margin-bottom:40px;">{{ 'hiw.cta_sub'|trans }}</p>
-    <a href="{{ path('app_register') }}" class="hiw-btn-primary" style="font-size:18px; padding:18px 48px; border-radius:999px;">
-      {{ 'hiw.cta_btn'|trans }} <i class="feather-arrow-right"></i>
-    </a>
-  </div>
+{# ══ 6. ÉTAPE 4 — CHOISISSEZ VOTRE PRO ═════════════════════════════════════ #}
+<section class="hw-phase hw-anim">
+    <div class="hw-wrap">
+        <div class="hw-phase-grid">
+
+            <div>
+                <div class="hw-phase-step">Étape 4</div>
+                <div class="hw-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
+                    <i class="ph-bold ph-check-fat"></i> Choisissez en toute liberté
+                </div>
+                <h2 class="hw-phase-title">Comparez, choisissez,<br>ou ne choisissez pas</h2>
+                <p class="hw-phase-desc">Analysez les propositions reçues et sélectionnez celle qui vous convient le mieux. Aucune obligation, aucune pression — vous êtes entièrement libre.</p>
+                <ul class="hw-feat-list">
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-star"></i>
+                        </div>
+                        <div>
+                            <h4>Avis et évaluations</h4>
+                            <p>Consultez les avis d'autres clients pour faire le meilleur choix.</p>
+                        </div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-hand-pointing"></i>
+                        </div>
+                        <div>
+                            <h4>Aucune obligation</h4>
+                            <p>Vous mandatez uniquement si une offre correspond réellement à vos attentes.</p>
+                        </div>
+                    </li>
+                </ul>
+                <a href="{{ path('professionals_list') }}" class="hw-btn-b">
+                    Explorer les pros <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="hw-phase-img-wrap">
+                <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
+                     alt="Choisir un professionnel vérifié" loading="lazy">
+                <div class="hw-phase-img-tag">
+                    <i class="ph-bold ph-check-circle"></i> Sans obligation
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ══ 7. CTA FINAL ══════════════════════════════════════════════════════════ #}
+<section class="hw-cta hw-anim">
+    <div class="hw-wrap">
+        <div class="hw-cta__inner">
+            <div class="hw-cta-tag">
+                <i class="ph-bold ph-rocket-launch"></i> Commencez maintenant
+            </div>
+            <h2>Votre projet mérite<br>les <span>meilleurs professionnels</span></h2>
+            <p class="hw-cta__sub">
+                Gratuit, rapide et sans engagement.<br>
+                Recevez vos premières soumissions en moins de 24&nbsp;h.
+            </p>
+            <div class="hw-cta-btns">
+                <a href="{{ path('app_register') }}" class="hw-btn-o">
+                    Soumettre mon projet <i class="ph-bold ph-arrow-right"></i>
+                </a>
+                <a href="{{ path('professionals_list') }}" class="hw-btn-outline">
+                    <i class="ph-bold ph-magnifying-glass"></i> Explorer les pros
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 
 </main>
 
 <script>
-// Simple script to handle active state on sticky nav based on scrolling
-document.addEventListener('DOMContentLoaded', function() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.hiw-nav__link');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      if (scrollY >= (sectionTop - 150)) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href').includes(current)) {
-        link.classList.add('active');
-      }
-    });
-  });
+document.addEventListener('DOMContentLoaded', () => {
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.hw-anim').forEach(el => obs.observe(el));
 });
 </script>
 {% endblock %}

@@ -763,9 +763,6 @@
             <a href="{{ path('app_register') }}" class="gyb-btn-orange">
               {{ 'for_pros.hero_cta1'|trans }} <i class="ph-bold ph-arrow-right" aria-hidden="true"></i>
             </a>
-            <a href="{{ path('professionals_list') }}" class="gyb-btn-white">
-              {{ 'for_pros.hero_cta2'|trans }}
-            </a>
           </div>
           <div class="gyb-hero__trust">
             <span><i class="ph-bold ph-check-circle" aria-hidden="true"></i> Free to join</span>
@@ -809,6 +806,295 @@
       </div>
     </div>
   </div>
+</section>
+
+{# ══════════════════════════════════════════════════════════════════════════
+   0b. INTRO — Je suis un professionnel
+══════════════════════════════════════════════════════════════════════════ #}
+<style>
+/* ── Intro section ── */
+.gyb-intro {
+    background: #fff;
+    padding: 80px 0 70px;
+    position: relative;
+    overflow: hidden;
+}
+.gyb-intro::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,73,127,.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+.gyb-intro__eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(0,73,127,.08); color: #00497F;
+    border: 1px solid rgba(0,73,127,.18);
+    border-radius: 999px; padding: 6px 16px;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 18px;
+}
+.gyb-intro__title {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 900; color: #0C1825; line-height: 1.15;
+    letter-spacing: -.02em; margin-bottom: 12px;
+}
+.gyb-intro__title span { color: #00497F; }
+.gyb-intro__lead {
+    font-size: 16px; color: #64748b; line-height: 1.8; margin-bottom: 20px;
+}
+.gyb-intro__body {
+    font-size: 15px; color: #475569; line-height: 1.85;
+}
+.gyb-intro__body p { margin-bottom: 18px; }
+.gyb-intro__body p:last-child { margin-bottom: 0; }
+
+/* Right: feature highlights */
+.gyb-intro-features { display: flex; flex-direction: column; gap: 16px; }
+.gyb-intro-feat {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 16px; padding: 20px 22px;
+    transition: box-shadow .2s, transform .2s;
+}
+.gyb-intro-feat:hover { box-shadow: 0 8px 24px rgba(12,24,37,.08); transform: translateY(-2px); }
+.gyb-intro-feat__ico {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+}
+.gyb-intro-feat__title { font-size: 14px; font-weight: 800; color: #0C1825; margin-bottom: 4px; }
+.gyb-intro-feat__text  { font-size: 13px; color: #64748b; line-height: 1.6; margin: 0; }
+
+/* Mission block */
+.gyb-mission-block {
+    margin-top: 52px;
+    background: linear-gradient(135deg, #0C1825 0%, #003660 100%);
+    border-radius: 24px; padding: 48px 44px;
+    position: relative; overflow: hidden;
+}
+.gyb-mission-block::before {
+    content: '';
+    position: absolute; bottom: -80px; right: -80px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(255,138,61,.1); pointer-events: none;
+}
+.gyb-mission-block::after {
+    content: '';
+    position: absolute; top: -60px; left: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: rgba(63,169,245,.07); pointer-events: none;
+}
+.gyb-mission-block__inner { position: relative; z-index: 2; }
+.gyb-mission-block__tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+    color: #FF8A3D; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+}
+.gyb-mission-block__title {
+    font-size: clamp(20px, 2.5vw, 28px); font-weight: 900;
+    color: #fff; line-height: 1.25; margin-bottom: 14px; letter-spacing: -.01em;
+}
+.gyb-mission-block__title span { color: #FF8A3D; }
+.gyb-mission-block__text {
+    font-size: 15px; color: rgba(255,255,255,.75); line-height: 1.8;
+}
+.gyb-mission-block__kpi-row {
+    display: flex; flex-wrap: wrap; gap: 20px; margin-top: 32px;
+}
+.gyb-mission-kpi {
+    flex: 1; min-width: 130px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px; padding: 18px 22px; text-align: center;
+}
+.gyb-mission-kpi__num { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; }
+.gyb-mission-kpi__num span { color: #FF8A3D; }
+.gyb-mission-kpi__lbl { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 4px; }
+
+/* Punch line */
+.gyb-punchline {
+    margin-top: 48px;
+    background: linear-gradient(135deg, #f0f6ff, #e8eeff);
+    border: 1px solid #bfdbfe; border-radius: 20px;
+    padding: 36px 40px;
+    display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+}
+.gyb-punchline__ico {
+    width: 60px; height: 60px; border-radius: 18px; flex-shrink: 0;
+    background: linear-gradient(135deg, #0C1825, #00497F);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: #FF8A3D;
+    box-shadow: 0 8px 24px rgba(12,24,37,.2);
+}
+.gyb-punchline__text { flex: 1; min-width: 220px; }
+.gyb-punchline__hl {
+    font-size: clamp(17px, 2vw, 22px); font-weight: 900;
+    color: #0C1825; line-height: 1.3; margin-bottom: 6px;
+    letter-spacing: -.01em;
+}
+.gyb-punchline__hl span { color: #00497F; }
+.gyb-punchline__sub { font-size: 14px; color: #64748b; line-height: 1.6; margin: 0; }
+.gyb-punchline__cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #FF8A3D; color: #fff; font-size: 14px; font-weight: 800;
+    padding: 13px 26px; border-radius: 10px; text-decoration: none;
+    box-shadow: 0 4px 14px rgba(255,138,61,.35); transition: all .2s;
+    white-space: nowrap;
+}
+.gyb-punchline__cta:hover { background: #e87830; color: #fff; transform: translateY(-2px); }
+
+@media (max-width: 768px) {
+    .gyb-intro { padding: 56px 0; }
+    .gyb-mission-block { padding: 36px 28px; }
+    .gyb-punchline { padding: 28px 24px; flex-direction: column; }
+}
+</style>
+
+<section class="gyb-intro">
+    <div class="container" style="position:relative;z-index:2;">
+
+        {# ── Titre + intro ── #}
+        <div class="row align-items-start g-5">
+            <div class="col-lg-7">
+                <div class="gyb-intro__eyebrow">
+                    <i class="ph-bold ph-hard-hat" aria-hidden="true"></i> Professionnel de la rénovation
+                </div>
+                <h2 class="gyb-intro__title">
+                    Développez votre activité,<br>
+                    accédez à des <span>clients qualifiés</span>
+                </h2>
+                <p class="gyb-intro__lead">
+                    Fini la prospection dans le vide, les soumissions sans suite et les clients fantômes.
+                    Chez Drilleedo, ce sont les clients qui viennent à vous — qualifiés, sérieux et prêts à mandater.
+                </p>
+                <div class="gyb-intro__body">
+                    <p>
+                        Entrepreneur général ou spécialisé, vous avez une expertise qui mérite les bons clients.
+                        Notre plateforme vous connecte directement aux propriétaires ayant un projet concret
+                        dans votre secteur et votre zone — chaque demande est vérifiée, chaque client est sincèrement motivé.
+                    </p>
+                    <p>
+                        Résultat : moins d'énergie dépensée en démarchage, plus de chantiers signés.
+                        Vous travaillez mieux, vous gagnez plus — et vous gardez <strong style="color:#00497F;">100&nbsp;% de vos revenus</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="gyb-intro-features">
+                    <div class="gyb-intro-feat">
+                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#0C1825,#003660);color:#FF8A3D;">
+                            <i class="ph-bold ph-crosshair" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="gyb-intro-feat__title">Des leads dans votre zone, selon votre métier</div>
+                            <p class="gyb-intro-feat__text">
+                                Aucun projet hors-périmètre. Chaque demande correspond exactement
+                                à votre spécialité et votre secteur géographique.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="gyb-intro-feat">
+                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#00497F,#2196f3);color:#fff;">
+                            <i class="ph-bold ph-clock" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="gyb-intro-feat__title">Votre agenda rempli, sans démarcher</div>
+                            <p class="gyb-intro-feat__text">
+                                Les clients viennent à vous. Plus de porte-à-porte, plus de suivi
+                                commercial — vous gérez vos chantiers, on gère la mise en relation.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="gyb-intro-feat">
+                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;">
+                            <i class="ph-bold ph-trend-up" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="gyb-intro-feat__title">Activité continue, même hors saison</div>
+                            <p class="gyb-intro-feat__text">
+                                Réduisez les creux entre les chantiers. Maintenez un flux régulier
+                                d'opportunités tout au long de l'année.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="gyb-intro-feat">
+                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#c73d0d,#FF8A3D);color:#fff;">
+                            <i class="ph-bold ph-currency-dollar" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <div class="gyb-intro-feat__title">0 % de commission — jamais</div>
+                            <p class="gyb-intro-feat__text">
+                                Contrairement aux autres plateformes, Drilleedo ne prélève rien sur
+                                vos contrats. Ce que vous signez, vous le gardez entièrement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ── Mission block ── #}
+        <div class="gyb-mission-block">
+            <div class="gyb-mission-block__inner">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7">
+                        <div class="gyb-mission-block__tag">
+                            <i class="ph-bold ph-coins" aria-hidden="true"></i> Notre engagement
+                        </div>
+                        <h3 class="gyb-mission-block__title">
+                            Ce que vous gagnez,<br>vous le <span>gardez en entier</span>
+                        </h3>
+                        <p class="gyb-mission-block__text">
+                            La plupart des plateformes prennent une commission sur vos contrats. Pas Drilleedo.
+                            Notre modèle est fondé sur l'abonnement — <strong style="color:#FF8A3D;">pas sur la ponction de vos gains</strong>.
+                            Notre rôle : vous amener des clients qualifiés. Le reste vous appartient.
+                        </p>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="gyb-mission-block__kpi-row">
+                            <div class="gyb-mission-kpi">
+                                <div class="gyb-mission-kpi__num">+40<span>%</span></div>
+                                <div class="gyb-mission-kpi__lbl">de contrats supplémentaires</div>
+                            </div>
+                            <div class="gyb-mission-kpi">
+                                <div class="gyb-mission-kpi__num">0<span>%</span></div>
+                                <div class="gyb-mission-kpi__lbl">commission prélevée</div>
+                            </div>
+                            <div class="gyb-mission-kpi">
+                                <div class="gyb-mission-kpi__num">&lt;24<span>h</span></div>
+                                <div class="gyb-mission-kpi__lbl">profil en ligne</div>
+                            </div>
+                            <div class="gyb-mission-kpi">
+                                <div class="gyb-mission-kpi__num">+1 500</div>
+                                <div class="gyb-mission-kpi__lbl">pros nous font confiance</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ── Punch line ── #}
+        <div class="gyb-punchline">
+            <div class="gyb-punchline__ico">
+                <i class="ph-bold ph-rocket-launch" aria-hidden="true"></i>
+            </div>
+            <div class="gyb-punchline__text">
+                <div class="gyb-punchline__hl">
+                    <span>Moins de prospection.</span> Plus de chantiers.
+                    <span>0 % de commission.</span> 100 % votre revenu.
+                </div>
+                <p class="gyb-punchline__sub">
+                    Profil actif en moins de 5 minutes — sans engagement.
+                </p>
+            </div>
+        </div>
+
+    </div>
 </section>
 
 {# ── Stats strip ── #}
@@ -1410,7 +1696,6 @@
             <tr>
               <th class="gyb-th-feature" scope="col">{{ 'for_pros.comp_th1'|trans }}</th>
               <th class="gyb-th-drilleedo" scope="col">{{ 'for_pros.comp_th2'|trans }}</th>
-              <th class="gyb-th-other" scope="col">{{ 'for_pros.comp_th3'|trans }}</th>
               <th class="gyb-th-other" scope="col">{{ 'for_pros.comp_th4'|trans }}</th>
             </tr>
           </thead>
@@ -1419,42 +1704,35 @@
               <td class="gyb-td-feature">{{ 'for_pros.comp_f1'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
-              <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
               <td class="gyb-td-feature">{{ 'for_pros.comp_f2'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
               <td class="gyb-td-feature">{{ 'for_pros.comp_f3'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-yes">✓</span></td>
             </tr>
             <tr>
               <td class="gyb-td-feature">{{ 'for_pros.comp_f4'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
-              <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
               <td class="gyb-td-feature">{{ 'for_pros.comp_f5'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
             </tr>
             <tr>
               <td class="gyb-td-feature">{{ 'for_pros.comp_f6'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-yes">✓</span></td>
               <td><span class="gyb-check-no">—</span></td>
             </tr>
             <tr>
               <td class="gyb-td-feature">{{ 'for_pros.comp_f7'|trans }}</td>
               <td class="gyb-td-drilleedo"><span class="gyb-check-yes">✓</span></td>
-              <td><span class="gyb-check-no">—</span></td>
               <td><span class="gyb-check-yes">✓</span></td>
             </tr>
           </tbody>
