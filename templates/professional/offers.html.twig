@@ -19,7 +19,7 @@
             <div class="d-flex align-items-center gap-2">
                 <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ offers|length }} {{ 'Total'|trans }}</span>
                 <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px; text-decoration: none;">
-                    <i class="feather-plus"></i> {{ 'New Offer'|trans }}
+                    <i class="ph-plus"></i> {{ 'New Offer'|trans }}
                 </a>
             </div>
         </div>
@@ -45,7 +45,7 @@
                                     <div>
                                         <span style="font-weight: 800; color: #0d2151; display: block;">{{ offer.quoteRequest.title }}</span>
                                         <small style="color: #64748b; font-size: 12px;">
-                                            <i class="feather-tag" ></i>
+                                            <i class="ph-tag" ></i>
                                             {{ offer.quoteRequest.category ? offer.quoteRequest.category.localizedTitle(app.request.locale) : 'N/A' }}
                                         </small>
                                     </div>
@@ -56,7 +56,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <span style="font-weight: 800; color: #16a34a; font-size: 15px;">{{ offer.price|number_format(2) }} $</span>
+                                <span style="font-weight: 800; color: var(--drl-O); font-size: 15px;">{{ offer.price|number_format(2) }} $</span>
                             </td>
                             <td>
                                 <span style="color: #64748b; font-size: 13px;">{{ offer.description|slice(0, 50) }}{% if offer.description|length > 50 %}...{% endif %}</span>
@@ -64,13 +64,13 @@
                             <td>
                                 <span style="color: #64748b; font-size: 13px;">{{ offer.createdAt|date('d/m/Y') }}</span>
                                 {% if offer.updatedAt %}
-                                    <br><small style="color: #94a3b8; font-size: 11px;" ><i class="feather-edit-3"></i> {{ offer.updatedAt|date('d/m') }}</small>
+                                    <br><small style="color: #94a3b8; font-size: 11px;" ><i class="ph-pencil-simple"></i> {{ offer.updatedAt|date('d/m') }}</small>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if offer.viewedAt %}
                                     <span class="drl-tag" style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:11px; white-space:nowrap;">
-                                        <i class="feather-eye me-1" style="font-size:10px;"></i>{{ offer.viewedAt|date('d/m') }}
+                                        <i class="ph-eye me-1" style="font-size:10px;"></i>{{ offer.viewedAt|date('d/m') }}
                                     </span>
                                 {% elseif offer.status in ['PUBLISHED', 'INTERESTED'] %}
                                     <span class="drl-tag" style="background:#fff7ed; color:#f97316; border:1px solid #fed7aa; font-size:11px; white-space:nowrap;">
@@ -82,19 +82,19 @@
                             </td>
                             <td>
                                 {% if offer.status == 'DRAFT' %}
-                                    <span class="drl-tag drl-tag--draft"><i class="feather-file" style="font-size: 11px;"></i> {{ 'Draft'|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="ph-file" style="font-size: 11px;"></i> {{ 'Draft'|trans }}</span>
                                 {% elseif offer.status == 'PUBLISHED' %}
-                                    <span class="drl-tag drl-tag--sent"><i class="feather-send" style="font-size: 11px;"></i> {{ 'Sent'|trans }}</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="ph-paper-plane-tilt" style="font-size: 11px;"></i> {{ 'Sent'|trans }}</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
                                     {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                        <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> {{ 'Completed'|trans }}</span>
+                                        <span class="drl-tag drl-tag--draft"><i class="ph-lock" style="font-size: 11px;"></i> {{ 'Completed'|trans }}</span>
                                     {% else %}
-                                        <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> {{ 'Accepted'|trans }}</span>
+                                        <span class="drl-tag drl-tag--success"><i class="ph-check-circle" style="font-size: 11px;"></i> {{ 'Accepted'|trans }}</span>
                                     {% endif %}
                                 {% elseif offer.status == 'INTERESTED' %}
-                                    <span class="drl-tag drl-tag--warning"><i class="feather-bookmark" style="font-size: 11px;"></i> {{ 'Interested'|trans }}</span>
+                                    <span class="drl-tag drl-tag--warning"><i class="ph-bookmark-simple" style="font-size: 11px;"></i> {{ 'Interested'|trans }}</span>
                                 {% elseif offer.status == 'REJECTED' %}
-                                    <span class="drl-tag drl-tag--danger"><i class="feather-x-circle" style="font-size: 11px;"></i> {{ 'Rejected'|trans }}</span>
+                                    <span class="drl-tag drl-tag--danger"><i class="ph-x-circle" style="font-size: 11px;"></i> {{ 'Rejected'|trans }}</span>
                                 {% else %}
                                     <span class="drl-tag drl-tag--draft">{{ offer.status|trans }}</span>
                                 {% endif %}
@@ -103,38 +103,38 @@
                                 <div class="d-flex gap-1 flex-wrap">
                                      {# View button — ALWAYS available #}
                                     <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" title="{{ 'View Offer'|trans }}" style="text-decoration:none;">
-                                        <i class="feather-eye"></i>
+                                        <i class="ph-eye"></i>
                                     </a>
  
                                      {# Edit button — only for DRAFT offers, opens modal #}
                                      {% if offer.status == 'DRAFT' %}
                                          <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" data-bs-toggle="modal" data-bs-target="#editOfferModal{{ offer.id }}" title="{{ 'Edit Offer'|trans }}">
-                                             <i class="feather-edit-2"></i>
+                                             <i class="ph-pencil"></i>
                                          </button>
                                      {% else %}
                                          <span class="drl-act-btn drl-act-btn--view" style="opacity: 0.5; cursor: not-allowed; border:none;" title="{{ 'Published offers cannot be edited'|trans }}">
-                                             <i class="feather-edit-2"></i>
+                                             <i class="ph-pencil"></i>
                                          </span>
                                      {% endif %}
  
                                      {# Finalize button — only for ACCEPTED offers where request is not yet Closed #}
                                      {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
                                          <button type="button" class="drl-act-btn" style="background: rgba(22, 163, 74, 0.1); color: #16a34a; border:none;" data-bs-toggle="modal" data-bs-target="#finalizeOfferModal{{ offer.id }}" title="{{ 'Finalize Request'|trans }}">
-                                             <i class="feather-check-circle"></i>
+                                             <i class="ph-check-circle"></i>
                                          </button>
                                      {% endif %}
  
                                      {# Delete button — only for DRAFT offers #}
                                      {% if offer.status == 'DRAFT' %}
                                          <button type="button" class="drl-act-btn" style="background: #fef2f2; color: #ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteOfferModal{{ offer.id }}" title="{{ 'Delete Offer'|trans }}">
-                                             <i class="feather-trash-2"></i>
+                                             <i class="ph-trash"></i>
                                          </button>
                                      {% endif %}
  
                                      {# Completed indicator #}
                                      {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
                                          <span class="d-inline-flex align-items-center gap-1" style="color: #16a34a; font-size: 13px;" title="{{ 'Completed'|trans }}">
-                                             <i class="feather-award" ></i>
+                                             <i class="ph-medal" ></i>
                                          </span>
                                      {% endif %}
                                 </div>
@@ -143,13 +143,13 @@
                     {% else %}
                         <tr>
                             <td colspan="7" class="text-center py-5">
-                                <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                    <i class="feather-send"></i>
+                                <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:56px; height:56px; font-size:24px;">
+                                    <i class="ph-paper-plane-tilt"></i>
                                 </div>
                                 <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'No offers sent yet'|trans }}</h6>
                                 <p style="font-size:14px; color:#64748b; margin:0 0 16px;">{{ 'Browse available quote requests and submit your best offer'|trans }}</p>
                                 <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px; text-decoration:none;">
-                                    <i class="feather-search"></i> {{ 'Browse Quotes'|trans }}
+                                    <i class="ph-magnifying-glass"></i> {{ 'Browse Quotes'|trans }}
                                 </a>
                             </td>
                         </tr>
@@ -171,7 +171,7 @@
                         <div class="modal-body drl-modal-body py-5 px-4 text-center">
                             <div class="mb-4">
                                 <div class="drl-stat-icon drl-stat-icon--3 mx-auto shadow-sm" style="width: 80px; height: 80px; font-size: 36px;">
-                                    <i class="feather-check-circle"></i>
+                                    <i class="ph-check-circle"></i>
                                 </div>
                             </div>
                             <h4 class="drl-card-title mb-2" style="font-size: 22px;">{{ 'Finalize Request?'|trans }}</h4>
@@ -180,7 +180,7 @@
                                 <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                                     <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
-                                        <i class="feather-check-circle me-2"></i> {{ 'Yes, Mark as Completed'|trans }}
+                                        <i class="ph-check-circle me-2"></i> {{ 'Yes, Mark as Completed'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
@@ -201,7 +201,7 @@
                         <div class="modal-header drl-modal-header">
                             <div>
                                 <h5 class="modal-title drl-modal-title">
-                                    <i class="feather-edit-3"></i> {{ 'Edit Your Offer'|trans }}
+                                    <i class="ph-pencil-simple"></i> {{ 'Edit Your Offer'|trans }}
                                 </h5>
                                 <p class="mb-0 opacity-75 small mt-1">{{ 'Update your proposal for:'|trans }} <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'Request'|trans)) }}</strong></p>
                             </div>
@@ -243,10 +243,10 @@
                                 </div>
                                 <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-3">
                                     <button type="submit" name="action" value="draft" class="btn btn-link text-muted text-decoration-none fw-bold">
-                                        <i class="feather-save me-1"></i> {{ 'Update Draft'|trans }}
+                                        <i class="ph-floppy-disk me-1"></i> {{ 'Update Draft'|trans }}
                                     </button>
                                     <button type="submit" name="action" value="publish" class="drl-btn-orange px-5">
-                                        <i class="feather-send me-1"></i> {{ 'Publish Offer'|trans }}
+                                        <i class="ph-paper-plane-tilt me-1"></i> {{ 'Publish Offer'|trans }}
                                     </button>
                                 </div>
                             {{ form_end(editForm) }}
@@ -262,7 +262,7 @@
                         <div class="modal-body drl-modal-body py-5 px-4 text-center">
                             <div class="mb-4">
                                 <div class="drl-stat-icon drl-stat-icon--2 mx-auto shadow-sm" style="width: 72px; height: 72px; font-size: 32px; background: #fef2f2; color: #ef4444; border-color: #fee2e2;">
-                                    <i class="feather-alert-triangle"></i>
+                                    <i class="ph-warning"></i>
                                 </div>
                             </div>
                             <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'Delete this offer?'|trans }}</h4>
@@ -271,7 +271,7 @@
                                 <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
                                      <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
                                     <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25);">
-                                        <i class="feather-trash-2 me-2"></i> {{ 'Yes, Delete Permanently'|trans }}
+                                        <i class="ph-trash me-2"></i> {{ 'Yes, Delete Permanently'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">

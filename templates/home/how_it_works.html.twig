@@ -1,384 +1,353 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comment ça marche | Drilleedo Canada{% endblock %}
-{% block meta_description %}Soumettez votre projet de rénovation 100 % gratuitement et recevez des offres de professionnels vérifiés. Simple, rapide, sans engagement.{% endblock %}
+{% block title %}Je veux une soumission — Comment ça marche | Drilleedo Canada{% endblock %}
+{% block meta_description %}Publiez votre projet en 2 minutes — recevez jusqu'à 5 soumissions de professionnels vérifiés. Gratuit. Sans engagement. Sans carte de crédit. Jamais.{% endblock %}
 
 {% block body %}
 <main id="main-content">
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <style>
-/* ══ HOW IT WORKS ══════════════════════════════════════════════════════════
-   Charte : #00497F · #3FA9F5 · #FF8A3D · #0C1825 · #4A6073
+/* ══ HOW IT WORKS — Drilleedo Brand System
+   Helper Blue #00497F · Sky #3FA9F5 · Orange #FF8A3D · Cream #FFFBEB
    ══════════════════════════════════════════════════════════════════════════ */
-:root { --B:#00497F; --S:#3FA9F5; --O:#FF8A3D; --D:#0C1825; --M:#4A6073; }
+:root {
+  --B: #00497F; --S: #3FA9F5; --O: #FF8A3D;
+  --C: #FFFBEB; --D: #0C1825; --M: #4A6073; --L: #E4EBF2; --W: #FFFFFF;
+  --F: 'Instrument Sans', system-ui, sans-serif;
+  --r: 14px; --rl: 22px; --rx: 28px;
+  --sh:    0 4px 24px rgba(0,73,127,.12);
+  --sh-md: 0 8px 40px rgba(0,73,127,.15);
+  --sh-lg: 0 16px 60px rgba(0,73,127,.18);
+  --t: all .22s ease;
+}
 
-.hw-wrap { max-width:1140px; margin:0 auto; padding:0 24px; }
+.hw-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; font-family: var(--F); color: var(--D); }
+.hw-wrap * { box-sizing: border-box; }
+.hw-wrap h1,.hw-wrap h2,.hw-wrap h3,.hw-wrap h4 {
+  font-family: var(--F); font-weight: 900; letter-spacing: -.8px;
+}
 
-/* ────────────────────────────────────────────────
-   1. HERO
-   ──────────────────────────────────────────────── */
+/* ── 1. HERO ── */
 .hw-hero {
-    background: linear-gradient(125deg, #0C1825 0%, #00497F 60%, #003660 100%);
-    padding: 88px 0 76px;
-    position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  padding: 88px 0 76px; position: relative; overflow: hidden;
 }
 .hw-hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
-    background-size: 28px 28px;
-    pointer-events: none;
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 28px 28px; pointer-events: none;
 }
 .hw-hero::after {
-    content: '';
-    position: absolute; right: -100px; top: -100px;
-    width: 520px; height: 520px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,138,61,.14) 0%, transparent 68%);
-    pointer-events: none;
+  content: ''; position: absolute; right: -100px; top: -100px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,138,61,.14) 0%, transparent 68%);
+  pointer-events: none;
 }
 .hw-hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px; align-items: center;
-    position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 56px; align-items: center; position: relative; z-index: 2;
 }
-/* text col */
 .hw-hero-pill {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,.1); color: rgba(255,255,255,.9);
-    border: 1px solid rgba(255,255,255,.2);
-    border-radius: 999px; padding: 6px 16px;
-    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    margin-bottom: 20px;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.1); color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50px; padding: 7px 18px;
+  font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  margin-bottom: 20px;
 }
 .hw-hero h1 {
-    font-size: clamp(28px,4.2vw,52px);
-    font-weight: 900; color: #fff; margin: 0 0 6px;
-    line-height: 1.08; letter-spacing: -.025em;
-    text-shadow: 0 4px 28px rgba(0,0,0,.3);
+  font-size: clamp(28px,4.2vw,52px); font-weight: 900; color: #fff;
+  margin: 0 0 6px; line-height: 1.08; letter-spacing: -2px;
 }
-.hw-hero h1 .hl-free {
-    display: inline-block;
-    color: #FF8A3D;
-}
+.hw-hero h1 .hl-free { color: var(--O); display: inline-block; }
 .hw-hero__sub {
-    font-size: 17px; color: rgba(255,255,255,.75);
-    max-width: 500px; line-height: 1.75; margin: 16px 0 28px;
+  font-size: 17px; color: rgba(255,255,255,.75);
+  max-width: 500px; line-height: 1.75; margin: 16px 0 28px;
 }
 .hw-hero-trust {
-    display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 32px;
+  display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 32px;
 }
 .hw-hero-trust span {
-    display: inline-flex; align-items: center; gap: 6px;
-    color: rgba(255,255,255,.8); font-size: 13px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+  color: rgba(255,255,255,.8); font-size: 13px; font-weight: 600;
 }
-.hw-hero-trust i { color: #FF8A3D; font-size: 15px; }
+.hw-hero-trust i { color: var(--O); font-size: 15px; }
 .hw-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
-/* image col */
 .hw-hero-img-col { position: relative; }
 .hw-hero-img {
-    width: 100%; height: 430px; object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 28px 64px rgba(0,0,0,.35);
-    display: block;
+  width: 100%; height: 430px; object-fit: cover;
+  border-radius: var(--rx); box-shadow: 0 28px 64px rgba(0,0,0,.35); display: block;
 }
 .hw-hero-badge {
-    position: absolute; bottom: 28px; left: -18px;
-    background: #FF8A3D; color: #fff;
-    padding: 14px 22px; border-radius: 14px;
-    box-shadow: 0 8px 28px rgba(255,138,61,.45);
+  position: absolute; bottom: 28px; left: -18px;
+  background: var(--O); color: #fff;
+  padding: 14px 22px; border-radius: var(--rl);
+  box-shadow: 0 8px 28px rgba(255,138,61,.45);
 }
-.hw-hero-badge__num {
-    font-size: 26px; font-weight: 900; line-height: 1;
-    display: block;
-}
-.hw-hero-badge__lbl {
-    font-size: 11px; font-weight: 700; opacity: .9;
-    text-transform: uppercase; letter-spacing: .05em;
-}
+.hw-hero-badge__num { font-size: 26px; font-weight: 900; line-height: 1; display: block; }
+.hw-hero-badge__lbl { font-size: 11px; font-weight: 700; opacity: .9; text-transform: uppercase; letter-spacing: .05em; }
 .hw-hero-badge2 {
-    position: absolute; top: 28px; right: -14px;
-    background: #fff; color: #0C1825;
-    padding: 10px 16px; border-radius: 12px;
-    box-shadow: 0 6px 24px rgba(0,0,0,.15);
-    display: flex; align-items: center; gap: 8px;
+  position: absolute; top: 28px; right: -14px;
+  background: var(--W); color: var(--D);
+  padding: 10px 16px; border-radius: var(--r);
+  box-shadow: var(--sh); display: flex; align-items: center; gap: 8px;
 }
-.hw-hero-badge2 i { color: #FF8A3D; font-size: 20px; }
+.hw-hero-badge2 i { color: var(--O); font-size: 20px; }
 .hw-hero-badge2__text { font-size: 12px; font-weight: 800; line-height: 1.3; }
 
-/* ────────────────────────────────────────────────
-   2. GRATUIT STRIP
-   ──────────────────────────────────────────────── */
+/* ── 2. GRATUIT STRIP ── */
 .hw-free {
-    background: #fff;
-    padding: 60px 0 52px;
-    border-bottom: 1px solid #e4ebf2;
+  background: var(--W); padding: 64px 0 56px;
+  border-top: 3px solid var(--O); border-bottom: 1px solid var(--L);
 }
 .hw-free__headline {
-    text-align: center;
-    font-size: clamp(24px, 3.5vw, 38px);
-    font-weight: 900; color: #0C1825;
-    letter-spacing: -.02em; margin: 0 0 8px;
+  text-align: center; font-size: clamp(24px,3.5vw,38px);
+  font-weight: 900; color: var(--D); letter-spacing: -1.5px; margin: 0 0 8px;
 }
-.hw-free__headline span { color: #FF8A3D; }
+.hw-free__headline span { color: var(--O); }
 .hw-free__sub {
-    text-align: center; font-size: 15px; color: #4A6073;
-    max-width: 480px; margin: 0 auto 40px; line-height: 1.65;
+  text-align: center; font-size: 15px; color: var(--M);
+  max-width: 480px; margin: 0 auto 40px; line-height: 1.65;
 }
 .hw-free-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; background: #e4ebf2;
-    border: 1px solid #e4ebf2; border-radius: 16px; overflow: hidden;
-    max-width: 860px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--L);
+  border: 1.5px solid var(--L); border-radius: var(--rx); overflow: hidden;
+  max-width: 860px; margin: 0 auto;
 }
 .hw-free-cell {
-    background: #fff; padding: 28px 24px; text-align: center;
-    transition: background .2s;
+  background: var(--W); padding: 32px 24px; text-align: center; transition: var(--t);
 }
-.hw-free-cell:hover { background: #f8faff; }
+.hw-free-cell:hover { background: var(--C); }
 .hw-free-cell__ico {
-    width: 52px; height: 52px; border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; margin: 0 auto 14px;
+  width: 54px; height: 54px; border-radius: var(--rl);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin: 0 auto 14px;
 }
-.hw-free-cell__title { font-size: 15px; font-weight: 800; color: #0C1825; margin: 0 0 5px; }
-.hw-free-cell__text  { font-size: 13px; color: #4A6073; margin: 0; line-height: 1.6; }
+.hw-free-cell__title { font-size: 15px; font-weight: 800; color: var(--D); margin: 0 0 5px; }
+.hw-free-cell__text  { font-size: 13px; color: var(--M); margin: 0; line-height: 1.6; }
 
-/* ────────────────────────────────────────────────
-   3. 4 ÉTAPES — OVERVIEW
-   ──────────────────────────────────────────────── */
+/* ── 3. 4 ÉTAPES — OVERVIEW ── */
 .hw-overview {
-    background: #f4f8ff;
-    padding: 90px 0;
+  background: linear-gradient(160deg, #eef6ff 0%, #e3f0fd 50%, #d9ecfb 100%);
+  padding: 96px 0;
 }
 .hw-section-hd { text-align: center; margin-bottom: 56px; }
 .hw-section-pill {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,138,61,.1); color: #FF8A3D;
-    border: 1px solid rgba(255,138,61,.2);
-    border-radius: 999px; padding: 6px 16px;
-    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-    margin-bottom: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,138,61,.10); color: var(--O);
+  border: 1px solid rgba(255,138,61,.2);
+  border-radius: 50px; padding: 7px 18px;
+  font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  margin-bottom: 16px;
 }
 .hw-section-title {
-    font-size: clamp(24px,3.5vw,36px);
-    font-weight: 900; color: #0C1825; letter-spacing: -.02em;
-    margin: 0 0 10px; line-height: 1.15;
+  font-size: clamp(28px,3.5vw,40px); font-weight: 900; color: var(--D);
+  letter-spacing: -1.5px; margin: 0 0 12px; line-height: 1.13;
 }
-.hw-section-title span { color: #00497F; }
+.hw-section-title span { color: var(--B); }
 .hw-section-sub {
-    font-size: 15px; color: #4A6073;
-    max-width: 500px; margin: 0 auto; line-height: 1.7;
+  font-size: 17px; color: var(--M); max-width: 540px; margin: 0 auto; line-height: 1.75;
 }
 
-/* Connected cards row */
 .hw-steps-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    position: relative;
-    gap: 12px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  position: relative; gap: 16px;
 }
 .hw-steps-row::before {
-    content: '';
-    position: absolute;
-    top: 31px;
-    left: calc(12.5% + 8px);
-    right: calc(12.5% + 8px);
-    height: 0;
-    border-top: 2px dashed rgba(0,73,127,.22);
-    z-index: 0;
+  content: ''; position: absolute;
+  top: 31px; left: calc(12.5% + 8px); right: calc(12.5% + 8px);
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,138,61,.5), rgba(63,169,245,.5));
+  z-index: 0;
 }
-.hw-ovr-step {
-    text-align: center;
-    padding: 0 8px;
-    position: relative; z-index: 1;
-}
+.hw-ovr-step { text-align: center; padding: 0 8px; position: relative; z-index: 1; }
 .hw-ovr-circle {
-    width: 62px; height: 62px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px; margin: 0 auto 16px;
-    position: relative; z-index: 2;
-    box-shadow: 0 6px 20px rgba(0,0,0,.12);
+  width: 62px; height: 62px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin: 0 auto 16px; position: relative; z-index: 2;
+  background: linear-gradient(135deg, var(--B), var(--S)); color: #fff;
+  box-shadow: 0 6px 20px rgba(0,73,127,.25);
 }
-.hw-ovr-circle--1 { background: linear-gradient(135deg, #00497F, #003a66); color: #fff; }
-.hw-ovr-circle--2 { background: linear-gradient(135deg, #3FA9F5, #1e88e5); color: #fff; }
-.hw-ovr-circle--3 { background: linear-gradient(135deg, #FF8A3D, #e05000); color: #fff; }
-.hw-ovr-circle--4 { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; }
 .hw-ovr-num {
-    position: absolute; top: -4px; right: -4px;
-    width: 21px; height: 21px; border-radius: 50%;
-    background: #fff; color: #0C1825;
-    font-size: 10px; font-weight: 900;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  position: absolute; top: -4px; right: -4px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--O); color: #fff;
+  font-size: 10px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(255,138,61,.4);
+  border: 2px solid var(--W);
 }
 .hw-ovr-card {
-    background: #fff; border-radius: 16px; padding: 20px 16px 22px;
-    border: 1px solid #dde8f8;
-    box-shadow: 0 2px 10px rgba(0,73,127,.06);
-    transition: box-shadow .2s, transform .2s;
-    margin-top: 0;
+  background: var(--W); border-radius: var(--rx); padding: 20px 16px 22px;
+  border: 1.5px solid var(--L);
+  box-shadow: 0 2px 12px rgba(0,73,127,.06);
+  transition: var(--t);
 }
 .hw-ovr-card:hover {
-    box-shadow: 0 10px 30px rgba(0,73,127,.1);
-    transform: translateY(-3px);
+  border-color: var(--S); transform: translateY(-4px);
+  box-shadow: var(--sh-md); border-bottom: 3px solid var(--S);
 }
-.hw-ovr-title { font-size: 14px; font-weight: 800; color: #0C1825; margin: 0 0 6px; }
-.hw-ovr-text  { font-size: 12px; color: #4A6073; line-height: 1.6; margin: 0; }
+.hw-ovr-title { font-size: 14px; font-weight: 800; color: var(--D); margin: 0 0 6px; }
+.hw-ovr-text  { font-size: 12px; color: var(--M); line-height: 1.6; margin: 0; }
 
-/* ────────────────────────────────────────────────
-   4. SPLIT PHASES
-   ──────────────────────────────────────────────── */
-.hw-phase { padding: 88px 0; }
-.hw-phase--alt { background: #fafbff; }
+/* ── 4. SPLIT PHASES ── */
+.hw-phase { padding: 96px 0; background: var(--W); }
+.hw-phase--alt { background: var(--C); }
 .hw-phase-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px; align-items: center;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
 }
 .hw-phase-grid--rev { direction: rtl; }
 .hw-phase-grid--rev > * { direction: ltr; }
 
-/* image */
 .hw-phase-img-wrap {
-    position: relative; border-radius: 20px; overflow: hidden;
-    box-shadow: 0 18px 54px rgba(0,73,127,.14);
+  position: relative; border-radius: var(--rx); overflow: hidden;
+  box-shadow: var(--sh-lg);
 }
-.hw-phase-img-wrap img {
-    width: 100%; height: 380px; object-fit: cover; display: block;
-}
+.hw-phase-img-wrap img { width: 100%; height: 380px; object-fit: cover; display: block; }
 .hw-phase-img-tag {
-    position: absolute; bottom: 20px; right: 20px;
-    background: rgba(12,24,37,.82); backdrop-filter: blur(10px);
-    color: #fff; padding: 10px 16px; border-radius: 10px;
-    font-size: 12px; font-weight: 700;
-    display: flex; align-items: center; gap: 6px;
+  position: absolute; bottom: 20px; right: 20px;
+  background: rgba(12,24,37,.85); backdrop-filter: blur(10px);
+  color: #fff; padding: 10px 16px; border-radius: var(--r);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; gap: 6px;
 }
-.hw-phase-img-tag i { color: #FF8A3D; }
+.hw-phase-img-tag i { color: var(--O); }
 
-/* text */
 .hw-phase-label {
-    display: inline-flex; align-items: center; gap: 7px;
-    border-radius: 999px; padding: 5px 14px;
-    font-size: 11px; font-weight: 800;
-    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
+  display: inline-flex; align-items: center; gap: 7px;
+  border-radius: 50px; padding: 7px 16px;
+  font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+  margin-bottom: 14px;
 }
 .hw-phase-step {
-    font-size: 12px; font-weight: 700; color: rgba(0,0,0,.3);
-    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
+  font-size: 12px; font-weight: 700; color: var(--M);
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
 }
 .hw-phase-title {
-    font-size: clamp(22px,2.8vw,32px);
-    font-weight: 900; color: #0C1825;
-    letter-spacing: -.02em; margin: 0 0 12px; line-height: 1.2;
+  font-size: clamp(22px,2.8vw,32px); font-weight: 900; color: var(--D);
+  letter-spacing: -1.2px; margin: 0 0 12px; line-height: 1.15;
 }
-.hw-phase-desc {
-    font-size: 15px; color: #4A6073; line-height: 1.8; margin-bottom: 24px;
+.hw-phase-desc { font-size: 15px; color: var(--M); line-height: 1.8; margin-bottom: 24px; }
+.hw-feat-list {
+  list-style: none; padding: 0; margin: 0 0 28px;
+  display: flex; flex-direction: column; gap: 14px;
 }
-.hw-feat-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 14px; }
 .hw-feat-item { display: flex; gap: 12px; align-items: flex-start; }
 .hw-feat-ico {
-    width: 40px; height: 40px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
+  width: 42px; height: 42px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
 }
-.hw-feat-item h4 { font-size: 14px; font-weight: 800; color: #0C1825; margin: 0 0 2px; }
-.hw-feat-item p  { font-size: 13px; color: #4A6073; margin: 0; line-height: 1.55; }
+.hw-feat-item h4 { font-size: 14px; font-weight: 800; color: var(--D); margin: 0 0 2px; }
+.hw-feat-item p  { font-size: 13px; color: var(--M); margin: 0; line-height: 1.55; }
 
-/* ────────────────────────────────────────────────
-   5. CTA FINAL
-   ──────────────────────────────────────────────── */
+/* ── 5. CTA FINAL ── */
 .hw-cta {
-    background: linear-gradient(135deg, #0C1825 0%, #003660 100%);
-    padding: 88px 0; text-align: center;
-    position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  padding: 96px 0; text-align: center; position: relative; overflow: hidden;
 }
 .hw-cta::before {
-    content: ''; position: absolute;
-    right: -100px; bottom: -100px;
-    width: 440px; height: 440px; border-radius: 50%;
-    background: rgba(255,138,61,.08); pointer-events: none;
+  content: ''; position: absolute; right: -100px; bottom: -100px;
+  width: 440px; height: 440px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,138,61,.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 .hw-cta::after {
-    content: ''; position: absolute;
-    left: -60px; top: -60px;
-    width: 280px; height: 280px; border-radius: 50%;
-    background: rgba(63,169,245,.06); pointer-events: none;
+  content: ''; position: absolute; left: -60px; top: -60px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(63,169,245,.07) 0%, transparent 70%);
+  pointer-events: none;
 }
 .hw-cta__inner { position: relative; z-index: 2; }
 .hw-cta-tag {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
-    color: #FF8A3D; font-size: 11px; font-weight: 800;
-    letter-spacing: .1em; text-transform: uppercase;
-    padding: 5px 14px; border-radius: 50px; margin-bottom: 18px;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+  color: var(--O); font-size: 12px; font-weight: 700;
+  letter-spacing: .6px; text-transform: uppercase;
+  padding: 7px 18px; border-radius: 50px; margin-bottom: 18px;
 }
 .hw-cta h2 {
-    font-size: clamp(26px,4vw,44px);
-    font-weight: 900; color: #fff; margin: 0 0 12px;
-    letter-spacing: -.02em; line-height: 1.15;
+  font-size: clamp(26px,4vw,44px); font-weight: 900; color: #fff;
+  margin: 0 0 12px; letter-spacing: -1.5px; line-height: 1.13;
 }
-.hw-cta h2 span { color: #FF8A3D; }
+.hw-cta h2 span { color: var(--O); }
 .hw-cta__sub {
-    font-size: 16px; color: rgba(255,255,255,.7);
-    margin: 0 auto 36px; max-width: 460px; line-height: 1.7;
+  font-size: 16px; color: rgba(255,255,255,.73);
+  margin: 0 auto 36px; max-width: 460px; line-height: 1.7;
 }
 .hw-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
 /* ── Buttons ── */
 .hw-btn-o {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #FF8A3D; color: #fff;
-    font-size: 15px; font-weight: 800;
-    padding: 14px 30px; border-radius: 8px; text-decoration: none;
-    box-shadow: 0 4px 20px rgba(255,138,61,.4); transition: all .2s;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--O); color: #fff; font-family: var(--F);
+  font-size: 15px; font-weight: 800; padding: 14px 30px;
+  border-radius: 50px; text-decoration: none;
+  box-shadow: 0 4px 20px rgba(255,138,61,.4); transition: var(--t);
 }
-.hw-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
+.hw-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 28px rgba(255,138,61,.45); }
+
 .hw-btn-ghost {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,.1); color: #fff;
-    font-size: 15px; font-weight: 700;
-    padding: 13px 24px; border-radius: 8px; text-decoration: none;
-    border: 2px solid rgba(255,255,255,.25); transition: all .18s;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1); color: #fff; font-family: var(--F);
+  font-size: 15px; font-weight: 700; padding: 13px 24px;
+  border-radius: 50px; text-decoration: none;
+  border: 2px solid rgba(255,255,255,.25); transition: var(--t);
 }
 .hw-btn-ghost:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.5); color: #fff; }
+
 .hw-btn-outline {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: transparent; color: #fff;
-    font-size: 15px; font-weight: 700;
-    padding: 13px 26px; border-radius: 8px; text-decoration: none;
-    border: 2px solid rgba(255,255,255,.3); transition: all .18s;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #fff; font-family: var(--F);
+  font-size: 15px; font-weight: 700; padding: 13px 26px;
+  border-radius: 50px; text-decoration: none;
+  border: 2px solid rgba(255,255,255,.3); transition: var(--t);
 }
 .hw-btn-outline:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); color: #fff; }
+
 .hw-btn-b {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #00497F; color: #fff;
-    font-size: 15px; font-weight: 800;
-    padding: 13px 26px; border-radius: 8px; text-decoration: none;
-    box-shadow: 0 4px 16px rgba(0,73,127,.3); transition: all .18s;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--B); color: #fff; font-family: var(--F);
+  font-size: 15px; font-weight: 800; padding: 13px 26px;
+  border-radius: 50px; text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0,73,127,.3); transition: var(--t);
 }
-.hw-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
+.hw-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 24px rgba(0,73,127,.35); }
 
 /* Scroll reveal */
 .hw-anim { opacity: 0; transform: translateY(22px); transition: all .55s cubic-bezier(.16,1,.3,1); }
 .hw-anim.visible { opacity: 1; transform: none; }
 
+/* ── FAQ ── */
+.hw-faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 820px; margin: 0 auto; }
+.hw-faq-item { background: #fff; border: 1px solid #dde8f5; border-radius: 12px; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+.hw-faq-item:hover { border-color: var(--S); box-shadow: 0 4px 16px rgba(0,73,127,.08); }
+.hw-faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; background: none; border: none; font-size: 15px; font-weight: 700; color: #0C1825; cursor: pointer; gap: 12px; text-align: left; }
+.hw-faq-btn:hover { background: #f5f8fc; }
+.hw-faq-btn.open { color: var(--B); }
+.hw-faq-arrow { width: 26px; height: 26px; border-radius: 50%; background: #e8f0f8; color: #00497F; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .25s, background .2s; }
+.hw-faq-btn.open .hw-faq-arrow { transform: rotate(45deg); background: var(--B); color: #fff; }
+.hw-faq-body { display: none; padding: 0 22px 18px; font-size: 14px; color: #4A6073; line-height: 1.8; }
+.hw-faq-body.open { display: block; }
+
 /* ── Responsive ── */
 @media (max-width: 992px) {
-    .hw-hero-grid { grid-template-columns: 1fr; }
-    .hw-hero-img-col { display: none; }
-    .hw-steps-row { grid-template-columns: repeat(2, 1fr); }
-    .hw-steps-row::before { display: none; }
-    .hw-phase-grid { grid-template-columns: 1fr; gap: 36px; }
-    .hw-phase-grid--rev { direction: ltr; }
+  .hw-hero-grid { grid-template-columns: 1fr; }
+  .hw-hero-img-col { display: none; }
+  .hw-steps-row { grid-template-columns: repeat(2,1fr); }
+  .hw-steps-row::before { display: none; }
+  .hw-phase-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hw-phase-grid--rev { direction: ltr; }
 }
 @media (max-width: 600px) {
-    .hw-free-grid { grid-template-columns: 1fr; }
-    .hw-steps-row { grid-template-columns: 1fr 1fr; }
-    .hw-overview, .hw-phase, .hw-cta, .hw-free { padding: 60px 0; }
-    .hw-hero { padding: 64px 0 52px; }
-    .hw-phase-img-wrap img { height: 260px; }
+  .hw-free-grid { grid-template-columns: 1fr; }
+  .hw-steps-row { grid-template-columns: 1fr 1fr; }
+  .hw-overview, .hw-phase, .hw-cta, .hw-free { padding: 64px 0; }
+  .hw-hero { padding: 64px 0 52px; }
+  .hw-phase-img-wrap img { height: 260px; }
 }
 </style>
 
@@ -390,27 +359,25 @@
             {# — Texte — #}
             <div class="hw-anim">
                 <div class="hw-hero-pill">
-                    <i class="ph-bold ph-house-line"></i> Propriétaires &amp; locataires
+                    <i class="ph-bold ph-lightning"></i> Je veux une soumission
                 </div>
                 <h1>
-                    Trouvez le bon pro.<br>
-                    <span class="hl-free">100 % gratuit.</span>
+                    Décrivez votre projet. Les meilleurs pros viennent à vous. 
+                    <span class="hl-free">recevez des soumissions de pros vérifiés</span>
                 </h1>
                 <p class="hw-hero__sub">
-                    Décrivez votre projet en 2 minutes, recevez plusieurs soumissions
-                    de professionnels vérifiés dans votre région — sans rien débourser.
+                Plus besoin d'appeler, d'attendre, de relancer. Publiez votre projet une seule fois et recevez
+                plusieurs soumissions sérieuses directement dans votre espace Drilleedo. Des offres claires, des
+                pros vérifiés pour une décision facile.
                 </p>
                 <div class="hw-hero-trust">
-                    <span><i class="ph-bold ph-currency-dollar-simple"></i> Soumissions gratuites</span>
+                    <span><i class="ph-bold ph-currency-dollar-simple"></i> 100% gratuit — sans limite</span>
                     <span><i class="ph-bold ph-shield-check"></i> Pros vérifiés</span>
-                    <span><i class="ph-bold ph-check-circle"></i> Sans obligation</span>
+                    <span><i class="ph-bold ph-check-circle"></i> Zéro engagement</span>
                 </div>
                 <div class="hw-hero-actions">
                     <a href="{{ path('app_register') }}" class="hw-btn-o">
-                        Soumettre mon projet <i class="ph-bold ph-arrow-right"></i>
-                    </a>
-                    <a href="{{ path('professionals_list') }}" class="hw-btn-ghost">
-                        Explorer les pros
+                       Je décris mon projet — les pros font le reste <i class="ph-bold ph-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -422,11 +389,11 @@
                      alt="Projet de rénovation">
                 <div class="hw-hero-badge">
                     <span class="hw-hero-badge__num">GRATUIT</span>
-                    <span class="hw-hero-badge__lbl">Aucun frais pour soumettre</span>
+                    <span class="hw-hero-badge__lbl">Pas de limite de demandes</span>
                 </div>
                 <div class="hw-hero-badge2">
                     <i class="ph-bold ph-star"></i>
-                    <div class="hw-hero-badge2__text">Pros vérifiés<br>et évalués</div>
+                    <div class="hw-hero-badge2__text">Pros vérifiés<br>et certifiés</div>
                 </div>
             </div>
 
@@ -434,37 +401,40 @@
     </div>
 </section>
 
-{# ══ 2. C'EST GRATUIT ══════════════════════════════════════════════════════ #}
+{# ══ 2. C'EST GRATUIT ══════════════════════════════════════════════════════
 <section class="hw-free hw-anim">
     <div class="hw-wrap">
-        <h2 class="hw-free__headline">C'est <span>100&nbsp;% gratuit</span> — vraiment.</h2>
-        <p class="hw-free__sub">Pas de frais cachés, pas de surprise. Vous comparez librement et mandatez uniquement si une offre vous convient.</p>
+        <h2 class="hw-free__headline">Pas le temps de chercher ? Publiez votre projet — et laissez les
+professionnels <span>se battre pour vous convaincre.</span></h2>
+        <p class="hw-free__sub">Sur Drilleedo, vous n'avez pas besoin de chercher le bon pro — il vient à vous. Décrivez votre projet en 2
+minutes, et recevez jusqu'à 5 soumissions compétitives de professionnels vérifiés de votre région —
+directement dans votre boîte, en moins de 24h.</p>
         <div class="hw-free-grid">
             <div class="hw-free-cell">
                 <div class="hw-free-cell__ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                     <i class="ph-bold ph-currency-dollar-simple"></i>
                 </div>
-                <div class="hw-free-cell__title">Aucun frais de soumission</div>
-                <p class="hw-free-cell__text">Décrivez votre projet et recevez des offres sans rien payer.</p>
+                <div class="hw-free-cell__title">100% gratuit — sans limite</div>
+                <p class="hw-free-cell__text">Demandez autant de soumissions que vous voulez — sans jamais payer.</p>
             </div>
             <div class="hw-free-cell">
                 <div class="hw-free-cell__ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                    <i class="ph-bold ph-scales"></i>
+                    <i class="ph-bold ph-clock"></i>
                 </div>
-                <div class="hw-free-cell__title">Comparez sans engagement</div>
-                <p class="hw-free-cell__text">Analysez les propositions en toute liberté, sans obligation d'accepter.</p>
+                <div class="hw-free-cell__title">Jusqu'à 5 soumissions en 24h</div>
+                <p class="hw-free-cell__text">Comparez plusieurs offres et choisissez la meilleure — rapidement.</p>
             </div>
             <div class="hw-free-cell">
                 <div class="hw-free-cell__ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                    <i class="ph-bold ph-check-fat"></i>
+                    <i class="ph-bold ph-seal-check"></i>
                 </div>
-                <div class="hw-free-cell__title">Mandatez si ça vous convient</div>
-                <p class="hw-free-cell__text">Vous choisissez uniquement si une offre correspond vraiment à vos attentes.</p>
+                <div class="hw-free-cell__title">Pros vérifiés uniquement</div>
+                <p class="hw-free-cell__text">Seuls les professionnels certifiés et actifs peuvent répondre à votre demande.</p>
             </div>
         </div>
     </div>
 </section>
-
+ #}
 {# ══ 3. LES 4 ÉTAPES — VUE D'ENSEMBLE ═════════════════════════════════════ #}
 <section class="hw-overview">
     <div class="hw-wrap">
@@ -473,8 +443,8 @@
             <div class="hw-section-pill">
                 <i class="ph-bold ph-list-numbers"></i> Comment ça fonctionne
             </div>
-            <h2 class="hw-section-title">Simple, rapide, <span>en 4 étapes</span></h2>
-            <p class="hw-section-sub">De la description de votre projet au choix du bon professionnel — en quelques minutes.</p>
+            <h2 class="hw-section-title">Publiez une fois. <span>Recevez plusieurs offres.</span></h2>
+            <p class="hw-section-sub">Plus besoin d'appeler, d'attendre, de relancer. Publiez votre projet une seule fois — et laissez les professionnels se battre pour vous convaincre.</p>
         </div>
 
         <div class="hw-steps-row hw-anim">
@@ -486,7 +456,7 @@
                 </div>
                 <div class="hw-ovr-card">
                     <div class="hw-ovr-title">Créez votre profil</div>
-                    <p class="hw-ovr-text">Inscrivez-vous en quelques minutes pour gérer vos projets et suivre vos échanges.</p>
+                    <p class="hw-ovr-text">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
                 </div>
             </div>
 
@@ -497,7 +467,7 @@
                 </div>
                 <div class="hw-ovr-card">
                     <div class="hw-ovr-title">Décrivez votre projet</div>
-                    <p class="hw-ovr-text">Type de travaux, budget, délais, localisation — formulaire simple, 2 minutes chrono.</p>
+                    <p class="hw-ovr-text">Remplissez un formulaire simple et intuitif — en 2 minutes chrono.</p>
                 </div>
             </div>
 
@@ -507,8 +477,8 @@
                     <span class="hw-ovr-num">3</span>
                 </div>
                 <div class="hw-ovr-card">
-                    <div class="hw-ovr-title">Recevez des soumissions</div>
-                    <p class="hw-ovr-text">Des pros qualifiés de votre zone vous envoient leurs offres avec prix et délais.</p>
+                    <div class="hw-ovr-title">Recevez vos soumissions</div>
+                    <p class="hw-ovr-text">Votre demande est diffusée instantanément aux professionnels qualifiés de votre région.</p>
                 </div>
             </div>
 
@@ -519,7 +489,7 @@
                 </div>
                 <div class="hw-ovr-card">
                     <div class="hw-ovr-title">Comparez et choisissez</div>
-                    <p class="hw-ovr-text">Analysez les propositions et mandatez uniquement si une offre vous convient.</p>
+                    <p class="hw-ovr-text">Analysez librement les propositions reçues — sans pression ni délai imposé.</p>
                 </div>
             </div>
 
@@ -527,46 +497,59 @@
     </div>
 </section>
 
-{# ══ 4. ÉTAPE 1 + 2 — PUBLIEZ VOTRE PROJET ════════════════════════════════ #}
+{# ══ 4. ÉTAPE 1 — CRÉEZ VOTRE PROFIL ══════════════════════════════════════ #}
 <section class="hw-phase hw-anim">
     <div class="hw-wrap">
         <div class="hw-phase-grid">
 
             <div>
-                <div class="hw-phase-step">Étapes 1 &amp; 2</div>
+                <div class="hw-phase-step">Étape 1</div>
                 <div class="hw-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
-                    <i class="ph-bold ph-note-pencil"></i> Publiez votre demande
+                    <i class="ph-bold ph-user-plus"></i> Créez votre profil
                 </div>
-                <h2 class="hw-phase-title">Créez votre profil,<br>décrivez votre projet</h2>
-                <p class="hw-phase-desc">Inscrivez-vous gratuitement, puis remplissez un formulaire clair avec les détails essentiels. Notre système transmet votre demande aux professionnels correspondants dans votre région.</p>
+                <h2 class="hw-phase-title">Créez votre profil</h2>
+                <p class="hw-phase-desc">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                            <i class="ph-bold ph-map-pin"></i>
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div>
-                            <h4>Localisé et ciblé</h4>
-                            <p>Votre demande est envoyée uniquement aux pros actifs dans votre secteur.</p>
-                        </div>
+                        <div><h4>Sauvegardez vos demandes et retrouvez-les à tout moment</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                            <i class="ph-bold ph-image-square"></i>
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div>
-                            <h4>Ajoutez des photos</h4>
-                            <p>Illustrez votre projet pour obtenir des soumissions plus précises et pertinentes.</p>
+                        <div><h4>Suivez vos soumissions reçues et vos échanges avec les pros</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
+                        <div><h4>Gérez tous vos projets depuis un espace centralisé et intuitif</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Gagnez un temps précieux dans toutes vos démarches</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Votre profil est gratuit — et le reste toujours</h4></div>
                     </li>
                 </ul>
+                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;margin-bottom:24px;">Un profil Drilleedo, c'est votre chef de projet personnel. Tous vos projets, toutes vos soumissions, tous vos échanges — centralisés en un seul endroit. Plus d'emails perdus. Plus de confusion. Juste de l'efficacité.</p>
                 <a href="{{ path('app_register') }}" class="hw-btn-b">
-                    Créer mon profil gratuitement <i class="ph-bold ph-arrow-right"></i>
+                    Je décris mon projet — les pros font le reste <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
-                     alt="Soumettre un projet de rénovation" loading="lazy">
+                     alt="Créer un profil Drilleedo pour gérer vos projets" loading="lazy">
                 <div class="hw-phase-img-tag">
                     <i class="ph-bold ph-currency-dollar-simple"></i> 100 % gratuit
                 </div>
@@ -576,43 +559,127 @@
     </div>
 </section>
 
-{# ══ 5. ÉTAPE 3 — RECEVEZ DES SOUMISSIONS ══════════════════════════════════ #}
+{# ══ 5. ÉTAPE 2 — DÉCRIVEZ VOTRE PROJET ════════════════════════════════════ #}
 <section class="hw-phase hw-phase--alt hw-anim">
     <div class="hw-wrap">
         <div class="hw-phase-grid hw-phase-grid--rev">
 
             <div>
-                <div class="hw-phase-step">Étape 3</div>
+                <div class="hw-phase-step">Étape 2</div>
                 <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
-                    <i class="ph-bold ph-envelope-open"></i> Recevez des offres
+                    <i class="ph-bold ph-note-pencil"></i> Décrivez votre projet
                 </div>
-                <h2 class="hw-phase-title">Des soumissions<br>dans votre boîte</h2>
-                <p class="hw-phase-desc">Les professionnels intéressés vous envoient leurs offres directement — prix, délais et détails des services. Tout centralisé dans votre tableau de bord.</p>
+                <h2 class="hw-phase-title">Décrivez votre projet</h2>
+                <p class="hw-phase-desc">Remplissez un formulaire simple et intuitif — en 2 minutes chrono. Plus vous êtes précis, meilleures sont les soumissions.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                            <i class="ph-bold ph-shield-check"></i>
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div>
-                            <h4>Pros vérifiés seulement</h4>
-                            <p>Chaque professionnel est validé avant d'accéder à la plateforme.</p>
-                        </div>
+                        <div><h4>Type de travaux — Quel projet souhaitez-vous réaliser ?</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                            <i class="ph-bold ph-chat-circle-dots"></i>
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div>
-                            <h4>Échangez directement</h4>
-                            <p>Posez vos questions, précisez vos attentes avant de décider.</p>
+                        <div><h4>Description détaillée — Expliquez vos besoins avec précision</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
+                        <div><h4>Photos &amp; documents — Ajoutez des visuels pour que les pros comprennent exactement</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Budget estimé — Une fourchette suffit pour recevoir des offres adaptées</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Localisation — Votre ville ou code postal</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Délai souhaité — Quand souhaitez-vous commencer ?</h4></div>
                     </li>
                 </ul>
+                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">Un projet bien décrit = des soumissions précises et compétitives. Prenez 2 minutes pour remplir votre demande — et économisez des heures de recherche et d'appels téléphoniques.</p>
+            </div>
+
+            <div class="hw-phase-img-wrap">
+                <img src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
+                     alt="Décrire son projet de rénovation sur Drilleedo" loading="lazy">
+                <div class="hw-phase-img-tag">
+                    <i class="ph-bold ph-clock"></i> 2 minutes chrono
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ══ 6. ÉTAPE 3 — RECEVEZ DES SOUMISSIONS ══════════════════════════════════ #}
+<section class="hw-phase hw-anim">
+    <div class="hw-wrap">
+        <div class="hw-phase-grid">
+
+            <div>
+                <div class="hw-phase-step">Étape 3</div>
+                <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
+                    <i class="ph-bold ph-envelope-open"></i> Recevez vos soumissions
+                </div>
+                <h2 class="hw-phase-title">Recevez vos soumissions</h2>
+                <p class="hw-phase-desc">Votre demande est diffusée instantanément aux professionnels qualifiés de votre région. Les pros intéressés vous envoient leurs meilleures offres — directement dans votre espace Drilleedo.</p>
+                <ul class="hw-feat-list">
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Jusqu'à 5 soumissions compétitives — en moins de 24 heures</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Détail complet de chaque offre : prix total, délais, services inclus</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Profil complet du pro : certifications, avis clients, réalisations</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Messagerie directe — posez vos questions avant de décider</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Seuls les professionnels vérifiés &amp; actifs peuvent répondre</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Zéro soumission d'inconnus — que des experts qualifiés</h4></div>
+                    </li>
+                </ul>
+                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">Sur Drilleedo, vous ne recevez que des soumissions sérieuses. Chaque pro qui répond à votre demande est un abonné vérifié — pas un amateur qui improvise. La qualité est garantie avant même le premier échange.</p>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
-                     alt="Recevoir et comparer des devis" loading="lazy">
+                     alt="Recevoir et comparer des soumissions de pros vérifiés" loading="lazy">
                 <div class="hw-phase-img-tag">
                     <i class="ph-bold ph-shield-check"></i> Pros vérifiés
                 </div>
@@ -622,46 +689,64 @@
     </div>
 </section>
 
-{# ══ 6. ÉTAPE 4 — CHOISISSEZ VOTRE PRO ═════════════════════════════════════ #}
-<section class="hw-phase hw-anim">
+{# ══ 7. ÉTAPE 4 — COMPAREZ ET CHOISISSEZ ════════════════════════════════════ #}
+<section class="hw-phase hw-phase--alt hw-anim">
     <div class="hw-wrap">
-        <div class="hw-phase-grid">
+        <div class="hw-phase-grid hw-phase-grid--rev">
 
             <div>
                 <div class="hw-phase-step">Étape 4</div>
                 <div class="hw-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
-                    <i class="ph-bold ph-check-fat"></i> Choisissez en toute liberté
+                    <i class="ph-bold ph-check-fat"></i> Comparez et choisissez
                 </div>
-                <h2 class="hw-phase-title">Comparez, choisissez,<br>ou ne choisissez pas</h2>
-                <p class="hw-phase-desc">Analysez les propositions reçues et sélectionnez celle qui vous convient le mieux. Aucune obligation, aucune pression — vous êtes entièrement libre.</p>
+                <h2 class="hw-phase-title">Comparez et choisissez</h2>
+                <p class="hw-phase-desc">Analysez librement les propositions reçues — prenez le temps qu'il vous faut, sans pression ni délai imposé.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                            <i class="ph-bold ph-star"></i>
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div>
-                            <h4>Avis et évaluations</h4>
-                            <p>Consultez les avis d'autres clients pour faire le meilleur choix.</p>
-                        </div>
+                        <div><h4>Comparez les prix, les délais et les services inclus côte à côte</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                            <i class="ph-bold ph-hand-pointing"></i>
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div>
-                            <h4>Aucune obligation</h4>
-                            <p>Vous mandatez uniquement si une offre correspond réellement à vos attentes.</p>
+                        <div><h4>Consultez le profil complet de chaque professionnel soumissionnaire</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-check-circle"></i>
                         </div>
+                        <div><h4>Échangez directement pour clarifier les détails et négocier</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Sélectionnez la soumission qui offre le meilleur rapport qualité-prix</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Confirmez avec le pro et démarrez vos travaux en toute confiance</h4></div>
+                    </li>
+                    <li class="hw-feat-item">
+                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div><h4>Évaluez le professionnel une fois le projet terminé — protégez la communauté</h4></div>
                     </li>
                 </ul>
-                <a href="{{ path('professionals_list') }}" class="hw-btn-b">
-                    Explorer les pros <i class="ph-bold ph-arrow-right"></i>
+                <a href="{{ path('app_register') }}" class="hw-btn-b">
+                    Je publie mon projet — et je reçois mes soumissions gratuitement <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
-                     alt="Choisir un professionnel vérifié" loading="lazy">
+                     alt="Choisir un professionnel vérifié sur Drilleedo" loading="lazy">
                 <div class="hw-phase-img-tag">
                     <i class="ph-bold ph-check-circle"></i> Sans obligation
                 </div>
@@ -671,21 +756,181 @@
     </div>
 </section>
 
-{# ══ 7. CTA FINAL ══════════════════════════════════════════════════════════ #}
+{# ══ 7. POURQUOI DRILLEEDO CHANGE TOUT ═════════════════════════════════════ #}
+<section class="hw-free hw-anim" style="border-top:1px solid var(--L);border-bottom:none;">
+    <div class="hw-wrap">
+        <h2 class="hw-free__headline">Fini le bouche-à-oreille incertain.<br><span>Fini les devis qui n'arrivent jamais.</span></h2>
+        <p class="hw-free__sub">Pourquoi demander une soumission sur Drilleedo change tout.</p>
+
+        <div style="max-width:820px;margin:0 auto 56px;overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-family:var(--F);">
+                <thead>
+                    <tr>
+                        <th style="padding:14px 20px;background:var(--D);color:#fff;font-size:13px;font-weight:800;text-align:left;border-radius:12px 0 0 0;">Ce que vous obtenez avec Drilleedo</th>
+                        <th style="padding:14px 20px;background:var(--D);color:var(--O);font-size:13px;font-weight:800;text-align:left;border-radius:0 12px 0 0;">Ce que ça change pour vous</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:rgba(255,138,61,.05);">
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">100% gratuit — sans limite</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Demandez autant de soumissions que vous voulez — sans jamais payer</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Jusqu'à 5 soumissions en 24h</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Comparez plusieurs offres et choisissez la meilleure — rapidement</td>
+                    </tr>
+                    <tr style="background:rgba(255,138,61,.05);">
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Pros vérifiés uniquement</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Seuls les professionnels certifiés &amp; actifs peuvent répondre</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Zéro engagement</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Vous n'êtes jamais obligé d'accepter une soumission</td>
+                    </tr>
+                    <tr style="background:rgba(255,138,61,.05);">
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Contact direct &amp; gratuit</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Négociez librement — sans intermédiaire, sans frais additionnels</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);">Large choix de catégories</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);">Entrepreneurs, spécialistes, services — toutes vos demandes acceptées</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="text-align:center;font-size:clamp(20px,2.5vw,28px);font-weight:900;color:var(--D);margin:0 0 32px;letter-spacing:-1px;">Drilleedo vs Les autres plateformes</h3>
+        <div style="max-width:820px;margin:0 auto;overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-family:var(--F);">
+                <thead>
+                    <tr>
+                        <th style="padding:14px 20px;background:var(--D);color:rgba(255,255,255,.6);font-size:12px;font-weight:700;text-align:left;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.05em;">Fonctionnalité</th>
+                        <th style="padding:14px 20px;background:var(--B);color:#fff;font-size:12px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.05em;">Drilleedo</th>
+                        <th style="padding:14px 20px;background:#c0392b;color:#fff;font-size:12px;font-weight:700;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.05em;">Les autres</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Demandes de soumissions</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Illimitées — toujours gratuit</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Limitées ou payantes</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Délai de réception</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Moins de 24h</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">48h à 72h en moyenne</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Qualité des soumissionnaires</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Pros vérifiés &amp; certifiés</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Ouverts à tous sans filtre</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Frais de mise en relation</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Zéro — maintenant &amp; toujours</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Frais cachés par demande</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Nombre de soumissions</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Jusqu'à 5 offres compétitives</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Variable &amp; non garanti</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);">Engagement requis</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;background:rgba(0,73,127,.04);">Aucun — zéro obligation</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;">Conditions restrictives</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{# ══ 8. FAQ ════════════════════════════════════════════════════════════════ #}
+<section class="hw-free hw-anim" style="background:#f4f8ff;border-top:1px solid #dde8f5;border-bottom:none;">
+    <div class="hw-wrap">
+        <div style="text-align:center;margin-bottom:48px;">
+            <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.2);border-radius:999px;padding:6px 16px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">
+                <i class="ph-bold ph-question"></i> QUESTIONS FRÉQUENTES — JE VEUX UNE SOUMISSION
+            </div>
+            <h2 style="font-size:clamp(24px,3.5vw,36px);font-weight:900;color:#0C1825;letter-spacing:-.02em;margin:0 0 10px;">Toutes vos questions — des réponses<br><span style="color:#00497F;">claires et sans détour.</span></h2>
+        </div>
+        <div class="hw-faq-list">
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Combien de temps faut-il pour recevoir mes premières soumissions ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Dans la grande majorité des cas, vous recevez vos premières soumissions en moins de 24 heures suivant la publication de votre projet. Les professionnels de votre région sont notifiés instantanément dès que votre demande est diffusée — et les pros sérieux répondent vite.<br><br>→ Notification instantanée aux pros de votre région dès la publication<br>→ Premières soumissions généralement reçues en moins de 24h<br>→ Un projet bien décrit reçoit des soumissions plus rapidement<br>→ Jusqu'à 5 soumissions compétitives par demande</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Suis-je obligé d'accepter une soumission reçue ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Absolument pas. Vous n'avez aucune obligation d'accepter une soumission reçue sur Drilleedo. Vous êtes entièrement libre de comparer, d'échanger avec les professionnels, de négocier — et de choisir celui qui vous convient le mieux, ou de ne choisir personne. Zéro pression. Zéro engagement.<br><br>→ Aucune obligation d'accepter — jamais<br>→ Comparez librement sans délai imposé<br>→ Négociez directement avec les pros avant de décider<br>→ Annulez votre demande à tout moment sans frais ni pénalité</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Combien de soumissions puis-je recevoir par projet ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Vous pouvez recevoir jusqu'à 5 soumissions par demande de projet. Ce nombre est volontairement limité pour vous permettre de comparer des offres sérieuses et qualitatives — plutôt que de vous noyer dans une multitude de propositions. Chaque soumission vient d'un professionnel vérifié et actif sur Drilleedo.<br><br>→ Maximum 5 soumissions par projet — pour des comparaisons claires<br>→ Chaque soumissionnaire est un pro vérifié et actif<br>→ Qualité garantie avant quantité — des offres sérieuses uniquement<br>→ Posez des questions à chaque pro avant de décider</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Est-ce vraiment gratuit de demander une soumission ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Oui — 100% gratuit. Sans exception. Décrire votre projet, recevoir des soumissions, comparer les offres et contacter les professionnels ne vous coûte rien. Pas d'abonnement, pas de frais de mise en relation, pas de commission cachée. Sur Drilleedo — les clients ne paient jamais pour trouver leur pro.<br><br>→ Aucun frais de publication de projet<br>→ Aucun frais de réception de soumissions<br>→ Aucune commission sur le contrat accepté<br>→ Autant de demandes que vous voulez — sans limite et sans frais</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Comment bien décrire mon projet pour recevoir de meilleures soumissions ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">La qualité de votre description détermine directement la qualité des soumissions reçues. Plus votre projet est précis et détaillé, plus les professionnels pourront vous soumettre des offres adaptées et compétitives. Prenez 5 minutes supplémentaires — et économisez des heures de va-et-vient.<br><br>→ Décrivez précisément les travaux à réaliser — soyez spécifique<br>→ Ajoutez des photos — une image vaut mille mots<br>→ Indiquez votre budget estimé — même une fourchette approximative aide<br>→ Précisez votre délai souhaité — quand voulez-vous commencer ?<br>→ Mentionnez les contraintes particulières — accès, horaires, matériaux</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Quels types de projets puis-je soumettre sur Drilleedo ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Drilleedo accepte toutes les demandes liées à votre domicile et votre propriété — des travaux de construction aux services du quotidien. Si ça concerne votre maison, votre terrain ou votre espace de vie — nous avons le professionnel qu'il vous faut.<br><br>→ Rénovation, construction et agrandissement<br>→ Plomberie, électricité, toiture, isolation, fenêtres<br>→ Peinture, carrelage, plancher, cuisine, salle de bain<br>→ Déménagement, jardinage, entretien ménager<br>→ Et bien plus — soumettez votre projet même si vous doutez</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Puis-je faire plusieurs demandes de soumissions en même temps ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Oui — et sans aucune limite ! Vous pouvez publier autant de projets que vous le souhaitez, simultanément ou non, et recevoir des soumissions pour chacun d'eux. Chaque demande est traitée indépendamment et diffusée aux professionnels correspondant à votre besoin spécifique.<br><br>→ Autant de projets simultanés que vous voulez — sans restriction<br>→ Chaque projet reçoit ses propres soumissions indépendantes<br>→ Gérez tous vos projets depuis votre tableau de bord centralisé</div>
+            </div>
+            <div class="hw-faq-item">
+                <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
+                    Que se passe-t-il après avoir accepté une soumission ?
+                    <span class="hw-faq-arrow">+</span>
+                </button>
+                <div class="hw-faq-body">Une fois que vous avez choisi la soumission qui vous convient, vous entrez en contact direct avec le professionnel pour finaliser les détails — contrat, calendrier, modalités de paiement. Drilleedo facilite la connexion, mais la relation professionnelle et les modalités contractuelles se gèrent directement entre vous et le pro.<br><br>→ Échangez directement avec le pro pour finaliser les détails<br>→ Planifiez le démarrage des travaux selon vos disponibilités mutuelles<br>→ Établissez un contrat clair — protégez-vous et protégez le pro<br>→ Évaluez le professionnel une fois le projet terminé — contribuez à la communauté</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══ 9. CTA FINAL ══════════════════════════════════════════════════════════ #}
 <section class="hw-cta hw-anim">
     <div class="hw-wrap">
         <div class="hw-cta__inner">
             <div class="hw-cta-tag">
-                <i class="ph-bold ph-rocket-launch"></i> Commencez maintenant
+                <i class="ph-bold ph-lightning"></i> Décrivez. Recevez. Choisissez.
             </div>
-            <h2>Votre projet mérite<br>les <span>meilleurs professionnels</span></h2>
+            <h2>Votre projet mérite<br>les <span>meilleures offres</span></h2>
             <p class="hw-cta__sub">
-                Gratuit, rapide et sans engagement.<br>
-                Recevez vos premières soumissions en moins de 24&nbsp;h.
+                Drilleedo les ramène à vous.<br>
+                Gratuit. Sans engagement. Sans carte de crédit. Pas de limite de demandes. Jamais.
             </p>
             <div class="hw-cta-btns">
                 <a href="{{ path('app_register') }}" class="hw-btn-o">
-                    Soumettre mon projet <i class="ph-bold ph-arrow-right"></i>
+                    Je publie mon projet — et je reçois mes soumissions gratuitement <i class="ph-bold ph-arrow-right"></i>
                 </a>
                 <a href="{{ path('professionals_list') }}" class="hw-btn-outline">
                     <i class="ph-bold ph-magnifying-glass"></i> Explorer les pros
@@ -706,5 +951,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.07 });
     document.querySelectorAll('.hw-anim').forEach(el => obs.observe(el));
 });
+function hwFaq(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    btn.closest('.hw-faq-list').querySelectorAll('.hw-faq-btn.open').forEach(b => {
+        b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); b.setAttribute('aria-expanded','false');
+    });
+    if (!isOpen) { btn.classList.add('open'); body.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
 </script>
 {% endblock %}

@@ -26,8 +26,8 @@
                              <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>{{ 'nav.how_it_works'|trans }}<i class="feather-chevron-down"></i></a>
                                 <ul class="submenu">
                                     <li><a href="{{ path('app_for_professionals') }}">Je suis un professionnel</a></li>
-                                    <li><a href="{{ path('app_how_it_works') }}">Je cherche un professionnel</a></li>
-                                    <li><a href="{{ path('app_find_a_pro') }}">Je veux soumettre un projet</a></li>
+                                    <li><a href="{{ path('app_how_it_works') }}">Je publie un projet</a></li>
+                                    <li><a href="{{ path('app_find_a_pro') }}">Je cherche un professionnel</a></li>
                                 </ul>
                             </li>
 
@@ -45,7 +45,6 @@
                             </li>
 
                             <li><a href="{{ path('app_about') }}" {% if app.request.attributes.get('_route') == 'app_about' %}class="active"{% endif %}>{{ 'nav.about_us'|trans }}</a></li>
-                            <li><a href="{{ path('public_blog_list') }}" {% if app.request.attributes.get('_route') == 'public_blog_list' %}class="active"{% endif %}>{{ 'nav.blog'|trans }}</a></li>
                         </ul>
                     </nav>
                 </div>

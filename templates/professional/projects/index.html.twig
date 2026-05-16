@@ -319,8 +319,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         zone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            zone.style.borderColor = '#00509e';
-            zone.style.backgroundColor = '#eff6ff';
+            const drlS = getComputedStyle(document.documentElement).getPropertyValue('--drl-S').trim() || '#3FA9F5';
+            zone.style.borderColor = drlS;
+            zone.style.backgroundColor = 'rgba(63,169,245,.06)';
         });
 
         ['dragleave', 'dragend'].forEach(type => {

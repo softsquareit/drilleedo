@@ -336,6 +336,18 @@
 .fp-anim { opacity: 0; transform: translateY(22px); transition: all .55s cubic-bezier(.16,1,.3,1); }
 .fp-anim.visible { opacity: 1; transform: none; }
 
+/* ── FAQ ── */
+.fp-faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 820px; margin: 0 auto; }
+.fp-faq-item { background: #fff; border: 1px solid #dde8f5; border-radius: 12px; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+.fp-faq-item:hover { border-color: var(--S); box-shadow: 0 4px 16px rgba(0,73,127,.08); }
+.fp-faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; background: none; border: none; font-size: 15px; font-weight: 700; color: #0C1825; cursor: pointer; gap: 12px; text-align: left; }
+.fp-faq-btn:hover { background: #f5f8fc; }
+.fp-faq-btn.open { color: var(--B); }
+.fp-faq-arrow { width: 26px; height: 26px; border-radius: 50%; background: #e8f0f8; color: #00497F; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .25s, background .2s; }
+.fp-faq-btn.open .fp-faq-arrow { transform: rotate(45deg); background: var(--B); color: #fff; }
+.fp-faq-body { display: none; padding: 0 22px 18px; font-size: 14px; color: #4A6073; line-height: 1.8; }
+.fp-faq-body.open { display: block; }
+
 /* ── Responsive ── */
 @media (max-width: 992px) {
     .fp-hero-grid { grid-template-columns: 1fr; }
@@ -363,27 +375,24 @@
             {# — Texte — #}
             <div class="fp-anim">
                 <div class="fp-hero-pill">
-                    <i class="ph-bold ph-magnifying-glass"></i> Je cherche un professionnel
+                    <i class="ph-bold ph-magnifying-glass"></i> Cherchez moins. Trouvez mieux. Choisissez librement.
                 </div>
                 <h1>
-                    Trouvez l'entrepreneur<br>
-                    <span class="hl-sky">fait pour votre projet</span>
+                    Le bon pro existe. Il est vérifié.<br>
+                    Il est près de chez vous.<br>
+                    <span class="hl-sky">Trouvez-le maintenant.</span>
                 </h1>
                 <p class="fp-hero__sub">
-                    Parcourez des profils vérifiés, comparez les réalisations et les avis,
-                    puis contactez directement le bon pro — gratuitement, à votre rythme.
+                    Parcourez des centaines de professionnels certifiés — filtrés, vérifiés et évalués par de vrais clients. Comparez les profils, consultez les réalisations, lisez les avis — et contactez directement celui qui mérite votre confiance. Zéro frais. Zéro intermédiaire. Zéro mauvaise surprise.
                 </p>
                 <div class="fp-hero-trust">
-                    <span><i class="ph-bold ph-user-check"></i> Profils vérifiés</span>
-                    <span><i class="ph-bold ph-currency-dollar-simple"></i> 100 % gratuit</span>
-                    <span><i class="ph-bold ph-hand-pointing"></i> Contact direct</span>
+                    <span><i class="ph-bold ph-currency-dollar-simple"></i> Annuaire 100% gratuit</span>
+                    <span><i class="ph-bold ph-shield-check"></i> Pros certifiés &amp; vérifiés</span>
+                    <span><i class="ph-bold ph-seal-check"></i> Avis authentiques garantis</span>
                 </div>
                 <div class="fp-hero-actions">
                     <a href="{{ path('professionals_list') }}" class="fp-btn-s">
-                        Explorer les pros <i class="ph-bold ph-arrow-right"></i>
-                    </a>
-                    <a href="{{ path('app_register') }}" class="fp-btn-ghost">
-                        Créer mon compte
+                        Je trouve mon pro maintenant — gratuitement &amp; sans limite <i class="ph-bold ph-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -407,44 +416,44 @@
     </div>
 </section>
 
-{# ══ 2. VOS AVANTAGES ══════════════════════════════════════════════════════ #}
+{# ══ 2. VOS AVANTAGES ══════════════════════════════════════════════════════ 
 <section class="fp-adv fp-anim">
     <div class="fp-wrap">
-        <h2 class="fp-adv__headline">Parcourez, comparez, choisissez.<br><span>Librement.</span></h2>
-        <p class="fp-adv__sub">Aucun engagement, aucun frais. Vous avancez à votre rythme et prenez vos décisions en toute confiance.</p>
+        <h2 class="fp-adv__headline">Notre annuaire est 100% gratuit pour vous.<br><span>Toujours.</span></h2>
+        <p class="fp-adv__sub">Sans frais cachés. Sans engagement. Cherchez, comparez et contactez librement.</p>
         <div class="fp-adv-grid">
             <div class="fp-adv-cell">
                 <div class="fp-adv-cell__ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                    <i class="ph-bold ph-sliders"></i>
+                    <i class="ph-bold ph-currency-dollar-simple"></i>
                 </div>
-                <div class="fp-adv-cell__title">Choix libre et personnalisé</div>
-                <p class="fp-adv-cell__text">Filtrez par catégorie, ville et spécialité pour trouver exactement ce dont vous avez besoin.</p>
+                <div class="fp-adv-cell__title">Annuaire 100% gratuit</div>
+                <p class="fp-adv-cell__text">Aucun abonnement, aucune carte de crédit. Accès illimité à tous les profils — maintenant et toujours.</p>
             </div>
             <div class="fp-adv-cell">
                 <div class="fp-adv-cell__ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
-                    <i class="ph-bold ph-user-check"></i>
+                    <i class="ph-bold ph-shield-check"></i>
                 </div>
-                <div class="fp-adv-cell__title">Profils vérifiés et détaillés</div>
-                <p class="fp-adv-cell__text">Accédez aux réalisations, compétences et coordonnées de chaque professionnel.</p>
+                <div class="fp-adv-cell__title">Pros certifiés &amp; vérifiés</div>
+                <p class="fp-adv-cell__text">Chaque professionnel est validé par notre équipe — permis, assurances et références vérifiés.</p>
             </div>
             <div class="fp-adv-cell">
                 <div class="fp-adv-cell__ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                    <i class="ph-bold ph-star"></i>
+                    <i class="ph-bold ph-seal-check"></i>
                 </div>
-                <div class="fp-adv-cell__title">Avis et transparence</div>
-                <p class="fp-adv-cell__text">Lisez les avis d'autres clients pour choisir en toute confiance.</p>
+                <div class="fp-adv-cell__title">Avis authentiques garantis</div>
+                <p class="fp-adv-cell__text">Tous les avis sont vérifiés et publiés uniquement par de vrais clients ayant travaillé avec le pro.</p>
             </div>
             <div class="fp-adv-cell">
                 <div class="fp-adv-cell__ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                    <i class="ph-bold ph-lightning"></i>
+                    <i class="ph-bold ph-chat-circle-dots"></i>
                 </div>
-                <div class="fp-adv-cell__title">Contact rapide et direct</div>
-                <p class="fp-adv-cell__text">Entrez en contact en un clic — sans intermédiaire, sans délai.</p>
+                <div class="fp-adv-cell__title">Contact direct — sans intermédiaire</div>
+                <p class="fp-adv-cell__text">Écrivez directement au professionnel choisi. Zéro commission, zéro frais de mise en relation.</p>
             </div>
         </div>
     </div>
 </section>
-
+#}
 {# ══ 3. LES 4 ÉTAPES ══════════════════════════════════════════════════════ #}
 <section class="fp-overview">
     <div class="fp-wrap">
@@ -453,8 +462,8 @@
             <div class="fp-section-pill">
                 <i class="ph-bold ph-list-numbers"></i> Comment ça fonctionne
             </div>
-            <h2 class="fp-section-title">Trouvez votre pro en <span>4 étapes</span></h2>
-            <p class="fp-section-sub">Cherchez, comparez et contactez le bon professionnel — en quelques minutes, sans rien débourser.</p>
+            <h2 class="fp-section-title">Trouvez votre pro en <span>4 étapes simples</span></h2>
+            <p class="fp-section-sub">Cherchez, comparez et contactez le bon professionnel — en quelques minutes, gratuitement et sans engagement.</p>
         </div>
 
         <div class="fp-steps-row fp-anim">
@@ -466,7 +475,7 @@
                 </div>
                 <div class="fp-ovr-card">
                     <div class="fp-ovr-title">Créez votre profil</div>
-                    <p class="fp-ovr-text">Inscrivez-vous pour sauvegarder vos recherches, suivre vos échanges et gérer vos projets.</p>
+                    <p class="fp-ovr-text">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
                 </div>
             </div>
 
@@ -476,8 +485,8 @@
                     <span class="fp-ovr-num">2</span>
                 </div>
                 <div class="fp-ovr-card">
-                    <div class="fp-ovr-title">Recherchez par catégorie</div>
-                    <p class="fp-ovr-text">Filtrez les pros par type de travaux, ville et disponibilité pour cibler les bons profils.</p>
+                    <div class="fp-ovr-title">Recherchez par catégorie et région</div>
+                    <p class="fp-ovr-text">Utilisez nos filtres intelligents pour cibler exactement le professionnel dont vous avez besoin — au bon endroit, au bon moment.</p>
                 </div>
             </div>
 
@@ -487,8 +496,8 @@
                     <span class="fp-ovr-num">3</span>
                 </div>
                 <div class="fp-ovr-card">
-                    <div class="fp-ovr-title">Comparez les profils</div>
-                    <p class="fp-ovr-text">Services, réalisations, avis clients — évaluez plusieurs pros avant de décider.</p>
+                    <div class="fp-ovr-title">Comparez les professionnels</div>
+                    <p class="fp-ovr-text">Consultez les informations clés de chaque profil — et prenez la meilleure décision, en toute sérénité.</p>
                 </div>
             </div>
 
@@ -498,8 +507,8 @@
                     <span class="fp-ovr-num">4</span>
                 </div>
                 <div class="fp-ovr-card">
-                    <div class="fp-ovr-title">Contactez directement</div>
-                    <p class="fp-ovr-text">Entrez en contact avec le pro choisi et discutez directement de votre projet.</p>
+                    <div class="fp-ovr-title">Contactez directement — sans intermédiaire</div>
+                    <p class="fp-ovr-text">Entrez en contact avec le professionnel de votre choix — directement, simplement, gratuitement.</p>
                 </div>
             </div>
 
@@ -507,46 +516,118 @@
     </div>
 </section>
 
-{# ══ 4. ÉTAPE 1 + 2 — CHERCHEZ ET FILTREZ ══════════════════════════════════ #}
+{# ══ 4. ÉTAPE 1 — CRÉEZ VOTRE PROFIL ══════════════════════════════════════ #}
 <section class="fp-phase fp-anim">
     <div class="fp-wrap">
         <div class="fp-phase-grid">
 
             <div>
-                <div class="fp-phase-step">Étapes 1 &amp; 2</div>
+                <div class="fp-phase-step">Étape 1</div>
                 <div class="fp-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
-                    <i class="ph-bold ph-funnel"></i> Cherchez et filtrez
+                    <i class="ph-bold ph-user-plus"></i> Créez votre profil
                 </div>
-                <h2 class="fp-phase-title">Des pros qualifiés,<br>dans votre région</h2>
-                <p class="fp-phase-desc">Créez votre profil en quelques minutes, puis parcourez une sélection de professionnels selon votre type de projet et votre localisation. Nos filtres vous permettent de cibler précisément ce dont vous avez besoin.</p>
+                <h2 class="fp-phase-title">Créez votre profil</h2>
+                <p class="fp-phase-desc">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
                 <ul class="fp-feat-list">
                     <li class="fp-feat-item">
                         <div class="fp-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                            <i class="ph-bold ph-map-pin"></i>
+                            <i class="ph-bold ph-bookmark-simple"></i>
                         </div>
-                        <div>
-                            <h4>Filtrez par ville et région</h4>
-                            <p>Trouvez des pros disponibles dans votre secteur, prêts à intervenir.</p>
-                        </div>
+                        <div><h4>Sauvegardez vos recherches et retrouvez-les à tout moment</h4></div>
                     </li>
                     <li class="fp-feat-item">
                         <div class="fp-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                            <i class="ph-bold ph-grid-four"></i>
+                            <i class="ph-bold ph-chat-circle-dots"></i>
                         </div>
-                        <div>
-                            <h4>Par catégorie de travaux</h4>
-                            <p>Plomberie, électricité, rénovation générale, paysagement — trouvez le bon spécialiste.</p>
+                        <div><h4>Contactez des professionnels et suivez vos échanges en temps réel</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-layout"></i>
                         </div>
+                        <div><h4>Gérez tous vos projets depuis un tableau de bord centralisé</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-clock"></i>
+                        </div>
+                        <div><h4>Gagnez un temps précieux dans toutes vos démarches</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                            <i class="ph-bold ph-currency-dollar-simple"></i>
+                        </div>
+                        <div><h4>Votre profil est gratuit — et le reste toujours</h4></div>
                     </li>
                 </ul>
-                <a href="{{ path('professionals_list') }}" class="fp-btn-b">
-                    Explorer les pros <i class="ph-bold ph-arrow-right"></i>
+                <p style="font-size:13px;color:#4A6073;font-style:italic;margin:0 0 24px;line-height:1.65;padding:12px 16px;background:#f4f8ff;border-left:3px solid #00497F;border-radius:0 8px 8px 0;">Pourquoi créer un profil ? Parce que vos projets méritent un suivi sérieux — et Drilleedo vous donne les outils pour ne rien laisser au hasard. Retrouvez tous vos échanges, vos favoris et vos projets en un seul endroit.</p>
+                <a href="{{ path('app_register') }}" class="fp-btn-b">
+                    Je crée mon profil — gratuitement <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
 
             <div class="fp-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/hero_diy.jpg') }}"
-                     alt="Rechercher un professionnel par catégorie" loading="lazy">
+                     alt="Créer un profil sur Drilleedo pour gérer vos projets" loading="lazy">
+                <div class="fp-phase-img-tag">
+                    <i class="ph-bold ph-currency-dollar-simple"></i> 100 % gratuit
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ══ 5. ÉTAPE 2 — RECHERCHEZ PAR CATÉGORIE ET RÉGION ══════════════════════ #}
+<section class="fp-phase fp-phase--alt fp-anim">
+    <div class="fp-wrap">
+        <div class="fp-phase-grid fp-phase-grid--rev">
+
+            <div>
+                <div class="fp-phase-step">Étape 2</div>
+                <div class="fp-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.2);">
+                    <i class="ph-bold ph-funnel"></i> Recherchez par catégorie et région
+                </div>
+                <h2 class="fp-phase-title">Recherchez par catégorie et région</h2>
+                <p class="fp-phase-desc">Utilisez nos filtres intelligents pour cibler exactement le professionnel dont vous avez besoin — au bon endroit, au bon moment.</p>
+                <ul class="fp-feat-list">
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                            <i class="ph-bold ph-funnel"></i>
+                        </div>
+                        <div><h4>Filtrez par catégorie : Entrepreneurs généraux, Spécialisés, Services &amp; Autres professionnels</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                            <i class="ph-bold ph-map-pin"></i>
+                        </div>
+                        <div><h4>Localisez les pros disponibles dans votre ville ou région</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                            <i class="ph-bold ph-sliders"></i>
+                        </div>
+                        <div><h4>Affinez selon le type de projet, la disponibilité et l'expertise</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                            <i class="ph-bold ph-bell-ringing"></i>
+                        </div>
+                        <div><h4>Résultats en temps réel — des professionnels actifs et disponibles près de chez vous</h4></div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                            <i class="ph-bold ph-shield-check"></i>
+                        </div>
+                        <div><h4>Chaque pro affiché est un abonné vérifié — pas un inconnu</h4></div>
+                    </li>
+                </ul>
+                <p style="font-size:13px;color:#4A6073;font-style:italic;margin:0 0 12px;line-height:1.65;padding:12px 16px;background:#f4f8ff;border-left:3px solid #3FA9F5;border-radius:0 8px 8px 0;">Notre moteur de recherche ne vous montre que des professionnels actifs et vérifiés. Pas de profils fantômes. Pas d'annonces périmées. Que des experts réels, disponibles et prêts à intervenir.</p>
+            </div>
+
+            <div class="fp-phase-img-wrap">
+                <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}"
+                     alt="Filtrer et rechercher un professionnel par catégorie et région" loading="lazy">
                 <div class="fp-phase-img-tag">
                     <i class="ph-bold ph-magnifying-glass"></i> Recherche ciblée
                 </div>
@@ -556,7 +637,7 @@
     </div>
 </section>
 
-{# ══ 5. ÉTAPE 3 — COMPAREZ LES PROFILS ════════════════════════════════════ #}
+{# ══ 6. ÉTAPE 3 — COMPAREZ LES PROFILS ════════════════════════════════════ #}
 <section class="fp-phase fp-phase--alt fp-anim">
     <div class="fp-wrap">
         <div class="fp-phase-grid fp-phase-grid--rev">
@@ -564,18 +645,49 @@
             <div>
                 <div class="fp-phase-step">Étape 3</div>
                 <div class="fp-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
-                    <i class="ph-bold ph-scales"></i> Comparez en toute transparence
+                    <i class="ph-bold ph-scales"></i> Comparez les professionnels
                 </div>
-                <h2 class="fp-phase-title">Profils détaillés,<br>avis vérifiés</h2>
-                <p class="fp-phase-desc">Consultez les informations clés de chaque professionnel : services offerts, photos de réalisations, avis clients et expériences. Prenez votre décision avec toutes les informations en main.</p>
+                <h2 class="fp-phase-title">Comparez les professionnels</h2>
+                <p class="fp-phase-desc">Consultez les informations clés de chaque profil — et prenez la meilleure décision, en toute sérénité.</p>
                 <ul class="fp-feat-list">
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-briefcase"></i>
+                        </div>
+                        <div>
+                            <h4>Services offerts, spécialités et types de projets réalisés</h4>
+                        </div>
+                    </li>
                     <li class="fp-feat-item">
                         <div class="fp-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-images"></i>
                         </div>
                         <div>
-                            <h4>Photos de réalisations</h4>
-                            <p>Visualisez le travail effectué par chaque pro avant de le contacter.</p>
+                            <h4>Portfolio complet — photos de réalisations avant/après</h4>
+                        </div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-seal-check"></i>
+                        </div>
+                        <div>
+                            <h4>Avis authentiques de vrais clients vérifiés par Drilleedo</h4>
+                        </div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-certificate"></i>
+                        </div>
+                        <div>
+                            <h4>Certifications, licences RBQ et accréditations officielles</h4>
+                        </div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-calendar-check"></i>
+                        </div>
+                        <div>
+                            <h4>Années d'expérience, zone de service et disponibilité</h4>
                         </div>
                     </li>
                     <li class="fp-feat-item">
@@ -583,11 +695,11 @@
                             <i class="ph-bold ph-star"></i>
                         </div>
                         <div>
-                            <h4>Avis clients authentiques</h4>
-                            <p>Lisez les expériences d'autres propriétaires pour choisir en confiance.</p>
+                            <h4>Évaluez plusieurs profils et ajoutez vos favoris</h4>
                         </div>
                     </li>
                 </ul>
+                <p style="font-size:13px;color:#4A6073;font-style:italic;margin:0 0 12px;line-height:1.65;padding:12px 16px;background:#fff8f4;border-left:3px solid #FF8A3D;border-radius:0 8px 8px 0;">Chaque avis sur Drilleedo provient d'un vrai client vérifié. Zéro faux avis. Zéro manipulation. Juste la vérité — pour que vous fassiez le bon choix, du premier coup.</p>
             </div>
 
             <div class="fp-phase-img-wrap">
@@ -602,7 +714,7 @@
     </div>
 </section>
 
-{# ══ 6. ÉTAPE 4 — CONTACTEZ DIRECTEMENT ══════════════════════════════════ #}
+{# ══ 7. ÉTAPE 4 — CONTACTEZ DIRECTEMENT ══════════════════════════════════ #}
 <section class="fp-phase fp-anim">
     <div class="fp-wrap">
         <div class="fp-phase-grid">
@@ -610,18 +722,33 @@
             <div>
                 <div class="fp-phase-step">Étape 4</div>
                 <div class="fp-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
-                    <i class="ph-bold ph-chat-circle-dots"></i> Contactez sans intermédiaire
+                    <i class="ph-bold ph-chat-circle-dots"></i> Contactez directement — sans intermédiaire
                 </div>
-                <h2 class="fp-phase-title">Direct, rapide,<br>sans stress</h2>
-                <p class="fp-phase-desc">Entrez en contact avec le professionnel choisi pour discuter de votre projet. Vous pouvez aussi recevoir des soumissions adaptées directement de sa part. Aucune obligation, aucun frais.</p>
+                <h2 class="fp-phase-title">Contactez directement —<br>sans intermédiaire</h2>
+                <p class="fp-phase-desc">Entrez en contact avec le professionnel de votre choix — directement, simplement, gratuitement.</p>
                 <ul class="fp-feat-list">
                     <li class="fp-feat-item">
                         <div class="fp-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                            <i class="ph-bold ph-lightning"></i>
+                            <i class="ph-bold ph-lock-key"></i>
                         </div>
                         <div>
-                            <h4>Réponse rapide</h4>
-                            <p>Les professionnels actifs répondent en général dans les 24 h.</p>
+                            <h4>Messagerie intégrée sécurisée — échangez en toute confiance</h4>
+                        </div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-chat-circle-text"></i>
+                        </div>
+                        <div>
+                            <h4>Discutez de votre projet, des délais et de vos attentes</h4>
+                        </div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-user-circle"></i>
+                        </div>
+                        <div>
+                            <h4>Zéro intermédiaire — vous parlez au pro, pas à un agent</h4>
                         </div>
                     </li>
                     <li class="fp-feat-item">
@@ -629,13 +756,20 @@
                             <i class="ph-bold ph-currency-dollar-simple"></i>
                         </div>
                         <div>
-                            <h4>100 % gratuit, sans engagement</h4>
-                            <p>Aucun frais, aucune obligation — vous avancez à votre rythme.</p>
+                            <h4>Zéro frais de mise en relation — maintenant et pour toujours</h4>
+                        </div>
+                    </li>
+                    <li class="fp-feat-item">
+                        <div class="fp-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-check-circle"></i>
+                        </div>
+                        <div>
+                            <h4>Confirmez, planifiez et démarrez vos travaux en toute sérénité</h4>
                         </div>
                     </li>
                 </ul>
                 <a href="{{ path('professionals_list') }}" class="fp-btn-b">
-                    Trouver mon pro <i class="ph-bold ph-arrow-right"></i>
+                    Je consulte l'annuaire — gratuitement &amp; sans limite ! <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
 
@@ -651,24 +785,190 @@
     </div>
 </section>
 
-{# ══ 7. CTA FINAL ══════════════════════════════════════════════════════════ #}
+{# ══ 7. POURQUOI DRILLEEDO ════════════════════════════════════════════════ #}
+<section class="fp-phase fp-phase--alt fp-anim">
+    <div class="fp-wrap">
+        <div class="fp-section-hd">
+            <div class="fp-section-pill">
+                <i class="ph-bold ph-trophy"></i> Pourquoi Drilleedo
+            </div>
+            <h2 class="fp-section-title">Pourquoi choisir Drilleedo<br><span>plutôt qu'une recherche Google ?</span></h2>
+            <p class="fp-section-sub">Google vous donne des résultats. Drilleedo vous donne des certitudes.</p>
+        </div>
+
+        {# 2-col benefits table — exact PDF content #}
+        <div style="overflow-x:auto; margin-bottom:48px;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                <thead>
+                    <tr>
+                        <th style="background:#00497F; color:#fff; padding:14px 20px; text-align:center; font-size:13px; font-weight:800; letter-spacing:.04em; border-radius:10px 0 0 0; width:50%;">Ce que vous obtenez avec Drilleedo</th>
+                        <th style="background:#3FA9F5; color:#fff; padding:14px 20px; text-align:left; font-size:13px; font-weight:800; letter-spacing:.04em; border-radius:0 10px 0 0; width:50%;">Ce que ça change pour vous</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#fff;">
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#FF8A3D; font-weight:700;">Pros 100% vérifiés &amp; certifiés</td>
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#4A6073;">Vous savez exactement à qui vous avez affaire — avant même de les contacter</td>
+                    </tr>
+                    <tr style="background:#f4f8ff;">
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#FF8A3D; font-weight:700;">Avis authentiques garantis</td>
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#4A6073;">Chaque évaluation vient d'un vrai client Drilleedo — zéro manipulation</td>
+                    </tr>
+                    <tr style="background:#fff;">
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#FF8A3D; font-weight:700;">Accès gratuit &amp; illimité</td>
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#4A6073;">Cherchez, comparez, contactez — sans jamais payer un sou</td>
+                    </tr>
+                    <tr style="background:#f4f8ff;">
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#FF8A3D; font-weight:700;">Pros actifs uniquement</td>
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#4A6073;">Seuls les professionnels avec abonnement actif apparaissent — zéro profil fantôme</td>
+                    </tr>
+                    <tr style="background:#fff;">
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#FF8A3D; font-weight:700;">Large choix de catégories</td>
+                        <td style="padding:14px 20px; border-bottom:1px solid #e4ebf2; color:#4A6073;">Entrepreneurs, spécialistes, services — tout sous un même toit</td>
+                    </tr>
+                    <tr style="background:#f4f8ff;">
+                        <td style="padding:14px 20px; border-radius:0 0 0 10px; color:#FF8A3D; font-weight:700;">Contact direct sans frais</td>
+                        <td style="padding:14px 20px; border-radius:0 0 10px 0; color:#4A6073;">Vous parlez au pro directement — zéro intermédiaire, zéro frais</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {# 3-col comparison — DRILLEEDO VS LES AUTRES PLATEFORMES (exact PDF) #}
+        <h3 style="text-align:center; font-size:clamp(18px,2.5vw,24px); font-weight:900; color:#0C1825; letter-spacing:-.01em; margin:0 0 24px;">DRILLEEDO VS LES AUTRES PLATEFORMES</h3>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                <thead>
+                    <tr>
+                        <th style="background:#0C1825; color:#fff; padding:14px 20px; text-align:left; font-size:13px; font-weight:800; letter-spacing:.04em; border-radius:10px 0 0 0; width:34%;">Fonctionnalité</th>
+                        <th style="background:#16a34a; color:#fff; padding:14px 20px; text-align:center; font-size:13px; font-weight:800; letter-spacing:.04em; width:33%;">Drilleedo</th>
+                        <th style="background:#dc2626; color:#fff; padding:14px 20px; text-align:center; font-size:13px; font-weight:800; letter-spacing:.04em; border-radius:0 10px 0 0; width:33%;">Les autres</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#fff;">
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; color:#0C1825; font-weight:700;">Accès à l'annuaire</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#16a34a; font-weight:700;">Gratuit &amp; illimité</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#dc2626; font-weight:700;">Payant ou restreint</td>
+                    </tr>
+                    <tr style="background:#f4f8ff;">
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; color:#0C1825; font-weight:700;">Qualité des profils</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#16a34a; font-weight:700;">Vérifiés &amp; certifiés uniquement</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#dc2626; font-weight:700;">Ouverts sans vérification</td>
+                    </tr>
+                    <tr style="background:#fff;">
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; color:#0C1825; font-weight:700;">Avis clients</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#16a34a; font-weight:700;">100% authentiques &amp; vérifiés</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#dc2626; font-weight:700;">Non contrôlés</td>
+                    </tr>
+                    <tr style="background:#f4f8ff;">
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; color:#0C1825; font-weight:700;">Frais de contact</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#16a34a; font-weight:700;">Zéro — toujours gratuit</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#dc2626; font-weight:700;">Frais cachés à chaque demande</td>
+                    </tr>
+                    <tr style="background:#fff;">
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; color:#0C1825; font-weight:700;">Choix de catégories</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#16a34a; font-weight:700;">Large &amp; diversifié</td>
+                        <td style="padding:13px 20px; border-bottom:1px solid #e4ebf2; text-align:center; color:#dc2626; font-weight:700;">Limité au bâtiment</td>
+                    </tr>
+                    <tr style="background:#f4f8ff;">
+                        <td style="padding:13px 20px; border-radius:0 0 0 10px; color:#0C1825; font-weight:700;">Engagement requis</td>
+                        <td style="padding:13px 20px; text-align:center; color:#16a34a; font-weight:700;">Aucun — libre comme l'air</td>
+                        <td style="padding:13px 20px; border-radius:0 0 10px 0; text-align:center; color:#dc2626; font-weight:700;">Contrats &amp; conditions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{# ══ 8. FAQ ════════════════════════════════════════════════════════════════ #}
+<section class="fp-phase fp-anim" style="background:#f4f8ff;">
+    <div class="fp-wrap">
+        <div style="text-align:center;margin-bottom:48px;">
+            <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.2);border-radius:999px;padding:6px 16px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">
+                <i class="ph-bold ph-question"></i> QUESTIONS FRÉQUENTES — JE CHERCHE UN PROFESSIONNEL
+            </div>
+            <h2 style="font-size:clamp(24px,3.5vw,36px);font-weight:900;color:#0C1825;letter-spacing:-.02em;margin:0 0 10px;">Toutes vos questions — des réponses<br><span style="color:#00497F;">claires, honnêtes et sans détour.</span></h2>
+        </div>
+        <div class="fp-faq-list">
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Est-ce vraiment gratuit de chercher un professionnel sur Drilleedo ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Oui — 100% gratuit. Toujours. Sans exception. Parcourir notre annuaire, consulter les profils, lire les avis et contacter des professionnels ne vous coûte pas un sou. Pas d'abonnement, pas de frais cachés, pas de carte de crédit requise.<br><br>→ Aucune inscription obligatoire pour parcourir l'annuaire<br>→ Créez un profil gratuitement pour sauvegarder vos favoris et suivre vos échanges<br>→ Contactez autant de professionnels que vous le souhaitez — sans frais</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Comment savoir si les professionnels sont fiables ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Chaque professionnel visible dans notre annuaire est un abonné actif vérifié par Drilleedo. Nous contrôlons leurs certifications, licences et accréditations avant de les afficher. De plus, chaque avis sur Drilleedo provient d'un vrai client vérifié — zéro faux avis, zéro manipulation.<br><br>→ Certifications et licences RBQ vérifiées avant affichage<br>→ Avis authentiques de vrais clients Drilleedo uniquement<br>→ Seuls les pros avec abonnement actif apparaissent — zéro profil fantôme<br>→ Portfolio de réalisations réelles — photos avant/après vérifiées</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Puis-je contacter plusieurs professionnels en même temps ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Absolument — et c'est même recommandé ! Sur Drilleedo, vous pouvez consulter et contacter autant de professionnels que vous le souhaitez, sans aucune limite. Comparez les profils, échangez avec plusieurs pros simultanément et prenez la meilleure décision — en toute liberté.<br><br>→ Aucune limite de contacts — comparez librement<br>→ Ajoutez vos profils favoris pour les retrouver facilement<br>→ Gérez tous vos échanges depuis votre tableau de bord centralisé</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Quelle est la différence entre chercher dans l'annuaire et demander une soumission ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Ce sont deux parcours distincts pour trouver le bon professionnel. Dans l'annuaire, vous cherchez activement et contactez directement le pro de votre choix. Avec la demande de soumission, vous publiez votre projet et les professionnels viennent à vous avec leurs offres. Les deux sont 100% gratuits et sans engagement.<br><br>→ Annuaire → Vous choisissez et contactez directement<br>→ Soumission → Les pros viennent à vous avec leurs meilleures offres<br>→ Combinez les deux approches pour maximiser vos options</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Quelles catégories de professionnels puis-je trouver sur Drilleedo ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Drilleedo va bien au-delà du simple bâtiment. Notre annuaire couvre 4 grandes catégories pour répondre à tous vos besoins résidentiels.<br><br>→ Entrepreneurs généraux — Construction, rénovation complète, agrandissement<br>→ Entrepreneurs spécialisés — Plomberie, électricité, toiture, peinture, carrelage<br>→ Autres professionnels — Déménagement, jardinage, entretien ménager, nettoyage<br>→ Smart Idea — Architectes et designers pour vos projets d'inspiration</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Est-ce que Drilleedo est disponible partout au Canada ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Drilleedo est disponible dans les principales provinces canadiennes — Québec, Ontario, Alberta et Colombie-Britannique — avec une expansion continue vers de nouvelles régions. Entrez votre ville ou code postal lors de votre recherche pour voir les professionnels disponibles près de chez vous.<br><br>→ Disponible au Québec, Ontario, Alberta et C.-B.<br>→ Des centaines de professionnels vérifiés dans chaque province<br>→ Expansion constante — de nouvelles régions s'ajoutent régulièrement</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Que faire si je ne trouve pas de professionnel dans ma région ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Si aucun professionnel ne correspond à votre recherche dans votre région, nous vous recommandons d'utiliser la fonction de demande de soumission. Publiez votre projet — notre équipe le diffuse activement aux professionnels disponibles. Vous pouvez également élargir votre zone de recherche ou nous contacter directement pour être aidé.<br><br>→ Utilisez la demande de soumission pour élargir votre portée<br>→ Élargissez votre zone de recherche géographique<br>→ Contactez notre équipe — on vous aide à trouver la solution</div>
+            </div>
+            <div class="fp-faq-item">
+                <button class="fp-faq-btn" aria-expanded="false" onclick="fpFaq(this)">
+                    Comment laisser un avis sur un professionnel ?
+                    <span class="fp-faq-arrow">+</span>
+                </button>
+                <div class="fp-faq-body">Une fois votre projet terminé, Drilleedo vous invite à laisser un avis sur le professionnel avec qui vous avez travaillé. Cet avis est visible par toute la communauté et contribue à maintenir la qualité de notre réseau. Votre retour d'expérience est précieux — il protège les prochains clients et récompense les meilleurs pros.<br><br>→ Invitation automatique après la fin de votre projet<br>→ Notation sur la qualité, les délais et le professionnalisme<br>→ Avis publié et visible par toute la communauté Drilleedo<br>→ Votre avis est vérifié — zéro manipulation possible</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ══ 9. CTA FINAL ══════════════════════════════════════════════════════════ #}
 <section class="fp-cta fp-anim">
     <div class="fp-wrap">
         <div class="fp-cta__inner">
             <div class="fp-cta-tag">
-                <i class="ph-bold ph-magnifying-glass"></i> Commencez maintenant
+                <i class="ph-bold ph-magnifying-glass"></i> Cherchez. Comparez. Choisissez. — Gratuit. Toujours.
             </div>
-            <h2>Le bon pro est<br><span>déjà sur Drilleedo</span></h2>
+            <h2>Le bon pro<br><span>n'attendait que vous.</span></h2>
             <p class="fp-cta__sub">
-                Gratuit, sans engagement. Parcourez les profils et entrez en contact
-                directement avec l'entrepreneur qu'il vous faut.
+                Drilleedo vous connecte à des professionnels certifiés. Gratuit. Sans engagement. Toujours.
             </p>
             <div class="fp-cta-btns">
                 <a href="{{ path('professionals_list') }}" class="fp-btn-s">
-                    Explorer les pros <i class="ph-bold ph-arrow-right"></i>
+                    Je consulte l'annuaire — gratuitement &amp; sans limite ! <i class="ph-bold ph-arrow-right"></i>
                 </a>
                 <a href="{{ path('app_how_it_works') }}" class="fp-btn-outline">
-                    <i class="ph-bold ph-paper-plane-tilt"></i> Soumettre un projet
+                    <i class="ph-bold ph-paper-plane-tilt"></i> Je veux des soumissions
                 </a>
             </div>
         </div>
@@ -686,5 +986,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.07 });
     document.querySelectorAll('.fp-anim').forEach(el => obs.observe(el));
 });
+function fpFaq(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    btn.closest('.fp-faq-list').querySelectorAll('.fp-faq-btn.open').forEach(b => {
+        b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); b.setAttribute('aria-expanded','false');
+    });
+    if (!isOpen) { btn.classList.add('open'); body.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
 </script>
 {% endblock %}

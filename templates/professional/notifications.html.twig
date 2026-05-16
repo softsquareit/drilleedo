@@ -12,26 +12,26 @@
             {# Filtres #}
             <div class="d-flex gap-1 flex-wrap" id="notif-filters">
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter active" data-filter="all"
-                        style="font-size:12px; border: 1px solid #e2e8f0; background:#0d2151; color:#fff;">
+                        style="font-size:12px; border: 1.5px solid var(--drl-B); background:var(--drl-B); color:#fff;">
                     {{ 'Toutes'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="unread"
-                        style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
+                        style="font-size:12px; border: 1.5px solid var(--drl-L); background:var(--drl-W); color:var(--drl-M);">
                     {{ 'Non lues'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="offer"
-                        style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
+                        style="font-size:12px; border: 1.5px solid var(--drl-L); background:var(--drl-W); color:var(--drl-M);">
                     {{ 'Offres'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="request"
-                        style="font-size:12px; border: 1px solid #e2e8f0; background:#fff; color:#64748b;">
+                        style="font-size:12px; border: 1.5px solid var(--drl-L); background:var(--drl-W); color:var(--drl-M);">
                     {{ 'Demandes'|trans }}
                 </button>
             </div>
             <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
                 <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
                 <button type="submit" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold">
-                    <i class="feather-check me-1"></i> {{ 'Tout marquer lu'|trans }}
+                    <i class="ph-check me-1"></i> {{ 'Tout marquer lu'|trans }}
                 </button>
             </form>
         </div>
@@ -49,35 +49,35 @@
                 {% if notification.relatedEntityType == 'offer' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_view', {'id': notification.relatedEntityId}) %}
                     {% set notifLinkLabel = 'Voir l\'offre'|trans %}
-                    {% set notifLinkIcon = 'feather-file-text' %}
+                    {% set notifLinkIcon = 'ph-file-text' %}
                 {% elseif notification.relatedEntityType == 'quote' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_send', {'id': notification.relatedEntityId}) %}
                     {% set notifLinkLabel = 'Voir la demande'|trans %}
-                    {% set notifLinkIcon = 'feather-inbox' %}
+                    {% set notifLinkIcon = 'ph-inbox' %}
                 {% elseif notification.relatedEntityType == 'direct_request' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_send_direct', {'id': notification.relatedEntityId}) %}
                     {% set notifLinkLabel = 'Voir la demande directe'|trans %}
-                    {% set notifLinkIcon = 'feather-send' %}
+                    {% set notifLinkIcon = 'ph-paper-plane-tilt' %}
                 {% else %}
                     {% set notifLink = path('professional_dashboard') %}
                     {% set notifLinkLabel = 'Dashboard'|trans %}
-                    {% set notifLinkIcon = 'feather-home' %}
+                    {% set notifLinkIcon = 'ph-house' %}
                 {% endif %}
 
                 {# Icon & color by title keywords #}
                 {% set nTitle = notification.title|lower %}
                 {% if 'acceptée' in nTitle or 'accepted' in nTitle or 'completed' in nTitle %}
-                    {% set notifBg = '#f0fdf4' %}{% set notifColor = '#16a34a' %}{% set notifIcon = 'feather-check-circle' %}
+                    {% set notifBg = '#f0fdf4' %}{% set notifColor = '#16a34a' %}{% set notifIcon = 'ph-check-circle' %}
                 {% elseif 'refusée' in nTitle or 'rejected' in nTitle or 'retenue' in nTitle or 'withdrawn' in nTitle %}
-                    {% set notifBg = '#fef2f2' %}{% set notifColor = '#ef4444' %}{% set notifIcon = 'feather-x-circle' %}
+                    {% set notifBg = '#fef2f2' %}{% set notifColor = '#ef4444' %}{% set notifIcon = 'ph-x-circle' %}
                 {% elseif 'lue' in nTitle or 'viewed' in nTitle %}
-                    {% set notifBg = '#eff6ff' %}{% set notifColor = '#00509e' %}{% set notifIcon = 'feather-eye' %}
+                    {% set notifBg = 'rgba(63,169,245,.1)' %}{% set notifColor = '#00497F' %}{% set notifIcon = 'ph-eye' %}
                 {% elseif 'intéressé' in nTitle or 'examen' in nTitle or 'interested' in nTitle %}
-                    {% set notifBg = '#fffbeb' %}{% set notifColor = '#b45309' %}{% set notifIcon = 'feather-bookmark' %}
+                    {% set notifBg = '#fffbeb' %}{% set notifColor = '#b45309' %}{% set notifIcon = 'ph-bookmark-simple' %}
                 {% elseif 'demande' in nTitle or 'request' in nTitle %}
-                    {% set notifBg = '#f5f3ff' %}{% set notifColor = '#6d28d9' %}{% set notifIcon = 'feather-inbox' %}
+                    {% set notifBg = '#f5f3ff' %}{% set notifColor = '#6d28d9' %}{% set notifIcon = 'ph-inbox' %}
                 {% else %}
-                    {% set notifBg = '#eff6ff' %}{% set notifColor = '#00509e' %}{% set notifIcon = 'feather-bell' %}
+                    {% set notifBg = 'rgba(63,169,245,.1)' %}{% set notifColor = '#00497F' %}{% set notifIcon = 'ph-bell' %}
                 {% endif %}
 
                 <div class="list-group-item p-4 border-0 border-bottom notif-item {{ not notification.isRead ? 'bg-primary bg-opacity-10' : '' }}"
@@ -105,7 +105,7 @@
                                                 data-url="{{ path('notification_mark_read', {'id': notification.id}) }}"
                                                 title="{{ 'Marquer comme lu'|trans }}"
                                                 style="color: #94a3b8; font-size: 14px; line-height:1;">
-                                            <i class="feather-check-circle"></i>
+                                            <i class="ph-check-circle"></i>
                                         </button>
                                     {% endif %}
                                 </div>
@@ -123,7 +123,7 @@
 
                                 {% if not notification.isRead %}
                                     <span class="drl-tag notif-unread-badge" style="background:#eff6ff; color:#00509e; font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700;">
-                                        <i class="feather-circle" style="font-size:7px;"></i> {{ 'Non lue'|trans }}
+                                        <i class="ph-circle" style="font-size:7px;"></i> {{ 'Non lue'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -133,7 +133,7 @@
             {% else %}
                 <div class="text-center py-5 px-4">
                     <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
-                        <i class="feather-bell-off" style="font-size: 3rem; color: #cbd5e1;"></i>
+                        <i class="ph-bell-slash" style="font-size: 3rem; color: #cbd5e1;"></i>
                     </div>
                     <h5 class="fw-bold text-dark mb-2">{{ 'Aucune notification'|trans }}</h5>
                     <p class="text-muted mb-0">{{ "Votre historique d'activité apparaîtra ici."|trans }}</p>
@@ -150,12 +150,17 @@
                 const filter = this.dataset.filter;
 
                 // Update button styles
+                const drlB = getComputedStyle(document.documentElement).getPropertyValue('--drl-B').trim() || '#00497F';
+                const drlL = getComputedStyle(document.documentElement).getPropertyValue('--drl-L').trim() || '#E4EBF2';
+                const drlM = getComputedStyle(document.documentElement).getPropertyValue('--drl-M').trim() || '#4A6073';
                 document.querySelectorAll('.notif-filter').forEach(function (b) {
                     b.style.background = '#fff';
-                    b.style.color = '#64748b';
+                    b.style.color = drlM;
+                    b.style.borderColor = drlL;
                 });
-                this.style.background = '#0d2151';
+                this.style.background = drlB;
                 this.style.color = '#fff';
+                this.style.borderColor = drlB;
 
                 // Show/hide items
                 document.querySelectorAll('.notif-item').forEach(function (item) {

@@ -5,402 +5,211 @@
 {% block stylesheets %}
 {{ parent() }}
 <style>
-/* ── Profile Page ─────────────────────────────────────────── */
+/* ── Profile Page — Drilleedo Brand ──────────────────────── */
 .prf-header {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
+    background: var(--drl-W);
+    border: 1.5px solid var(--drl-L);
+    border-radius: var(--drl-rx);
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(13,33,81,0.06);
+    box-shadow: var(--drl-sh);
     margin-bottom: 24px;
 }
-
 .prf-header-body {
-    padding: 24px 28px 24px;
+    padding: 24px 28px;
     display: flex;
     align-items: flex-start;
     gap: 24px;
 }
-
-.prf-avatar-wrap {
-    flex-shrink: 0;
-    position: relative;
-}
-
+.prf-avatar-wrap { flex-shrink: 0; position: relative; }
 .prf-avatar {
-    width: 100px;
-    height: 100px;
+    width: 100px; height: 100px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #fff;
-    box-shadow: 0 4px 16px rgba(13,33,81,0.15);
+    border: 4px solid var(--drl-W);
+    box-shadow: var(--drl-sh);
     display: block;
 }
-
 .prf-avatar-edit {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 30px;
-    height: 30px;
-    background: #00509e;
-    border: 2px solid #fff;
+    position: absolute; bottom: 2px; right: 2px;
+    width: 30px; height: 30px;
+    background: var(--drl-B);
+    border: 2px solid var(--drl-W);
     border-radius: 50%;
     color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 12px;
+    transition: background var(--drl-t);
 }
-.prf-avatar-edit:hover { background: #0d2151; }
-
+.prf-avatar-edit:hover { background: var(--drl-S); }
 .prf-info { flex: 1; min-width: 0; }
-
-.prf-name {
-    font-size: 22px;
-    font-weight: 900;
-    color: #0d2151;
-    margin: 0 0 6px;
-    line-height: 1.2;
-}
-
-.prf-email {
-    font-size: 14px;
-    color: #64748b;
-    margin: 0 0 12px;
-}
-
+.prf-name { font-size: 22px; font-weight: 900; color: var(--drl-D); margin: 0 0 6px; line-height: 1.2; }
+.prf-email { font-size: 14px; color: var(--drl-M); margin: 0 0 12px; }
 .prf-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-
 .prf-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .04em;
 }
-.prf-badge--blue   { background: #eff6ff; color: #00509e; }
-.prf-badge--gold   { background: #fffbeb; color: #b45309; }
-.prf-badge--green  { background: #f0fdf4; color: #16a34a; }
-.prf-badge--avail  { background: #f0fdf4; color: #16a34a; }
-.prf-badge--busy   { background: #fffbeb; color: #d97706; }
-.prf-badge--unavail{ background: #fef2f2; color: #dc2626; }
-.prf-badge--navy   { background: #f0f4ff; color: #0d2151; }
-
-.prf-stats-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 4px;
-}
-
-.prf-stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-.prf-stat-val {
-    font-size: 20px;
-    font-weight: 900;
-    color: #0d2151;
-    line-height: 1;
-}
-.prf-stat-lbl {
-    font-size: 11px;
-    color: #94a3b8;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-top: 3px;
-}
-
-.prf-edit-btn {
-    flex-shrink: 0;
-    align-self: flex-start;
-}
+.prf-badge--blue   { background: rgba(63,169,245,.12);  color: var(--drl-B); }
+.prf-badge--gold   { background: var(--drl-C);           color: #b45309; }
+.prf-badge--green  { background: rgba(22,163,74,.1);     color: #16a34a; }
+.prf-badge--avail  { background: rgba(22,163,74,.1);     color: #16a34a; }
+.prf-badge--busy   { background: rgba(255,138,61,.12);   color: #b45309; }
+.prf-badge--unavail{ background: rgba(239,68,68,.1);     color: #dc2626; }
+.prf-badge--navy   { background: rgba(0,73,127,.08);     color: var(--drl-B); }
+.prf-stats-row { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 4px; }
+.prf-stat-item { display: flex; flex-direction: column; align-items: flex-start; }
+.prf-stat-val { font-size: 20px; font-weight: 900; color: var(--drl-D); line-height: 1; }
+.prf-stat-lbl { font-size: 11px; color: var(--drl-M); font-weight: 700; text-transform: uppercase; margin-top: 3px; opacity: .7; }
+.prf-edit-btn { flex-shrink: 0; align-self: flex-start; }
 
 /* Completion bar */
 .prf-completion {
     padding: 14px 28px;
-    background: #f8fafc;
-    border-top: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    background: var(--drl-L);
+    border-top: 3px solid var(--drl-O);
+    display: flex; align-items: center; gap: 16px;
 }
-.prf-completion-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #475569;
-    white-space: nowrap;
-}
-.prf-completion-bar {
-    flex: 1;
-    height: 8px;
-    background: #e2e8f0;
-    border-radius: 99px;
-    overflow: hidden;
-}
+.prf-completion-label { font-size: 13px; font-weight: 700; color: var(--drl-M); white-space: nowrap; }
+.prf-completion-bar { flex: 1; height: 8px; background: rgba(255,255,255,.6); border-radius: 99px; overflow: hidden; }
 .prf-completion-fill {
-    height: 100%;
-    border-radius: 99px;
-    background: linear-gradient(90deg, #00509e, #0d2151);
-    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--drl-O), #ffb347);
+    transition: width .6s cubic-bezier(.4,0,.2,1);
 }
-.prf-completion-pct {
-    font-size: 13px;
-    font-weight: 800;
-    color: #0d2151;
-    white-space: nowrap;
-}
+.prf-completion-pct { font-size: 13px; font-weight: 800; color: var(--drl-D); white-space: nowrap; }
 
-/* Tabs */
+/* Profile tabs */
 .prf-tabs {
-    border-bottom: 2px solid #e2e8f0;
-    display: flex;
-    gap: 4px;
+    border-bottom: 2px solid var(--drl-L);
+    display: flex; gap: 4px;
     padding: 0 4px;
     margin-bottom: 24px;
 }
 .prf-tab-btn {
     padding: 12px 18px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #64748b;
-    background: none;
-    border: none;
+    font-size: 14px; font-weight: 700;
+    color: var(--drl-M);
+    background: none; border: none;
     border-bottom: 3px solid transparent;
     margin-bottom: -2px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    transition: color 0.2s;
+    display: flex; align-items: center; gap: 7px;
+    transition: color var(--drl-t);
 }
-.prf-tab-btn:hover { color: #00509e; }
-.prf-tab-btn.active {
-    color: #00509e;
-    border-bottom-color: #00509e;
-}
+.prf-tab-btn:hover { color: var(--drl-B); }
+.prf-tab-btn.active { color: var(--drl-B); border-bottom-color: var(--drl-B); }
 .prf-tab-btn i { font-size: 16px; }
-
 .prf-tab-pane { display: none; }
 .prf-tab-pane.active { display: block; }
 
-/* Info rows in tab */
+/* Info rows */
 .prf-section-title {
-    font-size: 11px;
-    font-weight: 800;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 16px;
+    font-size: 11px; font-weight: 800; color: var(--drl-M);
+    text-transform: uppercase; letter-spacing: .05em;
+    margin: 0 0 16px; opacity: .7;
 }
-
 .prf-field {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
+    display: flex; align-items: flex-start; gap: 14px;
     padding: 14px 0;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--drl-L);
 }
 .prf-field:last-child { border-bottom: none; }
-
 .prf-field-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: var(--drl-r);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
 }
-.prf-field-icon--blue  { background: #eff6ff; color: #00509e; }
-.prf-field-icon--orng  { background: #fff7ed; color: #e8501a; }
-.prf-field-icon--green { background: #f0fdf4; color: #16a34a; }
-.prf-field-icon--navy  { background: #f0f4ff; color: #0d2151; }
-.prf-field-icon--slate { background: #f8fafc; color: #475569; }
-
+.prf-field-icon--blue  { background: rgba(63,169,245,.1);  color: var(--drl-B); }
+.prf-field-icon--orng  { background: rgba(255,138,61,.1);  color: var(--drl-O); }
+.prf-field-icon--green { background: rgba(22,163,74,.1);   color: #16a34a; }
+.prf-field-icon--navy  { background: rgba(0,73,127,.08);   color: var(--drl-B); }
+.prf-field-icon--slate { background: var(--drl-L);         color: var(--drl-M); }
 .prf-field-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 3px;
+    font-size: 11px; font-weight: 700; color: var(--drl-M);
+    text-transform: uppercase; letter-spacing: .04em;
+    margin-bottom: 3px; opacity: .8;
 }
-.prf-field-val {
-    font-size: 14px;
-    font-weight: 600;
-    color: #0d2151;
-    line-height: 1.55;
-    margin: 0;
-}
-.prf-field-empty { color: #94a3b8; font-style: italic; }
+.prf-field-val { font-size: 14px; font-weight: 600; color: var(--drl-D); line-height: 1.55; margin: 0; }
+.prf-field-empty { color: var(--drl-M); font-style: italic; opacity: .6; }
 
 /* Tag pills */
 .prf-tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .prf-tag {
-    background: #f1f5f9;
-    color: #475569;
-    border-radius: 6px;
-    padding: 3px 9px;
-    font-size: 12px;
-    font-weight: 700;
+    background: var(--drl-L); color: var(--drl-M);
+    border-radius: 50px; padding: 3px 10px;
+    font-size: 12px; font-weight: 700;
 }
 
 /* Services list */
-.prf-service-list {
-    list-style: none;
-    padding: 0;
-    margin: 4px 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-.prf-service-list li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #0d2151;
-}
+.prf-service-list { list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.prf-service-list li { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--drl-D); }
 .prf-service-list li::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #00509e;
-    flex-shrink: 0;
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--drl-S); flex-shrink: 0;
 }
 
-/* Trust badges row */
-.prf-trust-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-    margin-top: 4px;
-}
+/* Trust badges */
+.prf-trust-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 4px; }
 .prf-trust-item {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    text-align: center;
+    background: var(--drl-L); border: 1.5px solid var(--drl-L);
+    border-radius: var(--drl-r); padding: 14px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+    transition: var(--drl-t);
 }
-.prf-trust-item.active {
-    background: #f0fdf4;
-    border-color: #bbf7d0;
-}
+.prf-trust-item.active { background: rgba(22,163,74,.06); border-color: rgba(22,163,74,.25); }
 .prf-trust-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    width: 40px; height: 40px; border-radius: var(--drl-r);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
 }
-.prf-trust-item:not(.active) .prf-trust-icon { background: #f1f5f9; color: #94a3b8; }
-.prf-trust-item.active .prf-trust-icon { background: #dcfce7; color: #16a34a; }
-.prf-trust-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #475569;
-}
+.prf-trust-item:not(.active) .prf-trust-icon { background: rgba(255,255,255,.7); color: var(--drl-M); }
+.prf-trust-item.active .prf-trust-icon { background: rgba(22,163,74,.15); color: #16a34a; }
+.prf-trust-label { font-size: 12px; font-weight: 700; color: var(--drl-M); }
 .prf-trust-item.active .prf-trust-label { color: #15803d; }
 
-/* Opening hours table */
-.prf-hours-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
+/* Hours list */
+.prf-hours-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
 .prf-hours-list li {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: #475569;
-    font-weight: 600;
-    padding: 4px 0;
-    border-bottom: 1px dotted #f1f5f9;
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--drl-M); font-weight: 600;
+    padding: 4px 0; border-bottom: 1px dotted var(--drl-L);
 }
 
-/* Edit modal improvements */
+/* Edit modal */
 .prf-modal-tabs {
-    display: flex;
-    gap: 8px;
-    padding: 16px 24px;
-    border-bottom: 1px solid #e2e8f0;
-    margin-bottom: 0;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.9);
+    display: flex; gap: 8px; padding: 16px 24px;
+    border-bottom: 1px solid var(--drl-L); margin-bottom: 0;
+    background: var(--drl-W);
 }
 .prf-modal-tab-btn {
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 800;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    background: transparent;
-    color: #64748b;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    padding: 9px 18px; font-size: 13px; font-weight: 800;
+    border-radius: 50px; border: 1.5px solid transparent;
+    background: transparent; color: var(--drl-M);
+    cursor: pointer; transition: var(--drl-t);
+    display: flex; align-items: center; gap: 8px;
+    text-transform: uppercase; letter-spacing: .04em;
 }
 .prf-modal-tab-btn i { font-size: 16px; }
-.prf-modal-tab-btn:hover { color: #00509e; background: #eff6ff; }
+.prf-modal-tab-btn:hover { color: var(--drl-B); background: rgba(63,169,245,.08); border-color: var(--drl-L); }
 .prf-modal-tab-btn.active {
-    background: #0d2151;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(13,33,81,0.15);
+    background: var(--drl-B); color: #fff;
+    border-color: var(--drl-B);
+    box-shadow: 0 4px 14px rgba(0,73,127,.25);
 }
 .drl-modal-header--premium {
-    background: linear-gradient(135deg, #0d2151 0%, #00509e 100%);
-    color: #fff;
-    padding: 32px 32px 24px;
-    border-bottom: none;
+    background: linear-gradient(135deg, #002d50 0%, var(--drl-B) 100%);
+    color: #fff; padding: 32px 32px 24px; border-bottom: none;
 }
-.drl-modal-header--premium .modal-title {
-    font-size: 24px;
-    font-weight: 900;
-}
-.drl-modal-header--premium p {
-    color: rgba(255,255,255,0.7);
-    font-size: 14px;
-    margin-top: 4px;
-}
-.prf-modal-body--scrolled {
-    padding: 32px;
-    max-height: 65vh;
-}
+.drl-modal-header--premium .modal-title { font-size: 24px; font-weight: 900; }
+.drl-modal-header--premium p { color: rgba(255,255,255,.7); font-size: 14px; margin-top: 4px; }
+.prf-modal-body--scrolled { padding: 32px; max-height: 65vh; }
 .prf-modal-section-title {
-    font-size: 12px;
-    font-weight: 900;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f1f5f9;
+    font-size: 12px; font-weight: 900; color: var(--drl-M);
+    text-transform: uppercase; letter-spacing: .1em;
+    margin-bottom: 20px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--drl-L); opacity: .7;
 }
 
 @media (max-width: 768px) {
@@ -409,18 +218,16 @@
     .prf-edit-btn { width: 100%; }
     .prf-trust-grid { grid-template-columns: repeat(2, 1fr); }
 }
-    .prf-modal-body--scrolled {
-        max-height: 550px;
-        overflow-y: auto;
-        padding: 0;
-    }
-    .prf-modal-tabs.sticky-top {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: #fff;
-        border-bottom: 1px solid #f1f5f9;
-    }
+.prf-modal-body--scrolled {
+    max-height: 550px;
+    overflow-y: auto;
+    padding: 0;
+}
+.prf-modal-tabs.sticky-top {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--drl-W);
+    border-bottom: 1px solid var(--drl-L);
+}
 </style>
 {% endblock %}
 
@@ -458,7 +265,7 @@
                 <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="{{ user.displayName }}" class="prf-avatar pro-avatar-img">
             {% endif %}
             <button class="prf-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" title="{{ 'Changer la photo'|trans }}">
-                <i class="feather-camera"></i>
+                <i class="ph-camera"></i>
             </button>
         </div>
 
@@ -470,36 +277,36 @@
             <div class="prf-badges">
                 {# Availability #}
                 {% if user.availabilityStatus == 'AVAILABLE' %}
-                    <span class="prf-badge prf-badge--avail"><i class="feather-check-circle"></i> {{ 'Disponible'|trans }}</span>
+                    <span class="prf-badge prf-badge--avail"><i class="ph-check-circle"></i> {{ 'Disponible'|trans }}</span>
                 {% elseif user.availabilityStatus == 'BUSY' %}
-                    <span class="prf-badge prf-badge--busy"><i class="feather-clock"></i> {{ 'Occupé'|trans }}</span>
+                    <span class="prf-badge prf-badge--busy"><i class="ph-clock"></i> {{ 'Occupé'|trans }}</span>
                 {% else %}
-                    <span class="prf-badge prf-badge--unavail"><i class="feather-x-circle"></i> {{ 'Non disponible'|trans }}</span>
+                    <span class="prf-badge prf-badge--unavail"><i class="ph-x-circle"></i> {{ 'Non disponible'|trans }}</span>
                 {% endif %}
 
                 {# Verified #}
                 {% if user.isVerified %}
-                    <span class="prf-badge prf-badge--blue"><i class="feather-shield"></i> {{ 'Vérifié Drilleedo'|trans }}</span>
+                    <span class="prf-badge prf-badge--blue"><i class="ph-shield-check"></i> {{ 'Vérifié Drilleedo'|trans }}</span>
                 {% endif %}
 
                 {# Top Rated #}
                 {% if user.isTopRated %}
-                    <span class="prf-badge prf-badge--gold"><i class="feather-star"></i> {{ 'Top Noté'|trans }}</span>
+                    <span class="prf-badge prf-badge--gold"><i class="ph-star"></i> {{ 'Top Noté'|trans }}</span>
                 {% endif %}
 
                 {# RBQ #}
                 {% if user.isRbqCertified %}
-                    <span class="prf-badge prf-badge--navy"><i class="feather-award"></i> {{ 'Certifié RBQ'|trans }}</span>
+                    <span class="prf-badge prf-badge--navy"><i class="ph-medal"></i> {{ 'Certifié RBQ'|trans }}</span>
                 {% endif %}
 
                 {# Insurance #}
                 {% if user.hasInsurance %}
-                    <span class="prf-badge prf-badge--green"><i class="feather-umbrella"></i> {{ 'Assuré'|trans }}</span>
+                    <span class="prf-badge prf-badge--green"><i class="ph-umbrella"></i> {{ 'Assuré'|trans }}</span>
                 {% endif %}
 
                 {# Category #}
                 {% if user.category %}
-                    <span class="prf-badge prf-badge--navy"><i class="feather-tag"></i> {{ user.category.localizedTitle(app.request.locale) }}</span>
+                    <span class="prf-badge prf-badge--navy"><i class="ph-tag"></i> {{ user.category.localizedTitle(app.request.locale) }}</span>
                 {% endif %}
             </div>
 
@@ -507,7 +314,7 @@
                 {% if avgRating > 0 %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val" style="color: #f59e0b;">
-                        <i class="feather-star" style="fill: #f59e0b; font-size: 16px; vertical-align: middle;"></i>
+                        <i class="ph-star" style="fill: #f59e0b; font-size: 16px; vertical-align: middle;"></i>
                         {{ avgRating|number_format(1) }}
                     </div>
                     <div class="prf-stat-lbl">{{ 'Évaluation'|trans }}</div>
@@ -543,7 +350,7 @@
         {# Edit button #}
         <div class="prf-edit-btn">
             <button type="button" class="drl-btn-orange" style="padding: 10px 20px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                <i class="feather-edit-2 me-1"></i> {{ 'Modifier le profil'|trans }}
+                <i class="ph-pencil me-1"></i> {{ 'Modifier le profil'|trans }}
             </button>
         </div>
     </div>
@@ -588,7 +395,7 @@
                 <p class="prf-section-title">{{ 'À propos'|trans }}</p>
                 <div class="prf-field" style="border-bottom: none; padding-top: 0;">
                     <div class="prf-field-icon prf-field-icon--blue">
-                        <i class="feather-file-text"></i>
+                        <i class="ph-file-text"></i>
                     </div>
                     <div class="flex-grow-1">
                         {% if user.about %}
@@ -603,7 +410,7 @@
 
                 <div class="prf-field">
                     <div class="prf-field-icon prf-field-icon--slate">
-                        <i class="feather-mail"></i>
+                        <i class="ph-envelope"></i>
                     </div>
                     <div>
                         <p class="prf-field-label">Email</p>
@@ -613,7 +420,7 @@
 
                 <div class="prf-field">
                     <div class="prf-field-icon prf-field-icon--orng">
-                        <i class="feather-map-pin"></i>
+                        <i class="ph-map-pin"></i>
                     </div>
                     <div>
                         <p class="prf-field-label">{{ 'Ville'|trans }}</p>
@@ -624,7 +431,7 @@
                 {% if user.phoneNum %}
                 <div class="prf-field">
                     <div class="prf-field-icon prf-field-icon--navy">
-                        <i class="feather-phone"></i>
+                        <i class="ph-phone"></i>
                     </div>
                     <div>
                         <p class="prf-field-label">{{ 'Téléphone'|trans }}</p>
@@ -635,7 +442,7 @@
 
                 <div class="prf-field">
                     <div class="prf-field-icon prf-field-icon--blue">
-                        <i class="feather-navigation"></i>
+                        <i class="ph-navigation-arrow"></i>
                     </div>
                     <div>
                         <p class="prf-field-label">{{ "Zone d'intervention"|trans }}</p>
@@ -659,7 +466,7 @@
                 <p class="prf-section-title">{{ 'Langues parlées'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon prf-field-icon--navy">
-                        <i class="feather-globe"></i>
+                        <i class="ph-globe"></i>
                     </div>
                     <div>
                         {% if user.languages and user.languages|length > 0 %}
@@ -697,7 +504,7 @@
                 <p class="prf-section-title">{{ "Secteur d'activité"|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon prf-field-icon--blue">
-                        <i class="feather-grid"></i>
+                        <i class="ph-squares-four"></i>
                     </div>
                     <div>
                         {% if user.category %}
@@ -731,7 +538,7 @@
                     <ul class="prf-service-list" style="list-style: none;">
                         {% for item in user.whyChooseUs %}
                             <li style="color: #16a34a;">
-                                <i class="feather-check-circle" style="font-size: 14px; color: #16a34a; margin-right: 4px;"></i>
+                                <i class="ph-check-circle" style="font-size: 14px; color: #16a34a; margin-right: 4px;"></i>
                                 <span style="color: #0d2151;">{{ item }}</span>
                             </li>
                         {% endfor %}
@@ -743,7 +550,7 @@
                 <p class="prf-section-title mt-4">{{ 'Disponibilité'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon {% if user.availabilityStatus == 'AVAILABLE' %}prf-field-icon--green{% elseif user.availabilityStatus == 'BUSY' %}prf-field-icon--orng{% else %}prf-field-icon--slate{% endif %}">
-                        <i class="feather-clock"></i>
+                        <i class="ph-clock"></i>
                     </div>
                     <div>
                         <p class="prf-field-label">{{ 'Statut actuel'|trans }}</p>
@@ -774,27 +581,27 @@
         <p class="prf-section-title">Badges de confiance</p>
         <div class="prf-trust-grid">
             <div class="prf-trust-item {{ user.isVerified ? 'active' }}">
-                <div class="prf-trust-icon"><i class="feather-shield"></i></div>
+                <div class="prf-trust-icon"><i class="ph-shield-check"></i></div>
                 <span class="prf-trust-label">Vérifié Drilleedo</span>
             </div>
             <div class="prf-trust-item {{ user.isTopRated ? 'active' }}">
-                <div class="prf-trust-icon"><i class="feather-star"></i></div>
+                <div class="prf-trust-icon"><i class="ph-star"></i></div>
                 <span class="prf-trust-label">Top Noté</span>
             </div>
             <div class="prf-trust-item {{ user.isRbqCertified ? 'active' }}">
-                <div class="prf-trust-icon"><i class="feather-award"></i></div>
+                <div class="prf-trust-icon"><i class="ph-medal"></i></div>
                 <span class="prf-trust-label">Certifié RBQ</span>
             </div>
             <div class="prf-trust-item {{ user.hasInsurance ? 'active' }}">
-                <div class="prf-trust-icon"><i class="feather-umbrella"></i></div>
+                <div class="prf-trust-icon"><i class="ph-umbrella"></i></div>
                 <span class="prf-trust-label">Assuré R.C.</span>
             </div>
             <div class="prf-trust-item {{ user.hasFreeQuotes ? 'active' }}">
-                <div class="prf-trust-icon"><i class="feather-gift"></i></div>
+                <div class="prf-trust-icon"><i class="ph-gift"></i></div>
                 <span class="prf-trust-label">Soumissions gratuites</span>
             </div>
             <div class="prf-trust-item {{ user.hasGuaranteedWork ? 'active' }}">
-                <div class="prf-trust-icon"><i class="feather-check-square"></i></div>
+                <div class="prf-trust-icon"><i class="ph-check-square"></i></div>
                 <span class="prf-trust-label">Travaux garantis</span>
             </div>
         </div>
@@ -821,7 +628,7 @@
             {% if user.licenceNum %}
             <div class="col-sm-6">
                 <div class="prf-field" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; gap: 12px;">
-                    <div class="prf-field-icon prf-field-icon--navy"><i class="feather-hash"></i></div>
+                    <div class="prf-field-icon prf-field-icon--navy"><i class="ph-hash"></i></div>
                     <div>
                         <p class="prf-field-label">N° Licence</p>
                         <p class="prf-field-val">{{ user.licenceNum }}</p>
@@ -832,7 +639,7 @@
             {% if user.companyNum %}
             <div class="col-sm-6">
                 <div class="prf-field" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; gap: 12px;">
-                    <div class="prf-field-icon prf-field-icon--navy"><i class="feather-briefcase"></i></div>
+                    <div class="prf-field-icon prf-field-icon--navy"><i class="ph-briefcase"></i></div>
                     <div>
                         <p class="prf-field-label">N° Entreprise</p>
                         <p class="prf-field-val">{{ user.companyNum }}</p>

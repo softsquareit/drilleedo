@@ -55,28 +55,28 @@
     <div class="dr-pro-header" style="background-image: url('{{ app.user.banner ? asset('uploads/banners/' ~ app.user.banner) : asset('assets/drilleedo/images/bg/bg-image-22.jpg') }}'); position: relative; height: 160px; background-size: cover; background-position: center; z-index: 1;">
         <div class="dr-pro-header-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(13,33,81,0.1), rgba(13,33,81,0.6));"></div>
         <button class="pro-btn-icon pro-header-edit-cover" data-bs-toggle="modal" data-bs-target="#editBannerModal" style="position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
-            <i class="feather-camera"></i>
+            <i class="ph-camera" style="font-size: 18px;"></i>
         </button>
     </div>
 
     <!-- Start Dashboard Area -->
-    <div class="rbt-dashboard-area rbt-section-gapBottom" style="background: #f8fafc; padding-bottom: 80px; min-height: calc(100vh - 160px);">
+    <div class="rbt-dashboard-area rbt-section-gapBottom" style="background: #f0f5fa; padding-bottom: 80px; min-height: calc(100vh - 160px);">
         <div class="container" style="margin-top: -60px; position: relative; z-index: 10;">
-            <div class="row g-5">
+            <div class="row g-4">
                 <!-- Start Dashboard Sidebar  -->
                 <div class="col-lg-3">
                     {% include 'professional/partials/_sidebar.html.twig' %}
                 </div>
                 <!-- End Dashboard Sidebar  -->
 
-                <div class="col-lg-9" style="padding-top: 60px;">
+                <div class="col-lg-9" style="padding-top: 64px;">
                      {% for label, messages in app.flashes %}
                          {% for message in messages %}
                              {% set alertType = label == 'error' ? 'danger' : label %}
-                             {% set alertIcon = 'feather-info' %}
-                             {% if label == 'success' %}{% set alertIcon = 'feather-check-circle' %}
-                             {% elseif label == 'error' or label == 'danger' %}{% set alertIcon = 'feather-alert-octagon' %}
-                             {% elseif label == 'warning' %}{% set alertIcon = 'feather-alert-triangle' %}
+                             {% set alertIcon = 'ph-info' %}
+                             {% if label == 'success' %}{% set alertIcon = 'ph-check-circle' %}
+                             {% elseif label == 'error' or label == 'danger' %}{% set alertIcon = 'ph-warning-octagon' %}
+                             {% elseif label == 'warning' %}{% set alertIcon = 'ph-warning' %}
                              {% endif %}
 
                              <div class="drl-alert drl-alert--{{ alertType }} alert-dismissible fade show" role="alert">

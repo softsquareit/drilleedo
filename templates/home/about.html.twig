@@ -1,679 +1,848 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'about.meta_title'|trans }}{% endblock %}
-{% block meta_description %}{{ 'about.meta_desc'|trans }}{% endblock %}
+{% block title %}À propos de Drilleedo — Notre histoire, mission et valeurs{% endblock %}
+{% block meta_description %}Drilleedo — la plateforme canadienne qui connecte propriétaires et professionnels de la rénovation. Découvrez notre histoire, notre mission et nos valeurs.{% endblock %}
 
 {% block body %}
 <main id="main-content">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
 <style>
-/* ══ ABOUT PAGE v2 — Senior UI/UX ═══════════════════════════════════════
-   #1A3D6E blue · #F5821F orange · #3FA9F5 sky · Instrument Sans
-   ════════════════════════════════════════════════════════════════════════ */
+/* ══ ABOUT PAGE ════════════════════════════════════════════════════════════
+   Charte : #00497F · #3FA9F5 · #FF8A3D · #0C1825 · #4A6073
+   ══════════════════════════════════════════════════════════════════════════ */
 :root {
-  --ab:  #1A3D6E;
-  --ao:  #F5821F;
-  --as:  #3FA9F5;
-  --ad:  #0C1825;
-  --am:  #475569;
-  --al:  #E4EBF2;
-  --aw:  #fff;
-  --at:  all .22s ease;
-  --ar:  16px;
-  --arx: 22px;
-  --ash: 0 4px 28px rgba(26,61,110,.10);
+    --B:#00497F; --S:#3FA9F5; --O:#FF8A3D; --D:#0C1825; --M:#4A6073;
+    --L:#E4EBF2; --W:#fff;
+    --sh: 0 4px 24px rgba(0,73,127,.10);
+    --sh-md: 0 10px 40px rgba(0,73,127,.14);
 }
+.ab-wrap { max-width:1140px; margin:0 auto; padding:0 24px; }
+.ab-fade { opacity:0; transform:translateY(26px); transition:opacity .55s ease,transform .55s ease; }
+.ab-fade.in { opacity:1; transform:none; }
 
-/* ── HERO ── */
+/* ════════ 1. HERO ════════ */
 .ab-hero {
-  min-height: 420px;
-  background: linear-gradient(135deg, #1A3D6E 0%, #2e6db4 50%, #3FA9F5 100%);
-  position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 80px 24px;
+    background: linear-gradient(135deg, #0C1825 0%, #003660 55%, #00497F 100%);
+    padding: 96px 0 80px;
+    position: relative; overflow: hidden; text-align: center;
 }
 .ab-hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
 }
 .ab-hero::after {
-  content: '';
-  position: absolute; left: 50%; top: -120px; transform: translateX(-50%);
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(245,130,31,.15) 0%, transparent 65%);
-  pointer-events: none;
+    content: ''; position: absolute;
+    left: 50%; top: -120px; transform: translateX(-50%);
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(63,169,245,.1) 0%, transparent 65%);
+    pointer-events: none;
 }
-.ab-hero-inner { position: relative; z-index: 2; max-width: 700px; }
-.ab-breadcrumb {
-  font-size: 12px; color: rgba(255,255,255,.5);
-  margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 6px;
+.ab-hero__inner { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+.ab-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.88);
+    border: 1px solid rgba(255,255,255,.18); border-radius: 999px;
+    padding: 7px 18px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 22px;
 }
-.ab-breadcrumb a { color: rgba(255,255,255,.65); text-decoration: none; }
-.ab-breadcrumb a:hover { color: #fff; }
-.ab-eyebrow {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,.12); color: rgba(255,255,255,.9);
-  border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
-  padding: 7px 18px; font-size: 11px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px;
+.ab-hero h1 {
+    font-size: clamp(28px, 4.5vw, 54px);
+    font-weight: 900; color: #fff; margin: 0 0 6px;
+    line-height: 1.08; letter-spacing: -.025em;
 }
-.ab-eyebrow i { color: var(--ao); }
-.ab-hero-title {
-  font-size: clamp(32px, 5vw, 54px); font-weight: 900; color: #fff;
-  margin: 0 0 16px; line-height: 1.08; letter-spacing: -.03em;
+.ab-hero h1 span { color: #FF8A3D; }
+.ab-hero__tagline {
+    font-size: 17px; color: rgba(255,255,255,.6);
+    max-width: 620px; margin: 18px auto 32px; line-height: 1.75;
 }
-.ab-hero-title span { color: var(--ao); }
-.ab-hero-sub {
-  font-size: 17px; color: rgba(255,255,255,.72);
-  max-width: 520px; margin: 0 auto 32px; line-height: 1.7;
-}
+.ab-hero__tagline strong { color: rgba(255,255,255,.9); }
 .ab-hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.ab-btn-o {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--ao); color: #fff; font-weight: 700; font-size: 15px;
-  padding: 13px 26px; border-radius: var(--ar); text-decoration: none;
-  box-shadow: 0 4px 18px rgba(245,130,31,.35); transition: var(--at);
-}
-.ab-btn-o:hover { background: #d96e10; transform: translateY(-2px); color: #fff; }
-.ab-btn-w {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: transparent; color: #fff; font-weight: 700; font-size: 15px;
-  padding: 12px 24px; border-radius: var(--ar); text-decoration: none;
-  border: 2px solid rgba(255,255,255,.3); transition: var(--at);
-}
-.ab-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); color: #fff; }
 
-/* ── STATS STRIP ── */
+/* ════════ 2. STATS STRIP ════════ */
 .ab-stats {
-  background: #fff;
-  border-bottom: 1px solid var(--al);
-  border-top: 3px solid var(--ao);
+    background: #fff;
+    border-top: 3px solid #FF8A3D;
+    border-bottom: 1px solid var(--L);
 }
 .ab-stats-grid {
-  display: grid; grid-template-columns: repeat(4,1fr);
-  max-width: 1100px; margin: 0 auto; padding: 0 28px;
+    display: grid; grid-template-columns: repeat(4,1fr);
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
 }
 .ab-stat-cell {
-  display: flex; align-items: center; gap: 14px;
-  padding: 24px 20px; border-right: 1px solid var(--al);
+    display: flex; align-items: center; gap: 14px;
+    padding: 22px 18px; border-right: 1px solid var(--L);
 }
 .ab-stat-cell:last-child { border-right: none; }
 .ab-stat-ico {
-  width: 48px; height: 48px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
+    width: 46px; height: 46px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
 }
-.ab-ico-b { background: linear-gradient(135deg,#1A3D6E,#2e6db4); color: #fff; }
-.ab-ico-s { background: linear-gradient(135deg,#2196f3,#3FA9F5); color: #fff; }
-.ab-ico-g { background: linear-gradient(135deg,#16a34a,#22c55e); color: #fff; }
-.ab-ico-o { background: linear-gradient(135deg,#c95a08,#F5821F); color: #fff; }
-.ab-stat-num { font-size: 22px; font-weight: 900; color: var(--ab); line-height: 1; }
-.ab-stat-lbl { font-size: 12px; color: var(--am); font-weight: 600; margin-top: 3px; }
+.ab-stat-num { font-size: 21px; font-weight: 900; color: #00497F; line-height: 1; }
+.ab-stat-lbl { font-size: 12px; color: var(--M); font-weight: 600; margin-top: 3px; }
 
-/* ── PAGE BG ── */
-.ab-page-bg {
-  background: linear-gradient(180deg, #cde0f5 0%, #daeaf9 25%, #e8f2fb 55%, #f2f7fd 100%);
-  padding: 56px 0 80px;
-}
+/* ════════ PAGE BG ════════ */
+.ab-bg { background: linear-gradient(180deg, #eef5fb 0%, #f4f8fc 40%, #f8fbff 100%); padding: 64px 0 80px; }
 
-/* ── SECTION CARDS ── */
-.ab-section {
-  background: var(--aw);
-  border-radius: var(--arx);
-  box-shadow: var(--ash);
-  overflow: hidden;
-  margin-bottom: 24px;
-  transition: box-shadow .22s, transform .22s;
-  border-left: 5px solid transparent;
+/* ════════ 3. LE CONSTAT — dark split ════════ */
+.ab-constat {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-radius: 24px; overflow: hidden;
+    box-shadow: 0 12px 50px rgba(0,73,127,.18);
+    margin-bottom: 28px;
+    min-height: 500px;
 }
-.ab-section:hover { box-shadow: 0 10px 44px rgba(26,61,110,.14); transform: translateY(-2px); }
-.ab-section--story   { border-left-color: var(--ab); }
-.ab-section--mission { border-left-color: var(--ao); }
-.ab-section--vision  { border-left-color: var(--as); }
-.ab-section--canada  { border-left-color: #16a34a; }
+.ab-constat-img { position: relative; overflow: hidden; }
+.ab-constat-img img { width:100%; height:100%; object-fit:cover; display:block; min-height:380px; }
+.ab-constat-img::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(to right, rgba(12,24,37,.2), transparent);
+}
+.ab-constat-img-badge {
+    position: absolute; bottom: 20px; left: 20px; z-index: 2;
+    background: rgba(12,24,37,.88); backdrop-filter: blur(10px);
+    border-radius: 12px; padding: 12px 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+}
+.ab-constat-img-badge__num { font-size: 22px; font-weight: 900; color: #fff; }
+.ab-constat-img-badge__num span { color: #FF8A3D; }
+.ab-constat-img-badge__lbl { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 2px; }
+.ab-constat-body {
+    background: linear-gradient(160deg, #0C1825 0%, #003660 100%);
+    padding: 52px 48px;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
+}
+.ab-constat-body::before {
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
+}
+.ab-constat-body::after {
+    content:''; position:absolute; bottom:-80px; right:-80px;
+    width:280px; height:280px; border-radius:50%;
+    background: rgba(255,138,61,.08); pointer-events: none;
+}
+.ab-constat-inner { position: relative; z-index: 2; }
+.ab-constat-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.15); border: 1px solid rgba(255,138,61,.3);
+    color: #FF8A3D; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+}
+.ab-constat-title {
+    font-size: clamp(20px, 2.5vw, 28px); font-weight: 900; color: #fff;
+    margin: 0 0 16px; line-height: 1.2; letter-spacing: -.015em;
+}
+.ab-constat-title span { color: #FF8A3D; }
+.ab-constat-lead {
+    font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.8; margin-bottom: 20px;
+}
+.ab-constat-body-text { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.8; margin-bottom: 16px; }
+.ab-constat-body-text:last-of-type { margin-bottom: 0; }
+.ab-constat-body-text strong { color: rgba(255,255,255,.9); }
 
-.ab-row {
-  display: grid; grid-template-columns: 1fr 1.4fr;
-  min-height: 300px;
+/* ════════ 4. MISSION & VISION ════════ */
+.ab-mv {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; margin-bottom: 28px;
 }
-.ab-row--rev { grid-template-columns: 1.4fr 1fr; }
-
-/* Photo side */
-.ab-photo { overflow: hidden; position: relative; }
-.ab-photo img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  min-height: 300px; transition: transform .5s ease;
+.ab-mv-card {
+    background: #fff; border-radius: 20px; overflow: hidden;
+    box-shadow: var(--sh);
+    transition: box-shadow .22s, transform .22s;
+    border-top: 4px solid transparent;
 }
-.ab-section:hover .ab-photo img { transform: scale(1.04); }
-.ab-photo-tag {
-  position: absolute; bottom: 16px; left: 16px;
-  background: rgba(255,255,255,.94); backdrop-filter: blur(6px);
-  border-radius: 10px; padding: 8px 14px;
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 700; color: var(--ab);
-  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+.ab-mv-card:hover { box-shadow: var(--sh-md); transform: translateY(-3px); }
+.ab-mv-card--mission { border-top-color: #FF8A3D; }
+.ab-mv-card--vision  { border-top-color: #3FA9F5; }
+.ab-mv-card-img { overflow: hidden; height: 220px; }
+.ab-mv-card-img img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .5s; }
+.ab-mv-card:hover .ab-mv-card-img img { transform: scale(1.04); }
+.ab-mv-card-body { padding: 32px 36px; }
+.ab-mv-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 10px;
 }
-.ab-photo-tag i { color: var(--ao); font-size: 14px; }
-
-/* Text side */
-.ab-body { padding: 44px 48px; display: flex; flex-direction: column; justify-content: center; }
-.ab-eyebrow2 {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 800; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ao);
-  margin-bottom: 10px;
-}
-.ab-title {
-  font-size: 22px; font-weight: 900; color: var(--ab);
-  margin: 0 0 6px; line-height: 1.2; letter-spacing: -.02em;
-}
-.ab-subtitle {
-  font-size: 14px; font-weight: 600; color: var(--am);
-  margin: 0 0 18px; font-style: italic;
-}
-.ab-p { font-size: 15px; color: var(--am); line-height: 1.78; margin: 0 0 10px; }
-.ab-p:last-of-type { margin-bottom: 0; }
-.ab-p strong { color: var(--ab); }
-
-/* Bullet list */
-.ab-list { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
-.ab-list li {
-  display: flex; align-items: flex-start; gap: 10px;
-  font-size: 14px; color: #334155; line-height: 1.6;
-}
-.ab-list-ico {
-  width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; color: #fff; margin-top: 1px;
-}
-
-/* Mission pillars */
-.ab-pillars { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; }
-.ab-pillar {
-  background: #F8FAFC; border: 1.5px solid var(--al);
-  border-radius: 14px; padding: 16px 14px; text-align: center;
-  transition: var(--at);
-}
-.ab-pillar:hover { border-color: var(--as); background: #EEF4FF; }
-.ab-pillar-ico { font-size: 22px; color: var(--ao); margin-bottom: 8px; }
-.ab-pillar-lbl { font-size: 12px; font-weight: 700; color: var(--ab); }
-
-/* Stats grid inside card */
-.ab-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
-.ab-kpi {
-  background: #EEF4FF; border-radius: 14px; padding: 16px 18px;
-  border: 1.5px solid #d5e4f5; transition: var(--at);
-}
-.ab-kpi:hover { background: #dbeafe; border-color: var(--as); }
-.ab-kpi-num { font-size: 26px; font-weight: 900; color: var(--ab); line-height: 1; margin-bottom: 4px; }
-.ab-kpi-num span { color: var(--ao); }
-.ab-kpi-lbl { font-size: 12px; color: var(--am); font-weight: 600; }
-
-/* Values strip — 3 icônes sous Story */
-.ab-values { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--al); }
-.ab-val {
-  padding: 22px 24px; display: flex; align-items: center; gap: 14px;
-  border-right: 1px solid var(--al); transition: background .18s;
-}
-.ab-val:last-child { border-right: none; }
-.ab-val:hover { background: #F8FAFC; }
-.ab-val-ico {
-  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-}
-.ab-val-name { font-size: 13px; font-weight: 800; color: var(--ab); margin-bottom: 2px; }
-.ab-val-desc { font-size: 12px; color: var(--am); line-height: 1.5; }
-
-/* CTA final */
-.ab-cta {
-  background: linear-gradient(135deg, #1A3D6E 0%, #2662ab 60%, #3FA9F5 100%);
-  border-radius: var(--arx); padding: 64px 48px; text-align: center;
-  box-shadow: 0 12px 48px rgba(26,61,110,.22);
-  position: relative; overflow: hidden; margin-top: 8px;
-}
-.ab-cta::before {
-  content:''; position:absolute; top:-100px; right:-80px;
-  width:320px; height:320px; border-radius:50%;
-  background: rgba(255,255,255,.05); pointer-events:none;
-}
-.ab-cta::after {
-  content:''; position:absolute; bottom:-80px; left:-60px;
-  width:260px; height:260px; border-radius:50%;
-  background: rgba(245,130,31,.08); pointer-events:none;
-}
-.ab-cta-inner { position: relative; z-index: 2; }
-.ab-cta-tag {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,.12); color: rgba(255,255,255,.9);
-  border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
-  padding: 7px 18px; font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px;
-}
-.ab-cta h2 { font-size: clamp(24px,3.5vw,36px); font-weight: 900; color: #fff; margin: 0 0 12px; }
-.ab-cta p  { font-size: 16px; color: rgba(255,255,255,.72); margin: 0 0 32px; max-width:480px; margin-left:auto; margin-right:auto; }
-.ab-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-/* ── WHY DRILLEEDO MATTERS ── */
-.ab-matters {
-  border-radius: var(--arx);
-  overflow: hidden; margin-bottom: 24px;
-  box-shadow: 0 8px 40px rgba(26,61,110,.18);
-  display: grid; grid-template-columns: 1fr 1fr;
-  min-height: 520px;
+.ab-mv-title { font-size: 20px; font-weight: 900; color: #0C1825; margin: 0 0 12px; line-height: 1.2; }
+.ab-mv-text  { font-size: 14px; color: var(--M); line-height: 1.8; margin: 0 0 10px; }
+.ab-mv-text:last-of-type { margin: 0; }
+.ab-mv-text strong { color: #0C1825; }
+/* Vision bullets */
+.ab-mv-list { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.ab-mv-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--M); line-height: 1.6; }
+.ab-mv-list-dot {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    background: rgba(63,169,245,.12); color: #3FA9F5;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; margin-top: 1px;
 }
 
-/* Photo half */
-.ab-matters-photo {
-  position: relative; overflow: hidden;
+/* ════════ 5. VALEURS ════════ */
+.ab-values-section {
+    background: #fff; border-radius: 24px;
+    box-shadow: var(--sh); margin-bottom: 28px; overflow: hidden;
 }
-.ab-matters-photo img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform .6s ease;
+.ab-values-hd {
+    padding: 44px 48px 36px; border-bottom: 1px solid var(--L);
+    text-align: center;
 }
-.ab-matters:hover .ab-matters-photo img { transform: scale(1.04); }
-.ab-matters-photo::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(26,61,110,.45) 0%, rgba(26,61,110,.1) 60%, transparent 100%);
+.ab-values-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(0,73,127,.07); color: #00497F;
+    border: 1px solid rgba(0,73,127,.15); border-radius: 999px;
+    padding: 6px 16px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
 }
-.ab-matters-photo-flag {
-  position: absolute; top: 20px; left: 20px; z-index: 2;
-  background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
-  border-radius: 10px; padding: 10px 16px;
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; font-weight: 800; color: var(--ab);
-  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+.ab-values-title { font-size: clamp(22px,3vw,30px); font-weight: 900; color: #0C1825; margin: 0 0 8px; letter-spacing: -.015em; }
+.ab-values-title span { color: #00497F; }
+.ab-values-sub { font-size: 15px; color: var(--M); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+.ab-val5-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border-top: 1px solid var(--L);
 }
-.ab-matters-photo-badge {
-  position: absolute; bottom: 20px; left: 20px; z-index: 2;
-  background: rgba(26,61,110,.88); backdrop-filter: blur(8px);
-  border-radius: 12px; padding: 12px 18px;
-  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+.ab-val5-card {
+    padding: 36px 40px;
+    border-right: 1px solid var(--L); border-bottom: 1px solid var(--L);
+    transition: background .2s;
+    position: relative;
 }
-.ab-matters-photo-badge-num {
-  font-size: 22px; font-weight: 900; color: #fff; line-height: 1;
+.ab-val5-card:hover { background: #fafcff; }
+.ab-val5-card:nth-child(2n) { border-right: none; }
+.ab-val5-card--full { grid-column: 1 / -1; border-right: none; }
+.ab-val5-card--full:last-child { border-bottom: none; }
+.ab-val5-head {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
 }
-.ab-matters-photo-badge-num span { color: var(--ao); }
-.ab-matters-photo-badge-lbl {
-  font-size: 11px; color: rgba(255,255,255,.65); font-weight: 600; margin-top: 3px;
+.ab-val5-ico {
+    width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.ab-val5-name { font-size: 18px; font-weight: 900; color: #0C1825; margin: 0; }
+.ab-val5-lbl {
+    display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 6px; margin-top: 3px;
+}
+.ab-val5-text { font-size: 14px; color: var(--M); line-height: 1.8; margin: 0; }
+.ab-val5-text strong { color: #0C1825; }
+
+/* ════════ 6. ENGAGEMENT CANADIEN ════════ */
+.ab-canada {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-radius: 24px; overflow: hidden;
+    box-shadow: 0 12px 50px rgba(0,73,127,.18);
+    margin-bottom: 28px; min-height: 460px;
+}
+.ab-canada-img { position: relative; overflow: hidden; }
+.ab-canada-img img { width:100%; height:100%; object-fit:cover; display:block; min-height:360px; }
+.ab-canada-img::before {
+    content:''; position:absolute; inset:0; z-index:1;
+    background: linear-gradient(to right, transparent 60%, rgba(22,22,48,.1) 100%);
+}
+.ab-canada-flag {
+    position: absolute; top: 20px; left: 20px; z-index: 2;
+    background: rgba(255,255,255,.92); backdrop-filter: blur(6px);
+    border-radius: 10px; padding: 9px 16px;
+    font-size: 14px; font-weight: 800; color: #0C1825;
+    box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+.ab-canada-provinces {
+    position: absolute; bottom: 20px; left: 20px; z-index: 2;
+    background: rgba(12,24,37,.85); backdrop-filter: blur(10px);
+    border-radius: 12px; padding: 12px 18px;
+    font-size: 12px; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.6;
+}
+.ab-canada-body {
+    background: linear-gradient(160deg, #0C1825 0%, #00497F 100%);
+    padding: 52px 48px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+}
+.ab-canada-body::before {
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
+}
+.ab-canada-inner { position: relative; z-index: 2; }
+.ab-canada-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.9); font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+}
+.ab-canada-title {
+    font-size: clamp(20px,2.5vw,28px); font-weight: 900; color: #fff;
+    margin: 0 0 14px; line-height: 1.2; letter-spacing: -.015em;
+}
+.ab-canada-title span { color: #3FA9F5; }
+.ab-canada-text { font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.8; margin: 0 0 14px; }
+.ab-canada-text:last-of-type { margin: 0; }
+.ab-canada-text strong { color: #FF8A3D; }
+.ab-canada-provinces-list {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;
+}
+.ab-canada-prov {
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.8);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 999px; padding: 5px 14px;
+    font-size: 12px; font-weight: 700;
 }
 
-/* Content half */
-.ab-matters-content {
-  background: linear-gradient(160deg, #0C1825 0%, #1A3D6E 60%, #1e4f8a 100%);
-  padding: 52px 48px;
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column; justify-content: center;
+/* ════════ 7. TÉMOIGNAGES ════════ */
+.ab-testi-section {
+    background: #fff; border-radius: 24px;
+    box-shadow: var(--sh); margin-bottom: 28px;
+    overflow: hidden;
 }
-.ab-matters-content::before {
-  content: ''; position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 0h20v20H0zM20 20h20v20H20z'/%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
+.ab-testi-hd {
+    padding: 44px 48px 36px; border-bottom: 1px solid var(--L);
+    text-align: center;
 }
-.ab-matters-content::after {
-  content: ''; position: absolute; bottom: -80px; right: -80px;
-  width: 280px; height: 280px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(245,130,31,.12) 0%, transparent 70%);
-  pointer-events: none;
+.ab-testi-hd__pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.1); color: #FF8A3D;
+    border: 1px solid rgba(255,138,61,.2); border-radius: 999px;
+    padding: 6px 16px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
 }
-.ab-matters-inner { position: relative; z-index: 2; }
+.ab-testi-hd__title { font-size: clamp(20px,2.8vw,28px); font-weight: 900; color: #0C1825; margin: 0 0 8px; letter-spacing: -.015em; }
+.ab-testi-hd__sub { font-size: 15px; color: var(--M); max-width: 480px; margin: 0 auto; }
 
-.ab-matters-flag {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
-  border-radius: 999px; padding: 7px 18px;
-  font-size: 11px; font-weight: 800; letter-spacing: .12em;
-  text-transform: uppercase; color: rgba(255,255,255,.8);
-  margin-bottom: 20px;
+.ab-testi-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0;
 }
-.ab-matters-flag span { color: #F5821F; }
-.ab-matters-title {
-  font-size: clamp(22px, 2.8vw, 34px); font-weight: 900; color: #fff;
-  line-height: 1.15; letter-spacing: -.02em; margin: 0 0 18px;
+.ab-testi-col {
+    padding: 36px 40px; border-right: 1px solid var(--L);
 }
-.ab-matters-title em { color: var(--ao); font-style: normal; }
-.ab-matters-lead {
-  font-size: 15px; color: rgba(255,255,255,.65);
-  line-height: 1.78; margin-bottom: 32px;
+.ab-testi-col:last-child { border-right: none; }
+.ab-testi-col-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: 24px; padding: 4px 12px; border-radius: 6px;
 }
-.ab-matters-lead strong { color: rgba(255,255,255,.9); }
+.ab-testi-card {
+    background: #f8fafc; border: 1px solid var(--L);
+    border-radius: 16px; padding: 22px 24px;
+    margin-bottom: 16px; transition: box-shadow .2s, transform .2s;
+    position: relative;
+}
+.ab-testi-card:hover { box-shadow: 0 6px 24px rgba(0,73,127,.09); transform: translateY(-2px); }
+.ab-testi-card:last-child { margin-bottom: 0; }
+.ab-testi-quote {
+    font-size: 28px; font-weight: 900; color: #FF8A3D;
+    line-height: 1; margin-bottom: 8px; opacity: .7;
+}
+.ab-testi-text { font-size: 13px; color: var(--M); line-height: 1.75; margin: 0 0 14px; font-style: italic; }
+.ab-testi-author {
+    display: flex; align-items: center; gap: 10px;
+}
+.ab-testi-avatar {
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 900; color: #fff;
+}
+.ab-testi-name { font-size: 13px; font-weight: 800; color: #0C1825; }
+.ab-testi-role { font-size: 11px; color: var(--M); }
+.ab-testi-badge {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 6px;
+    letter-spacing: .04em;
+}
 
-/* Problem → Solution items */
-.ab-matters-items { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
-.ab-matters-item {
-  display: flex; align-items: flex-start; gap: 14px;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
-  border-radius: 14px; padding: 16px 18px;
-  transition: background .2s, border-color .2s;
+/* ════════ 8. CTA FINAL ════════ */
+.ab-final-cta {
+    background: linear-gradient(135deg, #0C1825 0%, #003660 100%);
+    border-radius: 24px; padding: 64px 48px;
+    text-align: center; box-shadow: 0 12px 50px rgba(0,73,127,.22);
+    position: relative; overflow: hidden;
 }
-.ab-matters-item:hover { background: rgba(255,255,255,.1); border-color: rgba(245,130,31,.35); }
-.ab-matters-item-ico {
-  width: 42px; height: 42px; border-radius: 11px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
+.ab-final-cta::before {
+    content:''; position:absolute; top:-100px; right:-80px;
+    width:360px; height:360px; border-radius:50%;
+    background: rgba(63,169,245,.08); pointer-events:none;
 }
-.ab-matters-item-title { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-.ab-matters-item-body { font-size: 12px; color: rgba(255,255,255,.55); line-height: 1.6; }
-.ab-matters-item-badge {
-  display: inline-block; margin-top: 6px;
-  background: rgba(245,130,31,.18); color: #F5821F;
-  border: 1px solid rgba(245,130,31,.3);
-  border-radius: 999px; padding: 3px 10px;
-  font-size: 10px; font-weight: 700;
+.ab-final-cta::after {
+    content:''; position:absolute; bottom:-80px; left:-60px;
+    width:280px; height:280px; border-radius:50%;
+    background: rgba(255,138,61,.07); pointer-events:none;
 }
+.ab-final-cta__inner { position: relative; z-index: 2; }
+.ab-final-cta__tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.15); border: 1px solid rgba(255,138,61,.3);
+    color: #FF8A3D; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 18px;
+}
+.ab-final-cta h2 {
+    font-size: clamp(22px,3.5vw,36px); font-weight: 900; color: #fff;
+    margin: 0 0 10px; line-height: 1.2; letter-spacing: -.02em;
+}
+.ab-final-cta h2 span { color: #FF8A3D; }
+.ab-final-cta__sub {
+    font-size: 16px; color: rgba(255,255,255,.65);
+    max-width: 520px; margin: 0 auto 36px; line-height: 1.7;
+}
+.ab-final-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-/* Market stats row */
-.ab-matters-stats {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+/* ── Shared Buttons ── */
+.ab-btn-o {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #FF8A3D; color: #fff; font-size: 15px; font-weight: 800;
+    padding: 14px 28px; border-radius: 8px; text-decoration: none;
+    box-shadow: 0 4px 18px rgba(255,138,61,.38); transition: all .2s;
 }
-.ab-matters-stat {
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
-  border-radius: 12px; padding: 16px 14px; text-align: center;
-  transition: background .2s;
+.ab-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
+.ab-btn-b {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #00497F; color: #fff; font-size: 15px; font-weight: 800;
+    padding: 13px 26px; border-radius: 8px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,73,127,.28); transition: all .18s;
 }
-.ab-matters-stat:hover { background: rgba(255,255,255,.1); }
-.ab-matters-stat-num {
-  font-size: 22px; font-weight: 900; color: #fff;
-  line-height: 1; margin-bottom: 5px;
+.ab-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
+.ab-btn-w {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: #fff; font-size: 15px; font-weight: 700;
+    padding: 13px 24px; border-radius: 8px; text-decoration: none;
+    border: 2px solid rgba(255,255,255,.28); transition: all .18s;
 }
-.ab-matters-stat-num sup { color: var(--ao); font-size: 14px; }
-.ab-matters-stat-lbl { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 600; }
+.ab-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); color: #fff; }
+.ab-btn-s {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #3FA9F5; color: #fff; font-size: 15px; font-weight: 800;
+    padding: 13px 26px; border-radius: 8px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(63,169,245,.35); transition: all .18s;
+}
+.ab-btn-s:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; }
 
-/* Scroll animation */
-.ab-fade { opacity: 0; transform: translateY(28px); transition: opacity .55s ease, transform .55s ease; }
-.ab-fade.in { opacity: 1; transform: none; }
-
-/* Responsive */
-@media(max-width:900px){
-  .ab-row,.ab-row--rev { grid-template-columns: 1fr; }
-  .ab-photo img { min-height: 220px; height: 240px; }
-  .ab-body { padding: 28px 28px; }
-  .ab-pillars { grid-template-columns: 1fr 1fr; }
-  .ab-values { grid-template-columns: 1fr; }
-  .ab-val { border-right: none; border-bottom: 1px solid var(--al); }
-  .ab-val:last-child { border-bottom: none; }
-  .ab-matters { grid-template-columns: 1fr; min-height: auto; }
-  .ab-matters-photo { min-height: 280px; }
-  .ab-matters-content { padding: 36px 28px; }
-  .ab-matters-stats { grid-template-columns: repeat(3, 1fr); }
+/* ── Responsive ── */
+@media (max-width:900px) {
+    .ab-constat, .ab-canada { grid-template-columns: 1fr; min-height: auto; }
+    .ab-constat-body, .ab-canada-body { padding: 36px 28px; }
+    .ab-mv { grid-template-columns: 1fr; }
+    .ab-val5-grid { grid-template-columns: 1fr; }
+    .ab-val5-card:nth-child(2n) { border-right: none; }
+    .ab-testi-grid { grid-template-columns: 1fr; }
+    .ab-testi-col { border-right: none; border-bottom: 1px solid var(--L); }
+    .ab-testi-col:last-child { border-bottom: none; }
+    .ab-stats-grid { grid-template-columns: repeat(2,1fr); }
+    .ab-stat-cell:nth-child(2) { border-right: none; }
+    .ab-stat-cell:nth-child(3) { border-top: 1px solid var(--L); }
 }
-@media(max-width:600px){
-  .ab-stats-grid { grid-template-columns: 1fr 1fr; }
-  .ab-stat-cell { border-right: none; border-bottom: 1px solid var(--al); }
-  .ab-stat-cell:nth-child(2n) { padding-left: 20px; }
-  .ab-pillars { grid-template-columns: 1fr; }
-  .ab-kpis { grid-template-columns: 1fr 1fr; }
-  .ab-hero-title { font-size: 28px; }
-  .ab-cta { padding: 40px 24px; }
-  .ab-matters-grid { grid-template-columns: 1fr; }
-  .ab-matters-stats { grid-template-columns: 1fr 1fr; }
-  .ab-matters { padding: 32px 20px; }
+@media (max-width:600px) {
+    .ab-hero { padding: 72px 0 60px; }
+    .ab-values-hd, .ab-testi-hd, .ab-val5-card, .ab-testi-col { padding-left: 24px; padding-right: 24px; }
+    .ab-final-cta { padding: 48px 24px; }
+    .ab-final-cta-btns { flex-direction: column; align-items: center; }
 }
 </style>
 
-{# ══ HERO ══ #}
-<section class="ab-hero" aria-labelledby="ab-hero-title">
-  <div class="ab-hero-inner">
-    <nav class="ab-breadcrumb" aria-label="breadcrumb">
-      <a href="{{ path('app_home') }}">Accueil</a>
-      <span aria-hidden="true">›</span>
-      <span>À propos</span>
-    </nav>
-    <div class="ab-eyebrow">
-      <i class="feather-info"></i>
-      Notre histoire &amp; nos valeurs
+{# ══ 1. HERO ═══════════════════════════════════════════════════════════════ #}
+<section class="ab-hero">
+    <div class="ab-wrap">
+        <div class="ab-hero__inner">
+            <div class="ab-hero-eyebrow">
+                <i class="ph-bold ph-info"></i> Notre histoire &amp; nos valeurs
+            </div>
+            <h1>Drilleedo. Là où chaque projet<br>trouve son <span>expert</span>.</h1>
+            <p class="ab-hero__tagline">
+                <strong>Une plateforme. Une mission. Une promesse</strong> — rendre la mise en relation résidentielle
+                au Canada plus simple, plus transparente et plus juste.<br>
+                Pour les clients qui cherchent. Pour les professionnels qui bâtissent.
+            </p>
+            <div class="ab-hero-btns">
+                <a href="{{ path('professionals_list') }}" class="ab-btn-o">
+                    <i class="ph-bold ph-magnifying-glass"></i> Trouver un pro
+                </a>
+                <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
+                    <i class="ph-bold ph-user-plus"></i> Inscrire mon entreprise
+                </a>
+            </div>
+        </div>
     </div>
-    <h1 class="ab-hero-title" id="ab-hero-title">
-      {{ 'about.hero_title_1'|trans }} <span>{{ 'about.hero_title_2'|trans }}</span>
-    </h1>
-    <p class="ab-hero-sub">{{ 'about.hero_sub'|trans }}</p>
-    <div class="ab-hero-btns">
-      <a href="{{ path('professionals_list') }}" class="ab-btn-o">
-        <i class="feather-search"></i> Trouver un professionnel
-      </a>
-      <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
-        <i class="feather-user-plus"></i> Inscrire mon entreprise
-      </a>
-    </div>
-  </div>
 </section>
 
-
-{# ══ CONTENT ══ #}
-<div class="ab-page-bg">
-  <div class="container">
-
-    {# ── 1. Notre histoire ── #}
-    <div class="ab-section ab-section--story ab-fade">
-      <div class="ab-row">
-        <div class="ab-body">
-          <div class="ab-eyebrow2"><i class="feather-clock"></i> Notre histoire</div>
-          <h2 class="ab-title">Pourquoi Drilleedo a été créé</h2>
-          <p class="ab-subtitle">Un constat simple, une solution puissante.</p>
-          <p class="ab-p">Drilleedo est né d'un constat simple : les propriétaires peinent à trouver des professionnels fiables, tandis que les artisans qualifiés manquent de visibilité pour atteindre les bons clients.</p>
-          <p class="ab-p">Nous avons créé Drilleedo pour combler ce fossé — une plateforme qui réunit <strong>confiance, expertise et efficacité</strong> en un seul endroit.</p>
-          <ul class="ab-list">
-            <li>
-              <span class="ab-list-ico" style="background:linear-gradient(135deg,#1A3D6E,#2e6db4)"><i class="feather-shield" style="font-size:11px;"></i></span>
-              Professionnels vérifiés avec licences et assurances
-            </li>
-            <li>
-              <span class="ab-list-ico" style="background:linear-gradient(135deg,#F5821F,#d96e10)"><i class="feather-zap" style="font-size:11px;"></i></span>
-              Devis reçus en 24 à 48 h, sans engagement
-            </li>
-            <li>
-              <span class="ab-list-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><i class="feather-trending-up" style="font-size:11px;"></i></span>
-              +40% de visibilité pour les professionnels inscrits
-            </li>
-          </ul>
+{# ══ 2. STATS STRIP ════════════════════════════════════════════════════════ #}
+<div class="ab-stats">
+    <div class="ab-stats-grid">
+        <div class="ab-stat-cell">
+            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#00497F,#003a66);color:#fff;">
+                <i class="ph-bold ph-users"></i>
+            </div>
+            <div>
+                <div class="ab-stat-num">+1 500</div>
+                <div class="ab-stat-lbl">pros inscrits</div>
+            </div>
         </div>
-        <div class="ab-photo">
-          <img src="{{ asset('assets/drilleedo/images/stock/about_story.jpg') }}"
-               alt="Entrepreneurs Drilleedo au travail" loading="lazy">
-          <div class="ab-photo-tag">
-            <i class="feather-award"></i> Fondé pour simplifier vos projets
-          </div>
+        <div class="ab-stat-cell">
+            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#FF8A3D,#e05000);color:#fff;">
+                <i class="ph-bold ph-currency-dollar-simple"></i>
+            </div>
+            <div>
+                <div class="ab-stat-num">0 %</div>
+                <div class="ab-stat-lbl">de commission prélevée</div>
+            </div>
         </div>
-      </div>
-      {# Valeurs sous Story #}
-      <div class="ab-values">
-        <div class="ab-val">
-          <div class="ab-val-ico" style="background:#EEF4FF;"><i class="feather-shield" style="color:#1A3D6E;"></i></div>
-          <div><div class="ab-val-name">Confiance</div><div class="ab-val-desc">Chaque professionnel est vérifié et évalué</div></div>
+        <div class="ab-stat-cell">
+            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#3FA9F5,#1e88e5);color:#fff;">
+                <i class="ph-bold ph-clock"></i>
+            </div>
+            <div>
+                <div class="ab-stat-num">&lt; 24 h</div>
+                <div class="ab-stat-lbl">profil actif</div>
+            </div>
         </div>
-        <div class="ab-val">
-          <div class="ab-val-ico" style="background:#FFF4EE;"><i class="feather-zap" style="color:#F5821F;"></i></div>
-          <div><div class="ab-val-name">Rapidité</div><div class="ab-val-desc">Projets lancés en quelques minutes</div></div>
+        <div class="ab-stat-cell">
+            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;">
+                <i class="ph-bold ph-map-pin"></i>
+            </div>
+            <div>
+                <div class="ab-stat-num">D'un océan à l'autre</div>
+                <div class="ab-stat-lbl">présence pancanadienne</div>
+            </div>
         </div>
-        <div class="ab-val">
-          <div class="ab-val-ico" style="background:#E8F8EE;"><i class="feather-eye" style="color:#16a34a;"></i></div>
-          <div><div class="ab-val-name">Transparence</div><div class="ab-val-desc">Tarifs clairs, avis certifiés, zéro surprise</div></div>
-        </div>
-      </div>
     </div>
+</div>
 
-    {# ── 2. Notre mission ── #}
-    <div class="ab-section ab-section--mission ab-fade">
-      <div class="ab-row ab-row--rev">
-        <div class="ab-body">
-          <div class="ab-eyebrow2"><i class="feather-target"></i> Notre mission</div>
-          <h2 class="ab-title">Rendre les services à domicile plus simples et fiables</h2>
-          <p class="ab-subtitle">Une plateforme numérique de confiance pour chaque projet.</p>
-          <p class="ab-p">Notre mission est de transformer la façon dont propriétaires et professionnels se connectent, en offrant une <strong>plateforme de confiance</strong> où les projets avancent plus vite et la qualité est accessible à tous.</p>
-          <p class="ab-p">Nous accompagnons les propriétaires partout au Canada en rendant les services à domicile plus faciles d'accès, à comparer et à gérer.</p>
-          <div class="ab-pillars">
-            <div class="ab-pillar">
-              <div class="ab-pillar-ico"><i class="feather-zap"></i></div>
-              <div class="ab-pillar-lbl">Plus rapide</div>
+{# ══ CONTENT ══════════════════════════════════════════════════════════════ #}
+<div class="ab-bg">
+    <div class="ab-wrap">
+
+        {# ── 3. LE CONSTAT ── #}
+        <div class="ab-constat ab-fade">
+
+            <div class="ab-constat-img">
+                <img src="{{ asset('assets/drilleedo/images/stock/about_canada.jpg') }}"
+                     alt="Le constat qui a tout changé" loading="lazy">
+                <div class="ab-constat-img-badge">
+                    <div class="ab-constat-img-badge__num">14M <span>+</span></div>
+                    <div class="ab-constat-img-badge__lbl">logements résidentiels au Canada</div>
+                </div>
             </div>
-            <div class="ab-pillar">
-              <div class="ab-pillar-ico"><i class="feather-check-circle"></i></div>
-              <div class="ab-pillar-lbl">Plus simple</div>
+
+            <div class="ab-constat-body">
+                <div class="ab-constat-inner">
+                    <div class="ab-constat-tag">
+                        <i class="ph-bold ph-clock-clockwise"></i> Notre histoire
+                    </div>
+                    <h2 class="ab-constat-title">Le constat qui a<br><span>tout changé</span></h2>
+                    <p class="ab-constat-lead">
+                        Au Canada, des millions de personnes cherchent chaque année un professionnel qualifié pour leurs projets résidentiels. Pourtant, le processus reste chaotique, opaque et souvent décevant.
+                    </p>
+                    <p class="ab-constat-body-text">
+                        Des recherches interminables. Des appels sans réponse. Des devis qui n'arrivent jamais. Et au bout du chemin — un choix fait dans l'incertitude, en espérant que tout se passe bien.
+                    </p>
+                    <p class="ab-constat-body-text">
+                        De l'autre côté — des milliers de professionnels talentueux, qualifiés et certifiés qui peinent à se faire connaître. Qui paient des fortunes en marketing. Qui cèdent une part de leurs revenus à des plateformes qui ne comprennent pas leur réalité.
+                    </p>
+                    <p class="ab-constat-body-text">
+                        <strong>Nous avons construit la plateforme qui manquait.</strong> Celle qui vérifie avant d'afficher. Qui connecte sans prélever. Qui simplifie sans sacrifier la qualité. Ce marché avait besoin d'être repensé. Entièrement. <strong>Drilleedo est cette réponse.</strong>
+                    </p>
+                </div>
             </div>
-            <div class="ab-pillar">
-              <div class="ab-pillar-ico"><i class="feather-shield"></i></div>
-              <div class="ab-pillar-lbl">Plus fiable</div>
-            </div>
-          </div>
+
         </div>
-        <div class="ab-photo">
-          <img src="{{ asset('assets/drilleedo/images/stock/about_mission.jpg') }}"
-               alt="Mission Drilleedo — propriétaire et entrepreneur" loading="lazy">
-          <div class="ab-photo-tag">
-            <i class="feather-users"></i> 10 000+ propriétaires accompagnés
-          </div>
+
+        {# ── 4. MISSION & VISION ── #}
+        <div class="ab-mv ab-fade">
+
+            <div class="ab-mv-card ab-mv-card--mission">
+                <div class="ab-mv-card-img">
+                    <img src="{{ asset('assets/drilleedo/images/stock/about_mission.jpg') }}"
+                         alt="Notre mission" loading="lazy">
+                </div>
+                <div class="ab-mv-card-body">
+                    <div class="ab-mv-label" style="color:#FF8A3D;">
+                        <i class="ph-bold ph-target"></i> Notre mission
+                    </div>
+                    <h3 class="ab-mv-title">Rendre la mise en relation plus simple, plus juste</h3>
+                    <p class="ab-mv-text">Le marché canadien de la rénovation est en pleine transformation. Les attentes évoluent. Les besoins grandissent. Et la façon de trouver un professionnel de confiance doit évoluer avec eux.</p>
+                    <p class="ab-mv-text"><strong>Notre mission</strong> — rendre cette mise en relation plus simple, plus transparente et plus équitable pour tous.</p>
+                </div>
+            </div>
+
+            <div class="ab-mv-card ab-mv-card--vision">
+                <div class="ab-mv-card-img">
+                    <img src="{{ asset('assets/drilleedo/images/stock/about_vision.jpg') }}"
+                         alt="Notre vision" loading="lazy">
+                </div>
+                <div class="ab-mv-card-body">
+                    <div class="ab-mv-label" style="color:#3FA9F5;">
+                        <i class="ph-bold ph-binoculars"></i> Notre vision
+                    </div>
+                    <h3 class="ab-mv-title">La référence canadienne — d'un océan à l'autre</h3>
+                    <p class="ab-mv-text">Devenir la référence incontournable de la mise en relation entre clients et professionnels résidentiels au Canada. Nous voulons un Canada où :</p>
+                    <ul class="ab-mv-list">
+                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>Chaque projet trouve son expert en quelques minutes</li>
+                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>Chaque pro se développe librement, sans partager ses revenus</li>
+                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>La confiance entre clients et pros est la norme — pas l'exception</li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-      </div>
+
+        {# ── 5. NOS VALEURS ── #}
+        <div class="ab-values-section ab-fade">
+
+            <div class="ab-values-hd">
+                <div class="ab-values-pill"><i class="ph-bold ph-heart"></i> Ce qui nous définit</div>
+                <h2 class="ab-values-title">Nos valeurs — <span>au-delà de la plateforme</span></h2>
+                <p class="ab-values-sub">Cinq engagements concrets qui guident chaque décision, chaque profil, chaque connexion.</p>
+            </div>
+
+            <div class="ab-val5-grid">
+
+                <div class="ab-val5-card">
+                    <div class="ab-val5-head">
+                        <div class="ab-val5-ico" style="background:rgba(0,73,127,.1);color:#00497F;">
+                            <i class="ph-bold ph-shield-check"></i>
+                        </div>
+                        <div>
+                            <div class="ab-val5-name">La confiance</div>
+                            <span class="ab-val5-lbl" style="background:rgba(0,73,127,.08);color:#00497F;">Notre fondation absolue</span>
+                        </div>
+                    </div>
+                    <p class="ab-val5-text">La confiance est facile à promettre. Difficile à construire. Impossible à simuler. Chez Drilleedo — on ne la promet pas. On la bâtit. <strong>Chaque professionnel vérifié. Chaque avis certifié. Chaque connexion transparente.</strong> Parce que vos projets méritent une certitude — pas un espoir.</p>
+                </div>
+
+                <div class="ab-val5-card">
+                    <div class="ab-val5-head">
+                        <div class="ab-val5-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                            <i class="ph-bold ph-scales"></i>
+                        </div>
+                        <div>
+                            <div class="ab-val5-name">L'équité</div>
+                            <span class="ab-val5-lbl" style="background:rgba(255,138,61,.1);color:#FF8A3D;">Notre engagement envers tous</span>
+                        </div>
+                    </div>
+                    <p class="ab-val5-text">L'équité n'est pas un concept abstrait chez Drilleedo. C'est une décision concrète, prise dès le premier jour et jamais remise en question. <strong>Gratuit d'un côté. Zéro commission de l'autre.</strong> Parce qu'un modèle équitable n'avantage pas la plateforme — il sert les personnes qui la font vivre.</p>
+                </div>
+
+                <div class="ab-val5-card">
+                    <div class="ab-val5-head">
+                        <div class="ab-val5-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                            <i class="ph-bold ph-star"></i>
+                        </div>
+                        <div>
+                            <div class="ab-val5-name">L'excellence</div>
+                            <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:#3FA9F5;">Notre obsession quotidienne</span>
+                        </div>
+                    </div>
+                    <p class="ab-val5-text">L'excellence n'est pas un bonus sur Drilleedo — c'est le ticket d'entrée. Chaque professionnel dans notre réseau a été sélectionné parce qu'il le mérite. <strong>L'excellence, on ne la promet pas. On la garantit</strong> — à chaque profil, à chaque projet, à chaque connexion.</p>
+                </div>
+
+                <div class="ab-val5-card">
+                    <div class="ab-val5-head">
+                        <div class="ab-val5-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                            <i class="ph-bold ph-users-three"></i>
+                        </div>
+                        <div>
+                            <div class="ab-val5-name">La communauté</div>
+                            <span class="ab-val5-lbl" style="background:rgba(22,163,74,.1);color:#16a34a;">Notre raison d'être</span>
+                        </div>
+                    </div>
+                    <p class="ab-val5-text">Drilleedo n'est pas qu'une plateforme de mise en relation. C'est une communauté vivante — faite de clients satisfaits, de professionnels épanouis et de projets réussis. <strong>Chaque avis laissé renforce la confiance collective. Chaque connexion réussie inspire la suivante.</strong></p>
+                </div>
+
+                <div class="ab-val5-card ab-val5-card--full">
+                    <div class="ab-val5-head">
+                        <div class="ab-val5-ico" style="background:rgba(124,58,237,.1);color:#7c3aed;">
+                            <i class="ph-bold ph-lightbulb"></i>
+                        </div>
+                        <div>
+                            <div class="ab-val5-name">L'innovation</div>
+                            <span class="ab-val5-lbl" style="background:rgba(124,58,237,.1);color:#7c3aed;">Notre moteur permanent</span>
+                        </div>
+                    </div>
+                    <p class="ab-val5-text" style="max-width:700px;">L'innovation chez Drilleedo n'est pas une case à cocher. C'est une culture. Celle de se remettre en question chaque jour. De demander — <strong>comment peut-on faire mieux ? Plus simple ? Plus rapide ? Plus équitable ?</strong> Parce que le meilleur service qu'on puisse rendre au Canada — c'est de ne jamais se satisfaire de ce qui existe déjà.</p>
+                </div>
+
+            </div>
+        </div>
+
+        {# ── 6. ENGAGEMENT CANADIEN ── #}
+        <div class="ab-canada ab-fade">
+
+            <div class="ab-canada-img">
+                <img src="{{ asset('assets/drilleedo/images/stock/about_canada_homes.jpg') }}"
+                     alt="Maisons canadiennes — engagement local" loading="lazy">
+                <div class="ab-canada-flag">🍁 Fièrement canadien</div>
+                <div class="ab-canada-provinces">
+                    Québec · Ontario · Alberta<br>Colombie-Britannique — et en expansion
+                </div>
+            </div>
+
+            <div class="ab-canada-body">
+                <div class="ab-canada-inner">
+                    <div class="ab-canada-tag">
+                        <i class="ph-bold ph-flag"></i> Engagement canadien
+                    </div>
+                    <h2 class="ab-canada-title">Fièrement canadien —<br><span>profondément engagé</span></h2>
+                    <p class="ab-canada-text">Dans un monde de plateformes globales qui promettent de tout comprendre et de tout servir — Drilleedo fait un choix différent. <strong>Le choix du local. Le choix du concret. Le choix du Canada.</strong></p>
+                    <p class="ab-canada-text">Nous connaissons les exigences de la RBQ au Québec et les standards de construction qui varient d'une province à l'autre. Nous comprenons les réalités des entrepreneurs canadiens — leurs défis, leurs ambitions, leurs marchés.</p>
+                    <p class="ab-canada-text">Et parce que nous sommes canadiens — <strong>chaque dollar qui circule sur Drilleedo reste dans l'économie canadienne.</strong> Chaque professionnel qui grandit grâce à nous renforce une communauté locale. Choisir Drilleedo — c'est choisir le Canada.</p>
+                    <div class="ab-canada-provinces-list">
+                        <span class="ab-canada-prov">🍁 Québec</span>
+                        <span class="ab-canada-prov">🍁 Ontario</span>
+                        <span class="ab-canada-prov">🍁 Alberta</span>
+                        <span class="ab-canada-prov">🍁 C.-B.</span>
+                        <span class="ab-canada-prov">+ en expansion</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {# ── 7. TÉMOIGNAGES ── #}
+        <div class="ab-testi-section ab-fade">
+
+            <div class="ab-testi-hd">
+                <div class="ab-testi-hd__pill"><i class="ph-bold ph-chat-circle-dots"></i> Ils nous font confiance</div>
+                <h2 class="ab-testi-hd__title">Ce que nos utilisateurs disent</h2>
+                <p class="ab-testi-hd__sub">Clients et professionnels — des connexions réelles qui changent des projets de vie.</p>
+            </div>
+
+            <div class="ab-testi-grid">
+
+                {# Clients #}
+                <div class="ab-testi-col">
+                    <div class="ab-testi-col-label" style="background:rgba(0,73,127,.07);color:#00497F;">
+                        <i class="ph-bold ph-house-line"></i> Propriétaires &amp; locataires
+                    </div>
+
+                    <div class="ab-testi-card">
+                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">Cherche un pro</span>
+                        <div class="ab-testi-quote">"</div>
+                        <p class="ab-testi-text">Je cherchais un électricien depuis trois semaines. En 20 minutes — j'avais trouvé trois profils vérifiés près de chez moi. Les certifications, les avis, les photos de réalisations — tout était là. J'ai choisi en confiance. Les travaux ont été parfaits.</p>
+                        <div class="ab-testi-author">
+                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#00497F,#3FA9F5);">S</div>
+                            <div>
+                                <div class="ab-testi-name">Sophie M.</div>
+                                <div class="ab-testi-role">Locataire — Montréal, QC</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ab-testi-card">
+                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.08);color:#FF8A3D;">Soumission reçue</span>
+                        <div class="ab-testi-quote">"</div>
+                        <p class="ab-testi-text">J'avais un projet de rénovation de salle de bain — aucune idée du prix ni de par où commencer. J'ai décrit mon projet en moins de 5 minutes. Le lendemain matin — j'avais 4 soumissions détaillées. Des vrais pros, des vrais prix, des vrais délais. Le tout gratuitement.</p>
+                        <div class="ab-testi-author">
+                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#FF8A3D,#e05000);">M</div>
+                            <div>
+                                <div class="ab-testi-name">Marie-Claude B.</div>
+                                <div class="ab-testi-role">Propriétaire — Laval, QC</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ab-testi-card">
+                        <span class="ab-testi-badge" style="background:rgba(22,163,74,.08);color:#16a34a;">Sans engagement</span>
+                        <div class="ab-testi-quote">"</div>
+                        <p class="ab-testi-text">Ce que j'ai aimé — c'est de ne jamais me sentir obligé. J'ai publié mon projet, reçu mes soumissions, pris le temps de comparer. Aucune pression. Et au final — j'ai trouvé un professionnel exceptionnel à un prix que je n'aurais jamais négocié seul.</p>
+                        <div class="ab-testi-author">
+                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#16a34a,#22c55e);">T</div>
+                            <div>
+                                <div class="ab-testi-name">Thomas K.</div>
+                                <div class="ab-testi-role">Locataire — Ottawa, ON</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Professionnels #}
+                <div class="ab-testi-col">
+                    <div class="ab-testi-col-label" style="background:rgba(255,138,61,.08);color:#FF8A3D;">
+                        <i class="ph-bold ph-hard-hat"></i> Professionnels
+                    </div>
+
+                    <div class="ab-testi-card">
+                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">Abonnement Standard</span>
+                        <div class="ab-testi-quote">"</div>
+                        <p class="ab-testi-text">J'avais des doutes au départ. Drilleedo m'a prouvé le contraire. Dès le premier mois — trois nouvelles demandes qualifiées. Des clients sérieux, avec de vrais projets. Et le meilleur — chaque contrat décroché, je le garde en entier. Zéro commission.</p>
+                        <div class="ab-testi-author">
+                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#00497F,#003a66);">J</div>
+                            <div>
+                                <div class="ab-testi-name">Jean-Philippe R.</div>
+                                <div class="ab-testi-role">Plombier certifié — Sherbrooke, QC</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ab-testi-card">
+                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.1);color:#FF8A3D;">Abonnement Premium</span>
+                        <div class="ab-testi-quote">"</div>
+                        <p class="ab-testi-text">L'abonnement Premium a changé la trajectoire de mon entreprise. Mon profil apparaît en tête des résultats. Depuis que j'ai upgradé — mes demandes ont augmenté de 40 % en deux mois. D'autres plateformes me prenaient jusqu'à 20 % sur mes revenus. Avec Drilleedo — je paie mon abonnement et c'est tout.</p>
+                        <div class="ab-testi-author">
+                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#FF8A3D,#c73d0d);">A</div>
+                            <div>
+                                <div class="ab-testi-name">Alexandre T.</div>
+                                <div class="ab-testi-role">Entrepreneur général — Toronto, ON</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ab-testi-card">
+                        <span class="ab-testi-badge" style="background:rgba(124,58,237,.08);color:#7c3aed;">Premium · Vancouver</span>
+                        <div class="ab-testi-quote">"</div>
+                        <p class="ab-testi-text">Les clients qui me trouvent via Drilleedo arrivent déjà convaincus. Ils ont vu mon profil, mes certifications, mes réalisations. Mon taux de conversion a explosé. Drilleedo Premium ne coûte pas — <strong>il rapporte.</strong></p>
+                        <div class="ab-testi-author">
+                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">N</div>
+                            <div>
+                                <div class="ab-testi-name">Nadia F.</div>
+                                <div class="ab-testi-role">Designer d'intérieur — Vancouver, BC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {# ── 8. CTA FINAL ── #}
+        <div class="ab-final-cta ab-fade">
+            <div class="ab-final-cta__inner">
+                <div class="ab-final-cta__tag">
+                    <i class="ph-bold ph-rocket-launch"></i> Vous avez lu notre histoire
+                </div>
+                <h2>Maintenant —<br><span>écrivez la vôtre.</span></h2>
+                <p class="ab-final-cta__sub">
+                    Des milliers de Canadiens ont déjà fait confiance à Drilleedo. Des projets réussis. Des entreprises qui grandissent. Des connexions qui changent des vies. La prochaine — c'est la vôtre.
+                </p>
+                <div class="ab-final-cta-btns">
+                    <a href="{{ path('professionals_list') }}" class="ab-btn-o">
+                        <i class="ph-bold ph-magnifying-glass"></i> Je trouve mon pro — gratuitement
+                    </a>
+                    <a href="{{ path('app_how_it_works') }}" class="ab-btn-s">
+                        <i class="ph-bold ph-paper-plane-tilt"></i> Je publie mon projet
+                    </a>
+                    <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
+                        <i class="ph-bold ph-hard-hat"></i> Je crée mon profil pro
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    {# ── 3. Notre vision ── #}
-    <div class="ab-section ab-section--vision ab-fade">
-      <div class="ab-row">
-        <div class="ab-body">
-          <div class="ab-eyebrow2"><i class="feather-eye"></i> Notre vision</div>
-          <h2 class="ab-title">Façonner l'avenir des services à domicile</h2>
-          <p class="ab-subtitle">L'écosystème numérique de référence au Canada.</p>
-          <p class="ab-p">Nous envisageons Drilleedo comme un <strong>écosystème numérique de référence</strong> pour les projets résidentiels, où la technologie aide chaque propriétaire à réaliser ses projets avec confiance.</p>
-          <ul class="ab-list">
-            <li>
-              <span class="ab-list-ico" style="background:linear-gradient(135deg,#3FA9F5,#2196f3)"><i class="feather-monitor" style="font-size:11px;"></i></span>
-              Utiliser la technologie pour simplifier chaque étape
-            </li>
-            <li>
-              <span class="ab-list-ico" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><i class="feather-trending-up" style="font-size:11px;"></i></span>
-              Permettre à chaque professionnel de croître durablement
-            </li>
-            <li>
-              <span class="ab-list-ico" style="background:linear-gradient(135deg,#0891b2,#06b6d4)"><i class="feather-globe" style="font-size:11px;"></i></span>
-              Devenir la référence canadienne des services à domicile
-            </li>
-          </ul>
-        </div>
-        <div class="ab-photo">
-          <img src="{{ asset('assets/drilleedo/images/stock/about_vision.jpg') }}"
-               alt="Vision Drilleedo — avenir des services" loading="lazy">
-          <div class="ab-photo-tag">
-            <i class="feather-trending-up"></i> En pleine croissance au Canada
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    {# ── 5. Why Drilleedo Matters in Canada ── #}
-    <div class="ab-matters ab-fade">
-
-      {# Photo half #}
-      <div class="ab-matters-photo">
-        <img src="{{ asset('assets/drilleedo/images/stock/about_canada_homes.jpg') }}"
-             alt="Maisons canadiennes — quartier résidentiel" loading="lazy">
-        <div class="ab-matters-photo-flag">
-          🍁 Partout au Canada
-        </div>
-        <div class="ab-matters-photo-badge">
-          <div class="ab-matters-photo-badge-num">14M<span>+</span></div>
-          <div class="ab-matters-photo-badge-lbl">logements résidentiels</div>
-        </div>
-      </div>
-
-      {# Content half #}
-      <div class="ab-matters-content">
-        <div class="ab-matters-inner">
-
-          <div class="ab-matters-flag">
-            <span>🍁</span> Pourquoi Drilleedo est important au Canada
-          </div>
-          <h2 class="ab-matters-title">
-            Pourquoi Drilleedo est<br><em>important au Canada</em>
-          </h2>
-          <p class="ab-matters-lead">
-            Partout au Canada, les propriétaires recherchent de plus en plus un accès
-            <strong>fiable, transparent et rapide</strong> à des professionnels de confiance
-            pour leurs services à domicile, rénovations, réparations et projets spécialisés.
-          </p>
-
-          <div class="ab-matters-items">
-            <div class="ab-matters-item">
-              <div class="ab-matters-item-ico" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
-                <i class="feather-alert-triangle" style="color:#fff"></i>
-              </div>
-              <div>
-                <div class="ab-matters-item-title">Manque de confiance &amp; de transparence</div>
-                <div class="ab-matters-item-body">58 % des propriétaires ont vécu une mauvaise expérience — tarifs cachés, travaux incomplets ou absence de suivi.</div>
-                <span class="ab-matters-item-badge">Résolu par Drilleedo</span>
-              </div>
-            </div>
-            <div class="ab-matters-item">
-              <div class="ab-matters-item-ico" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">
-                <i class="feather-clock" style="color:#fff"></i>
-              </div>
-              <div>
-                <div class="ab-matters-item-title">Délais de recherche trop longs</div>
-                <div class="ab-matters-item-body">7 à 14 jours en moyenne pour trouver un entrepreneur. Avec Drilleedo, recevez vos premiers devis en 24–48 h.</div>
-                <span class="ab-matters-item-badge">24–48 h seulement</span>
-              </div>
-            </div>
-            <div class="ab-matters-item">
-              <div class="ab-matters-item-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e)">
-                <i class="feather-trending-up" style="color:#fff"></i>
-              </div>
-              <div>
-                <div class="ab-matters-item-title">Artisans sous-visibles, marché fragmenté</div>
-                <div class="ab-matters-item-body">Les meilleurs pros locaux manquent de présence numérique. Drilleedo leur offre visibilité et mise en relation directe.</div>
-                <span class="ab-matters-item-badge">+40 % de visibilité</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="ab-matters-stats">
-            <div class="ab-matters-stat">
-              <div class="ab-matters-stat-num">100G<sup>$</sup></div>
-              <div class="ab-matters-stat-lbl">Marché rénovation/an</div>
-            </div>
-            <div class="ab-matters-stat">
-              <div class="ab-matters-stat-num">72<sup>%</sup></div>
-              <div class="ab-matters-stat-lbl">Recherches en ligne</div>
-            </div>
-            <div class="ab-matters-stat">
-              <div class="ab-matters-stat-num">3x</div>
-              <div class="ab-matters-stat-lbl">Plus rapide</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-    {# ── CTA ── #}
-    <div class="ab-cta ab-fade">
-      <div class="ab-cta-inner">
-        <div class="ab-cta-tag"><i class="feather-send"></i> Commencer maintenant</div>
-        <h2>Prêt à démarrer votre prochain projet résidentiel ?</h2>
-        <p>Découvrez comment Drilleedo vous connecte avec des professionnels de confiance partout au Canada.</p>
-        <div class="ab-cta-btns">
-          <a href="{{ path('professionals_list') }}" class="ab-btn-o">
-            <i class="feather-search"></i> Explorer les services
-          </a>
-          <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
-            <i class="feather-user-plus"></i> Inscrire mon entreprise
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </div>
 
 </main>
 
 <script>
 (function(){
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.ab-fade').forEach(function(el){ obs.observe(el); });
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if (e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.ab-fade').forEach(function(el){ obs.observe(el); });
 })();
 </script>
-
 {% endblock %}

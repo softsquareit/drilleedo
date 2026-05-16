@@ -6,39 +6,38 @@
 {{ parent() }}
 <style>
 .quote-card {
-    background: #fff;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 14px;
-    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
-    cursor: pointer;
+    background: var(--drl-W);
+    border: 1.5px solid var(--drl-L);
+    border-radius: var(--drl-rl);
+    transition: box-shadow .2s, border-color .2s, transform .15s;
     overflow: hidden;
     height: 100%;
     display: flex; flex-direction: column;
 }
 .quote-card:hover {
-    box-shadow: 0 8px 32px rgba(13,33,81,0.10);
-    border-color: #f97316;
-    transform: translateY(-2px);
+    box-shadow: var(--drl-sh-md);
+    border-color: var(--drl-S);
+    border-bottom: 3px solid var(--drl-S);
+    transform: translateY(-3px);
 }
-.quote-card.has-offer { border-color: #10b981; border-width: 2px; }
+.quote-card.has-offer { border-color: #22c55e; border-width: 2px; }
 .quote-card.urgent { border-left: 4px solid #ef4444; }
 .quote-card-header { padding: 16px 16px 0; }
 .quote-card-body { padding: 12px 16px; flex: 1; }
-.quote-card-footer { padding: 10px 16px 14px; border-top: 1px solid #f1f5f9; display: flex; gap: 8px; align-items: center; }
+.quote-card-footer { padding: 10px 16px 14px; border-top: 1px solid var(--drl-L); display: flex; gap: 8px; align-items: center; }
 .category-icon {
-    width: 40px; height: 40px; border-radius: 10px;
+    width: 42px; height: 42px; border-radius: var(--drl-r);
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; flex-shrink: 0;
+    background: rgba(63,169,245,.1); color: var(--drl-B);
 }
-.filter-bar { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
-.view-toggle .toggle-btn { border: 1.5px solid #e2e8f0; background: #fff; color: #64748b; border-radius: 8px; padding: 6px 10px; cursor: pointer; transition: all 0.2s; font-size: 14px; }
-.view-toggle .toggle-btn.active { background: #0d2151; color: #fff; border-color: #0d2151; }
-.quote-table-row:hover { background: #fafafa; }
+.view-toggle .toggle-btn { border: 1.5px solid var(--drl-L); background: var(--drl-W); color: var(--drl-M); border-radius: var(--drl-r); padding: 6px 10px; cursor: pointer; transition: var(--drl-t); font-size: 14px; }
+.view-toggle .toggle-btn.active { background: var(--drl-B); color: #fff; border-color: var(--drl-B); }
 #quotesGrid.list-view .col-sm-6 { flex: 0 0 100%; max-width: 100%; }
-#quotesGrid.list-view .quote-card { flex-direction: row; border-radius: 10px; }
-#quotesGrid.list-view .quote-card-header { padding: 14px 16px; border-right: 1px solid #f1f5f9; min-width: 220px; }
+#quotesGrid.list-view .quote-card { flex-direction: row; border-radius: var(--drl-r); }
+#quotesGrid.list-view .quote-card-header { padding: 14px 16px; border-right: 1px solid var(--drl-L); min-width: 220px; }
 #quotesGrid.list-view .quote-card-body { padding: 14px 16px; }
-#quotesGrid.list-view .quote-card-footer { border-top: none; border-left: 1px solid #f1f5f9; flex-direction: column; padding: 14px; min-width: 140px; }
+#quotesGrid.list-view .quote-card-footer { border-top: none; border-left: 1px solid var(--drl-L); flex-direction: column; padding: 14px; min-width: 140px; }
 </style>
 {% endblock %}
 
@@ -50,7 +49,7 @@
         <p class="text-muted small mb-0">{{ 'Opportunités dans votre catégorie de service'|trans }}</p>
     </div>
     <span class="drl-tag drl-tag--sent" style="font-size: 13px; padding: 6px 14px;">
-        <i class="feather-layers me-1"></i> <span id="quotesCount">{{ quotes|length }}</span> {{ 'demande'|trans }}{{ quotes|length > 1 ? 's' : '' }}
+        <i class="ph-stack me-1"></i> <span id="quotesCount">{{ quotes|length }}</span> {{ 'demande'|trans }}{{ quotes|length > 1 ? 's' : '' }}
     </span>
 </div>
 
@@ -60,7 +59,7 @@
         <div class="col-lg-4 col-md-6">
             <label class="drl-label mb-1" style="font-size:11px;">{{ 'Rechercher'|trans }}</label>
             <div class="position-relative">
-                <i class="feather-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:14px;"></i>
+                <i class="ph-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:14px;"></i>
                 <input type="text" id="searchInput" class="drl-input" placeholder="{{ 'Titre, description…'|trans }}"
                        style="padding-left: 36px; font-size: 13px;">
             </div>
@@ -92,14 +91,14 @@
         </div>
         <div class="col-lg-2 col-md-6 d-flex align-items-end gap-2">
             <button type="button" id="resetFilters" class="drl-act-btn drl-act-btn--view w-100 justify-content-center" style="font-size:12px;">
-                <i class="feather-x me-1"></i> {{ 'Réinitialiser'|trans }}
+                <i class="ph-x me-1"></i> {{ 'Réinitialiser'|trans }}
             </button>
             <div class="view-toggle d-flex gap-1 flex-shrink-0">
                 <button type="button" class="toggle-btn active" id="viewGrid" title="{{ 'Grille'|trans }}">
-                    <i class="feather-grid"></i>
+                    <i class="ph-squares-four"></i>
                 </button>
                 <button type="button" class="toggle-btn" id="viewList" title="{{ 'Liste'|trans }}">
-                    <i class="feather-list"></i>
+                    <i class="ph-list"></i>
                 </button>
             </div>
         </div>
@@ -110,12 +109,12 @@
 {# Pro without any category assigned — show actionable message #}
 <div class="text-center py-5">
     <div class="drl-stat-icon mx-auto mb-3" style="width:64px;height:64px;font-size:28px;background:#fffbeb;color:#b45309;border:1.5px solid #fde68a;border-radius:16px;display:flex;align-items:center;justify-content:center;">
-        <i class="feather-alert-triangle"></i>
+        <i class="ph-warning"></i>
     </div>
     <h5 class="fw-bold text-dark mb-2">{{ 'Aucune catégorie assignée à votre profil'|trans }}</h5>
     <p class="text-muted small mb-3">{{ "Pour voir les demandes disponibles, vous devez d'abord sélectionner votre domaine d'activité dans votre profil."|trans }}</p>
     <a href="{{ path('professional_profile') }}" class="drl-btn-orange shadow-sm">
-        <i class="feather-settings me-2"></i> {{ 'Compléter mon profil'|trans }}
+        <i class="ph-gear me-2"></i> {{ 'Compléter mon profil'|trans }}
     </a>
 </div>
 {% endif %}
@@ -123,12 +122,12 @@
 {# ── Empty state (category set but no results) ── #}
 <div id="emptyState" style="display:none;" class="text-center py-5">
     <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
-        <i class="feather-search"></i>
+        <i class="ph-magnifying-glass"></i>
     </div>
     <h5 class="fw-bold text-dark mb-2">{{ 'Aucune demande trouvée'|trans }}</h5>
     <p class="text-muted small">{{ 'Essayez de modifier vos filtres.'|trans }}</p>
     <button type="button" onclick="resetFilters()" class="drl-act-btn drl-act-btn--view mt-2">
-        <i class="feather-x me-1"></i> {{ 'Réinitialiser les filtres'|trans }}
+        <i class="ph-x me-1"></i> {{ 'Réinitialiser les filtres'|trans }}
     </button>
 </div>
 
@@ -156,8 +155,8 @@
                 <div class="quote-card-header">
                     <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
                         <div class="d-flex align-items-start gap-3">
-                            <div class="category-icon" style="background: #eff6ff; color: #00509e;">
-                                <i class="feather-file-text"></i>
+                            <div class="category-icon">
+                                <i class="ph-file-text"></i>
                             </div>
                             <div>
                                 <h6 class="fw-bold text-dark mb-1" style="font-size: 14px; line-height: 1.3;">
@@ -173,29 +172,29 @@
                         <div class="d-flex flex-column align-items-end gap-1 flex-shrink-0">
                             {% if isUrgent %}
                                 <span class="drl-tag drl-tag--danger" style="font-size: 10px; white-space:nowrap;">
-                                    <i class="feather-zap me-1" style="font-size:9px;"></i>{{ 'Urgent'|trans }}
+                                    <i class="ph-lightning me-1" style="font-size:9px;"></i>{{ 'Urgent'|trans }}
                                 </span>
                             {% endif %}
                             {% if hasOffer %}
                                 {% if myStatus in ['PUBLISHED', 'PENDING'] %}
                                     <span class="drl-tag drl-tag--sent" style="font-size:10px; white-space:nowrap;">
-                                        <i class="feather-send me-1" style="font-size:9px;"></i>{{ 'Offre envoyée'|trans }}
+                                        <i class="ph-paper-plane-tilt me-1" style="font-size:9px;"></i>{{ 'Offre envoyée'|trans }}
                                     </span>
                                 {% elseif myStatus == 'ACCEPTED' %}
                                     <span class="drl-tag drl-tag--success" style="font-size:10px; white-space:nowrap;">
-                                        <i class="feather-check-circle me-1" style="font-size:9px;"></i>{{ 'Acceptée'|trans }}
+                                        <i class="ph-check-circle me-1" style="font-size:9px;"></i>{{ 'Acceptée'|trans }}
                                     </span>
                                 {% elseif myStatus == 'INTERESTED' %}
                                     <span class="drl-tag drl-tag--warning" style="font-size:10px; white-space:nowrap;">
-                                        <i class="feather-bookmark me-1" style="font-size:9px;"></i>{{ 'Intéressé'|trans }}
+                                        <i class="ph-bookmark-simple me-1" style="font-size:9px;"></i>{{ 'Intéressé'|trans }}
                                     </span>
                                 {% elseif myStatus == 'REJECTED' %}
                                     <span class="drl-tag drl-tag--danger" style="font-size:10px; white-space:nowrap;">
-                                        <i class="feather-x-circle me-1" style="font-size:9px;"></i>{{ 'Refusée'|trans }}
+                                        <i class="ph-x-circle me-1" style="font-size:9px;"></i>{{ 'Refusée'|trans }}
                                     </span>
                                 {% elseif myStatus == 'DRAFT' %}
                                     <span class="drl-tag drl-tag--draft" style="font-size:10px; white-space:nowrap;">
-                                        <i class="feather-file me-1" style="font-size:9px;"></i>{{ 'Brouillon'|trans }}
+                                        <i class="ph-file me-1" style="font-size:9px;"></i>{{ 'Brouillon'|trans }}
                                     </span>
                                 {% endif %}
                             {% endif %}
@@ -213,7 +212,7 @@
                         {# Client #}
                         <div class="col-6">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="feather-user" style="font-size: 12px; color: #94a3b8;"></i>
+                                <i class="ph-user" style="font-size: 12px; color: #94a3b8;"></i>
                                 <span style="font-size: 12px; color: #475569; font-weight: 600;">
                                     {{ clientName ?: 'Client' }}
                                 </span>
@@ -222,7 +221,7 @@
                         {# Date #}
                         <div class="col-6">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="feather-calendar" style="font-size: 12px; color: #94a3b8;"></i>
+                                <i class="ph-calendar" style="font-size: 12px; color: #94a3b8;"></i>
                                 <span style="font-size: 12px; color: #475569;">
                                     {{ quote.creationDate|date('d/m/Y') }}
                                 </span>
@@ -232,7 +231,7 @@
                         {% if quote.desiredStartDate %}
                         <div class="col-6">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="feather-play-circle" style="font-size: 12px; color: #10b981;"></i>
+                                <i class="ph-play-circle" style="font-size: 12px; color: #10b981;"></i>
                                 <span style="font-size: 12px; color: #475569;">{{ quote.desiredStartDate|date('d/m/Y') }}</span>
                             </div>
                         </div>
@@ -240,7 +239,7 @@
                         {# Offer count #}
                         <div class="col-6">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="feather-inbox" style="font-size: 12px; color: #94a3b8;"></i>
+                                <i class="ph-inbox" style="font-size: 12px; color: #94a3b8;"></i>
                                 <span style="font-size: 12px; color: {{ offerCount == 0 ? '#10b981' : '#64748b' }}; font-weight: {{ offerCount == 0 ? '700' : '400' }};">
                                     {{ offerCount == 0 ? 'Premier à répondre !'|trans : offerCount ~ ' ' ~ ('offre'|trans) ~ (offerCount > 1 ? 's' : '') }}
                                 </span>
@@ -263,24 +262,24 @@
                 <div class="quote-card-footer">
                     <a href="{{ path('offer_send', {id: quote.id}) }}"
                        class="drl-act-btn drl-act-btn--view flex-shrink-0" style="font-size: 12px; padding: 6px 12px; text-decoration:none;">
-                        <i class="feather-eye" style="font-size:12px;"></i> {{ 'Détails'|trans }}
+                        <i class="ph-eye" style="font-size:12px;"></i> {{ 'Détails'|trans }}
                     </a>
                     {% set qStatus = quote.status|upper %}
                     {% if qStatus not in ['ACCEPTED', 'IN_PROGRESS', 'CLOSED'] %}
                         {% if hasOffer and myStatus == 'DRAFT' %}
                             <a href="{{ path('offer_send', {id: quote.id}) }}"
                                class="drl-btn-orange flex-shrink-0" style="font-size: 12px; padding: 6px 14px; text-decoration:none;">
-                                <i class="feather-send" style="font-size:11px;"></i> {{ 'Publier brouillon'|trans }}
+                                <i class="ph-paper-plane-tilt" style="font-size:11px;"></i> {{ 'Publier brouillon'|trans }}
                             </a>
                         {% elseif not hasOffer %}
                             <a href="{{ path('offer_send', {id: quote.id}) }}"
                                class="drl-btn-orange flex-shrink-0" style="font-size: 12px; padding: 6px 14px; text-decoration:none;">
-                                <i class="feather-send" style="font-size:11px;"></i> {{ 'Créer une offre'|trans }}
+                                <i class="ph-paper-plane-tilt" style="font-size:11px;"></i> {{ 'Créer une offre'|trans }}
                             </a>
                         {% endif %}
                     {% else %}
                         <span class="drl-tag drl-tag--draft" style="font-size:10px;">
-                            <i class="feather-lock me-1" style="font-size:9px;"></i>
+                            <i class="ph-lock me-1" style="font-size:9px;"></i>
                             {{ qStatus == 'CLOSED' ? 'Clôturée'|trans : 'En cours'|trans }}
                         </span>
                     {% endif %}
@@ -290,7 +289,7 @@
     {% else %}
         <div class="col-12 text-center py-5">
             <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
-                <i class="feather-message-square"></i>
+                <i class="ph-chat-square"></i>
             </div>
             <h5 class="fw-bold text-dark mb-2">{{ 'Aucune demande disponible'|trans }}</h5>
             <p class="text-muted small mb-0">{{ 'Aucune demande active trouvée dans votre catégorie de service.'|trans }}</p>

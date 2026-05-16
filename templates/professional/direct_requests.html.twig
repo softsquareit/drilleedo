@@ -48,11 +48,11 @@
                             </td>
                             <td>
                                 {% if request.status == 'PUBLISHED' %}
-                                    <span class="drl-tag drl-tag--sent"><i class="feather-globe" style="font-size: 11px;"></i> {{ 'Publiée'|trans }}</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="ph-globe" style="font-size: 11px;"></i> {{ 'Publiée'|trans }}</span>
                                 {% elseif request.status in ['Accepted'] %}
-                                    <span class="drl-tag drl-tag--success"><i class="feather-check-circle" style="font-size: 11px;"></i> {{ 'Acceptée'|trans }}</span>
+                                    <span class="drl-tag drl-tag--success"><i class="ph-check-circle" style="font-size: 11px;"></i> {{ 'Acceptée'|trans }}</span>
                                 {% elseif request.status in ['Closed'] %}
-                                    <span class="drl-tag drl-tag--draft"><i class="feather-lock" style="font-size: 11px;"></i> {{ 'Clôturée'|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="ph-lock" style="font-size: 11px;"></i> {{ 'Clôturée'|trans }}</span>
                                 {% else %}
                                     <span class="drl-tag drl-tag--draft">{{ request.status|trans }}</span>
                                 {% endif %}
@@ -64,7 +64,7 @@
                                    class="drl-act-btn drl-act-btn--view"
                                    style="text-decoration:none; font-size:12px; padding: 5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"
                                    title="{{ 'Voir les détails de la demande'|trans }}">
-                                    <i class="feather-eye"></i>
+                                    <i class="ph-eye"></i>
                                     <span>{{ 'Détails'|trans }}</span>
                                 </a>
 
@@ -73,12 +73,12 @@
                                     <a href="{{ path('offer_send_direct', {id: request.id}) }}"
                                        class="drl-btn-orange"
                                        style="padding: 5px 12px; font-size:12px; text-decoration:none; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
-                                        <i class="feather-send"></i>
+                                        <i class="ph-paper-plane-tilt"></i>
                                         <span>{{ 'Répondre'|trans }}</span>
                                     </a>
                                 {% elseif request.status in ['Accepted', 'Closed'] %}
                                     <span class="drl-tag drl-tag--draft" style="font-size:11px;">
-                                        <i class="feather-lock" style="font-size:10px;"></i> {{ 'Clôturée'|trans }}
+                                        <i class="ph-lock" style="font-size:10px;"></i> {{ 'Clôturée'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -88,7 +88,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-5">
                                 <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
-                                    <i class="feather-inbox"></i>
+                                    <i class="ph-inbox"></i>
                                 </div>
                                 <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'Aucune demande directe'|trans }}</h6>
                                 <p style="font-size:14px; color:#64748b; margin:0;">{{ "Aucune demande directe ne vous a été envoyée pour le moment"|trans }}</p>

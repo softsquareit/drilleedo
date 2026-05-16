@@ -3,29 +3,30 @@
 {% block title %}Dashboard - {{ app.user.companyName|default('Professional') }}{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4 pb-3 border-bottom">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5 pb-4 border-bottom">
         <div>
-            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'Ravi de vous revoir,'|trans }} {{ app.user.personalInfos.firstName|default('Pro'|trans) }}! 👋</h2>
-            <p style="font-size: 15px; color: #64748b; margin: 0;">{{ "Voici ce qui se passe aujourd'hui avec vos projets."|trans }}</p>
+            <p class="mb-1" style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--drl-S); opacity: .8;">{{ 'Tableau de bord'|trans }}</p>
+            <h2 style="font-size: 26px; font-weight: 900; color: var(--drl-D); margin: 0 0 5px; letter-spacing: -.5px;">{{ 'Ravi de vous revoir,'|trans }} <span style="color: var(--drl-B);">{{ app.user.personalInfos.firstName|default('Pro'|trans) }}</span> 👋</h2>
+            <p style="font-size: 14px; color: var(--drl-M); margin: 0;">{{ "Voici ce qui se passe aujourd'hui avec vos projets."|trans }}</p>
         </div>
         <div>
-            <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex align-items-center gap-2 bg-white p-1" style="border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(13,33,81,0.02);">
+            <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex align-items-center gap-1 bg-white p-1" style="border-radius: 50px; border: 1.5px solid var(--drl-L); box-shadow: 0 2px 8px rgba(0,73,127,.06);">
                 <input type="hidden" name="status" id="availability_status_input">
-                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'AVAILABLE' %}active-avail{% endif %}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; margin-right:4px;"></span> {{ 'Available'|trans }}
+                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'AVAILABLE' %}active-avail{% endif %}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'" style="padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--drl-M); transition: all .2s; display:flex; align-items:center; gap:6px;">
+                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#10b981; flex-shrink:0;"></span> {{ 'Disponible'|trans }}
                 </button>
-                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'BUSY' %}active-busy{% endif %}" onclick="document.getElementById('availability_status_input').value='BUSY'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#f59e0b; margin-right:4px;"></span> {{ 'Busy'|trans }}
+                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'BUSY' %}active-busy{% endif %}" onclick="document.getElementById('availability_status_input').value='BUSY'" style="padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--drl-M); transition: all .2s; display:flex; align-items:center; gap:6px;">
+                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#f59e0b; flex-shrink:0;"></span> {{ 'Occupé'|trans }}
                 </button>
-                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'UNAVAILABLE' %}active-off{% endif %}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'" style="padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: #64748b; transition: all 0.2s;">
-                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#94a3b8; margin-right:4px;"></span> {{ 'Off'|trans }}
+                <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'UNAVAILABLE' %}active-off{% endif %}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'" style="padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--drl-M); transition: all .2s; display:flex; align-items:center; gap:6px;">
+                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#94a3b8; flex-shrink:0;"></span> {{ 'Absent'|trans }}
                 </button>
             </form>
             <style>
-                .active-avail { background: #ecfdf5 !important; color: #047857 !important; border-bottom: none; }
-                .active-busy { background: #fffbeb !important; color: #b45309 !important; border-bottom: none; }
-                .active-off { background: #f1f5f9 !important; color: #475569 !important; border-bottom: none; }
-                .drl-avail-btn:hover { background: #f8fafc; color: #0d2151; }
+                .active-avail { background: #ecfdf5 !important; color: #047857 !important; }
+                .active-busy  { background: #fffbeb !important; color: #b45309 !important; }
+                .active-off   { background: var(--drl-L) !important; color: var(--drl-M) !important; }
+                .drl-avail-btn:hover:not(.active-avail):not(.active-busy):not(.active-off) { background: var(--drl-L) !important; color: var(--drl-D) !important; }
             </style>
         </div>
     </div>
@@ -64,11 +65,11 @@
         {% if 'acceptée' in n.title|lower or 'Accepted' in n.title %}
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_accepted',
-                'title': '🎉 ' ~ n.title,
+                'title': n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
                 'action_text': 'Voir mes offres'|trans,
-                'icon': 'feather-check-circle',
+                'icon': 'ph-check-circle',
                 'color': 'success'
             }]) %}
         {% elseif 'refusée' in n.title|lower or 'Rejected' in n.title or 'non retenue' in n.title|lower %}
@@ -78,27 +79,27 @@
                 'message': n.message,
                 'action_url': path('professional_offers'),
                 'action_text': 'Voir mes offres'|trans,
-                'icon': 'feather-x-circle',
+                'icon': 'ph-x-circle',
                 'color': 'danger'
             }]) %}
         {% elseif 'lue' in n.title|lower %}
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_viewed',
-                'title': '👁 ' ~ n.title,
-                'message': n.message ~ ' Profitez-en pour relancer le client !'|trans,
+                'title': n.title,
+                'message': n.message ~ ' ' ~ 'Profitez-en pour relancer le client !'|trans,
                 'action_url': path('professional_offers'),
                 'action_text': 'Voir mes offres'|trans,
-                'icon': 'feather-eye',
+                'icon': 'ph-eye',
                 'color': 'info'
             }]) %}
         {% elseif 'examen' in n.title|lower or 'intéressé' in n.title|lower %}
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_interested',
-                'title': '⭐ Offre en liste courte !',
-                'message': n.message ~ " Le client est intéressé — c'est le bon moment pour le relancer."|trans,
+                'title': 'Offre en liste courte !',
+                'message': n.message ~ ' ' ~ "Le client est intéressé — c'est le bon moment pour le relancer.",
                 'action_url': path('professional_offers'),
                 'action_text': 'Voir mes offres'|trans,
-                'icon': 'feather-bookmark',
+                'icon': 'ph-bookmark-simple',
                 'color': 'warning'
             }]) %}
         {% endif %}
@@ -107,30 +108,31 @@
     {% if priorityAlerts|length > 0 %}
     <div class="alerts-stack mb-5">
         {% for alert in priorityAlerts %}
-            <div class="drl-card border-0 shadow-sm mb-3 position-relative overflow-hidden" 
-                 style="background: white; border-radius: 16px; padding: 24px; border-left: 6px solid var(--bs-{{ alert.color }}) !important;">
-                
+            {% set alertAccent = alert.color == 'primary' ? 'var(--drl-B)' : alert.color == 'info' ? 'var(--drl-S)' : alert.color == 'success' ? '#22c55e' : alert.color == 'warning' ? 'var(--drl-O)' : '#ef4444' %}
+            {% set alertBg = alert.color == 'primary' ? 'rgba(0,73,127,.04)' : alert.color == 'info' ? 'rgba(63,169,245,.04)' : alert.color == 'success' ? 'rgba(34,197,94,.04)' : alert.color == 'warning' ? 'rgba(255,138,61,.04)' : 'rgba(239,68,68,.04)' %}
+            {% set alertIconBg = alert.color == 'primary' ? 'rgba(0,73,127,.1)' : alert.color == 'info' ? 'rgba(63,169,245,.12)' : alert.color == 'success' ? 'rgba(34,197,94,.12)' : alert.color == 'warning' ? 'rgba(255,138,61,.12)' : 'rgba(239,68,68,.12)' %}
+            {% set alertIconColor = alert.color == 'primary' ? 'var(--drl-B)' : alert.color == 'info' ? 'var(--drl-S)' : alert.color == 'success' ? '#16a34a' : alert.color == 'warning' ? 'var(--drl-O)' : '#ef4444' %}
+            <div class="mb-3 position-relative overflow-hidden"
+                 style="background: {{ alertBg }}; border: 1.5px solid {{ alertAccent }}; border-left: 5px solid {{ alertAccent }}; border-radius: var(--drl-rl); padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,.04);">
                 <div class="d-flex align-items-center gap-4">
-                    <div class="alert-icon-wrapper rounded-circle d-flex align-items-center justify-content-center text-{{ alert.color }} bg-{{ alert.color }} bg-opacity-10" 
-                         style="width: 56px; height: 56px; font-size: 28px; flex-shrink: 0;">
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0"
+                         style="width: 52px; height: 52px; border-radius: var(--drl-r); background: {{ alertIconBg }}; color: {{ alertIconColor }}; font-size: 24px;">
                         <i class="{{ alert.icon }}"></i>
                     </div>
-                    
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 min-width-0">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <div>
-                                <h5 class="fw-bold text-dark mb-1" style="font-size: 18px;">{{ alert.title }}</h5>
-                                <p class="text-muted mb-0" style="font-size: 15px;">{{ alert.message }}</p>
+                                <h5 style="font-size: 16px; font-weight: 800; color: var(--drl-D); margin: 0 0 3px; letter-spacing: -.3px;">{{ alert.title }}</h5>
+                                <p style="font-size: 13px; color: var(--drl-M); margin: 0; line-height: 1.5;">{{ alert.message }}</p>
                             </div>
-                            <a href="{{ alert.action_url }}" class="btn btn-{{ alert.color }} rounded-pill px-4 fw-bold shadow-sm">
-                                {{ alert.action_text }} <i class="ph-arrow-right ms-2"></i>
+                            <a href="{{ alert.action_url }}" class="drl-btn-orange flex-shrink-0"
+                               style="font-size: 13px; padding: 8px 18px; background: {{ alertAccent }} !important; box-shadow: none; text-decoration: none;">
+                                {{ alert.action_text }} <i class="ph-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-
-                {# Subtle background pattern decoration #}
-                <div style="position: absolute; right: -20px; bottom: -20px; font-size: 120px; opacity: 0.03; pointer-events: none; transform: rotate(-15deg);">
+                <div style="position: absolute; right: -10px; top: 50%; transform: translateY(-50%); font-size: 80px; opacity: .04; pointer-events: none; color: {{ alertAccent }};">
                     <i class="{{ alert.icon }}"></i>
                 </div>
             </div>
@@ -140,20 +142,20 @@
 
     {# ── Draft Offers Alert ── #}
     {% if draftCount > 0 %}
-    <div class="drl-alert d-flex align-items-center gap-3 mb-4 shadow-sm"
-         style="background: #fefce8; border-color: #fde68a; border-left: 4px solid #f59e0b;">
-        <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
-             style="width: 40px; height: 40px; background: rgba(245,158,11,0.15);">
-            <i class="feather-file-text" style="color: #f59e0b; font-size: 18px;"></i>
+    <div class="d-flex align-items-center gap-3 mb-4"
+         style="background: rgba(255,138,61,.05); border: 1.5px solid rgba(255,138,61,.3); border-left: 5px solid var(--drl-O); border-radius: var(--drl-rl); padding: 16px 20px;">
+        <div class="d-flex align-items-center justify-content-center flex-shrink-0"
+             style="width: 44px; height: 44px; border-radius: var(--drl-r); background: rgba(255,138,61,.12);">
+            <i class="ph-file-text" style="color: var(--drl-O); font-size: 20px;"></i>
         </div>
-        <div class="alert-content flex-grow-1">
-            <div class="fw-bold" style="color: #92400e;">
+        <div class="flex-grow-1">
+            <div style="font-size: 14px; font-weight: 800; color: var(--drl-D); margin-bottom: 2px;">
                 {{ '%count% offre en brouillon — non envoyée|%count% offres en brouillon — non envoyées'|trans({'%count%': draftCount}) }}
             </div>
-            <div class="small text-muted">{{ 'Finalisez et publiez vos brouillons pour maximiser vos chances de décrocher des contrats.'|trans }}</div>
+            <div style="font-size: 13px; color: var(--drl-M);">{{ 'Finalisez et publiez vos brouillons pour maximiser vos chances.'|trans }}</div>
         </div>
-        <a href="{{ path('professional_offers') }}" class="drl-btn-orange flex-shrink-0 shadow-sm" style="font-size: 13px; padding: 8px 16px; background: #f59e0b !important; box-shadow: 0 4px 12px rgba(245,158,11,0.3) !important;">
-            <i class="feather-send me-1"></i> {{ 'Publier les brouillons'|trans }}
+        <a href="{{ path('professional_offers') }}" class="drl-btn-orange flex-shrink-0" style="font-size: 13px; padding: 9px 18px;">
+            <i class="ph-paper-plane-tilt me-1"></i> {{ 'Publier'|trans }}
         </a>
     </div>
     {% endif %}
@@ -182,69 +184,69 @@
     {# ── KPI Metrics Cards ── #}
     <div class="row g-4 mb-5">
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
+            <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Demandes disponibles'|trans }}</p>
-                        <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ quoteCount }}</h3>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Demandes dispo.'|trans }}</p>
+                        <h3 style="font-size: 34px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1.5px; line-height: 1;">{{ quoteCount }}</h3>
                     </div>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #eff6ff; color: #00509e; font-size: 22px;">
+                    <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(63,169,245,.12); color: var(--drl-B); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <i class="ph-clipboard-text"></i>
                     </div>
                 </div>
-                <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #00509e;">
-                    <i class="ph-trend-up me-2"></i> {{ 'Opportunités'|trans }}
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(63,169,245,.1); color: var(--drl-B); border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
+                    <i class="ph-trend-up"></i> {{ 'Opportunités'|trans }}
                 </div>
             </div>
         </div>
-        
+
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
+            <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Offres envoyées'|trans }}</p>
-                        <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ offerCount }}</h3>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Offres envoyées'|trans }}</p>
+                        <h3 style="font-size: 34px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1.5px; line-height: 1;">{{ offerCount }}</h3>
                     </div>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #fff7ed; color: #ea580c; font-size: 22px;">
+                    <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(255,138,61,.12); color: var(--drl-O); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <i class="ph-paper-plane-tilt"></i>
                     </div>
                 </div>
-                <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #64748b;">
-                    <i class="ph-clock me-2"></i> {{ 'En attente client'|trans }}
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: var(--drl-L); color: var(--drl-M); border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
+                    <i class="ph-clock"></i> {{ 'En attente'|trans }}
                 </div>
             </div>
         </div>
-        
+
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
+            <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Taux de succès'|trans }}</p>
-                        <h3 class="fw-bold mb-0" style="font-size: 32px; color: #0d2151;">{{ conversionRate }}<span class="fs-6 opacity-50">%</span></h3>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Taux de succès'|trans }}</p>
+                        <h3 style="font-size: 34px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1.5px; line-height: 1;">{{ conversionRate }}<span style="font-size: 18px; opacity: .4; font-weight: 700;">%</span></h3>
                     </div>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #f0fdf4; color: #16a34a; font-size: 22px;">
-                        <i class="ph-chart-pie"></i>
+                    <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(22,163,74,.1); color: #16a34a; font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="ph-chart-pie-slice"></i>
                     </div>
                 </div>
-                <div class="mt-3 py-2 px-3 rounded-pill bg-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #16a34a;">
-                    <i class="ph-check-circle me-2"></i> {{ '%count% gagnés'|trans({'%count%': acceptedCount}) }}
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(22,163,74,.1); color: #16a34a; border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
+                    <i class="ph-check-circle"></i> {{ '%count% gagnés'|trans({'%count%': acceptedCount}) }}
                 </div>
             </div>
         </div>
-        
+
         <div class="col-xl-3 col-md-6">
-            <div class="drl-card drl-card--hover border-0 shadow-sm" style="border-radius: 16px; padding: 24px;">
+            <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p class="text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px; font-size: 11px;">{{ 'Réponse moyenne'|trans }}</p>
-                        <h3 class="fw-bold mb-0" style="font-size: 22px; color: #0d2151;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instantané'|trans }}</h3>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Délai réponse'|trans }}</p>
+                        <h3 style="font-size: 28px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1px; line-height: 1;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instantané'|trans }}</h3>
                     </div>
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #f8fafc; color: #475569; font-size: 22px;">
+                    <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(0,73,127,.08); color: var(--drl-B); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <i class="ph-timer"></i>
                     </div>
                 </div>
-                <div class="mt-3 py-2 px-3 rounded-pill bg-navy-light d-inline-flex align-items-center" style="font-size: 12px; font-weight: 700; color: #0d2151;">
-                    <i class="ph-lightning me-2"></i> {{ 'Leader du marché'|trans }}
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(0,73,127,.08); color: var(--drl-B); border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
+                    <i class="ph-lightning"></i> {{ 'Réactif'|trans }}
                 </div>
             </div>
         </div>
@@ -253,112 +255,112 @@
     {# ── Recent Activity Section ── #}
     <div class="row g-4">
         <div class="col-12">
-            <div class="drl-card border-0 shadow-sm" style="border-radius: 16px; overflow: hidden;">
-                <div class="drl-card-head p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+            <div class="drl-card" style="overflow: hidden;">
+                <div class="drl-card-head border-bottom d-flex justify-content-between align-items-center" style="padding: 20px 28px;">
                     <div>
-                        <h4 class="fw-bold text-dark mb-1" style="font-size: 20px;">{{ 'Actions récentes'|trans }}</h4>
-                        <p class="text-muted small mb-0">{{ 'Suivez le cycle de vie de vos devis et demandes.'|trans }}</p>
+                        <h4 style="font-size: 17px; font-weight: 800; color: var(--drl-D); margin: 0 0 3px; letter-spacing: -.3px;">{{ 'Activité récente'|trans }}</h4>
+                        <p style="font-size: 13px; color: var(--drl-M); margin: 0;">{{ 'Cycle de vie de vos devis et demandes.'|trans }}</p>
                     </div>
-                    <a href="{{ path('professional_offers') }}" class="btn btn-light rounded-pill px-4 fw-bold border" style="font-size: 13px;">
-                        {{ 'Voir toutes les offres'|trans }} <i class="ph-arrow-right ms-1"></i>
+                    <a href="{{ path('professional_offers') }}" class="drl-act-btn drl-act-btn--view" style="text-decoration:none; font-size: 13px;">
+                        {{ 'Toutes les offres'|trans }} <i class="ph-arrow-right ms-1"></i>
                     </a>
                 </div>
 
                 <div class="table-responsive">
                     <table class="table mb-0 align-middle">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Demande'|trans }}</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Montant'|trans }}</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Statut'|trans }}</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Lecture'|trans }}</th>
-                                <th class="py-3 text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Date'|trans }}</th>
-                                <th class="pe-4 py-3 text-end text-uppercase small fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.5px;">{{ 'Action'|trans }}</th>
+                        <thead>
+                            <tr style="background: #f5f8fc;">
+                                <th class="ps-4 py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Demande'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Montant'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Statut'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Lecture'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Date'|trans }}</th>
+                                <th class="pe-4 py-3 text-end" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Action'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for offer in recentOffers %}
-                                <tr class="border-bottom">
-                                    <td class="ps-4 py-4">
+                                <tr style="border-bottom: 1px solid var(--drl-L);">
+                                    <td class="ps-4 py-3">
                                         <div class="d-flex align-items-center gap-3">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center text-primary bg-primary bg-opacity-10" style="width: 40px; height: 40px; font-size: 18px; flex-shrink: 0;">
+                                            <div style="width: 38px; height: 38px; border-radius: var(--drl-r); background: rgba(63,169,245,.1); color: var(--drl-B); font-size: 17px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                                 <i class="ph-{% if offer.quoteRequest %}file-text{% else %}user{% endif %}"></i>
                                             </div>
                                             <div>
-                                                <strong class="text-dark d-block mb-0" style="font-size: 15px;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,50) ~ (offer.quoteRequest.title|length > 50 ? '...' : '') : 'Demande Directe'|trans }}</strong>
-                                                <span class="text-muted small">#{{ offer.id }} • {{ offer.quoteRequest ? offer.quoteRequest.category.localizedTitle(app.request.locale) : 'Direct'|trans }}</span>
+                                                <strong style="font-size: 14px; color: var(--drl-D); display: block; font-weight: 700;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,45) ~ (offer.quoteRequest.title|length > 45 ? '…' : '') : 'Demande Directe'|trans }}</strong>
+                                                <span style="font-size: 12px; color: var(--drl-M);">#{{ offer.id }}{% if offer.quoteRequest %} · {{ offer.quoteRequest.category.localizedTitle(app.request.locale) }}{% endif %}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="py-4">
-                                        <span class="fw-bold text-primary" style="font-size: 15px;">{{ offer.price|number_format(2) }} $</span>
+                                    <td class="py-3">
+                                        <span style="font-size: 15px; font-weight: 800; color: var(--drl-O);">{{ offer.price|number_format(0) }} $</span>
                                     </td>
-                                    <td class="py-4">
+                                    <td class="py-3">
                                         {% if offer.status == 'DRAFT' %}
-                                            <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-file me-1"></i> {{ 'Brouillon'|trans }}</span>
+                                            <span class="drl-tag drl-tag--draft"><i class="ph-file me-1"></i> {{ 'Brouillon'|trans }}</span>
                                         {% elseif offer.status == 'PUBLISHED' %}
-                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-send me-1"></i> {{ 'Envoyée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--sent"><i class="ph-paper-plane-tilt me-1"></i> {{ 'Envoyée'|trans }}</span>
                                         {% elseif offer.status == 'INTERESTED' %}
-                                            <span class="badge rounded-pill fw-bold px-3 py-2" style="font-size: 11px; background: rgba(245,158,11,0.12); color: #b45309;"
-                                                  data-bs-toggle="tooltip" title="{{ 'Le client a mis votre offre en liste courte — relancez-le !'|trans }}">
-                                                <i class="feather-bookmark me-1"></i> {{ 'Intéressé'|trans }}
+                                            <span class="drl-tag drl-tag--warning" data-bs-toggle="tooltip" title="{{ 'Le client a mis votre offre en liste courte !'|trans }}">
+                                                <i class="ph-bookmark-simple me-1"></i> {{ 'Intéressé'|trans }}
                                             </span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-x-circle me-1"></i> {{ 'Refusée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--danger"><i class="ph-x-circle me-1"></i> {{ 'Refusée'|trans }}</span>
                                         {% elseif offer.status == 'ACCEPTED' %}
-                                            <span class="badge rounded-pill bg-success bg-opacity-10 text-success fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-circle me-1"></i> {{ 'Acceptée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--success"><i class="ph-check-circle me-1"></i> {{ 'Acceptée'|trans }}</span>
                                         {% elseif offer.status == 'CLOSED' %}
-                                            <span class="badge rounded-pill bg-dark bg-opacity-10 text-dark fw-bold px-3 py-2" style="font-size: 11px;"><i class="feather-check-square me-1"></i> {{ 'Terminée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--draft"><i class="ph-check-square me-1"></i> {{ 'Terminée'|trans }}</span>
                                         {% else %}
-                                            <span class="badge rounded-pill bg-light text-muted fw-bold px-3 py-2">{{ offer.status }}</span>
+                                            <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
                                         {% endif %}
                                     </td>
-                                    {# ── Lecture indicator ── #}
-                                    <td class="py-4">
+                                    <td class="py-3">
                                         {% if offer.viewedAt %}
                                             <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #059669; white-space: nowrap;"
-                                                  data-bs-toggle="tooltip" title="{{ 'Consultée le %date%'|trans({'%date%': offer.viewedAt|date('d/m/Y à H:i')}) }}">
-                                                <i class="feather-eye" style="font-size: 14px;"></i>
-                                                <span class="fw-semibold">{{ 'Vue'|trans }}</span>
-                                                <span class="text-muted fw-normal">{{ offer.viewedAt|date('d/m') }}</span>
+                                                  data-bs-toggle="tooltip" title="{{ 'Vue le %date%'|trans({'%date%': offer.viewedAt|date('d/m/Y à H:i')}) }}">
+                                                <i class="ph-eye" style="font-size: 15px;"></i>
+                                                <span class="fw-bold">{{ 'Vue'|trans }}</span>
+                                                <span style="color: var(--drl-M); font-weight: 400;">{{ offer.viewedAt|date('d/m') }}</span>
                                             </span>
-                                        {% elseif offer.status == 'PUBLISHED' or offer.status == 'INTERESTED' %}
-                                            <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #f97316; white-space: nowrap;">
-                                                <span class="rounded-circle d-inline-block" style="width: 7px; height: 7px; background: #f97316; animation: pulse 1.5s infinite;"></span>
-                                                <i class="feather-eye-off" style="font-size: 14px;"></i>
+                                        {% elseif offer.status in ['PUBLISHED', 'INTERESTED'] %}
+                                            <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: var(--drl-O); white-space: nowrap;">
+                                                <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--drl-O); animation: pulse 1.5s infinite; flex-shrink:0;"></span>
+                                                <i class="ph-eye-slash" style="font-size: 15px;"></i>
                                                 <span class="fw-bold">{{ 'Non lue'|trans }}</span>
                                             </span>
                                         {% else %}
-                                            <span class="text-muted small">—</span>
+                                            <span style="color: var(--drl-M); font-size: 13px;">—</span>
                                         {% endif %}
                                     </td>
-                                    <td class="py-4 text-muted small">
+                                    <td class="py-3" style="font-size: 13px; color: var(--drl-M);">
                                         {{ offer.createdAt|date('d/m/Y') }}
                                     </td>
-                                    <td class="pe-4 py-4 text-end">
+                                    <td class="pe-4 py-3 text-end">
                                         {% set parentRequest = offer.quoteRequest ?? offer.directRequest %}
+                                        <div class="d-flex justify-content-end gap-1 flex-wrap">
                                         {% if offer.status == 'ACCEPTED' and parentRequest and parentRequest.status|upper != 'CLOSED' %}
-                                            <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
+                                            <button type="button" class="drl-act-btn drl-act-btn--finalize" style="font-size: 12px; padding: 5px 12px; border: none;" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
                                                 <i class="ph-check-circle"></i> {{ 'Terminer'|trans }}
                                             </button>
                                         {% endif %}
                                         {% if parentRequest %}
-                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
+                                            <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" style="font-size: 12px; padding: 5px 12px; text-decoration: none;">
                                                 <i class="ph-eye"></i> {{ 'Voir'|trans }}
                                             </a>
                                         {% endif %}
+                                        </div>
                                     </td>
                                 </tr>
                             {% else %}
                                 <tr>
                                     <td colspan="6" class="text-center py-5">
-                                        <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
-                                            <i class="ph-suitcase ph-3x text-muted opacity-25"></i>
+                                        <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-4" style="width: 64px; height: 64px; font-size: 26px;">
+                                            <i class="ph-paper-plane-tilt"></i>
                                         </div>
-                                        <h5 class="fw-bold text-dark mb-2">{{ 'No recent offers'|trans }}</h5>
-                                        <p class="text-muted mb-4 px-5">{{ 'Submit your first offer to start winning new clients and growing your business.'|trans }}</p>
-                                        <a href="{{ path('professional_quotes') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
-                                            <i class="ph-magnifying-glass me-2"></i> {{ 'Find Demands'|trans }}
+                                        <h5 style="font-size: 17px; font-weight: 800; color: var(--drl-D); margin: 0 0 8px;">{{ 'Aucune offre envoyée'|trans }}</h5>
+                                        <p style="font-size: 14px; color: var(--drl-M); margin: 0 0 20px;">{{ 'Parcourez les demandes disponibles et soumettez votre première offre.'|trans }}</p>
+                                        <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="text-decoration: none; font-size: 14px;">
+                                            <i class="ph-magnifying-glass me-1"></i> {{ 'Voir les demandes'|trans }}
                                         </a>
                                     </td>
                                 </tr>
@@ -382,20 +384,20 @@
             <div class="modal-content drl-modal-content text-center">
                 <div class="modal-body drl-modal-body py-5 px-4 text-center">
                     <div class="mb-4">
-                        <div class="drl-stat-icon drl-stat-icon--3 mx-auto shadow-sm" style="width: 80px; height: 80px; font-size: 36px;">
-                            <i class="feather-check-circle"></i>
+                        <div class="drl-stat-icon drl-stat-icon--3 mx-auto" style="width: 80px; height: 80px; font-size: 36px;">
+                            <i class="ph-check-circle"></i>
                         </div>
                     </div>
-                    <h4 class="drl-card-title mb-2" style="font-size: 22px;">{{ 'Confirmer la fin des travaux ?'|trans }}</h4>
-                    <p class="text-muted mb-4">{{ 'Marquer cette demande comme terminée ? Le client sera notifié que les travaux sont accomplis.'|trans }}</p>
-                    <div class="d-flex flex-column gap-2 mt-4">
+                    <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'Confirmer la fin des travaux ?'|trans }}</h4>
+                    <p style="font-size: 14px; color: var(--drl-M); margin-bottom: 24px;">{{ 'Le client sera notifié que les travaux sont accomplis.'|trans }}</p>
+                    <div class="d-flex flex-column gap-2">
                         <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
-                            <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
-                                <i class="feather-check-circle me-2"></i> {{ 'Oui, terminer la mission'|trans }}
+                            <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a !important; box-shadow: 0 4px 14px rgba(22,163,74,.25) !important;">
+                                <i class="ph-check-circle me-2"></i> {{ 'Oui, terminer la mission'|trans }}
                             </button>
                         </form>
-                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-link fw-bold" style="color: var(--drl-M); text-decoration: none; font-size: 14px;" data-bs-dismiss="modal">
                             {{ 'Non, pas encore'|trans }}
                         </button>
                     </div>

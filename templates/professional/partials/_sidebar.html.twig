@@ -10,7 +10,7 @@
             {% endif %}
             
             <button class="pro-btn-icon pro-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" style="position: absolute; bottom: 0; right: 0; background: #00509e; color: #fff; border: 3px solid #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                <i class="feather-camera" style="font-size: 14px;"></i>
+                <i class="ph-camera" style="font-size: 14px;"></i>
             </button>
         </div>
         
@@ -21,73 +21,19 @@
             {% set avgRating = app.user.stats ? app.user.stats.averageRating : 0 %}
             {% if avgRating > 0 %}
             <div class="pro-rating" style="display: flex; align-items: center; gap: 4px; font-size: 13px;">
-                <i class="feather-star" style="color: #f59e0b; fill: #f59e0b;"></i>
-                <span class="pro-text-dark fw-bold" style="color: #0d2151;">{{ avgRating|number_format(1) }}</span>
+                <i class="ph-star-fill" style="color: #f59e0b;"></i>
+                <span class="fw-bold" style="color: var(--drl-D);">{{ avgRating|number_format(1) }}</span>
             </div>
             {% endif %}
         </div>
         
         <a href="{{ path('professional_projects') }}" class="drl-btn-orange w-100" style="padding: 10px; font-size: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
-            <i class="feather-plus"></i> {{ 'Nouveau Projet'|trans }}
+            <i class="ph-plus"></i> {{ 'Nouveau Projet'|trans }}
         </a>
     </div>
 
     <!-- Navigation Section -->
     <nav class="p-3">
-        <style>
-            .drl-sidebar-link {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 12px 16px;
-                color: #475569;
-                font-size: 14px;
-                font-weight: 700;
-                border-radius: 8px;
-                text-decoration: none;
-                transition: all 0.2s ease;
-                margin-bottom: 4px;
-            }
-            .drl-sidebar-link i {
-                font-size: 18px;
-                width: 24px;
-                text-align: center;
-                color: #94a3b8;
-                transition: all 0.2s ease;
-            }
-            .drl-sidebar-link:hover {
-                background: #f8fafc;
-                color: #00509e;
-            }
-            .drl-sidebar-link:hover i {
-                color: #00509e;
-            }
-            .drl-sidebar-link.active {
-                background: #eff6ff;
-                color: #00509e;
-            }
-            .drl-sidebar-link.active i {
-                color: #00509e;
-            }
-            .drl-sidebar-link.danger {
-                color: #ef4444;
-            }
-            .drl-sidebar-link.danger i {
-                color: #ef4444;
-            }
-            .drl-sidebar-link.danger:hover {
-                background: #fef2f2;
-                color: #ef4444;
-            }
-            .drl-sidebar-section-title {
-                font-size: 11px;
-                font-weight: 800;
-                color: #94a3b8;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                margin: 20px 0 8px 16px;
-            }
-        </style>
 
         <div class="drl-sidebar-section-title">{{ "Vue d'ensemble"|trans }}</div>
         <a href="{{ path('professional_dashboard') }}" class="drl-sidebar-link {% if app.request.get('_route') == 'professional_dashboard' %}active{% endif %}">
@@ -105,7 +51,7 @@
             <i class="ph-user"></i> <span>{{ 'Mon Profil'|trans }}</span>
         </a>
         <a href="{{ path('professional_projects') }}" class="drl-sidebar-link {% if app.request.get('_route') starts with 'professional_project' %}active{% endif %}">
-            <i class="ph-portfolio"></i> <span>{{ 'Mes Projets'|trans }}</span>
+            <i class="ph-briefcase"></i> <span>{{ 'Mes Projets'|trans }}</span>
         </a>
 
         <div class="drl-sidebar-section-title">{{ 'Gestion des prospects'|trans }}</div>
