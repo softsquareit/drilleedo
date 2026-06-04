@@ -78,12 +78,15 @@
   transition: var(--t); padding: 13px 28px; line-height: 1;
   letter-spacing: .2px;
 }
-.hbtn-o { background: var(--B); color: #fff;}
-.hbtn-o:hover { background: #e87830; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,138,61,.45); color: #fff; }
+/* Bouton primaire — #00497F dominant, orange au hover pour action urgente */
+.hbtn-o { background: var(--S); color: #fff; box-shadow: 0 4px 14px rgba(63,169,245,.28); }
+.hbtn-o:hover { background: #2a95e0; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(63,169,245,.38); color: #fff; }
+/* Bouton bleu — #00497F pour actions principales */
 .hbtn-b { background: var(--B); color: #fff; box-shadow: 0 4px 16px rgba(0,73,127,.25); }
 .hbtn-b:hover { background: #003a66; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,73,127,.3); color: #fff; }
-.hbtn-g { background: transparent; border: 2px solid rgba(0,73,127,.22); color: var(--B); }
-.hbtn-g:hover { background: var(--B); color: #fff; border-color: var(--B); }
+/* Bouton outline — bordure #00497F */
+.hbtn-g { background: transparent; border: 2px solid rgba(0,73,127,.28); color: var(--B); }
+.hbtn-g:hover { background: var(--B); color: #fff; border-color: var(--B); box-shadow: 0 4px 14px rgba(0,73,127,.22); }
 .hbtn-w { background: var(--W); color: var(--B); font-weight: 700; box-shadow: 0 2px 12px rgba(0,0,0,.1); }
 .hbtn-w:hover { background: var(--C); color: var(--B); }
 .hbtn-ow { background: transparent; border: 2px solid rgba(255,255,255,.35); color: #fff; }
@@ -325,7 +328,7 @@
 }
 .hp-vc-ico {
   width: 54px; height: 54px; border-radius: var(--rl);
-  background: linear-gradient(135deg,#00497F,#3FA9F5);
+  background: var(--S);
   display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
 }
 .hp-vc-ico i { font-size: 22px; color: #fff; }
@@ -336,7 +339,7 @@
    HOW IT WORKS
    ════════════════════════════════════════ */
 .hp-hiw {
-  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  background: var(--B);
   overflow: hidden; position: relative; padding-bottom: 80px;
 }
 .hp-hiw::before {
@@ -411,7 +414,7 @@
   content: ''; position: absolute;
   top: 50px; left: calc(12.5% + 26px); right: calc(12.5% + 26px);
   height: 2px;
-  background: linear-gradient(90deg, rgba(255,138,61,.6), rgba(63,169,245,.6));
+  background: linear-gradient(90deg, var(--B), var(--S));
   z-index: 0;
 }
 
@@ -442,11 +445,11 @@
   z-index: 2;
 }
 .hp-step-n {
-  width: 52px; height: 52px; background: var(--O);
+  width: 52px; height: 52px; background: var(--S);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
   font-size: 19px; font-weight: 900; color: #fff;
   margin: 0 auto 18px; position: relative; z-index: 1;
-  box-shadow: 0 4px 18px rgba(255,138,61,.5);
+  box-shadow: 0 4px 18px rgba(63,169,245,.45);
   border: 3px solid rgba(255,255,255,.25);
 }
 .hp-step h3 { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -.3px; }
@@ -580,7 +583,7 @@
    STATS — dark blue band
    ════════════════════════════════════════ */
 .hp-stats {
-  background: linear-gradient(135deg, #002d50 0%, var(--B) 55%, #0d5c99 100%);
+  background: var(--B);
   padding: 80px 0; position: relative; overflow: hidden;
 }
 .hp-stats::before {
@@ -779,15 +782,15 @@ position: absolute;
 .hp-nl-inner { max-width: 580px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
 .hp-nl-form { display: flex; border-radius: var(--radius) 1  var(--radius) 1  !important; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.22); max-width: 480px; margin: 0 auto 14px; }
 .hp-nl-in { flex: 1; padding: 16px 22px; border: none; background: var(--W) !important; font-family: var(--F); font-size: 15px; outline: none; border-radius: 50px 0 0 50px; }
-.hp-nl-btn { background: var(--O); color: #fff; border: none; padding: 16px 28px; font-family: var(--F); font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--t); border-radius: 0 50px 50px 0; white-space: nowrap; }
-.hp-nl-btn:hover { background: #d96e10; }
+.hp-nl-btn { background: var(--S); color: #fff; border: none; padding: 16px 28px; font-family: var(--F); font-size: 15px; font-weight: 700; cursor: pointer; transition: var(--t); border-radius: 0 50px 50px 0; white-space: nowrap; }
+.hp-nl-btn:hover { background: #2a95e0; }
 .hp-nl-hint { font-size: 12px; color: rgba(255,255,255,.55); }
 
 /* ════════════════════════════════════════
    APP BANNER — fond Helper Blue, split
    ════════════════════════════════════════ */
 .hp-app-banner {
-  background: linear-gradient(135deg, #002d50 0%, var(--B) 55%, #0d5c99 100%);
+  background: var(--B);
   padding: 88px 0; overflow: hidden; position: relative;
 }
 .hp-app-banner::before {
@@ -895,7 +898,11 @@ position: absolute;
         <span>{{ 'home_pg.hero_h1_line1'|trans }}</span>
         <span>{{ 'home_pg.hero_h1_line2'|trans }}</span>
       </h1>
+<<<<<<< HEAD
       <p class="hp-tagline">{{ 'home_pg.hero_tagline'|trans }}</p>
+=======
+      <p class="hp-tagline">Drilleedo · L'aide facile, les solutions rapides.</p>
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
 
       {# Search bar #}
       <form class="hp-search" action="{{ path('professionals_list') }}" method="get" role="search">
@@ -926,7 +933,11 @@ position: absolute;
         </div>
         <div>
           <div class="hp-proof-stars">★★★★★</div>
+<<<<<<< HEAD
           <div class="hp-proof-text">{{ 'home_pg.hero_social_proof'|trans }}</div>
+=======
+          <div class="hp-proof-text">35 000+ projets réalisés · 98% de clients satisfaits</div>
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
       </div>
 
@@ -936,7 +947,11 @@ position: absolute;
           <i class="feather-send"></i> {{ 'home_pg.hero_cta_primary'|trans }}
         </a>
         <a href="{{ path('professionals_list') }}" class="hbtn hbtn-g">
+<<<<<<< HEAD
           <i class="feather-search"></i> {{ 'home_pg.hero_cta_secondary'|trans }}
+=======
+          <i class="feather-search"></i> Explorer les professionnels vérifiés
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </a>
       </div>
     </div>
@@ -953,6 +968,7 @@ position: absolute;
                alt="Professionnel Drilleedo" loading="eager">
         </div>
         <div class="hp-pro-photo-badge-text">
+<<<<<<< HEAD
           <div class="hp-pro-photo-badge-name">{{ 'home_pg.pro_panel_badge_name'|trans }}</div>
           <span>{{ 'home_pg.pro_panel_badge_sub'|trans }}</span>
         </div>
@@ -960,13 +976,28 @@ position: absolute;
 
       <h2>{{ 'home_pg.pro_panel_h2'|trans }}</h2>
       <p class="hp-hero-pro-sub">{{ 'home_pg.pro_panel_desc'|trans }}</p>
+=======
+          <div class="hp-pro-photo-badge-name">Drilleedo</div>
+          <span>| Pour les professionnels</span>
+        </div>
+      </div>
+
+      <h2>Votre prochain contrat est déjà publié.<br>Êtes-vous visible ?</h2>
+      <p class="hp-hero-pro-sub">Rejoignez notre communauté de professionnels vérifiés sur Drilleedo.
+Recevez des demandes qualifiées près de chez vous, bâtissez votre réputation en ligne
+et développez votre clientèle — simplement et efficacement.</p>
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
 
       <div class="hp-pro-form">
         <form action="{{ path('app_register') }}" method="post" novalidate>
           <label for="hero-email">{{ 'home_pg.pro_panel_label_email'|trans }}</label>
           <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="{{ 'home_pg.pro_panel_input_placeholder'|trans }}" required autocomplete="email" style="background: white;">
           <a href="{{ path('app_register_pro') }}" class="hbtn hbtn-o" style="width:100%;justify-content:center;text-decoration:none;font-size:15px;">
+<<<<<<< HEAD
             <i class="feather-user-plus"></i> {{ 'home_pg.pro_panel_cta'|trans }}
+=======
+            <i class="feather-user-plus"></i> Créer mon profil pro — gratuit
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
           </a>
         </form>
       </div>
@@ -1004,7 +1035,11 @@ position: absolute;
 
       <p class="hp-sc-eyebrow">{{ 'home_pg.showcase_eyebrow'|trans }}</p>
       <h2 class="hp-sc-h2" id="hp-sc-h2">
+<<<<<<< HEAD
          {{ 'home_pg.showcase_h2'|trans }}
+=======
+         La confiance ne s'affiche pas —<br>elle se prouve.
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </h2>
 
       {# 3 boutons pills : 1 filled + 2 outline #}
@@ -1018,7 +1053,11 @@ position: absolute;
       </div>
 
       <p class="hp-sc-p">
+<<<<<<< HEAD
        {{ 'home_pg.showcase_desc'|trans }}
+=======
+        Fini le bouche-à-oreille incertain et les heures perdues à chercher le bon artisan. Drilleedo vérifie chaque professionnel avant qu'il réponde à votre projet — pour que vous choisissiez en toute sérénité, partout au Canada.
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </p>
 
       {# Stat pills — 3 badges colorés #}
@@ -1181,7 +1220,11 @@ position: absolute;
       </div>
         <div class="hc" style="margin-top:52px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
+<<<<<<< HEAD
         <i class="feather-arrow-right"></i>{{ 'home_pg.tab_p_cta'|trans }}
+=======
+        <i class="feather-user-plus"></i>Créer mon profil professionnel — gratuit
+>>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </a>
     </div>
     </div>{# /panel-p #}
@@ -1300,14 +1343,24 @@ position: absolute;
         <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-smartphone"></i> {{ 'home.app_badge'|trans }}</span>
         <h2 class="hh2 hh2-w" id="app-banner-heading">{{ 'home.app_title'|trans }}</h2>
         <p class="hl" style="color:rgba(255,255,255,.75);margin-bottom:32px;">{{ 'home.app_desc'|trans }}</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="#" class="hbtn hbtn-w">
-            <i class="fab fa-apple" style="font-size:18px;"></i> {{ 'home.app_store'|trans }}
-          </a>
-          <a href="#" class="hbtn hbtn-ow">
-            <i class="fab fa-google-play" style="font-size:16px;"></i> {{ 'home.google_play'|trans }}
-          </a>
-        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:12px;">
+          <i class="feather-clock" style="margin-right:5px;"></i>
+          Disponible sur App Store &amp; Google Play — bientôt.
+        </p>
+        <form style="display:flex;gap:0;max-width:420px;" action="#" method="post" novalidate>
+          <label for="app-notify-email" class="sr-only">Votre courriel</label>
+          <input type="email" id="app-notify-email" name="app_notify_email"
+                 placeholder="votre@courriel.ca"
+                 style="flex:1;padding:13px 18px;border:none;border-radius:50px 0 0 50px;font-family:inherit;font-size:14px;outline:none;"
+                 required autocomplete="email">
+          <button type="submit"
+                  style="background:var(--O);color:#fff;border:none;padding:13px 22px;border-radius:0 50px 50px 0;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;">
+            Me notifier au lancement
+          </button>
+        </form>
+        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:8px;">
+          <i class="feather-lock" style="margin-right:4px;"></i> Aucun spam. Désabonnement en un clic.
+        </p>
       </div>
       <div class="hp-app-img hf" style="transition-delay:.15s">
         <img src="{{ asset('assets/drilleedo/images/others/video-02.jpg') }}"

@@ -1,12 +1,19 @@
 /* ══════════════════════════════════════════════════════════════════════
    DRILLEEDO MODERN COMPONENTS SYSTEM
-   Navy: #0d2151 · Orange: #e8501a · Blue: #00509e
+   Charte officielle : Primary #00497F · Sky #3FA9F5 · Orange #FF8A3D
    ══════════════════════════════════════════════════════════════════════ */
 
 :root {
-    --drl-navy: #0d2151;
-    --drl-orange: #e8501a;
-    --drl-blue: #00509e;
+    --drl-navy: #00497F;
+    --drl-orange: #FF8A3D;
+    --drl-blue: #3FA9F5;
+    /* Aliases charte */
+    --drl-B: #00497F;
+    --drl-S: #3FA9F5;
+    --drl-O: #FF8A3D;
+    --drl-D: #0C1825;
+    --drl-M: #4A6073;
+    --drl-L: #E4EBF2;
     --drl-gray-50: #f8fafc;
     --drl-gray-100: #f1f5f9;
     --drl-gray-200: #e2e8f0;
@@ -16,9 +23,9 @@
     --drl-radius-sm: 6px;
     --drl-radius-md: 10px;
     --drl-radius-lg: 16px;
-    --drl-shadow-sm: 0 1px 3px rgba(13, 33, 81, 0.05);
-    --drl-shadow-md: 0 4px 12px rgba(13, 33, 81, 0.08);
-    --drl-shadow-lg: 0 10px 30px rgba(13, 33, 81, 0.12);
+    --drl-shadow-sm: 0 1px 3px rgba(0, 73, 127, 0.05);
+    --drl-shadow-md: 0 4px 12px rgba(0, 73, 127, 0.08);
+    --drl-shadow-lg: 0 10px 30px rgba(0, 73, 127, 0.12);
 }
 
 /* ── 1. Modern Tables (drl-table) ── */
@@ -92,7 +99,7 @@
 .dataTables_wrapper .dataTables_filter input:focus {
     background-color: #fff;
     border-color: var(--drl-blue);
-    box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.08);
+    box-shadow: 0 0 0 4px rgba(63, 169, 245, 0.10);
     outline: none;
 }
 
@@ -138,9 +145,9 @@
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background: var(--drl-navy) !important;
+    background: #3FA9F5 !important;
     color: #fff !important;
-    border-color: var(--drl-navy) !important;
+    border-color: #3FA9F5 !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) {
@@ -187,7 +194,7 @@ textarea.drl-input {
 .drl-input:focus {
     background: #fff;
     border-color: var(--drl-blue);
-    box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.1);
+    box-shadow: 0 0 0 4px rgba(63, 169, 245, 0.10);
     outline: none;
 }
 
@@ -225,8 +232,8 @@ textarea.drl-input {
 }
 
 .drl-checkbox input:checked~.drl-checkmark {
-    background-color: var(--drl-blue);
-    border-color: var(--drl-blue);
+    background-color: #3FA9F5;
+    border-color: #3FA9F5;
 }
 
 .drl-checkmark:after {
@@ -255,7 +262,7 @@ textarea.drl-input {
 
 .drl-modal-header {
     padding: 24px 32px;
-    background: var(--drl-navy);
+    background: #3FA9F5;
     color: #fff;
     border-bottom: none;
     position: relative;
@@ -297,7 +304,7 @@ textarea.drl-input {
 .drl-btn-orange {
     height: 48px;
     padding: 0 28px;
-    background: var(--drl-orange);
+    background: #3FA9F5;
     color: #fff;
     font-size: 15px;
     font-weight: 800;
@@ -307,16 +314,16 @@ textarea.drl-input {
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(232, 80, 26, 0.25);
+    box-shadow: 0 4px 14px rgba(63, 169, 245, 0.28);
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-decoration: none;
 }
 
 .drl-btn-orange:hover {
-    background: #c43d10;
+    background: #e87830;
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(232, 80, 26, 0.35);
+    box-shadow: 0 8px 20px rgba(255, 138, 61, 0.35);
 }
 
 .drl-btn-orange:active {
@@ -340,8 +347,8 @@ textarea.drl-input {
 }
 
 .drl-tag--sent {
-    background: #eff6ff;
-    color: #00509e;
+    background: #eef6ff;
+    color: #3FA9F5;
 }
 
 .drl-tag--success {

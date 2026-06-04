@@ -1,0 +1,356 @@
+/* ══════════════════════════════════════════════════════════════════════
+   DRILLEEDO — CHARTE OFFICIELLE (Brand Guidelines 2025)
+   Source : Drilleedo Brand Guidelines PDF + web-site-better-version.jpg
+
+   PRIMARY COLORS (logos, éléments principaux, focaux) :
+   ├── Helper Blue  #00497F  — Structures, hero dark bg, headings, nav
+   ├── Action Sky   #3FA9F5  — Boutons, CTAs, icônes, éléments interactifs
+   └── Toolbox Orange #FF8A3D — Accent : search btn, badges, highlights
+
+   SECONDARY :
+   └── Wall White  #FFFBEB  — Fonds clairs, cartes, sections neutres
+
+   RÈGLES :
+   ├── PAS de dégradés multi-couleurs — flat colors uniquement
+   ├── Fonds sombres = #00497F (Helper Blue)
+   ├── Fonds clairs = #FFFBEB ou #ffffff
+   └── Boutons = #3FA9F5 · hover #2a95e0
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Variables globales unifié ── */
+:root {
+  /* Charte Drilleedo */
+  --B: #00497F;
+  --S: #3FA9F5;
+  --O: #FF8A3D;
+  --C: #FFFBEB;
+  --D: #0C1825;
+  --M: #4A6073;
+  --L: #E4EBF2;
+  --W: #ffffff;
+
+  /* Alias Bootstrap compatibles */
+  --bs-primary:            #00497F;
+  --bs-primary-rgb:        0, 73, 127;
+  --bs-link-color:         #3FA9F5;
+  --bs-link-hover-color:   #00497F;
+
+  /* Alias drl- (composants dashboard) */
+  --drl-B: #00497F;
+  --drl-S: #3FA9F5;
+  --drl-O: #FF8A3D;
+  --drl-D: #0C1825;
+  --drl-M: #4A6073;
+  --drl-L: #E4EBF2;
+  --color-primary:       #00497F;
+  --color-primary-dark:  #003a66;
+  --color-primary-light: rgba(0, 73, 127, 0.08);
+}
+
+/* ── Bootstrap overrides — boutons Action Sky #3FA9F5 ── */
+.btn-primary {
+  background-color: #3FA9F5 !important;
+  border-color:     #3FA9F5 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(63,169,245,.28) !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #2a95e0 !important;
+  border-color:     #2a95e0 !important;
+  color: #fff !important;
+  box-shadow: 0 6px 20px rgba(63,169,245,.38) !important;
+}
+
+.btn-outline-primary {
+  color:        #3FA9F5 !important;
+  border-color: #3FA9F5 !important;
+}
+.btn-outline-primary:hover {
+  background-color: #3FA9F5 !important;
+  color: #fff !important;
+}
+
+/* ── Links ── */
+a { color: #3FA9F5; }
+a:hover { color: #00497F; }
+
+/* ── Global font ── */
+body, button, input, select, textarea {
+  font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Bouton standard — Action Sky #3FA9F5 ── */
+.cta-orange, .btn-cta, .cta-blue,
+.drl-btn-orange, .drl-btn-primary-fill,
+.pro-btn-b, .hw-btn-o, .ab-btn-o,
+.gyb-btn-orange, .df-plan-cta,
+.fp-btn-solid, .pl-btn-solid {
+  background: #3FA9F5 !important;
+  color: #fff !important;
+  border-color: #3FA9F5 !important;
+  box-shadow: 0 4px 14px rgba(63,169,245,.28) !important;
+  transition: all .2s ease !important;
+}
+.cta-orange:hover, .btn-cta:hover, .cta-blue:hover,
+.drl-btn-orange:hover, .drl-btn-primary-fill:hover,
+.pro-btn-b:hover, .hw-btn-o:hover, .ab-btn-o:hover,
+.gyb-btn-orange:hover, .df-plan-cta:hover,
+.fp-btn-solid:hover, .pl-btn-solid:hover {
+  background: #2a95e0 !important;
+  color: #fff !important;
+  border-color: #2a95e0 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 22px rgba(63,169,245,.38) !important;
+}
+
+/* ── Zenith card (annuaire professionnel) ── */
+.zenith-card {
+  border: 1.5px solid #E4EBF2 !important;
+  border-radius: 20px !important;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+}
+.zenith-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 12px 36px rgba(0,73,127,.13) !important;
+  border-color: #3FA9F5 !important;
+}
+.zenith-card-title a { color: #0C1825 !important; text-decoration: none !important; font-weight: 800 !important; }
+.zenith-card-title a:hover { color: #00497F !important; }
+.zenith-mini-badge.primary {
+  background: rgba(0,73,127,.1) !important;
+  color: #00497F !important;
+  font-weight: 700 !important;
+}
+.zenith-mini-badge {
+  background: #f0f4f8 !important;
+  color: #4A6073 !important;
+}
+.btn-zenith-icon {
+  background: #00497F !important; color: #fff !important;
+  border-radius: 8px !important; padding: 6px 10px !important;
+  transition: background .18s !important;
+}
+.btn-zenith-icon:hover { background: #003a66 !important; }
+.zenith-location { color: #4A6073 !important; font-size: 13px !important; }
+.zenith-logo-placeholder {
+  background: linear-gradient(135deg, #00497F, #3FA9F5) !important;
+  color: #fff !important; font-weight: 900 !important;
+}
+
+/* ── Zenith Banner hero ── */
+.zenith-banner {
+  background: linear-gradient(135deg, #002d50 0%, #00497F 60%, #0a6eab 100%) !important;
+  padding: 72px 0 60px !important;
+}
+.zenith-title {
+  font-size: clamp(24px,4vw,44px) !important;
+  font-weight: 900 !important; color: #fff !important;
+  letter-spacing: -1.5px !important; line-height: 1.1 !important;
+}
+.zenith-badge {
+  display: inline-flex !important; align-items: center !important; gap: 7px !important;
+  background: rgba(255,255,255,.1) !important; color: rgba(255,255,255,.9) !important;
+  border: 1px solid rgba(255,255,255,.2) !important; border-radius: 50px !important;
+  padding: 6px 18px !important; font-size: 12px !important; font-weight: 700 !important;
+  letter-spacing: .6px !important; text-transform: uppercase !important;
+  text-decoration: none !important; margin-bottom: 16px !important; display: block !important;
+}
+.zenith-filter-bar { border-radius: 16px !important; }
+
+/* ── Boutons dashboard — Action Sky ── */
+/* (couverts par le bloc global ci-dessus) */
+
+/* ── Act buttons ── */
+.drl-act-btn--view {
+  background: rgba(0,73,127,.07) !important;
+  color: #00497F !important;
+  border: 1.5px solid rgba(0,73,127,.15) !important;
+  border-radius: 8px !important;
+  transition: all .18s !important;
+}
+.drl-act-btn--view:hover {
+  background: #00497F !important; color: #fff !important;
+  border-color: #00497F !important;
+}
+.drl-act-btn--finalize {
+  background: rgba(22,163,74,.1) !important;
+  color: #16a34a !important; border-radius: 8px !important;
+}
+
+/* ── Tag colors ── */
+.drl-tag--sent { background: rgba(63,169,245,.1) !important; color: #00497F !important; }
+.drl-tag--success { background: rgba(22,163,74,.1) !important; color: #16a34a !important; }
+.drl-tag--warning { background: rgba(255,138,61,.1) !important; color: #c95a08 !important; }
+.drl-tag--danger  { background: rgba(239,68,68,.08) !important; color: #c0392b !important; }
+.drl-tag--draft   { background: #f1f5f9 !important; color: #64748b !important; }
+
+/* ── Navigation public ── */
+.rbt-header-wrapper { background: #fff !important; border-bottom: 1px solid #E4EBF2 !important; }
+.rbt-header-wrapper.sticky { box-shadow: 0 2px 16px rgba(0,73,127,.08) !important; }
+
+/* ── Inputs — focus brand blue ── */
+input:focus, select:focus, textarea:focus {
+  border-color: #3FA9F5 !important;
+  box-shadow: 0 0 0 3px rgba(63,169,245,.15) !important;
+  outline: none !important;
+}
+
+/* ── Stat icons ── */
+.drl-stat-icon--1 {
+  background: rgba(63,169,245,.12) !important;
+  color: #3FA9F5 !important;
+  border: 1px solid rgba(63,169,245,.2) !important;
+}
+.drl-stat-icon--2 {
+  background: rgba(255,138,61,.1) !important;
+  color: #FF8A3D !important;
+  border: 1px solid rgba(255,138,61,.2) !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   ÉTAPES MODERNES — Phase sections (for_pros, how_it_works, find_a_pro)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Step label — unified Action Sky pill */
+.pro-phase-label, .hw-phase-label, .fp-phase-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(63,169,245,.1) !important;
+  color: #3FA9F5 !important;
+  border: 1.5px solid rgba(63,169,245,.25) !important;
+  border-radius: 50px !important;
+  padding: 7px 18px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: .3px !important;
+  margin-bottom: 16px !important;
+}
+
+/* Step counter */
+.pro-phase-step, .hw-phase-step, .fp-phase-step {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #3FA9F5 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.2px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Step title */
+.pro-phase-title, .hw-phase-title, .fp-phase-title {
+  font-size: clamp(22px,2.8vw,32px) !important;
+  font-weight: 900 !important;
+  color: #0C1825 !important;
+  letter-spacing: -1px !important;
+  line-height: 1.15 !important;
+  margin: 0 0 14px !important;
+}
+
+/* Step desc */
+.pro-phase-desc, .hw-phase-desc, .fp-phase-desc {
+  font-size: 16px !important;
+  color: #4A6073 !important;
+  line-height: 1.75 !important;
+  margin-bottom: 24px !important;
+}
+
+/* Feature list — cleaner spacing */
+.pro-feat-list, .hw-feat-list, .fp-feat-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin-bottom: 28px !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Feature item */
+.pro-feat-item, .hw-feat-item, .fp-feat-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 12px 16px !important;
+  background: #f8fafc !important;
+  border: 1px solid #E4EBF2 !important;
+  border-radius: 12px !important;
+  transition: border-color .18s ease, background .18s ease !important;
+}
+.pro-feat-item:hover, .hw-feat-item:hover, .fp-feat-item:hover {
+  border-color: #3FA9F5 !important;
+  background: rgba(63,169,245,.04) !important;
+}
+
+/* Feature icon — Action Sky */
+.pro-feat-ico, .hw-feat-ico, .fp-feat-ico {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 10px !important;
+  background: rgba(63,169,245,.12) !important;
+  color: #3FA9F5 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 16px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Feature item text */
+.pro-feat-item h4, .hw-feat-item h4, .fp-feat-item h4,
+.pro-feat-item div h4, .hw-feat-item div h4, .fp-feat-item div h4 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0C1825 !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
+}
+
+/* Phase image tag */
+.pro-phase-img-tag, .hw-phase-img-tag, .fp-phase-img-tag {
+  background: rgba(0,73,127,.88) !important;
+  backdrop-filter: blur(8px) !important;
+  border-radius: 12px !important;
+  padding: 10px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+}
+.pro-phase-img-tag i, .hw-phase-img-tag i, .fp-phase-img-tag i {
+  color: #3FA9F5 !important;
+}
+
+/* Phase image wrap */
+.pro-phase-img-wrap, .hw-phase-img-wrap, .fp-phase-img-wrap {
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  box-shadow: 0 12px 44px rgba(0,73,127,.15) !important;
+}
+
+/* Phase CTA buttons */
+.pro-btn-b, .hw-btn-b, .fp-btn-b {
+  background: #3FA9F5 !important;
+  color: #fff !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 14px rgba(63,169,245,.28) !important;
+  transition: all .2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  padding: 13px 26px !important;
+  text-decoration: none !important;
+  border: none !important;
+}
+.pro-btn-b:hover, .hw-btn-b:hover, .fp-btn-b:hover {
+  background: #2a95e0 !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 22px rgba(63,169,245,.38) !important;
+}
+
+/* Alternate phase background — Wall White */
+.pro-phase--alt { background: #FFFBEB !important; }
+.hw-phase--alt  { background: #FFFBEB !important; }
+.fp-phase--alt  { background: #FFFBEB !important; }

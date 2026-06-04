@@ -125,10 +125,10 @@
                             {% set locales = {'fr': '🇫🇷 FR', 'en': '🇬🇧 EN'} %}
                             {% for code, label in locales %}
                                 <a href="{{ path('app_change_locale', {locale: code}) }}"
-                                   style="font-size:11px;font-weight:800;padding:4px 6px;text-decoration:none;
-                                          background:{{ app.request.locale == code ? '#e8501a' : 'transparent' }};
-                                          color:{{ app.request.locale == code ? '#fff' : '#0d2151' }};
-                                          border-radius: 4px; border: 1px solid {{ app.request.locale == code ? '#e8501a' : '#cbd5e1' }};
+                                   style="font-size:11px;font-weight:800;padding:4px 8px;text-decoration:none;
+                                          background:{{ app.request.locale == code ? '#00497F' : 'transparent' }};
+                                          color:{{ app.request.locale == code ? '#fff' : '#0C1825' }};
+                                          border-radius: 6px; border: 1px solid {{ app.request.locale == code ? '#00497F' : '#E4EBF2' }};
                                           transition:all .2s;"
                                    title="{{ code == 'fr' ? 'Français' : 'English' }}">{{ label }}</a>
                             {% endfor %}
@@ -214,9 +214,9 @@
                     {% for code, label in {'fr': '🇫🇷 FR', 'en': '🇬🇧 EN'} %}
                         <a href="{{ path('app_change_locale', {locale: code}) }}"
                            style="font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:20px;text-decoration:none;
-                                  background:{{ app.request.locale == code ? '#1a2b4a' : '#f1f5f9' }};
-                                  color:{{ app.request.locale == code ? '#fff' : '#64748b' }};
-                                  border:1px solid {{ app.request.locale == code ? '#1a2b4a' : '#e2e8f0' }};">{{ label }}</a>
+                                  background:{{ app.request.locale == code ? '#00497F' : '#f1f5f9' }};
+                                  color:{{ app.request.locale == code ? '#fff' : '#4A6073' }};
+                                  border:1px solid {{ app.request.locale == code ? '#00497F' : '#E4EBF2' }};">{{ label }}</a>
                     {% endfor %}
                 </div>
                 {% if app.user %}
