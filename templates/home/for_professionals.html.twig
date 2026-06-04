@@ -39,7 +39,7 @@
 /* ── 1. Hero ── */
 .gyb-hero {
   min-height: 360px;
-  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  background: var(--B);
   position: relative; overflow: hidden; display: flex; align-items: center;
 }
 .gyb-hero__pattern { position: absolute; inset: 0; }
@@ -69,7 +69,7 @@
   font-size: clamp(30px,5vw,54px); font-weight: 900; color: #fff;
   margin: 0 0 16px; line-height: 1.08; letter-spacing: -2px;
 }
-.gyb-hero__title span { color: var(--O); }
+.gyb-hero__title span { color: var(--S); }
 
 .gyb-hero__sub {
   font-size: 17px; color: rgba(255,255,255,.78);
@@ -100,7 +100,7 @@
   font-size: 13px; color: rgba(255,255,255,.65); font-weight: 600;
 }
 .gyb-hero__trust span { display: flex; align-items: center; gap: 6px; }
-.gyb-hero__trust i { color: var(--O); }
+.gyb-hero__trust i { color: var(--S); }
 
 .gyb-hero__card {
   background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
@@ -125,9 +125,9 @@
 /* ── 2. Stats strip ── */
 .gyb-strip {
   background: var(--W);
-  border-top: 3px solid var(--O);
+  border-top: 3px solid var(--S);
   border-bottom: 1px solid var(--L);
-  padding: 20px 0;
+  padding: 24px 0;
 }
 .gyb-strip__grid {
   display: grid; grid-template-columns: repeat(4,1fr);
@@ -139,8 +139,8 @@
 }
 .gyb-strip__cell:last-child { border-right: none; }
 .gyb-strip__ico {
-  color: var(--O); font-size: 22px;
-  background: rgba(255,138,61,.1); padding: 8px; border-radius: 10px;
+  color: var(--S); font-size: 22px;
+  background: rgba(63,169,245,.1); padding: 8px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; flex-shrink: 0;
 }
@@ -150,7 +150,7 @@
 /* ── 3. Common section utilities ── */
 .gyb-section { padding: 96px 0; }
 .gyb-section--gray { background: var(--C); }
-.gyb-section--blue { background: linear-gradient(160deg, #eef6ff 0%, #e3f0fd 50%, #d9ecfb 100%); }
+.gyb-section--blue { background: #f0f6ff; }
 
 .gyb-section-eyebrow {
   display: inline-flex; align-items: center; gap: 6px;
@@ -177,7 +177,7 @@
   content: ''; position: absolute;
   top: 50px; left: calc(12.5% + 26px); right: calc(12.5% + 26px);
   height: 2px;
-  background: linear-gradient(90deg, rgba(255,138,61,.6), rgba(63,169,245,.6));
+  background: linear-gradient(90deg, var(--B), var(--S));
 }
 .gyb-step {
   background: var(--W); border: 1.5px solid var(--L);
@@ -187,28 +187,29 @@
 }
 .gyb-step:hover {
   border-color: var(--S); transform: translateY(-5px);
-  box-shadow: var(--sh-md); border-bottom: 3px solid var(--S);
+  box-shadow: 0 10px 36px rgba(63,169,245,.14); border-bottom: 3px solid var(--S);
 }
 .gyb-step__num {
   position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
   width: 32px; height: 32px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 13px; font-weight: 900; color: #fff;
-  background: var(--O); border: 3px solid var(--W);
-  box-shadow: 0 4px 18px rgba(255,138,61,.5);
+  background: var(--S); border: 3px solid var(--W);
+  box-shadow: 0 4px 14px rgba(63,169,245,.45);
 }
 .gyb-step__ico {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--B), var(--S));
+  width: 60px; height: 60px; border-radius: 16px;
+  background: var(--S);
   display: flex; align-items: center; justify-content: center;
-  font-size: 26px; color: #fff; margin: 0 auto 18px;
+  font-size: 24px; color: #fff; margin: 0 auto 16px;
   transition: transform .22s;
 }
 .gyb-step:hover .gyb-step__ico { transform: scale(1.08) rotate(-4deg); }
 .gyb-step__chip {
   font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--M); background: var(--L); border-radius: 50px;
-  padding: 2px 10px; margin-bottom: 10px; display: inline-block;
+  color: var(--S); background: rgba(63,169,245,.1); border-radius: 50px;
+  padding: 3px 12px; margin-bottom: 10px; display: inline-block;
+  border: 1px solid rgba(63,169,245,.2);
 }
 .gyb-step__title { font-size: 16px; font-weight: 800; color: var(--D); margin: 0 0 8px; }
 .gyb-step__desc  { font-size: 13px; color: var(--M); line-height: 1.65; margin: 0; }
@@ -253,7 +254,7 @@
   padding: 3px 12px; border-radius: 50px; letter-spacing: .05em;
 }
 .gyb-plan__head { padding: 30px 26px 20px; border-bottom: 1px solid var(--L); }
-.gyb-plan--popular .gyb-plan__head { background: linear-gradient(135deg,var(--D),#003660); }
+.gyb-plan--popular .gyb-plan__head { background: var(--B); }
 .gyb-plan__name {
   font-size: 13px; font-weight: 800; letter-spacing: .08em;
   text-transform: uppercase; color: var(--M); margin-bottom: 10px;
@@ -285,10 +286,10 @@
 }
 .gyb-plan--basic .gyb-plan__cta:hover { background: #d0dde8; color: var(--D); }
 .gyb-plan--popular .gyb-plan__cta {
-  background: var(--O); color: #fff; border: none;
-  box-shadow: 0 4px 16px rgba(255,138,61,.35);
+  background: var(--S); color: #fff; border: none;
+  box-shadow: 0 4px 14px rgba(63,169,245,.3);
 }
-.gyb-plan--popular .gyb-plan__cta:hover { background: #e87830; color: #fff; }
+.gyb-plan--popular .gyb-plan__cta:hover { background: #2a95e0; color: #fff; }
 .gyb-plan--enterprise .gyb-plan__cta { background: var(--B); color: #fff; border: none; }
 .gyb-plan--enterprise .gyb-plan__cta:hover { background: #003a66; color: #fff; }
 
@@ -338,14 +339,14 @@
   transition: background .15s;
 }
 .gyb-faq-btn:hover { background: #f5f8fc; }
-.gyb-faq-btn.open { color: var(--B); }
+.gyb-faq-btn.open { color: var(--S); }
 .gyb-faq-arrow {
   width: 26px; height: 26px; border-radius: 50%;
   background: var(--L); color: var(--M);
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; transition: transform .2s, background .15s; line-height: 1; flex-shrink: 0;
 }
-.gyb-faq-btn.open .gyb-faq-arrow { transform: rotate(45deg); background: var(--B); color: #fff; }
+.gyb-faq-btn.open .gyb-faq-arrow { transform: rotate(45deg); background: var(--S); color: #fff; }
 .gyb-faq-body {
   display: none; padding: 0 22px 18px;
   font-size: 14px; color: var(--M); line-height: 1.75;
@@ -354,7 +355,7 @@
 
 /* ── 9. Final CTA ── */
 .gyb-final-cta {
-  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  background: var(--B);
   padding: 90px 0; text-align: center; position: relative; overflow: hidden;
 }
 .gyb-final-cta::before {
@@ -403,6 +404,74 @@
 /* Scroll animations */
 .gyb-scroll { opacity: 0; transform: translateY(22px); transition: opacity .5s ease, transform .5s ease; }
 .gyb-scroll.visible { opacity: 1; transform: none; }
+
+/* ══ CHARTE SYNC — overrides finaux pour cohérence totale ══════════ */
+
+/* Hero — dot decoratif sur tagline */
+.gyb-eyebrow { letter-spacing: .8px; }
+
+/* Stats strip — plus aéré */
+.gyb-strip { padding: 28px 0; }
+.gyb-strip__num { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
+
+/* Intro cards — unify hover */
+.gyb-intro-feat { border-radius: 16px !important; }
+.gyb-intro-feat:hover { border-color: var(--S) !important; }
+.gyb-intro-feat__ico { border-radius: 12px !important; }
+
+/* Steps — card elevation */
+.gyb-step { border-radius: 20px; box-shadow: 0 2px 10px rgba(0,73,127,.06); }
+.gyb-step:hover { box-shadow: 0 10px 36px rgba(63,169,245,.14); }
+.gyb-step__title { font-size: 15px; letter-spacing: -.3px; }
+
+/* Spotlight cards — why join */
+.gyb-spotlight-card { border-radius: 22px !important; }
+.gyb-spotlight-card:hover { border-color: var(--S) !important; }
+.gyb-spotlight-ico--navy { background: var(--B) !important; }
+
+/* Pricing cards */
+.gyb-plan { border-radius: 20px; }
+.gyb-plan--popular { border-color: var(--S) !important; border-width: 2px !important; }
+.gyb-plan--popular .gyb-plan__head { background: var(--B) !important; }
+.gyb-plan--basic .gyb-plan__cta { background: #f0f4f8 !important; color: var(--B) !important; border-color: var(--L) !important; }
+.gyb-plan--basic .gyb-plan__cta:hover { background: var(--S) !important; color: #fff !important; border-color: var(--S) !important; }
+.gyb-plan--enterprise .gyb-plan__cta { background: var(--B) !important; color: #fff !important; }
+.gyb-plan--enterprise .gyb-plan__cta:hover { background: var(--S) !important; }
+.gyb-plan__feature i { color: var(--S) !important; }
+
+/* Testimonials */
+.gyb-testimonial { border-radius: 20px !important; background: #fff !important; border-color: var(--L) !important; }
+.gyb-testimonial:hover { border-color: var(--S) !important; }
+.gyb-testimonial__ava { background: var(--S) !important; }
+.gyb-testimonial__text::before { color: var(--S) !important; }
+.gyb-testimonial__stars { color: var(--S) !important; }
+
+/* FAQ */
+.gyb-faq-item { border-radius: 14px !important; }
+.gyb-faq-item:hover { border-color: var(--S) !important; }
+
+/* Section backgrounds — Wall White alternance */
+.gyb-section--gray { background: var(--C) !important; }
+.gyb-section--blue { background: rgba(63,169,245,.05) !important; }
+
+/* Pro phase sections */
+.pro-phase { border-bottom: 1px solid var(--L); }
+.pro-phase:last-of-type { border-bottom: none; }
+.pro-phase-img-wrap { border-radius: 20px !important; overflow: hidden !important; }
+
+/* Callout orange band → Action Sky */
+.gyb-callout {
+  background: var(--B) !important;
+  border-left: 5px solid var(--S) !important;
+}
+.gyb-callout::before { display: none !important; }
+.gyb-callout__quote { color: rgba(255,255,255,.95) !important; }
+.gyb-callout__ava { background: rgba(63,169,245,.2) !important; border-color: rgba(63,169,245,.4) !important; }
+.gyb-callout__stat { background: rgba(255,255,255,.08) !important; border-color: rgba(255,255,255,.15) !important; }
+
+/* Final CTA */
+.gyb-final-cta { background: var(--B) !important; }
+.gyb-final-cta::before, .gyb-final-cta::after { display: none !important; }
 </style>
 
 
@@ -524,7 +593,7 @@
 
 .gyb-mission-block {
     margin-top: 52px;
-    background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+    background: var(--B);
     border-radius: var(--rx); padding: 48px 44px;
     position: relative; overflow: hidden;
 }
@@ -620,7 +689,7 @@
             <div class="col-lg-5">
                 <div class="gyb-intro-features">
                     <div class="gyb-intro-feat">
-                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#0C1825,#003660);color:#FF8A3D;">
+                        <div class="gyb-intro-feat__ico" style="background:#3FA9F5;color:#fff;">
                             <i class="ph-bold ph-crosshair" aria-hidden="true"></i>
                         </div>
                         <div>
@@ -632,7 +701,7 @@
                         </div>
                     </div>
                     <div class="gyb-intro-feat">
-                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#00497F,#2196f3);color:#fff;">
+                        <div class="gyb-intro-feat__ico" style="background:#3FA9F5;color:#fff;">
                             <i class="ph-bold ph-clock" aria-hidden="true"></i>
                         </div>
                         <div>
@@ -644,7 +713,7 @@
                         </div>
                     </div>
                     <div class="gyb-intro-feat">
-                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;">
+                        <div class="gyb-intro-feat__ico" style="background:#3FA9F5;color:#fff;">
                             <i class="ph-bold ph-trend-up" aria-hidden="true"></i>
                         </div>
                         <div>
@@ -656,7 +725,7 @@
                         </div>
                     </div>
                     <div class="gyb-intro-feat">
-                        <div class="gyb-intro-feat__ico" style="background:linear-gradient(135deg,#c73d0d,#FF8A3D);color:#fff;">
+                        <div class="gyb-intro-feat__ico" style="background:#3FA9F5;color:#fff;">
                             <i class="ph-bold ph-currency-dollar" aria-hidden="true"></i>
                         </div>
                         <div>
@@ -798,7 +867,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px;
   font-family: var(--F);
 }
-.pro-phase-img-tag i { color: var(--O); }
+.pro-phase-img-tag i { color: var(--S); }
 .pro-phase-label {
   display: inline-flex; align-items: center; gap: 7px;
   border-radius: 50px; padding: 7px 16px;
@@ -835,38 +904,31 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
     <div class="pro-phase-grid">
       <div>
         <div class="pro-phase-step">Étape 1</div>
-        <div class="pro-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
+        <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-user-plus"></i> Créez votre profil professionnel
         </div>
         <h2 class="pro-phase-title">Créez votre profil professionnel</h2>
         <p class="pro-phase-desc">Inscrivez-vous en quelques minutes et construisez une vitrine digitale qui inspire confiance — et attire les bons clients dès le premier jour.</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Nom, logo et description percutante de votre entreprise</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Certifications officielles, licences RBQ, CCQ et accréditations</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Spécialités &amp; services offerts — soyez précis pour attirer les bons projets</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Portfolio complet — photos avant/après de vos meilleures réalisations</h4>
           </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Zones d'intervention — les villes et régions où vous travaillez</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Disponibilité en temps réel — gérez votre agenda facilement</h4>
-          </li>
+
         </ul>
-        <p class="pro-note">Votre profil Drilleedo, c'est votre meilleur commercial — disponible 24h/7j, sans salaire ni commission. Il parle pour vous quand vous dormez, quand vous travaillez, quand vous ne pouvez pas répondre. Construisez-le bien — et il travaillera pour vous indéfiniment.</p>
+
         <a href="{{ path('app_register') }}" class="pro-btn-b">
           Je crée mon profil — et je développe mon activité <i class="ph-bold ph-arrow-right"></i>
         </a>
@@ -888,38 +950,31 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
     <div class="pro-phase-grid pro-phase-grid--rev">
       <div>
         <div class="pro-phase-step">Étape 2</div>
-        <div class="pro-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
+        <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-bell-ringing"></i> Recevez des demandes ciblées
         </div>
         <h2 class="pro-phase-title">Recevez des demandes ciblées</h2>
         <p class="pro-phase-desc">Notre plateforme vous propose automatiquement des projets qui correspondent à votre expertise et à votre localisation — sans que vous ayez à chercher.</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Demandes qualifiées dans votre secteur d'activité précis</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Projets localisés dans vos zones d'intervention déclarées</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Clients sérieux avec besoins clairs, budget défini et délai précisé</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Notifications en temps réel — ne manquez jamais une opportunité</h4>
           </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Avec l'abonnement Premium : demandes prioritaires &amp; clients ciblés</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Deux sources de clients : annuaire direct + demandes de soumissions</h4>
-          </li>
+
         </ul>
-        <p class="pro-note">Drilleedo vous envoie les bons projets — pas n'importe lesquels. Notre système de matching intelligent connecte votre profil aux demandes qui correspondent exactement à votre expertise et votre région. Résultat : des demandes sérieuses, des clients motivés — et votre temps bien utilisé.</p>
+
       </div>
       <div class="pro-phase-img-wrap">
         <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
@@ -938,38 +993,31 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
     <div class="pro-phase-grid">
       <div>
         <div class="pro-phase-step">Étape 3</div>
-        <div class="pro-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
+        <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-paper-plane-tilt"></i> Soumettez vos offres
         </div>
         <h2 class="pro-phase-title">Soumettez vos offres</h2>
         <p class="pro-phase-desc">Vous êtes libre de sélectionner uniquement les projets qui vous intéressent. Envoyez vos soumissions directement aux clients — et échangez avec eux pour affiner leurs besoins.</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Consultez les détails complets de chaque projet avant de répondre</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Choisissez les opportunités qui correspondent à vos disponibilités</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Rédigez et envoyez votre soumission directement au client</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Messagerie intégrée — échangez, précisez et convainquez</h4>
           </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Zéro intermédiaire — vous parlez directement au propriétaire</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Zéro commission sur la soumission acceptée — jamais</h4>
-          </li>
+
         </ul>
-        <p class="pro-note">Sur Drilleedo, vous choisissez vos projets — pas l'inverse. Prenez ceux qui vous conviennent, refusez ceux qui ne correspondent pas. Vous êtes le patron de votre activité. Drilleedo vous donne les opportunités — vous décidez lesquelles saisir.</p>
+
       </div>
       <div class="pro-phase-img-wrap">
         <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
@@ -988,36 +1036,29 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
     <div class="pro-phase-grid pro-phase-grid--rev">
       <div>
         <div class="pro-phase-step">Étape 4</div>
-        <div class="pro-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
+        <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-trophy"></i> Gagnez des contrats &amp; développez votre réputation
         </div>
         <h2 class="pro-phase-title">Gagnez des contrats &amp; développez votre réputation</h2>
         <p class="pro-phase-desc">Développez votre portefeuille clients, augmentez votre visibilité en ligne — et bâtissez une réputation qui travaille pour vous, même quand vous dormez.</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Chaque projet réussi renforce votre profil et attire de nouveaux clients</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Collectez des avis authentiques — votre meilleure preuve de qualité</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Votre réputation digitale devient votre meilleur argument de vente</h4>
           </li>
           <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
+            <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Les professionnels Drilleedo reçoivent jusqu'à +40% de demandes dès le 1er mois</h4>
           </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Standard ou Premium — vous gardez 100% de chaque contrat décroché</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>Votre activité grandit pendant que vous travaillez — pas en prospectant</h4>
-          </li>
+
         </ul>
         <a href="{{ path('app_register') }}" class="pro-btn-b">
           Je crée mon profil — et mes prochains clients m'attendent déjà <i class="ph-bold ph-arrow-right"></i>
@@ -1061,7 +1102,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   font-size: clamp(28px,4vw,42px); font-weight: 900; color: var(--D);
   margin: 0 0 16px; letter-spacing: -1.5px; line-height: 1.13;
 }
-.gyb-why__title span { color: var(--O); }
+.gyb-why__title span { color: var(--S); }
 .gyb-why__sub { font-size: 17px; color: var(--M); max-width: 600px; margin: 0 auto; line-height: 1.75; }
 
 .gyb-spotlight-grid {
@@ -1079,7 +1120,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 }
 .gyb-spotlight-card--featured {
   border-color: var(--B); box-shadow: var(--sh);
-  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  background: var(--B);
 }
 .gyb-spotlight-card--featured:hover { box-shadow: var(--sh-lg); }
 .gyb-spotlight-card--featured::after {
@@ -1114,7 +1155,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 }
 .gyb-spotlight-card--featured .gyb-spotlight-list li { color: rgba(255,255,255,.85); }
 .gyb-spotlight-list li i { color: #16a34a; font-size: 14px; flex-shrink: 0; }
-.gyb-spotlight-card--featured .gyb-spotlight-list li i { color: var(--O); }
+.gyb-spotlight-card--featured .gyb-spotlight-list li i { color: var(--S); }
 
 .gyb-compare {
   background: var(--W); border: 1.5px solid var(--L);
@@ -1356,290 +1397,327 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 {# ── /Why Join Drilleedo ── #}
 
 
-{# ══════════════════════════════════════════════════════════════════════════
-   NEW: POURQUOI DRILLEEDO CHANGE LA DONNE
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section gyb-section--blue gyb-scroll" aria-labelledby="pourquoi-heading">
-  <div class="container">
 
-    <div class="text-center">
-      <div class="gyb-section-eyebrow">
+{# ══════════════════════════════════════════════════════════════════════════
+   SECTION FUSIONNÉE : Pourquoi Drilleedo + Plans + Calcul
+══════════════════════════════════════════════════════════════════════════ #}
+<style>
+/* ── SECTION FUSION : Avantages + Plans + Calcul ─────────────────────── */
+.df-fusion {
+  padding: 96px 0;
+  background: linear-gradient(160deg, #f0f6ff 0%, #e8f2fb 50%, #ddeeff 100%);
+  position: relative; overflow: hidden;
+}
+.df-fusion::before {
+  content: ''; position: absolute; right: -160px; top: -160px;
+  width: 560px; height: 560px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,73,127,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.df-fusion-head { text-align: center; margin-bottom: 64px; }
+.df-fusion-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(63,169,245,.1); color: #3FA9F5;
+  border: 1px solid rgba(63,169,245,.22); border-radius: 50px;
+  padding: 7px 18px; font-size: 12px; font-weight: 700;
+  letter-spacing: .6px; text-transform: uppercase; margin-bottom: 20px;
+}
+.df-fusion-h2 {
+  font-size: clamp(28px,4vw,44px); font-weight: 900; color: #0C1825;
+  line-height: 1.1; letter-spacing: -1.5px; margin: 0 0 14px;
+}
+.df-fusion-h2 span { color: #FF8A3D; }
+.df-fusion-sub { font-size: 17px; color: #4A6073; max-width: 560px; margin: 0 auto; line-height: 1.75; }
+
+/* ── BLOC 1 : Split Drilleedo vs Les autres ── */
+.df-vs-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 56px; }
+.df-vs-panel { border-radius: 24px; padding: 40px 36px; position: relative; overflow: hidden; }
+.df-vs-panel--bad { background: #fff; border: 2px solid #E4EBF2; }
+.df-vs-panel--bad::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6b7280, #4b5563); }
+.df-vs-panel--good { background: linear-gradient(160deg, #002d50, #00497F 70%, #0a6eab); border: 2px solid #00497F; }
+.df-vs-panel--good::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #FF8A3D, #f06030); }
+.df-vs-label { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 20px; }
+.df-vs-panel--bad .df-vs-label  { background: #f1f5f9; color: #64748b; }
+.df-vs-panel--good .df-vs-label { background: rgba(255,138,61,.2); color: #FF8A3D; }
+.df-vs-title { font-size: clamp(18px,2.2vw,24px); font-weight: 900; line-height: 1.2; letter-spacing: -.8px; margin: 0 0 24px; }
+.df-vs-panel--bad .df-vs-title  { color: #0C1825; }
+.df-vs-panel--good .df-vs-title { color: #fff; }
+.df-vs-rows { display: flex; flex-direction: column; gap: 12px; }
+.df-vs-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 14px; }
+.df-vs-panel--bad .df-vs-row  { background: #f8fafc; }
+.df-vs-panel--good .df-vs-row { background: rgba(255,255,255,.08); }
+.df-vs-row-ico { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.df-vs-panel--bad .df-vs-row-ico  { background: #f1f5f9; color: #64748b; }
+.df-vs-panel--good .df-vs-row-ico { background: rgba(255,138,61,.2); color: #FF8A3D; }
+.df-vs-row-name { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 2px; }
+.df-vs-panel--bad .df-vs-row-name  { color: #374151; }
+.df-vs-panel--good .df-vs-row-name { color: #fff; }
+.df-vs-row-desc { font-size: 12px; line-height: 1.55; margin: 0; }
+.df-vs-panel--bad .df-vs-row-desc  { color: #6b7280; }
+.df-vs-panel--good .df-vs-row-desc { color: rgba(255,255,255,.68); }
+
+/* ── BLOC 2 : Calcul revenus (4 cards) ── */
+.df-calcul-header { text-align: center; margin-bottom: 32px; }
+.df-calcul-header h3 { font-size: clamp(22px,3vw,32px); font-weight: 900; color: #0C1825; letter-spacing: -1.2px; margin: 0 0 8px; line-height: 1.15; }
+.df-calcul-header h3 span { color: #FF8A3D; }
+.df-calcul-header p { font-size: 15px; color: #4A6073; margin: 0; }
+.df-calcul-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+.df-calcul-card { background: #fff; border-radius: 20px; padding: 28px 20px 24px; text-align: center; border: 1.5px solid #E4EBF2; box-shadow: 0 2px 12px rgba(0,73,127,.05); position: relative; overflow: hidden; transition: transform .22s ease, box-shadow .22s ease; }
+.df-calcul-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,73,127,.12); }
+.df-calcul-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #16a34a, #22c55e); }
+.df-calcul-contract { font-size: 13px; font-weight: 700; color: #4A6073; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+.df-calcul-amount { font-size: clamp(26px,3vw,34px); font-weight: 900; color: #0C1825; line-height: 1; letter-spacing: -1px; margin-bottom: 4px; }
+.df-calcul-kept { font-size: 11px; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 16px; display: block; }
+.df-calcul-divider { border: none; border-top: 1px dashed #E4EBF2; margin: 0 0 16px; }
+.df-calcul-lost-lbl { font-size: 11px; font-weight: 600; color: #4A6073; margin-bottom: 4px; }
+.df-calcul-lost { font-size: 15px; font-weight: 800; color: #64748b; margin-bottom: 8px; }
+.df-calcul-saved { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg,#16a34a,#22c55e); color: #fff; font-size: 14px; font-weight: 900; padding: 8px 18px; border-radius: 50px; box-shadow: 0 4px 14px rgba(22,163,74,.35); }
+.df-calcul-note { text-align: center; font-size: 15px; font-style: italic; color: #4A6073; font-weight: 600; letter-spacing: -.3px; padding: 18px 24px; background: #fff; border-radius: 14px; border: 1.5px solid #E4EBF2; margin-bottom: 48px; }
+
+/* ── BLOC 3 : Standard vs Premium ── */
+.df-plans-header { text-align: center; margin-bottom: 36px; }
+.df-plans-header h3 { font-size: clamp(22px,3vw,34px); font-weight: 900; color: #0C1825; letter-spacing: -1.2px; margin: 0 0 8px; line-height: 1.15; }
+.df-plans-header h3 span { color: #00497F; }
+.df-plans-grid { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 16px; align-items: start; }
+.df-plan-card { border-radius: 22px; overflow: hidden; border: 1.5px solid #E4EBF2; background: #fff; box-shadow: 0 2px 12px rgba(0,73,127,.05); transition: transform .22s ease, box-shadow .22s ease; }
+.df-plan-card:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(0,73,127,.12); }
+.df-plan-card--premium { border-color: #FF8A3D; box-shadow: 0 8px 36px rgba(255,138,61,.18); }
+.df-plan-card--others { background: #f8f9fa; opacity: .75; }
+.df-plan-head { padding: 28px 26px 20px; border-bottom: 1px solid #E4EBF2; }
+.df-plan-card--standard .df-plan-head { background: linear-gradient(135deg,#002d50,#00497F); }
+.df-plan-card--premium  .df-plan-head { background: linear-gradient(135deg,#FF8A3D,#f06030); }
+.df-plan-card--others   .df-plan-head { background: #6b7280; }
+.df-plan-badge { display: inline-block; background: rgba(255,255,255,.2); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; padding: 3px 12px; border-radius: 50px; margin-bottom: 12px; }
+.df-plan-price { font-size: 36px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 4px; }
+.df-plan-price sub { font-size: 14px; font-weight: 600; }
+.df-plan-note { font-size: 13px; color: rgba(255,255,255,.65); }
+.df-plan-commission { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 50px; margin-top: 10px; }
+.df-plan-body { padding: 24px 26px; }
+.df-plan-rows { display: flex; flex-direction: column; gap: 11px; margin-bottom: 24px; }
+.df-plan-row { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+.df-plan-row-ico { font-size: 14px; flex-shrink: 0; }
+.df-plan-row--yes { color: #0C1825; } .df-plan-row--yes .df-plan-row-ico { color: #16a34a; }
+.df-plan-row--no  { color: #b0bec5; text-decoration: line-through; } .df-plan-row--no .df-plan-row-ico { color: #E4EBF2; }
+.df-plan-row--bad { color: #6b7280; } .df-plan-row--bad .df-plan-row-ico { color: #94a3b8; }
+.df-plan-cta { display: block; width: 100%; text-align: center; padding: 13px; border-radius: 50px; font-size: 14px; font-weight: 800; text-decoration: none; transition: all .22s ease; font-family: var(--F); }
+.df-plan-card--standard .df-plan-cta { background: #00497F; color: #fff; }
+.df-plan-card--standard .df-plan-cta:hover { background: #003a66; color: #fff; }
+.df-plan-card--premium  .df-plan-cta { background: #FF8A3D; color: #fff; box-shadow: 0 4px 16px rgba(255,138,61,.35); }
+.df-plan-card--premium  .df-plan-cta:hover { background: #e87830; color: #fff; }
+
+@media (max-width: 1024px) {
+  .df-calcul-grid { grid-template-columns: repeat(2,1fr); }
+  .df-plans-grid  { grid-template-columns: 1fr 1fr; }
+  .df-plan-card--others { display: none; }
+}
+@media (max-width: 768px) {
+  .df-vs-wrap { grid-template-columns: 1fr; }
+  .df-plans-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .df-calcul-grid { grid-template-columns: 1fr 1fr; }
+  .df-fusion { padding: 64px 0; }
+}
+</style>
+
+<section class="df-fusion gyb-scroll" aria-labelledby="df-fusion-heading">
+  <div class="container" style="position:relative;z-index:2;">
+
+    <div class="df-fusion-head">
+      <div class="df-fusion-pill">
         <i class="ph-bold ph-lightning" aria-hidden="true"></i>
-        Pourquoi Drilleedo change la donne
+        La différence qui compte
       </div>
-      <h2 class="gyb-section-title" id="pourquoi-heading">
-        Les autres plateformes s'enrichissent sur votre travail.<br>
-        <span>Drilleedo, non.</span>
+      <h2 class="df-fusion-h2" id="df-fusion-heading">
+        Les autres s'enrichissent sur votre travail.<br><span>Drilleedo, non.</span>
       </h2>
+      <p class="df-fusion-sub">Une seule section. Tous les chiffres. La vérité — sans détour.</p>
     </div>
 
-    {# ── Tableau 2 colonnes : Ce que vous obtenez / Ce que ça change ── #}
-    <div class="gyb-compare" style="margin-top:52px;">
-      <div class="gyb-compare__header">
-        <span class="gyb-compare__label">Avantages exclusifs</span>
-        <h3 class="gyb-compare__title">Pourquoi Drilleedo change la donne pour les professionnels ?</h3>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="gyb-compare-table" aria-label="Avantages Drilleedo pour les professionnels">
-          <thead>
-            <tr>
-              <th class="gyb-th-drilleedo" scope="col" style="text-align:left;border-radius:12px 0 0 0;">Ce que vous obtenez avec Drilleedo</th>
-              <th class="gyb-th-other" scope="col" style="text-align:left;">Ce que ça change pour vous</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">0% de commission — jamais</td>
-              <td class="gyb-td-feature" style="font-weight:400;">Chaque dollar gagné vous appartient entièrement — sur chaque contrat</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">Demandes illimitées</td>
-              <td class="gyb-td-feature" style="font-weight:400;">Standard ou Premium — recevez autant de demandes que vous pouvez gérer</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">Double visibilité</td>
-              <td class="gyb-td-feature" style="font-weight:400;">Visible dans l'annuaire ET via les demandes de soumissions — deux sources de clients</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">Profil actif en moins de 24h</td>
-              <td class="gyb-td-feature" style="font-weight:400;">Commencez à recevoir des clients dès aujourd'hui — pas dans 2 semaines</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">Clients sérieux &amp; qualifiés</td>
-              <td class="gyb-td-feature" style="font-weight:400;">Des propriétaires avec un vrai projet, un budget et un délai définis</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">Réputation digitale</td>
-              <td class="gyb-td-feature" style="font-weight:400;">Vos avis certifiés travaillent pour vous 24h/7j — votre meilleur commercial</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    {# ── Tableau 4 colonnes : Standard / Premium / Les autres ── #}
-    <div style="margin-top:60px;">
-      <div class="text-center" style="margin-bottom:40px;">
-        <div class="gyb-section-eyebrow" style="background:rgba(255,138,61,.1);color:var(--O);border-color:rgba(255,138,61,.2);">
-          <i class="ph-bold ph-tag" aria-hidden="true"></i>
-          Choisissez votre niveau
+    {# BLOC 1 : Drilleedo vs Les autres #}
+    <div class="df-vs-wrap">
+      <div class="df-vs-panel df-vs-panel--bad">
+        <div class="df-vs-label"><i class="ph-bold ph-x-circle"></i> Les autres plateformes</div>
+        <div class="df-vs-title">Ce que les autres font avec votre argent</div>
+        <div class="df-vs-rows">
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-money"></i></div>
+            <div><div class="df-vs-row-name">10% à 30% de commission</div><p class="df-vs-row-desc">Prélevée sur chaque contrat que vous signez — automatiquement, sans négociation.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-warning"></i></div>
+            <div><div class="df-vs-row-name">Frais cachés multiples</div><p class="df-vs-row-desc">Frais d'activation, de mise en avant, de retrait — qui s'accumulent chaque mois.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-funnel"></i></div>
+            <div><div class="df-vs-row-name">Demandes limitées selon forfait</div><p class="df-vs-row-desc">Vous payez pour accéder à un quota — dépassez-le et recommencez à payer.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-eye-slash"></i></div>
+            <div><div class="df-vs-row-name">Noyé dans la masse</div><p class="df-vs-row-desc">Votre profil se perd parmi des milliers — sans garantie d'apparaître dans les résultats.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-hourglass"></i></div>
+            <div><div class="df-vs-row-name">Délais d'activation longs</div><p class="df-vs-row-desc">Des semaines de vérification avant de pouvoir recevoir votre première demande.</p></div>
+          </div>
         </div>
-        <h3 style="font-size:clamp(22px,3vw,34px);font-weight:900;color:var(--D);letter-spacing:-1.2px;margin:0 0 10px;line-height:1.13;">
-          Gardez <span style="color:var(--B);">100% de vos revenus</span> — Standard ou Premium
-        </h3>
       </div>
 
-      <div class="gyb-compare">
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-family:var(--F);" aria-label="Comparaison Standard Premium Les autres">
-            <thead>
-              <tr>
-                <th style="padding:14px 20px;background:var(--D);color:rgba(255,255,255,.65);font-size:12px;font-weight:800;text-align:left;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.06em;">Fonctionnalité</th>
-                <th style="padding:14px 20px;background:linear-gradient(135deg,#002d50,var(--B));color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">Standard</th>
-                <th style="padding:14px 20px;background:linear-gradient(135deg,var(--O),#f06030);color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">⭐ Premium</th>
-                <th style="padding:14px 20px;background:#6b7280;color:#fff;font-size:12px;font-weight:800;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.06em;">Les autres</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Commission sur projets</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">0% — Jamais</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">0% — Jamais</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">10% à 30%</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Frais cachés</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Zéro absolu</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">Zéro absolu</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Multiples frais</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Demandes reçues</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Illimitées</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">Illimitées &amp; prioritaires</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Limitées selon forfait</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Visibilité annuaire</td>
-                <td style="padding:13px 20px;font-size:14px;color:var(--M);text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Non incluse</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">Incluse &amp; mise en avant</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Aucune garantie</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Profil top résultats</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:var(--B);text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Standard</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">Priorité absolue</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Noyé dans la masse</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Badge vérifié</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Oui</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">Oui + Badge Premium</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Non</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);">Revenus conservés</td>
-                <td style="padding:13px 20px;font-size:17px;font-weight:900;color:#16a34a;text-align:center;background:rgba(0,73,127,.04);">100%</td>
-                <td style="padding:13px 20px;font-size:17px;font-weight:900;color:#16a34a;text-align:center;background:rgba(255,138,61,.06);">100%</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#c0392b;text-align:center;">70% à 90% max</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="df-vs-panel df-vs-panel--good">
+        <div class="df-vs-label"><i class="ph-bold ph-check-circle"></i> Drilleedo — votre avantage</div>
+        <div class="df-vs-title">Standard ou Premium : vous gardez 100% de vos revenus</div>
+        <div class="df-vs-rows">
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-currency-dollar-simple"></i></div>
+            <div><div class="df-vs-row-name">0% de commission — jamais</div><p class="df-vs-row-desc">Chaque dollar que vous gagnez vous appartient. Sur chaque contrat, sans exception.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-infinity"></i></div>
+            <div><div class="df-vs-row-name">Demandes illimitées</div><p class="df-vs-row-desc">Standard ou Premium — recevez autant de demandes que vous pouvez gérer.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-eye"></i></div>
+            <div><div class="df-vs-row-name">Double visibilité</div><p class="df-vs-row-desc">Annuaire + soumissions — deux sources de clients, un seul abonnement.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-clock-countdown"></i></div>
+            <div><div class="df-vs-row-name">Profil actif en moins de 24h</div><p class="df-vs-row-desc">Créez votre profil ce soir — recevez vos premières demandes demain matin.</p></div>
+          </div>
+          <div class="df-vs-row">
+            <div class="df-vs-row-ico"><i class="ph-bold ph-star"></i></div>
+            <div><div class="df-vs-row-name">Réputation certifiée 24h/7j</div><p class="df-vs-row-desc">Vos avis authentiques travaillent pour vous — votre meilleur commercial, sans salaire.</p></div>
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
-</section>
-{# ── /Pourquoi Drilleedo change la donne ── #}
-
-
-{# ══════════════════════════════════════════════════════════════════════════
-   4. PRICING PLANS
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section gyb-section--gray gyb-scroll" aria-labelledby="pricing-heading">
-  <div class="container">
-    <div class="text-center">
-      <div class="gyb-section-eyebrow">
-        <i class="ph-bold ph-tag" aria-hidden="true"></i>
-        {{ 'for_pros.price_eyebrow'|trans }}
+    {# BLOC 2 : Calcul revenus #}
+    <div class="df-calcul-header">
+      <div class="df-fusion-pill" style="background:rgba(255,138,61,.1);color:#FF8A3D;border-color:rgba(255,138,61,.22);">
+        <i class="ph-bold ph-calculator" aria-hidden="true"></i> Faites le calcul
       </div>
-      <h2 class="gyb-section-title" id="pricing-heading">{{ 'for_pros.price_title'|trans }}<span>{{ 'for_pros.price_title_span'|trans }}</span>{{ 'for_pros.price_title_after'|trans }}</h2>
-      <p class="gyb-section-sub mx-auto">{{ 'for_pros.price_sub'|trans }}</p>
+      <h3>Ce que vous gardez — <span>contrat par contrat</span></h3>
+      <p>Zéro commission. Voici la différence réelle sur votre compte en banque.</p>
     </div>
 
-    <div class="gyb-plans">
-      {# Free #}
-      <div class="gyb-plan gyb-plan--basic">
-        <div class="gyb-plan__head">
-          <div class="gyb-plan__name">{{ 'for_pros.plan1_name'|trans }}</div>
-          <div class="gyb-plan__price">{{ 'for_pros.plan1_price'|trans }}</div>
-          <div class="gyb-plan__price-note">{{ 'for_pros.plan1_note'|trans }}</div>
-        </div>
-        <div class="gyb-plan__body">
-          <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f1'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f2'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f3'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f4'|trans }}</li>
-            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no1'|trans }}</li>
-            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no2'|trans }}</li>
-            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no3'|trans }}</li>
-          </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan1_cta'|trans }}</a>
-        </div>
+    <div class="df-calcul-grid">
+      <div class="df-calcul-card">
+        <div class="df-calcul-contract">Contrat</div>
+        <div class="df-calcul-amount">5 000$</div>
+        <span class="df-calcul-kept">&#10003; 100% à vous</span>
+        <hr class="df-calcul-divider">
+        <div class="df-calcul-lost-lbl">Avec les autres :</div>
+        <div class="df-calcul-lost">Jusqu'à 1 500$ perdus</div>
+        <span class="df-calcul-saved"><i class="ph-bold ph-trend-up"></i> +1 500$</span>
       </div>
-
-      {# Pro — Popular #}
-      <div class="gyb-plan gyb-plan--popular">
-        <div class="gyb-plan__popular-badge">{{ 'for_pros.plan2_badge'|trans }}</div>
-        <div class="gyb-plan__head">
-          <div class="gyb-plan__name">{{ 'for_pros.plan2_name'|trans }}</div>
-          <div class="gyb-plan__price">{{ 'for_pros.plan2_price'|trans }}<span style="font-size:18px;font-weight:600;">{{ 'for_pros.plan2_price_mo'|trans }}</span></div>
-          <div class="gyb-plan__price-note">{{ 'for_pros.plan2_note'|trans }}</div>
-        </div>
-        <div class="gyb-plan__body">
-          <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f1'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f2'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f3'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f4'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f5'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f6'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f7'|trans }}</li>
-          </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan2_cta'|trans }}</a>
-        </div>
+      <div class="df-calcul-card">
+        <div class="df-calcul-contract">Contrat</div>
+        <div class="df-calcul-amount">10 000$</div>
+        <span class="df-calcul-kept">&#10003; 100% à vous</span>
+        <hr class="df-calcul-divider">
+        <div class="df-calcul-lost-lbl">Avec les autres :</div>
+        <div class="df-calcul-lost">Jusqu'à 3 000$ perdus</div>
+        <span class="df-calcul-saved"><i class="ph-bold ph-trend-up"></i> +3 000$</span>
       </div>
-
-      {# Enterprise #}
-      <div class="gyb-plan gyb-plan--enterprise">
-        <div class="gyb-plan__head">
-          <div class="gyb-plan__name">{{ 'for_pros.plan3_name'|trans }}</div>
-          <div class="gyb-plan__price">{{ 'for_pros.plan3_price'|trans }}<span style="font-size:18px;font-weight:600;">{{ 'for_pros.plan3_price_mo'|trans }}</span></div>
-          <div class="gyb-plan__price-note">{{ 'for_pros.plan3_note'|trans }}</div>
-        </div>
-        <div class="gyb-plan__body">
-          <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f1'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f2'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f3'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f4'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f5'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f6'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f7'|trans }}</li>
-          </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan3_cta'|trans }}</a>
-        </div>
+      <div class="df-calcul-card">
+        <div class="df-calcul-contract">Contrat</div>
+        <div class="df-calcul-amount">20 000$</div>
+        <span class="df-calcul-kept">&#10003; 100% à vous</span>
+        <hr class="df-calcul-divider">
+        <div class="df-calcul-lost-lbl">Avec les autres :</div>
+        <div class="df-calcul-lost">Jusqu'à 6 000$ perdus</div>
+        <span class="df-calcul-saved"><i class="ph-bold ph-trend-up"></i> +6 000$</span>
+      </div>
+      <div class="df-calcul-card">
+        <div class="df-calcul-contract">Contrat</div>
+        <div class="df-calcul-amount">50 000$</div>
+        <span class="df-calcul-kept">&#10003; 100% à vous</span>
+        <hr class="df-calcul-divider">
+        <div class="df-calcul-lost-lbl">Avec les autres :</div>
+        <div class="df-calcul-lost">Jusqu'à 15 000$ perdus</div>
+        <span class="df-calcul-saved"><i class="ph-bold ph-trend-up"></i> +15 000$</span>
       </div>
     </div>
-  </div>
-</section>
 
-
-{# ══════════════════════════════════════════════════════════════════════════
-   NEW: FAITES LE CALCUL
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section gyb-scroll" aria-labelledby="calcul-heading">
-  <div class="container">
-
-    <div class="text-center">
-      <div class="gyb-section-eyebrow" style="background:rgba(255,138,61,.1);color:var(--O);border-color:rgba(255,138,61,.2);">
-        <i class="ph-bold ph-calculator" aria-hidden="true"></i>
-        Faites le calcul
-      </div>
-      <h2 class="gyb-section-title" id="calcul-heading">
-        La vérité qui <span>fait mal aux autres</span>
-      </h2>
+    <div class="df-calcul-note">
+      Et ça — c'est sur un seul contrat. Imaginez sur une année entière.
     </div>
 
-    <div class="gyb-compare" style="margin-top:52px;">
-      <div style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;font-family:var(--F);" aria-label="Calcul économies Drilleedo vs autres plateformes">
-          <thead>
-            <tr>
-              <th style="padding:16px 20px;background:var(--D);color:rgba(255,255,255,.65);font-size:12px;font-weight:800;text-align:center;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.06em;">Contrat</th>
-              <th style="padding:16px 20px;background:linear-gradient(135deg,#002d50,var(--B));color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">Avec Drilleedo</th>
-              <th style="padding:16px 20px;background:#c0392b;color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">Avec les autres</th>
-              <th style="padding:16px 20px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;font-size:12px;font-weight:800;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.06em;">Vous récupérez</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;border-bottom:1px solid var(--L);">5 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">5 000$ — à vous</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Jusqu'à 1 500$ perdus</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(22,163,74,.07);">+1 500$</td>
-            </tr>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;border-bottom:1px solid var(--L);">10 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">10 000$ — à vous</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Jusqu'à 3 000$ perdus</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(22,163,74,.07);">+3 000$</td>
-            </tr>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;border-bottom:1px solid var(--L);">20 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">20 000$ — à vous</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Jusqu'à 6 000$ perdus</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(22,163,74,.07);">+6 000$</td>
-            </tr>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;">50 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;background:rgba(0,73,127,.04);">50 000$ — à vous</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;">Jusqu'à 15 000$ perdus</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;background:rgba(22,163,74,.07);">+15 000$</td>
-            </tr>
-          </tbody>
-        </table>
+    {# BLOC 3 : Standard vs Premium vs Les autres #}
+    <div class="df-plans-header">
+      <div class="df-fusion-pill" style="background:rgba(255,138,61,.1);color:#FF8A3D;border-color:rgba(255,138,61,.22);">
+        <i class="ph-bold ph-tag" aria-hidden="true"></i> Choisissez votre niveau
       </div>
-      <p style="text-align:center;font-size:15px;font-style:italic;color:var(--M);margin:28px 0 0;font-weight:600;letter-spacing:-.3px;">
-        Et ça — c'est sur un seul contrat. Imaginez sur une année entière.
-      </p>
+      <h3>Gardez <span>100% de vos revenus</span> — Standard ou Premium</h3>
+    </div>
+
+    <div class="df-plans-grid">
+      <div class="df-plan-card df-plan-card--standard">
+        <div class="df-plan-head">
+          <div class="df-plan-badge">Standard</div>
+          <div class="df-plan-price">Gratuit<sub>/mois</sub></div>
+          <div class="df-plan-note">Sans frais d'activation</div>
+          <div class="df-plan-commission"><i class="ph-bold ph-check"></i> 0% de commission</div>
+        </div>
+        <div class="df-plan-body">
+          <div class="df-plan-rows">
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Demandes illimitées</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Profil public vérifié</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Badge Vérifié</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Messagerie intégrée</div>
+            <div class="df-plan-row df-plan-row--no"><span class="df-plan-row-ico"><i class="ph-bold ph-x"></i></span>Visibilité annuaire mise en avant</div>
+            <div class="df-plan-row df-plan-row--no"><span class="df-plan-row-ico"><i class="ph-bold ph-x"></i></span>Demandes prioritaires</div>
+            <div class="df-plan-row df-plan-row--no"><span class="df-plan-row-ico"><i class="ph-bold ph-x"></i></span>Badge Premium</div>
+          </div>
+          <a href="{{ path('app_register') }}" class="df-plan-cta">Créer mon profil Standard</a>
+        </div>
+      </div>
+
+      <div class="df-plan-card df-plan-card--premium">
+        <div class="df-plan-head">
+          <div class="df-plan-badge">&#11088; Premium — Recommandé</div>
+          <div class="df-plan-price">49$<sub>/mois</sub></div>
+          <div class="df-plan-note">Annulable à tout moment</div>
+          <div class="df-plan-commission"><i class="ph-bold ph-check"></i> 0% de commission</div>
+        </div>
+        <div class="df-plan-body">
+          <div class="df-plan-rows">
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Demandes illimitées &amp; prioritaires</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Profil mis en avant dans l'annuaire</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Badge Vérifié + Badge Premium</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Messagerie intégrée prioritaire</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Priorité absolue dans les résultats</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Tableau de bord analytique</div>
+            <div class="df-plan-row df-plan-row--yes"><span class="df-plan-row-ico"><i class="ph-bold ph-check"></i></span>Support prioritaire</div>
+          </div>
+          <a href="{{ path('app_register') }}" class="df-plan-cta">Essayer Premium — 1er mois offert</a>
+        </div>
+      </div>
+
+      <div class="df-plan-card df-plan-card--others">
+        <div class="df-plan-head">
+          <div class="df-plan-badge">Les autres plateformes</div>
+          <div class="df-plan-price" style="font-size:20px;line-height:1.3;">10%–30%<sub> par contrat</sub></div>
+          <div class="df-plan-note">+ frais d'activation + frais cachés</div>
+        </div>
+        <div class="df-plan-body">
+          <div class="df-plan-rows">
+            <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Commission prélevée à chaque contrat</div>
+            <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Demandes limitées selon forfait</div>
+            <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Profil noyé dans la masse</div>
+            <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Frais cachés supplémentaires</div>
+            <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Vous gardez 70% à 90% max</div>
+            <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Activation en plusieurs semaines</div>
+          </div>
+          <div style="background:#dee2e6;color:#6b7280;border-radius:50px;padding:13px;text-align:center;font-size:14px;font-weight:800;">Non recommandé</div>
+        </div>
+      </div>
     </div>
 
   </div>
 </section>
-{# ── /Faites le calcul ── #}
+{# ── /Section fusionnée ── #}
+
 
 
 {# ══════════════════════════════════════════════════════════════════════════

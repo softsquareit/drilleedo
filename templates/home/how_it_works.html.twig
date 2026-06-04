@@ -29,7 +29,7 @@
 
 /* ── 1. HERO ── */
 .hw-hero {
-  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  background: var(--B);
   padding: 88px 0 76px; position: relative; overflow: hidden;
 }
 .hw-hero::before {
@@ -40,7 +40,7 @@
 .hw-hero::after {
   content: ''; position: absolute; right: -100px; top: -100px;
   width: 520px; height: 520px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,138,61,.14) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(63,169,245,.08) 0%, transparent 68%);
   pointer-events: none;
 }
 .hw-hero-grid {
@@ -59,7 +59,7 @@
   font-size: clamp(28px,4.2vw,52px); font-weight: 900; color: #fff;
   margin: 0 0 6px; line-height: 1.08; letter-spacing: -2px;
 }
-.hw-hero h1 .hl-free { color: var(--O); display: inline-block; }
+.hw-hero h1 .hl-free { color: var(--S); display: inline-block; }
 .hw-hero__sub {
   font-size: 17px; color: rgba(255,255,255,.75);
   max-width: 500px; line-height: 1.75; margin: 16px 0 28px;
@@ -71,7 +71,7 @@
   display: inline-flex; align-items: center; gap: 6px;
   color: rgba(255,255,255,.8); font-size: 13px; font-weight: 600;
 }
-.hw-hero-trust i { color: var(--O); font-size: 15px; }
+.hw-hero-trust i { color: var(--S); font-size: 15px; }
 .hw-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
 .hw-hero-img-col { position: relative; }
@@ -93,19 +93,19 @@
   padding: 10px 16px; border-radius: var(--r);
   box-shadow: var(--sh); display: flex; align-items: center; gap: 8px;
 }
-.hw-hero-badge2 i { color: var(--O); font-size: 20px; }
+.hw-hero-badge2 i { color: var(--S); font-size: 20px; }
 .hw-hero-badge2__text { font-size: 12px; font-weight: 800; line-height: 1.3; }
 
 /* ── 2. GRATUIT STRIP ── */
 .hw-free {
   background: var(--W); padding: 64px 0 56px;
-  border-top: 3px solid var(--O); border-bottom: 1px solid var(--L);
+  border-top: 3px solid var(--S); border-bottom: 1px solid var(--L);
 }
 .hw-free__headline {
   text-align: center; font-size: clamp(24px,3.5vw,38px);
   font-weight: 900; color: var(--D); letter-spacing: -1.5px; margin: 0 0 8px;
 }
-.hw-free__headline span { color: var(--O); }
+.hw-free__headline span { color: var(--S); }
 .hw-free__sub {
   text-align: center; font-size: 15px; color: var(--M);
   max-width: 480px; margin: 0 auto 40px; line-height: 1.65;
@@ -130,14 +130,16 @@
 
 /* ── 3. 4 ÉTAPES — OVERVIEW ── */
 .hw-overview {
-  background: linear-gradient(160deg, #eef6ff 0%, #e3f0fd 50%, #d9ecfb 100%);
+  background: rgba(63,169,245,.05);
   padding: 96px 0;
+  border-top: 1px solid var(--L);
+  border-bottom: 1px solid var(--L);
 }
 .hw-section-hd { text-align: center; margin-bottom: 56px; }
 .hw-section-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,138,61,.10); color: var(--O);
-  border: 1px solid rgba(255,138,61,.2);
+  background: rgba(63,169,245,.10); color: var(--S);
+  border: 1px solid rgba(63,169,245,.2);
   border-radius: 50px; padding: 7px 18px;
   font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
   margin-bottom: 16px;
@@ -159,7 +161,7 @@
   content: ''; position: absolute;
   top: 31px; left: calc(12.5% + 8px); right: calc(12.5% + 8px);
   height: 2px;
-  background: linear-gradient(90deg, rgba(255,138,61,.5), rgba(63,169,245,.5));
+  background: linear-gradient(90deg, var(--B), var(--S));
   z-index: 0;
 }
 .hw-ovr-step { text-align: center; padding: 0 8px; position: relative; z-index: 1; }
@@ -167,16 +169,16 @@
   width: 62px; height: 62px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 24px; margin: 0 auto 16px; position: relative; z-index: 2;
-  background: linear-gradient(135deg, var(--B), var(--S)); color: #fff;
+  background: var(--S); color: #fff;
   box-shadow: 0 6px 20px rgba(0,73,127,.25);
 }
 .hw-ovr-num {
   position: absolute; top: -4px; right: -4px;
   width: 22px; height: 22px; border-radius: 50%;
-  background: var(--O); color: #fff;
+  background: var(--B); color: #fff;
   font-size: 10px; font-weight: 900;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(255,138,61,.4);
+  box-shadow: 0 2px 8px rgba(0,73,127,.35);
   border: 2px solid var(--W);
 }
 .hw-ovr-card {
@@ -214,7 +216,7 @@
   font-size: 12px; font-weight: 700;
   display: flex; align-items: center; gap: 6px;
 }
-.hw-phase-img-tag i { color: var(--O); }
+.hw-phase-img-tag i { color: var(--S); }
 
 .hw-phase-label {
   display: inline-flex; align-items: center; gap: 7px;
@@ -223,8 +225,8 @@
   margin-bottom: 14px;
 }
 .hw-phase-step {
-  font-size: 12px; font-weight: 700; color: var(--M);
-  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
+  font-size: 11px; font-weight: 800; color: var(--S);
+  letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 8px;
 }
 .hw-phase-title {
   font-size: clamp(22px,2.8vw,32px); font-weight: 900; color: var(--D);
@@ -246,26 +248,16 @@
 
 /* ── 5. CTA FINAL ── */
 .hw-cta {
-  background: linear-gradient(160deg, #002d50 0%, var(--B) 55%, #0a5490 100%);
+  background: var(--B);
   padding: 96px 0; text-align: center; position: relative; overflow: hidden;
 }
-.hw-cta::before {
-  content: ''; position: absolute; right: -100px; bottom: -100px;
-  width: 440px; height: 440px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,138,61,.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hw-cta::after {
-  content: ''; position: absolute; left: -60px; top: -60px;
-  width: 280px; height: 280px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(63,169,245,.07) 0%, transparent 70%);
-  pointer-events: none;
-}
+.hw-cta::before { display: none; }
+.hw-cta::after { display: none; }
 .hw-cta__inner { position: relative; z-index: 2; }
 .hw-cta-tag {
   display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
-  color: var(--O); font-size: 12px; font-weight: 700;
+  background: rgba(63,169,245,.18); border: 1px solid rgba(63,169,245,.35);
+  color: var(--S); font-size: 12px; font-weight: 700;
   letter-spacing: .6px; text-transform: uppercase;
   padding: 7px 18px; border-radius: 50px; margin-bottom: 18px;
 }
@@ -273,7 +265,7 @@
   font-size: clamp(26px,4vw,44px); font-weight: 900; color: #fff;
   margin: 0 0 12px; letter-spacing: -1.5px; line-height: 1.13;
 }
-.hw-cta h2 span { color: var(--O); }
+.hw-cta h2 span { color: var(--S); }
 .hw-cta__sub {
   font-size: 16px; color: rgba(255,255,255,.73);
   margin: 0 auto 36px; max-width: 460px; line-height: 1.7;
@@ -283,12 +275,12 @@
 /* ── Buttons ── */
 .hw-btn-o {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--O); color: #fff; font-family: var(--F);
+  background: var(--S); color: #fff; font-family: var(--F);
   font-size: 15px; font-weight: 800; padding: 14px 30px;
   border-radius: 50px; text-decoration: none;
-  box-shadow: 0 4px 20px rgba(255,138,61,.4); transition: var(--t);
+  box-shadow: 0 4px 14px rgba(63,169,245,.28); transition: var(--t);
 }
-.hw-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 28px rgba(255,138,61,.45); }
+.hw-btn-o:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 22px rgba(63,169,245,.38); }
 
 .hw-btn-ghost {
   display: inline-flex; align-items: center; gap: 8px;
@@ -310,12 +302,12 @@
 
 .hw-btn-b {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--B); color: #fff; font-family: var(--F);
+  background: var(--S); color: #fff; font-family: var(--F);
   font-size: 15px; font-weight: 800; padding: 13px 26px;
   border-radius: 50px; text-decoration: none;
-  box-shadow: 0 4px 16px rgba(0,73,127,.3); transition: var(--t);
+  box-shadow: 0 4px 14px rgba(63,169,245,.28); transition: var(--t);
 }
-.hw-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 24px rgba(0,73,127,.35); }
+.hw-btn-b:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 22px rgba(63,169,245,.38); }
 
 /* Scroll reveal */
 .hw-anim { opacity: 0; transform: translateY(22px); transition: all .55s cubic-bezier(.16,1,.3,1); }
@@ -327,9 +319,9 @@
 .hw-faq-item:hover { border-color: var(--S); box-shadow: 0 4px 16px rgba(0,73,127,.08); }
 .hw-faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; background: none; border: none; font-size: 15px; font-weight: 700; color: #0C1825; cursor: pointer; gap: 12px; text-align: left; }
 .hw-faq-btn:hover { background: #f5f8fc; }
-.hw-faq-btn.open { color: var(--B); }
+.hw-faq-btn.open { color: var(--S); }
 .hw-faq-arrow { width: 26px; height: 26px; border-radius: 50%; background: #e8f0f8; color: #00497F; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .25s, background .2s; }
-.hw-faq-btn.open .hw-faq-arrow { transform: rotate(45deg); background: var(--B); color: #fff; }
+.hw-faq-btn.open .hw-faq-arrow { transform: rotate(45deg); background: var(--S); color: #fff; }
 .hw-faq-body { display: none; padding: 0 22px 18px; font-size: 14px; color: #4A6073; line-height: 1.8; }
 .hw-faq-body.open { display: block; }
 
@@ -348,6 +340,62 @@
   .hw-overview, .hw-phase, .hw-cta, .hw-free { padding: 64px 0; }
   .hw-hero { padding: 64px 0 52px; }
   .hw-phase-img-wrap img { height: 260px; }
+}
+
+/* ══ CHARTE SYNC — Cohérence finale ════════════════════════════════ */
+
+/* Hero — aspect moderne */
+.hw-hero { padding: 96px 0 84px; }
+.hw-hero::before { background-image: none; }
+
+/* Stats/trust row */
+.hw-hero-trust { margin-top: 28px; }
+.hw-hero-trust span {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 50px; padding: 6px 14px;
+}
+
+/* Gratuit strip — icônes Action Sky */
+.hw-free-cell__ico { background: rgba(63,169,245,.1); color: var(--S); }
+.hw-free-cell { transition: background .2s ease, transform .2s ease; }
+.hw-free-cell:hover { background: rgba(63,169,245,.05); transform: translateY(-3px); }
+.hw-free-cell__title { color: var(--B); }
+
+/* Overview — step cards plus modernes */
+.hw-ovr-card { border-radius: 18px; }
+.hw-ovr-circle { border-radius: 16px !important; }
+.hw-ovr-num { background: var(--S) !important; box-shadow: 0 2px 8px rgba(63,169,245,.4) !important; }
+
+/* Phase label pill → Action Sky via charte_global.css override → déjà ok */
+
+/* Phase img wrap */
+.hw-phase-img-wrap { border-radius: 22px !important; box-shadow: 0 16px 52px rgba(0,73,127,.16) !important; }
+.hw-phase-img-tag {
+  border-radius: 12px !important;
+  background: rgba(0,73,127,.82) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Phase sections border */
+.hw-phase { border-bottom: 1px solid var(--L); }
+.hw-phase:last-of-type, section.hw-cta { border-bottom: none; }
+
+/* FAQ */
+.hw-faq-item { border-radius: 14px; }
+.hw-faq-arrow { background: rgba(63,169,245,.1); color: var(--S); }
+
+/* CTA final */
+.hw-cta { border-top: none; }
+.hw-cta h2 { letter-spacing: -2px; }
+
+/* Benefit cards top bar */
+.hw-free { border-top-color: var(--S); }
+
+/* Step connector line */
+.hw-steps-row::before {
+  background: linear-gradient(90deg, var(--B), var(--S));
+  opacity: .4;
 }
 </style>
 
@@ -504,44 +552,39 @@ directement dans votre boîte, en moins de 24h.</p>
 
             <div>
                 <div class="hw-phase-step">Étape 1</div>
-                <div class="hw-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
+                <div class="hw-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
                     <i class="ph-bold ph-user-plus"></i> Créez votre profil
                 </div>
                 <h2 class="hw-phase-title">Créez votre profil</h2>
                 <p class="hw-phase-desc">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Sauvegardez vos demandes et retrouvez-les à tout moment</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Suivez vos soumissions reçues et vos échanges avec les pros</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Gérez tous vos projets depuis un espace centralisé et intuitif</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Gagnez un temps précieux dans toutes vos démarches</h4></div>
                     </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Votre profil est gratuit — et le reste toujours</h4></div>
-                    </li>
+
                 </ul>
-                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;margin-bottom:24px;">Un profil Drilleedo, c'est votre chef de projet personnel. Tous vos projets, toutes vos soumissions, tous vos échanges — centralisés en un seul endroit. Plus d'emails perdus. Plus de confusion. Juste de l'efficacité.</p>
+
                 <a href="{{ path('app_register') }}" class="hw-btn-b">
                     Je décris mon projet — les pros font le reste <i class="ph-bold ph-arrow-right"></i>
                 </a>
@@ -566,50 +609,39 @@ directement dans votre boîte, en moins de 24h.</p>
 
             <div>
                 <div class="hw-phase-step">Étape 2</div>
-                <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
+                <div class="hw-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
                     <i class="ph-bold ph-note-pencil"></i> Décrivez votre projet
                 </div>
                 <h2 class="hw-phase-title">Décrivez votre projet</h2>
                 <p class="hw-phase-desc">Remplissez un formulaire simple et intuitif — en 2 minutes chrono. Plus vous êtes précis, meilleures sont les soumissions.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Type de travaux — Quel projet souhaitez-vous réaliser ?</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Description détaillée — Expliquez vos besoins avec précision</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Photos &amp; documents — Ajoutez des visuels pour que les pros comprennent exactement</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Budget estimé — Une fourchette suffit pour recevoir des offres adaptées</h4></div>
                     </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Localisation — Votre ville ou code postal</h4></div>
-                    </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Délai souhaité — Quand souhaitez-vous commencer ?</h4></div>
-                    </li>
+
                 </ul>
-                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">Un projet bien décrit = des soumissions précises et compétitives. Prenez 2 minutes pour remplir votre demande — et économisez des heures de recherche et d'appels téléphoniques.</p>
+
             </div>
 
             <div class="hw-phase-img-wrap">
@@ -631,50 +663,39 @@ directement dans votre boîte, en moins de 24h.</p>
 
             <div>
                 <div class="hw-phase-step">Étape 3</div>
-                <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
+                <div class="hw-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
                     <i class="ph-bold ph-envelope-open"></i> Recevez vos soumissions
                 </div>
                 <h2 class="hw-phase-title">Recevez vos soumissions</h2>
                 <p class="hw-phase-desc">Votre demande est diffusée instantanément aux professionnels qualifiés de votre région. Les pros intéressés vous envoient leurs meilleures offres — directement dans votre espace Drilleedo.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Jusqu'à 5 soumissions compétitives — en moins de 24 heures</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Détail complet de chaque offre : prix total, délais, services inclus</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Profil complet du pro : certifications, avis clients, réalisations</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Messagerie directe — posez vos questions avant de décider</h4></div>
                     </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Seuls les professionnels vérifiés &amp; actifs peuvent répondre</h4></div>
-                    </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Zéro soumission d'inconnus — que des experts qualifiés</h4></div>
-                    </li>
+
                 </ul>
-                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">Sur Drilleedo, vous ne recevez que des soumissions sérieuses. Chaque pro qui répond à votre demande est un abonné vérifié — pas un amateur qui improvise. La qualité est garantie avant même le premier échange.</p>
+
             </div>
 
             <div class="hw-phase-img-wrap">
@@ -696,48 +717,37 @@ directement dans votre boîte, en moins de 24h.</p>
 
             <div>
                 <div class="hw-phase-step">Étape 4</div>
-                <div class="hw-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
+                <div class="hw-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
                     <i class="ph-bold ph-check-fat"></i> Comparez et choisissez
                 </div>
                 <h2 class="hw-phase-title">Comparez et choisissez</h2>
                 <p class="hw-phase-desc">Analysez librement les propositions reçues — prenez le temps qu'il vous faut, sans pression ni délai imposé.</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Comparez les prix, les délais et les services inclus côte à côte</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Consultez le profil complet de chaque professionnel soumissionnaire</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Échangez directement pour clarifier les détails et négocier</h4></div>
                     </li>
                     <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                        <div class="hw-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
                         <div><h4>Sélectionnez la soumission qui offre le meilleur rapport qualité-prix</h4></div>
                     </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Confirmez avec le pro et démarrez vos travaux en toute confiance</h4></div>
-                    </li>
-                    <li class="hw-feat-item">
-                        <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
-                            <i class="ph-bold ph-check-circle"></i>
-                        </div>
-                        <div><h4>Évaluez le professionnel une fois le projet terminé — protégez la communauté</h4></div>
-                    </li>
+
                 </ul>
                 <a href="{{ path('app_register') }}" class="hw-btn-b">
                     Je publie mon projet — et je reçois mes soumissions gratuitement <i class="ph-bold ph-arrow-right"></i>
@@ -762,87 +772,129 @@ directement dans votre boîte, en moins de 24h.</p>
         <h2 class="hw-free__headline">Fini le bouche-à-oreille incertain.<br><span>Fini les devis qui n'arrivent jamais.</span></h2>
         <p class="hw-free__sub">Pourquoi demander une soumission sur Drilleedo change tout.</p>
 
-        <div style="max-width:820px;margin:0 auto 56px;overflow-x:auto;">
-            <table style="width:100%;border-collapse:collapse;font-family:var(--F);">
-                <thead>
-                    <tr>
-                        <th style="padding:14px 20px;background:var(--D);color:#fff;font-size:13px;font-weight:800;text-align:left;border-radius:12px 0 0 0;">Ce que vous obtenez avec Drilleedo</th>
-                        <th style="padding:14px 20px;background:var(--D);color:var(--O);font-size:13px;font-weight:800;text-align:left;border-radius:0 12px 0 0;">Ce que ça change pour vous</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="background:rgba(255,138,61,.05);">
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">100% gratuit — sans limite</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Demandez autant de soumissions que vous voulez — sans jamais payer</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Jusqu'à 5 soumissions en 24h</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Comparez plusieurs offres et choisissez la meilleure — rapidement</td>
-                    </tr>
-                    <tr style="background:rgba(255,138,61,.05);">
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Pros vérifiés uniquement</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Seuls les professionnels certifiés &amp; actifs peuvent répondre</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Zéro engagement</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Vous n'êtes jamais obligé d'accepter une soumission</td>
-                    </tr>
-                    <tr style="background:rgba(255,138,61,.05);">
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Contact direct &amp; gratuit</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Négociez librement — sans intermédiaire, sans frais additionnels</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);">Large choix de catégories</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);">Entrepreneurs, spécialistes, services — toutes vos demandes acceptées</td>
-                    </tr>
-                </tbody>
-            </table>
+        {# ── Bénéfices Drilleedo : 6 icon-cards ── #}
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto 56px;">
+
+          <div style="background:#fff;border:1.5px solid #E4EBF2;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 36px rgba(0,73,127,.12)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#3FA9F5;"></div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(63,169,245,.12);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;">
+              <i class="ph-bold ph-currency-dollar-simple"></i>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#0C1825;margin-bottom:5px;">100% gratuit — sans limite</div>
+            <div style="font-size:13px;color:#4A6073;line-height:1.6;">Demandez autant de soumissions que vous voulez — sans jamais payer</div>
+          </div>
+
+          <div style="background:#fff;border:1.5px solid #E4EBF2;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 36px rgba(0,73,127,.12)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#3FA9F5;"></div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(63,169,245,.12);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;">
+              <i class="ph-bold ph-lightning"></i>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#0C1825;margin-bottom:5px;">Jusqu'à 5 soumissions en 24h</div>
+            <div style="font-size:13px;color:#4A6073;line-height:1.6;">Comparez plusieurs offres et choisissez la meilleure — rapidement</div>
+          </div>
+
+          <div style="background:#fff;border:1.5px solid #E4EBF2;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 36px rgba(0,73,127,.12)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#3FA9F5;"></div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(63,169,245,.12);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;">
+              <i class="ph-bold ph-seal-check"></i>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#0C1825;margin-bottom:5px;">Pros vérifiés uniquement</div>
+            <div style="font-size:13px;color:#4A6073;line-height:1.6;">Seuls les professionnels certifiés &amp; actifs peuvent répondre</div>
+          </div>
+
+          <div style="background:#fff;border:1.5px solid #E4EBF2;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 36px rgba(0,73,127,.12)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#3FA9F5;"></div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(63,169,245,.12);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;">
+              <i class="ph-bold ph-x-circle"></i>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#0C1825;margin-bottom:5px;">Zéro engagement</div>
+            <div style="font-size:13px;color:#4A6073;line-height:1.6;">Vous n'êtes jamais obligé d'accepter une soumission</div>
+          </div>
+
+          <div style="background:#fff;border:1.5px solid #E4EBF2;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 36px rgba(0,73,127,.12)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#3FA9F5;"></div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(63,169,245,.12);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;">
+              <i class="ph-bold ph-chat-circle-dots"></i>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#0C1825;margin-bottom:5px;">Contact direct &amp; gratuit</div>
+            <div style="font-size:13px;color:#4A6073;line-height:1.6;">Négociez librement — sans intermédiaire, sans frais additionnels</div>
+          </div>
+
+          <div style="background:#fff;border:1.5px solid #E4EBF2;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 12px 36px rgba(0,73,127,.12)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#3FA9F5;"></div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(63,169,245,.12);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;">
+              <i class="ph-bold ph-squares-four"></i>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#0C1825;margin-bottom:5px;">Large choix de catégories</div>
+            <div style="font-size:13px;color:#4A6073;line-height:1.6;">Entrepreneurs, spécialistes, services — toutes vos demandes acceptées</div>
+          </div>
+
         </div>
 
+        {# ── Drilleedo vs Les autres : 2 panels visuels ── #}
         <h3 style="text-align:center;font-size:clamp(20px,2.5vw,28px);font-weight:900;color:var(--D);margin:0 0 32px;letter-spacing:-1px;">Drilleedo vs Les autres plateformes</h3>
-        <div style="max-width:820px;margin:0 auto;overflow-x:auto;">
-            <table style="width:100%;border-collapse:collapse;font-family:var(--F);">
-                <thead>
-                    <tr>
-                        <th style="padding:14px 20px;background:var(--D);color:rgba(255,255,255,.6);font-size:12px;font-weight:700;text-align:left;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.05em;">Fonctionnalité</th>
-                        <th style="padding:14px 20px;background:var(--B);color:#fff;font-size:12px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.05em;">Drilleedo</th>
-                        <th style="padding:14px 20px;background:#c0392b;color:#fff;font-size:12px;font-weight:700;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.05em;">Les autres</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Demandes de soumissions</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Illimitées — toujours gratuit</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Limitées ou payantes</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Délai de réception</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Moins de 24h</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">48h à 72h en moyenne</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Qualité des soumissionnaires</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Pros vérifiés &amp; certifiés</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Ouverts à tous sans filtre</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Frais de mise en relation</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Zéro — maintenant &amp; toujours</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Frais cachés par demande</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Nombre de soumissions</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Jusqu'à 5 offres compétitives</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Variable &amp; non garanti</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);">Engagement requis</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;background:rgba(0,73,127,.04);">Aucun — zéro obligation</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;">Conditions restrictives</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto;">
+
+          {# Panel Drilleedo — vert #}
+          <div style="background:linear-gradient(160deg,#002d50,#00497F 70%,#0a6eab);border-radius:22px;padding:36px 30px;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#22c55e,#16a34a);"></div>
+            <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(34,197,94,.2);color:#4ade80;border:1px solid rgba(34,197,94,.3);border-radius:50px;padding:5px 14px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;">
+              <i class="ph-bold ph-check-circle"></i> Drilleedo
+            </div>
+            <div style="display:flex;flex-direction:column;gap:11px;">
+              {% set hwCompDrilleedo = [
+                {'icon':'ph-infinity','val':'Illimitées — toujours gratuit','lbl':'Demandes'},
+                {'icon':'ph-lightning','val':'Moins de 24h','lbl':'Délai de réception'},
+                {'icon':'ph-seal-check','val':'Pros vérifiés et certifiés','lbl':'Qualité'},
+                {'icon':'ph-currency-dollar-simple','val':'Zéro — maintenant et toujours','lbl':'Frais'},
+                {'icon':'ph-list-numbers','val':"Jusqu'à 5 offres compétitives",'lbl':'Soumissions'},
+                {'icon':'ph-x-circle','val':'Aucun — zéro obligation','lbl':'Engagement'}
+              ] %}
+              {% for item in hwCompDrilleedo %}
+              <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;">
+                <div style="width:32px;height:32px;border-radius:9px;background:rgba(34,197,94,.2);color:#4ade80;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">
+                  <i class="ph-bold {{ item.icon }}"></i>
+                </div>
+                <div>
+                  <div style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:1px;">{{ item.lbl }}</div>
+                  <div style="font-size:13px;font-weight:800;color:#fff;">{{ item.val }}</div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          {# Panel Les autres — rouge #}
+          <div style="background:#fff;border:2px solid #f1f5f9;border-radius:22px;padding:36px 30px;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#6b7280,#64748b);"></div>
+            <div style="display:inline-flex;align-items:center;gap:7px;background:#f1f5f9;color:#64748b;border:1px solid rgba(192,57,43,.2);border-radius:50px;padding:5px 14px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;">
+              <i class="ph-bold ph-x-circle"></i> Les autres
+            </div>
+            <div style="display:flex;flex-direction:column;gap:11px;">
+              {% set hwCompOthers = [
+                {'val':'Limitées ou payantes','lbl':'Demandes'},
+                {'val':'48h à 72h en moyenne','lbl':'Délai de réception'},
+                {'val':'Ouverts à tous sans filtre','lbl':'Qualité'},
+                {'val':'Frais cachés par demande','lbl':'Frais'},
+                {'val':'Variable et non garanti','lbl':'Soumissions'},
+                {'val':'Conditions restrictives','lbl':'Engagement'}
+              ] %}
+              {% for item in hwCompOthers %}
+              <div style="display:flex;align-items:center;gap:12px;background:#f8fafc;border-radius:12px;padding:12px 14px;">
+                <div style="width:32px;height:32px;border-radius:9px;background:#f1f5f9;color:#64748b;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">
+                  <i class="ph-bold ph-minus-circle"></i>
+                </div>
+                <div>
+                  <div style="font-size:12px;color:#6b7280;margin-bottom:1px;">{{ item.lbl }}</div>
+                  <div style="font-size:13px;font-weight:800;color:#64748b;">{{ item.val }}</div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
         </div>
+
     </div>
 </section>
 
@@ -936,6 +988,11 @@ directement dans votre boîte, en moins de 24h.</p>
                     <i class="ph-bold ph-magnifying-glass"></i> Explorer les pros
                 </a>
             </div>
+            <p style="font-size:13px;color:rgba(255,255,255,.55);margin-top:18px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+                <span><i class="ph-bold ph-shield-check" style="color:#22c55e;margin-right:4px;"></i>Aucune carte bancaire requise</span>
+                <span><i class="ph-bold ph-clock" style="color:#3FA9F5;margin-right:4px;"></i>Réponse en moins de 24h</span>
+                <span><i class="ph-bold ph-x-circle" style="color:#FF8A3D;margin-right:4px;"></i>Zéro engagement</span>
+            </p>
         </div>
     </div>
 </section>

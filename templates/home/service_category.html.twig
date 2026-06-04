@@ -6,13 +6,115 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
 <style>
-    /* Small adjustments for the service category page */
-    .fp-hero { min-height: 350px; }
-    .svc-breadcrumb { margin-bottom: 20px; }
-    .svc-breadcrumb .breadcrumb { background: transparent; padding: 0; }
-    .svc-breadcrumb .breadcrumb-item, .svc-breadcrumb .breadcrumb-item a { color: rgba(255,255,255,0.8); font-size: 14px; text-decoration: none; }
-    .svc-breadcrumb .breadcrumb-item.active { color: #fff; }
-    .svc-breadcrumb .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.5); }
+/* ── Charte Drilleedo — service_category overrides ── */
+:root { --B:#00497F;--S:#3FA9F5;--O:#FF8A3D;--D:#0C1825;--M:#4A6073;--L:#E4EBF2; }
+
+/* Hero */
+.fp-hero { min-height: 380px; background: linear-gradient(135deg,#002d50 0%,#00497F 60%,#0a6eab 100%) !important; }
+.fp-hero__title { font-size: clamp(24px,4vw,44px) !important; font-weight: 900 !important; letter-spacing: -1.5px !important; }
+.fp-hero__sub { font-size: 17px !important; color: rgba(255,255,255,.75) !important; line-height: 1.75 !important; }
+
+/* Breadcrumb */
+.svc-breadcrumb { margin-bottom: 20px; }
+.svc-breadcrumb .breadcrumb { background: transparent; padding: 0; }
+.svc-breadcrumb .breadcrumb-item,
+.svc-breadcrumb .breadcrumb-item a { color: rgba(255,255,255,.8); font-size: 14px; text-decoration: none; transition: color .15s; }
+.svc-breadcrumb .breadcrumb-item a:hover { color: #fff; }
+.svc-breadcrumb .breadcrumb-item.active { color: #fff; font-weight: 600; }
+.svc-breadcrumb .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,.4); }
+
+/* Search bar */
+.fp-search-bar { border-radius: 12px !important; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.2) !important; }
+.fp-search-bar__btn {
+    background: #FF8A3D !important; font-weight: 700 !important;
+    transition: background .18s !important;
+}
+.fp-search-bar__btn:hover { background: #e87830 !important; }
+
+/* Category pill bar */
+.fp-cat-bar { background: #fff; border-bottom: 1px solid var(--L); box-shadow: 0 2px 8px rgba(0,73,127,.06); }
+.fp-cat-pill {
+    border-radius: 50px !important; font-weight: 700 !important;
+    transition: all .18s !important;
+    border: 1.5px solid var(--L) !important;
+}
+.fp-cat-pill.active,
+.fp-cat-pill:hover {
+    background: var(--B) !important; color: #fff !important;
+    border-color: var(--B) !important;
+    box-shadow: 0 4px 14px rgba(0,73,127,.22) !important;
+}
+.fp-cat-pill__count {
+    background: rgba(0,73,127,.1) !important; color: var(--B) !important;
+    font-weight: 800 !important; border-radius: 50px !important;
+}
+.fp-cat-pill.active .fp-cat-pill__count,
+.fp-cat-pill:hover .fp-cat-pill__count {
+    background: rgba(255,255,255,.25) !important; color: #fff !important;
+}
+
+/* Sort select */
+.fp-sort-select {
+    border: 1.5px solid var(--L) !important; border-radius: 10px !important;
+    padding: 8px 14px !important; font-weight: 500 !important; font-size: 14px !important;
+    background: #f8fafc !important; color: var(--D) !important;
+    outline: none !important; cursor: pointer !important;
+}
+.fp-sort-select:focus { border-color: var(--S) !important; }
+
+/* Pro cards */
+.fp-pro-card {
+    border: 1.5px solid var(--L) !important; border-radius: 20px !important;
+    overflow: hidden !important;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+    box-shadow: 0 2px 10px rgba(0,73,127,.06) !important;
+}
+.fp-pro-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 14px 40px rgba(0,73,127,.14) !important;
+    border-color: var(--S) !important;
+}
+.fp-card-name a { color: var(--D) !important; text-decoration: none !important; font-weight: 800 !important; }
+.fp-card-name a:hover { color: var(--B) !important; }
+.fp-card-verified { color: #16a34a !important; font-size: 11px !important; font-weight: 700 !important; }
+.fp-card-rating svg { fill: #F59E0B !important; width: 15px !important; height: 15px !important; }
+
+/* Action buttons */
+.fp-btn-outline {
+    border: 1.5px solid rgba(0,73,127,.22) !important; border-radius: 8px !important;
+    color: var(--B) !important; font-weight: 700 !important; font-size: 13px !important;
+    transition: all .18s !important;
+}
+.fp-btn-outline:hover { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; }
+.fp-btn-solid {
+    background: var(--O) !important; border-radius: 8px !important;
+    font-weight: 700 !important; font-size: 13px !important; color: #fff !important;
+    box-shadow: 0 3px 12px rgba(255,138,61,.28) !important; transition: all .18s !important;
+}
+.fp-btn-solid:hover { background: #e87830 !important; transform: translateY(-1px) !important; }
+
+/* Sidebar */
+.fp-sidebar-card { border: 1.5px solid var(--L) !important; border-radius: 16px !important; }
+.fp-sidebar-card__header { font-weight: 800 !important; color: var(--D) !important; font-size: 14px !important; }
+.fp-btn-apply {
+    background: var(--B) !important; border-radius: 10px !important;
+    font-weight: 700 !important; color: #fff !important;
+    transition: background .18s !important;
+}
+.fp-btn-apply:hover { background: #003a66 !important; }
+.fp-btn-clear { color: var(--M) !important; font-size: 13px !important; font-weight: 600 !important; }
+.fp-btn-clear:hover { color: #c0392b !important; }
+
+/* Meta count */
+.fp-meta-count span { color: var(--B) !important; font-weight: 900 !important; }
+
+/* Pagination */
+.fp-pagination a, .fp-pagination span {
+    border: 1.5px solid var(--L) !important; border-radius: 8px !important;
+    font-weight: 700 !important; transition: all .18s !important;
+}
+.fp-pagination a:hover { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; }
+.fp-pagination .active { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; }
 </style>
 {% endblock %}
 
@@ -238,10 +340,16 @@
                         </div>
                     </div>
                 {% else %}
-                    <div class="fp-empty">
-                        <div class="fp-empty__icon">🔍</div>
-                        <h4>No professionals found</h4>
-                        <p>Try adjusting your filters or contact us for a personalized recommendation.</p>
+                    <div class="fp-empty" style="padding:64px 24px;text-align:center;background:#fff;border:1.5px solid #E4EBF2;border-radius:22px;grid-column:1/-1;">
+                        <div style="width:68px;height:68px;border-radius:18px;background:rgba(63,169,245,.1);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px;">
+                            <i class="feather-search"></i>
+                        </div>
+                        <h4 style="font-family:'Instrument Sans',system-ui,sans-serif;font-size:20px;font-weight:900;color:#0C1825;margin:0 0 10px;">Aucun professionnel trouvé</h4>
+                        <p style="font-size:15px;color:#4A6073;margin:0 0 24px;line-height:1.7;">Essayez de modifier vos filtres ou explorez toutes les catégories disponibles.</p>
+                        <a href="{{ path('professionals_list') }}"
+                           style="display:inline-flex;align-items:center;gap:8px;background:#00497F;color:#fff;font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px;font-weight:700;padding:12px 26px;border-radius:50px;text-decoration:none;">
+                            <i class="feather-arrow-left"></i> Voir tous les professionnels
+                        </a>
                     </div>
                 {% endfor %}
             </div>
