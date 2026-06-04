@@ -5,21 +5,21 @@
 {% block body %}
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5 pb-4 border-bottom">
         <div>
-            <p class="mb-1" style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--drl-S); opacity: .8;">{{ 'Tableau de bord'|trans }}</p>
-            <h2 style="font-size: 26px; font-weight: 900; color: var(--drl-D); margin: 0 0 5px; letter-spacing: -.5px;">{{ 'Ravi de vous revoir,'|trans }} <span style="color: var(--drl-B);">{{ app.user.personalInfos.firstName|default('Pro'|trans) }}</span> 👋</h2>
-            <p style="font-size: 14px; color: var(--drl-M); margin: 0;">{{ "Voici ce qui se passe aujourd'hui avec vos projets."|trans }}</p>
+            <p class="mb-1" style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--drl-S); opacity: .8;">{{ 'menu.dashboard'|trans }}</p>
+            <h2 style="font-size: 26px; font-weight: 900; color: var(--drl-D); margin: 0 0 5px; letter-spacing: -.5px;">{{ 'pro_dash.welcome_back'|trans }} <span style="color: var(--drl-B);">{{ app.user.personalInfos.firstName|default('pro_dash.default_name'|trans) }}</span> 👋</h2>
+            <p style="font-size: 14px; color: var(--drl-M); margin: 0;">{{ 'pro_dash.today_summary'|trans }}</p>
         </div>
         <div>
             <form action="{{ path('professional_update_availability') }}" method="POST" class="d-flex align-items-center gap-1 bg-white p-1" style="border-radius: 50px; border: 1.5px solid var(--drl-L); box-shadow: 0 2px 8px rgba(0,73,127,.06);">
                 <input type="hidden" name="status" id="availability_status_input">
                 <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'AVAILABLE' %}active-avail{% endif %}" onclick="document.getElementById('availability_status_input').value='AVAILABLE'" style="padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--drl-M); transition: all .2s; display:flex; align-items:center; gap:6px;">
-                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#10b981; flex-shrink:0;"></span> {{ 'Disponible'|trans }}
+                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#10b981; flex-shrink:0;"></span> {{ 'pro_dash.avail_available'|trans }}
                 </button>
                 <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'BUSY' %}active-busy{% endif %}" onclick="document.getElementById('availability_status_input').value='BUSY'" style="padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--drl-M); transition: all .2s; display:flex; align-items:center; gap:6px;">
-                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#f59e0b; flex-shrink:0;"></span> {{ 'Occupé'|trans }}
+                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#f59e0b; flex-shrink:0;"></span> {{ 'pro_dash.avail_busy'|trans }}
                 </button>
                 <button type="submit" class="drl-avail-btn {% if app.user.availabilityStatus == 'UNAVAILABLE' %}active-off{% endif %}" onclick="document.getElementById('availability_status_input').value='UNAVAILABLE'" style="padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--drl-M); transition: all .2s; display:flex; align-items:center; gap:6px;">
-                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#94a3b8; flex-shrink:0;"></span> {{ 'Absent'|trans }}
+                    <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#94a3b8; flex-shrink:0;"></span> {{ 'pro_dash.avail_absent'|trans }}
                 </button>
             </form>
             <style>
@@ -38,10 +38,10 @@
     {% if quoteCount > 0 %}
         {% set priorityAlerts = priorityAlerts|merge([{
             'type': 'new_request',
-            'title': 'New Opportunities!'|trans,
-            'message': 'There are %count% new requests matching your category: %category%.'|trans({'%count%': quoteCount, '%category%': userCategory ? userCategory.localizedTitle(app.request.locale) : 'your specialty'|trans}),
+            'title': 'pro_dash.alert_new_opps_title'|trans,
+            'message': 'pro_dash.alert_new_opps_msg'|trans({'%count%': quoteCount, '%category%': userCategory ? userCategory.localizedTitle(app.request.locale) : 'pro_dash.your_specialty'|trans}),
             'action_url': path('professional_quotes'),
-            'action_text': 'View Demands'|trans,
+            'action_text': 'pro_dash.alert_view_demands'|trans,
             'icon': 'ph-sparkle',
             'color': 'primary'
         }]) %}
@@ -51,10 +51,10 @@
     {% if pendingDirectRequestsCount > 0 %}
         {% set priorityAlerts = priorityAlerts|merge([{
             'type': 'direct_request',
-            'title': (pendingDirectRequestsCount == 1 ? 'Pending Direct Request'|trans : 'Pending Direct Requests'|trans),
-            'message': 'You have %count% direct requests waiting for your response.'|trans({'%count%': pendingDirectRequestsCount}),
+            'title': (pendingDirectRequestsCount == 1 ? 'pro_dash.alert_pending_one'|trans : 'pro_dash.alert_pending_many'|trans),
+            'message': 'pro_dash.alert_pending_msg'|trans({'%count%': pendingDirectRequestsCount}),
             'action_url': path('professional_direct_requests'),
-            'action_text': 'Respond Now'|trans,
+            'action_text': 'pro_dash.alert_respond_now'|trans,
             'icon': 'ph-envelope-simple-open',
             'color': 'info'
         }]) %}
@@ -68,7 +68,7 @@
                 'title': n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres'|trans,
+                'action_text': 'pro_dash.view_my_offers'|trans,
                 'icon': 'ph-check-circle',
                 'color': 'success'
             }]) %}
@@ -78,7 +78,7 @@
                 'title': n.title,
                 'message': n.message,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres'|trans,
+                'action_text': 'pro_dash.view_my_offers'|trans,
                 'icon': 'ph-x-circle',
                 'color': 'danger'
             }]) %}
@@ -86,19 +86,19 @@
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_viewed',
                 'title': n.title,
-                'message': n.message ~ ' ' ~ 'Profitez-en pour relancer le client !'|trans,
+                'message': n.message ~ ' ' ~ 'pro_dash.followup_tip'|trans,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres'|trans,
+                'action_text': 'pro_dash.view_my_offers'|trans,
                 'icon': 'ph-eye',
                 'color': 'info'
             }]) %}
         {% elseif 'examen' in n.title|lower or 'intéressé' in n.title|lower %}
             {% set priorityAlerts = priorityAlerts|merge([{
                 'type': 'offer_interested',
-                'title': 'Offre en liste courte !',
-                'message': n.message ~ ' ' ~ "Le client est intéressé — c'est le bon moment pour le relancer.",
+                'title': 'pro_dash.alert_shortlisted_title'|trans,
+                'message': n.message ~ ' ' ~ 'pro_dash.alert_interested_msg'|trans,
                 'action_url': path('professional_offers'),
-                'action_text': 'Voir mes offres'|trans,
+                'action_text': 'pro_dash.view_my_offers'|trans,
                 'icon': 'ph-bookmark-simple',
                 'color': 'warning'
             }]) %}
@@ -150,12 +150,12 @@
         </div>
         <div class="flex-grow-1">
             <div style="font-size: 14px; font-weight: 800; color: var(--drl-D); margin-bottom: 2px;">
-                {{ '%count% offre en brouillon — non envoyée|%count% offres en brouillon — non envoyées'|trans({'%count%': draftCount}) }}
+                {{ 'pro_dash.draft_alert_msg'|trans({'%count%': draftCount}) }}
             </div>
-            <div style="font-size: 13px; color: var(--drl-M);">{{ 'Finalisez et publiez vos brouillons pour maximiser vos chances.'|trans }}</div>
+            <div style="font-size: 13px; color: var(--drl-M);">{{ 'pro_dash.draft_alert_sub'|trans }}</div>
         </div>
         <a href="{{ path('professional_offers') }}" class="drl-btn-orange flex-shrink-0" style="font-size: 13px; padding: 9px 18px;">
-            <i class="ph-paper-plane-tilt me-1"></i> {{ 'Publier'|trans }}
+            <i class="ph-paper-plane-tilt me-1"></i> {{ 'pro_dash.btn_publish'|trans }}
         </a>
     </div>
     {% endif %}
@@ -168,15 +168,15 @@
                 <i class="ph-user-focus"></i>
             </div>
             <div>
-                <h5 style="margin: 0 0 4px; font-size: 17px; font-weight: 800; color: #0d2151;">{{ 'Complete your business profile (%pct%%)'|trans({'%pct%': profileCompletion}) }}</h5>
-                <p style="margin: 0; font-size: 14px; color: #64748b;">{{ 'Profiles with logos and banners receive <strong>300% more matching leads</strong>.'|trans|raw }}</p>
+                <h5 style="margin: 0 0 4px; font-size: 17px; font-weight: 800; color: #0d2151;">{{ 'pro_dash.profile_completion_title'|trans({'%pct%': profileCompletion}) }}</h5>
+                <p style="margin: 0; font-size: 14px; color: #64748b;">{{ 'pro_dash.profile_completion_sub'|trans|raw }}</p>
             </div>
         </div>
         <div class="d-flex flex-column align-items-end gap-2" style="flex-shrink:0;">
             <div class="drl-pro-warn-bar" style="width:180px; height:8px; border-radius:999px; background: #f1f5f9;">
                 <div class="drl-pro-warn-progress" style="width:{{ profileCompletion }}%; height:100%; border-radius:999px; background: linear-gradient(to right, #f97316, #fb923c);"></div>
             </div>
-            <a href="{{ path('professional_profile') }}" class="text-decoration-none fw-bold" style="font-size: 14px; color: #f97316;">{{ 'Finish Profile Setup'|trans }} <i class="ph-arrow-right"></i></a>
+            <a href="{{ path('professional_profile') }}" class="text-decoration-none fw-bold" style="font-size: 14px; color: #f97316;">{{ 'pro_dash.finish_profile'|trans }} <i class="ph-arrow-right"></i></a>
         </div>
     </div>
     {% endif %}
@@ -187,7 +187,7 @@
             <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Demandes dispo.'|trans }}</p>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'pro_dash.kpi_available'|trans }}</p>
                         <h3 style="font-size: 34px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1.5px; line-height: 1;">{{ quoteCount }}</h3>
                     </div>
                     <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(63,169,245,.12); color: var(--drl-B); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -195,7 +195,7 @@
                     </div>
                 </div>
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(63,169,245,.1); color: var(--drl-B); border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
-                    <i class="ph-trend-up"></i> {{ 'Opportunités'|trans }}
+                    <i class="ph-trend-up"></i> {{ 'pro_dash.kpi_opportunities'|trans }}
                 </div>
             </div>
         </div>
@@ -204,7 +204,7 @@
             <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Offres envoyées'|trans }}</p>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'pro_dash.kpi_offers_sent'|trans }}</p>
                         <h3 style="font-size: 34px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1.5px; line-height: 1;">{{ offerCount }}</h3>
                     </div>
                     <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(255,138,61,.12); color: var(--drl-O); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -212,7 +212,7 @@
                     </div>
                 </div>
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: var(--drl-L); color: var(--drl-M); border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
-                    <i class="ph-clock"></i> {{ 'En attente'|trans }}
+                    <i class="ph-clock"></i> {{ 'pro_dash.kpi_pending'|trans }}
                 </div>
             </div>
         </div>
@@ -221,7 +221,7 @@
             <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Taux de succès'|trans }}</p>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'pro_dash.kpi_success_rate'|trans }}</p>
                         <h3 style="font-size: 34px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1.5px; line-height: 1;">{{ conversionRate }}<span style="font-size: 18px; opacity: .4; font-weight: 700;">%</span></h3>
                     </div>
                     <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(22,163,74,.1); color: #16a34a; font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -229,7 +229,7 @@
                     </div>
                 </div>
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(22,163,74,.1); color: #16a34a; border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
-                    <i class="ph-check-circle"></i> {{ '%count% gagnés'|trans({'%count%': acceptedCount}) }}
+                    <i class="ph-check-circle"></i> {{ 'pro_dash.kpi_won'|trans({'%count%': acceptedCount}) }}
                 </div>
             </div>
         </div>
@@ -238,15 +238,15 @@
             <div class="drl-card drl-card--hover" style="padding: 22px;">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'Délai réponse'|trans }}</p>
-                        <h3 style="font-size: 28px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1px; line-height: 1;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'Instantané'|trans }}</h3>
+                        <p style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--drl-M); margin: 0 0 10px; opacity: .7;">{{ 'pro_dash.kpi_response_time'|trans }}</p>
+                        <h3 style="font-size: 28px; font-weight: 900; color: var(--drl-D); margin: 0; letter-spacing: -1px; line-height: 1;">{{ (stats and stats.avgResponseTime) ? stats.avgResponseTime|format_response_time : 'pro_dash.kpi_instant'|trans }}</h3>
                     </div>
                     <div style="width: 48px; height: 48px; border-radius: var(--drl-r); background: rgba(0,73,127,.08); color: var(--drl-B); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <i class="ph-timer"></i>
                     </div>
                 </div>
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(0,73,127,.08); color: var(--drl-B); border-radius: 50px; padding: 5px 12px; font-size: 12px; font-weight: 700; margin-top: 10px;">
-                    <i class="ph-lightning"></i> {{ 'Réactif'|trans }}
+                    <i class="ph-lightning"></i> {{ 'pro_dash.kpi_reactive'|trans }}
                 </div>
             </div>
         </div>
@@ -258,11 +258,11 @@
             <div class="drl-card" style="overflow: hidden;">
                 <div class="drl-card-head border-bottom d-flex justify-content-between align-items-center" style="padding: 20px 28px;">
                     <div>
-                        <h4 style="font-size: 17px; font-weight: 800; color: var(--drl-D); margin: 0 0 3px; letter-spacing: -.3px;">{{ 'Activité récente'|trans }}</h4>
-                        <p style="font-size: 13px; color: var(--drl-M); margin: 0;">{{ 'Cycle de vie de vos devis et demandes.'|trans }}</p>
+                        <h4 style="font-size: 17px; font-weight: 800; color: var(--drl-D); margin: 0 0 3px; letter-spacing: -.3px;">{{ 'pro_dash.recent_activity'|trans }}</h4>
+                        <p style="font-size: 13px; color: var(--drl-M); margin: 0;">{{ 'pro_dash.recent_activity_sub'|trans }}</p>
                     </div>
                     <a href="{{ path('professional_offers') }}" class="drl-act-btn drl-act-btn--view" style="text-decoration:none; font-size: 13px;">
-                        {{ 'Toutes les offres'|trans }} <i class="ph-arrow-right ms-1"></i>
+                        {{ 'pro_dash.all_offers'|trans }} <i class="ph-arrow-right ms-1"></i>
                     </a>
                 </div>
 
@@ -270,12 +270,12 @@
                     <table class="table mb-0 align-middle">
                         <thead>
                             <tr style="background: #f5f8fc;">
-                                <th class="ps-4 py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Demande'|trans }}</th>
-                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Montant'|trans }}</th>
-                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Statut'|trans }}</th>
-                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Lecture'|trans }}</th>
-                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Date'|trans }}</th>
-                                <th class="pe-4 py-3 text-end" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'Action'|trans }}</th>
+                                <th class="ps-4 py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'pro_dash.th_request'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'pro_dash.th_amount'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'pro_dash.th_status'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'pro_dash.th_read'|trans }}</th>
+                                <th class="py-3" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'pro_dash.th_date'|trans }}</th>
+                                <th class="pe-4 py-3 text-end" style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--drl-M); border-bottom: 1px solid var(--drl-L);">{{ 'pro_dash.th_action'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -287,7 +287,7 @@
                                                 <i class="ph-{% if offer.quoteRequest %}file-text{% else %}user{% endif %}"></i>
                                             </div>
                                             <div>
-                                                <strong style="font-size: 14px; color: var(--drl-D); display: block; font-weight: 700;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,45) ~ (offer.quoteRequest.title|length > 45 ? '…' : '') : 'Demande Directe'|trans }}</strong>
+                                                <strong style="font-size: 14px; color: var(--drl-D); display: block; font-weight: 700;">{{ offer.quoteRequest ? offer.quoteRequest.title|slice(0,45) ~ (offer.quoteRequest.title|length > 45 ? '…' : '') : 'pro_dash.direct_request_label'|trans }}</strong>
                                                 <span style="font-size: 12px; color: var(--drl-M);">#{{ offer.id }}{% if offer.quoteRequest %} · {{ offer.quoteRequest.category.localizedTitle(app.request.locale) }}{% endif %}</span>
                                             </div>
                                         </div>
@@ -297,19 +297,19 @@
                                     </td>
                                     <td class="py-3">
                                         {% if offer.status == 'DRAFT' %}
-                                            <span class="drl-tag drl-tag--draft"><i class="ph-file me-1"></i> {{ 'Brouillon'|trans }}</span>
+                                            <span class="drl-tag drl-tag--draft"><i class="ph-file me-1"></i> {{ 'pro_dash.status_draft'|trans }}</span>
                                         {% elseif offer.status == 'PUBLISHED' %}
-                                            <span class="drl-tag drl-tag--sent"><i class="ph-paper-plane-tilt me-1"></i> {{ 'Envoyée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--sent"><i class="ph-paper-plane-tilt me-1"></i> {{ 'pro_dash.status_sent'|trans }}</span>
                                         {% elseif offer.status == 'INTERESTED' %}
-                                            <span class="drl-tag drl-tag--warning" data-bs-toggle="tooltip" title="{{ 'Le client a mis votre offre en liste courte !'|trans }}">
-                                                <i class="ph-bookmark-simple me-1"></i> {{ 'Intéressé'|trans }}
+                                            <span class="drl-tag drl-tag--warning" data-bs-toggle="tooltip" title="{{ 'pro_dash.tooltip_shortlisted'|trans }}">
+                                                <i class="ph-bookmark-simple me-1"></i> {{ 'pro_dash.status_interested'|trans }}
                                             </span>
                                         {% elseif offer.status == 'REJECTED' %}
-                                            <span class="drl-tag drl-tag--danger"><i class="ph-x-circle me-1"></i> {{ 'Refusée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--danger"><i class="ph-x-circle me-1"></i> {{ 'pro_dash.status_rejected'|trans }}</span>
                                         {% elseif offer.status == 'ACCEPTED' %}
-                                            <span class="drl-tag drl-tag--success"><i class="ph-check-circle me-1"></i> {{ 'Acceptée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--success"><i class="ph-check-circle me-1"></i> {{ 'pro_dash.status_accepted'|trans }}</span>
                                         {% elseif offer.status == 'CLOSED' %}
-                                            <span class="drl-tag drl-tag--draft"><i class="ph-check-square me-1"></i> {{ 'Terminée'|trans }}</span>
+                                            <span class="drl-tag drl-tag--draft"><i class="ph-check-square me-1"></i> {{ 'pro_dash.status_closed'|trans }}</span>
                                         {% else %}
                                             <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
                                         {% endif %}
@@ -317,16 +317,16 @@
                                     <td class="py-3">
                                         {% if offer.viewedAt %}
                                             <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: #059669; white-space: nowrap;"
-                                                  data-bs-toggle="tooltip" title="{{ 'Vue le %date%'|trans({'%date%': offer.viewedAt|date('d/m/Y à H:i')}) }}">
+                                                  data-bs-toggle="tooltip" title="{{ 'pro_dash.viewed_on'|trans({'%date%': offer.viewedAt|date('d/m/Y à H:i')}) }}">
                                                 <i class="ph-eye" style="font-size: 15px;"></i>
-                                                <span class="fw-bold">{{ 'Vue'|trans }}</span>
+                                                <span class="fw-bold">{{ 'pro_dash.read_viewed'|trans }}</span>
                                                 <span style="color: var(--drl-M); font-weight: 400;">{{ offer.viewedAt|date('d/m') }}</span>
                                             </span>
                                         {% elseif offer.status in ['PUBLISHED', 'INTERESTED'] %}
                                             <span class="d-flex align-items-center gap-1" style="font-size: 12px; color: var(--drl-O); white-space: nowrap;">
                                                 <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--drl-O); animation: pulse 1.5s infinite; flex-shrink:0;"></span>
                                                 <i class="ph-eye-slash" style="font-size: 15px;"></i>
-                                                <span class="fw-bold">{{ 'Non lue'|trans }}</span>
+                                                <span class="fw-bold">{{ 'pro_dash.status_unread'|trans }}</span>
                                             </span>
                                         {% else %}
                                             <span style="color: var(--drl-M); font-size: 13px;">—</span>
@@ -340,12 +340,12 @@
                                         <div class="d-flex justify-content-end gap-1 flex-wrap">
                                         {% if offer.status == 'ACCEPTED' and parentRequest and parentRequest.status|upper != 'CLOSED' %}
                                             <button type="button" class="drl-act-btn drl-act-btn--finalize" style="font-size: 12px; padding: 5px 12px; border: none;" data-bs-toggle="modal" data-bs-target="#finalizeModal{{ offer.id }}">
-                                                <i class="ph-check-circle"></i> {{ 'Terminer'|trans }}
+                                                <i class="ph-check-circle"></i> {{ 'pro_dash.btn_finalize'|trans }}
                                             </button>
                                         {% endif %}
                                         {% if parentRequest %}
                                             <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" style="font-size: 12px; padding: 5px 12px; text-decoration: none;">
-                                                <i class="ph-eye"></i> {{ 'Voir'|trans }}
+                                                <i class="ph-eye"></i> {{ 'pro_dash.btn_view'|trans }}
                                             </a>
                                         {% endif %}
                                         </div>
@@ -357,10 +357,10 @@
                                         <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-4" style="width: 64px; height: 64px; font-size: 26px;">
                                             <i class="ph-paper-plane-tilt"></i>
                                         </div>
-                                        <h5 style="font-size: 17px; font-weight: 800; color: var(--drl-D); margin: 0 0 8px;">{{ 'Aucune offre envoyée'|trans }}</h5>
-                                        <p style="font-size: 14px; color: var(--drl-M); margin: 0 0 20px;">{{ 'Parcourez les demandes disponibles et soumettez votre première offre.'|trans }}</p>
+                                        <h5 style="font-size: 17px; font-weight: 800; color: var(--drl-D); margin: 0 0 8px;">{{ 'pro_dash.no_offers_title'|trans }}</h5>
+                                        <p style="font-size: 14px; color: var(--drl-M); margin: 0 0 20px;">{{ 'pro_dash.no_offers_sub'|trans }}</p>
                                         <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="text-decoration: none; font-size: 14px;">
-                                            <i class="ph-magnifying-glass me-1"></i> {{ 'Voir les demandes'|trans }}
+                                            <i class="ph-magnifying-glass me-1"></i> {{ 'pro_dash.btn_view_requests'|trans }}
                                         </a>
                                     </td>
                                 </tr>
@@ -388,17 +388,17 @@
                             <i class="ph-check-circle"></i>
                         </div>
                     </div>
-                    <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'Confirmer la fin des travaux ?'|trans }}</h4>
-                    <p style="font-size: 14px; color: var(--drl-M); margin-bottom: 24px;">{{ 'Le client sera notifié que les travaux sont accomplis.'|trans }}</p>
+                    <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'pro_dash.finalize_confirm_title'|trans }}</h4>
+                    <p style="font-size: 14px; color: var(--drl-M); margin-bottom: 24px;">{{ 'pro_dash.finalize_confirm_sub'|trans }}</p>
                     <div class="d-flex flex-column gap-2">
                         <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a !important; box-shadow: 0 4px 14px rgba(22,163,74,.25) !important;">
-                                <i class="ph-check-circle me-2"></i> {{ 'Oui, terminer la mission'|trans }}
+                                <i class="ph-check-circle me-2"></i> {{ 'pro_dash.btn_finalize_yes'|trans }}
                             </button>
                         </form>
                         <button type="button" class="btn btn-link fw-bold" style="color: var(--drl-M); text-decoration: none; font-size: 14px;" data-bs-dismiss="modal">
-                            {{ 'Non, pas encore'|trans }}
+                            {{ 'pro_dash.btn_not_yet'|trans }}
                         </button>
                     </div>
                 </div>

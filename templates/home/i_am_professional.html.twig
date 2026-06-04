@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Je suis un professionnel | Drilleedo Canada{% endblock %}
-{% block meta_description %}Développez votre activité, accédez à des clients qualifiés et maximisez vos opportunités grâce à notre plateforme.{% endblock %}
+{% block title %}{{ 'pro_landing.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'pro_landing.meta_desc'|trans }}{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -475,11 +475,11 @@
 {# ── Breadcrumb ── #}
 <div class="pro-breadcrumb">
     <div class="container">
-        <a href="{{ path('app_home') }}">Accueil</a>
+        <a href="{{ path('app_home') }}">{{ 'pro_landing.bc_home'|trans }}</a>
         <span class="sep">/</span>
-        <a href="{{ path('app_how_it_works') }}">Comment ça marche</a>
+        <a href="{{ path('app_how_it_works') }}">{{ 'pro_landing.bc_how'|trans }}</a>
         <span class="sep">/</span>
-        <strong>Je suis un professionnel</strong>
+        <strong>{{ 'pro_landing.bc_current'|trans }}</strong>
     </div>
 </div>
 
@@ -491,59 +491,53 @@
         <div class="row align-items-end g-4">
             <div class="col-lg-6 pb-5" style="position:relative;z-index:2;">
                 <div class="pro-hero-eyebrow">
-                    <i class="feather-briefcase"></i> Pour les entrepreneurs &amp; professionnels
+                    <i class="feather-briefcase"></i> {{ 'pro_landing.hero_eyebrow'|trans }}
                 </div>
-                <h1>
-                    Remplissez votre carnet de<br>
-                    <span class="hl">commandes en continu</span>
-                </h1>
-                <p class="pro-hero-lead">
-                    Accédez à des clients qualifiés, développez votre visibilité et concentrez-vous
-                    sur ce que vous faites de mieux — pendant que Drilleedo s'occupe du reste.
-                </p>
+                <h1>{{ 'pro_landing.hero_h1'|trans|raw }}</h1>
+                <p class="pro-hero-lead">{{ 'pro_landing.hero_lead'|trans }}</p>
                 <div class="pro-hero-actions">
                     <a href="{{ path('app_register') }}" class="btn-cta-primary">
-                        <i class="feather-user-plus"></i> Créer mon profil gratuitement
+                        <i class="feather-user-plus"></i> {{ 'pro_landing.hero_btn_register'|trans }}
                     </a>
                     <a href="#how-it-works" class="btn-cta-outline">
-                        <i class="feather-play-circle"></i> Voir comment ça marche
+                        <i class="feather-play-circle"></i> {{ 'pro_landing.hero_btn_how'|trans }}
                     </a>
                 </div>
                 <div class="pro-hero-trust">
                     <div class="pro-hero-trust-faces">
-                        <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="Pro">
-                        <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="Pro">
-                        <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="Pro">
-                        <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="Pro">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="{{ 'pro_landing.hero_img_alt'|trans }}">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="{{ 'pro_landing.hero_img_alt'|trans }}">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="{{ 'pro_landing.hero_img_alt'|trans }}">
+                        <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="{{ 'pro_landing.hero_img_alt'|trans }}">
                     </div>
                     <div class="pro-hero-trust-text">
-                        <strong>+1 500 professionnels</strong> nous font confiance au Canada
+                        {{ 'pro_landing.hero_trust_text'|trans|raw }}
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 pro-hero-img-col">
                 <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
-                     alt="Professionnel Drilleedo"
+                     alt="{{ 'pro_landing.hero_main_img_alt'|trans }}"
                      class="pro-hero-img">
                 <div class="pro-stat-float pro-stat-float-1">
                     <div class="pro-stat-float-icon blue"><i class="feather-briefcase"></i></div>
                     <div>
                         <div class="pro-stat-float-val">+1 500</div>
-                        <div class="pro-stat-float-lbl">Pros inscrits</div>
+                        <div class="pro-stat-float-lbl">{{ 'pro_landing.float_pros_lbl'|trans }}</div>
                     </div>
                 </div>
                 <div class="pro-stat-float pro-stat-float-2">
                     <div class="pro-stat-float-icon green"><i class="feather-trending-up"></i></div>
                     <div>
                         <div class="pro-stat-float-val">+40%</div>
-                        <div class="pro-stat-float-lbl">De nouveaux contrats</div>
+                        <div class="pro-stat-float-lbl">{{ 'pro_landing.float_contracts_lbl'|trans }}</div>
                     </div>
                 </div>
                 <div class="pro-stat-float pro-stat-float-3">
                     <div class="pro-stat-float-icon orange"><i class="feather-percent"></i></div>
                     <div>
                         <div class="pro-stat-float-val">0%</div>
-                        <div class="pro-stat-float-lbl">Commission prélevée</div>
+                        <div class="pro-stat-float-lbl">{{ 'pro_landing.float_commission_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
@@ -559,19 +553,19 @@
         <div class="pro-stats-band-grid">
             <div class="pro-stat-item">
                 <div class="pro-stat-val">+1 500</div>
-                <div class="pro-stat-lbl">Professionnels inscrits</div>
+                <div class="pro-stat-lbl">{{ 'pro_landing.stat_pros_lbl'|trans }}</div>
             </div>
             <div class="pro-stat-item">
                 <div class="pro-stat-val">+40<span>%</span></div>
-                <div class="pro-stat-lbl">de contrats supplémentaires</div>
+                <div class="pro-stat-lbl">{{ 'pro_landing.stat_contracts_lbl'|trans }}</div>
             </div>
             <div class="pro-stat-item">
                 <div class="pro-stat-val">0<span>%</span></div>
-                <div class="pro-stat-lbl">Commission sur vos projets</div>
+                <div class="pro-stat-lbl">{{ 'pro_landing.stat_commission_lbl'|trans }}</div>
             </div>
             <div class="pro-stat-item">
                 <div class="pro-stat-val">&lt;24h</div>
-                <div class="pro-stat-lbl">Pour être en ligne</div>
+                <div class="pro-stat-lbl">{{ 'pro_landing.stat_online_lbl'|trans }}</div>
             </div>
         </div>
     </div>
@@ -586,50 +580,43 @@
             <div class="col-lg-6">
                 <div class="pro-img-wrap">
                     <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
-                         alt="Rénovation professionnelle"
+                         alt="{{ 'pro_landing.objectif_img_alt'|trans }}"
                          class="pro-objective-img">
                     <div class="pro-img-badge">
                         <div class="pro-img-badge-icon"><i class="feather-trending-up"></i></div>
                         <div>
                             <div class="pro-img-badge-val">+40 %</div>
-                            <div class="pro-img-badge-lbl">Contrats supplémentaires</div>
+                            <div class="pro-img-badge-lbl">{{ 'pro_landing.objectif_badge_lbl'|trans }}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="pro-objective-tag">
-                    <i class="feather-target"></i> Notre objectif
+                    <i class="feather-target"></i> {{ 'pro_landing.objectif_tag'|trans }}
                 </div>
-                <h2 class="pro-section-title">
-                    Moins de temps à chercher,<br>
-                    <span class="hl">plus de temps à réaliser</span>
-                </h2>
-                <p class="pro-section-sub">
-                    Que vous soyez entrepreneur général ou spécialisé, Drilleedo répond aux défis
-                    concrets du terrain : trouver des clients fiables, optimiser votre temps et
-                    maximiser la rentabilité de chaque projet.
-                </p>
+                <h2 class="pro-section-title">{{ 'pro_landing.objectif_h2'|trans|raw }}</h2>
+                <p class="pro-section-sub">{{ 'pro_landing.objectif_sub'|trans }}</p>
                 <ul class="pro-check-list">
                     <li>
                         <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Accès à des demandes réelles avec des besoins clairement définis dans votre zone géographique</span>
+                        <span>{{ 'pro_landing.objectif_check1'|trans }}</span>
                     </li>
                     <li>
                         <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Réduction considérable du temps consacré à la prospection et aux démarches commerciales</span>
+                        <span>{{ 'pro_landing.objectif_check2'|trans }}</span>
                     </li>
                     <li>
                         <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Augmentation de vos chances de conclure des contrats pertinents et rentables</span>
+                        <span>{{ 'pro_landing.objectif_check3'|trans }}</span>
                     </li>
                     <li>
                         <div class="check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Carnet de commandes rempli de manière continue et sécurisée</span>
+                        <span>{{ 'pro_landing.objectif_check4'|trans }}</span>
                     </li>
                 </ul>
                 <a href="{{ path('app_register') }}" class="btn-cta-primary" style="background:var(--B); box-shadow:0 4px 18px rgba(0,73,127,.3);">
-                    <i class="feather-arrow-right"></i> Démarrer maintenant
+                    <i class="feather-arrow-right"></i> {{ 'pro_landing.objectif_btn'|trans }}
                 </a>
             </div>
         </div>
@@ -645,45 +632,40 @@
             <div class="col-lg-6 order-lg-2">
                 <div class="pro-mission-img-wrap">
                     <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
-                         alt="Mission Drilleedo"
+                         alt="{{ 'pro_landing.mission_img_alt'|trans }}"
                          class="pro-mission-img">
                     <div class="pro-mission-img-tag">
                         <div class="pro-mission-img-tag-num">0 %</div>
-                        <div class="pro-mission-img-tag-lbl">commission prélevée</div>
+                        <div class="pro-mission-img-tag-lbl">{{ 'pro_landing.mission_badge_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 order-lg-1">
                 <div class="pro-mission-tag">
-                    <i class="feather-flag"></i> Notre but
+                    <i class="feather-flag"></i> {{ 'pro_landing.mission_tag'|trans }}
                 </div>
-                <h2>
-                    Soutenir la <span>croissance durable</span><br>de votre entreprise
-                </h2>
-                <p class="pro-mission-lead">
-                    Notre système intelligent de mise en relation vous connecte avec des clients sérieux,
-                    dans votre secteur d'activité et votre région — sans effort de votre part.
-                </p>
+                <h2>{{ 'pro_landing.mission_h2'|trans|raw }}</h2>
+                <p class="pro-mission-lead">{{ 'pro_landing.mission_lead'|trans }}</p>
                 <div class="pro-mission-points">
                     <div class="pro-mission-point">
                         <div class="pro-mission-point-icon"><i class="feather-users"></i></div>
                         <div>
-                            <div class="pro-mission-point-title">Clients vérifiés &amp; qualifiés</div>
-                            <div class="pro-mission-point-text">Chaque demande est soumise par un client sérieux, avec un besoin réel et un budget défini.</div>
+                            <div class="pro-mission-point-title">{{ 'pro_landing.mission_pt1_title'|trans }}</div>
+                            <div class="pro-mission-point-text">{{ 'pro_landing.mission_pt1_text'|trans }}</div>
                         </div>
                     </div>
                     <div class="pro-mission-point">
                         <div class="pro-mission-point-icon"><i class="feather-map-pin"></i></div>
                         <div>
-                            <div class="pro-mission-point-title">Projets dans votre zone</div>
-                            <div class="pro-mission-point-text">Ne recevez que les projets qui correspondent à votre secteur géographique et votre expertise.</div>
+                            <div class="pro-mission-point-title">{{ 'pro_landing.mission_pt2_title'|trans }}</div>
+                            <div class="pro-mission-point-text">{{ 'pro_landing.mission_pt2_text'|trans }}</div>
                         </div>
                     </div>
                     <div class="pro-mission-point">
                         <div class="pro-mission-point-icon"><i class="feather-shield"></i></div>
                         <div>
-                            <div class="pro-mission-point-title">Croissance sécurisée</div>
-                            <div class="pro-mission-point-text">Concentrez-vous sur l'exécution — nous gérons la mise en relation et la visibilité pour vous.</div>
+                            <div class="pro-mission-point-title">{{ 'pro_landing.mission_pt3_title'|trans }}</div>
+                            <div class="pro-mission-point-text">{{ 'pro_landing.mission_pt3_text'|trans }}</div>
                         </div>
                     </div>
                 </div>
@@ -698,87 +680,71 @@
 <section class="pro-steps" id="how-it-works">
     <div class="container">
         <div class="pro-steps-header">
-            <span class="pro-section-label">Processus simple</span>
-            <h2 class="pro-section-title" style="margin-bottom:8px;">Comment ça fonctionne</h2>
+            <span class="pro-section-label">{{ 'pro_landing.steps_eyebrow'|trans }}</span>
+            <h2 class="pro-section-title" style="margin-bottom:8px;">{{ 'pro_landing.steps_h2'|trans }}</h2>
             <p style="font-size:15px; color:var(--M); max-width:540px; margin:0 auto;">
-                4 étapes pour commencer à recevoir des projets qualifiés
+                {{ 'pro_landing.steps_sub'|trans }}
             </p>
         </div>
         <div class="pro-steps-timeline">
 
             <div class="pro-step-row">
                 <div class="pro-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/cat_plumber.jpg') }}" alt="Créer profil">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_plumber.jpg') }}" alt="{{ 'pro_landing.step1_img_alt'|trans }}">
                 </div>
                 <div class="pro-step-center">
                     <div class="pro-step-circle">1</div>
                     <div class="pro-step-line"></div>
                 </div>
                 <div class="pro-step-content">
-                    <div class="pro-step-tag">Étape 1</div>
-                    <div class="pro-step-title">Créez votre profil professionnel</div>
-                    <p class="pro-step-text">
-                        Inscrivez-vous en quelques minutes et complétez votre profil avec vos services,
-                        vos zones d'intervention, vos certifications et vos réalisations passées.
-                        Votre vitrine est immédiatement visible par des milliers de clients.
-                    </p>
+                    <div class="pro-step-tag">{{ 'pro_landing.step1_tag'|trans }}</div>
+                    <div class="pro-step-title">{{ 'pro_landing.step1_title'|trans }}</div>
+                    <p class="pro-step-text">{{ 'pro_landing.step1_text'|trans }}</p>
                 </div>
             </div>
 
             <div class="pro-step-row reverse">
                 <div class="pro-step-content">
-                    <div class="pro-step-tag">Étape 2</div>
-                    <div class="pro-step-title">Recevez des demandes ciblées</div>
-                    <p class="pro-step-text">
-                        Notre plateforme vous propose automatiquement des projets correspondant à
-                        votre expertise et à votre localisation. Plus besoin de chercher — les
-                        opportunités viennent à vous.
-                    </p>
+                    <div class="pro-step-tag">{{ 'pro_landing.step2_tag'|trans }}</div>
+                    <div class="pro-step-title">{{ 'pro_landing.step2_title'|trans }}</div>
+                    <p class="pro-step-text">{{ 'pro_landing.step2_text'|trans }}</p>
                 </div>
                 <div class="pro-step-center">
                     <div class="pro-step-circle">2</div>
                     <div class="pro-step-line"></div>
                 </div>
                 <div class="pro-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/cat_electrician.jpg') }}" alt="Demandes ciblées">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_electrician.jpg') }}" alt="{{ 'pro_landing.step2_img_alt'|trans }}">
                 </div>
             </div>
 
             <div class="pro-step-row">
                 <div class="pro-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/cat_painter.jpg') }}" alt="Soumettez offres">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_painter.jpg') }}" alt="{{ 'pro_landing.step3_img_alt'|trans }}">
                 </div>
                 <div class="pro-step-center">
                     <div class="pro-step-circle">3</div>
                     <div class="pro-step-line"></div>
                 </div>
                 <div class="pro-step-content">
-                    <div class="pro-step-tag">Étape 3</div>
-                    <div class="pro-step-title">Soumettez vos offres</div>
-                    <p class="pro-step-text">
-                        Sélectionnez uniquement les projets qui vous intéressent. Envoyez vos
-                        soumissions directement aux clients et échangez avec eux pour affiner
-                        leurs besoins et afficher votre expertise.
-                    </p>
+                    <div class="pro-step-tag">{{ 'pro_landing.step3_tag'|trans }}</div>
+                    <div class="pro-step-title">{{ 'pro_landing.step3_title'|trans }}</div>
+                    <p class="pro-step-text">{{ 'pro_landing.step3_text'|trans }}</p>
                 </div>
             </div>
 
             <div class="pro-step-row reverse">
                 <div class="pro-step-content">
-                    <div class="pro-step-tag">Étape 4</div>
-                    <div class="pro-step-title">Gagnez des contrats</div>
-                    <p class="pro-step-text">
-                        Développez votre portefeuille clients, obtenez des avis certifiés et
-                        augmentez votre visibilité en ligne. Chaque contrat remporté renforce
-                        votre réputation sur la plateforme.
-                    </p>
+                    <div class="pro-step-tag">{{ 'pro_landing.step4_tag'|trans }}</div>
+                    <div class="pro-step-title">{{ 'pro_landing.step4_title'|trans }}</div>
+                    <p class="pro-step-text">{{ 'pro_landing.step4_text'|trans }}</p>
                 </div>
                 <div class="pro-step-center">
                     <div class="pro-step-circle">4</div>
                     <div class="pro-step-line"></div>
                 </div>
                 <div class="pro-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}" alt="Gagnez contrats">
+                    <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}" alt="{{ 'pro_landing.step4_img_alt'|trans }}">
                 </div>
             </div>
 
@@ -792,52 +758,37 @@
 <section class="pro-adv">
     <div class="container">
         <div class="text-center">
-            <span class="pro-section-label">Ce que vous gagnez</span>
-            <h2 class="pro-section-title" style="margin-bottom:8px;">Vos avantages exclusifs</h2>
+            <span class="pro-section-label">{{ 'pro_landing.adv_eyebrow'|trans }}</span>
+            <h2 class="pro-section-title" style="margin-bottom:8px;">{{ 'pro_landing.adv_h2'|trans }}</h2>
             <p style="font-size:15px; color:var(--M); max-width:500px; margin:0 auto;">
-                Drilleedo a été conçu pour les professionnels qui veulent grandir sans se disperser.
+                {{ 'pro_landing.adv_sub'|trans }}
             </p>
         </div>
         <div class="pro-adv-grid">
             <div class="pro-adv-card">
                 <div class="pro-adv-card-icon"><i class="feather-users"></i></div>
-                <div class="pro-adv-card-title">Accès à des clients qualifiés</div>
-                <p class="pro-adv-card-text">
-                    Finis les contacts peu sérieux. Chaque client sur Drilleedo a soumis une demande
-                    réelle avec un projet défini et un budget estimé.
-                </p>
+                <div class="pro-adv-card-title">{{ 'pro_landing.adv1_title'|trans }}</div>
+                <p class="pro-adv-card-text">{{ 'pro_landing.adv1_text'|trans }}</p>
             </div>
             <div class="pro-adv-card">
                 <div class="pro-adv-card-icon"><i class="feather-clock"></i></div>
-                <div class="pro-adv-card-title">Gain de temps sur la prospection</div>
-                <p class="pro-adv-card-text">
-                    Éliminez les heures perdues en démarches commerciales. Concentrez votre énergie
-                    sur vos chantiers, pas sur la recherche de clients.
-                </p>
+                <div class="pro-adv-card-title">{{ 'pro_landing.adv2_title'|trans }}</div>
+                <p class="pro-adv-card-text">{{ 'pro_landing.adv2_text'|trans }}</p>
             </div>
             <div class="pro-adv-card">
                 <div class="pro-adv-card-icon"><i class="feather-trending-up"></i></div>
-                <div class="pro-adv-card-title">Visibilité accrue en ligne</div>
-                <p class="pro-adv-card-text">
-                    Votre profil professionnel apparaît dans les résultats de recherche et attire
-                    des clients sans effort supplémentaire de votre part.
-                </p>
+                <div class="pro-adv-card-title">{{ 'pro_landing.adv3_title'|trans }}</div>
+                <p class="pro-adv-card-text">{{ 'pro_landing.adv3_text'|trans }}</p>
             </div>
             <div class="pro-adv-card">
                 <div class="pro-adv-card-icon"><i class="feather-check-square"></i></div>
-                <div class="pro-adv-card-title">Liberté totale de choix</div>
-                <p class="pro-adv-card-text">
-                    Vous choisissez les projets qui correspondent à votre agenda, vos compétences
-                    et vos objectifs. Jamais d'obligation, toujours le contrôle.
-                </p>
+                <div class="pro-adv-card-title">{{ 'pro_landing.adv4_title'|trans }}</div>
+                <p class="pro-adv-card-text">{{ 'pro_landing.adv4_text'|trans }}</p>
             </div>
             <div class="pro-adv-card">
                 <div class="pro-adv-card-icon"><i class="feather-layout"></i></div>
-                <div class="pro-adv-card-title">Outil simple et efficace</div>
-                <p class="pro-adv-card-text">
-                    Tableau de bord clair, notifications en temps réel, messagerie intégrée.
-                    Gérez toutes vos opportunités depuis un seul endroit.
-                </p>
+                <div class="pro-adv-card-title">{{ 'pro_landing.adv5_title'|trans }}</div>
+                <p class="pro-adv-card-text">{{ 'pro_landing.adv5_text'|trans }}</p>
             </div>
         </div>
     </div>
@@ -850,58 +801,46 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-5">
-                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:12px;">Ils nous font confiance</span>
-                <h2 class="pro-section-title">+1 500 professionnels<br>développent leur activité</h2>
-                <p class="pro-section-sub">
-                    Plombiers, électriciens, peintres, entrepreneurs généraux — ils font confiance
-                    à Drilleedo pour remplir leur carnet de commandes.
-                </p>
+                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:12px;">{{ 'pro_landing.social_eyebrow'|trans }}</span>
+                <h2 class="pro-section-title">{{ 'pro_landing.social_h2'|trans|raw }}</h2>
+                <p class="pro-section-sub">{{ 'pro_landing.social_sub'|trans }}</p>
                 <div class="pro-social-faces-grid">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-05.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-06.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-07.jpg') }}" alt="Pro" class="pro-social-face">
-                    <img src="{{ asset('assets/drilleedo/images/team/team-08.jpg') }}" alt="Pro" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-05.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-06.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-07.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
+                    <img src="{{ asset('assets/drilleedo/images/team/team-08.jpg') }}" alt="{{ 'pro_landing.social_img_alt'|trans }}" class="pro-social-face">
                 </div>
                 <div class="pro-social-stats">
                     <div>
                         <div class="pro-social-stat-num">★★★★★</div>
-                        <div class="pro-social-stat-lbl">Note moyenne</div>
+                        <div class="pro-social-stat-lbl">{{ 'pro_landing.stat_rating_lbl'|trans }}</div>
                     </div>
                     <div class="pro-social-divider"></div>
                     <div>
                         <div class="pro-social-stat-num">98 %</div>
-                        <div class="pro-social-stat-lbl">Satisfaction</div>
+                        <div class="pro-social-stat-lbl">{{ 'pro_landing.stat_satisfaction_lbl'|trans }}</div>
                     </div>
                     <div class="pro-social-divider"></div>
                     <div>
                         <div class="pro-social-stat-num">+8 000</div>
-                        <div class="pro-social-stat-lbl">Projets réalisés</div>
+                        <div class="pro-social-stat-lbl">{{ 'pro_landing.stat_projects_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="pro-testimonial">
                     <div class="pro-stars">★★★★★</div>
-                    <p class="pro-testimonial-text">
-                        "Depuis que je suis inscrit sur Drilleedo, j'ai augmenté mon nombre de
-                        contrats de plus de 40 %. Les clients sont sérieux, les projets bien définis
-                        et je n'ai plus à perdre du temps en démarchage. Je me concentre sur mon
-                        travail — c'est exactement ce que je cherchais."
-                    </p>
-                    <div class="pro-testimonial-author">— Jean-François B., Plombier, Montréal</div>
+                    <p class="pro-testimonial-text">{{ 'pro_landing.testimonial1_text'|trans }}</p>
+                    <div class="pro-testimonial-author">{{ 'pro_landing.testimonial1_author'|trans }}</div>
                 </div>
                 <div class="pro-testimonial mt-3">
                     <div class="pro-stars">★★★★★</div>
-                    <p class="pro-testimonial-text">
-                        "La plateforme est simple, efficace et gratuite. En moins d'une semaine
-                        après mon inscription, j'avais déjà 3 nouveaux chantiers. Je recommande
-                        à tous les entrepreneurs qui veulent développer leur activité."
-                    </p>
-                    <div class="pro-testimonial-author">— Mario T., Électricien, Laval</div>
+                    <p class="pro-testimonial-text">{{ 'pro_landing.testimonial2_text'|trans }}</p>
+                    <div class="pro-testimonial-author">{{ 'pro_landing.testimonial2_author'|trans }}</div>
                 </div>
             </div>
         </div>
@@ -913,18 +852,18 @@
 ══════════════════════════════════════════ #}
 <section class="pro-cta">
     <div class="container">
-        <h2>Prêt à <span>remplir votre carnet</span><br>de commandes ?</h2>
-        <p>Créez votre profil en moins de 5 minutes. Gratuit, sans engagement.</p>
+        <h2>{{ 'pro_landing.cta_h2'|trans|raw }}</h2>
+        <p>{{ 'pro_landing.cta_sub'|trans }}</p>
         <div class="pro-cta-actions">
             <a href="{{ path('app_register') }}" class="btn-cta-primary">
-                <i class="feather-user-plus"></i> Créer mon profil gratuitement
+                <i class="feather-user-plus"></i> {{ 'pro_landing.cta_btn_register'|trans }}
             </a>
             <a href="{{ path('professionals_list') }}" class="btn-cta-outline">
-                <i class="feather-search"></i> Explorer la plateforme
+                <i class="feather-search"></i> {{ 'pro_landing.cta_btn_explore'|trans }}
             </a>
         </div>
         <p class="pro-cta-note">
-            <i class="feather-lock"></i> Aucune carte de crédit requise · Profil en ligne en moins de 24 h
+            <i class="feather-lock"></i> {{ 'pro_landing.cta_note'|trans }}
         </p>
     </div>
 </section>

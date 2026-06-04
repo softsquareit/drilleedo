@@ -62,11 +62,11 @@
 <div class="pp-hero">
   {% if professional.banner %}
     <img src="{{ asset('uploads/banners/' ~ professional.banner) }}"
-         alt="Bannière {{ professional.companyName }}"
+         alt="{{ 'public_profile.hero_banner_alt'|trans({'%company%': professional.companyName}) }}"
          class="pp-hero__img">
   {% else %}
     <img src="{{ asset('uploads/banners/professionels.png') }}"
-         alt="Professional banner"
+         alt="{{ 'public_profile.hero_banner_alt_default'|trans }}"
          class="pp-hero__img">
   {% endif %}
 
@@ -76,11 +76,11 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
           <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
+            <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">{{ 'public_profile.breadcrumb_home'|trans }}</span></a>
             <meta itemprop="position" content="1">
           </li>
           <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ url('professionals_list') }}" itemprop="item"><span itemprop="name">Professionnels</span></a>
+            <a href="{{ url('professionals_list') }}" itemprop="item"><span itemprop="name">{{ 'public_profile.breadcrumb_professionals'|trans }}</span></a>
             <meta itemprop="position" content="2">
           </li>
           {% if professional.category %}
@@ -120,13 +120,13 @@
       <div class="pp-avatar">
         {% if professional.logo %}
           <img src="{{ asset('uploads/logos/' ~ professional.logo) }}"
-               alt="Logo {{ professional.companyName }}">
+               alt="{{ 'public_profile.logo_alt'|trans({'%company%': professional.companyName}) }}">
         {% else %}
           {{ initials }}
         {% endif %}
       </div>
       {% if professional.isVerified %}
-        <div class="pp-verified-ring" title="Professionnel vérifié">
+        <div class="pp-verified-ring" title="{{ 'public_profile.verified_ring_title'|trans }}">
           <i class="feather-check" style="font-size:12px;"></i>
         </div>
       {% endif %}
@@ -138,7 +138,7 @@
         <span class="pp-id-name">{{ professional.companyName }}</span>
         {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
           <span class="pp-fast-badge">
-            <i class="feather-zap"></i> Réponse rapide
+            <i class="feather-zap"></i> {{ 'public_profile.fast_response_badge'|trans }}
           </span>
         {% endif %}
       </div>
@@ -146,7 +146,7 @@
       <div class="pp-id-meta">
         <span>
           <i class="feather-briefcase"></i>
-          {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Professionnel' }}
+          {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'public_profile.default_category'|trans }}
         </span>
         <span>
           <i class="feather-map-pin"></i>
@@ -155,7 +155,7 @@
         {% if professional.expYears %}
         <span>
           <i class="feather-award"></i>
-          {{ professional.expYears }} ans d'expérience
+          {{ 'public_profile.years_exp_unit'|trans({'%count%': professional.expYears}) }}
         </span>
         {% endif %}
       </div>
@@ -174,7 +174,7 @@
               data-bs-toggle="modal"
               data-bs-target="#reviewsModal"
               role="button" tabindex="0">
-          {{ reviewCount }} avis vérifiés
+          {{ 'public_profile.verified_reviews'|trans({'%count%': reviewCount}) }}
         </span>
       </div>
       {% endif %}
@@ -182,36 +182,36 @@
       <div class="pp-badges">
         {% if professional.isVerified %}
           <span class="pp-chip pp-chip--green">
-            <i class="feather-shield"></i> Vérifié
+            <i class="feather-shield"></i> {{ 'public_profile.badge_verified'|trans }}
           </span>
         {% endif %}
         {% if professional.isTopRated %}
           <span class="pp-chip pp-chip--orange">
-            <i class="feather-star"></i> Top Évalué
+            <i class="feather-star"></i> {{ 'public_profile.badge_top_rated'|trans }}
           </span>
         {% endif %}
         {% if professional.hasInsurance %}
           <span class="pp-chip pp-chip--blue">
-            <i class="feather-shield"></i> Assuré
+            <i class="feather-shield"></i> {{ 'public_profile.badge_insured'|trans }}
           </span>
         {% endif %}
         {% if professional.isRbqCertified %}
           <span class="pp-chip pp-chip--blue">
-            <i class="feather-check-square"></i> Certifié RBQ
+            <i class="feather-check-square"></i> {{ 'public_profile.badge_rbq'|trans }}
           </span>
         {% endif %}
         {% if professional.hasFreeQuotes %}
           <span class="pp-chip pp-chip--green">
-            <i class="feather-file-text"></i> Devis gratuit
+            <i class="feather-file-text"></i> {{ 'public_profile.badge_free_quotes'|trans }}
           </span>
         {% endif %}
         {% if professional.availabilityStatus == 'AVAILABLE' %}
           <span class="pp-chip pp-chip--avail">
-            <i class="feather-circle"></i> Disponible
+            <i class="feather-circle"></i> {{ 'public_profile.badge_available'|trans }}
           </span>
         {% elseif professional.availabilityStatus == 'BUSY' %}
           <span class="pp-chip pp-chip--busy">
-            <i class="feather-clock"></i> Occupé
+            <i class="feather-clock"></i> {{ 'public_profile.badge_busy'|trans }}
           </span>
         {% endif %}
       </div>
@@ -225,7 +225,7 @@
               data-bs-target="#contactProModal"
               aria-haspopup="dialog">
         <i class="feather-send"></i>
-        Demander un devis
+        {{ 'public_profile.btn_request_quote'|trans }}
       </button>
       {% if professional.phoneNum %}
       <a href="tel:{{ professional.phoneNum }}" class="pp-btn-outline">
@@ -242,24 +242,24 @@
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-briefcase"></i></div>
       <div>
-        <div class="pp-stat-lbl">Secteur</div>
+        <div class="pp-stat-lbl">{{ 'public_profile.stat_sector'|trans }}</div>
         <div class="pp-stat-val">{{ professional.category ? professional.category.localizedTitle(app.request.locale) : '—' }}</div>
       </div>
     </div>
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-calendar"></i></div>
       <div>
-        <div class="pp-stat-lbl">Expérience</div>
-        <div class="pp-stat-val">{{ professional.expYears ?? '—' }} ans</div>
+        <div class="pp-stat-lbl">{{ 'public_profile.experience'|trans }}</div>
+        <div class="pp-stat-val">{{ professional.expYears ?? '—' }} {{ 'public_profile.stat_years_unit'|trans }}</div>
       </div>
     </div>
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-layers"></i></div>
       <div>
-        <div class="pp-stat-lbl">Projets</div>
+        <div class="pp-stat-lbl">{{ 'public_profile.completed_projects'|trans }}</div>
         <div class="pp-stat-val">
           {% if professional.projets|length > 0 %}
-            {{ professional.projets|length }} projet{{ professional.projets|length > 1 ? 's' : '' }}
+            {{ (professional.projets|length > 1 ? 'company_pg.stat_project_many' : 'company_pg.stat_project_one')|trans({'%count%': professional.projets|length}) }}
           {% else %}—{% endif %}
         </div>
       </div>
@@ -267,13 +267,13 @@
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-globe"></i></div>
       <div>
-        <div class="pp-stat-lbl">Langues</div>
+        <div class="pp-stat-lbl">{{ 'public_profile.languages'|trans }}</div>
         <div class="pp-stat-val">
           {% if professional.languages and professional.languages|length > 0 %}
             {% for code in professional.languages %}
               {{ langMap[code] ?? code }}{{ not loop.last ? ', ' : '' }}
             {% endfor %}
-          {% else %}Français{% endif %}
+          {% else %}{{ 'public_profile.default_lang'|trans }}{% endif %}
         </div>
       </div>
     </div>
@@ -296,7 +296,7 @@
       <div class="pp-card-head">
         <div class="pp-card-title">
           <span class="pp-card-title-bar"></span>
-          Présentation
+          {{ 'public_profile.card_presentation'|trans }}
         </div>
       </div>
       <div class="pp-card-body">
@@ -304,9 +304,7 @@
           <p class="pp-about-text">{{ professional.about|nl2br }}</p>
         {% else %}
           <p class="pp-about-text">
-            {{ professional.companyName }} est un professionnel dédié offrant des services de
-            {{ professional.category ? professional.category.localizedTitle(app.request.locale)|lower : 'rénovation' }}
-            de haute qualité au {{ professional.city ?? 'Québec' }}.
+            {{ professional.companyName }}
           </p>
         {% endif %}
 
@@ -329,13 +327,13 @@
       <div class="pp-card-head">
         <div class="pp-card-title">
           <span class="pp-card-title-bar"></span>
-          Points forts
+          {{ 'public_profile.card_highlights'|trans }}
         </div>
       </div>
       <div class="pp-card-body">
         <div class="pp-highlights-grid">
           <div>
-            <div class="pp-hl-subtitle"><i class="feather-award"></i> Pourquoi nous choisir</div>
+            <div class="pp-hl-subtitle"><i class="feather-award"></i> {{ 'public_profile.hl_why_choose'|trans }}</div>
             <ul class="pp-hl-list">
               {% if professional.whyChooseUs and professional.whyChooseUs|length > 0 %}
                 {% for item in professional.whyChooseUs %}
@@ -345,15 +343,15 @@
                   </li>
                 {% endfor %}
               {% else %}
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-award"></i></span> {{ professional.expYears|default(1) }}+ ans d'expérience</li>
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-circle"></i></span> Qualité garantie</li>
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-clock"></i></span> Ponctuel & fiable</li>
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-thumbs-up"></i></span> Centré sur le client</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-award"></i></span> {{ 'public_profile.hl_default_exp'|trans({'%count%': professional.expYears|default(1)}) }}</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-circle"></i></span> {{ 'public_profile.hl_default_quality'|trans }}</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-clock"></i></span> {{ 'public_profile.hl_default_punctual'|trans }}</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-thumbs-up"></i></span> {{ 'public_profile.hl_default_client'|trans }}</li>
               {% endif %}
             </ul>
           </div>
           <div>
-            <div class="pp-hl-subtitle"><i class="feather-tool"></i> Services offerts</div>
+            <div class="pp-hl-subtitle"><i class="feather-tool"></i> {{ 'public_profile.hl_services_offered'|trans }}</div>
             <ul class="pp-hl-list">
               {% if professional.services and professional.services|length > 0 %}
                 {% for item in professional.services %}
@@ -363,10 +361,10 @@
                   </li>
                 {% endfor %}
               {% else %}
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-tool"></i></span> {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'Service général' }}</li>
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-clipboard"></i></span> Consultations</li>
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-settings"></i></span> Maintenance & Réparation</li>
-                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-package"></i></span> Installations personnalisées</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-tool"></i></span> {{ professional.category ? professional.category.localizedTitle(app.request.locale) : 'public_profile.hl_default_general'|trans }}</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-clipboard"></i></span> {{ 'public_profile.hl_default_consultations'|trans }}</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-settings"></i></span> {{ 'public_profile.hl_default_maintenance'|trans }}</li>
+                <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-package"></i></span> {{ 'public_profile.hl_default_installations'|trans }}</li>
               {% endif %}
             </ul>
           </div>
@@ -381,10 +379,10 @@
       <div class="pp-card-head">
         <div class="pp-card-title">
           <span class="pp-card-title-bar"></span>
-          Aperçu des projets
+          {{ 'public_profile.projects_overview'|trans }}
         </div>
         <span class="pp-card-link">
-          {{ professional.projets|length }} projet{{ professional.projets|length > 1 ? 's' : '' }}
+          {{ (professional.projets|length > 1 ? 'company_pg.stat_project_many' : 'company_pg.stat_project_one')|trans({'%count%': professional.projets|length}) }}
         </span>
       </div>
       <div class="pp-card-body">
@@ -417,12 +415,12 @@
       <div class="pp-card-head">
         <div class="pp-card-title">
           <span class="pp-card-title-bar"></span>
-          Avis clients
+          {{ 'public_profile.customer_reviews'|trans }}
         </div>
         <button type="button" class="pp-card-link"
                 data-bs-toggle="modal" data-bs-target="#reviewsModal"
                 aria-haspopup="dialog">
-          Voir tous <i class="feather-arrow-right"></i>
+          {{ 'public_profile.reviews_see_all'|trans }} <i class="feather-arrow-right"></i>
         </button>
       </div>
       <div class="pp-card-body">
@@ -435,7 +433,7 @@
                 <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
               {% endfor %}
             </div>
-            <div class="pp-rev-total">sur {{ reviewCount }} avis vérifiés</div>
+            <div class="pp-rev-total">{{ 'public_profile.rev_total'|trans({'%count%': reviewCount}) }}</div>
           </div>
           <div class="pp-bars">
             {% for stars in 5..1 %}
@@ -464,7 +462,7 @@
                   {% endfor %}
                 </div>
               </div>
-              <div class="pp-rev-tag">Avis vérifié</div>
+              <div class="pp-rev-tag">{{ 'public_profile.rev_verified_tag'|trans }}</div>
             </div>
             <div class="pp-rev-body">{{ review.comment|nl2br }}</div>
             <div class="pp-rev-date"><i class="feather-calendar" style="font-size:11px;"></i> {{ review.createdAt|date('d F Y') }}</div>
@@ -481,7 +479,7 @@
       <div class="pp-card-head">
         <div class="pp-card-title">
           <span class="pp-card-title-bar"></span>
-          Galerie de travaux
+          {{ 'public_profile.card_gallery'|trans }}
           <span style="font-family:var(--pp-font-ui);font-size:13px;font-weight:600;color:var(--pp-text-light);">({{ professional.projets|length }})</span>
         </div>
       </div>
@@ -511,7 +509,7 @@
       <div class="pp-card-head">
         <div class="pp-card-title">
           <span class="pp-card-title-bar"></span>
-          Questions fréquentes
+          {{ 'public_profile.card_faq'|trans }}
         </div>
       </div>
       <div class="pp-card-body" style="padding-top:14px;">
@@ -520,12 +518,12 @@
             <h2 class="accordion-header">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ppFaq1" style="font-size:14px;font-weight:600;font-family:var(--pp-font-ui);">
                 <i class="feather-message-circle me-2" style="color:var(--pp-sky);"></i>
-                Comment obtenir un devis ?
+                {{ 'public_profile.faq1_q'|trans }}
               </button>
             </h2>
             <div id="ppFaq1" class="accordion-collapse collapse show" data-bs-parent="#ppFAQ">
               <div class="accordion-body" style="font-size:13.5px;color:var(--pp-text-muted);">
-                Utilisez le bouton <strong>« Demander un devis »</strong> sur cette page pour envoyer les détails de votre projet. Nous vous recontacterons rapidement pour discuter de vos besoins ou planifier une visite.
+                {{ 'public_profile.faq1_a'|trans|raw }}
               </div>
             </div>
           </div>
@@ -533,14 +531,14 @@
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ppFaq2" style="font-size:14px;font-weight:600;font-family:var(--pp-font-ui);">
                 <i class="feather-map-pin me-2" style="color:var(--pp-sky);"></i>
-                Quelles zones desservez-vous ?
+                {{ 'public_profile.faq2_q'|trans }}
               </button>
             </h2>
             <div id="ppFaq2" class="accordion-collapse collapse" data-bs-parent="#ppFAQ">
               <div class="accordion-body" style="font-size:13.5px;color:var(--pp-text-muted);">
-                Nous intervenons principalement à <strong>{{ professional.city ?? 'Montréal' }}</strong>
-                {% if professional.interventionZone %} et dans les zones suivantes : {{ professional.interventionZone }}{% endif %}
-                {% if professional.interventionRadius %} (rayon de {{ professional.interventionRadius }} km){% endif %}.
+                {{ 'public_profile.faq2_a_main'|trans }} <strong>{{ professional.city ?? 'Montréal' }}</strong>
+                {% if professional.interventionZone %} {{ 'public_profile.faq2_a_zone_prefix'|trans }} {{ professional.interventionZone }}{% endif %}
+                {% if professional.interventionRadius %} {{ 'public_profile.faq2_a_radius_prefix'|trans }} {{ professional.interventionRadius }} {{ 'public_profile.faq2_a_radius_suffix'|trans }}{% endif %}.
               </div>
             </div>
           </div>
@@ -549,12 +547,12 @@
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ppFaq3" style="font-size:14px;font-weight:600;font-family:var(--pp-font-ui);">
                 <i class="feather-file-text me-2" style="color:var(--pp-sky);"></i>
-                Le devis est-il payant ?
+                {{ 'public_profile.faq3_q'|trans }}
               </button>
             </h2>
             <div id="ppFaq3" class="accordion-collapse collapse" data-bs-parent="#ppFAQ">
               <div class="accordion-body" style="font-size:13.5px;color:var(--pp-text-muted);">
-                Non, nos devis sont <strong>100 % gratuits</strong> et sans engagement de votre part.
+                {{ 'public_profile.faq3_a'|trans|raw }}
               </div>
             </div>
           </div>
@@ -573,8 +571,8 @@
       {# Quote CTA card #}
       <div class="pp-quote-card pp-fade d2">
         <div class="pp-quote-head">
-          <h3>Demander un devis</h3>
-          <p>Réponse garantie sous 24h</p>
+          <h3>{{ 'public_profile.btn_request_quote'|trans }}</h3>
+          <p>{{ 'public_profile.guaranteed_response'|trans }}</p>
         </div>
         <div class="pp-quote-body">
           <button class="pp-btn-cta-full"
@@ -582,11 +580,11 @@
                   data-bs-toggle="modal"
                   data-bs-target="#contactProModal"
                   aria-haspopup="dialog">
-            <i class="feather-send"></i> Envoyer ma demande
+            <i class="feather-send"></i> {{ 'public_profile.js_send_btn'|trans }}
           </button>
 
           <div class="pp-hours-title">
-            <i class="feather-clock"></i> Horaires d'ouverture
+            <i class="feather-clock"></i> {{ 'public_profile.sidebar_hours_title'|trans }}
           </div>
 
           {% if professional.openingHours and professional.openingHours|length > 0 %}
@@ -608,16 +606,16 @@
             {% endfor %}
           {% else %}
             <div class="pp-hour-row">
-              <span class="pp-hour-day">Lun – Ven</span>
+              <span class="pp-hour-day">{{ 'public_profile.hours_mon_fri'|trans }}</span>
               <span class="pp-hour-time">08:00 – 18:00</span>
             </div>
             <div class="pp-hour-row">
-              <span class="pp-hour-day">Samedi</span>
+              <span class="pp-hour-day">{{ 'public_profile.hours_sat'|trans }}</span>
               <span class="pp-hour-time">08:00 – 14:00</span>
             </div>
             <div class="pp-hour-row">
-              <span class="pp-hour-day">Dimanche</span>
-              <span class="pp-hour-closed">Fermé</span>
+              <span class="pp-hour-day">{{ 'public_profile.hours_sun'|trans }}</span>
+              <span class="pp-hour-closed">{{ 'public_profile.hours_closed'|trans }}</span>
             </div>
           {% endif %}
         </div>
@@ -626,20 +624,20 @@
       {# Contact info #}
       <div class="pp-contact-card pp-fade d3">
         <div class="pp-contact-head">
-          <i class="feather-info"></i> Informations de contact
+          <i class="feather-info"></i> {{ 'public_profile.contact_card_title'|trans }}
         </div>
         <div class="pp-contact-body">
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-user"></i></div>
             <div>
-              <div class="pp-c-lbl">Entreprise</div>
+              <div class="pp-c-lbl">{{ 'public_profile.company'|trans }}</div>
               <div class="pp-c-val">{{ professional.companyName }}</div>
             </div>
           </div>
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-map-pin"></i></div>
             <div>
-              <div class="pp-c-lbl">Ville</div>
+              <div class="pp-c-lbl">{{ 'public_profile.city'|trans }}</div>
               <div class="pp-c-val">{{ professional.city ?? 'Montréal' }}, QC</div>
             </div>
           </div>
@@ -647,7 +645,7 @@
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-phone"></i></div>
             <div>
-              <div class="pp-c-lbl">Téléphone</div>
+              <div class="pp-c-lbl">{{ 'public_profile.phone'|trans }}</div>
               <div class="pp-c-val">
                 <a href="tel:{{ professional.phoneNum }}">{{ professional.phoneNum }}</a>
               </div>
@@ -658,23 +656,23 @@
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-briefcase"></i></div>
             <div>
-              <div class="pp-c-lbl">Catégorie</div>
+              <div class="pp-c-lbl">{{ 'public_profile.category'|trans }}</div>
               <div class="pp-c-val">{{ professional.category ? professional.category.localizedTitle(app.request.locale) : '—' }}</div>
             </div>
           </div>
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-calendar"></i></div>
             <div>
-              <div class="pp-c-lbl">Expérience</div>
-              <div class="pp-c-val">{{ professional.expYears ?? '—' }} ans</div>
+              <div class="pp-c-lbl">{{ 'public_profile.experience'|trans }}</div>
+              <div class="pp-c-val">{{ professional.expYears ?? '—' }} {{ 'public_profile.stat_years_unit'|trans }}</div>
             </div>
           </div>
           {% if professional.minPrice %}
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-dollar-sign"></i></div>
             <div>
-              <div class="pp-c-lbl">Prix minimum</div>
-              <div class="pp-c-val">À partir de {{ professional.minPrice }}$</div>
+              <div class="pp-c-lbl">{{ 'public_profile.contact_min_price_lbl'|trans }}</div>
+              <div class="pp-c-val">{{ 'public_profile.contact_min_price_from'|trans({'%price%': professional.minPrice}) }}</div>
             </div>
           </div>
           {% endif %}
@@ -686,7 +684,7 @@
       {% if hasAdv %}
       <div class="pp-adv-card pp-fade d3">
         <div class="pp-adv-head">
-          <i class="feather-award"></i> Nos avantages
+          <i class="feather-award"></i> {{ 'public_profile.our_advantages'|trans }}
         </div>
         <div class="pp-adv-list">
           {% if professional.whyChooseUs and professional.whyChooseUs|length > 0 %}
@@ -700,38 +698,38 @@
             {% if professional.freeQuotes %}
               <div class="pp-adv-item">
                 <span class="pp-adv-ico"><i class="feather-file-text"></i></span>
-                <span class="pp-adv-txt">Devis 100 % gratuits</span>
+                <span class="pp-adv-txt">{{ 'public_profile.adv_free_quotes'|trans }}</span>
               </div>
             {% endif %}
             {% if professional.guaranteedWork %}
               <div class="pp-adv-item">
                 <span class="pp-adv-ico"><i class="feather-check-circle"></i></span>
-                <span class="pp-adv-txt">Travaux garantis</span>
+                <span class="pp-adv-txt">{{ 'public_profile.adv_guaranteed'|trans }}</span>
               </div>
             {% endif %}
             {% if professional.hasInsurance %}
               <div class="pp-adv-item">
                 <span class="pp-adv-ico"><i class="feather-shield"></i></span>
-                <span class="pp-adv-txt">Assurance responsabilité</span>
+                <span class="pp-adv-txt">{{ 'public_profile.adv_insurance'|trans }}</span>
               </div>
             {% endif %}
             {% if professional.rbqCertified %}
               <div class="pp-adv-item">
                 <span class="pp-adv-ico"><i class="feather-check-square"></i></span>
-                <span class="pp-adv-txt">Certifié RBQ</span>
+                <span class="pp-adv-txt">{{ 'public_profile.adv_rbq'|trans }}</span>
               </div>
             {% endif %}
             {% if professional.interventionRadius %}
               <div class="pp-adv-item">
                 <span class="pp-adv-ico"><i class="feather-map-pin"></i></span>
-                <span class="pp-adv-txt">Zone d'intervention</span>
+                <span class="pp-adv-txt">{{ 'public_profile.adv_zone'|trans }}</span>
                 <span class="pp-adv-val">{{ professional.interventionRadius }} km</span>
               </div>
             {% endif %}
             {% if professional.stats and professional.stats.avgResponseTime and professional.stats.avgResponseTime < 7200 %}
               <div class="pp-adv-item">
                 <span class="pp-adv-ico"><i class="feather-zap"></i></span>
-                <span class="pp-adv-txt">Réponse rapide</span>
+                <span class="pp-adv-txt">{{ 'public_profile.adv_fast_response'|trans }}</span>
               </div>
             {% endif %}
           {% endif %}
@@ -743,9 +741,9 @@
       <div class="pp-zone-card pp-fade d4">
         <div class="pp-zone-title">
           <i class="feather-map-pin"></i>
-          Zone d'intervention : {{ professional.city ?? 'Montréal' }}
+          {{ 'public_profile.zone_card_title'|trans({'%city%': professional.city ?? 'Montréal'}) }}
         </div>
-        <div class="pp-zone-sub">Ce professionnel intervient dans les zones suivantes :</div>
+        <div class="pp-zone-sub">{{ 'public_profile.zone_card_sub'|trans }}</div>
         <div class="pp-zone-chips">
           {% if professional.interventionZone %}
             {% for zone in professional.interventionZone|split(',') %}
@@ -793,9 +791,9 @@
             <div class="pp-modal-scroll">
               <div class="d-flex align-items-start justify-content-between mb-3">
                 <span class="pp-chip pp-chip--blue">
-                  <i class="feather-layers"></i> Projet réalisé
+                  <i class="feather-layers"></i> {{ 'public_profile.modal_project_done'|trans }}
                 </span>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'public_profile.modal_close_aria'|trans }}"></button>
               </div>
               <div class="pp-modal-title mb-3">{{ project.name }}</div>
               <div class="pp-modal-desc mb-4">{{ project.description|nl2br }}</div>
@@ -803,13 +801,13 @@
                 <div class="pp-c-item mb-3">
                   <div class="pp-c-ico"><i class="feather-calendar"></i></div>
                   <div>
-                    <div class="pp-c-lbl">Date</div>
+                    <div class="pp-c-lbl">{{ 'public_profile.modal_project_date'|trans }}</div>
                     <div class="pp-c-val">{{ project.startDate|date('F Y') }}</div>
                   </div>
                 </div>
               {% endif %}
               {% if project.gallery %}
-                <div class="pp-c-lbl mb-2">Photos du projet</div>
+                <div class="pp-c-lbl mb-2">{{ 'public_profile.modal_project_photos_lbl'|trans }}</div>
                 <div class="row g-2 mb-4">
                   {% for photo in project.gallery %}
                     <div class="col-6">
@@ -826,7 +824,7 @@
                         data-bs-dismiss="modal"
                         data-bs-toggle="modal"
                         data-bs-target="#contactProModal">
-                  <i class="feather-send"></i> Demander un devis similaire
+                  <i class="feather-send"></i> {{ 'public_profile.modal_btn_similar'|trans }}
                 </button>
               </div>
             </div>
@@ -843,8 +841,8 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="pp-modal-header d-flex align-items-center justify-content-between">
-        Avis clients
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        {{ 'public_profile.modal_reviews_title'|trans }}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'public_profile.modal_close_aria'|trans }}"></button>
       </div>
       <div class="pp-modal-body">
         <div class="text-center py-3 mb-4">
@@ -854,7 +852,7 @@
               <svg viewBox="0 0 20 20"><path d="{{ starPath }}"/></svg>
             {% endfor %}
           </div>
-          <p class="pp-rev-total mt-2">{{ reviewCount }} avis vérifiés</p>
+          <p class="pp-rev-total mt-2">{{ 'public_profile.verified_reviews'|trans({'%count%': reviewCount}) }}</p>
         </div>
 
         {% if reviewCount > 0 %}
@@ -881,7 +879,7 @@
         {% else %}
           <div class="pp-empty">
             <i class="feather-message-circle"></i>
-            <p>Aucun avis pour le moment. Soyez le premier à laisser un avis !</p>
+            <p>{{ 'public_profile.rev_no_reviews'|trans }}</p>
           </div>
         {% endif %}
       </div>
@@ -894,13 +892,13 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="pp-modal-header d-flex align-items-center justify-content-between">
-        Contacter {{ professional.companyName }}
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        {{ 'public_profile.modal_contact_title'|trans({'%company%': professional.companyName}) }}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'public_profile.modal_close_aria'|trans }}"></button>
       </div>
       <div class="pp-modal-body">
         <p class="pp-modal-intro">
           <i class="feather-info" style="color:var(--pp-sky);margin-right:6px;"></i>
-          Envoyez une demande de devis, une question ou une consultation de projet directement au professionnel.
+          {{ 'public_profile.modal_contact_intro'|trans }}
         </p>
         <div class="pp-form">
           {{ form_start(directRequestForm) }}
@@ -909,7 +907,7 @@
               {# Sujet #}
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-edit-3"></i> Sujet de votre demande
+                  <i class="feather-edit-3"></i> {{ 'public_profile.form_lbl_subject'|trans }}
                 </label>
                 {{ form_widget(directRequestForm.title) }}
                 {{ form_errors(directRequestForm.title) }}
@@ -918,7 +916,7 @@
               {# Description #}
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-align-left"></i> Description de vos besoins
+                  <i class="feather-align-left"></i> {{ 'public_profile.form_lbl_description'|trans }}
                 </label>
                 {{ form_widget(directRequestForm.description) }}
                 {{ form_errors(directRequestForm.description) }}
@@ -927,7 +925,7 @@
               {# Date #}
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-calendar"></i> Date souhaitée de début
+                  <i class="feather-calendar"></i> {{ 'public_profile.form_lbl_start_date'|trans }}
                 </label>
                 {{ form_widget(directRequestForm.desiredStartDate) }}
                 {{ form_errors(directRequestForm.desiredStartDate) }}
@@ -936,7 +934,7 @@
               {# Disponibilités — chips cliquables #}
               <div class="col-12">
                 <label class="pp-chip-label">
-                  <i class="feather-clock"></i> Disponibilités pour visite / devis
+                  <i class="feather-clock"></i> {{ 'public_profile.form_lbl_availabilities'|trans }}
                 </label>
                 <div class="pp-chips">
                   {% for child in directRequestForm.availabilities %}
@@ -956,7 +954,7 @@
               {# Intervention urgente — chips Oui / Non #}
               <div class="col-12">
                 <label class="pp-chip-label">
-                  <i class="feather-zap" style="color:#ef4444;"></i> Intervention urgente
+                  <i class="feather-zap" style="color:#ef4444;"></i> {{ 'public_profile.form_lbl_urgent'|trans }}
                 </label>
                 <div class="pp-chips">
                   {% for child in directRequestForm.urgentIntervention %}
@@ -974,7 +972,7 @@
               {# Photos #}
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-image"></i> Photos du projet (optionnel)
+                  <i class="feather-image"></i> {{ 'public_profile.form_lbl_photos'|trans }}
                 </label>
                 {{ form_widget(directRequestForm.images) }}
                 {{ form_errors(directRequestForm.images) }}
@@ -985,7 +983,7 @@
             <div class="mt-4">
               <button type="submit" class="pp-btn-submit">
                 <i class="feather-send"></i>
-                Envoyer à {{ professional.companyName }}
+                {{ 'public_profile.form_send_btn'|trans({'%company%': professional.companyName}) }}
               </button>
             </div>
           {{ form_widget(directRequestForm._token) }}
@@ -1015,18 +1013,18 @@
         </div>
 
         <h4 style="font-family:'Instrument Sans',sans-serif; font-size:20px; font-weight:700; color:var(--pp-blue); margin-bottom:8px;">
-          Demande envoyée !
+          {{ 'public_profile.success_title'|trans }}
         </h4>
 
         <p style="font-size:14px; color:var(--pp-text-muted); line-height:1.7; margin-bottom:6px;">
-          Votre demande a bien été transmise à
+          {{ 'public_profile.success_body_prefix'|trans }}
           <strong style="color:var(--pp-blue);">
             {{ professional.companyName }}
           </strong>.
         </p>
         <p style="font-size:13px; color:var(--pp-text-light); margin-bottom:28px;">
           <i class="feather-clock" style="font-size:12px; margin-right:4px;"></i>
-          Le professionnel vous contactera sous 24h.
+          {{ 'public_profile.success_reply'|trans }}
         </p>
 
         {# Divider with info row #}
@@ -1036,7 +1034,7 @@
               <i class="feather-user" style="font-size:13px; color:var(--pp-blue);"></i>
             </div>
             <div>
-              <div style="font-size:10px; font-weight:700; color:var(--pp-text-light); text-transform:uppercase; letter-spacing:.05em;">Professionnel contacté</div>
+              <div style="font-size:10px; font-weight:700; color:var(--pp-text-light); text-transform:uppercase; letter-spacing:.05em;">{{ 'public_profile.success_contacted_lbl'|trans }}</div>
               <div style="font-size:13px; font-weight:700; color:var(--pp-text);">{{ professional.companyName }}</div>
             </div>
           </div>
@@ -1045,7 +1043,7 @@
               <i class="feather-map-pin" style="font-size:13px; color:var(--pp-blue);"></i>
             </div>
             <div>
-              <div style="font-size:10px; font-weight:700; color:var(--pp-text-light); text-transform:uppercase; letter-spacing:.05em;">Ville</div>
+              <div style="font-size:10px; font-weight:700; color:var(--pp-text-light); text-transform:uppercase; letter-spacing:.05em;">{{ 'public_profile.city'|trans }}</div>
               <div style="font-size:13px; font-weight:700; color:var(--pp-text);">{{ professional.city ?? 'Montréal' }}, QC</div>
             </div>
           </div>
@@ -1055,7 +1053,7 @@
                 class="pp-btn-primary w-100 justify-content-center"
                 data-bs-dismiss="modal"
                 style="font-size:14.5px;">
-          <i class="feather-check"></i> Parfait, merci !
+          <i class="feather-check"></i> {{ 'public_profile.success_btn'|trans }}
         </button>
 
       </div>
@@ -1127,7 +1125,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var submitBtn = form.querySelector('[type="submit"]');
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi...';
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>{{ 'public_profile.js_sending'|trans|e('js') }}';
     }
 
     fetch(window.location.pathname, {
@@ -1159,18 +1157,18 @@ document.addEventListener('DOMContentLoaded', function () {
           c.classList.remove('checked', 'checked-urgent');
         });
       } else if (json.error === 'not_logged_in') {
-        alert('Vous devez être connecté en tant que particulier pour envoyer une demande.');
+        alert('{{ 'public_profile.js_not_logged_in'|trans|e('js') }}');
       } else if (json.errors && json.errors.length) {
         alert(json.errors.join('\n'));
       }
     })
     .catch(function () {
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      alert('{{ 'public_profile.js_server_error'|trans|e('js') }}');
     })
     .finally(function () {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="feather-send me-2"></i>Envoyer ma demande';
+        submitBtn.innerHTML = '<i class="feather-send me-2"></i>{{ 'public_profile.js_send_btn'|trans|e('js') }}';
       }
     });
   });

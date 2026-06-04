@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comment ça marche pour les professionnels — Drilleedo{% endblock %}
-{% block meta_description %}Commencez à recevoir des projets de rénovation qualifiés près de chez vous — simple, rapide et sans intermédiaire.{% endblock %}
+{% block title %}{{ 'hitwp.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'hitwp.meta_desc'|trans }}{% endblock %}
 
 {% block body %}
 <main id="main-content">
@@ -274,17 +274,16 @@
   <div class="hw">
     <div class="hiw-hero-inner hiw-scroll">
       <div class="hiw-hero-pill">
-        <i class="feather-award"></i> Pour les professionnels
+        <i class="feather-award"></i> {{ 'hitwp.hero_eyebrow'|trans }}
       </div>
-      <h1>Comment ça marche<br>pour les <span>professionnels</span></h1>
+      <h1>{{ 'hitwp.hero_title_1'|trans }}<br>{{ 'hitwp.hero_title_2'|trans }}</h1>
       <p class="hiw-hero-sub">
-        Commencez à recevoir des projets de rénovation qualifiés près de chez vous —<br>
-        simple, rapide et sans intermédiaire.
+        {{ 'hitwp.hero_sub'|trans }}
       </p>
       <div class="hiw-hero-badges">
-        <span class="hiw-hero-badge"><i class="feather-dollar-sign"></i> Aucun Commission</span>
-        <span class="hiw-hero-badge"><i class="feather-shield"></i> Leads Vérifiés</span>
-        <span class="hiw-hero-badge"><i class="feather-users"></i> Clients Directs</span>
+        <span class="hiw-hero-badge"><i class="feather-dollar-sign"></i> {{ 'hitwp.badge_no_commission'|trans }}</span>
+        <span class="hiw-hero-badge"><i class="feather-shield"></i> {{ 'hitwp.badge_verified_leads'|trans }}</span>
+        <span class="hiw-hero-badge"><i class="feather-users"></i> {{ 'hitwp.badge_direct_clients'|trans }}</span>
       </div>
     </div>
   </div>
@@ -294,8 +293,8 @@
 <section class="hiw-steps">
   <div class="hw">
     <div class="hiw-steps-header hiw-scroll">
-      <div class="hiw-steps-pill"><i class="feather-list"></i> Processus simple</div>
-      <h2 class="hiw-steps-title">Démarrez en 4 étapes simples</h2>
+      <div class="hiw-steps-pill"><i class="feather-list"></i> {{ 'hitwp.process_eyebrow'|trans }}</div>
+      <h2 class="hiw-steps-title">{{ 'hitwp.process_title_1'|trans }}<span>{{ 'hitwp.process_title_2'|trans }}</span></h2>
     </div>
 
     <div class="hiw-steps-grid">
@@ -303,46 +302,46 @@
       {# Étape 1 #}
       <div class="hiw-step-card hiw-scroll">
         <div class="hiw-step-num">1</div>
-        <h3 class="hiw-step-title">Créez votre profil professionnel</h3>
-        <p class="hiw-step-sub">Créez et personnalisez votre profil en quelques minutes.</p>
+        <h3 class="hiw-step-title">{{ 'hitwp.step1_title'|trans }}</h3>
+        <p class="hiw-step-sub">{{ 'hitwp.step1_sub'|trans }}</p>
         <ul class="hiw-checklist">
-          <li>Présentez vos services</li>
-          <li>Indiquez votre zone géographique</li>
-          <li>Accédez à votre tableau de bord pour suivre vos projets, devis et visibilité</li>
+          <li>{{ 'hitwp.step1_li1'|trans }}</li>
+          <li>{{ 'hitwp.step1_li2'|trans }}</li>
+          <li>{{ 'hitwp.step1_li3'|trans }}</li>
         </ul>
       </div>
 
       {# Étape 2 #}
       <div class="hiw-step-card hiw-scroll">
         <div class="hiw-step-num">2</div>
-        <h3 class="hiw-step-title">Recevez des projets vérifiés</h3>
-        <p class="hiw-step-sub">Recevez des demandes de rénovation réelles et validées.</p>
+        <h3 class="hiw-step-title">{{ 'hitwp.step2_title'|trans }}</h3>
+        <p class="hiw-step-sub">{{ 'hitwp.step2_sub'|trans }}</p>
         <ul class="hiw-checklist">
-          <li>Des clients sérieux publient leurs projets</li>
-          <li>Notre équipe vérifie chaque demande avant diffusion</li>
-          <li>Les projets sont adaptés à votre expertise et à votre région</li>
+          <li>{{ 'hitwp.step2_li1'|trans }}</li>
+          <li>{{ 'hitwp.step2_li2'|trans }}</li>
+          <li>{{ 'hitwp.step2_li3'|trans }}</li>
         </ul>
       </div>
 
       {# Étape 3 #}
       <div class="hiw-step-card hiw-scroll">
         <div class="hiw-step-num">3</div>
-        <h3 class="hiw-step-title">Analysez et envoyez vos devis</h3>
-        <p class="hiw-step-sub">Consultez les détails du projet et proposez votre offre.</p>
+        <h3 class="hiw-step-title">{{ 'hitwp.step3_title'|trans }}</h3>
+        <p class="hiw-step-sub">{{ 'hitwp.step3_sub'|trans }}</p>
         <ul class="hiw-checklist">
-          <li>Vous définissez votre prix et votre disponibilité</li>
-          <li>Vous gardez le contrôle total sur vos réponses</li>
+          <li>{{ 'hitwp.step3_li1'|trans }}</li>
+          <li>{{ 'hitwp.step3_li2'|trans }}</li>
         </ul>
       </div>
 
       {# Étape 4 #}
       <div class="hiw-step-card hiw-scroll">
         <div class="hiw-step-num">4</div>
-        <h3 class="hiw-step-title">Entrez en contact avec le client</h3>
-        <p class="hiw-step-sub">Une fois votre offre acceptée, le client vous contacte directement.</p>
+        <h3 class="hiw-step-title">{{ 'hitwp.step4_title'|trans }}</h3>
+        <p class="hiw-step-sub">{{ 'hitwp.step4_sub'|trans }}</p>
         <ul class="hiw-checklist">
-          <li>Vous confirmez le rendez-vous</li>
-          <li>Vous démarrez le projet</li>
+          <li>{{ 'hitwp.step4_li1'|trans }}</li>
+          <li>{{ 'hitwp.step4_li2'|trans }}</li>
         </ul>
       </div>
 
@@ -357,54 +356,54 @@
 
       {# Left: FAQ #}
       <div class="hiw-faq-left hiw-scroll">
-        <div class="hiw-faq-pill"><i class="feather-help-circle"></i> FAQ</div>
-        <h2 class="hiw-faq-title">Ce que vous devez savoir</h2>
+        <div class="hiw-faq-pill"><i class="feather-help-circle"></i> {{ 'hitwp.faq_eyebrow'|trans }}</div>
+        <h2 class="hiw-faq-title">{{ 'hitwp.faq_title'|trans }}</h2>
 
         <div class="hiw-faq-item">
           <div class="hiw-faq-q">
             <span class="hiw-faq-q-icon">?</span>
-            Comment fonctionne le service ?
+            {{ 'hitwp.faq_q1'|trans }}
           </div>
-          <p class="hiw-faq-p">Les clients décrivent leur projet sur la plateforme et chaque demande est validée.</p>
+          <p class="hiw-faq-p">{{ 'hitwp.faq_q1_desc'|trans }}</p>
           <ul class="hiw-faq-checks">
-            <li><i class="feather-check-circle"></i> Vous recevez une notification</li>
-            <li><i class="feather-check-circle"></i> Vous choisissez d'y répondre ou non</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q1_li1'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q1_li2'|trans }}</li>
           </ul>
         </div>
 
         <div class="hiw-faq-item">
           <div class="hiw-faq-q">
             <span class="hiw-faq-q-icon">?</span>
-            Quelles sont les exigences ?
+            {{ 'hitwp.faq_q2'|trans }}
           </div>
           <ul class="hiw-faq-checks">
-            <li><i class="feather-check-circle"></i> Avoir une licence valide si nécessaire</li>
-            <li><i class="feather-check-circle"></i> Avoir une bonne réputation professionnelle</li>
-            <li><i class="feather-check-circle"></i> Fournir des informations fiables</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q2_li1'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q2_li2'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q2_li3'|trans }}</li>
           </ul>
         </div>
 
         <div class="hiw-faq-item">
           <div class="hiw-faq-q">
             <span class="hiw-faq-q-icon">$</span>
-            Combien coûte le service ?
+            {{ 'hitwp.faq_q3'|trans }}
           </div>
           <ul class="hiw-faq-checks">
-            <li><i class="feather-check-circle"></i> Un abonnement mensuel uniquement</li>
-            <li><i class="feather-check-circle"></i> Aucune commission</li>
-            <li><i class="feather-check-circle"></i> Aucun coût supplémentaire sur les leads</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q3_li1'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q3_li2'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q3_li3'|trans }}</li>
           </ul>
         </div>
 
         <div class="hiw-faq-item">
           <div class="hiw-faq-q">
             <span class="hiw-faq-q-icon">?</span>
-            Combien d'entrepreneurs par projet ?
+            {{ 'hitwp.faq_q4'|trans }}
           </div>
           <ul class="hiw-faq-checks">
-            <li><i class="feather-check-circle"></i> Plusieurs professionnels peuvent répondre</li>
-            <li><i class="feather-check-circle"></i> Le client choisit la meilleure offre</li>
-            <li><i class="feather-check-circle"></i> Répondez rapidement avec une offre compétitive</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q4_li1'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q4_li2'|trans }}</li>
+            <li><i class="feather-check-circle"></i> {{ 'hitwp.faq_q4_li3'|trans }}</li>
           </ul>
         </div>
       </div>
@@ -412,34 +411,34 @@
       {# Right: Trust block #}
       <div class="hiw-trust hiw-scroll">
         <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
-             alt="Professionnel Drilleedo — confiance et qualité" loading="lazy">
+             alt="{{ 'hitwp.trust_img_alt'|trans }}" loading="lazy">
         <div class="hiw-trust-body">
-          <h3 class="hiw-trust-title">Pourquoi les pros font confiance à Drilleedo</h3>
+          <h3 class="hiw-trust-title">{{ 'hitwp.trust_title'|trans }}</h3>
           <div class="hiw-trust-stats">
             <div class="hiw-trust-stat">
               <i class="feather-users"></i>
               <div class="hiw-trust-stat-text">
-                <div class="hiw-trust-stat-val">1 500+</div>
-                <div class="hiw-trust-stat-lbl">Professionnels vérifiés</div>
+                <div class="hiw-trust-stat-val">{{ 'hitwp.trust_stat1_val'|trans }}</div>
+                <div class="hiw-trust-stat-lbl">{{ 'hitwp.trust_stat1_lbl'|trans }}</div>
               </div>
             </div>
             <div class="hiw-trust-stat">
               <i class="feather-trending-up"></i>
               <div class="hiw-trust-stat-text">
-                <div class="hiw-trust-stat-val">+40%</div>
-                <div class="hiw-trust-stat-lbl">de demandes dès le 1er mois</div>
+                <div class="hiw-trust-stat-val">{{ 'hitwp.trust_stat2_val'|trans }}</div>
+                <div class="hiw-trust-stat-lbl">{{ 'hitwp.trust_stat2_lbl'|trans }}</div>
               </div>
             </div>
             <div class="hiw-trust-stat">
               <i class="feather-dollar-sign"></i>
               <div class="hiw-trust-stat-text">
-                <div class="hiw-trust-stat-val">0%</div>
-                <div class="hiw-trust-stat-lbl">Commission sur vos contrats</div>
+                <div class="hiw-trust-stat-val">{{ 'hitwp.trust_stat3_val'|trans }}</div>
+                <div class="hiw-trust-stat-lbl">{{ 'hitwp.trust_stat3_lbl'|trans }}</div>
               </div>
             </div>
           </div>
           <a href="{{ path('app_register_pro') }}" class="hiw-trust-cta">
-            <i class="feather-user-plus"></i> Rejoindre maintenant
+            <i class="feather-user-plus"></i> {{ 'hitwp.trust_cta_btn'|trans }}
           </a>
         </div>
       </div>
@@ -451,14 +450,14 @@
 {# ══ 4. FINAL CTA ══════════════════════════════════════════════════════════ #}
 <section class="hiw-cta hiw-scroll">
   <div class="hw">
-    <h2 class="hiw-cta-title">Prêt à développer votre activité ?</h2>
-    <p class="hiw-cta-sub">Rejoignez 1 500+ professionnels vérifiés au Canada — sans commission.</p>
+    <h2 class="hiw-cta-title">{{ 'hitwp.cta_title'|trans }}</h2>
+    <p class="hiw-cta-sub">{{ 'hitwp.cta_sub'|trans }}</p>
     <div class="hiw-cta-btns">
       <a href="{{ path('app_register_pro') }}" class="hiw-btn-o">
-        <i class="feather-user-plus"></i> Créer mon profil pro
+        <i class="feather-user-plus"></i> {{ 'hitwp.cta_btn_create'|trans }}
       </a>
       <a href="{{ path('packages') }}" class="hiw-btn-w">
-        <i class="feather-package"></i> Voir les forfaits
+        <i class="feather-package"></i> {{ 'hitwp.cta_btn_explore'|trans }}
       </a>
     </div>
   </div>

@@ -1,6 +1,6 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}{{ 'My Offers'|trans }} - {{ app.user.companyName|default('Professional'|trans) }}{% endblock %}
+{% block title %}{{ 'pro_dash.my_offers_title'|trans }} - {{ app.user.companyName|default('badge.professional'|trans) }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,13 +13,13 @@
     <div class="drl-card">
         <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="drl-card-title">{{ 'My Offers'|trans }}</h4>
-                <p class="drl-card-sub">{{ "Track and manage all offers you've sent to potential clients"|trans }}</p>
+                <h4 class="drl-card-title">{{ 'pro_dash.my_offers_title'|trans }}</h4>
+                <p class="drl-card-sub">{{ 'pro_dash.my_offers_sub'|trans }}</p>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ offers|length }} {{ 'Total'|trans }}</span>
+                <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ offers|length }} {{ 'pro_dash.total'|trans }}</span>
                 <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px; text-decoration: none;">
-                    <i class="ph-plus"></i> {{ 'New Offer'|trans }}
+                    <i class="ph-plus"></i> {{ 'pro_dash.btn_new_offer'|trans }}
                 </a>
             </div>
         </div>
@@ -28,13 +28,13 @@
             <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
-                        <th>{{ 'Quote Request'|trans }}</th>
-                        <th>{{ 'Amount'|trans }}</th>
-                        <th>{{ 'Message'|trans }}</th>
-                        <th>{{ 'Date'|trans }}</th>
-                        <th>{{ 'Lecture'|trans }}</th>
-                        <th>{{ 'Status'|trans }}</th>
-                        <th>{{ 'Actions'|trans }}</th>
+                        <th>{{ 'pro_dash.th_request'|trans }}</th>
+                        <th>{{ 'pro_dash.th_amount'|trans }}</th>
+                        <th>{{ 'pro_dash.th_message'|trans }}</th>
+                        <th>{{ 'pro_dash.th_date'|trans }}</th>
+                        <th>{{ 'pro_dash.th_read'|trans }}</th>
+                        <th>{{ 'pro_dash.th_status'|trans }}</th>
+                        <th>{{ 'pro_dash.th_action'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                                         </small>
                                     </div>
                                 {% elseif offer.directRequest is defined and offer.directRequest %}
-                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ offer.directRequest.title|default('Direct Request'|trans) }}</span>
+                                    <span style="font-weight: 800; color: #0d2151; display: block;">{{ offer.directRequest.title|default('pro_dash.direct_request_label'|trans) }}</span>
                                 {% else %}
                                     <span style="color: #94a3b8;">—</span>
                                 {% endif %}
@@ -74,7 +74,7 @@
                                     </span>
                                 {% elseif offer.status in ['PUBLISHED', 'INTERESTED'] %}
                                     <span class="drl-tag" style="background:#fff7ed; color:#f97316; border:1px solid #fed7aa; font-size:11px; white-space:nowrap;">
-                                        <span style="display:inline-block; width:6px; height:6px; background:#f97316; border-radius:50%; margin-right:4px; animation: pulse 1.5s infinite;"></span>{{ 'Unread'|trans }}
+                                        <span style="display:inline-block; width:6px; height:6px; background:#f97316; border-radius:50%; margin-right:4px; animation: pulse 1.5s infinite;"></span>{{ 'pro_dash.status_unread'|trans }}
                                     </span>
                                 {% else %}
                                     <span style="color:#94a3b8; font-size:13px;">—</span>
@@ -82,58 +82,58 @@
                             </td>
                             <td>
                                 {% if offer.status == 'DRAFT' %}
-                                    <span class="drl-tag drl-tag--draft"><i class="ph-file" style="font-size: 11px;"></i> {{ 'Draft'|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="ph-file" style="font-size: 11px;"></i> {{ 'pro_dash.status_draft'|trans }}</span>
                                 {% elseif offer.status == 'PUBLISHED' %}
-                                    <span class="drl-tag drl-tag--sent"><i class="ph-paper-plane-tilt" style="font-size: 11px;"></i> {{ 'Sent'|trans }}</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="ph-paper-plane-tilt" style="font-size: 11px;"></i> {{ 'pro_dash.status_sent'|trans }}</span>
                                 {% elseif offer.status == 'ACCEPTED' %}
                                     {% if offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                        <span class="drl-tag drl-tag--draft"><i class="ph-lock" style="font-size: 11px;"></i> {{ 'Completed'|trans }}</span>
+                                        <span class="drl-tag drl-tag--draft"><i class="ph-lock" style="font-size: 11px;"></i> {{ 'pro_dash.status_completed'|trans }}</span>
                                     {% else %}
-                                        <span class="drl-tag drl-tag--success"><i class="ph-check-circle" style="font-size: 11px;"></i> {{ 'Accepted'|trans }}</span>
+                                        <span class="drl-tag drl-tag--success"><i class="ph-check-circle" style="font-size: 11px;"></i> {{ 'pro_dash.status_accepted'|trans }}</span>
                                     {% endif %}
                                 {% elseif offer.status == 'INTERESTED' %}
-                                    <span class="drl-tag drl-tag--warning"><i class="ph-bookmark-simple" style="font-size: 11px;"></i> {{ 'Interested'|trans }}</span>
+                                    <span class="drl-tag drl-tag--warning"><i class="ph-bookmark-simple" style="font-size: 11px;"></i> {{ 'pro_dash.status_interested'|trans }}</span>
                                 {% elseif offer.status == 'REJECTED' %}
-                                    <span class="drl-tag drl-tag--danger"><i class="ph-x-circle" style="font-size: 11px;"></i> {{ 'Rejected'|trans }}</span>
+                                    <span class="drl-tag drl-tag--danger"><i class="ph-x-circle" style="font-size: 11px;"></i> {{ 'pro_dash.status_rejected'|trans }}</span>
                                 {% else %}
-                                    <span class="drl-tag drl-tag--draft">{{ offer.status|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft">{{ offer.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
                                 <div class="d-flex gap-1 flex-wrap">
                                      {# View button — ALWAYS available #}
-                                    <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" title="{{ 'View Offer'|trans }}" style="text-decoration:none;">
+                                    <a href="{{ path('offer_view', {id: offer.id}) }}" class="drl-act-btn drl-act-btn--view" title="{{ 'pro_dash.btn_view_offer'|trans }}" style="text-decoration:none;">
                                         <i class="ph-eye"></i>
                                     </a>
- 
+
                                      {# Edit button — only for DRAFT offers, opens modal #}
                                      {% if offer.status == 'DRAFT' %}
-                                         <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" data-bs-toggle="modal" data-bs-target="#editOfferModal{{ offer.id }}" title="{{ 'Edit Offer'|trans }}">
+                                         <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" data-bs-toggle="modal" data-bs-target="#editOfferModal{{ offer.id }}" title="{{ 'pro_dash.btn_edit_offer'|trans }}">
                                              <i class="ph-pencil"></i>
                                          </button>
                                      {% else %}
-                                         <span class="drl-act-btn drl-act-btn--view" style="opacity: 0.5; cursor: not-allowed; border:none;" title="{{ 'Published offers cannot be edited'|trans }}">
+                                         <span class="drl-act-btn drl-act-btn--view" style="opacity: 0.5; cursor: not-allowed; border:none;" title="{{ 'pro_dash.tooltip_no_edit'|trans }}">
                                              <i class="ph-pencil"></i>
                                          </span>
                                      {% endif %}
- 
+
                                      {# Finalize button — only for ACCEPTED offers where request is not yet Closed #}
                                      {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status != 'Closed' %}
-                                         <button type="button" class="drl-act-btn" style="background: rgba(22, 163, 74, 0.1); color: #16a34a; border:none;" data-bs-toggle="modal" data-bs-target="#finalizeOfferModal{{ offer.id }}" title="{{ 'Finalize Request'|trans }}">
+                                         <button type="button" class="drl-act-btn" style="background: rgba(22, 163, 74, 0.1); color: #16a34a; border:none;" data-bs-toggle="modal" data-bs-target="#finalizeOfferModal{{ offer.id }}" title="{{ 'pro_dash.btn_finalize_request'|trans }}">
                                              <i class="ph-check-circle"></i>
                                          </button>
                                      {% endif %}
- 
+
                                      {# Delete button — only for DRAFT offers #}
                                      {% if offer.status == 'DRAFT' %}
-                                         <button type="button" class="drl-act-btn" style="background: #fef2f2; color: #ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteOfferModal{{ offer.id }}" title="{{ 'Delete Offer'|trans }}">
+                                         <button type="button" class="drl-act-btn" style="background: #fef2f2; color: #ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteOfferModal{{ offer.id }}" title="{{ 'pro_dash.btn_delete_offer'|trans }}">
                                              <i class="ph-trash"></i>
                                          </button>
                                      {% endif %}
- 
+
                                      {# Completed indicator #}
                                      {% if offer.status == 'ACCEPTED' and offer.quoteRequest and offer.quoteRequest.status == 'Closed' %}
-                                         <span class="d-inline-flex align-items-center gap-1" style="color: #16a34a; font-size: 13px;" title="{{ 'Completed'|trans }}">
+                                         <span class="d-inline-flex align-items-center gap-1" style="color: #16a34a; font-size: 13px;" title="{{ 'pro_dash.status_completed'|trans }}">
                                              <i class="ph-medal" ></i>
                                          </span>
                                      {% endif %}
@@ -146,10 +146,10 @@
                                 <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:56px; height:56px; font-size:24px;">
                                     <i class="ph-paper-plane-tilt"></i>
                                 </div>
-                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'No offers sent yet'|trans }}</h6>
-                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">{{ 'Browse available quote requests and submit your best offer'|trans }}</p>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'pro_dash.no_offers_title'|trans }}</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">{{ 'pro_dash.no_offers_sub'|trans }}</p>
                                 <a href="{{ path('professional_quotes') }}" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px; text-decoration:none;">
-                                    <i class="ph-magnifying-glass"></i> {{ 'Browse Quotes'|trans }}
+                                    <i class="ph-magnifying-glass"></i> {{ 'pro_dash.btn_browse_quotes'|trans }}
                                 </a>
                             </td>
                         </tr>
@@ -174,17 +174,17 @@
                                     <i class="ph-check-circle"></i>
                                 </div>
                             </div>
-                            <h4 class="drl-card-title mb-2" style="font-size: 22px;">{{ 'Finalize Request?'|trans }}</h4>
-                            <p class="text-muted mb-4">{{ 'Mark this request as completed? The client will be notified that the work is successfully done.'|trans }}</p>
+                            <h4 class="drl-card-title mb-2" style="font-size: 22px;">{{ 'pro_dash.finalize_modal_title'|trans }}</h4>
+                            <p class="text-muted mb-4">{{ 'pro_dash.finalize_modal_sub'|trans }}</p>
                             <div class="d-flex flex-column gap-2 mt-4">
                                 <form method="post" action="{{ path('offer_finalize', {id: offer.id}) }}" class="w-100">
                                     <input type="hidden" name="_token" value="{{ csrf_token('finalize-offer-' ~ offer.id) }}">
                                     <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
-                                        <i class="ph-check-circle me-2"></i> {{ 'Yes, Mark as Completed'|trans }}
+                                        <i class="ph-check-circle me-2"></i> {{ 'pro_dash.btn_confirm_complete'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
-                                    {{ 'No, Not Yet'|trans }}
+                                    {{ 'pro_dash.btn_not_yet'|trans }}
                                 </button>
                             </div>
                         </div>
@@ -201,9 +201,9 @@
                         <div class="modal-header drl-modal-header">
                             <div>
                                 <h5 class="modal-title drl-modal-title">
-                                    <i class="ph-pencil-simple"></i> {{ 'Edit Your Offer'|trans }}
+                                    <i class="ph-pencil-simple"></i> {{ 'pro_dash.edit_offer_title'|trans }}
                                 </h5>
-                                <p class="mb-0 opacity-75 small mt-1">{{ 'Update your proposal for:'|trans }} <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'Request'|trans)) }}</strong></p>
+                                <p class="mb-0 opacity-75 small mt-1">{{ 'pro_dash.edit_offer_for'|trans }} <strong>{{ (offer.quoteRequest ? offer.quoteRequest.title : (offer.directRequest ? offer.directRequest.title : 'pro_dash.direct_request_label'|trans)) }}</strong></p>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -213,24 +213,24 @@
                                 <div class="row g-4">
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label">{{ 'Proposed Price ($)'|trans }} <span class="text-danger">*</span></label>
-                                            {{ form_widget(editForm.price, {'attr': {'class': 'drl-input', 'placeholder': 'e.g. 500'|trans}}) }}
+                                            <label class="drl-label">{{ 'pro_dash.lbl_price'|trans }} <span class="text-danger">*</span></label>
+                                            {{ form_widget(editForm.price, {'attr': {'class': 'drl-input', 'placeholder': 'pro_dash.price_placeholder'|trans}}) }}
                                             {{ form_errors(editForm.price) }}
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div>
-                                            <label class="drl-label">{{ 'Message to Client'|trans }} <span class="text-danger">*</span></label>
-                                            {{ form_widget(editForm.description, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'Explain your offer...'|trans}}) }}
+                                            <label class="drl-label">{{ 'pro_dash.lbl_message'|trans }} <span class="text-danger">*</span></label>
+                                            {{ form_widget(editForm.description, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'pro_dash.message_placeholder'|trans}}) }}
                                             {{ form_errors(editForm.description) }}
                                         </div>
                                         <div class="mt-4">
-                                            <label class="drl-label">{{ 'Supporting Documents'|trans }} <span class="small opacity-50 fw-normal">({{ 'Optional'|trans }})</span></label>
+                                            <label class="drl-label">{{ 'pro_dash.lbl_documents'|trans }} <span class="small opacity-50 fw-normal">({{ 'pro_dash.optional'|trans }})</span></label>
                                             {{ form_widget(editForm.documents, {'attr': {'class': 'drl-input pt-2'}}) }}
                                             {{ form_errors(editForm.documents) }}
                                             {% if offer.documents|length > 0 %}
                                                 <div class="mt-2">
-                                                    <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">{{ 'Current documents:'|trans }}</p>
+                                                    <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">{{ 'pro_dash.current_docs'|trans }}</p>
                                                     <div class="d-flex flex-wrap gap-2">
                                                         {% for doc in offer.documents %}
                                                             <span style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; padding: 4px 8px; border-radius: 6px; font-size: 12px;">{{ doc|slice(0, 20) }}...</span>
@@ -243,10 +243,10 @@
                                 </div>
                                 <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-3">
                                     <button type="submit" name="action" value="draft" class="btn btn-link text-muted text-decoration-none fw-bold">
-                                        <i class="ph-floppy-disk me-1"></i> {{ 'Update Draft'|trans }}
+                                        <i class="ph-floppy-disk me-1"></i> {{ 'pro_dash.btn_update_draft'|trans }}
                                     </button>
                                     <button type="submit" name="action" value="publish" class="drl-btn-orange px-5">
-                                        <i class="ph-paper-plane-tilt me-1"></i> {{ 'Publish Offer'|trans }}
+                                        <i class="ph-paper-plane-tilt me-1"></i> {{ 'pro_dash.btn_publish_offer'|trans }}
                                     </button>
                                 </div>
                             {{ form_end(editForm) }}
@@ -265,17 +265,17 @@
                                     <i class="ph-warning"></i>
                                 </div>
                             </div>
-                            <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'Delete this offer?'|trans }}</h4>
-                            <p class="text-muted mb-4">{{ 'Are you sure you want to permanently delete this draft offer? This action cannot be undone.'|trans }}</p>
+                            <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'pro_dash.delete_modal_title'|trans }}</h4>
+                            <p class="text-muted mb-4">{{ 'pro_dash.delete_modal_sub'|trans }}</p>
                             <div class="d-flex flex-column gap-2 mt-4">
                                 <form method="post" action="{{ path('offer_delete', {id: offer.id}) }}" class="w-100">
                                      <input type="hidden" name="_token" value="{{ csrf_token('delete-offer-' ~ offer.id) }}">
                                     <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25);">
-                                        <i class="ph-trash me-2"></i> {{ 'Yes, Delete Permanently'|trans }}
+                                        <i class="ph-trash me-2"></i> {{ 'pro_dash.btn_confirm_delete'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
-                                    {{ 'Cancel'|trans }}
+                                    {{ 'pro_dash.btn_cancel'|trans }}
                                 </button>
                             </div>
                         </div>

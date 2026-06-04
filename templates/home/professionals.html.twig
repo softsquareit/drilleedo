@@ -275,10 +275,10 @@
         {% else %}
           <div class="fp-empty">
             <div class="fp-empty__icon">🔍</div>
-            <h4>No professional found</h4>
-            <p>Try adjusting your search filters or browse all our professionals in Canada.</p>
+            <h4>{{ 'professionals.no_results_title'|trans }}</h4>
+            <p>{{ 'professionals.no_results_hint'|trans }}</p>
             <a href="{{ path('professionals_list') }}" class="fp-btn-browse">
-              View All Professionals
+              {{ 'professionals.view_all'|trans }}
             </a>
           </div>
         {% endfor %}

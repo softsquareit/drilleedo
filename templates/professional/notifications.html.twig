@@ -1,37 +1,37 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}{{ 'Notifications'|trans }} - Drilleedo Pro{% endblock %}
+{% block title %}{{ 'pro_dash.notif_title'|trans }} - Drilleedo Pro{% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom flex-wrap gap-3">
         <div>
-            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'Historique des notifications'|trans }}</h2>
-            <p style="font-size: 15px; color: #64748b; margin: 0;">{{ 'Toutes vos alertes et activités récentes.'|trans }}</p>
+            <h2 style="font-size: 24px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'pro_dash.notif_title'|trans }}</h2>
+            <p style="font-size: 15px; color: #64748b; margin: 0;">{{ 'pro_dash.notif_sub'|trans }}</p>
         </div>
         <div class="d-flex gap-2 flex-wrap align-items-center">
             {# Filtres #}
             <div class="d-flex gap-1 flex-wrap" id="notif-filters">
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter active" data-filter="all"
                         style="font-size:12px; border: 1.5px solid var(--drl-B); background:var(--drl-B); color:#fff;">
-                    {{ 'Toutes'|trans }}
+                    {{ 'pro_dash.filter_all'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="unread"
                         style="font-size:12px; border: 1.5px solid var(--drl-L); background:var(--drl-W); color:var(--drl-M);">
-                    {{ 'Non lues'|trans }}
+                    {{ 'pro_dash.filter_unread'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="offer"
                         style="font-size:12px; border: 1.5px solid var(--drl-L); background:var(--drl-W); color:var(--drl-M);">
-                    {{ 'Offres'|trans }}
+                    {{ 'pro_dash.filter_offers'|trans }}
                 </button>
                 <button class="btn btn-sm rounded-pill fw-bold notif-filter" data-filter="request"
                         style="font-size:12px; border: 1.5px solid var(--drl-L); background:var(--drl-W); color:var(--drl-M);">
-                    {{ 'Demandes'|trans }}
+                    {{ 'pro_dash.filter_requests'|trans }}
                 </button>
             </div>
             <form method="post" action="{{ path('notification_mark_all_read') }}" style="margin:0;">
                 <input type="hidden" name="_token" value="{{ csrf_token('mark-all-read') }}">
                 <button type="submit" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-bold">
-                    <i class="ph-check me-1"></i> {{ 'Tout marquer lu'|trans }}
+                    <i class="ph-check me-1"></i> {{ 'pro_dash.btn_mark_all_read'|trans }}
                 </button>
             </form>
         </div>
@@ -48,19 +48,19 @@
                 {# Build precise link from relatedEntityId #}
                 {% if notification.relatedEntityType == 'offer' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_view', {'id': notification.relatedEntityId}) %}
-                    {% set notifLinkLabel = 'Voir l\'offre'|trans %}
+                    {% set notifLinkLabel = 'pro_dash.link_view_offer'|trans %}
                     {% set notifLinkIcon = 'ph-file-text' %}
                 {% elseif notification.relatedEntityType == 'quote' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_send', {'id': notification.relatedEntityId}) %}
-                    {% set notifLinkLabel = 'Voir la demande'|trans %}
+                    {% set notifLinkLabel = 'pro_dash.link_view_request'|trans %}
                     {% set notifLinkIcon = 'ph-inbox' %}
                 {% elseif notification.relatedEntityType == 'direct_request' and notification.relatedEntityId %}
                     {% set notifLink = path('offer_send_direct', {'id': notification.relatedEntityId}) %}
-                    {% set notifLinkLabel = 'Voir la demande directe'|trans %}
+                    {% set notifLinkLabel = 'pro_dash.link_view_direct'|trans %}
                     {% set notifLinkIcon = 'ph-paper-plane-tilt' %}
                 {% else %}
                     {% set notifLink = path('professional_dashboard') %}
-                    {% set notifLinkLabel = 'Dashboard'|trans %}
+                    {% set notifLinkLabel = 'menu.dashboard'|trans %}
                     {% set notifLinkIcon = 'ph-house' %}
                 {% endif %}
 
@@ -92,7 +92,7 @@
 
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
-                                <h5 class="mb-0 fw-bold text-dark" style="font-size: 16px;">{{ notification.title|default('Notification'|trans) }}</h5>
+                                <h5 class="mb-0 fw-bold text-dark" style="font-size: 16px;">{{ notification.title|default('pro_dash.default_notif_title'|trans) }}</h5>
                                 <div class="d-flex align-items-center gap-2 flex-shrink-0">
                                     <span class="text-muted small fw-bold text-uppercase" style="font-size: 11px;">
                                         {{ notification.createdAt|date('d/m/Y à H:i') }}
@@ -103,7 +103,7 @@
                                                 data-id="{{ notification.id }}"
                                                 data-token="{{ csrf_token('mark-read-' ~ notification.id) }}"
                                                 data-url="{{ path('notification_mark_read', {'id': notification.id}) }}"
-                                                title="{{ 'Marquer comme lu'|trans }}"
+                                                title="{{ 'pro_dash.btn_mark_read'|trans }}"
                                                 style="color: #94a3b8; font-size: 14px; line-height:1;">
                                             <i class="ph-check-circle"></i>
                                         </button>
@@ -123,7 +123,7 @@
 
                                 {% if not notification.isRead %}
                                     <span class="drl-tag notif-unread-badge" style="background:#eff6ff; color:#00509e; font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700;">
-                                        <i class="ph-circle" style="font-size:7px;"></i> {{ 'Non lue'|trans }}
+                                        <i class="ph-circle" style="font-size:7px;"></i> {{ 'pro_dash.status_unread'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -135,8 +135,8 @@
                     <div class="bg-light rounded-circle p-4 d-inline-flex mb-4">
                         <i class="ph-bell-slash" style="font-size: 3rem; color: #cbd5e1;"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-2">{{ 'Aucune notification'|trans }}</h5>
-                    <p class="text-muted mb-0">{{ "Votre historique d'activité apparaîtra ici."|trans }}</p>
+                    <h5 class="fw-bold text-dark mb-2">{{ 'pro_dash.no_notif_title'|trans }}</h5>
+                    <p class="text-muted mb-0">{{ 'pro_dash.no_notif_sub'|trans }}</p>
                 </div>
             {% endfor %}
         </div>

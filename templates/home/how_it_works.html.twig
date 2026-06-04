@@ -359,25 +359,21 @@
             {# — Texte — #}
             <div class="hw-anim">
                 <div class="hw-hero-pill">
-                    <i class="ph-bold ph-lightning"></i> Je veux une soumission
+                    <i class="ph-bold ph-lightning"></i> {{ 'hiw_pg.hero_pill'|trans }}
                 </div>
                 <h1>
-                    Décrivez votre projet. Les meilleurs pros viennent à vous. 
-                    <span class="hl-free">recevez des soumissions de pros vérifiés</span>
+                    {{ 'hiw_pg.hero_h1'|trans }}
+                    <span class="hl-free">{{ 'hiw_pg.hero_h1_span'|trans }}</span>
                 </h1>
-                <p class="hw-hero__sub">
-                Plus besoin d'appeler, d'attendre, de relancer. Publiez votre projet une seule fois et recevez
-                plusieurs soumissions sérieuses directement dans votre espace Drilleedo. Des offres claires, des
-                pros vérifiés pour une décision facile.
-                </p>
+                <p class="hw-hero__sub">{{ 'hiw_pg.hero_sub'|trans }}</p>
                 <div class="hw-hero-trust">
-                    <span><i class="ph-bold ph-currency-dollar-simple"></i> 100% gratuit — sans limite</span>
-                    <span><i class="ph-bold ph-shield-check"></i> Pros vérifiés</span>
-                    <span><i class="ph-bold ph-check-circle"></i> Zéro engagement</span>
+                    <span><i class="ph-bold ph-currency-dollar-simple"></i> {{ 'hiw_pg.hero_trust1'|trans }}</span>
+                    <span><i class="ph-bold ph-shield-check"></i> {{ 'hiw_pg.hero_trust2'|trans }}</span>
+                    <span><i class="ph-bold ph-check-circle"></i> {{ 'hiw_pg.hero_trust3'|trans }}</span>
                 </div>
                 <div class="hw-hero-actions">
                     <a href="{{ path('app_register') }}" class="hw-btn-o">
-                       Je décris mon projet — les pros font le reste <i class="ph-bold ph-arrow-right"></i>
+                       {{ 'hiw_pg.hero_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -386,14 +382,14 @@
             <div class="hw-hero-img-col hw-anim" style="transition-delay:.1s;">
                 <img class="hw-hero-img"
                      src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
-                     alt="Projet de rénovation">
+                     alt="{{ 'hiw_pg.hero_img_alt'|trans }}">
                 <div class="hw-hero-badge">
-                    <span class="hw-hero-badge__num">GRATUIT</span>
-                    <span class="hw-hero-badge__lbl">Pas de limite de demandes</span>
+                    <span class="hw-hero-badge__num">{{ 'hiw_pg.hero_badge_num'|trans }}</span>
+                    <span class="hw-hero-badge__lbl">{{ 'hiw_pg.hero_badge_lbl'|trans }}</span>
                 </div>
                 <div class="hw-hero-badge2">
                     <i class="ph-bold ph-star"></i>
-                    <div class="hw-hero-badge2__text">Pros vérifiés<br>et certifiés</div>
+                    <div class="hw-hero-badge2__text">{{ 'hiw_pg.hero_badge2_text'|trans }}</div>
                 </div>
             </div>
 
@@ -441,10 +437,10 @@ directement dans votre boîte, en moins de 24h.</p>
 
         <div class="hw-section-hd hw-anim">
             <div class="hw-section-pill">
-                <i class="ph-bold ph-list-numbers"></i> Comment ça fonctionne
+                <i class="ph-bold ph-list-numbers"></i> {{ 'hiw_pg.overview_pill'|trans }}
             </div>
-            <h2 class="hw-section-title">Publiez une fois. <span>Recevez plusieurs offres.</span></h2>
-            <p class="hw-section-sub">Plus besoin d'appeler, d'attendre, de relancer. Publiez votre projet une seule fois — et laissez les professionnels se battre pour vous convaincre.</p>
+            <h2 class="hw-section-title">{{ 'hiw_pg.overview_h2'|trans }} <span>{{ 'hiw_pg.overview_h2_span'|trans }}</span></h2>
+            <p class="hw-section-sub">{{ 'hiw_pg.overview_sub'|trans }}</p>
         </div>
 
         <div class="hw-steps-row hw-anim">
@@ -455,8 +451,8 @@ directement dans votre boîte, en moins de 24h.</p>
                     <span class="hw-ovr-num">1</span>
                 </div>
                 <div class="hw-ovr-card">
-                    <div class="hw-ovr-title">Créez votre profil</div>
-                    <p class="hw-ovr-text">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
+                    <div class="hw-ovr-title">{{ 'hiw_pg.ovr_step1_title'|trans }}</div>
+                    <p class="hw-ovr-text">{{ 'hiw_pg.ovr_step1_text'|trans }}</p>
                 </div>
             </div>
 
@@ -466,8 +462,8 @@ directement dans votre boîte, en moins de 24h.</p>
                     <span class="hw-ovr-num">2</span>
                 </div>
                 <div class="hw-ovr-card">
-                    <div class="hw-ovr-title">Décrivez votre projet</div>
-                    <p class="hw-ovr-text">Remplissez un formulaire simple et intuitif — en 2 minutes chrono.</p>
+                    <div class="hw-ovr-title">{{ 'hiw_pg.ovr_step2_title'|trans }}</div>
+                    <p class="hw-ovr-text">{{ 'hiw_pg.ovr_step2_text'|trans }}</p>
                 </div>
             </div>
 
@@ -477,8 +473,8 @@ directement dans votre boîte, en moins de 24h.</p>
                     <span class="hw-ovr-num">3</span>
                 </div>
                 <div class="hw-ovr-card">
-                    <div class="hw-ovr-title">Recevez vos soumissions</div>
-                    <p class="hw-ovr-text">Votre demande est diffusée instantanément aux professionnels qualifiés de votre région.</p>
+                    <div class="hw-ovr-title">{{ 'hiw_pg.ovr_step3_title'|trans }}</div>
+                    <p class="hw-ovr-text">{{ 'hiw_pg.ovr_step3_text'|trans }}</p>
                 </div>
             </div>
 
@@ -488,8 +484,8 @@ directement dans votre boîte, en moins de 24h.</p>
                     <span class="hw-ovr-num">4</span>
                 </div>
                 <div class="hw-ovr-card">
-                    <div class="hw-ovr-title">Comparez et choisissez</div>
-                    <p class="hw-ovr-text">Analysez librement les propositions reçues — sans pression ni délai imposé.</p>
+                    <div class="hw-ovr-title">{{ 'hiw_pg.ovr_step4_title'|trans }}</div>
+                    <p class="hw-ovr-text">{{ 'hiw_pg.ovr_step4_text'|trans }}</p>
                 </div>
             </div>
 
@@ -503,55 +499,55 @@ directement dans votre boîte, en moins de 24h.</p>
         <div class="hw-phase-grid">
 
             <div>
-                <div class="hw-phase-step">Étape 1</div>
+                <div class="hw-phase-step">{{ 'hiw_pg.phase1_step'|trans }}</div>
                 <div class="hw-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
-                    <i class="ph-bold ph-user-plus"></i> Créez votre profil
+                    <i class="ph-bold ph-user-plus"></i> {{ 'hiw_pg.phase1_label'|trans }}
                 </div>
-                <h2 class="hw-phase-title">Créez votre profil</h2>
-                <p class="hw-phase-desc">Inscrivez-vous en quelques minutes — et accédez à toutes les fonctionnalités de Drilleedo.</p>
+                <h2 class="hw-phase-title">{{ 'hiw_pg.phase1_h2'|trans }}</h2>
+                <p class="hw-phase-desc">{{ 'hiw_pg.phase1_desc'|trans }}</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Sauvegardez vos demandes et retrouvez-les à tout moment</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase1_f1'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Suivez vos soumissions reçues et vos échanges avec les pros</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase1_f2'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Gérez tous vos projets depuis un espace centralisé et intuitif</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase1_f3'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Gagnez un temps précieux dans toutes vos démarches</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase1_f4'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Votre profil est gratuit — et le reste toujours</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase1_f5'|trans }}</h4></div>
                     </li>
                 </ul>
-                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;margin-bottom:24px;">Un profil Drilleedo, c'est votre chef de projet personnel. Tous vos projets, toutes vos soumissions, tous vos échanges — centralisés en un seul endroit. Plus d'emails perdus. Plus de confusion. Juste de l'efficacité.</p>
+                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;margin-bottom:24px;">{{ 'hiw_pg.phase1_note'|trans }}</p>
                 <a href="{{ path('app_register') }}" class="hw-btn-b">
-                    Je décris mon projet — les pros font le reste <i class="ph-bold ph-arrow-right"></i>
+                    {{ 'hiw_pg.phase1_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
-                     alt="Créer un profil Drilleedo pour gérer vos projets" loading="lazy">
+                     alt="{{ 'hiw_pg.phase1_img_alt'|trans }}" loading="lazy">
                 <div class="hw-phase-img-tag">
-                    <i class="ph-bold ph-currency-dollar-simple"></i> 100 % gratuit
+                    <i class="ph-bold ph-currency-dollar-simple"></i> {{ 'hiw_pg.phase1_img_tag'|trans }}
                 </div>
             </div>
 
@@ -565,58 +561,58 @@ directement dans votre boîte, en moins de 24h.</p>
         <div class="hw-phase-grid hw-phase-grid--rev">
 
             <div>
-                <div class="hw-phase-step">Étape 2</div>
+                <div class="hw-phase-step">{{ 'hiw_pg.phase2_step'|trans }}</div>
                 <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
-                    <i class="ph-bold ph-note-pencil"></i> Décrivez votre projet
+                    <i class="ph-bold ph-note-pencil"></i> {{ 'hiw_pg.phase2_label'|trans }}
                 </div>
-                <h2 class="hw-phase-title">Décrivez votre projet</h2>
-                <p class="hw-phase-desc">Remplissez un formulaire simple et intuitif — en 2 minutes chrono. Plus vous êtes précis, meilleures sont les soumissions.</p>
+                <h2 class="hw-phase-title">{{ 'hiw_pg.phase2_h2'|trans }}</h2>
+                <p class="hw-phase-desc">{{ 'hiw_pg.phase2_desc'|trans }}</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Type de travaux — Quel projet souhaitez-vous réaliser ?</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase2_f1'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Description détaillée — Expliquez vos besoins avec précision</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase2_f2'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Photos &amp; documents — Ajoutez des visuels pour que les pros comprennent exactement</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase2_f3'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Budget estimé — Une fourchette suffit pour recevoir des offres adaptées</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase2_f4'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Localisation — Votre ville ou code postal</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase2_f5'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Délai souhaité — Quand souhaitez-vous commencer ?</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase2_f6'|trans }}</h4></div>
                     </li>
                 </ul>
-                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">Un projet bien décrit = des soumissions précises et compétitives. Prenez 2 minutes pour remplir votre demande — et économisez des heures de recherche et d'appels téléphoniques.</p>
+                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">{{ 'hiw_pg.phase2_note'|trans }}</p>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
-                     alt="Décrire son projet de rénovation sur Drilleedo" loading="lazy">
+                     alt="{{ 'hiw_pg.phase2_img_alt'|trans }}" loading="lazy">
                 <div class="hw-phase-img-tag">
-                    <i class="ph-bold ph-clock"></i> 2 minutes chrono
+                    <i class="ph-bold ph-clock"></i> {{ 'hiw_pg.phase2_img_tag'|trans }}
                 </div>
             </div>
 
@@ -630,58 +626,58 @@ directement dans votre boîte, en moins de 24h.</p>
         <div class="hw-phase-grid">
 
             <div>
-                <div class="hw-phase-step">Étape 3</div>
+                <div class="hw-phase-step">{{ 'hiw_pg.phase3_step'|trans }}</div>
                 <div class="hw-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
-                    <i class="ph-bold ph-envelope-open"></i> Recevez vos soumissions
+                    <i class="ph-bold ph-envelope-open"></i> {{ 'hiw_pg.phase3_label'|trans }}
                 </div>
-                <h2 class="hw-phase-title">Recevez vos soumissions</h2>
-                <p class="hw-phase-desc">Votre demande est diffusée instantanément aux professionnels qualifiés de votre région. Les pros intéressés vous envoient leurs meilleures offres — directement dans votre espace Drilleedo.</p>
+                <h2 class="hw-phase-title">{{ 'hiw_pg.phase3_h2'|trans }}</h2>
+                <p class="hw-phase-desc">{{ 'hiw_pg.phase3_desc'|trans }}</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Jusqu'à 5 soumissions compétitives — en moins de 24 heures</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase3_f1'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Détail complet de chaque offre : prix total, délais, services inclus</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase3_f2'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Profil complet du pro : certifications, avis clients, réalisations</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase3_f3'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Messagerie directe — posez vos questions avant de décider</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase3_f4'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Seuls les professionnels vérifiés &amp; actifs peuvent répondre</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase3_f5'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Zéro soumission d'inconnus — que des experts qualifiés</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase3_f6'|trans }}</h4></div>
                     </li>
                 </ul>
-                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">Sur Drilleedo, vous ne recevez que des soumissions sérieuses. Chaque pro qui répond à votre demande est un abonné vérifié — pas un amateur qui improvise. La qualité est garantie avant même le premier échange.</p>
+                <p class="hw-phase-desc" style="font-style:italic;font-size:14px;">{{ 'hiw_pg.phase3_note'|trans }}</p>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
-                     alt="Recevoir et comparer des soumissions de pros vérifiés" loading="lazy">
+                     alt="{{ 'hiw_pg.phase3_img_alt'|trans }}" loading="lazy">
                 <div class="hw-phase-img-tag">
-                    <i class="ph-bold ph-shield-check"></i> Pros vérifiés
+                    <i class="ph-bold ph-shield-check"></i> {{ 'hiw_pg.phase3_img_tag'|trans }}
                 </div>
             </div>
 
@@ -695,60 +691,60 @@ directement dans votre boîte, en moins de 24h.</p>
         <div class="hw-phase-grid hw-phase-grid--rev">
 
             <div>
-                <div class="hw-phase-step">Étape 4</div>
+                <div class="hw-phase-step">{{ 'hiw_pg.phase4_step'|trans }}</div>
                 <div class="hw-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
-                    <i class="ph-bold ph-check-fat"></i> Comparez et choisissez
+                    <i class="ph-bold ph-check-fat"></i> {{ 'hiw_pg.phase4_label'|trans }}
                 </div>
-                <h2 class="hw-phase-title">Comparez et choisissez</h2>
-                <p class="hw-phase-desc">Analysez librement les propositions reçues — prenez le temps qu'il vous faut, sans pression ni délai imposé.</p>
+                <h2 class="hw-phase-title">{{ 'hiw_pg.phase4_h2'|trans }}</h2>
+                <p class="hw-phase-desc">{{ 'hiw_pg.phase4_desc'|trans }}</p>
                 <ul class="hw-feat-list">
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Comparez les prix, les délais et les services inclus côte à côte</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase4_f1'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Consultez le profil complet de chaque professionnel soumissionnaire</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase4_f2'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Échangez directement pour clarifier les détails et négocier</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase4_f3'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Sélectionnez la soumission qui offre le meilleur rapport qualité-prix</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase4_f4'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Confirmez avec le pro et démarrez vos travaux en toute confiance</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase4_f5'|trans }}</h4></div>
                     </li>
                     <li class="hw-feat-item">
                         <div class="hw-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
                             <i class="ph-bold ph-check-circle"></i>
                         </div>
-                        <div><h4>Évaluez le professionnel une fois le projet terminé — protégez la communauté</h4></div>
+                        <div><h4>{{ 'hiw_pg.phase4_f6'|trans }}</h4></div>
                     </li>
                 </ul>
                 <a href="{{ path('app_register') }}" class="hw-btn-b">
-                    Je publie mon projet — et je reçois mes soumissions gratuitement <i class="ph-bold ph-arrow-right"></i>
+                    {{ 'hiw_pg.phase4_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
 
             <div class="hw-phase-img-wrap">
                 <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
-                     alt="Choisir un professionnel vérifié sur Drilleedo" loading="lazy">
+                     alt="{{ 'hiw_pg.phase4_img_alt'|trans }}" loading="lazy">
                 <div class="hw-phase-img-tag">
-                    <i class="ph-bold ph-check-circle"></i> Sans obligation
+                    <i class="ph-bold ph-check-circle"></i> {{ 'hiw_pg.phase4_img_tag'|trans }}
                 </div>
             </div>
 
@@ -759,86 +755,86 @@ directement dans votre boîte, en moins de 24h.</p>
 {# ══ 7. POURQUOI DRILLEEDO CHANGE TOUT ═════════════════════════════════════ #}
 <section class="hw-free hw-anim" style="border-top:1px solid var(--L);border-bottom:none;">
     <div class="hw-wrap">
-        <h2 class="hw-free__headline">Fini le bouche-à-oreille incertain.<br><span>Fini les devis qui n'arrivent jamais.</span></h2>
-        <p class="hw-free__sub">Pourquoi demander une soumission sur Drilleedo change tout.</p>
+        <h2 class="hw-free__headline">{{ 'hiw_pg.why_h2'|trans }}<br><span>{{ 'hiw_pg.why_h2_span'|trans }}</span></h2>
+        <p class="hw-free__sub">{{ 'hiw_pg.why_sub'|trans }}</p>
 
         <div style="max-width:820px;margin:0 auto 56px;overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;font-family:var(--F);">
                 <thead>
                     <tr>
-                        <th style="padding:14px 20px;background:var(--D);color:#fff;font-size:13px;font-weight:800;text-align:left;border-radius:12px 0 0 0;">Ce que vous obtenez avec Drilleedo</th>
-                        <th style="padding:14px 20px;background:var(--D);color:var(--O);font-size:13px;font-weight:800;text-align:left;border-radius:0 12px 0 0;">Ce que ça change pour vous</th>
+                        <th style="padding:14px 20px;background:var(--D);color:#fff;font-size:13px;font-weight:800;text-align:left;border-radius:12px 0 0 0;">{{ 'hiw_pg.tbl1_th1'|trans }}</th>
+                        <th style="padding:14px 20px;background:var(--D);color:var(--O);font-size:13px;font-weight:800;text-align:left;border-radius:0 12px 0 0;">{{ 'hiw_pg.tbl1_th2'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr style="background:rgba(255,138,61,.05);">
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">100% gratuit — sans limite</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Demandez autant de soumissions que vous voulez — sans jamais payer</td>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r1_col1'|trans }}</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r1_col2'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Jusqu'à 5 soumissions en 24h</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Comparez plusieurs offres et choisissez la meilleure — rapidement</td>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r2_col1'|trans }}</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r2_col2'|trans }}</td>
                     </tr>
                     <tr style="background:rgba(255,138,61,.05);">
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Pros vérifiés uniquement</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Seuls les professionnels certifiés &amp; actifs peuvent répondre</td>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r3_col1'|trans }}</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r3_col2'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Zéro engagement</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Vous n'êtes jamais obligé d'accepter une soumission</td>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r4_col1'|trans }}</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r4_col2'|trans }}</td>
                     </tr>
                     <tr style="background:rgba(255,138,61,.05);">
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">Contact direct &amp; gratuit</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">Négociez librement — sans intermédiaire, sans frais additionnels</td>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r5_col1'|trans }}</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl1_r5_col2'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);">Large choix de catégories</td>
-                        <td style="padding:14px 20px;font-size:14px;color:var(--M);">Entrepreneurs, spécialistes, services — toutes vos demandes acceptées</td>
+                        <td style="padding:14px 20px;font-size:14px;font-weight:700;color:var(--O);">{{ 'hiw_pg.tbl1_r6_col1'|trans }}</td>
+                        <td style="padding:14px 20px;font-size:14px;color:var(--M);">{{ 'hiw_pg.tbl1_r6_col2'|trans }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <h3 style="text-align:center;font-size:clamp(20px,2.5vw,28px);font-weight:900;color:var(--D);margin:0 0 32px;letter-spacing:-1px;">Drilleedo vs Les autres plateformes</h3>
+        <h3 style="text-align:center;font-size:clamp(20px,2.5vw,28px);font-weight:900;color:var(--D);margin:0 0 32px;letter-spacing:-1px;">{{ 'hiw_pg.tbl2_h3'|trans }}</h3>
         <div style="max-width:820px;margin:0 auto;overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;font-family:var(--F);">
                 <thead>
                     <tr>
-                        <th style="padding:14px 20px;background:var(--D);color:rgba(255,255,255,.6);font-size:12px;font-weight:700;text-align:left;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.05em;">Fonctionnalité</th>
-                        <th style="padding:14px 20px;background:var(--B);color:#fff;font-size:12px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.05em;">Drilleedo</th>
-                        <th style="padding:14px 20px;background:#c0392b;color:#fff;font-size:12px;font-weight:700;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.05em;">Les autres</th>
+                        <th style="padding:14px 20px;background:var(--D);color:rgba(255,255,255,.6);font-size:12px;font-weight:700;text-align:left;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.05em;">{{ 'hiw_pg.tbl2_th1'|trans }}</th>
+                        <th style="padding:14px 20px;background:var(--B);color:#fff;font-size:12px;font-weight:700;text-align:center;text-transform:uppercase;letter-spacing:.05em;">{{ 'hiw_pg.tbl2_th2'|trans }}</th>
+                        <th style="padding:14px 20px;background:#c0392b;color:#fff;font-size:12px;font-weight:700;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.05em;">{{ 'hiw_pg.tbl2_th3'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Demandes de soumissions</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Illimitées — toujours gratuit</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Limitées ou payantes</td>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r1_feat'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'hiw_pg.tbl2_r1_dril'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r1_other'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Délai de réception</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Moins de 24h</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">48h à 72h en moyenne</td>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r2_feat'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'hiw_pg.tbl2_r2_dril'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r2_other'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Qualité des soumissionnaires</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Pros vérifiés &amp; certifiés</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Ouverts à tous sans filtre</td>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r3_feat'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'hiw_pg.tbl2_r3_dril'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r3_other'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Frais de mise en relation</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Zéro — maintenant &amp; toujours</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Frais cachés par demande</td>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r4_feat'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'hiw_pg.tbl2_r4_dril'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r4_other'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">Nombre de soumissions</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">Jusqu'à 5 offres compétitives</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">Variable &amp; non garanti</td>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r5_feat'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'hiw_pg.tbl2_r5_dril'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'hiw_pg.tbl2_r5_other'|trans }}</td>
                     </tr>
                     <tr>
-                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);">Engagement requis</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;background:rgba(0,73,127,.04);">Aucun — zéro obligation</td>
-                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;">Conditions restrictives</td>
+                        <td style="padding:13px 20px;font-size:13px;font-weight:700;color:var(--D);">{{ 'hiw_pg.tbl2_r6_feat'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#16a34a;font-weight:700;text-align:center;background:rgba(0,73,127,.04);">{{ 'hiw_pg.tbl2_r6_dril'|trans }}</td>
+                        <td style="padding:13px 20px;font-size:13px;color:#c0392b;text-align:center;">{{ 'hiw_pg.tbl2_r6_other'|trans }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -851,66 +847,66 @@ directement dans votre boîte, en moins de 24h.</p>
     <div class="hw-wrap">
         <div style="text-align:center;margin-bottom:48px;">
             <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.2);border-radius:999px;padding:6px 16px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">
-                <i class="ph-bold ph-question"></i> QUESTIONS FRÉQUENTES — JE VEUX UNE SOUMISSION
+                <i class="ph-bold ph-question"></i> {{ 'hiw_pg.faq_eyebrow'|trans }}
             </div>
-            <h2 style="font-size:clamp(24px,3.5vw,36px);font-weight:900;color:#0C1825;letter-spacing:-.02em;margin:0 0 10px;">Toutes vos questions — des réponses<br><span style="color:#00497F;">claires et sans détour.</span></h2>
+            <h2 style="font-size:clamp(24px,3.5vw,36px);font-weight:900;color:#0C1825;letter-spacing:-.02em;margin:0 0 10px;">{{ 'hiw_pg.faq_title'|trans }}<br><span style="color:#00497F;">{{ 'hiw_pg.faq_title_span'|trans }}</span></h2>
         </div>
         <div class="hw-faq-list">
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Combien de temps faut-il pour recevoir mes premières soumissions ?
+                    {{ 'hiw_pg.faq_q1'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Dans la grande majorité des cas, vous recevez vos premières soumissions en moins de 24 heures suivant la publication de votre projet. Les professionnels de votre région sont notifiés instantanément dès que votre demande est diffusée — et les pros sérieux répondent vite.<br><br>→ Notification instantanée aux pros de votre région dès la publication<br>→ Premières soumissions généralement reçues en moins de 24h<br>→ Un projet bien décrit reçoit des soumissions plus rapidement<br>→ Jusqu'à 5 soumissions compétitives par demande</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a1'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Suis-je obligé d'accepter une soumission reçue ?
+                    {{ 'hiw_pg.faq_q2'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Absolument pas. Vous n'avez aucune obligation d'accepter une soumission reçue sur Drilleedo. Vous êtes entièrement libre de comparer, d'échanger avec les professionnels, de négocier — et de choisir celui qui vous convient le mieux, ou de ne choisir personne. Zéro pression. Zéro engagement.<br><br>→ Aucune obligation d'accepter — jamais<br>→ Comparez librement sans délai imposé<br>→ Négociez directement avec les pros avant de décider<br>→ Annulez votre demande à tout moment sans frais ni pénalité</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a2'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Combien de soumissions puis-je recevoir par projet ?
+                    {{ 'hiw_pg.faq_q3'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Vous pouvez recevoir jusqu'à 5 soumissions par demande de projet. Ce nombre est volontairement limité pour vous permettre de comparer des offres sérieuses et qualitatives — plutôt que de vous noyer dans une multitude de propositions. Chaque soumission vient d'un professionnel vérifié et actif sur Drilleedo.<br><br>→ Maximum 5 soumissions par projet — pour des comparaisons claires<br>→ Chaque soumissionnaire est un pro vérifié et actif<br>→ Qualité garantie avant quantité — des offres sérieuses uniquement<br>→ Posez des questions à chaque pro avant de décider</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a3'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Est-ce vraiment gratuit de demander une soumission ?
+                    {{ 'hiw_pg.faq_q4'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Oui — 100% gratuit. Sans exception. Décrire votre projet, recevoir des soumissions, comparer les offres et contacter les professionnels ne vous coûte rien. Pas d'abonnement, pas de frais de mise en relation, pas de commission cachée. Sur Drilleedo — les clients ne paient jamais pour trouver leur pro.<br><br>→ Aucun frais de publication de projet<br>→ Aucun frais de réception de soumissions<br>→ Aucune commission sur le contrat accepté<br>→ Autant de demandes que vous voulez — sans limite et sans frais</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a4'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Comment bien décrire mon projet pour recevoir de meilleures soumissions ?
+                    {{ 'hiw_pg.faq_q5'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">La qualité de votre description détermine directement la qualité des soumissions reçues. Plus votre projet est précis et détaillé, plus les professionnels pourront vous soumettre des offres adaptées et compétitives. Prenez 5 minutes supplémentaires — et économisez des heures de va-et-vient.<br><br>→ Décrivez précisément les travaux à réaliser — soyez spécifique<br>→ Ajoutez des photos — une image vaut mille mots<br>→ Indiquez votre budget estimé — même une fourchette approximative aide<br>→ Précisez votre délai souhaité — quand voulez-vous commencer ?<br>→ Mentionnez les contraintes particulières — accès, horaires, matériaux</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a5'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Quels types de projets puis-je soumettre sur Drilleedo ?
+                    {{ 'hiw_pg.faq_q6'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Drilleedo accepte toutes les demandes liées à votre domicile et votre propriété — des travaux de construction aux services du quotidien. Si ça concerne votre maison, votre terrain ou votre espace de vie — nous avons le professionnel qu'il vous faut.<br><br>→ Rénovation, construction et agrandissement<br>→ Plomberie, électricité, toiture, isolation, fenêtres<br>→ Peinture, carrelage, plancher, cuisine, salle de bain<br>→ Déménagement, jardinage, entretien ménager<br>→ Et bien plus — soumettez votre projet même si vous doutez</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a6'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Puis-je faire plusieurs demandes de soumissions en même temps ?
+                    {{ 'hiw_pg.faq_q7'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Oui — et sans aucune limite ! Vous pouvez publier autant de projets que vous le souhaitez, simultanément ou non, et recevoir des soumissions pour chacun d'eux. Chaque demande est traitée indépendamment et diffusée aux professionnels correspondant à votre besoin spécifique.<br><br>→ Autant de projets simultanés que vous voulez — sans restriction<br>→ Chaque projet reçoit ses propres soumissions indépendantes<br>→ Gérez tous vos projets depuis votre tableau de bord centralisé</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a7'|trans|raw }}</div>
             </div>
             <div class="hw-faq-item">
                 <button class="hw-faq-btn" aria-expanded="false" onclick="hwFaq(this)">
-                    Que se passe-t-il après avoir accepté une soumission ?
+                    {{ 'hiw_pg.faq_q8'|trans }}
                     <span class="hw-faq-arrow">+</span>
                 </button>
-                <div class="hw-faq-body">Une fois que vous avez choisi la soumission qui vous convient, vous entrez en contact direct avec le professionnel pour finaliser les détails — contrat, calendrier, modalités de paiement. Drilleedo facilite la connexion, mais la relation professionnelle et les modalités contractuelles se gèrent directement entre vous et le pro.<br><br>→ Échangez directement avec le pro pour finaliser les détails<br>→ Planifiez le démarrage des travaux selon vos disponibilités mutuelles<br>→ Établissez un contrat clair — protégez-vous et protégez le pro<br>→ Évaluez le professionnel une fois le projet terminé — contribuez à la communauté</div>
+                <div class="hw-faq-body">{{ 'hiw_pg.faq_a8'|trans|raw }}</div>
             </div>
         </div>
     </div>
@@ -921,19 +917,18 @@ directement dans votre boîte, en moins de 24h.</p>
     <div class="hw-wrap">
         <div class="hw-cta__inner">
             <div class="hw-cta-tag">
-                <i class="ph-bold ph-lightning"></i> Décrivez. Recevez. Choisissez.
+                <i class="ph-bold ph-lightning"></i> {{ 'hiw_pg.final_tag'|trans }}
             </div>
-            <h2>Votre projet mérite<br>les <span>meilleures offres</span></h2>
+            <h2>{{ 'hiw_pg.final_h2'|trans }}<br>les <span>{{ 'hiw_pg.final_h2_span'|trans }}</span></h2>
             <p class="hw-cta__sub">
-                Drilleedo les ramène à vous.<br>
-                Gratuit. Sans engagement. Sans carte de crédit. Pas de limite de demandes. Jamais.
+                {{ 'hiw_pg.final_sub'|trans }}
             </p>
             <div class="hw-cta-btns">
                 <a href="{{ path('app_register') }}" class="hw-btn-o">
-                    Je publie mon projet — et je reçois mes soumissions gratuitement <i class="ph-bold ph-arrow-right"></i>
+                    {{ 'hiw_pg.final_cta1'|trans }} <i class="ph-bold ph-arrow-right"></i>
                 </a>
                 <a href="{{ path('professionals_list') }}" class="hw-btn-outline">
-                    <i class="ph-bold ph-magnifying-glass"></i> Explorer les pros
+                    <i class="ph-bold ph-magnifying-glass"></i> {{ 'hiw_pg.final_cta2'|trans }}
                 </a>
             </div>
         </div>

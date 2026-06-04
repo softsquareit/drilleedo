@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Top Renovation Companies in Canada | Drilleedo{% endblock %}
+{% block title %}{{ 'public_list.companies_meta_title'|trans }}{% endblock %}
 {% block meta_description %}{{ metaDescription }}{% endblock %}
 {% block meta_keywords %}renovation companies Canada, construction companies Toronto, home renovation firms, building contractors{% endblock %}
-{% block og_title %}Top Renovation Companies in Canada | Drilleedo{% endblock %}
+{% block og_title %}{{ 'public_list.companies_meta_title'|trans }}{% endblock %}
 {% block og_description %}{{ metaDescription }}{% endblock %}
 {% block canonical %}{{ canonicalUrl }}{% endblock %}
 
@@ -17,7 +17,7 @@
 {# ── HERO BANNER ── #}
 <div class="fp-hero">
     <img src="{{ asset('uploads/banners/companies.png') }}"
-         alt="Renovation Companies Drilleedo"
+         alt="{{ 'public_list.hero_companies_img_alt'|trans }}"
          class="fp-hero__img">
     <div class="fp-hero__content">
         <h1 class="fp-hero__title">{{ 'public_list.hero_companies_title'|trans }}</h1>
@@ -103,7 +103,7 @@
                                 <span class="fp-city-count">{{ cityCounts[city] ?? 0 }}</span>
                             </li>
                             {% else %}
-                            <li style="font-size:13px;color:#94a3b8;padding:8px 0;">No locations available</li>
+                            <li style="font-size:13px;color:#94a3b8;padding:8px 0;">{{ 'public_list.no_city'|trans }}</li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -117,7 +117,7 @@
 
             <div class="mt-4">
                 <a href="{{ path('app_register') }}" class="fp-btn-solid w-100" style="text-align:center; display:block;">
-                    <i class="feather-plus me-1"></i> Post a Project
+                    <i class="feather-plus me-1"></i> {{ 'public_list.companies_btn_post'|trans }}
                 </a>
             </div>
         </aside>
@@ -136,9 +136,9 @@
                 {% else %}
                     <div class="fp-empty">
                         <div class="fp-empty__icon">🔍</div>
-                        <h4>No companies found</h4>
-                        <p>Try adjusting your search or filters.</p>
-                        <a href="{{ path('companies_list') }}" class="fp-btn-browse">Browse All Companies</a>
+                        <h4>{{ 'public_list.companies_empty_title'|trans }}</h4>
+                        <p>{{ 'public_list.companies_empty_sub'|trans }}</p>
+                        <a href="{{ path('companies_list') }}" class="fp-btn-browse">{{ 'public_list.companies_browse_all'|trans }}</a>
                     </div>
                 {% endfor %}
             </div>

@@ -66,11 +66,11 @@
 <div class="pp-hero">
   {% if company.banner %}
     <img src="{{ asset('uploads/banners/' ~ company.banner) }}"
-         alt="Bannière {{ company.companyName }}"
+         alt="{{ 'company_pg.hero_banner_alt'|trans({'%company%': company.companyName}) }}"
          class="pp-hero__img">
   {% else %}
     <img src="{{ asset('uploads/banners/companies.png') }}"
-         alt="Company banner"
+         alt="{{ 'company_pg.hero_banner_alt_default'|trans }}"
          class="pp-hero__img"
          onerror="this.src='{{ asset('uploads/banners/professionels.png') }}'">
   {% endif %}
@@ -80,11 +80,11 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
           <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">Accueil</span></a>
+            <a href="{{ url('app_home') }}" itemprop="item"><span itemprop="name">{{ 'company_pg.breadcrumb_home'|trans }}</span></a>
             <meta itemprop="position" content="1">
           </li>
           <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{ url('companies_list') }}" itemprop="item"><span itemprop="name">Entreprises</span></a>
+            <a href="{{ url('companies_list') }}" itemprop="item"><span itemprop="name">{{ 'company_pg.breadcrumb_companies'|trans }}</span></a>
             <meta itemprop="position" content="2">
           </li>
           {% if company.categories|length > 0 %}
@@ -124,14 +124,14 @@
       <div class="pp-avatar">
         {% if company.logo %}
           <img src="{{ asset('uploads/logos/' ~ company.logo) }}"
-               alt="Logo {{ company.companyName }}"
+               alt="{{ 'company_pg.logo_alt'|trans({'%company%': company.companyName}) }}"
                style="object-fit:contain;padding:4px;">
         {% else %}
           {{ initials }}
         {% endif %}
       </div>
       {% if company.isVerified %}
-        <div class="pp-verified-ring" title="Entreprise vérifiée">
+        <div class="pp-verified-ring" title="{{ 'company_pg.verified_ring_title'|trans }}">
           <i class="feather-check" style="font-size:12px;"></i>
         </div>
       {% endif %}
@@ -164,29 +164,29 @@
         {% if yearsExp %}
         <span>
           <i class="feather-award"></i>
-          {{ yearsExp }}+ ans d'expérience
+          {{ 'company_pg.years_exp'|trans({'%count%': yearsExp}) }}
         </span>
         {% endif %}
       </div>
 
       <div class="pp-badges">
         {% if company.isVerified %}
-          <span class="pp-chip pp-chip--green"><i class="feather-shield"></i> Vérifiée</span>
+          <span class="pp-chip pp-chip--green"><i class="feather-shield"></i> {{ 'company_pg.badge_verified'|trans }}</span>
         {% endif %}
         {% if company.isTopRated %}
-          <span class="pp-chip pp-chip--orange"><i class="feather-star"></i> Top Évaluée</span>
+          <span class="pp-chip pp-chip--orange"><i class="feather-star"></i> {{ 'company_pg.badge_top_rated'|trans }}</span>
         {% endif %}
         {% if company.hasInsurance %}
-          <span class="pp-chip pp-chip--blue"><i class="feather-shield"></i> Assurée</span>
+          <span class="pp-chip pp-chip--blue"><i class="feather-shield"></i> {{ 'company_pg.badge_insured'|trans }}</span>
         {% endif %}
         {% if company.rbqCertified %}
-          <span class="pp-chip pp-chip--blue"><i class="feather-check-square"></i> Certifiée RBQ</span>
+          <span class="pp-chip pp-chip--blue"><i class="feather-check-square"></i> {{ 'company_pg.badge_rbq'|trans }}</span>
         {% endif %}
         {% if company.freeQuotes %}
-          <span class="pp-chip pp-chip--green"><i class="feather-file-text"></i> Devis gratuit</span>
+          <span class="pp-chip pp-chip--green"><i class="feather-file-text"></i> {{ 'company_pg.badge_free_quotes'|trans }}</span>
         {% endif %}
         {% if company.guaranteedWork %}
-          <span class="pp-chip pp-chip--green"><i class="feather-check-circle"></i> Travaux garantis</span>
+          <span class="pp-chip pp-chip--green"><i class="feather-check-circle"></i> {{ 'company_pg.badge_guaranteed'|trans }}</span>
         {% endif %}
       </div>
     </div>
@@ -199,12 +199,12 @@
               data-bs-target="#contactCompanyModal"
               aria-haspopup="dialog">
         <i class="feather-send"></i>
-        Demander un devis
+        {{ 'company_pg.btn_request_quote'|trans }}
       </button>
       {% if company.Website %}
       <a href="{{ company.Website }}" target="_blank" rel="noopener noreferrer" class="pp-btn-outline">
         <i class="feather-globe"></i>
-        Site Web
+        {{ 'company_pg.btn_website'|trans }}
       </a>
       {% endif %}
     </div>
@@ -216,15 +216,15 @@
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-briefcase"></i></div>
       <div>
-        <div class="pp-stat-lbl">Type</div>
-        <div class="pp-stat-val">{{ company.entrepreneurType ? company.entrepreneurType.type : 'Général' }}</div>
+        <div class="pp-stat-lbl">{{ 'company_pg.stat_type'|trans }}</div>
+        <div class="pp-stat-val">{{ company.entrepreneurType ? company.entrepreneurType.type : 'company_pg.stat_type_default'|trans }}</div>
       </div>
     </div>
     {% if yearsExp %}
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-calendar"></i></div>
       <div>
-        <div class="pp-stat-lbl">Fondée en</div>
+        <div class="pp-stat-lbl">{{ 'company_pg.stat_founded'|trans }}</div>
         <div class="pp-stat-val">{{ company.foundationYear }} ({{ yearsExp }} ans)</div>
       </div>
     </div>
@@ -233,7 +233,7 @@
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-users"></i></div>
       <div>
-        <div class="pp-stat-lbl">Employés</div>
+        <div class="pp-stat-lbl">{{ 'company_pg.stat_employees'|trans }}</div>
         <div class="pp-stat-val">{{ company.EmpNum }}</div>
       </div>
     </div>
@@ -241,9 +241,9 @@
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-layers"></i></div>
       <div>
-        <div class="pp-stat-lbl">Projets</div>
+        <div class="pp-stat-lbl">{{ 'company_pg.stat_projects'|trans }}</div>
         <div class="pp-stat-val">
-          {% if projectCount > 0 %}{{ projectCount }} projet{{ projectCount > 1 ? 's' : '' }}
+          {% if projectCount > 0 %}{{ (projectCount > 1 ? 'company_pg.stat_project_many' : 'company_pg.stat_project_one')|trans({'%count%': projectCount}) }}
           {% else %}—{% endif %}
         </div>
       </div>
@@ -252,7 +252,7 @@
     <div class="pp-stat-cell">
       <div class="pp-stat-ico"><i class="feather-globe"></i></div>
       <div>
-        <div class="pp-stat-lbl">Langues</div>
+        <div class="pp-stat-lbl">{{ 'company_pg.stat_languages'|trans }}</div>
         <div class="pp-stat-val">
           {% for code in company.languages %}{{ langMap[code] ?? code }}{{ not loop.last ? ', ' : '' }}{% endfor %}
         </div>
@@ -276,7 +276,7 @@
     {% if company.about or company.services|length > 0 %}
     <div class="pp-card pp-fade d2">
       <div class="pp-card-head">
-        <div class="pp-card-title"><span class="pp-card-title-bar"></span>À propos de l'entreprise</div>
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>{{ 'company_pg.card_about'|trans }}</div>
       </div>
       <div class="pp-card-body">
         {% if company.about %}
@@ -297,12 +297,12 @@
     {% if company.whyChooseUs and company.whyChooseUs|length > 0 %}
     <div class="pp-card pp-fade d2">
       <div class="pp-card-head">
-        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Points forts</div>
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>{{ 'company_pg.card_highlights'|trans }}</div>
       </div>
       <div class="pp-card-body">
         <div class="pp-highlights-grid">
           <div>
-            <div class="pp-hl-subtitle"><i class="feather-award"></i> Pourquoi nous choisir</div>
+            <div class="pp-hl-subtitle"><i class="feather-award"></i> {{ 'company_pg.hl_why_choose'|trans }}</div>
             <ul class="pp-hl-list">
               {% for item in company.whyChooseUs %}
                 {% if item|trim %}
@@ -315,19 +315,19 @@
             </ul>
           </div>
           <div>
-            <div class="pp-hl-subtitle"><i class="feather-tool"></i> Certifications & Garanties</div>
+            <div class="pp-hl-subtitle"><i class="feather-tool"></i> {{ 'company_pg.hl_certifications'|trans }}</div>
             <ul class="pp-hl-list">
               {% if company.rbqCertified %}
-              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-square"></i></span> Certifiée RBQ</li>
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-square"></i></span> {{ 'company_pg.hl_rbq'|trans }}</li>
               {% endif %}
               {% if company.hasInsurance %}
-              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-shield"></i></span> Assurance responsabilité civile</li>
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-shield"></i></span> {{ 'company_pg.hl_insurance'|trans }}</li>
               {% endif %}
               {% if company.guaranteedWork %}
-              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-circle"></i></span> Travaux garantis</li>
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-check-circle"></i></span> {{ 'company_pg.hl_guaranteed'|trans }}</li>
               {% endif %}
               {% if company.freeQuotes %}
-              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-file-text"></i></span> Soumissions gratuites</li>
+              <li class="pp-hl-item"><span class="pp-hl-ico"><i class="feather-file-text"></i></span> {{ 'company_pg.hl_free_quotes'|trans }}</li>
               {% endif %}
             </ul>
           </div>
@@ -340,7 +340,7 @@
     {% if company.categories|length > 0 %}
     <div class="pp-card pp-fade d3">
       <div class="pp-card-head">
-        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Catégories de services</div>
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>{{ 'company_pg.card_categories'|trans }}</div>
       </div>
       <div class="pp-card-body">
         <div class="pp-services-grid">
@@ -356,8 +356,8 @@
     {% if projectCount > 0 %}
     <div class="pp-card pp-fade d3">
       <div class="pp-card-head">
-        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Aperçu des projets</div>
-        <span class="pp-card-link">{{ projectCount }} projet{{ projectCount > 1 ? 's' : '' }}</span>
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>{{ 'company_pg.card_projects_overview'|trans }}</div>
+        <span class="pp-card-link">{{ (projectCount > 1 ? 'company_pg.stat_project_many' : 'company_pg.stat_project_one')|trans({'%count%': projectCount}) }}</span>
       </div>
       <div class="pp-card-body">
         <div class="pp-project-grid">
@@ -387,7 +387,7 @@
     {% if projectCount > 4 %}
     <div class="pp-card pp-fade d4">
       <div class="pp-card-head">
-        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Portfolio complet</div>
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>{{ 'company_pg.card_portfolio'|trans }}</div>
       </div>
       <div class="pp-card-body">
         <div class="pp-gallery-grid">
@@ -415,7 +415,7 @@
     {% if company.links|length > 0 %}
     <div class="pp-card pp-fade d4">
       <div class="pp-card-head">
-        <div class="pp-card-title"><span class="pp-card-title-bar"></span>Réseaux sociaux</div>
+        <div class="pp-card-title"><span class="pp-card-title-bar"></span>{{ 'company_pg.card_social'|trans }}</div>
       </div>
       <div class="pp-card-body">
         <div class="d-flex flex-wrap gap-2">
@@ -446,8 +446,8 @@
       {# Quote CTA card #}
       <div class="pp-quote-card pp-fade d2">
         <div class="pp-quote-head">
-          <h3><i class="feather-clipboard" style="margin-right:8px;"></i>Demander un devis</h3>
-          <p>Réponse garantie sous 24h</p>
+          <h3><i class="feather-clipboard" style="margin-right:8px;"></i>{{ 'company_pg.quote_card_title'|trans }}</h3>
+          <p>{{ 'company_pg.quote_card_subtitle'|trans }}</p>
         </div>
         <div class="pp-quote-body">
           <button class="pp-btn-cta-full"
@@ -455,11 +455,11 @@
                   data-bs-toggle="modal"
                   data-bs-target="#contactCompanyModal"
                   aria-haspopup="dialog">
-            <i class="feather-send"></i> Envoyer ma demande
+            <i class="feather-send"></i> {{ 'company_pg.quote_btn_send'|trans }}
           </button>
 
           {% if company.openingHours and company.openingHours|length > 0 %}
-          <div class="pp-hours-title"><i class="feather-clock"></i> Horaires d'ouverture</div>
+          <div class="pp-hours-title"><i class="feather-clock"></i> {{ 'company_pg.quote_hours_title'|trans }}</div>
           {% for hour in company.openingHours %}
             {% if ':' in hour %}
               {% set parts = hour|split(':') %}
@@ -480,13 +480,13 @@
 
       {# Contact details #}
       <div class="pp-contact-card pp-fade d3">
-        <div class="pp-contact-head"><i class="feather-phone"></i> Coordonnées</div>
+        <div class="pp-contact-head"><i class="feather-phone"></i> {{ 'company_pg.contact_card_title'|trans }}</div>
         <div class="pp-contact-body">
 
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-home"></i></div>
             <div>
-              <div class="pp-c-lbl">Entreprise</div>
+              <div class="pp-c-lbl">{{ 'company_pg.contact_lbl_company'|trans }}</div>
               <div class="pp-c-val">{{ company.companyName }}</div>
             </div>
           </div>
@@ -496,7 +496,7 @@
             <div class="pp-c-item">
               <div class="pp-c-ico"><i class="feather-map-pin"></i></div>
               <div>
-                <div class="pp-c-lbl">{{ loop.first ? 'Siège social' : 'Succursale' }}</div>
+                <div class="pp-c-lbl">{{ loop.first ? 'company_pg.contact_lbl_hq'|trans : 'company_pg.contact_lbl_branch'|trans }}</div>
                 <div class="pp-c-val">{{ addr.city }}{% if addr.postalCode %}, {{ addr.postalCode }}{% endif %}</div>
                 {% if addr.street %}<div style="font-size:11px;color:#94a3b8;">{{ addr.street }}</div>{% endif %}
               </div>
@@ -508,7 +508,7 @@
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-user"></i></div>
             <div>
-              <div class="pp-c-lbl">Contact</div>
+              <div class="pp-c-lbl">{{ 'company_pg.contact_lbl_contact'|trans }}</div>
               <div class="pp-c-val">{{ company.primaryContact.firstName }} {{ company.primaryContact.lastName }}</div>
               {% if company.primaryContact.phone %}
                 <div><a href="tel:{{ company.primaryContact.phone }}" style="color:var(--pp-blue);font-weight:600;font-size:13px;">{{ company.primaryContact.phone }}</a></div>
@@ -522,7 +522,7 @@
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-globe"></i></div>
             <div>
-              <div class="pp-c-lbl">Site Web</div>
+              <div class="pp-c-lbl">{{ 'company_pg.contact_lbl_website'|trans }}</div>
               <div class="pp-c-val"><a href="{{ company.Website }}" target="_blank" rel="noopener" style="font-size:12px;">{{ company.Website|replace({'https://': '', 'http://': ''}) }}</a></div>
             </div>
           </div>
@@ -532,7 +532,7 @@
           <div class="pp-c-item">
             <div class="pp-c-ico"><i class="feather-navigation"></i></div>
             <div>
-              <div class="pp-c-lbl">Rayon d'intervention</div>
+              <div class="pp-c-lbl">{{ 'company_pg.contact_lbl_radius'|trans }}</div>
               <div class="pp-c-val">{{ company.interventionRadius }} km</div>
             </div>
           </div>
@@ -544,8 +544,8 @@
       {# Service zones #}
       {% if company.interventionZone or company.Adresse|length > 0 %}
       <div class="pp-zone-card pp-fade d3">
-        <div class="pp-zone-title"><i class="feather-map"></i> Zones desservies</div>
-        <div class="pp-zone-sub">Cette entreprise intervient dans les zones suivantes :</div>
+        <div class="pp-zone-title"><i class="feather-map"></i> {{ 'company_pg.zone_card_title'|trans }}</div>
+        <div class="pp-zone-sub">{{ 'company_pg.zone_card_sub'|trans }}</div>
         <div class="pp-zone-chips">
           {% if company.interventionZone %}
             {% for zone in company.interventionZone|split(',') %}
@@ -566,7 +566,7 @@
       {# Payment methods #}
       {% if company.paymentMethod|length > 0 %}
       <div class="pp-adv-card pp-fade d4">
-        <div class="pp-adv-head"><i class="feather-credit-card"></i> Modes de paiement</div>
+        <div class="pp-adv-head"><i class="feather-credit-card"></i> {{ 'company_pg.payment_card_title'|trans }}</div>
         <div class="pp-adv-list">
           {% for payment in company.paymentMethod %}
           <div class="pp-adv-item">
@@ -607,7 +607,7 @@
           <div class="col-lg-5">
             <div class="pp-modal-scroll">
               <div class="d-flex align-items-start justify-content-between mb-3">
-                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="{{ 'company_pg.modal_close_aria'|trans }}"></button>
               </div>
               <div class="pp-modal-title mb-3">{{ project.name }}</div>
               <div class="mb-3 d-flex flex-wrap gap-2">
@@ -617,14 +617,14 @@
                   </span>
                 {% endif %}
                 <span class="pp-chip pp-chip--green" style="font-size:12px;">
-                  <i class="feather-check-circle"></i> Publié
+                  <i class="feather-check-circle"></i> {{ 'company_pg.modal_published'|trans }}
                 </span>
               </div>
               {% if project.description %}
                 <div class="pp-modal-desc mb-4">{{ project.description|nl2br }}</div>
               {% endif %}
               {% if project.gallery %}
-                <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;margin-bottom:8px;">Galerie</p>
+                <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;margin-bottom:8px;">{{ 'company_pg.modal_gallery'|trans }}</p>
                 <div class="row g-2 mb-4">
                   {% for photo in project.gallery %}
                     <div class="col-6">
@@ -640,7 +640,7 @@
                       data-bs-dismiss="modal"
                       data-bs-toggle="modal"
                       data-bs-target="#contactCompanyModal">
-                <i class="feather-send"></i> Demander un devis similaire
+                <i class="feather-send"></i> {{ 'company_pg.modal_btn_similar'|trans }}
               </button>
             </div>
           </div>
@@ -660,14 +660,13 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="pp-modal-header d-flex align-items-center justify-content-between">
-        Contacter {{ company.companyName }}
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        {{ 'company_pg.modal_contact_title'|trans({'%company%': company.companyName}) }}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'company_pg.modal_close_aria'|trans }}"></button>
       </div>
       <div class="pp-modal-body">
         <p class="pp-modal-intro">
           <i class="feather-info" style="color:var(--pp-sky);margin-right:6px;"></i>
-          Envoyez une demande de devis directement à {{ company.companyName }}.
-          Vous recevrez une réponse dans les 24 heures.
+          {{ 'company_pg.modal_contact_intro'|trans({'%company%': company.companyName}) }}
         </p>
 
         <div class="pp-form">
@@ -676,7 +675,7 @@
 
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-edit-3"></i> Sujet de votre demande
+                  <i class="feather-edit-3"></i> {{ 'company_pg.form_lbl_subject'|trans }}
                 </label>
                 {{ form_widget(contactForm.title) }}
                 {{ form_errors(contactForm.title) }}
@@ -684,7 +683,7 @@
 
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-align-left"></i> Description de vos besoins
+                  <i class="feather-align-left"></i> {{ 'company_pg.form_lbl_description'|trans }}
                 </label>
                 {{ form_widget(contactForm.description) }}
                 {{ form_errors(contactForm.description) }}
@@ -692,7 +691,7 @@
 
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-calendar"></i> Date souhaitée de début
+                  <i class="feather-calendar"></i> {{ 'company_pg.form_lbl_start_date'|trans }}
                 </label>
                 {{ form_widget(contactForm.desiredStartDate) }}
                 {{ form_errors(contactForm.desiredStartDate) }}
@@ -700,7 +699,7 @@
 
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-clock"></i> Disponibilités pour visite / devis
+                  <i class="feather-clock"></i> {{ 'company_pg.form_lbl_availabilities'|trans }}
                 </label>
                 <div class="pp-chips">
                   {% for child in contactForm.availabilities %}
@@ -719,7 +718,7 @@
 
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-alert-circle"></i> Intervention urgente ?
+                  <i class="feather-alert-circle"></i> {{ 'company_pg.form_lbl_urgent'|trans }}
                 </label>
                 <div class="pp-chips">
                   {% for child in contactForm.urgentIntervention %}
@@ -736,7 +735,7 @@
 
               <div class="col-12">
                 <label class="form-label">
-                  <i class="feather-image"></i> Photos du projet (optionnel)
+                  <i class="feather-image"></i> {{ 'company_pg.form_lbl_photos'|trans }}
                 </label>
                 {{ form_widget(contactForm.images) }}
                 {{ form_errors(contactForm.images) }}
@@ -745,7 +744,7 @@
               <div class="mt-4">
                 <button type="submit" class="pp-btn-submit">
                   <i class="feather-send"></i>
-                  Envoyer ma demande
+                  {{ 'company_pg.form_btn_send'|trans }}
                 </button>
               </div>
             </div>
@@ -768,18 +767,17 @@
           <div style="width:64px;height:64px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;">
             <i class="feather-check-circle"></i>
           </div>
-          <h3 style="font-size:20px;font-weight:700;margin:0 0 6px;">Demande envoyée !</h3>
-          <p style="font-size:14px;opacity:.85;margin:0;">{{ company.companyName }} va vous répondre sous 24h</p>
+          <h3 style="font-size:20px;font-weight:700;margin:0 0 6px;">{{ 'company_pg.success_title'|trans }}</h3>
+          <p style="font-size:14px;opacity:.85;margin:0;">{{ 'company_pg.success_reply'|trans({'%company%': company.companyName}) }}</p>
         </div>
         <div style="padding:24px 28px;text-align:center;">
           <p style="font-size:14px;color:#64748b;line-height:1.6;margin-bottom:20px;">
-            Votre demande a bien été transmise.
-            Vous recevrez une notification dès qu'une réponse est disponible.
+            {{ 'company_pg.success_body'|trans }}
           </p>
           <button type="button"
                   class="pp-btn-primary w-100 justify-content-center"
                   data-bs-dismiss="modal">
-            <i class="feather-thumbs-up"></i> Parfait, merci !
+            <i class="feather-thumbs-up"></i> {{ 'company_pg.success_btn'|trans }}
           </button>
         </div>
       </div>
@@ -846,7 +844,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var submitBtn = form.querySelector('[type="submit"]');
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi...';
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>{{ 'company_pg.js_sending'|trans|e('js') }}';
     }
 
     fetch(window.location.pathname, {
@@ -878,18 +876,18 @@ document.addEventListener('DOMContentLoaded', function () {
           c.classList.remove('checked', 'checked-urgent');
         });
       } else if (json.error === 'not_logged_in') {
-        alert('Vous devez être connecté en tant que particulier pour envoyer une demande.');
+        alert('{{ 'company_pg.js_not_logged_in'|trans|e('js') }}');
       } else if (json.errors && json.errors.length) {
         alert(json.errors.join('\n'));
       }
     })
     .catch(function () {
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      alert('{{ 'company_pg.js_server_error'|trans|e('js') }}');
     })
     .finally(function () {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="feather-send me-2"></i>Envoyer ma demande';
+        submitBtn.innerHTML = '<i class="feather-send me-2"></i>{{ 'company_pg.form_btn_send'|trans|e('js') }}';
       }
     });
   });

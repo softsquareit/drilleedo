@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}À propos de Drilleedo — Notre histoire, mission et valeurs{% endblock %}
-{% block meta_description %}Drilleedo — la plateforme canadienne qui connecte propriétaires et professionnels de la rénovation. Découvrez notre histoire, notre mission et nos valeurs.{% endblock %}
+{% block title %}{{ 'about.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'about.meta_desc'|trans }}{% endblock %}
 
 {% block body %}
 <main id="main-content">
@@ -448,20 +448,18 @@
     <div class="ab-wrap">
         <div class="ab-hero__inner">
             <div class="ab-hero-eyebrow">
-                <i class="ph-bold ph-info"></i> Notre histoire &amp; nos valeurs
+                <i class="ph-bold ph-info"></i> {{ 'about.hero_eyebrow'|trans }}
             </div>
-            <h1>Drilleedo. Là où chaque projet<br>trouve son <span>expert</span>.</h1>
+            <h1>{{ 'about.hero_title_1'|trans }} <span>{{ 'about.hero_title_2'|trans }}</span></h1>
             <p class="ab-hero__tagline">
-                <strong>Une plateforme. Une mission. Une promesse</strong> — rendre la mise en relation résidentielle
-                au Canada plus simple, plus transparente et plus juste.<br>
-                Pour les clients qui cherchent. Pour les professionnels qui bâtissent.
+                {{ 'about.hero_sub'|trans }}
             </p>
             <div class="ab-hero-btns">
                 <a href="{{ path('professionals_list') }}" class="ab-btn-o">
-                    <i class="ph-bold ph-magnifying-glass"></i> Trouver un pro
+                    <i class="ph-bold ph-magnifying-glass"></i> {{ 'about.why_btn_find'|trans }}
                 </a>
                 <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
-                    <i class="ph-bold ph-user-plus"></i> Inscrire mon entreprise
+                    <i class="ph-bold ph-user-plus"></i> {{ 'about.why_btn_join'|trans }}
                 </a>
             </div>
         </div>
@@ -477,7 +475,7 @@
             </div>
             <div>
                 <div class="ab-stat-num">+1 500</div>
-                <div class="ab-stat-lbl">pros inscrits</div>
+                <div class="ab-stat-lbl">{{ 'about.stat_pros'|trans }}</div>
             </div>
         </div>
         <div class="ab-stat-cell">
@@ -486,7 +484,7 @@
             </div>
             <div>
                 <div class="ab-stat-num">0 %</div>
-                <div class="ab-stat-lbl">de commission prélevée</div>
+                <div class="ab-stat-lbl">{{ 'about.stat_no_commission_lbl'|trans }}</div>
             </div>
         </div>
         <div class="ab-stat-cell">
@@ -495,7 +493,7 @@
             </div>
             <div>
                 <div class="ab-stat-num">&lt; 24 h</div>
-                <div class="ab-stat-lbl">profil actif</div>
+                <div class="ab-stat-lbl">{{ 'about.stat_active_lbl'|trans }}</div>
             </div>
         </div>
         <div class="ab-stat-cell">
@@ -503,8 +501,8 @@
                 <i class="ph-bold ph-map-pin"></i>
             </div>
             <div>
-                <div class="ab-stat-num">D'un océan à l'autre</div>
-                <div class="ab-stat-lbl">présence pancanadienne</div>
+                <div class="ab-stat-num">{{ 'about.stat_coast_val'|trans }}</div>
+                <div class="ab-stat-lbl">{{ 'about.stat_coast_lbl'|trans }}</div>
             </div>
         </div>
     </div>
@@ -519,30 +517,30 @@
 
             <div class="ab-constat-img">
                 <img src="{{ asset('assets/drilleedo/images/stock/about_canada.jpg') }}"
-                     alt="Le constat qui a tout changé" loading="lazy">
+                     alt="{{ 'about.story_img_alt'|trans }}" loading="lazy">
                 <div class="ab-constat-img-badge">
-                    <div class="ab-constat-img-badge__num">14M <span>+</span></div>
-                    <div class="ab-constat-img-badge__lbl">logements résidentiels au Canada</div>
+                    <div class="ab-constat-img-badge__num">{{ 'about.story_badge_num'|trans }} <span>+</span></div>
+                    <div class="ab-constat-img-badge__lbl">{{ 'about.story_badge_lbl'|trans }}</div>
                 </div>
             </div>
 
             <div class="ab-constat-body">
                 <div class="ab-constat-inner">
                     <div class="ab-constat-tag">
-                        <i class="ph-bold ph-clock-clockwise"></i> Notre histoire
+                        <i class="ph-bold ph-clock-clockwise"></i> {{ 'about.story_eyebrow'|trans }}
                     </div>
-                    <h2 class="ab-constat-title">Le constat qui a<br><span>tout changé</span></h2>
+                    <h2 class="ab-constat-title">{{ 'about.story_title_1'|trans }}<br><span>{{ 'about.story_title_2'|trans }}</span></h2>
                     <p class="ab-constat-lead">
-                        Au Canada, des millions de personnes cherchent chaque année un professionnel qualifié pour leurs projets résidentiels. Pourtant, le processus reste chaotique, opaque et souvent décevant.
+                        {{ 'about.story_p1'|trans }}
                     </p>
                     <p class="ab-constat-body-text">
-                        Des recherches interminables. Des appels sans réponse. Des devis qui n'arrivent jamais. Et au bout du chemin — un choix fait dans l'incertitude, en espérant que tout se passe bien.
+                        {{ 'about.story_p2'|trans }}
                     </p>
                     <p class="ab-constat-body-text">
-                        De l'autre côté — des milliers de professionnels talentueux, qualifiés et certifiés qui peinent à se faire connaître. Qui paient des fortunes en marketing. Qui cèdent une part de leurs revenus à des plateformes qui ne comprennent pas leur réalité.
+                        {{ 'about.story_p3'|trans }}
                     </p>
                     <p class="ab-constat-body-text">
-                        <strong>Nous avons construit la plateforme qui manquait.</strong> Celle qui vérifie avant d'afficher. Qui connecte sans prélever. Qui simplifie sans sacrifier la qualité. Ce marché avait besoin d'être repensé. Entièrement. <strong>Drilleedo est cette réponse.</strong>
+                        {{ 'about.story_sub_1'|trans|raw }} {{ 'about.story_sub_2'|trans|raw }}
                     </p>
                 </div>
             </div>
@@ -555,33 +553,32 @@
             <div class="ab-mv-card ab-mv-card--mission">
                 <div class="ab-mv-card-img">
                     <img src="{{ asset('assets/drilleedo/images/stock/about_mission.jpg') }}"
-                         alt="Notre mission" loading="lazy">
+                         alt="{{ 'about.mv_lbl_mission'|trans }}" loading="lazy">
                 </div>
                 <div class="ab-mv-card-body">
                     <div class="ab-mv-label" style="color:#FF8A3D;">
-                        <i class="ph-bold ph-target"></i> Notre mission
+                        <i class="ph-bold ph-target"></i> {{ 'about.mv_lbl_mission'|trans }}
                     </div>
-                    <h3 class="ab-mv-title">Rendre la mise en relation plus simple, plus juste</h3>
-                    <p class="ab-mv-text">Le marché canadien de la rénovation est en pleine transformation. Les attentes évoluent. Les besoins grandissent. Et la façon de trouver un professionnel de confiance doit évoluer avec eux.</p>
-                    <p class="ab-mv-text"><strong>Notre mission</strong> — rendre cette mise en relation plus simple, plus transparente et plus équitable pour tous.</p>
+                    <h3 class="ab-mv-title">{{ 'about.mv_title_mission'|trans }}</h3>
+                    <p class="ab-mv-text">{{ 'about.mv_desc_mission'|trans }}</p>
                 </div>
             </div>
 
             <div class="ab-mv-card ab-mv-card--vision">
                 <div class="ab-mv-card-img">
                     <img src="{{ asset('assets/drilleedo/images/stock/about_vision.jpg') }}"
-                         alt="Notre vision" loading="lazy">
+                         alt="{{ 'about.mv_lbl_vision'|trans }}" loading="lazy">
                 </div>
                 <div class="ab-mv-card-body">
                     <div class="ab-mv-label" style="color:#3FA9F5;">
-                        <i class="ph-bold ph-binoculars"></i> Notre vision
+                        <i class="ph-bold ph-binoculars"></i> {{ 'about.mv_lbl_vision'|trans }}
                     </div>
-                    <h3 class="ab-mv-title">La référence canadienne — d'un océan à l'autre</h3>
-                    <p class="ab-mv-text">Devenir la référence incontournable de la mise en relation entre clients et professionnels résidentiels au Canada. Nous voulons un Canada où :</p>
+                    <h3 class="ab-mv-title">{{ 'about.mv_title_vision'|trans }}</h3>
+                    <p class="ab-mv-text">{{ 'about.mv_desc_vision'|trans }}</p>
                     <ul class="ab-mv-list">
-                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>Chaque projet trouve son expert en quelques minutes</li>
-                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>Chaque pro se développe librement, sans partager ses revenus</li>
-                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>La confiance entre clients et pros est la norme — pas l'exception</li>
+                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>{{ 'about.mv_vision_li1'|trans }}</li>
+                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>{{ 'about.mv_vision_li2'|trans }}</li>
+                        <li><span class="ab-mv-list-dot"><i class="ph-bold ph-arrow-right"></i></span>{{ 'about.mv_vision_li3'|trans }}</li>
                     </ul>
                 </div>
             </div>
@@ -592,9 +589,9 @@
         <div class="ab-values-section ab-fade">
 
             <div class="ab-values-hd">
-                <div class="ab-values-pill"><i class="ph-bold ph-heart"></i> Ce qui nous définit</div>
-                <h2 class="ab-values-title">Nos valeurs — <span>au-delà de la plateforme</span></h2>
-                <p class="ab-values-sub">Cinq engagements concrets qui guident chaque décision, chaque profil, chaque connexion.</p>
+                <div class="ab-values-pill"><i class="ph-bold ph-heart"></i> {{ 'about.val_eyebrow'|trans }}</div>
+                <h2 class="ab-values-title">{{ 'about.val_title'|trans }}</h2>
+                <p class="ab-values-sub">{{ 'about.val_sub'|trans }}</p>
             </div>
 
             <div class="ab-val5-grid">
@@ -605,11 +602,11 @@
                             <i class="ph-bold ph-shield-check"></i>
                         </div>
                         <div>
-                            <div class="ab-val5-name">La confiance</div>
-                            <span class="ab-val5-lbl" style="background:rgba(0,73,127,.08);color:#00497F;">Notre fondation absolue</span>
+                            <div class="ab-val5-name">{{ 'about.val_1_title'|trans }}</div>
+                            <span class="ab-val5-lbl" style="background:rgba(0,73,127,.08);color:#00497F;">{{ 'about.val_1_lbl'|trans }}</span>
                         </div>
                     </div>
-                    <p class="ab-val5-text">La confiance est facile à promettre. Difficile à construire. Impossible à simuler. Chez Drilleedo — on ne la promet pas. On la bâtit. <strong>Chaque professionnel vérifié. Chaque avis certifié. Chaque connexion transparente.</strong> Parce que vos projets méritent une certitude — pas un espoir.</p>
+                    <p class="ab-val5-text">{{ 'about.val_1_text'|trans|raw }}</p>
                 </div>
 
                 <div class="ab-val5-card">
@@ -618,11 +615,11 @@
                             <i class="ph-bold ph-scales"></i>
                         </div>
                         <div>
-                            <div class="ab-val5-name">L'équité</div>
-                            <span class="ab-val5-lbl" style="background:rgba(255,138,61,.1);color:#FF8A3D;">Notre engagement envers tous</span>
+                            <div class="ab-val5-name">{{ 'about.val_2_name'|trans }}</div>
+                            <span class="ab-val5-lbl" style="background:rgba(255,138,61,.1);color:#FF8A3D;">{{ 'about.val_2_lbl'|trans }}</span>
                         </div>
                     </div>
-                    <p class="ab-val5-text">L'équité n'est pas un concept abstrait chez Drilleedo. C'est une décision concrète, prise dès le premier jour et jamais remise en question. <strong>Gratuit d'un côté. Zéro commission de l'autre.</strong> Parce qu'un modèle équitable n'avantage pas la plateforme — il sert les personnes qui la font vivre.</p>
+                    <p class="ab-val5-text">{{ 'about.val_2_text'|trans|raw }}</p>
                 </div>
 
                 <div class="ab-val5-card">
@@ -631,11 +628,11 @@
                             <i class="ph-bold ph-star"></i>
                         </div>
                         <div>
-                            <div class="ab-val5-name">L'excellence</div>
-                            <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:#3FA9F5;">Notre obsession quotidienne</span>
+                            <div class="ab-val5-name">{{ 'about.val_3_title'|trans }}</div>
+                            <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:#3FA9F5;">{{ 'about.val_3_lbl'|trans }}</span>
                         </div>
                     </div>
-                    <p class="ab-val5-text">L'excellence n'est pas un bonus sur Drilleedo — c'est le ticket d'entrée. Chaque professionnel dans notre réseau a été sélectionné parce qu'il le mérite. <strong>L'excellence, on ne la promet pas. On la garantit</strong> — à chaque profil, à chaque projet, à chaque connexion.</p>
+                    <p class="ab-val5-text">{{ 'about.val_3_text'|trans|raw }}</p>
                 </div>
 
                 <div class="ab-val5-card">
@@ -644,11 +641,11 @@
                             <i class="ph-bold ph-users-three"></i>
                         </div>
                         <div>
-                            <div class="ab-val5-name">La communauté</div>
-                            <span class="ab-val5-lbl" style="background:rgba(22,163,74,.1);color:#16a34a;">Notre raison d'être</span>
+                            <div class="ab-val5-name">{{ 'about.val_5_title'|trans }}</div>
+                            <span class="ab-val5-lbl" style="background:rgba(22,163,74,.1);color:#16a34a;">{{ 'about.val_5_lbl'|trans }}</span>
                         </div>
                     </div>
-                    <p class="ab-val5-text">Drilleedo n'est pas qu'une plateforme de mise en relation. C'est une communauté vivante — faite de clients satisfaits, de professionnels épanouis et de projets réussis. <strong>Chaque avis laissé renforce la confiance collective. Chaque connexion réussie inspire la suivante.</strong></p>
+                    <p class="ab-val5-text">{{ 'about.val_5_text'|trans|raw }}</p>
                 </div>
 
                 <div class="ab-val5-card ab-val5-card--full">
@@ -657,11 +654,11 @@
                             <i class="ph-bold ph-lightbulb"></i>
                         </div>
                         <div>
-                            <div class="ab-val5-name">L'innovation</div>
-                            <span class="ab-val5-lbl" style="background:rgba(124,58,237,.1);color:#7c3aed;">Notre moteur permanent</span>
+                            <div class="ab-val5-name">{{ 'about.val_6_title'|trans }}</div>
+                            <span class="ab-val5-lbl" style="background:rgba(124,58,237,.1);color:#7c3aed;">{{ 'about.val_6_lbl'|trans }}</span>
                         </div>
                     </div>
-                    <p class="ab-val5-text" style="max-width:700px;">L'innovation chez Drilleedo n'est pas une case à cocher. C'est une culture. Celle de se remettre en question chaque jour. De demander — <strong>comment peut-on faire mieux ? Plus simple ? Plus rapide ? Plus équitable ?</strong> Parce que le meilleur service qu'on puisse rendre au Canada — c'est de ne jamais se satisfaire de ce qui existe déjà.</p>
+                    <p class="ab-val5-text" style="max-width:700px;">{{ 'about.val_6_text'|trans|raw }}</p>
                 </div>
 
             </div>
@@ -672,28 +669,28 @@
 
             <div class="ab-canada-img">
                 <img src="{{ asset('assets/drilleedo/images/stock/about_canada_homes.jpg') }}"
-                     alt="Maisons canadiennes — engagement local" loading="lazy">
-                <div class="ab-canada-flag">🍁 Fièrement canadien</div>
+                     alt="{{ 'about.canada_img_alt'|trans }}" loading="lazy">
+                <div class="ab-canada-flag">{{ 'about.canada_flag'|trans }}</div>
                 <div class="ab-canada-provinces">
-                    Québec · Ontario · Alberta<br>Colombie-Britannique — et en expansion
+                    {{ 'about.canada_provinces_img'|trans|raw }}
                 </div>
             </div>
 
             <div class="ab-canada-body">
                 <div class="ab-canada-inner">
                     <div class="ab-canada-tag">
-                        <i class="ph-bold ph-flag"></i> Engagement canadien
+                        <i class="ph-bold ph-flag"></i> {{ 'about.canada_tag'|trans }}
                     </div>
-                    <h2 class="ab-canada-title">Fièrement canadien —<br><span>profondément engagé</span></h2>
-                    <p class="ab-canada-text">Dans un monde de plateformes globales qui promettent de tout comprendre et de tout servir — Drilleedo fait un choix différent. <strong>Le choix du local. Le choix du concret. Le choix du Canada.</strong></p>
-                    <p class="ab-canada-text">Nous connaissons les exigences de la RBQ au Québec et les standards de construction qui varient d'une province à l'autre. Nous comprenons les réalités des entrepreneurs canadiens — leurs défis, leurs ambitions, leurs marchés.</p>
-                    <p class="ab-canada-text">Et parce que nous sommes canadiens — <strong>chaque dollar qui circule sur Drilleedo reste dans l'économie canadienne.</strong> Chaque professionnel qui grandit grâce à nous renforce une communauté locale. Choisir Drilleedo — c'est choisir le Canada.</p>
+                    <h2 class="ab-canada-title">{{ 'about.canada_title_1'|trans }}<br><span>{{ 'about.canada_title_2'|trans }}</span></h2>
+                    <p class="ab-canada-text">{{ 'about.canada_p1'|trans|raw }}</p>
+                    <p class="ab-canada-text">{{ 'about.canada_p2'|trans }}</p>
+                    <p class="ab-canada-text">{{ 'about.canada_p3'|trans|raw }}</p>
                     <div class="ab-canada-provinces-list">
-                        <span class="ab-canada-prov">🍁 Québec</span>
-                        <span class="ab-canada-prov">🍁 Ontario</span>
-                        <span class="ab-canada-prov">🍁 Alberta</span>
-                        <span class="ab-canada-prov">🍁 C.-B.</span>
-                        <span class="ab-canada-prov">+ en expansion</span>
+                        <span class="ab-canada-prov">{{ 'about.canada_prov1'|trans }}</span>
+                        <span class="ab-canada-prov">{{ 'about.canada_prov2'|trans }}</span>
+                        <span class="ab-canada-prov">{{ 'about.canada_prov3'|trans }}</span>
+                        <span class="ab-canada-prov">{{ 'about.canada_prov4'|trans }}</span>
+                        <span class="ab-canada-prov">{{ 'about.canada_prov5'|trans }}</span>
                     </div>
                 </div>
             </div>
@@ -704,9 +701,9 @@
         <div class="ab-testi-section ab-fade">
 
             <div class="ab-testi-hd">
-                <div class="ab-testi-hd__pill"><i class="ph-bold ph-chat-circle-dots"></i> Ils nous font confiance</div>
-                <h2 class="ab-testi-hd__title">Ce que nos utilisateurs disent</h2>
-                <p class="ab-testi-hd__sub">Clients et professionnels — des connexions réelles qui changent des projets de vie.</p>
+                <div class="ab-testi-hd__pill"><i class="ph-bold ph-chat-circle-dots"></i> {{ 'about.testi_pill'|trans }}</div>
+                <h2 class="ab-testi-hd__title">{{ 'about.testi_title'|trans }}</h2>
+                <p class="ab-testi-hd__sub">{{ 'about.testi_sub'|trans }}</p>
             </div>
 
             <div class="ab-testi-grid">
@@ -714,44 +711,44 @@
                 {# Clients #}
                 <div class="ab-testi-col">
                     <div class="ab-testi-col-label" style="background:rgba(0,73,127,.07);color:#00497F;">
-                        <i class="ph-bold ph-house-line"></i> Propriétaires &amp; locataires
+                        <i class="ph-bold ph-house-line"></i> {{ 'about.testi_col1_lbl'|trans|raw }}
                     </div>
 
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">Cherche un pro</span>
+                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">{{ 'about.testi_c1_badge'|trans }}</span>
                         <div class="ab-testi-quote">"</div>
-                        <p class="ab-testi-text">Je cherchais un électricien depuis trois semaines. En 20 minutes — j'avais trouvé trois profils vérifiés près de chez moi. Les certifications, les avis, les photos de réalisations — tout était là. J'ai choisi en confiance. Les travaux ont été parfaits.</p>
+                        <p class="ab-testi-text">{{ 'about.testi_c1_text'|trans }}</p>
                         <div class="ab-testi-author">
                             <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#00497F,#3FA9F5);">S</div>
                             <div>
-                                <div class="ab-testi-name">Sophie M.</div>
-                                <div class="ab-testi-role">Locataire — Montréal, QC</div>
+                                <div class="ab-testi-name">{{ 'about.testi_c1_name'|trans }}</div>
+                                <div class="ab-testi-role">{{ 'about.testi_c1_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.08);color:#FF8A3D;">Soumission reçue</span>
+                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.08);color:#FF8A3D;">{{ 'about.testi_c2_badge'|trans }}</span>
                         <div class="ab-testi-quote">"</div>
-                        <p class="ab-testi-text">J'avais un projet de rénovation de salle de bain — aucune idée du prix ni de par où commencer. J'ai décrit mon projet en moins de 5 minutes. Le lendemain matin — j'avais 4 soumissions détaillées. Des vrais pros, des vrais prix, des vrais délais. Le tout gratuitement.</p>
+                        <p class="ab-testi-text">{{ 'about.testi_c2_text'|trans }}</p>
                         <div class="ab-testi-author">
                             <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#FF8A3D,#e05000);">M</div>
                             <div>
-                                <div class="ab-testi-name">Marie-Claude B.</div>
-                                <div class="ab-testi-role">Propriétaire — Laval, QC</div>
+                                <div class="ab-testi-name">{{ 'about.testi_c2_name'|trans }}</div>
+                                <div class="ab-testi-role">{{ 'about.testi_c2_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(22,163,74,.08);color:#16a34a;">Sans engagement</span>
+                        <span class="ab-testi-badge" style="background:rgba(22,163,74,.08);color:#16a34a;">{{ 'about.testi_c3_badge'|trans }}</span>
                         <div class="ab-testi-quote">"</div>
-                        <p class="ab-testi-text">Ce que j'ai aimé — c'est de ne jamais me sentir obligé. J'ai publié mon projet, reçu mes soumissions, pris le temps de comparer. Aucune pression. Et au final — j'ai trouvé un professionnel exceptionnel à un prix que je n'aurais jamais négocié seul.</p>
+                        <p class="ab-testi-text">{{ 'about.testi_c3_text'|trans }}</p>
                         <div class="ab-testi-author">
                             <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#16a34a,#22c55e);">T</div>
                             <div>
-                                <div class="ab-testi-name">Thomas K.</div>
-                                <div class="ab-testi-role">Locataire — Ottawa, ON</div>
+                                <div class="ab-testi-name">{{ 'about.testi_c3_name'|trans }}</div>
+                                <div class="ab-testi-role">{{ 'about.testi_c3_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
@@ -760,44 +757,44 @@
                 {# Professionnels #}
                 <div class="ab-testi-col">
                     <div class="ab-testi-col-label" style="background:rgba(255,138,61,.08);color:#FF8A3D;">
-                        <i class="ph-bold ph-hard-hat"></i> Professionnels
+                        <i class="ph-bold ph-hard-hat"></i> {{ 'about.testi_col2_lbl'|trans }}
                     </div>
 
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">Abonnement Standard</span>
+                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">{{ 'about.testi_p1_badge'|trans }}</span>
                         <div class="ab-testi-quote">"</div>
-                        <p class="ab-testi-text">J'avais des doutes au départ. Drilleedo m'a prouvé le contraire. Dès le premier mois — trois nouvelles demandes qualifiées. Des clients sérieux, avec de vrais projets. Et le meilleur — chaque contrat décroché, je le garde en entier. Zéro commission.</p>
+                        <p class="ab-testi-text">{{ 'about.testi_p1_text'|trans }}</p>
                         <div class="ab-testi-author">
                             <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#00497F,#003a66);">J</div>
                             <div>
-                                <div class="ab-testi-name">Jean-Philippe R.</div>
-                                <div class="ab-testi-role">Plombier certifié — Sherbrooke, QC</div>
+                                <div class="ab-testi-name">{{ 'about.testi_p1_name'|trans }}</div>
+                                <div class="ab-testi-role">{{ 'about.testi_p1_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.1);color:#FF8A3D;">Abonnement Premium</span>
+                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.1);color:#FF8A3D;">{{ 'about.testi_p2_badge'|trans }}</span>
                         <div class="ab-testi-quote">"</div>
-                        <p class="ab-testi-text">L'abonnement Premium a changé la trajectoire de mon entreprise. Mon profil apparaît en tête des résultats. Depuis que j'ai upgradé — mes demandes ont augmenté de 40 % en deux mois. D'autres plateformes me prenaient jusqu'à 20 % sur mes revenus. Avec Drilleedo — je paie mon abonnement et c'est tout.</p>
+                        <p class="ab-testi-text">{{ 'about.testi_p2_text'|trans }}</p>
                         <div class="ab-testi-author">
                             <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#FF8A3D,#c73d0d);">A</div>
                             <div>
-                                <div class="ab-testi-name">Alexandre T.</div>
-                                <div class="ab-testi-role">Entrepreneur général — Toronto, ON</div>
+                                <div class="ab-testi-name">{{ 'about.testi_p2_name'|trans }}</div>
+                                <div class="ab-testi-role">{{ 'about.testi_p2_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(124,58,237,.08);color:#7c3aed;">Premium · Vancouver</span>
+                        <span class="ab-testi-badge" style="background:rgba(124,58,237,.08);color:#7c3aed;">{{ 'about.testi_p3_badge'|trans }}</span>
                         <div class="ab-testi-quote">"</div>
-                        <p class="ab-testi-text">Les clients qui me trouvent via Drilleedo arrivent déjà convaincus. Ils ont vu mon profil, mes certifications, mes réalisations. Mon taux de conversion a explosé. Drilleedo Premium ne coûte pas — <strong>il rapporte.</strong></p>
+                        <p class="ab-testi-text">{{ 'about.testi_p3_text'|trans|raw }}</p>
                         <div class="ab-testi-author">
                             <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">N</div>
                             <div>
-                                <div class="ab-testi-name">Nadia F.</div>
-                                <div class="ab-testi-role">Designer d'intérieur — Vancouver, BC</div>
+                                <div class="ab-testi-name">{{ 'about.testi_p3_name'|trans }}</div>
+                                <div class="ab-testi-role">{{ 'about.testi_p3_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
@@ -810,21 +807,21 @@
         <div class="ab-final-cta ab-fade">
             <div class="ab-final-cta__inner">
                 <div class="ab-final-cta__tag">
-                    <i class="ph-bold ph-rocket-launch"></i> Vous avez lu notre histoire
+                    <i class="ph-bold ph-rocket-launch"></i> {{ 'about.cta_eyebrow'|trans }}
                 </div>
-                <h2>Maintenant —<br><span>écrivez la vôtre.</span></h2>
+                <h2>{{ 'about.cta_title'|trans }}</h2>
                 <p class="ab-final-cta__sub">
-                    Des milliers de Canadiens ont déjà fait confiance à Drilleedo. Des projets réussis. Des entreprises qui grandissent. Des connexions qui changent des vies. La prochaine — c'est la vôtre.
+                    {{ 'about.cta_sub'|trans }}
                 </p>
                 <div class="ab-final-cta-btns">
                     <a href="{{ path('professionals_list') }}" class="ab-btn-o">
-                        <i class="ph-bold ph-magnifying-glass"></i> Je trouve mon pro — gratuitement
+                        <i class="ph-bold ph-magnifying-glass"></i> {{ 'about.cta_btn_find'|trans }}
                     </a>
                     <a href="{{ path('app_how_it_works') }}" class="ab-btn-s">
-                        <i class="ph-bold ph-paper-plane-tilt"></i> Je publie mon projet
+                        <i class="ph-bold ph-paper-plane-tilt"></i> {{ 'about.cta_btn_publish'|trans }}
                     </a>
                     <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
-                        <i class="ph-bold ph-hard-hat"></i> Je crée mon profil pro
+                        <i class="ph-bold ph-hard-hat"></i> {{ 'about.cta_btn_join'|trans }}
                     </a>
                 </div>
             </div>

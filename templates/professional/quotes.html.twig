@@ -1,6 +1,6 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}{{ 'Demandes disponibles'|trans }} - {{ app.user.companyName|default('Professionnel'|trans) }}{% endblock %}
+{% block title %}{{ 'pro_dash.quotes_title'|trans }} - {{ app.user.companyName|default('badge.professional'|trans) }}{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -45,11 +45,11 @@
 {# ── Header ── #}
 <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
     <div>
-        <h2 style="font-size: 22px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'Demandes disponibles'|trans }}</h2>
-        <p class="text-muted small mb-0">{{ 'Opportunités dans votre catégorie de service'|trans }}</p>
+        <h2 style="font-size: 22px; font-weight: 800; color: #0d2151; margin: 0 0 4px;">{{ 'pro_dash.quotes_title'|trans }}</h2>
+        <p class="text-muted small mb-0">{{ 'pro_dash.quotes_sub'|trans }}</p>
     </div>
     <span class="drl-tag drl-tag--sent" style="font-size: 13px; padding: 6px 14px;">
-        <i class="ph-stack me-1"></i> <span id="quotesCount">{{ quotes|length }}</span> {{ 'demande'|trans }}{{ quotes|length > 1 ? 's' : '' }}
+        <i class="ph-stack me-1"></i> <span id="quotesCount">{{ quotes|length }}</span> {{ 'pro_dash.request_singular'|trans }}{{ quotes|length > 1 ? 's' : '' }}
     </span>
 </div>
 
@@ -57,47 +57,47 @@
 <div class="filter-bar">
     <div class="row g-3 align-items-end">
         <div class="col-lg-4 col-md-6">
-            <label class="drl-label mb-1" style="font-size:11px;">{{ 'Rechercher'|trans }}</label>
+            <label class="drl-label mb-1" style="font-size:11px;">{{ 'pro_dash.search_label'|trans }}</label>
             <div class="position-relative">
                 <i class="ph-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:14px;"></i>
-                <input type="text" id="searchInput" class="drl-input" placeholder="{{ 'Titre, description…'|trans }}"
+                <input type="text" id="searchInput" class="drl-input" placeholder="{{ 'pro_dash.search_placeholder'|trans }}"
                        style="padding-left: 36px; font-size: 13px;">
             </div>
         </div>
         <div class="col-lg-2 col-md-6">
-            <label class="drl-label mb-1" style="font-size:11px;">{{ 'Mon offre'|trans }}</label>
+            <label class="drl-label mb-1" style="font-size:11px;">{{ 'pro_dash.filter_my_offer'|trans }}</label>
             <select id="filterOffer" class="drl-input" style="font-size:13px;">
-                <option value="all">{{ 'Toutes'|trans }}</option>
-                <option value="no-offer">{{ 'Sans offre'|trans }}</option>
-                <option value="has-offer">{{ 'Avec offre'|trans }}</option>
+                <option value="all">{{ 'pro_dash.filter_all'|trans }}</option>
+                <option value="no-offer">{{ 'pro_dash.filter_no_offer'|trans }}</option>
+                <option value="has-offer">{{ 'pro_dash.filter_with_offer'|trans }}</option>
             </select>
         </div>
         <div class="col-lg-2 col-md-6">
-            <label class="drl-label mb-1" style="font-size:11px;">{{ 'Urgence'|trans }}</label>
+            <label class="drl-label mb-1" style="font-size:11px;">{{ 'pro_dash.filter_urgency'|trans }}</label>
             <select id="filterUrgent" class="drl-input" style="font-size:13px;">
-                <option value="all">{{ 'Toutes'|trans }}</option>
-                <option value="urgent">{{ 'Urgentes'|trans }}</option>
-                <option value="normal">{{ 'Normales'|trans }}</option>
+                <option value="all">{{ 'pro_dash.filter_all'|trans }}</option>
+                <option value="urgent">{{ 'pro_dash.filter_urgent'|trans }}</option>
+                <option value="normal">{{ 'pro_dash.filter_normal'|trans }}</option>
             </select>
         </div>
         <div class="col-lg-2 col-md-6">
-            <label class="drl-label mb-1" style="font-size:11px;">{{ 'Trier par'|trans }}</label>
+            <label class="drl-label mb-1" style="font-size:11px;">{{ 'pro_dash.sort_by'|trans }}</label>
             <select id="sortBy" class="drl-input" style="font-size:13px;">
-                <option value="recent">{{ 'Plus récente'|trans }}</option>
-                <option value="oldest">{{ 'Plus ancienne'|trans }}</option>
-                <option value="offers-asc">{{ "Moins d'offres"|trans }}</option>
-                <option value="offers-desc">{{ "Plus d'offres"|trans }}</option>
+                <option value="recent">{{ 'pro_dash.sort_recent'|trans }}</option>
+                <option value="oldest">{{ 'pro_dash.sort_oldest'|trans }}</option>
+                <option value="offers-asc">{{ 'pro_dash.sort_fewer_offers'|trans }}</option>
+                <option value="offers-desc">{{ 'pro_dash.sort_more_offers'|trans }}</option>
             </select>
         </div>
         <div class="col-lg-2 col-md-6 d-flex align-items-end gap-2">
             <button type="button" id="resetFilters" class="drl-act-btn drl-act-btn--view w-100 justify-content-center" style="font-size:12px;">
-                <i class="ph-x me-1"></i> {{ 'Réinitialiser'|trans }}
+                <i class="ph-x me-1"></i> {{ 'pro_dash.btn_reset'|trans }}
             </button>
             <div class="view-toggle d-flex gap-1 flex-shrink-0">
-                <button type="button" class="toggle-btn active" id="viewGrid" title="{{ 'Grille'|trans }}">
+                <button type="button" class="toggle-btn active" id="viewGrid" title="{{ 'pro_dash.view_grid'|trans }}">
                     <i class="ph-squares-four"></i>
                 </button>
-                <button type="button" class="toggle-btn" id="viewList" title="{{ 'Liste'|trans }}">
+                <button type="button" class="toggle-btn" id="viewList" title="{{ 'pro_dash.view_list'|trans }}">
                     <i class="ph-list"></i>
                 </button>
             </div>
@@ -111,10 +111,10 @@
     <div class="drl-stat-icon mx-auto mb-3" style="width:64px;height:64px;font-size:28px;background:#fffbeb;color:#b45309;border:1.5px solid #fde68a;border-radius:16px;display:flex;align-items:center;justify-content:center;">
         <i class="ph-warning"></i>
     </div>
-    <h5 class="fw-bold text-dark mb-2">{{ 'Aucune catégorie assignée à votre profil'|trans }}</h5>
-    <p class="text-muted small mb-3">{{ "Pour voir les demandes disponibles, vous devez d'abord sélectionner votre domaine d'activité dans votre profil."|trans }}</p>
+    <h5 class="fw-bold text-dark mb-2">{{ 'pro_dash.no_category_title'|trans }}</h5>
+    <p class="text-muted small mb-3">{{ 'pro_dash.no_category_sub'|trans }}</p>
     <a href="{{ path('professional_profile') }}" class="drl-btn-orange shadow-sm">
-        <i class="ph-gear me-2"></i> {{ 'Compléter mon profil'|trans }}
+        <i class="ph-gear me-2"></i> {{ 'pro_dash.btn_complete_profile'|trans }}
     </a>
 </div>
 {% endif %}
@@ -124,10 +124,10 @@
     <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
         <i class="ph-magnifying-glass"></i>
     </div>
-    <h5 class="fw-bold text-dark mb-2">{{ 'Aucune demande trouvée'|trans }}</h5>
-    <p class="text-muted small">{{ 'Essayez de modifier vos filtres.'|trans }}</p>
+    <h5 class="fw-bold text-dark mb-2">{{ 'pro_dash.no_request_found'|trans }}</h5>
+    <p class="text-muted small">{{ 'pro_dash.try_filters'|trans }}</p>
     <button type="button" onclick="resetFilters()" class="drl-act-btn drl-act-btn--view mt-2">
-        <i class="ph-x me-1"></i> {{ 'Réinitialiser les filtres'|trans }}
+        <i class="ph-x me-1"></i> {{ 'pro_dash.btn_reset_filters'|trans }}
     </button>
 </div>
 
@@ -172,29 +172,29 @@
                         <div class="d-flex flex-column align-items-end gap-1 flex-shrink-0">
                             {% if isUrgent %}
                                 <span class="drl-tag drl-tag--danger" style="font-size: 10px; white-space:nowrap;">
-                                    <i class="ph-lightning me-1" style="font-size:9px;"></i>{{ 'Urgent'|trans }}
+                                    <i class="ph-lightning me-1" style="font-size:9px;"></i>{{ 'pro_dash.tag_urgent'|trans }}
                                 </span>
                             {% endif %}
                             {% if hasOffer %}
                                 {% if myStatus in ['PUBLISHED', 'PENDING'] %}
                                     <span class="drl-tag drl-tag--sent" style="font-size:10px; white-space:nowrap;">
-                                        <i class="ph-paper-plane-tilt me-1" style="font-size:9px;"></i>{{ 'Offre envoyée'|trans }}
+                                        <i class="ph-paper-plane-tilt me-1" style="font-size:9px;"></i>{{ 'pro_dash.status_offer_sent'|trans }}
                                     </span>
                                 {% elseif myStatus == 'ACCEPTED' %}
                                     <span class="drl-tag drl-tag--success" style="font-size:10px; white-space:nowrap;">
-                                        <i class="ph-check-circle me-1" style="font-size:9px;"></i>{{ 'Acceptée'|trans }}
+                                        <i class="ph-check-circle me-1" style="font-size:9px;"></i>{{ 'pro_dash.status_accepted'|trans }}
                                     </span>
                                 {% elseif myStatus == 'INTERESTED' %}
                                     <span class="drl-tag drl-tag--warning" style="font-size:10px; white-space:nowrap;">
-                                        <i class="ph-bookmark-simple me-1" style="font-size:9px;"></i>{{ 'Intéressé'|trans }}
+                                        <i class="ph-bookmark-simple me-1" style="font-size:9px;"></i>{{ 'pro_dash.status_interested'|trans }}
                                     </span>
                                 {% elseif myStatus == 'REJECTED' %}
                                     <span class="drl-tag drl-tag--danger" style="font-size:10px; white-space:nowrap;">
-                                        <i class="ph-x-circle me-1" style="font-size:9px;"></i>{{ 'Refusée'|trans }}
+                                        <i class="ph-x-circle me-1" style="font-size:9px;"></i>{{ 'pro_dash.status_rejected'|trans }}
                                     </span>
                                 {% elseif myStatus == 'DRAFT' %}
                                     <span class="drl-tag drl-tag--draft" style="font-size:10px; white-space:nowrap;">
-                                        <i class="ph-file me-1" style="font-size:9px;"></i>{{ 'Brouillon'|trans }}
+                                        <i class="ph-file me-1" style="font-size:9px;"></i>{{ 'pro_dash.status_draft'|trans }}
                                     </span>
                                 {% endif %}
                             {% endif %}
@@ -241,7 +241,7 @@
                             <div class="d-flex align-items-center gap-2">
                                 <i class="ph-inbox" style="font-size: 12px; color: #94a3b8;"></i>
                                 <span style="font-size: 12px; color: {{ offerCount == 0 ? '#10b981' : '#64748b' }}; font-weight: {{ offerCount == 0 ? '700' : '400' }};">
-                                    {{ offerCount == 0 ? 'Premier à répondre !'|trans : offerCount ~ ' ' ~ ('offre'|trans) ~ (offerCount > 1 ? 's' : '') }}
+                                    {{ offerCount == 0 ? 'pro_dash.first_to_respond'|trans : offerCount ~ ' ' ~ ('pro_dash.offer_singular'|trans) ~ (offerCount > 1 ? 's' : '') }}
                                 </span>
                             </div>
                         </div>
@@ -262,25 +262,25 @@
                 <div class="quote-card-footer">
                     <a href="{{ path('offer_send', {id: quote.id}) }}"
                        class="drl-act-btn drl-act-btn--view flex-shrink-0" style="font-size: 12px; padding: 6px 12px; text-decoration:none;">
-                        <i class="ph-eye" style="font-size:12px;"></i> {{ 'Détails'|trans }}
+                        <i class="ph-eye" style="font-size:12px;"></i> {{ 'pro_dash.btn_details'|trans }}
                     </a>
                     {% set qStatus = quote.status|upper %}
                     {% if qStatus not in ['ACCEPTED', 'IN_PROGRESS', 'CLOSED'] %}
                         {% if hasOffer and myStatus == 'DRAFT' %}
                             <a href="{{ path('offer_send', {id: quote.id}) }}"
                                class="drl-btn-orange flex-shrink-0" style="font-size: 12px; padding: 6px 14px; text-decoration:none;">
-                                <i class="ph-paper-plane-tilt" style="font-size:11px;"></i> {{ 'Publier brouillon'|trans }}
+                                <i class="ph-paper-plane-tilt" style="font-size:11px;"></i> {{ 'pro_dash.btn_publish_draft'|trans }}
                             </a>
                         {% elseif not hasOffer %}
                             <a href="{{ path('offer_send', {id: quote.id}) }}"
                                class="drl-btn-orange flex-shrink-0" style="font-size: 12px; padding: 6px 14px; text-decoration:none;">
-                                <i class="ph-paper-plane-tilt" style="font-size:11px;"></i> {{ 'Créer une offre'|trans }}
+                                <i class="ph-paper-plane-tilt" style="font-size:11px;"></i> {{ 'pro_dash.btn_create_offer'|trans }}
                             </a>
                         {% endif %}
                     {% else %}
                         <span class="drl-tag drl-tag--draft" style="font-size:10px;">
                             <i class="ph-lock me-1" style="font-size:9px;"></i>
-                            {{ qStatus == 'CLOSED' ? 'Clôturée'|trans : 'En cours'|trans }}
+                            {{ qStatus == 'CLOSED' ? 'pro_dash.status_closed_f'|trans : 'pro_dash.status_in_progress'|trans }}
                         </span>
                     {% endif %}
                 </div>
@@ -291,8 +291,8 @@
             <div class="drl-stat-icon drl-stat-icon--1 mx-auto mb-3" style="width:64px;height:64px;font-size:28px;">
                 <i class="ph-chat-square"></i>
             </div>
-            <h5 class="fw-bold text-dark mb-2">{{ 'Aucune demande disponible'|trans }}</h5>
-            <p class="text-muted small mb-0">{{ 'Aucune demande active trouvée dans votre catégorie de service.'|trans }}</p>
+            <h5 class="fw-bold text-dark mb-2">{{ 'pro_dash.no_quotes_title'|trans }}</h5>
+            <p class="text-muted small mb-0">{{ 'pro_dash.no_quotes_sub'|trans }}</p>
         </div>
     {% endfor %}
 </div>

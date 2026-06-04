@@ -114,9 +114,9 @@ textarea.cp-inp { resize: vertical; min-height: 120px; }
 <div class="cp-hero">
   <div class="container">
     <div class="cp-header">
-      <span class="cp-pill"><i class="ph-fill ph-chat-circle"></i> Service Client</span>
-      <h1 class="cp-h1">Nous sommes là<br>pour vous aider.</h1>
-      <p class="cp-subtitle">Vous avez des questions sur un projet, besoin d'assistance ou envie de nous faire un retour ? L'équipe Drilleedo est à votre disposition.</p>
+      <span class="cp-pill"><i class="ph-fill ph-chat-circle"></i> {{ 'contact.hero_pill'|trans }}</span>
+      <h1 class="cp-h1">{{ 'contact.hero_h1'|trans }}</h1>
+      <p class="cp-subtitle">{{ 'contact.hero_sub'|trans }}</p>
     </div>
   </div>
 </div>
@@ -128,22 +128,22 @@ textarea.cp-inp { resize: vertical; min-height: 120px; }
       
       <div class="cp-c">
         <div class="cp-c-ico"><i class="ph ph-phone"></i></div>
-        <h3>Téléphone</h3>
+        <h3>{{ 'contact.card_phone'|trans }}</h3>
         <p><a href="tel:+1444555666777">+1 444 555 666 777</a></p>
         <p><a href="tel:+12222222333">+1 222 222 222 333</a></p>
       </div>
 
       <div class="cp-c">
         <div class="cp-c-ico cp-c-o"><i class="ph ph-envelope-simple"></i></div>
-        <h3>Courriel</h3>
+        <h3>{{ 'contact.card_email'|trans }}</h3>
         <p><a href="mailto:support@drilleedo.com">support@drilleedo.com</a></p>
         <p><a href="mailto:contact@drilleedo.com">contact@drilleedo.com</a></p>
       </div>
 
       <div class="cp-c">
         <div class="cp-c-ico cp-c-d"><i class="ph ph-map-pin"></i></div>
-        <h3>Bureaux</h3>
-        <p>Toronto, Ontario <br>Canada</p>
+        <h3>{{ 'contact.card_offices'|trans }}</h3>
+        <p>{{ 'contact.card_location'|trans }} <br>{{ 'contact.card_country'|trans }}</p>
       </div>
 
     </div>
@@ -157,7 +157,7 @@ textarea.cp-inp { resize: vertical; min-height: 120px; }
 
       {# LEFT: FORM #}
       <div class="cp-form-box">
-        <h3>Laissez-nous un message</h3>
+        <h3>{{ 'contact.form_title'|trans }}</h3>
 
         {# Flash messages #}
         {% for label, messages in app.flashes %}
@@ -171,36 +171,36 @@ textarea.cp-inp { resize: vertical; min-height: 120px; }
 
         <form method="POST" action="{{ path('app_contact_send') }}">
           <div class="cp-fg">
-            <label for="contact-name">Nom complet *</label>
-            <input type="text" id="contact-name" name="contact-name" class="cp-inp" required placeholder="Ex: Jean Tremblay">
+            <label for="contact-name">{{ 'contact.lbl_name'|trans }}</label>
+            <input type="text" id="contact-name" name="contact-name" class="cp-inp" required placeholder="{{ 'contact.placeholder_name'|trans }}">
           </div>
           <div class="cp-fg">
-            <label for="contact-email">Adresse courriel *</label>
-            <input type="email" id="contact-email" name="contact-email" class="cp-inp" required placeholder="jean@exemple.ca">
+            <label for="contact-email">{{ 'contact.lbl_email'|trans }}</label>
+            <input type="email" id="contact-email" name="contact-email" class="cp-inp" required placeholder="{{ 'contact.placeholder_email'|trans }}">
           </div>
           <div class="cp-fg">
-            <label for="subject">Sujet de votre demande</label>
-            <input type="text" id="subject" name="subject" class="cp-inp" placeholder="Renseignement, problème technique...">
+            <label for="subject">{{ 'contact.lbl_subject'|trans }}</label>
+            <input type="text" id="subject" name="subject" class="cp-inp" placeholder="{{ 'contact.placeholder_subject'|trans }}">
           </div>
           <div class="cp-fg">
-            <label for="contact-message">Message *</label>
-            <textarea id="contact-message" name="contact-message" class="cp-inp" required placeholder="Comment pouvons-nous vous aider ?"></textarea>
+            <label for="contact-message">{{ 'contact.lbl_message'|trans }}</label>
+            <textarea id="contact-message" name="contact-message" class="cp-inp" required placeholder="{{ 'contact.placeholder_message'|trans }}"></textarea>
           </div>
-          
+
           <button type="submit" name="submit" class="hbtn hbtn-o hbtn-lg" style="margin-top:10px;">
-            Envoyer le message <i class="ph-bold ph-paper-plane-right"></i>
+            {{ 'contact.btn_send'|trans }} <i class="ph-bold ph-paper-plane-right"></i>
           </button>
         </form>
       </div>
 
       {# RIGHT: IMAGE #}
       <div class="cp-img-side">
-        <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}" alt="Support clientèle Drilleedo">
+        <img src="{{ asset('assets/drilleedo/images/team/man_woman.png') }}" alt="{{ 'contact.img_alt'|trans }}">
         <div class="cp-img-badge">
           <i class="ph-fill ph-headset"></i>
           <div>
-            <div style="color:var(--M); font-size:12px; font-weight:600;">Service client 7j/7</div>
-            Nous vous répondons en 24h ouvrées
+            <div style="color:var(--M); font-size:12px; font-weight:600;">{{ 'contact.badge_service'|trans }}</div>
+            {{ 'contact.badge_response'|trans }}
           </div>
         </div>
       </div>

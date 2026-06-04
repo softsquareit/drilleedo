@@ -1,27 +1,27 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}{{ 'Demandes directes'|trans }} - {{ app.user.companyName }}{% endblock %}
+{% block title %}{{ 'pro_dash.direct_requests_title'|trans }} - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
     <div class="drl-card">
         <div class="drl-card-head border-bottom">
             <div>
-                <h4 class="drl-card-title">{{ 'Demandes directes'|trans }}</h4>
-                <p class="drl-card-sub">{{ 'Demandes qui vous sont envoyées directement par des particuliers'|trans }}</p>
+                <h4 class="drl-card-title">{{ 'pro_dash.direct_requests_title'|trans }}</h4>
+                <p class="drl-card-sub">{{ 'pro_dash.direct_requests_sub'|trans }}</p>
             </div>
-            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ directRequests|length }} {{ 'Total'|trans }}</span>
+            <span class="drl-badge" style="background: #eff6ff; color: #00509e; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">{{ directRequests|length }} {{ 'pro_dash.total'|trans }}</span>
         </div>
 
         <div class="table-responsive">
             <table class="table mb-0 drl-table">
                 <thead>
                     <tr>
-                        <th>{{ 'Détails de la demande'|trans }}</th>
-                        <th>{{ 'Particulier'|trans }}</th>
-                        <th>{{ 'Catégorie'|trans }}</th>
-                        <th>{{ 'Date'|trans }}</th>
-                        <th>{{ 'Statut'|trans }}</th>
-                        <th>{{ 'Action'|trans }}</th>
+                        <th>{{ 'pro_dash.th_request_details'|trans }}</th>
+                        <th>{{ 'pro_dash.th_individual'|trans }}</th>
+                        <th>{{ 'pro_dash.th_category'|trans }}</th>
+                        <th>{{ 'pro_dash.th_date'|trans }}</th>
+                        <th>{{ 'pro_dash.th_status'|trans }}</th>
+                        <th>{{ 'pro_dash.th_action'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,23 +38,23 @@
                                 </div>
                             </td>
                             <td>
-                                <span style="font-weight: 600; color: #475569;">{{ request.individual.personalInfos.firstName|default('Utilisateur'|trans) }} {{ request.individual.personalInfos.lastName|default('') }}</span>
+                                <span style="font-weight: 600; color: #475569;">{{ request.individual.personalInfos.firstName|default('pro_dash.lbl_user_default'|trans) }} {{ request.individual.personalInfos.lastName|default('') }}</span>
                             </td>
                             <td>
-                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.localizedTitle(app.request.locale)|default('Général'|trans) }}</span>
+                                <span class="drl-tag drl-tag--draft" style="background:#f8fafc; color:#475569;">{{ request.category.localizedTitle(app.request.locale)|default('pro_dash.lbl_general'|trans) }}</span>
                             </td>
                             <td>
                                 <span style="font-size: 13px; color: #64748b;">{{ request.creationDate|date('d/m/Y') }}</span>
                             </td>
                             <td>
                                 {% if request.status == 'PUBLISHED' %}
-                                    <span class="drl-tag drl-tag--sent"><i class="ph-globe" style="font-size: 11px;"></i> {{ 'Publiée'|trans }}</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="ph-globe" style="font-size: 11px;"></i> {{ 'pro_dash.status_published'|trans }}</span>
                                 {% elseif request.status in ['Accepted'] %}
-                                    <span class="drl-tag drl-tag--success"><i class="ph-check-circle" style="font-size: 11px;"></i> {{ 'Acceptée'|trans }}</span>
+                                    <span class="drl-tag drl-tag--success"><i class="ph-check-circle" style="font-size: 11px;"></i> {{ 'pro_dash.status_accepted'|trans }}</span>
                                 {% elseif request.status in ['Closed'] %}
-                                    <span class="drl-tag drl-tag--draft"><i class="ph-lock" style="font-size: 11px;"></i> {{ 'Clôturée'|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="ph-lock" style="font-size: 11px;"></i> {{ 'pro_dash.status_closed_f'|trans }}</span>
                                 {% else %}
-                                    <span class="drl-tag drl-tag--draft">{{ request.status|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft">{{ request.status }}</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -63,9 +63,9 @@
                                 <a href="{{ path('offer_send_direct', {id: request.id}) }}"
                                    class="drl-act-btn drl-act-btn--view"
                                    style="text-decoration:none; font-size:12px; padding: 5px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:4px;"
-                                   title="{{ 'Voir les détails de la demande'|trans }}">
+                                   title="{{ 'pro_dash.btn_view_details_req'|trans }}">
                                     <i class="ph-eye"></i>
-                                    <span>{{ 'Détails'|trans }}</span>
+                                    <span>{{ 'pro_dash.btn_details'|trans }}</span>
                                 </a>
 
                                 {# Submit offer — only if request is PUBLISHED and not yet Accepted/Closed #}
@@ -74,11 +74,11 @@
                                        class="drl-btn-orange"
                                        style="padding: 5px 12px; font-size:12px; text-decoration:none; border-radius:6px; display:inline-flex; align-items:center; gap:5px;">
                                         <i class="ph-paper-plane-tilt"></i>
-                                        <span>{{ 'Répondre'|trans }}</span>
+                                        <span>{{ 'pro_dash.btn_respond'|trans }}</span>
                                     </a>
                                 {% elseif request.status in ['Accepted', 'Closed'] %}
                                     <span class="drl-tag drl-tag--draft" style="font-size:11px;">
-                                        <i class="ph-lock" style="font-size:10px;"></i> {{ 'Clôturée'|trans }}
+                                        <i class="ph-lock" style="font-size:10px;"></i> {{ 'pro_dash.status_closed_f'|trans }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -90,8 +90,8 @@
                                 <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
                                     <i class="ph-inbox"></i>
                                 </div>
-                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'Aucune demande directe'|trans }}</h6>
-                                <p style="font-size:14px; color:#64748b; margin:0;">{{ "Aucune demande directe ne vous a été envoyée pour le moment"|trans }}</p>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'pro_dash.no_direct_title'|trans }}</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0;">{{ 'pro_dash.no_direct_sub'|trans }}</p>
                             </td>
                         </tr>
                     {% endfor %}

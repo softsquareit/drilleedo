@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ professional.tradeName ?: professional.companyName ?: 'Profil Professionnel'|trans }} – Drilleedo{% endblock %}
+{% block title %}{{ professional.tradeName ?: professional.companyName ?: 'pro_pub.show_page_title'|trans }} – Drilleedo{% endblock %}
 
 {% block stylesheets %}
 <style>
@@ -24,7 +24,7 @@
         background-position: center;
         position: relative;
     }
-    
+
     .zenith-hero-bg::before {
         content: '';
         position: absolute;
@@ -54,13 +54,13 @@
         overflow: hidden;
         margin-bottom: 20px;
     }
-    
+
     .zenith-avatar-large img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-    
+
     .zenith-avatar-placeholder {
         width: 100%;
         height: 100%;
@@ -74,13 +74,13 @@
     }
 
     .zenith-name {
-        
+
         font-size: 3.5rem;
         color: #fff;
         margin-bottom: 10px;
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
-    
+
     .zenith-verified-badge {
          display: inline-flex;
          align-items: center;
@@ -97,14 +97,14 @@
 
     /* Content Layout */
     .zenith-section-title {
-        
+
         font-size: 2rem;
         margin-bottom: 1.5rem;
         color: var(--zenith-primary);
         position: relative;
         padding-left: 20px;
     }
-    
+
     .zenith-section-title::before {
         content: '';
         position: absolute;
@@ -133,7 +133,7 @@
         color: #475569;
         font-size: 1.4rem;
     }
-    
+
     .zenith-grid-list li i {
         color: var(--color-primary);
         background: rgba(59, 130, 246, 0.1);
@@ -169,7 +169,7 @@
         justify-content: center;
         gap: 10px;
     }
-    
+
     .zenith-btn-primary {
         background: var(--color-primary);
         color: #fff !important;
@@ -179,7 +179,7 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
     }
-    
+
     .zenith-btn-secondary {
         background: #f1f5f9;
         color: #475569 !important;
@@ -197,14 +197,14 @@
         height: 280px;
         group: project;
     }
-    
+
     .zenith-project-card img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: 0.5s;
     }
-    
+
     .zenith-project-overlay {
         position: absolute;
         inset: 0;
@@ -216,7 +216,7 @@
         opacity: 0;
         transition: 0.3s;
     }
-    
+
     .zenith-project-card:hover img {
         transform: scale(1.1);
     }
@@ -254,9 +254,9 @@
                             <div class="mb-4">
                                 <h1 class="zenith-name">{{ professional.tradeName ?: professional.companyName ?: (professional.firstName ~ ' ' ~ professional.lastName) }}</h1>
                                 <div class="d-flex align-items-center flex-wrap gap-3">
-                                    <span class="zenith-verified-badge"><i class="ph-check-circle"></i> {{ 'Pro Vérifié'|trans }}</span>
+                                    <span class="zenith-verified-badge"><i class="ph-check-circle"></i> {{ 'pro_pub.show_verified_badge'|trans }}</span>
                                     <span class="text-white opacity-75"><i class="ph-map-pin"></i> {{ professional.city|default('Canada') }}</span>
-                                    <span class="text-white opacity-75">| {{ professional.category.localizedTitle(app.request.locale)|default('Service Professionnel'|trans) }}</span>
+                                    <span class="text-white opacity-75">| {{ professional.category.localizedTitle(app.request.locale)|default('pro_pub.show_default_service'|trans) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -272,21 +272,21 @@
         <div class="row g-5">
             <!-- Left Side Content -->
             <div class="col-lg-8">
-                
+
                 <!-- Section: About -->
                 <div class="zenith-box">
-                    <h3 class="zenith-section-title">{{ 'Bio Professionnelle'|trans }}</h3>
+                    <h3 class="zenith-section-title">{{ 'pro_pub.show_bio_title'|trans }}</h3>
                     {% if professional.about %}
                         <p style="color: #64748b; line-height: 1.8; white-space: pre-wrap;">{{ professional.about }}</p>
                     {% else %}
                         <p class="lead mb-4" style="color: #334155; font-weight: 500;">
-                            {{ "est un professionnel dévoué offrant des solutions de"|trans }} 
-                            {{ professional.category ? professional.category.localizedTitle(app.request.locale)|lower : 'rénovation'|trans }} {{ 'de haute qualité.'|trans }}
+                            {{ 'pro_pub.show_dedicated_pro'|trans }}
+                            {{ professional.category ? professional.category.localizedTitle(app.request.locale)|lower : 'pro_pub.show_renovation'|trans }} {{ 'pro_pub.show_high_quality'|trans }}
                         </p>
                         <p style="color: #64748b; line-height: 1.8;">
-                            {{ "Avec plus de"|trans }} {{ professional.expYears|default('plusieurs'|trans) }} {{ "ans d'expérience dans l'industrie, j'ai perfectionné mes compétences pour offrir des résultats exceptionnels à chaque client."|trans }}
-                            {{ "Qu'il s'agisse d'une petite réparation ou d'une installation majeure, j'apporte précision, fiabilité et un espace de travail propre à chaque intervention."|trans }}
-                            {{ "La satisfaction du client est ma priorité absolue."|trans }}
+                            {{ 'pro_pub.show_with_exp'|trans }} {{ professional.expYears|default('pro_pub.show_several'|trans) }} {{ 'pro_pub.show_exp_sentence1'|trans }}
+                            {{ 'pro_pub.show_exp_sentence2'|trans }}
+                            {{ 'pro_pub.show_exp_sentence3'|trans }}
                         </p>
                     {% endif %}
                 </div>
@@ -295,32 +295,32 @@
                 <div class="zenith-box">
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <h4 class="mb-4 font-primary">{{ 'Pourquoi m\'engager'|trans }}</h4>
+                            <h4 class="mb-4 font-primary">{{ 'pro_pub.show_why_hire'|trans }}</h4>
                             <ul class="zenith-grid-list list-unstyled">
                                 {% if professional.whyChooseUs|length > 0 %}
                                     {% for item in professional.whyChooseUs %}
                                         <li><i class="ph-medal"></i> {{ item }}</li>
                                     {% endfor %}
                                 {% else %}
-                                    <li><i class="ph-medal"></i> {{ professional.expYears|default(1) }}+ {{ "ans d'expérience"|trans }}</li>
-                                    <li><i class="ph-check-square"></i> {{ 'Qualité Garantie'|trans }}</li>
-                                    <li><i class="ph-clock"></i> {{ 'Ponctuel & Fiable'|trans }}</li>
-                                    <li><i class="ph-thumbs-up"></i> {{ 'Centré sur le client'|trans }}</li>
+                                    <li><i class="ph-medal"></i> {{ professional.expYears|default(1) }}+ {{ 'pro_pub.show_exp_years_short'|trans }}</li>
+                                    <li><i class="ph-check-square"></i> {{ 'pro_pub.show_quality'|trans }}</li>
+                                    <li><i class="ph-clock"></i> {{ 'pro_pub.show_punctual'|trans }}</li>
+                                    <li><i class="ph-thumbs-up"></i> {{ 'pro_pub.show_client_centered'|trans }}</li>
                                 {% endif %}
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            <h4 class="mb-4 font-primary">{{ 'Services Offerts'|trans }}</h4>
+                            <h4 class="mb-4 font-primary">{{ 'pro_pub.show_services_title'|trans }}</h4>
                             <ul class="zenith-grid-list list-unstyled">
                                 {% if professional.services|length > 0 %}
                                     {% for item in professional.services %}
                                         <li><i class="ph-wrench"></i> {{ item }}</li>
                                     {% endfor %}
                                 {% else %}
-                                    <li><i class="ph-wrench"></i> {{ professional.category.localizedTitle(app.request.locale)|default('Service Général'|trans) }}</li>
-                                    <li><i class="ph-clipboard-text"></i> {{ 'Consultations'|trans }}</li>
-                                    <li><i class="ph-gear-six"></i> {{ 'Maintenance & Réparation'|trans }}</li>
-                                    <li><i class="ph-package"></i> {{ 'Installations Personnalisées'|trans }}</li>
+                                    <li><i class="ph-wrench"></i> {{ professional.category.localizedTitle(app.request.locale)|default('pro_pub.show_default_service_item'|trans) }}</li>
+                                    <li><i class="ph-clipboard-text"></i> {{ 'pro_pub.show_consultations'|trans }}</li>
+                                    <li><i class="ph-gear-six"></i> {{ 'pro_pub.show_maintenance'|trans }}</li>
+                                    <li><i class="ph-package"></i> {{ 'pro_pub.show_custom_install'|trans }}</li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -328,7 +328,7 @@
                 </div>
 
                 <div class="mb-5">
-                    <h3 class="zenith-section-title">{{ 'Portfolio de Travaux'|trans }}</h3>
+                    <h3 class="zenith-section-title">{{ 'pro_pub.show_portfolio_title'|trans }}</h3>
                     <div class="row g-4">
                         {% for project in professional.projets %}
                             <div class="col-md-6">
@@ -346,7 +346,7 @@
                         {% else %}
                             <div class="col-12">
                                 <div class="p-5 text-center bg-light rounded-3 border border-dashed">
-                                    <p class="mb-0 text-muted">{{ 'Aucun projet ajouté au portfolio pour le moment.'|trans }}</p>
+                                    <p class="mb-0 text-muted">{{ 'pro_pub.show_no_projects'|trans }}</p>
                                 </div>
                             </div>
                         {% endfor %}
@@ -355,30 +355,30 @@
 
                  <div class="zenith-box p-0 overflow-hidden">
                     <div class="p-4 border-bottom">
-                         <h3 class="zenith-section-title mb-0">{{ 'Questions Fréquemment Posées'|trans }}</h3>
+                         <h3 class="zenith-section-title mb-0">{{ 'pro_pub.show_faq_title'|trans }}</h3>
                     </div>
                     <div class="accordion accordion-flush" id="accordionFAQ">
                          <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    {{ 'Comment obtenir un devis ?'|trans }}
+                                    {{ 'pro_pub.show_faq_q1'|trans }}
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body text-muted">
-                                    {{ "Veuillez utiliser le bouton 'Demander un devis' sur cette barre latérale pour m'envoyer des détails sur votre projet. Je vous recontacterai avec une estimation ou pour planifier une visite."|trans }}
+                                    {{ 'pro_pub.show_faq_a1'|trans }}
                                 </div>
                             </div>
                         </div>
                          <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    {{ 'Quelles zones desservez-vous ?'|trans }}
+                                    {{ 'pro_pub.show_faq_q2'|trans }}
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
                                 <div class="accordion-body text-muted">
-                                    {{ "Je sers principalement des clients à"|trans }} {{ professional.city|default('la région locale'|trans) }} {{ 'et les environs.'|trans }}
+                                    {{ 'pro_pub.show_faq_a2_prefix'|trans }} {{ professional.city|default('pro_pub.show_default_region'|trans) }} {{ 'pro_pub.show_faq_a2_suffix'|trans }}
                                 </div>
                             </div>
                         </div>
@@ -394,29 +394,29 @@
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         <span class="text-dark fw-bold ms-1">5.0</span>
                     </div>
-                     <h4 class="mb-4">{{ 'Travaillons ensemble'|trans }}</h4>
-                    
+                     <h4 class="mb-4">{{ 'pro_pub.show_sidebar_title'|trans }}</h4>
+
                     <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" class="pro-btn pro-btn-primary pro-btn-lg w-100 mb-3">
-                        {{ 'Demander un devis'|trans }} <i class="ph-arrow-right ms-2"></i>
+                        {{ 'pro_pub.show_btn_request_quote'|trans }} <i class="ph-arrow-right ms-2"></i>
                     </a>
                      <a href="mailto:{{ professional.email }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
-                        <i class="ph-envelope-simple me-2"></i> {{ 'Contacter le Professionnel'|trans }}
+                        <i class="ph-envelope-simple me-2"></i> {{ 'pro_pub.show_btn_contact'|trans }}
                     </a>
 
                     <hr class="my-4 opacity-10">
 
                      <ul class="list-unstyled d-flex flex-column gap-3 text-muted">
                         <li class="d-flex justify-content-between">
-                            <span>{{ 'Expérience'|trans }}</span>
-                            <span class="text-dark fw-medium">{{ professional.expYears|default(0) }} {{ 'ans'|trans }}</span>
+                            <span>{{ 'pro_pub.show_stat_experience'|trans }}</span>
+                            <span class="text-dark fw-medium">{{ professional.expYears|default(0) }} {{ 'pro_pub.show_stat_years'|trans }}</span>
                         </li>
                         <li class="d-flex justify-content-between">
-                            <span>{{ 'Projets'|trans }}</span>
-                            <span class="text-dark fw-medium">{{ professional.projets|length }} {{ 'Terminés'|trans }}</span>
+                            <span>{{ 'pro_pub.show_stat_projects'|trans }}</span>
+                            <span class="text-dark fw-medium">{{ professional.projets|length }} {{ 'pro_pub.show_stat_completed'|trans }}</span>
                         </li>
                          <li class="d-flex justify-content-between">
-                            <span>{{ 'Téléphone'|trans }}</span>
-                            <span class="text-dark fw-medium">{{ professional.phoneNum|default('Masqué'|trans) }}</span>
+                            <span>{{ 'pro_pub.show_stat_phone'|trans }}</span>
+                            <span class="text-dark fw-medium">{{ professional.phoneNum|default('pro_pub.show_phone_masked'|trans) }}</span>
                         </li>
                     </ul>
 

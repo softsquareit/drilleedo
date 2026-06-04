@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ idea.title|default('Renovation Idea') }} | Drilleedo{% endblock %}
-{% block meta_description %}{{ idea.shortDesc|default('Discover home renovation and decoration ideas on Drilleedo.')|slice(0, 160) }}{% endblock %}
-{% block meta_keywords %}{{ idea.title|default('renovation') }}, home improvement ideas, renovation inspiration Canada{% endblock %}
-{% block og_title %}{{ idea.title|default('Renovation Idea') }} | Drilleedo{% endblock %}
-{% block og_description %}{{ idea.shortDesc|default('Discover home renovation ideas on Drilleedo.')|slice(0, 200) }}{% endblock %}
+{% block title %}{{ idea.title|default('idea_detail.default_title'|trans) }} | Drilleedo{% endblock %}
+{% block meta_description %}{{ idea.shortDesc|default('idea_detail.default_meta_desc'|trans)|slice(0, 160) }}{% endblock %}
+{% block meta_keywords %}{{ idea.title|default('idea_detail.default_keyword'|trans) }}, {{ 'idea_detail.meta_keywords_suffix'|trans }}{% endblock %}
+{% block og_title %}{{ idea.title|default('idea_detail.default_title'|trans) }} | Drilleedo{% endblock %}
+{% block og_description %}{{ idea.shortDesc|default('idea_detail.default_og_desc'|trans)|slice(0, 200) }}{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_image %}
     {% if idea.mainImg %}
@@ -507,9 +507,9 @@
 
       {# Breadcrumb #}
       <div class="id-breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ path('app_home') }}">Home</a>
+        <a href="{{ path('app_home') }}">{{ 'idea_detail.breadcrumb_home'|trans }}</a>
         <i class="feather-chevron-right" aria-hidden="true" style="font-size:12px;"></i>
-        <a href="{{ path('smartideas') }}">Ideas</a>
+        <a href="{{ path('smartideas') }}">{{ 'idea_detail.breadcrumb_ideas'|trans }}</a>
         <i class="feather-chevron-right" aria-hidden="true" style="font-size:12px;"></i>
         <span style="color:rgba(255,255,255,0.5);">{{ idea.title|slice(0,40) }}…</span>
       </div>
@@ -530,7 +530,7 @@
           {% if idea.author %}
             {{ idea.author.companyName ?: idea.author.email }}
           {% else %}
-            Drilleedo Team
+            {{ 'idea_detail.author_team'|trans }}
           {% endif %}
         </span>
       </div>
@@ -586,7 +586,7 @@
         </a>
         <a href="{{ path('smartideas') }}" class="id-tag">
           <i class="fas fa-lightbulb" aria-hidden="true"></i>
-          All Ideas
+          {{ 'idea_detail.tag_all_ideas'|trans }}
         </a>
       </div>
     {% endif %}
@@ -594,19 +594,19 @@
     {# Share row #}
     <div class="id-divider"></div>
     <div style="margin-bottom:24px;">
-      <p style="font-size:13px;font-weight:700;color:#64748b;margin-bottom:10px;">Share this idea:</p>
+      <p style="font-size:13px;font-weight:700;color:#64748b;margin-bottom:10px;">{{ 'idea_detail.share_label'|trans }}</p>
       <div class="id-share-row">
         <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}"
            target="_blank" rel="noopener" class="id-share-btn id-share-btn--fb">
-          <i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook
+          <i class="fab fa-facebook-f" aria-hidden="true"></i> {{ 'idea_detail.share_facebook'|trans }}
         </a>
         <a href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ idea.title|url_encode }}"
            target="_blank" rel="noopener" class="id-share-btn id-share-btn--tw">
-          𝕏 Twitter
+          {{ 'idea_detail.share_twitter'|trans }}
         </a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ app.request.uri|url_encode }}"
            target="_blank" rel="noopener" class="id-share-btn id-share-btn--li">
-          <i class="fab fa-linkedin-in" aria-hidden="true"></i> LinkedIn
+          <i class="fab fa-linkedin-in" aria-hidden="true"></i> {{ 'idea_detail.share_linkedin'|trans }}
         </a>
       </div>
     </div>
@@ -632,7 +632,7 @@
       {% endif %}
 
       <div style="flex:1;min-width:0;">
-        <div class="id-author__label">Written by</div>
+        <div class="id-author__label">{{ 'idea_detail.written_by'|trans }}</div>
         <div class="id-author__name">
           {% if idea.author and (idea.author.type == 'Professional' or idea.author.type == 'Company') %}
             {% set authorLink = idea.author.type == 'Professional'
@@ -640,27 +640,27 @@
               : path('company_details', {id: idea.author.id, slug: idea.author.companyName|default('author')|trim|lower|replace({' ': '-'})}) %}
             <a href="{{ authorLink }}">{{ idea.author.companyName ?: idea.author.email }}</a>
           {% else %}
-            Drilleedo Team
+            {{ 'idea_detail.author_team'|trans }}
           {% endif %}
         </div>
         <div class="id-author__role">
           {% if idea.author %}
             {% if idea.author.type == 'Professional' %}
-              {{ idea.author.category ? idea.author.category.localizedTitle(app.request.locale) : 'Professional' }}
+              {{ idea.author.category ? idea.author.category.localizedTitle(app.request.locale) : 'idea_detail.author_role_pro_fallback'|trans }}
             {% elseif idea.author.type == 'Company' %}
-              Renovation Company
+              {{ 'idea_detail.author_role_company'|trans }}
             {% else %}
-              Administrator
+              {{ 'idea_detail.author_role_admin'|trans }}
             {% endif %}
           {% else %}
-            Administrator
+            {{ 'idea_detail.author_role_admin'|trans }}
           {% endif %}
         </div>
         <p class="id-author__bio">
           {% if idea.author and idea.author.type in ['Professional', 'Company'] %}
-            {{ idea.author.about|default('Discover my projects and expertise in home improvement.')|slice(0, 200) }}{{ (idea.author.about|default('')|length > 200) ? '…' : '' }}
+            {{ idea.author.about|default('idea_detail.author_bio_default'|trans)|slice(0, 200) }}{{ (idea.author.about|default('')|length > 200) ? '…' : '' }}
           {% else %}
-            Expert content reviewed and published by the Drilleedo editorial team to inspire your next home renovation project.
+            {{ 'idea_detail.author_bio_editorial'|trans }}
           {% endif %}
         </p>
       </div>
@@ -675,11 +675,11 @@
     <div class="id-sidebar-card id-pro-cta">
       <div class="id-pro-cta__body">
         <div class="id-pro-cta__ico">🏠</div>
-        <div class="id-pro-cta__title">Ready to Start This Project?</div>
-        <p class="id-pro-cta__sub">Find a verified professional in your area and get a free quote today.</p>
+        <div class="id-pro-cta__title">{{ 'idea_detail.cta_title'|trans }}</div>
+        <p class="id-pro-cta__sub">{{ 'idea_detail.cta_sub'|trans }}</p>
         <a href="{{ path('professionals_list') }}{% if idea.category %}?categories[]={{ idea.category.id }}{% endif %}"
            class="id-btn-orange">
-          Find a Pro <i class="feather-arrow-right" aria-hidden="true"></i>
+          {{ 'idea_detail.cta_btn'|trans }} <i class="feather-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
     </div>
@@ -689,7 +689,7 @@
     <div class="id-sidebar-card">
       <div class="id-sidebar-card__head">
         <i class="fas fa-lightbulb" aria-hidden="true"></i>
-        More Ideas to Explore
+        {{ 'idea_detail.related_heading'|trans }}
       </div>
       <div class="id-sidebar-card__body">
         {% for simIdea in similarIdeas %}
@@ -708,7 +708,7 @@
                 <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}">{{ simIdea.title }}</a>
               </p>
               <a href="{{ path('ideas_details', {slug: simIdea.slug}) }}" class="id-rel-link">
-                Read More →
+                {{ 'idea_detail.related_read_more'|trans }}
               </a>
             </div>
           </div>
@@ -721,16 +721,16 @@
     <div class="id-sidebar-card">
       <div class="id-sidebar-card__head">
         <i class="feather-grid" aria-hidden="true"></i>
-        Browse by Category
+        {{ 'idea_detail.browse_heading'|trans }}
       </div>
       <div class="id-sidebar-card__body">
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <a href="{{ path('smartideas') }}" class="id-tag">🏠 All Ideas</a>
-          <a href="{{ path('professionals_list') }}" class="id-tag">🍳 Kitchen</a>
-          <a href="{{ path('professionals_list') }}" class="id-tag">🛁 Bathroom</a>
-          <a href="{{ path('professionals_list') }}" class="id-tag">🌿 Landscaping</a>
-          <a href="{{ path('professionals_list') }}" class="id-tag">🎨 Painting</a>
-          <a href="{{ path('professionals_list') }}" class="id-tag">🔌 Electrical</a>
+          <a href="{{ path('smartideas') }}" class="id-tag">{{ 'idea_detail.cat_all'|trans }}</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">{{ 'idea_detail.cat_kitchen'|trans }}</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">{{ 'idea_detail.cat_bathroom'|trans }}</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">{{ 'idea_detail.cat_landscaping'|trans }}</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">{{ 'idea_detail.cat_painting'|trans }}</a>
+          <a href="{{ path('professionals_list') }}" class="id-tag">{{ 'idea_detail.cat_electrical'|trans }}</a>
         </div>
       </div>
     </div>
@@ -739,17 +739,17 @@
     <div class="id-sidebar-card">
       <div class="id-sidebar-card__head">
         <i class="feather-share-2" aria-hidden="true"></i>
-        Share This Idea
+        {{ 'idea_detail.share_heading'|trans }}
       </div>
       <div class="id-sidebar-card__body">
         <div style="display:flex;flex-direction:column;gap:8px;">
           <a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri|url_encode }}"
              target="_blank" rel="noopener" class="id-share-btn id-share-btn--fb" style="justify-content:center;">
-            <i class="fab fa-facebook-f" aria-hidden="true"></i> Share on Facebook
+            <i class="fab fa-facebook-f" aria-hidden="true"></i> {{ 'idea_detail.share_on_facebook'|trans }}
           </a>
           <a href="https://twitter.com/intent/tweet?url={{ app.request.uri|url_encode }}&text={{ idea.title|url_encode }}"
              target="_blank" rel="noopener" class="id-share-btn id-share-btn--tw" style="justify-content:center;">
-            𝕏 Share on Twitter
+            {{ 'idea_detail.share_on_twitter'|trans }}
           </a>
         </div>
       </div>

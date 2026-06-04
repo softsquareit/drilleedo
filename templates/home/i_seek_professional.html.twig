@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Je cherche un professionnel | Drilleedo Canada{% endblock %}
-{% block meta_description %}Trouvez des professionnels qualifiés dans votre région. Comparez les profils, les avis et les réalisations. Service gratuit, sans engagement.{% endblock %}
+{% block title %}{{ 'seek_pg.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'seek_pg.meta_desc'|trans }}{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -400,11 +400,11 @@
 {# ── Breadcrumb ── #}
 <div class="sk-breadcrumb">
     <div class="container">
-        <a href="{{ path('app_home') }}">Accueil</a>
+        <a href="{{ path('app_home') }}">{{ 'seek_pg.bc_home'|trans }}</a>
         <span class="sep">/</span>
-        <a href="{{ path('app_how_it_works') }}">Comment ça marche</a>
+        <a href="{{ path('app_how_it_works') }}">{{ 'seek_pg.bc_how'|trans }}</a>
         <span class="sep">/</span>
-        <strong>Je cherche un professionnel</strong>
+        <strong>{{ 'seek_pg.bc_current'|trans }}</strong>
     </div>
 </div>
 
@@ -416,19 +416,16 @@
         <div class="row align-items-end g-4">
             <div class="col-lg-6 pb-5">
                 <div class="sk-hero-eyebrow">
-                    <i class="feather-search"></i> Pour les particuliers
+                    <i class="feather-search"></i> {{ 'seek_pg.hero_eyebrow'|trans }}
                 </div>
-                <h1>Trouvez le <span class="hl">bon professionnel</span><br>pour vos travaux</h1>
-                <p class="sk-hero-lead">
-                    Parcourez des centaines de profils vérifiés, consultez les réalisations et les avis
-                    clients. Comparez facilement et contactez directement le bon partenaire — gratuitement.
-                </p>
+                <h1>{{ 'seek_pg.hero_h1'|trans|raw }}</h1>
+                <p class="sk-hero-lead">{{ 'seek_pg.hero_lead'|trans }}</p>
                 <div class="sk-hero-actions">
                     <a href="{{ path('professionals_list') }}" class="btn-sk-primary">
-                        <i class="feather-search"></i> Parcourir les professionnels
+                        <i class="feather-search"></i> {{ 'seek_pg.hero_btn_browse'|trans }}
                     </a>
                     <a href="#how-it-works" class="btn-sk-outline">
-                        <i class="feather-play-circle"></i> Comment ça marche
+                        <i class="feather-play-circle"></i> {{ 'seek_pg.hero_btn_how'|trans }}
                     </a>
                 </div>
                 <div class="sk-hero-trust">
@@ -438,33 +435,31 @@
                         <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="">
                         <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="">
                     </div>
-                    <div class="sk-trust-text">
-                        <strong>+8 000 projets</strong> complétés avec succès au Canada
-                    </div>
+                    <div class="sk-trust-text">{{ 'seek_pg.hero_trust_text'|trans|raw }}</div>
                 </div>
             </div>
             <div class="col-lg-6 sk-hero-img-col">
                 <img src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
-                     alt="Trouver un professionnel qualifié" class="sk-hero-img">
+                     alt="{{ 'seek_pg.hero_img_alt'|trans }}" class="sk-hero-img">
                 <div class="sk-float sk-float-1">
                     <div class="sk-float-icon blue"><i class="feather-users"></i></div>
                     <div>
-                        <div class="sk-float-val">+1 500</div>
-                        <div class="sk-float-lbl">Pros vérifiés</div>
+                        <div class="sk-float-val">{{ 'seek_pg.float_pros_val'|trans }}</div>
+                        <div class="sk-float-lbl">{{ 'seek_pg.float_pros_lbl'|trans }}</div>
                     </div>
                 </div>
                 <div class="sk-float sk-float-2">
                     <div class="sk-float-icon green"><i class="feather-star"></i></div>
                     <div>
-                        <div class="sk-float-val">★ 4,8/5</div>
-                        <div class="sk-float-lbl">Note moyenne</div>
+                        <div class="sk-float-val">{{ 'seek_pg.float_rating_val'|trans }}</div>
+                        <div class="sk-float-lbl">{{ 'seek_pg.float_rating_lbl'|trans }}</div>
                     </div>
                 </div>
                 <div class="sk-float sk-float-3">
                     <div class="sk-float-icon orange"><i class="feather-gift"></i></div>
                     <div>
-                        <div class="sk-float-val">100 %</div>
-                        <div class="sk-float-lbl">Gratuit pour vous</div>
+                        <div class="sk-float-val">{{ 'seek_pg.float_free_val'|trans }}</div>
+                        <div class="sk-float-lbl">{{ 'seek_pg.float_free_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
@@ -479,20 +474,20 @@
     <div class="container">
         <div class="sk-stats-grid">
             <div class="sk-stat-item">
-                <div class="sk-stat-val">+1 500</div>
-                <div class="sk-stat-lbl">Professionnels actifs</div>
+                <div class="sk-stat-val">{{ 'seek_pg.stat_pros_val'|trans }}</div>
+                <div class="sk-stat-lbl">{{ 'seek_pg.stat_pros_lbl'|trans }}</div>
             </div>
             <div class="sk-stat-item">
-                <div class="sk-stat-val">+8 000</div>
-                <div class="sk-stat-lbl">Projets réalisés</div>
+                <div class="sk-stat-val">{{ 'seek_pg.stat_projects_val'|trans }}</div>
+                <div class="sk-stat-lbl">{{ 'seek_pg.stat_projects_lbl'|trans }}</div>
             </div>
             <div class="sk-stat-item">
-                <div class="sk-stat-val">★ 4,8</div>
-                <div class="sk-stat-lbl">Note moyenne</div>
+                <div class="sk-stat-val">{{ 'seek_pg.stat_rating_val'|trans }}</div>
+                <div class="sk-stat-lbl">{{ 'seek_pg.stat_rating_lbl'|trans }}</div>
             </div>
             <div class="sk-stat-item">
                 <div class="sk-stat-val">0<span> $</span></div>
-                <div class="sk-stat-lbl">Frais pour les particuliers</div>
+                <div class="sk-stat-lbl">{{ 'seek_pg.stat_fees_lbl'|trans }}</div>
             </div>
         </div>
     </div>
@@ -507,46 +502,40 @@
             <div class="col-lg-5">
                 <div class="sk-img-wrap">
                     <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
-                         alt="Professionnel de confiance" class="sk-objectif-img">
+                         alt="{{ 'seek_pg.objectif_img_alt'|trans }}" class="sk-objectif-img">
                     <div class="sk-img-badge">
                         <div class="sk-img-badge-icon"><i class="feather-shield"></i></div>
                         <div>
-                            <div class="sk-img-badge-val">Profils vérifiés</div>
-                            <div class="sk-img-badge-lbl">100 % authentiques</div>
+                            <div class="sk-img-badge-val">{{ 'seek_pg.objectif_badge_val'|trans }}</div>
+                            <div class="sk-img-badge-lbl">{{ 'seek_pg.objectif_badge_lbl'|trans }}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-7">
-                <div class="sk-label blue"><i class="feather-target"></i> Notre objectif</div>
-                <h2 class="sk-section-title">
-                    Trouver un expert de confiance,<br>
-                    <span class="hl">sans effort</span>
-                </h2>
-                <p class="sk-section-sub">
-                    Nous regroupons les meilleurs professionnels du Québec pour vous permettre de
-                    comparer, contacter et choisir en toute liberté — sans frais et sans engagement.
-                </p>
+                <div class="sk-label blue"><i class="feather-target"></i> {{ 'seek_pg.objectif_label'|trans }}</div>
+                <h2 class="sk-section-title">{{ 'seek_pg.objectif_h2'|trans|raw }}</h2>
+                <p class="sk-section-sub">{{ 'seek_pg.objectif_sub'|trans }}</p>
                 <ul class="sk-check-list">
                     <li>
                         <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Accès à des centaines de profils dans toutes les catégories de travaux, partout au Québec</span>
+                        <span>{{ 'seek_pg.objectif_check1'|trans }}</span>
                     </li>
                     <li>
                         <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Profils détaillés : photos de réalisations, services offerts, avis clients certifiés</span>
+                        <span>{{ 'seek_pg.objectif_check2'|trans }}</span>
                     </li>
                     <li>
                         <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Contact direct et rapide avec le professionnel de votre choix</span>
+                        <span>{{ 'seek_pg.objectif_check3'|trans }}</span>
                     </li>
                     <li>
                         <div class="sk-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Service entièrement gratuit, sans abonnement ni commission cachée</span>
+                        <span>{{ 'seek_pg.objectif_check4'|trans }}</span>
                     </li>
                 </ul>
                 <a href="{{ path('professionals_list') }}" class="btn-sk-primary">
-                    <i class="feather-arrow-right"></i> Voir les professionnels
+                    <i class="feather-arrow-right"></i> {{ 'seek_pg.objectif_btn'|trans }}
                 </a>
             </div>
         </div>
@@ -559,84 +548,71 @@
 <section class="sk-how" id="how-it-works">
     <div class="container">
         <div class="sk-how-header">
-            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:10px;">Simple et rapide</span>
-            <h2 class="sk-section-title" style="margin-bottom:8px;">Comment ça fonctionne</h2>
+            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:10px;">{{ 'seek_pg.how_eyebrow'|trans }}</span>
+            <h2 class="sk-section-title" style="margin-bottom:8px;">{{ 'seek_pg.how_h2'|trans }}</h2>
             <p style="font-size:15px;color:var(--M);max-width:520px;margin:0 auto;">
-                4 étapes pour trouver le professionnel qu'il vous faut
+                {{ 'seek_pg.how_sub'|trans }}
             </p>
         </div>
         <div class="sk-steps-timeline">
 
             <div class="sk-step-row">
                 <div class="sk-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/hero_diy.jpg') }}" alt="Créer votre profil">
+                    <img src="{{ asset('assets/drilleedo/images/stock/hero_diy.jpg') }}" alt="{{ 'seek_pg.step1_img_alt'|trans }}">
                 </div>
                 <div class="sk-step-center">
                     <div class="sk-step-circle">1</div>
                     <div class="sk-step-line"></div>
                 </div>
                 <div class="sk-step-content">
-                    <div class="sk-step-tag">Étape 1</div>
-                    <div class="sk-step-title">Créez votre profil</div>
-                    <p class="sk-step-text">
-                        Inscrivez-vous en quelques minutes pour sauvegarder vos recherches, contacter des
-                        professionnels et suivre vos échanges depuis votre espace personnel.
-                    </p>
+                    <div class="sk-step-tag">{{ 'seek_pg.step1_tag'|trans }}</div>
+                    <div class="sk-step-title">{{ 'seek_pg.step1_title'|trans }}</div>
+                    <p class="sk-step-text">{{ 'seek_pg.step1_text'|trans }}</p>
                 </div>
             </div>
 
             <div class="sk-step-row reverse">
                 <div class="sk-step-content">
-                    <div class="sk-step-tag">Étape 2</div>
-                    <div class="sk-step-title">Recherchez par catégorie et région</div>
-                    <p class="sk-step-text">
-                        Utilisez nos filtres pour cibler les professionnels selon votre type de projet
-                        et votre localisation. Trouvez exactement ce dont vous avez besoin.
-                    </p>
+                    <div class="sk-step-tag">{{ 'seek_pg.step2_tag'|trans }}</div>
+                    <div class="sk-step-title">{{ 'seek_pg.step2_title'|trans }}</div>
+                    <p class="sk-step-text">{{ 'seek_pg.step2_text'|trans }}</p>
                 </div>
                 <div class="sk-step-center">
                     <div class="sk-step-circle">2</div>
                     <div class="sk-step-line"></div>
                 </div>
                 <div class="sk-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/cat_plumber.jpg') }}" alt="Recherche">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_plumber.jpg') }}" alt="{{ 'seek_pg.step2_img_alt'|trans }}">
                 </div>
             </div>
 
             <div class="sk-step-row">
                 <div class="sk-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/cat_electrician.jpg') }}" alt="Comparer">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_electrician.jpg') }}" alt="{{ 'seek_pg.step3_img_alt'|trans }}">
                 </div>
                 <div class="sk-step-center">
                     <div class="sk-step-circle">3</div>
                     <div class="sk-step-line"></div>
                 </div>
                 <div class="sk-step-content">
-                    <div class="sk-step-tag">Étape 3</div>
-                    <div class="sk-step-title">Comparez les professionnels</div>
-                    <p class="sk-step-text">
-                        Consultez les informations clés : services offerts, photos de réalisations,
-                        avis clients et expériences. Évaluez plusieurs profils pour choisir celui
-                        qui correspond le mieux à vos attentes.
-                    </p>
+                    <div class="sk-step-tag">{{ 'seek_pg.step3_tag'|trans }}</div>
+                    <div class="sk-step-title">{{ 'seek_pg.step3_title'|trans }}</div>
+                    <p class="sk-step-text">{{ 'seek_pg.step3_text'|trans }}</p>
                 </div>
             </div>
 
             <div class="sk-step-row reverse">
                 <div class="sk-step-content">
-                    <div class="sk-step-tag">Étape 4</div>
-                    <div class="sk-step-title">Contactez directement</div>
-                    <p class="sk-step-text">
-                        Entrez en contact avec le professionnel sélectionné pour discuter de votre
-                        projet, obtenir un devis et démarrer vos travaux en toute confiance.
-                    </p>
+                    <div class="sk-step-tag">{{ 'seek_pg.step4_tag'|trans }}</div>
+                    <div class="sk-step-title">{{ 'seek_pg.step4_title'|trans }}</div>
+                    <p class="sk-step-text">{{ 'seek_pg.step4_text'|trans }}</p>
                 </div>
                 <div class="sk-step-center">
                     <div class="sk-step-circle">4</div>
                     <div class="sk-step-line"></div>
                 </div>
                 <div class="sk-step-img-col">
-                    <img src="{{ asset('assets/drilleedo/images/stock/cat_painter.jpg') }}" alt="Contact">
+                    <img src="{{ asset('assets/drilleedo/images/stock/cat_painter.jpg') }}" alt="{{ 'seek_pg.step4_img_alt'|trans }}">
                 </div>
             </div>
 
@@ -653,40 +629,37 @@
             <div class="col-lg-6 order-lg-2">
                 <div class="sk-mission-img-wrap">
                     <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
-                         alt="Notre mission" class="sk-mission-img">
+                         alt="{{ 'seek_pg.mission_img_alt'|trans }}" class="sk-mission-img">
                     <div class="sk-mission-img-tag">
-                        <div class="sk-mission-img-tag-num">98 %</div>
-                        <div class="sk-mission-img-tag-lbl">trouvent leur pro</div>
+                        <div class="sk-mission-img-tag-num">{{ 'seek_pg.mission_img_tag_num'|trans }}</div>
+                        <div class="sk-mission-img-tag-lbl">{{ 'seek_pg.mission_img_tag_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 order-lg-1">
-                <div class="sk-mission-tag"><i class="feather-flag"></i> Notre mission</div>
-                <h2>Simplifier la recherche<br>d'un <span>expert de confiance</span></h2>
-                <p class="sk-mission-lead">
-                    Plus besoin de chercher sur plusieurs plateformes. Tout est centralisé pour vous
-                    permettre de trouver le bon professionnel en quelques clics.
-                </p>
+                <div class="sk-mission-tag"><i class="feather-flag"></i> {{ 'seek_pg.mission_tag'|trans }}</div>
+                <h2>{{ 'seek_pg.mission_h2'|trans|raw }}</h2>
+                <p class="sk-mission-lead">{{ 'seek_pg.mission_lead'|trans }}</p>
                 <div class="sk-mission-points">
                     <div class="sk-mission-point">
                         <div class="sk-mission-icon"><i class="feather-shield"></i></div>
                         <div>
-                            <div class="sk-mission-pt-title">Qualité et fiabilité garanties</div>
-                            <div class="sk-mission-pt-text">Chaque profil est examiné. Avis vérifiés et réalisations visibles avant de contacter.</div>
+                            <div class="sk-mission-pt-title">{{ 'seek_pg.mission_pt1_title'|trans }}</div>
+                            <div class="sk-mission-pt-text">{{ 'seek_pg.mission_pt1_text'|trans }}</div>
                         </div>
                     </div>
                     <div class="sk-mission-point">
                         <div class="sk-mission-icon"><i class="feather-clock"></i></div>
                         <div>
-                            <div class="sk-mission-pt-title">Gagnez un temps précieux</div>
-                            <div class="sk-mission-pt-text">Tous les professionnels qualifiés de votre région, dans un seul endroit centralisé.</div>
+                            <div class="sk-mission-pt-title">{{ 'seek_pg.mission_pt2_title'|trans }}</div>
+                            <div class="sk-mission-pt-text">{{ 'seek_pg.mission_pt2_text'|trans }}</div>
                         </div>
                     </div>
                     <div class="sk-mission-point">
                         <div class="sk-mission-icon"><i class="feather-heart"></i></div>
                         <div>
-                            <div class="sk-mission-pt-title">Expérience sans stress</div>
-                            <div class="sk-mission-pt-text">Parcourez, comparez et décidez à votre rythme. Aucune pression, aucuns frais.</div>
+                            <div class="sk-mission-pt-title">{{ 'seek_pg.mission_pt3_title'|trans }}</div>
+                            <div class="sk-mission-pt-text">{{ 'seek_pg.mission_pt3_text'|trans }}</div>
                         </div>
                     </div>
                 </div>
@@ -701,37 +674,37 @@
 <section class="sk-adv">
     <div class="container">
         <div class="text-center">
-            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:10px;">Ce que vous gagnez</span>
-            <h2 class="sk-section-title" style="margin-bottom:8px;">Vos avantages</h2>
+            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:10px;">{{ 'seek_pg.adv_eyebrow'|trans }}</span>
+            <h2 class="sk-section-title" style="margin-bottom:8px;">{{ 'seek_pg.adv_h2'|trans }}</h2>
             <p style="font-size:15px;color:var(--M);max-width:500px;margin:0 auto;">
-                Des outils conçus pour vous aider à faire le meilleur choix, sans effort.
+                {{ 'seek_pg.adv_sub'|trans }}
             </p>
         </div>
         <div class="sk-adv-grid">
             <div class="sk-adv-card">
                 <div class="sk-adv-icon"><i class="feather-check-circle"></i></div>
-                <div class="sk-adv-title">Choix libre et personnalisé</div>
-                <p class="sk-adv-text">Aucune obligation, aucune pression. Vous parcourez les profils à votre rythme et décidez en toute autonomie.</p>
+                <div class="sk-adv-title">{{ 'seek_pg.adv1_title'|trans }}</div>
+                <p class="sk-adv-text">{{ 'seek_pg.adv1_text'|trans }}</p>
             </div>
             <div class="sk-adv-card">
                 <div class="sk-adv-icon"><i class="feather-shield"></i></div>
-                <div class="sk-adv-title">Profils vérifiés et détaillés</div>
-                <p class="sk-adv-text">Chaque professionnel fournit ses compétences, zones d'intervention et photos de réalisations. Vous savez à qui vous avez affaire.</p>
+                <div class="sk-adv-title">{{ 'seek_pg.adv2_title'|trans }}</div>
+                <p class="sk-adv-text">{{ 'seek_pg.adv2_text'|trans }}</p>
             </div>
             <div class="sk-adv-card">
                 <div class="sk-adv-icon"><i class="feather-star"></i></div>
-                <div class="sk-adv-title">Avis clients certifiés</div>
-                <p class="sk-adv-text">Consultez les évaluations laissées par d'autres clients. Des avis authentiques pour décider en toute confiance.</p>
+                <div class="sk-adv-title">{{ 'seek_pg.adv3_title'|trans }}</div>
+                <p class="sk-adv-text">{{ 'seek_pg.adv3_text'|trans }}</p>
             </div>
             <div class="sk-adv-card">
                 <div class="sk-adv-icon"><i class="feather-zap"></i></div>
-                <div class="sk-adv-title">Rapidité de prise de contact</div>
-                <p class="sk-adv-text">Un formulaire simple et direct. Le professionnel reçoit votre message immédiatement et peut vous répondre rapidement.</p>
+                <div class="sk-adv-title">{{ 'seek_pg.adv4_title'|trans }}</div>
+                <p class="sk-adv-text">{{ 'seek_pg.adv4_text'|trans }}</p>
             </div>
             <div class="sk-adv-card">
                 <div class="sk-adv-icon"><i class="feather-gift"></i></div>
-                <div class="sk-adv-title">Service 100 % gratuit</div>
-                <p class="sk-adv-text">Aucun frais pour les particuliers. Aucun abonnement, aucune commission cachée. Toujours gratuit.</p>
+                <div class="sk-adv-title">{{ 'seek_pg.adv5_title'|trans }}</div>
+                <p class="sk-adv-text">{{ 'seek_pg.adv5_text'|trans }}</p>
             </div>
         </div>
     </div>
@@ -744,12 +717,9 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-5">
-                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:12px;">Ils nous font confiance</span>
-                <h2 class="sk-section-title">Des milliers de particuliers<br>satisfaits</h2>
-                <p class="sk-section-sub">
-                    Partout au Québec, des propriétaires ont trouvé leur professionnel idéal
-                    grâce à Drilleedo. Rejoignez une communauté grandissante.
-                </p>
+                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--S);margin-bottom:12px;">{{ 'seek_pg.proof_eyebrow'|trans }}</span>
+                <h2 class="sk-section-title">{{ 'seek_pg.proof_h2'|trans|raw }}</h2>
+                <p class="sk-section-sub">{{ 'seek_pg.proof_sub'|trans }}</p>
                 <div class="sk-proof-faces">
                     <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="" class="sk-proof-face">
                     <img src="{{ asset('assets/drilleedo/images/team/team-02.jpg') }}" alt="" class="sk-proof-face">
@@ -763,38 +733,30 @@
                 <div class="sk-proof-stats">
                     <div>
                         <div class="sk-proof-stat-num">★★★★★</div>
-                        <div class="sk-proof-stat-lbl">Satisfaction clients</div>
+                        <div class="sk-proof-stat-lbl">{{ 'seek_pg.proof_stat1_lbl'|trans }}</div>
                     </div>
                     <div class="sk-proof-divider"></div>
                     <div>
-                        <div class="sk-proof-stat-num">98 %</div>
-                        <div class="sk-proof-stat-lbl">Trouvent leur pro</div>
+                        <div class="sk-proof-stat-num">{{ 'seek_pg.proof_stat2_num'|trans }}</div>
+                        <div class="sk-proof-stat-lbl">{{ 'seek_pg.proof_stat2_lbl'|trans }}</div>
                     </div>
                     <div class="sk-proof-divider"></div>
                     <div>
-                        <div class="sk-proof-stat-num">+8 000</div>
-                        <div class="sk-proof-stat-lbl">Projets réalisés</div>
+                        <div class="sk-proof-stat-num">{{ 'seek_pg.proof_stat3_val'|trans }}</div>
+                        <div class="sk-proof-stat-lbl">{{ 'seek_pg.proof_stat3_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="sk-testimonial">
                     <div class="sk-stars">★★★★★</div>
-                    <p class="sk-testimonial-text">
-                        "J'ai trouvé un excellent plombier en moins de 24h. Les profils sont clairs,
-                        les avis sont fiables et le contact s'est fait facilement. J'ai pu comparer
-                        3 professionnels avant de choisir. Je recommande fortement Drilleedo à tous
-                        mes proches qui cherchent un entrepreneur sérieux."
-                    </p>
-                    <div class="sk-testimonial-author">— Marie-Josée L., Montréal</div>
+                    <p class="sk-testimonial-text">{{ 'seek_pg.testimonial1_text'|trans }}</p>
+                    <div class="sk-testimonial-author">{{ 'seek_pg.testimonial1_author'|trans }}</div>
                 </div>
                 <div class="sk-testimonial mt-3">
                     <div class="sk-stars">★★★★★</div>
-                    <p class="sk-testimonial-text">
-                        "Service rapide et professionnel. J'ai pu trouver un électricien certifié
-                        dans ma région en quelques minutes. Très pratique et complètement gratuit !"
-                    </p>
-                    <div class="sk-testimonial-author">— Robert M., Québec</div>
+                    <p class="sk-testimonial-text">{{ 'seek_pg.testimonial2_text'|trans }}</p>
+                    <div class="sk-testimonial-author">{{ 'seek_pg.testimonial2_author'|trans }}</div>
                 </div>
             </div>
         </div>
@@ -806,18 +768,18 @@
 ══════════════════════ #}
 <section class="sk-cta">
     <div class="container" style="position:relative;z-index:2;">
-        <h2>Trouvez votre <span>professionnel</span><br>dès maintenant</h2>
-        <p>Des centaines de professionnels qualifiés vous attendent sur Drilleedo.<br>Gratuit, rapide, sans engagement.</p>
+        <h2>{{ 'seek_pg.cta_h2'|trans|raw }}</h2>
+        <p>{{ 'seek_pg.cta_p'|trans|raw }}</p>
         <div class="sk-cta-actions">
             <a href="{{ path('professionals_list') }}" class="btn-sk-primary">
-                <i class="feather-search"></i> Parcourir les professionnels
+                <i class="feather-search"></i> {{ 'seek_pg.cta_btn_browse'|trans }}
             </a>
             <a href="{{ path('app_register') }}" class="btn-sk-outline">
-                <i class="feather-user-plus"></i> Créer un compte gratuit
+                <i class="feather-user-plus"></i> {{ 'seek_pg.cta_btn_register'|trans }}
             </a>
         </div>
         <p class="sk-cta-note">
-            <i class="feather-lock"></i> Aucun frais · Aucun engagement · Résultats immédiats
+            <i class="feather-lock"></i> {{ 'seek_pg.cta_note'|trans }}
         </p>
     </div>
 </section>

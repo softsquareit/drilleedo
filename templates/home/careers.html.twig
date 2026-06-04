@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Careers | Join the Drilleedo Team in Canada{% endblock %}
-{% block meta_description %}Explore career opportunities at Drilleedo. Join our mission to revolutionize the Canadian home improvement industry.{% endblock %}
+{% block title %}{{ 'careers.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'careers.meta_desc'|trans }}{% endblock %}
 
-{% block og_title %}Careers | Drilleedo{% endblock %}
-{% block og_description %}Join our team and help build the future of home renovation in Canada.{% endblock %}
+{% block og_title %}{{ 'careers.meta_title'|trans }}{% endblock %}
+{% block og_description %}{{ 'careers.meta_desc'|trans }}{% endblock %}
 
 {% block body %}
     <!-- Breadcrumb Area -->
@@ -12,13 +12,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h1 class="title">Careers at Drilleedo</h1>
+                    <h1 class="title">{{ 'careers.page_title'|trans }}</h1>
                     <ul class="page-list" aria-label="Breadcrumbs">
-                        <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
+                        <li class="rbt-breadcrumb-item"><a href="{{ path('app_home') }}">{{ 'careers.breadcrumb_home'|trans }}</a></li>
                         <li>
                             <div class="icon-right"><i class="feather-chevron-right" aria-hidden="true"></i></div>
                         </li>
-                        <li class="rbt-breadcrumb-item active" aria-current="page">Careers</li>
+                        <li class="rbt-breadcrumb-item active" aria-current="page">{{ 'careers.breadcrumb_current'|trans }}</li>
                     </ul>
                 </div>
             </div>
@@ -32,22 +32,20 @@
                 <div class="col-lg-6">
                     <div class="rbt-accordion-style accordion">
                         <div class="section-title text-start mb--40">
-                            <span class="subtitle bg-primary-opacity">JOIN OUR TEAM</span>
-                            <h2 class="title">Build the Future of Home Improvement</h2>
+                            <span class="subtitle bg-primary-opacity">{{ 'careers.eyebrow'|trans }}</span>
+                            <h2 class="title">{{ 'careers.h2'|trans }}</h2>
                             <p class="description mt--20">
-                                We are always looking for passionate, driven individuals to join our growing team in Toronto and across Canada. 
-                                At Drilleedo, we value innovation, transparency, and a strong commitment to empowering homeowners and professionals alike.
+                                {{ 'careers.p1'|trans }}
                             </p>
                             <p class="description mt--15">
-                                Currently, we don't have any specific roles actively hiring, but we are expanding quickly! 
-                                If you believe you’d be a great fit for our engineering, marketing, or support teams, we'd love to hear from you.
+                                {{ 'careers.p2'|trans }}
                             </p>
                         </div>
-                        
+
                         <div class="contact-action mt--30">
                             <a href="mailto:careers@drilleedo.com" class="rbt-btn btn-gradient hover-icon-reverse radius-round">
                                 <span class="icon-reverse-wrapper">
-                                    <span class="btn-text">Email our Hiring Team</span>
+                                    <span class="btn-text">{{ 'careers.cta'|trans }}</span>
                                     <span class="btn-icon"><i class="feather-mail"></i></span>
                                     <span class="btn-icon"><i class="feather-mail"></i></span>
                                 </span>
@@ -58,7 +56,7 @@
 
                 <div class="col-lg-6">
                     <div class="thumbnail">
-                        <img class="w-100 radius-10 shadow-sm" src="{{ asset('assets/drilleedo/images/team/man.png') }}" alt="Drilleedo Team Member">
+                        <img class="w-100 radius-10 shadow-sm" src="{{ asset('assets/drilleedo/images/team/man.png') }}" alt="{{ 'careers.img_alt'|trans }}">
                     </div>
                 </div>
             </div>

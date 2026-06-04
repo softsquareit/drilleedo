@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Top Renovation Professionals in {{ cityName }} | Drilleedo{% endblock %}
-{% block meta_description %}Find and compare the best home renovation professionals and contractors in {{ cityName }}. Get free local quotes for plumbing, electrical, and remodeling services on Drilleedo.{% endblock %}
+{% block title %}{{ 'city_landing.hero_title_prefix'|trans }} {{ cityName }} | Drilleedo{% endblock %}
+{% block meta_description %}{{ 'city_landing.hero_desc_prefix'|trans }} {{ cityName }}. {{ 'city_landing.hero_tagline_suffix'|trans }}.{% endblock %}
 {% block meta_keywords %}renovation {{ cityName }}, contractors {{ cityName }}, hire professional {{ cityName }}, home improvement {{ cityName }}, {{ cityName }} plumbers, {{ cityName }} electricians{% endblock %}
-{% block og_title %}Top Home Renovation Professionals in {{ cityName }} | Drilleedo{% endblock %}
-{% block og_description %}Get free quotes from verified local professionals in {{ cityName }}. Read reviews and compare top-rated contractors for your next home project.{% endblock %}
+{% block og_title %}{{ 'city_landing.hero_title_prefix'|trans }} {{ cityName }} | Drilleedo{% endblock %}
+{% block og_description %}{{ 'city_landing.hero_tagline_prefix'|trans }} {{ totalResults >= 12 ? '12+' : totalResults }} {{ 'city_landing.hero_tagline_suffix'|trans }} {{ cityName }}.{% endblock %}
 
 {% block structured_data %}
 {{ parent() }}
@@ -22,9 +22,9 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('app_home')|escape('html_attr') }}"},
+        {"@type": "ListItem", "position": 1, "name": "{{ 'city_landing.breadcrumb_home'|trans }}", "item": "{{ url('app_home')|escape('html_attr') }}"},
         {"@type": "ListItem", "position": 2, "name": "Cities", "item": "{{ url('professionals_list')|escape('html_attr') }}"},
-        {"@type": "ListItem", "position": 3, "name": "Renovations in {{ cityName|escape('html_attr') }}"}
+        {"@type": "ListItem", "position": 3, "name": "{{ 'city_landing.hero_title_prefix'|trans }} {{ cityName|escape('html_attr') }}"}
     ]
 }
 </script>
@@ -43,7 +43,7 @@
                             <!-- Start Breadcrumb Area -->
                             <ul class="page-list">
                                 <li class="rbt-breadcrumb-item">
-                                    <a href="{{ path('app_home') }}">Home</a>
+                                    <a href="{{ path('app_home') }}">{{ 'city_landing.breadcrumb_home'|trans }}</a>
                                 </li>
                                 <li>
                                     <div class="icon-right">
@@ -51,26 +51,26 @@
                                     </div>
                                 </li>
                                 <li class="rbt-breadcrumb-item active">
-                                    {{ cityName }} Professionals
+                                    {{ cityName }} {{ 'city_landing.breadcrumb_suffix'|trans }}
                                 </li>
                             </ul>
                             <!-- End Breadcrumb Area -->
 
                             <div class="title-wrapper mb-3">
-                                <h1 class="hero-main-title" style="font-size: var(--h1);">Top Renovation Experts in <span class="theme-gradient">{{ cityName }}</span></h1>
+                                <h1 class="hero-main-title" style="font-size: var(--h1);">{{ 'city_landing.hero_title_prefix'|trans }} <span class="theme-gradient">{{ cityName }}</span></h1>
                             </div>
-                            <span class="hero-tagline-orange">Connect with {{ totalResults >= 12 ? '12+' : totalResults }} trusted professionals</span>
+                            <span class="hero-tagline-orange">{{ 'city_landing.hero_tagline_prefix'|trans }} {{ totalResults >= 12 ? '12+' : totalResults }} {{ 'city_landing.hero_tagline_suffix'|trans }}</span>
                             <p class="description">
-                                <b>Browse verified contractors, read real client reviews, and get free quotes for your next home project in {{ cityName }}.</b>
+                                <b>{{ 'city_landing.hero_desc_prefix'|trans }} {{ cityName }}.</b>
                             </p>
-                            
+
                             <div class="about-buttons-row mt-4 d-flex flex-wrap gap-3">
-                                <a href="#pro-grid" class="about-pill-btn btn-solid-blue">Browse {{ cityName }} Pros</a>
+                                <a href="#pro-grid" class="about-pill-btn btn-solid-blue">{{ 'city_landing.btn_browse_prefix'|trans }} {{ cityName }} {{ 'city_landing.btn_browse_suffix'|trans }}</a>
                                 <a href="{{ path('app_register') }}" class="about-pill-btn" style="background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.6); color:#fff; backdrop-filter:blur(4px);">
-                                    <i class="feather-briefcase me-1"></i> Join as a Pro in {{ cityName }}
+                                    <i class="feather-briefcase me-1"></i> {{ 'city_landing.btn_join_prefix'|trans }} {{ cityName }}
                                 </a>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -92,25 +92,24 @@
                         <div style="width:72px;height:72px;background:rgba(20,86,140,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;">
                             <i class="feather-map-pin" style="font-size:2rem;color:var(--color-primary);"></i>
                         </div>
-                        <h4 style="font-weight:700;color:#1e293b;">Coming soon to {{ cityName }}</h4>
+                        <h4 style="font-weight:700;color:#1e293b;">{{ 'city_landing.coming_soon_prefix'|trans }} {{ cityName }}</h4>
                         <p class="text-muted" style="font-size:1rem;line-height:1.6;">
-                            We're actively growing our network in {{ cityName }}. In the meantime, browse
-                            professionals across all of Canada or be the first pro in your city.
+                            {{ 'city_landing.coming_soon_desc_prefix'|trans }} {{ cityName }}. {{ 'city_landing.coming_soon_desc_suffix'|trans }}
                         </p>
                         <div class="d-flex flex-wrap gap-3 justify-content-center">
-                            <a href="{{ path('professionals_list') }}" class="rbt-btn btn-gradient">Browse All Professionals</a>
-                            <a href="{{ path('app_register') }}" class="rbt-btn btn-border">Join as a Pro in {{ cityName }}</a>
+                            <a href="{{ path('professionals_list') }}" class="rbt-btn btn-gradient">{{ 'city_landing.browse_all'|trans }}</a>
+                            <a href="{{ path('app_register') }}" class="rbt-btn btn-border">{{ 'city_landing.btn_join_prefix'|trans }} {{ cityName }}</a>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            
+
             {% if totalResults > 0 %}
             <div class="row mt--60">
                 <div class="col-12 text-center">
-                    <p class="mb-4">Looking for someone specific or need a different location?</p>
-                    <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border">Search All of Canada</a>
+                    <p class="mb-4">{{ 'city_landing.search_hint'|trans }}</p>
+                    <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border">{{ 'city_landing.search_all'|trans }}</a>
                 </div>
             </div>
             {% endif %}

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pro Packages & Pricing | Drilleedo – Grow Your Renovation Business{% endblock %}
-{% block meta_description %}Explore Drilleedo's professional plans. Get featured placement, priority support, and increased visibility for your renovation business in Canada.{% endblock %}
-{% block og_title %}Pro Packages & Pricing | Drilleedo{% endblock %}
-{% block og_description %}Explore Drilleedo's professional plans for renovation businesses.{% endblock %}
+{% block title %}{{ 'packages.meta_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'packages.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'packages.meta_title'|trans }}{% endblock %}
+{% block og_description %}{{ 'packages.meta_desc'|trans }}{% endblock %}
 
 {% block body %}
 <main id="main-content">
@@ -315,18 +315,18 @@
   <div class="container">
     <div class="gyb-hero__inner gyb-scroll">
       <div class="gyb-eyebrow">
-        <i class="feather-award"></i> Pricing Plans
+        <i class="feather-award"></i> {{ 'packages.hero_eyebrow'|trans }}
       </div>
       <h1 class="gyb-hero__title" id="hero-title">
-        Choose Your Growth <span>Plan</span>
+        {{ 'packages.hero_title'|trans }} <span>{{ 'packages.hero_title_span'|trans }}</span>
       </h1>
       <p class="gyb-hero__sub">
-        Simple, transparent pricing. Invest in your business and get access to exclusive, high-value leads from Canadian homeowners.
+        {{ 'packages.hero_sub'|trans }}
       </p>
-      
+
       <div class="gyb-billing-toggle">
-        <button class="gyb-billing-btn active" id="btn-monthly">Monthly</button>
-        <button class="gyb-billing-btn" id="btn-yearly">Yearly <span class="gyb-save-badge">Save 20%</span></button>
+        <button class="gyb-billing-btn active" id="btn-monthly">{{ 'packages.billing_monthly'|trans }}</button>
+        <button class="gyb-billing-btn" id="btn-yearly">{{ 'packages.billing_yearly'|trans }} <span class="gyb-save-badge">{{ 'packages.billing_save'|trans }}</span></button>
       </div>
     </div>
   </div>
@@ -338,65 +338,65 @@
 <section class="gyb-section bg-color-white" style="position: relative; margin-top: -60px; padding-top: 0; background: transparent;">
   <div class="container">
     <div class="gyb-pricing-grid gyb-scroll">
-      
+
       {# Starter #}
       <div class="gyb-pricing-card">
-        <h3 class="gyb-plan-name">Starter</h3>
-        <p class="gyb-plan-desc">Perfect for individual professionals starting their online journey.</p>
+        <h3 class="gyb-plan-name">{{ 'packages.starter_name'|trans }}</h3>
+        <p class="gyb-plan-desc">{{ 'packages.starter_desc'|trans }}</p>
         <div class="gyb-plan-price">
            <span class="gyb-plan-currency">$</span>
            <span class="gyb-price-val" data-monthly="9.99" data-yearly="99">9.99</span>
-           <span class="gyb-plan-period">/mo</span>
+           <span class="gyb-plan-period">{{ 'packages.plan_period'|trans }}</span>
         </div>
-        <a href="{{ path('app_register') }}" class="gyb-btn-outline">Get Started Free</a>
+        <a href="{{ path('app_register') }}" class="gyb-btn-outline">{{ 'packages.starter_cta'|trans }}</a>
         <ul class="gyb-plan-features">
-          <li><i class="feather-check"></i> Basic profile listing</li>
-          <li><i class="feather-check"></i> Access to local leads board</li>
-          <li><i class="feather-check"></i> Standard portfolio (up to 10 photos)</li>
-          <li class="off"><i class="feather-x"></i> Direct notification for leads</li>
-          <li class="off"><i class="feather-x"></i> Verified badge processing</li>
-          <li class="off"><i class="feather-x"></i> Dedicated account support</li>
+          <li><i class="feather-check"></i> {{ 'packages.starter_f1'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.starter_f2'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.starter_f3'|trans }}</li>
+          <li class="off"><i class="feather-x"></i> {{ 'packages.starter_no1'|trans }}</li>
+          <li class="off"><i class="feather-x"></i> {{ 'packages.starter_no2'|trans }}</li>
+          <li class="off"><i class="feather-x"></i> {{ 'packages.starter_no3'|trans }}</li>
         </ul>
       </div>
 
       {# Growth (Featured) #}
       <div class="gyb-pricing-card gyb-pricing-card--featured">
-        <div class="gyb-popular-badge">Most Popular</div>
-        <h3 class="gyb-plan-name">Growth</h3>
-        <p class="gyb-plan-desc">The ideal toolkit for established contractors looking to scale.</p>
+        <div class="gyb-popular-badge">{{ 'packages.popular_badge'|trans }}</div>
+        <h3 class="gyb-plan-name">{{ 'packages.growth_name'|trans }}</h3>
+        <p class="gyb-plan-desc">{{ 'packages.growth_desc'|trans }}</p>
         <div class="gyb-plan-price">
            <span class="gyb-plan-currency">$</span>
            <span class="gyb-price-val" data-monthly="19.99" data-yearly="199">19.99</span>
-           <span class="gyb-plan-period">/mo</span>
+           <span class="gyb-plan-period">{{ 'packages.plan_period'|trans }}</span>
         </div>
-        <a href="{{ path('app_register') }}" class="gyb-btn-outline">Start Growing</a>
+        <a href="{{ path('app_register') }}" class="gyb-btn-outline">{{ 'packages.growth_cta'|trans }}</a>
         <ul class="gyb-plan-features">
-          <li><i class="feather-check"></i> Enhanced search visibility</li>
-          <li><i class="feather-check"></i> Instant lead notifications via SMS/Email</li>
-          <li><i class="feather-check"></i> Unlimited portfolio & project photos</li>
-          <li><i class="feather-check"></i> "Drilleedo Verified" badge eligibility</li>
-          <li><i class="feather-check"></i> Automated review collection tool</li>
-          <li class="off"><i class="feather-x"></i> Top placement in specific area codes</li>
+          <li><i class="feather-check"></i> {{ 'packages.growth_f1'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.growth_f2'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.growth_f3'|trans|raw }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.growth_f4'|trans|raw }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.growth_f5'|trans }}</li>
+          <li class="off"><i class="feather-x"></i> {{ 'packages.growth_no1'|trans }}</li>
         </ul>
       </div>
 
       {# Premium #}
       <div class="gyb-pricing-card gyb-pricing-card--premium">
-        <h3 class="gyb-plan-name">Premium</h3>
-        <p class="gyb-plan-desc">Maximum exposure and dedicated lead generation support.</p>
+        <h3 class="gyb-plan-name">{{ 'packages.premium_name'|trans }}</h3>
+        <p class="gyb-plan-desc">{{ 'packages.premium_desc'|trans }}</p>
         <div class="gyb-plan-price">
            <span class="gyb-plan-currency">$</span>
            <span class="gyb-price-val" data-monthly="39.99" data-yearly="349">39.99</span>
-           <span class="gyb-plan-period">/mo</span>
+           <span class="gyb-plan-period">{{ 'packages.plan_period'|trans }}</span>
         </div>
-        <a href="{{ path('app_register') }}" class="gyb-btn-outline" style="border-color: #fbcfe8;">Go Premium</a>
+        <a href="{{ path('app_register') }}" class="gyb-btn-outline" style="border-color: #fbcfe8;">{{ 'packages.premium_cta'|trans }}</a>
         <ul class="gyb-plan-features">
-          <li><i class="feather-check"></i> Top placement in your service zone</li>
-          <li><i class="feather-check"></i> Priority access to high-value leads</li>
-          <li><i class="feather-check"></i> Advanced analytics dashboard</li>
-          <li><i class="feather-check"></i> Drilleedo Verified badge</li>
-          <li><i class="feather-check"></i> Dedicated account manager</li>
-          <li><i class="feather-check"></i> API/CRM integration capabilities</li>
+          <li><i class="feather-check"></i> {{ 'packages.premium_f1'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.premium_f2'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.premium_f3'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.premium_f4'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.premium_f5'|trans }}</li>
+          <li><i class="feather-check"></i> {{ 'packages.premium_f6'|trans }}</li>
         </ul>
       </div>
 
@@ -411,25 +411,25 @@
   <div class="container">
     <div class="text-center gyb-scroll">
       <div class="gyb-section-eyebrow">
-        <i class="feather-help-circle"></i> FAQ
+        <i class="feather-help-circle"></i> {{ 'packages.faq_eyebrow'|trans }}
       </div>
-      <h2 class="gyb-section-title">Questions About <span>Drilleedo?</span></h2>
+      <h2 class="gyb-section-title">{{ 'packages.faq_title'|trans }} <span>{{ 'packages.faq_title_span'|trans }}</span></h2>
       <p class="gyb-section-sub mx-auto">
-        Everything you need to know about billing, leads, and using the platform.
+        {{ 'packages.faq_sub'|trans }}
       </p>
     </div>
 
     <div class="gyb-faq-wrapper gyb-scroll">
-      
+
       {# Q1 #}
       <div class="gyb-accordion-item">
         <h3 class="gyb-accordion-header">
            <button class="gyb-accordion-btn collapsed" type="button" aria-expanded="false">
-             What is Drilleedo and how does it work for pros?
+             {{ 'packages.faq_q1'|trans }}
            </button>
         </h3>
         <div class="gyb-accordion-body">
-           Drilleedo is a renovation platform that connects trusted Canadian service providers with homeowners. As a pro, you build a profile, select your service areas, and receive direct quote requests from clients looking precisely for your expertise. No commission fees on your jobs.
+           {{ 'packages.faq_a1'|trans }}
         </div>
       </div>
 
@@ -437,11 +437,11 @@
        <div class="gyb-accordion-item">
         <h3 class="gyb-accordion-header">
            <button class="gyb-accordion-btn collapsed" type="button" aria-expanded="false">
-             Is Drilleedo free to use?
+             {{ 'packages.faq_q2'|trans }}
            </button>
         </h3>
         <div class="gyb-accordion-body">
-           Yes! Registration and basic profile creation are completely free. You can browse the leads board right away. Our paid "Growth" and "Premium" plans are optional and designed to accelerate your visibility and guarantee exclusive access to leads.
+           {{ 'packages.faq_a2'|trans|raw }}
         </div>
       </div>
 
@@ -449,11 +449,11 @@
        <div class="gyb-accordion-item">
         <h3 class="gyb-accordion-header">
            <button class="gyb-accordion-btn collapsed" type="button" aria-expanded="false">
-             Can I change or cancel my plan at any time?
+             {{ 'packages.faq_q3'|trans }}
            </button>
         </h3>
         <div class="gyb-accordion-body">
-           Absolutely. There are no locking contracts. You can upgrade, downgrade, or cancel your subscription at any point directly from your billing dashboard. Cancellations take effect at the end of your current billing cycle.
+           {{ 'packages.faq_a3'|trans }}
         </div>
       </div>
 
@@ -461,11 +461,11 @@
        <div class="gyb-accordion-item">
         <h3 class="gyb-accordion-header">
            <button class="gyb-accordion-btn collapsed" type="button" aria-expanded="false">
-             How do I get the "Verified" badge?
+             {{ 'packages.faq_q4'|trans }}
            </button>
         </h3>
         <div class="gyb-accordion-body">
-           The Drilleedo Verified Badge requires a manual check by our team. Once you're on a Growth or Premium plan, you will upload proof of identity, liability insurance, and your RBQ license (or local equivalent). Once approved, the badge boosts your conversion rate significantly.
+           {{ 'packages.faq_a4'|trans }}
         </div>
       </div>
 
@@ -479,11 +479,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Scroll reveal animation
   const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { 
-      if (e.isIntersecting) { 
-        e.target.classList.add('visible'); 
-        obs.unobserve(e.target); 
-      } 
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.gyb-scroll').forEach(el => obs.observe(el));
@@ -516,20 +516,20 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       // Toggle
       const isCollapsed = btn.classList.contains('collapsed');
-      
+
       // Close all others
       accBtns.forEach(b => {
         b.classList.add('collapsed');
         b.setAttribute('aria-expanded', 'false');
       });
-      
+
       if(isCollapsed) {
         btn.classList.remove('collapsed');
         btn.setAttribute('aria-expanded', 'true');
       }
     });
   });
-  
+
   // Open the first one by default
   if(accBtns.length > 0) {
      accBtns[0].click();

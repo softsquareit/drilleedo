@@ -7,7 +7,7 @@
         <div class="drl-card-head border-bottom">
             <div>
                 <h4 class="drl-card-title">{{ title }}</h4>
-                <p class="drl-card-sub">{{ 'Ajoutez ou mettez à jour les détails du projet pour votre portfolio'|trans }}</p>
+                <p class="drl-card-sub">{{ 'pro_dash.form_project_sub'|trans }}</p>
             </div>
         </div>
 
@@ -15,45 +15,45 @@
             {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">{{ 'Nom du projet'|trans }}</label>
+                        <label class="drl-form-label">{{ 'pro_dash.th_project_name'|trans }}</label>
                         {{ form_widget(form.name, {'attr': {'class': 'drl-form-control w-100'}}) }}
                         {{ form_errors(form.name) }}
                     </div>
                 </div>
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">{{ 'Description'|trans }}</label>
+                        <label class="drl-form-label">{{ 'pro_dash.lbl_description'|trans }}</label>
                         {{ form_widget(form.description, {'attr': {'class': 'drl-form-control w-100', 'rows': '5'}}) }}
                         {{ form_errors(form.description) }}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
-                        <label class="drl-form-label">{{ 'Date de début'|trans }}</label>
+                        <label class="drl-form-label">{{ 'pro_dash.lbl_date_start'|trans }}</label>
                         {{ form_widget(form.startDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
                         {{ form_errors(form.startDate) }}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
-                        <label class="drl-form-label">{{ 'Date de fin'|trans }} <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">({{ 'Optionnel'|trans }})</span></label>
+                        <label class="drl-form-label">{{ 'pro_dash.lbl_date_end'|trans }} <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">({{ 'pro_dash.optional'|trans }})</span></label>
                         {{ form_widget(form.EndDate, {'attr': {'class': 'drl-form-control w-100'}}) }}
                         {{ form_errors(form.EndDate) }}
-                    </div>
-                </div>
-                
-                <div class="col-12">
-                    <div>
-                        <label class="drl-form-label">{{ 'Photo principale du projet'|trans }}</label>
-                        {{ form_widget(form.mainPhoto, {'attr': {'class': 'drl-form-control w-100', 'accept': 'image/*'}}) }}
-                        {{ form_errors(form.mainPhoto) }}
-                        <p style="font-size: 12px; color: #64748b; margin-top: 8px;">{{ 'Taille recommandée : 800x600px'|trans }}</p>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div>
-                        <label class="drl-form-label">{{ 'Galerie du projet'|trans }} <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">({{ 'Images multiples'|trans }})</span></label>
+                        <label class="drl-form-label">{{ 'pro_dash.lbl_main_photo'|trans }}</label>
+                        {{ form_widget(form.mainPhoto, {'attr': {'class': 'drl-form-control w-100', 'accept': 'image/*'}}) }}
+                        {{ form_errors(form.mainPhoto) }}
+                        <p style="font-size: 12px; color: #64748b; margin-top: 8px;">{{ 'pro_dash.photo_size_hint'|trans }}</p>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div>
+                        <label class="drl-form-label">{{ 'pro_dash.lbl_gallery'|trans }} <span style="font-weight: 400; color: #94a3b8; font-size: 11px;">({{ 'pro_dash.gallery_multiple'|trans }})</span></label>
                         {{ form_widget(form.gallery, {'attr': {'class': 'drl-form-control w-100', 'accept': 'image/*', 'multiple': 'multiple'}}) }}
                         {{ form_errors(form.gallery) }}
                     </div>
@@ -62,17 +62,17 @@
                 <div class="col-12">
                     <div class="form-check form-switch mb-0 d-flex align-items-center gap-2">
                         {{ form_widget(form.state, {'attr': {'class': 'form-check-input', 'style': 'margin-top:0;'}}) }}
-                        <label class="drl-form-label mb-0" for="{{ form.state.vars.id }}">{{ 'Publié / Visible dans le portfolio'|trans }}</label>
+                        <label class="drl-form-label mb-0" for="{{ form.state.vars.id }}">{{ 'pro_dash.lbl_published_visible'|trans }}</label>
                     </div>
                 </div>
 
                 <div class="col-12 mt-4 pt-4 border-top">
                     <div class="d-flex gap-3">
                         <button type="submit" class="drl-btn-orange">
-                            <i class="ph-floppy-disk"></i> {{ 'Enregistrer le projet'|trans }}
+                            <i class="ph-floppy-disk"></i> {{ 'pro_dash.btn_save_project'|trans }}
                         </button>
                         <a href="{{ path('professional_projects') }}" style="display:inline-flex; align-items:center; gap:8px; padding: 12px 24px; font-weight: 700; color: #64748b; background: transparent; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration:none;">
-                            <i class="ph-x"></i> {{ 'Annuler'|trans }}
+                            <i class="ph-x"></i> {{ 'pro_dash.btn_cancel'|trans }}
                         </a>
                     </div>
                 </div>

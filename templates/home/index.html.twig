@@ -889,18 +889,18 @@ position: absolute;
     <div class="hp-hero-card">
       <p class="hp-eyebrow">
         <i class="feather-map-pin"></i>
-        Votre pro. Votre projet. Une seule plateforme — Drilleedo.
+        {{ 'home_pg.hero_eyebrow'|trans }}
       </p>
       <h1 class="hp-h1" id="hp-h1">
-        <span>Vos travaux,</span>
-        <span>entre de bonnes mains.</span>
+        <span>{{ 'home_pg.hero_h1_line1'|trans }}</span>
+        <span>{{ 'home_pg.hero_h1_line2'|trans }}</span>
       </h1>
-      <p class="hp-tagline">Drilleedo · Easy help, Fast solutions.</p>
+      <p class="hp-tagline">{{ 'home_pg.hero_tagline'|trans }}</p>
 
       {# Search bar #}
       <form class="hp-search" action="{{ path('professionals_list') }}" method="get" role="search">
         <i class="feather-search"></i>
-        <input type="text" name="keyword" placeholder="Plombier, électricien, peintre, déménageur…" aria-label="Rechercher un professionnel">
+        <input type="text" name="keyword" placeholder="{{ 'home_pg.hero_search_placeholder'|trans }}" aria-label="Rechercher un professionnel">
         <button type="submit" class="hbtn hbtn-o" style="padding:0;width:44px;height:44px;border-radius:50%;justify-content:center;flex-shrink:0;">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" width="20" height="20" fill="#fff" aria-hidden="true"><rect x="88.42" y="120.08" width="63.93" height="9.85"/><polygon points="161.58 125.02 154.62 131.98 147.66 125.02 124.02 101.39 131.76 95.21 161.58 125.02"/><polygon points="161.58 125.02 154.62 131.98 131.8 154.79 124.01 148.62 142.73 129.95 147.66 125.02 154.62 118.06 161.58 125.02"/></svg>
         </button>
@@ -909,11 +909,11 @@ position: absolute;
 
       {# Quick category chips #}
       <div class="hp-qchips">
-        <a href="{{ path('professionals_list', {keyword:'plomberie'}) }}" class="hp-qchip"><img src="{{ asset('icons/Plumber.svg') }}" class="drl-icon-xs" alt=""> Plomberie</a>
-        <a href="{{ path('professionals_list', {keyword:'électricité'}) }}" class="hp-qchip"><img src="{{ asset('icons/Handyman.svg') }}" class="drl-icon-xs" alt=""> Électricité</a>
-        <a href="{{ path('professionals_list', {keyword:'peinture'}) }}" class="hp-qchip"><img src="{{ asset('icons/Painter.svg') }}" class="drl-icon-xs" alt=""> Peinture</a>
-        <a href="{{ path('professionals_list', {keyword:'jardinage'}) }}" class="hp-qchip"><img src="{{ asset('icons/Gardener.svg') }}" class="drl-icon-xs" alt=""> Jardinage</a>
-        <a href="{{ path('professionals_list') }}" class="hp-qchip" style="color:var(--B);border-color:rgba(0,73,127,.25);">+ Voir tout</a>
+        <a href="{{ path('professionals_list', {keyword:'plomberie'}) }}" class="hp-qchip"><img src="{{ asset('icons/Plumber.svg') }}" class="drl-icon-xs" alt=""> {{ 'home_pg.hero_chip_plomberie'|trans }}</a>
+        <a href="{{ path('professionals_list', {keyword:'électricité'}) }}" class="hp-qchip"><img src="{{ asset('icons/Handyman.svg') }}" class="drl-icon-xs" alt=""> {{ 'home_pg.hero_chip_electricite'|trans }}</a>
+        <a href="{{ path('professionals_list', {keyword:'peinture'}) }}" class="hp-qchip"><img src="{{ asset('icons/Painter.svg') }}" class="drl-icon-xs" alt=""> {{ 'home_pg.hero_chip_peinture'|trans }}</a>
+        <a href="{{ path('professionals_list', {keyword:'jardinage'}) }}" class="hp-qchip"><img src="{{ asset('icons/Gardener.svg') }}" class="drl-icon-xs" alt=""> {{ 'home_pg.hero_chip_jardinage'|trans }}</a>
+        <a href="{{ path('professionals_list') }}" class="hp-qchip" style="color:var(--B);border-color:rgba(0,73,127,.25);">{{ 'home_pg.hero_chip_voir_tout'|trans }}</a>
       </div>
 
       {# Social proof — avatars + étoiles (avant CTA = build trust first) #}
@@ -926,17 +926,17 @@ position: absolute;
         </div>
         <div>
           <div class="hp-proof-stars">★★★★★</div>
-          <div class="hp-proof-text">2 500+ propriétaires satisfaits. Et si c&#39;était votre tour ?</div>
+          <div class="hp-proof-text">{{ 'home_pg.hero_social_proof'|trans }}</div>
         </div>
       </div>
 
       {# CTAs — orange primaire, outline secondaire #}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
         <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o" style="flex:1;justify-content:center;">
-          <i class="feather-send"></i> Publiez votre projet — c'est gratuit
+          <i class="feather-send"></i> {{ 'home_pg.hero_cta_primary'|trans }}
         </a>
         <a href="{{ path('professionals_list') }}" class="hbtn hbtn-g">
-          <i class="feather-search"></i> Trouver le meilleur pro
+          <i class="feather-search"></i> {{ 'home_pg.hero_cta_secondary'|trans }}
         </a>
       </div>
     </div>
@@ -953,30 +953,28 @@ position: absolute;
                alt="Professionnel Drilleedo" loading="eager">
         </div>
         <div class="hp-pro-photo-badge-text">
-          <div class="hp-pro-photo-badge-name">Drilleedo</div>
-          <span>| For the professionals</span>
+          <div class="hp-pro-photo-badge-name">{{ 'home_pg.pro_panel_badge_name'|trans }}</div>
+          <span>{{ 'home_pg.pro_panel_badge_sub'|trans }}</span>
         </div>
       </div>
 
-      <h2>Votre prochain client <br>vous cherche . Soyez là.</h2>
-      <p class="hp-hero-pro-sub">Rejoignez notre communauté de professionnels vérifiés sur Drilleedo.
-Recevez des demandes qualifiées près de chez vous, bâtissez votre réputation en ligne
-et développez votre clientèle — simplement et efficacement.</p>
+      <h2>{{ 'home_pg.pro_panel_h2'|trans }}</h2>
+      <p class="hp-hero-pro-sub">{{ 'home_pg.pro_panel_desc'|trans }}</p>
 
       <div class="hp-pro-form">
         <form action="{{ path('app_register') }}" method="post" novalidate>
-          <label for="hero-email">Adresse courriel professionnelle</label>
-          <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="mon@entreprise.ca" required autocomplete="email" style="background: white;">
+          <label for="hero-email">{{ 'home_pg.pro_panel_label_email'|trans }}</label>
+          <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="{{ 'home_pg.pro_panel_input_placeholder'|trans }}" required autocomplete="email" style="background: white;">
           <a href="{{ path('app_register_pro') }}" class="hbtn hbtn-o" style="width:100%;justify-content:center;text-decoration:none;font-size:15px;">
-            <i class="feather-user-plus"></i> Rejoindre Drilleedo maintenant
+            <i class="feather-user-plus"></i> {{ 'home_pg.pro_panel_cta'|trans }}
           </a>
         </form>
       </div>
 
       <div class="hp-pro-badges">
-        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt=""> Profil actif en moins de 24h</span>
-        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt="">  Zéro commission — 100% de votre succès</span>
-        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt="">  +40% de nouvelles demandes dès le 1er mois</span>
+        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt=""> {{ 'home_pg.pro_badge1'|trans }}</span>
+        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt="">  {{ 'home_pg.pro_badge2'|trans }}</span>
+        <span class="hp-pro-badge"><img src="{{ asset('icons/Done.svg') }}" class="drl-icon-sm drl-icon-white" alt="">  {{ 'home_pg.pro_badge3'|trans }}</span>
       </div>
     </div>
 
@@ -1004,25 +1002,23 @@ et développez votre clientèle — simplement et efficacement.</p>
     {# RIGHT — Texte + boutons + stats #}
     <div class="hp-showcase-text hf" style="transition-delay:.15s">
 
-      <p class="hp-sc-eyebrow">La référence canadienne en mise en relation de pros.</p>
+      <p class="hp-sc-eyebrow">{{ 'home_pg.showcase_eyebrow'|trans }}</p>
       <h2 class="hp-sc-h2" id="hp-sc-h2">
-         La confiance,<br> ça se construit.Chez nous, elle est déjà là.
+         {{ 'home_pg.showcase_h2'|trans }}
       </h2>
 
       {# 3 boutons pills : 1 filled + 2 outline #}
       <div class="hp-sc-btns">
         <a href="{{ path('app_about') }}" class="hp-sc-btn-filled">
-          Découvrir Drilleedo
+          {{ 'home_pg.showcase_btn1'|trans }}
         </a>
         <a href="{{ path('app_about') }}" class="hp-sc-btn-outline">
-           Notre mission, en 30 secondes
+           {{ 'home_pg.showcase_btn2'|trans }}
         </a>
       </div>
 
       <p class="hp-sc-p">
-       Fini le bouche-à-oreille incertain et les recherches sans fin. Drilleedo vous
-connecte instantanément aux meilleurs professionnels de votre région — vérifiés,
-évalués et prêts à réaliser vos projets.
+       {{ 'home_pg.showcase_desc'|trans }}
       </p>
 
       {# Stat pills — 3 badges colorés #}
@@ -1032,8 +1028,8 @@ connecte instantanément aux meilleurs professionnels de votre région — véri
             <i class="feather-check"></i>
           </div>
           <div>
-            <div style="font-weight:800;font-size:13px;color:var(--D);">35 000+</div>
-            <div class="hp-sc-stat-lbl">Projets transformés en succès</div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">{{ 'home_pg.showcase_stat1_number'|trans }}</div>
+            <div class="hp-sc-stat-lbl">{{ 'home_pg.showcase_stat1_label'|trans }}</div>
           </div>
         </div>
         <div class="hp-sc-stat">
@@ -1041,8 +1037,8 @@ connecte instantanément aux meilleurs professionnels de votre région — véri
             <i class="feather-star"></i>
           </div>
           <div>
-            <div style="font-weight:800;font-size:13px;color:var(--D);">100 %</div>
-            <div class="hp-sc-stat-lbl">Des pros — certifiés, vérifiés,approuvés</div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">{{ 'home_pg.showcase_stat2_number'|trans }}</div>
+            <div class="hp-sc-stat-lbl">{{ 'home_pg.showcase_stat2_label'|trans }}</div>
           </div>
         </div>
         <div class="hp-sc-stat">
@@ -1050,8 +1046,8 @@ connecte instantanément aux meilleurs professionnels de votre région — véri
             <i class="feather-heart"></i>
           </div>
           <div>
-            <div style="font-weight:800;font-size:13px;color:var(--D);">98%</div>
-            <div class="hp-sc-stat-lbl">Satisfaction client</div>
+            <div style="font-weight:800;font-size:13px;color:var(--D);">{{ 'home_pg.showcase_stat3_number'|trans }}</div>
+            <div class="hp-sc-stat-lbl">{{ 'home_pg.showcase_stat3_label'|trans }}</div>
           </div>
         </div>
       </div>
@@ -1070,10 +1066,9 @@ connecte instantanément aux meilleurs professionnels de votre région — véri
 
     {# Titre de section #}
     <div class="hc" style="margin-bottom:40px;">
-      <span class="hpill hpill-o"><i class="feather-zap"></i>Simple, Rapide &amp; Sans Stress — En 4 étapes seulement</span>
-      <h2 class="hh2 hh2-w" id="hp-hiw-h2">Ici, les projets trouvent leurs pros.<br> Les pros trouvent leurs projets.</h2>
-      <p class="hl hlc" style="color:rgba(255,255,255,.65);">Que vous cherchiez le professionnel idéal ou que vous développiez votre activité —
-Drilleedo fait la connexion parfaite, rapidement et en toute confiance, partout au Canada.</p>
+      <span class="hpill hpill-o"><i class="feather-zap"></i>{{ 'home_pg.hiw_pill'|trans }}</span>
+      <h2 class="hh2 hh2-w" id="hp-hiw-h2">{{ 'home_pg.hiw_h2'|trans }}</h2>
+      <p class="hl hlc" style="color:rgba(255,255,255,.65);">{{ 'home_pg.hiw_desc'|trans }}</p>
     </div>
 
     {# Tabs principaux : 3 scénarios #}
@@ -1082,17 +1077,17 @@ Drilleedo fait la connexion parfaite, rapidement et en toute confiance, partout 
         <button class="hp-hiw-tab active" role="tab" aria-selected="true"
                 id="tab-o" aria-controls="panel-o"
                 onclick="hiwSwitch('o',this)">
-          <i class="feather-search"></i> Je cherche un Professionnel
+          <i class="feather-search"></i> {{ 'home_pg.tab_o_label'|trans }}
         </button>
         <button class="hp-hiw-tab" role="tab" aria-selected="false"
                 id="tab-pub" aria-controls="panel-pub"
                 onclick="hiwSwitch('pub',this)">
-          <i class="feather-file-text"></i> Je veux mon soumission
+          <i class="feather-file-text"></i> {{ 'home_pg.tab_pub_label'|trans }}
         </button>
         <button class="hp-hiw-tab" role="tab" aria-selected="false"
                 id="tab-p" aria-controls="panel-p"
                 onclick="hiwSwitch('p',this)">
-          <i class="feather-tool"></i> Je suis un professionnel
+          <i class="feather-tool"></i> {{ 'home_pg.tab_p_label'|trans }}
         </button>
       </div>
 
@@ -1103,33 +1098,28 @@ Drilleedo fait la connexion parfaite, rapidement et en toute confiance, partout 
       <div class="hp-hiw-steps">
         <div class="hp-step hf">
           <div class="hp-step-n">1</div>
-          <h3>Recherchez un professionnel</h3>
-          <p>Ciblez le bon expert Des centaines de professionnels vérifiés près de chez vous —
-filtrez, comparez, choisissez.</p>
+          <h3>{{ 'home_pg.step_o1_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_o1_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.08s">
           <div class="hp-step-n">2</div>
-          <h3>Comparez les meilleurs profils</h3>
-          <p>Voyez la différence par vous-même Avis réels, photos de réalisations, certifications
-— zéro surprise, que des faits.</p>
+          <h3>{{ 'home_pg.step_o2_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_o2_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.16s">
           <div class="hp-step-n">3</div>
-          <h3>Envoyez une demande</h3>
-          <p>Contactez sans attendre Un clic suffit. Parlez directement au pro qui vous
-correspond — sans détour, sans délai.</p>
+          <h3>{{ 'home_pg.step_o3_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_o3_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.24s">
           <div class="hp-step-n">4</div>
-          <h3>Lancez en toute confiance</h3>
-          <p>Démarrez. Confirmez, lancez et regardez votre projet prendre vie — entre les
-meilleures mains.</p>
+          <h3>{{ 'home_pg.step_o4_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_o4_desc'|trans }}</p>
         </div>
       </div>
         <div class="hc" style="margin-top:52px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
-        <i class="feather-arrow-right"></i>Je trouve mon pro maintenant — gratuitement et sans
-engagement !
+        <i class="feather-arrow-right"></i>{{ 'home_pg.tab_o_cta'|trans }}
       </a>
     </div>
     </div>{# /panel-o #}
@@ -1139,32 +1129,28 @@ engagement !
       <div class="hp-hiw-steps">
         <div class="hp-step hf">
           <div class="hp-step-n">1</div>
-          <h3>Publiez votre projet</h3>
-          <p>Décrivez votre besoin Projet, localisation, budget — 2 minutes suffisent. Gratuit et
-sans engagement.</p>
+          <h3>{{ 'home_pg.step_pub1_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_pub1_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.08s">
           <div class="hp-step-n">2</div>
-          <h3>Comparez les pros</h3>
-          <p>Des pros qualifiés vous répondent Profils vérifiés, portfolios, avis de vrais clients —
-les meilleurs experts de votre région se manifestent.</p>
+          <h3>{{ 'home_pg.step_pub2_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_pub2_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.16s">
           <div class="hp-step-n">3</div>
-          <h3>Recevez vos devis</h3>
-          <p>Comparez vos soumissions Jusqu&#39;à 5 soumissions compétitives de spécialistes
-qualifiés — directement dans votre boîte, en moins de 24h.</p>
+          <h3>{{ 'home_pg.step_pub3_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_pub3_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.24s">
           <div class="hp-step-n">4</div>
-          <h3>Démarrez sereinement</h3>
-          <p>Choisissez et démarrez sans hésiter Sélectionnez le meilleur rapport qualité-prix et
-lancez vos travaux — en toute sérénité.</p>
+          <h3>{{ 'home_pg.step_pub4_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_pub4_desc'|trans }}</p>
         </div>
       </div>
         <div class="hc" style="margin-top:52px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
-        <i class="feather-arrow-right"></i> Je demande mes soumissions — gratuit &amp; sans engagement !.
+        <i class="feather-arrow-right"></i> {{ 'home_pg.tab_pub_cta'|trans }}
       </a>
     </div>
     </div>{# /panel-pub #}
@@ -1174,33 +1160,28 @@ lancez vos travaux — en toute sérénité.</p>
       <div class="hp-hiw-steps">
         <div class="hp-step hf">
           <div class="hp-step-n">1</div>
-          <h3>Créez votre profil</h3>
-          <p>Créer votre profil en 24h Inscrivez-vous gratuitement, ajoutez vos certifications,
-licences et portfolio — et soyez visible dès aujourd&#39;hui.</p>
+          <h3>{{ 'home_pg.step_p1_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_p1_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.08s">
           <div class="hp-step-n">2</div>
-          <h3>Recevez des demandes</h3>
-          <p>Les bons clients viennent à vous Recevez des demandes qualifiées dans votre
-secteur — clients sérieux, besoins précis, localisés près de chez vous.</p>
+          <h3>{{ 'home_pg.step_p2_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_p2_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.16s">
           <div class="hp-step-n">3</div>
-          <h3>Envoyez vos devis</h3>
-          <p>Soumettez vos offres directement Envoyez vos soumissions directement aux
-propriétaires intéressés — sans intermédiaire, sans commission, sans perte de
-temps.</p>
+          <h3>{{ 'home_pg.step_p3_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_p3_desc'|trans }}</p>
         </div>
         <div class="hp-step hf" style="transition-delay:.24s">
           <div class="hp-step-n">4</div>
-          <h3>Développez votre réputation</h3>
-          <p>Bâtissez une réputation qui travaille pour vous Accumulez des avis certifiés,
-renforcez votre crédibilité en ligne — et regardez votre clientèle grandir d&#39;elle-même.</p>
+          <h3>{{ 'home_pg.step_p4_title'|trans }}</h3>
+          <p>{{ 'home_pg.step_p4_desc'|trans }}</p>
         </div>
       </div>
         <div class="hc" style="margin-top:52px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
-        <i class="feather-arrow-right"></i>Je rejoins la communauté
+        <i class="feather-arrow-right"></i>{{ 'home_pg.tab_p_cta'|trans }}
       </a>
     </div>
     </div>{# /panel-p #}
@@ -1215,11 +1196,10 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
    <div class="container">
     <!-- Header -->
     <div class="text-center">
-        <span class="discovery-pill">Tous les experts dont vous avez besoin — au même endroit.</span>
-        <h2 class="discovery-title">Peu importe votre projet — nous avons l&#39;expert qu&#39;il vous faut.</h2>
+        <span class="discovery-pill">{{ 'home_pg.discovery_pill'|trans }}</span>
+        <h2 class="discovery-title">{{ 'home_pg.discovery_h2'|trans }}</h2>
         <p class="discovery-subtitle">
-            Entrepreneurs, spécialistes, professionnels de services et créateurs d&#39;idées
-            — Drilleedo réunit les meilleurs experts du Canada sous un même toit.
+            {{ 'home_pg.discovery_desc'|trans }}
         </p>
     </div>
 
@@ -1233,13 +1213,13 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
                          loading="lazy" width="400" height="220">
                     <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-hard-hat"></i></div>
                 </div>
-                <h3 class="discovery-card-title">Entrepreneurs Généraux</h3>
+                <h3 class="discovery-card-title">{{ 'home_pg.card1_title'|trans }}</h3>
                 <p class="discovery-card-desc">
-                    Votre projet de A à Z — entre les mains d&#39;un seul expert. Rénovation complète, construction neuve, agrandissement — confiez votre projet à un entrepreneur général certifié RBQ.
+                    {{ 'home_pg.card1_desc'|trans }}
                 </p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
                     <i class="fas fa-arrow-right"></i>
-                    <span>Trouver mon entrepreneur général</span>
+                    <span>{{ 'home_pg.card1_cta'|trans }}</span>
                 </div>
             </a>
         </article>
@@ -1255,13 +1235,13 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
                         <i class="fas fa-tools"></i>
                     </div>
                 </div>
-                <h3 class="discovery-card-title">Entrepreneurs Spécialisés</h3>
+                <h3 class="discovery-card-title">{{ 'home_pg.card2_title'|trans }}</h3>
                 <p class="discovery-card-desc">
-                    Plombier, électricien, couvreur, peintre, carreleur — quand votre projet exige une expertise précise, faites confiance à un spécialiste certifié et vérifié.
+                    {{ 'home_pg.card2_desc'|trans }}
                 </p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-success">
                     <i class="fas fa-arrow-right"></i>
-                    <span>Trouver mon spécialiste</span>
+                    <span>{{ 'home_pg.card2_cta'|trans }}</span>
                 </div>
             </a>
         </article>
@@ -1275,13 +1255,13 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
                          loading="lazy" width="400" height="220">
                     <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-briefcase"></i></div>
                 </div>
-                <h3 class="discovery-card-title">Autres Professionnels</h3>
+                <h3 class="discovery-card-title">{{ 'home_pg.card3_title'|trans }}</h3>
                 <p class="discovery-card-desc">
-                    Déménageurs, paysagistes, entretien ménager, nettoyage — tout ce qu&#39;il faut pour que votre maison soit parfaite, dedans comme dehors.
+                    {{ 'home_pg.card3_desc'|trans }}
                 </p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-warning">
                     <i class="fas fa-arrow-right"></i>
-                    <span>Découvrir tous les professionnels</span>
+                    <span>{{ 'home_pg.card3_cta'|trans }}</span>
                 </div>
             </a>
         </article>
@@ -1295,13 +1275,13 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
                          loading="lazy" width="400" height="220">
                     <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-lightbulb"></i></div>
                 </div>
-                <h3 class="discovery-card-title">Smart Idea — Architectes &amp; Designers</h3>
+                <h3 class="discovery-card-title">{{ 'home_pg.card4_title'|trans }}</h3>
                 <p class="discovery-card-desc">
-                    Découvrez des concepts exclusifs d&#39;architectes et de designers d&#39;intérieur — ou publiez vos créations et inspirez des milliers de propriétaires.
+                    {{ 'home_pg.card4_desc'|trans }}
                 </p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
                     <i class="fas fa-arrow-right"></i>
-                    <span>Explorer les idées Smart</span>
+                    <span>{{ 'home_pg.card4_cta'|trans }}</span>
                 </div>
             </a>
         </article>
@@ -1398,9 +1378,9 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
 <section class="hs hp-pros" aria-labelledby="hp-fp-h2">
   <div class="hw">
     <div class="hc" style="margin-bottom:52px;">
-      <span class="hpill hpill-w"><i class="feather-award"></i> Top professionnels</span>
-      <h2 class="hh2" id="hp-fp-h2">Professionnels en vedette</h2>
-      <p class="hl hlc">Les mieux notés par notre communauté : identité vérifiée, avis certifiés et portfolio complet.</p>
+      <span class="hpill hpill-w"><i class="feather-award"></i> {{ 'home_pg.fps_pill'|trans }}</span>
+      <h2 class="hh2" id="hp-fp-h2">{{ 'home_pg.fps_h2'|trans }}</h2>
+      <p class="hl hlc">{{ 'home_pg.fps_desc'|trans }}</p>
     </div>
     <div class="hp-pg">
       {% for pro in featuredProfessionals|slice(0, 8) %}
@@ -1411,7 +1391,7 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
     </div>
     <div class="hc" style="margin-top:48px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
-        Voir tous les professionnels <i class="feather-arrow-right"></i>
+        {{ 'home_pg.fps_cta'|trans }} <i class="feather-arrow-right"></i>
       </a>
     </div>
   </div>
@@ -1425,15 +1405,15 @@ renforcez votre crédibilité en ligne — et regardez votre clientèle grandir 
 <section class="hss hp-nl" aria-labelledby="hp-nl-h2">
   <div class="hw">
     <div class="hp-nl-inner">
-      <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-mail"></i> Infolettre gratuite</span>
-      <h2 class="hh2 hh2-w" id="hp-nl-h2" style="font-size:30px;margin-bottom:10px;">Projets, tendances &amp; bons plans rénovation</h2>
-      <p class="hl hlc" style="color:rgba(255,255,255,.72);margin-bottom:28px;">Conseils d'experts, idées de projets et offres exclusives — directement dans votre boîte une fois par mois.</p>
+      <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-mail"></i> {{ 'home_pg.nl_pill'|trans }}</span>
+      <h2 class="hh2 hh2-w" id="hp-nl-h2" style="font-size:30px;margin-bottom:10px;">{{ 'home_pg.nl_h2'|trans }}</h2>
+      <p class="hl hlc" style="color:rgba(255,255,255,.72);margin-bottom:28px;">{{ 'home_pg.nl_desc'|trans }}</p>
       <form class="hp-nl-form" action="#" method="post" novalidate>
-        <label for="nl-email" class="sr-only">Votre adresse courriel</label>
-        <input type="email" id="nl-email" name="newsletter_email" class="hp-nl-in" placeholder="votre@courriel.ca" required autocomplete="email">
-        <button type="submit" class="hp-nl-btn">S'inscrire</button>
+        <label for="nl-email" class="sr-only">{{ 'home_pg.nl_label_email'|trans }}</label>
+        <input type="email" id="nl-email" name="newsletter_email" class="hp-nl-in" placeholder="{{ 'home_pg.nl_placeholder'|trans }}" required autocomplete="email">
+        <button type="submit" class="hp-nl-btn">{{ 'home_pg.nl_btn'|trans }}</button>
       </form>
-      <p class="hp-nl-hint"><i class="feather-lock" style="margin-right:4px;color:rgba(255,255,255,.4);"></i> Aucun spam. Désabonnement en un clic, à tout moment.</p>
+      <p class="hp-nl-hint"><i class="feather-lock" style="margin-right:4px;color:rgba(255,255,255,.4);"></i> {{ 'home_pg.nl_hint'|trans }}</p>
     </div>
   </div>
 </section>

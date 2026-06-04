@@ -1,16 +1,16 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}{{ 'Mes Projets'|trans }} - {{ app.user.companyName }}{% endblock %}
+{% block title %}{{ 'pro_dash.my_projects_title'|trans }} - {{ app.user.companyName }}{% endblock %}
 
 {% block body %}
     <div class="drl-card">
         <div class="drl-card-head">
             <div>
-                <h4 class="drl-card-title">{{ 'Mes Projets'|trans }}</h4>
-                <p class="drl-card-sub">{{ 'Présentez votre portfolio et suivez vos travaux terminés'|trans }}</p>
+                <h4 class="drl-card-title">{{ 'pro_dash.my_projects_title'|trans }}</h4>
+                <p class="drl-card-sub">{{ 'pro_dash.my_projects_sub'|trans }}</p>
             </div>
             <button type="button" class="drl-btn-orange" style="padding: 8px 16px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#newProjectModal">
-                <i class="ph-plus"></i> {{ 'Ajouter un projet'|trans }}
+                <i class="ph-plus"></i> {{ 'pro_dash.btn_add_project'|trans }}
             </button>
         </div>
 
@@ -18,11 +18,11 @@
             <table class="table mb-0 drl-table" id="projectsTable">
                 <thead>
                     <tr>
-                        <th>{{ 'Nom du projet'|trans }}</th>
-                        <th>{{ 'Dates'|trans }}</th>
-                        <th>{{ 'Visibilité'|trans }}</th>
-                        <th>{{ 'Statut'|trans }}</th>
-                        <th>{{ 'Actions'|trans }}</th>
+                        <th>{{ 'pro_dash.th_project_name'|trans }}</th>
+                        <th>{{ 'pro_dash.th_dates'|trans }}</th>
+                        <th>{{ 'pro_dash.th_visibility'|trans }}</th>
+                        <th>{{ 'pro_dash.th_status'|trans }}</th>
+                        <th>{{ 'pro_dash.th_actions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,33 +34,33 @@
                             </td>
                              <td>
                                 <div style="font-size: 13px; color: #64748b; line-height: 1.6;">
-                                    <div><strong style="color: #94a3b8; font-size: 11px; text-transform: uppercase;">{{ 'Début'|trans }}:</strong> {{ project.startDate|date('M d, Y') }}</div>
+                                    <div><strong style="color: #94a3b8; font-size: 11px; text-transform: uppercase;">{{ 'pro_dash.lbl_start'|trans }}:</strong> {{ project.startDate|date('M d, Y') }}</div>
                                     {% if project.EndDate %}
-                                        <div><strong style="color: #94a3b8; font-size: 11px; text-transform: uppercase;">{{ 'Fin'|trans }}:</strong> {{ project.EndDate|date('M d, Y') }}</div>
+                                        <div><strong style="color: #94a3b8; font-size: 11px; text-transform: uppercase;">{{ 'pro_dash.lbl_end'|trans }}:</strong> {{ project.EndDate|date('M d, Y') }}</div>
                                     {% endif %}
                                 </div>
                             </td>
                             <td>
                                 {% if project.isState %}
-                                    <span class="drl-tag drl-tag--success"><i class="ph-eye" style="font-size: 11px;"></i> {{ 'Publié'|trans }}</span>
+                                    <span class="drl-tag drl-tag--success"><i class="ph-eye" style="font-size: 11px;"></i> {{ 'pro_dash.status_published'|trans }}</span>
                                 {% else %}
-                                    <span class="drl-tag drl-tag--draft"><i class="ph-eye-slash" style="font-size: 11px;"></i> {{ 'Brouillon'|trans }}</span>
+                                    <span class="drl-tag drl-tag--draft"><i class="ph-eye-slash" style="font-size: 11px;"></i> {{ 'pro_dash.status_draft'|trans }}</span>
                                 {% endif %}
                             </td>
                              <td>
                                 {% if project.EndDate %}
-                                    <span class="drl-tag drl-tag--success"><i class="ph-flag" style="font-size: 11px;"></i> {{ 'Terminé'|trans }}</span>
+                                    <span class="drl-tag drl-tag--success"><i class="ph-flag" style="font-size: 11px;"></i> {{ 'pro_dash.status_completed'|trans }}</span>
                                 {% else %}
-                                    <span class="drl-tag drl-tag--sent"><i class="ph-spinner ph-spin" style="font-size: 11px;"></i> {{ 'En cours'|trans }}</span>
+                                    <span class="drl-tag drl-tag--sent"><i class="ph-spinner ph-spin" style="font-size: 11px;"></i> {{ 'pro_dash.status_in_progress'|trans }}</span>
                                 {% endif %}
                             </td>
                             <td>
                                  <div class="d-flex gap-2">
-                                    <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" title="{{ 'Modifier'|trans }}" data-bs-toggle="modal" data-bs-target="#editProjectModal{{ project.id }}">
-                                        <i class="ph-pencil-simple-line"></i> {{ 'Modifier'|trans }}
+                                    <button type="button" class="drl-act-btn drl-act-btn--view" style="border:none;" title="{{ 'pro_dash.btn_edit'|trans }}" data-bs-toggle="modal" data-bs-target="#editProjectModal{{ project.id }}">
+                                        <i class="ph-pencil-simple-line"></i> {{ 'pro_dash.btn_edit'|trans }}
                                     </button>
-                                    <button type="button" class="drl-act-btn" style="background:#fef2f2; color:#ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteProjectModal{{ project.id }}" title="{{ 'Supprimer'|trans }}">
-                                        <i class="ph-trash"></i> {{ 'Supprimer'|trans }}
+                                    <button type="button" class="drl-act-btn" style="background:#fef2f2; color:#ef4444; border:none;" data-bs-toggle="modal" data-bs-target="#deleteProjectModal{{ project.id }}" title="{{ 'pro_dash.btn_delete'|trans }}">
+                                        <i class="ph-trash"></i> {{ 'pro_dash.btn_delete'|trans }}
                                     </button>
                                 </div>
                             </td>
@@ -71,8 +71,8 @@
                                 <div style="width:56px; height:56px; border-radius:50%; background:#f8fafc; color:#94a3b8; font-size:24px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
                                     <i class="ph-briefcase"></i>
                                 </div>
-                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'Aucun projet pour le moment'|trans }}</h6>
-                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">{{ "Ajoutez votre premier projet pour présenter votre travail"|trans }}</p>
+                                <h6 style="font-size:16px; font-weight:800; color:#0d2151; margin:0 0 6px;">{{ 'pro_dash.no_projects_title'|trans }}</h6>
+                                <p style="font-size:14px; color:#64748b; margin:0 0 16px;">{{ 'pro_dash.no_projects_sub'|trans }}</p>
                             </td>
                         </tr>
                     {% endfor %}
@@ -91,9 +91,9 @@
                  <div class="modal-header drl-modal-header">
                     <div>
                         <h5 class="modal-title drl-modal-title">
-                            <i class="ph-plus-circle me-2"></i>{{ 'Ajouter un nouveau projet'|trans }}
+                            <i class="ph-plus-circle me-2"></i>{{ 'pro_dash.modal_add_project_title'|trans }}
                         </h5>
-                        <p class="mb-0 opacity-75 small mt-1">{{ "Présentez vos derniers travaux à vos clients potentiels"|trans }}</p>
+                        <p class="mb-0 opacity-75 small mt-1">{{ 'pro_dash.modal_add_project_sub'|trans }}</p>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -102,41 +102,41 @@
                         <div class="row g-4">
                              <div class="col-12">
                                 <div>
-                                    <label class="drl-label">{{ 'Nom du projet'|trans }} <span class="text-danger">*</span></label>
-                                    {{ form_widget(projectForm.name, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Rénovation moderne de cuisine'|trans}}) }}
+                                    <label class="drl-label">{{ 'pro_dash.th_project_name'|trans }} <span class="text-danger">*</span></label>
+                                    {{ form_widget(projectForm.name, {'attr': {'class': 'drl-input', 'placeholder': 'pro_dash.ph_project_name'|trans}}) }}
                                     {{ form_errors(projectForm.name) }}
                                 </div>
                             </div>
                              <div class="col-12">
                                 <div>
-                                    <label class="drl-label">{{ 'Description'|trans }} <span class="text-danger">*</span></label>
-                                    {{ form_widget(projectForm.description, {'attr': {'class': 'drl-input', 'rows': 4, 'placeholder': "Décrivez l'étendue, les défis et les résultats de ce projet..."|trans}}) }}
+                                    <label class="drl-label">{{ 'pro_dash.lbl_description'|trans }} <span class="text-danger">*</span></label>
+                                    {{ form_widget(projectForm.description, {'attr': {'class': 'drl-input', 'rows': 4, 'placeholder': 'pro_dash.ph_description'|trans}}) }}
                                     {{ form_errors(projectForm.description) }}
                                 </div>
                             </div>
                              <div class="col-md-6">
                                 <div>
-                                    <label class="drl-label">{{ 'Date de début'|trans }} <span class="text-danger">*</span></label>
+                                    <label class="drl-label">{{ 'pro_dash.lbl_date_start'|trans }} <span class="text-danger">*</span></label>
                                     {{ form_widget(projectForm.startDate, {'attr': {'class': 'drl-input'}}) }}
                                     {{ form_errors(projectForm.startDate) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <label class="drl-label">{{ 'Date de fin'|trans }} <span class="small opacity-50 fw-normal">({{ 'Optionnel'|trans }})</span></label>
+                                    <label class="drl-label">{{ 'pro_dash.lbl_date_end'|trans }} <span class="small opacity-50 fw-normal">({{ 'pro_dash.optional'|trans }})</span></label>
                                     {{ form_widget(projectForm.EndDate, {'attr': {'class': 'drl-input'}}) }}
                                     {{ form_errors(projectForm.EndDate) }}
-                                    <p class="small text-muted mb-0 mt-1">{{ "Laissez vide si le projet est en cours"|trans }}</p>
+                                    <p class="small text-muted mb-0 mt-1">{{ 'pro_dash.hint_date_end'|trans }}</p>
                                 </div>
                             </div>
-                            
+
                             <!-- Drag & Drop Photo -->
                             <div class="col-12">
                                 <div>
-                                     <label class="drl-label">{{ 'Photo principale du projet'|trans }} <span class="text-danger">*</span></label>
+                                     <label class="drl-label">{{ 'pro_dash.lbl_main_photo'|trans }} <span class="text-danger">*</span></label>
                                     <div class="pro-upload-zone" id="mainPhotoZone" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
                                         <i class="ph-image pro-upload-icon" style="color: #94a3b8;"></i>
-                                        <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">{{ "Glisser & déposer ou Cliquer pour télécharger"|trans }}</p>
+                                        <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">{{ 'pro_dash.upload_drag_drop'|trans }}</p>
                                         <p class="pro-upload-hint" style="color: #64748b;">PNG, JPG, ou WEBP (Max 5MB)</p>
                                         {{ form_widget(projectForm.mainPhoto, {'attr': {'class': 'd-none', 'accept': 'image/*'}}) }}
                                     </div>
@@ -147,11 +147,11 @@
 
                             <div class="col-12">
                                 <div>
-                                     <label class="drl-label">{{ "Galerie du projet"|trans }} <span class="small opacity-50 fw-normal">({{ "Images multiples optionnelles"|trans }})</span></label>
+                                     <label class="drl-label">{{ 'pro_dash.lbl_gallery'|trans }} <span class="small opacity-50 fw-normal">({{ 'pro_dash.gallery_optional'|trans }})</span></label>
                                     <div class="pro-upload-zone" id="galleryZone" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
                                         <i class="ph-grid-four pro-upload-icon" style="color: #94a3b8;"></i>
-                                        <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">{{ "Télécharger plusieurs photos"|trans }}</p>
-                                        <p class="pro-upload-hint" style="color: #64748b;">{{ "Mettez en avant différents angles ou détails"|trans }}</p>
+                                        <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">{{ 'pro_dash.upload_multiple'|trans }}</p>
+                                        <p class="pro-upload-hint" style="color: #64748b;">{{ 'pro_dash.upload_hint_angles'|trans }}</p>
                                         {{ form_widget(projectForm.gallery, {'attr': {'class': 'd-none', 'accept': 'image/*', 'multiple': 'multiple'}}) }}
                                     </div>
                                     <div id="galleryPreview" class="pro-preview-grid" style="margin-top: 16px;"></div>
@@ -165,8 +165,8 @@
                                         {{ form_widget(projectForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
                                     </div>
                                      <div>
-                                        <label class="drl-label mb-0" for="{{ projectForm.state.vars.id }}">{{ "Publier immédiatement"|trans }}</label>
-                                        <p class="small text-muted mb-0">{{ "Le rendre public l'affichera immédiatement sur votre profil"|trans }}</p>
+                                        <label class="drl-label mb-0" for="{{ projectForm.state.vars.id }}">{{ 'pro_dash.lbl_publish_now'|trans }}</label>
+                                        <p class="small text-muted mb-0">{{ 'pro_dash.hint_publish_now'|trans }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -174,9 +174,9 @@
                     {{ form_end(projectForm) }}
                 </div>
                  <div class="modal-footer drl-modal-footer">
-                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'Annuler'|trans }}</button>
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'pro_dash.btn_cancel'|trans }}</button>
                     <button type="submit" form="addProjectForm" class="drl-btn-orange px-5">
-                        <i class="ph-floppy-disk me-2"></i> {{ 'Créer le projet'|trans }}
+                        <i class="ph-floppy-disk me-2"></i> {{ 'pro_dash.btn_create_project'|trans }}
                     </button>
                 </div>
             </div>
@@ -192,9 +192,9 @@
                      <div class="modal-header drl-modal-header">
                         <div>
                             <h5 class="modal-title drl-modal-title">
-                                <i class="ph-pencil me-2"></i>{{ 'Modifier les détails du projet'|trans }}
+                                <i class="ph-pencil me-2"></i>{{ 'pro_dash.modal_edit_project_title'|trans }}
                             </h5>
-                            <p class="mb-0 opacity-75 small mt-1">{{ "Modifiez les informations de votre projet et la galerie"|trans }}</p>
+                            <p class="mb-0 opacity-75 small mt-1">{{ 'pro_dash.modal_edit_project_sub'|trans }}</p>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -204,28 +204,28 @@
                             <div class="row g-4">
                                  <div class="col-12">
                                     <div>
-                                        <label class="drl-label">{{ 'Nom du projet'|trans }} <span class="text-danger">*</span></label>
+                                        <label class="drl-label">{{ 'pro_dash.th_project_name'|trans }} <span class="text-danger">*</span></label>
                                         {{ form_widget(editForm.name, {'attr': {'class': 'drl-input'}}) }}
                                         {{ form_errors(editForm.name) }}
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div>
-                                        <label class="drl-label">{{ 'Description'|trans }} <span class="text-danger">*</span></label>
+                                        <label class="drl-label">{{ 'pro_dash.lbl_description'|trans }} <span class="text-danger">*</span></label>
                                         {{ form_widget(editForm.description, {'attr': {'class': 'drl-input', 'rows': 4}}) }}
                                         {{ form_errors(editForm.description) }}
                                     </div>
                                 </div>
                                  <div class="col-md-6">
                                     <div>
-                                        <label class="drl-label">{{ 'Date de début'|trans }}</label>
+                                        <label class="drl-label">{{ 'pro_dash.lbl_date_start'|trans }}</label>
                                         {{ form_widget(editForm.startDate, {'attr': {'class': 'drl-input'}}) }}
                                         {{ form_errors(editForm.startDate) }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="drl-label">{{ 'Date de fin'|trans }}</label>
+                                        <label class="drl-label">{{ 'pro_dash.lbl_date_end'|trans }}</label>
                                         {{ form_widget(editForm.EndDate, {'attr': {'class': 'drl-input'}}) }}
                                         {{ form_errors(editForm.EndDate) }}
                                     </div>
@@ -234,10 +234,10 @@
                                 <!-- Main Photo Edit -->
                                  <div class="col-12">
                                     <div>
-                                        <label class="drl-label">{{ 'Photo principale du projet'|trans }}</label>
+                                        <label class="drl-label">{{ 'pro_dash.lbl_main_photo'|trans }}</label>
                                         <div class="pro-upload-zone mb-3" id="mainPhotoZone{{ project.id }}" style="border-radius: 12px; border: 2px dashed #cbd5e1; background: #f8fafc;">
                                             <i class="ph-image pro-upload-icon" style="color: #94a3b8;"></i>
-                                            <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">{{ "Remplacer la photo actuelle"|trans }}</p>
+                                            <p class="pro-upload-text" style="color: #0d2151; font-weight: 700;">{{ 'pro_dash.upload_replace_photo'|trans }}</p>
                                             {{ form_widget(editForm.mainPhoto, {'attr': {'class': 'd-none', 'accept': 'image/*'}}) }}
                                         </div>
                                         <div id="mainPhotoPreview{{ project.id }}" class="pro-preview-grid">
@@ -256,7 +256,7 @@
                                             {{ form_widget(editForm.state, {'attr': {'class': 'form-check-input', 'style': 'width: 40px; height: 20px;'}}) }}
                                         </div>
                                          <div>
-                                            <label class="drl-label mb-0" for="{{ editForm.state.vars.id }}">{{ 'Publié'|trans }}</label>
+                                            <label class="drl-label mb-0" for="{{ editForm.state.vars.id }}">{{ 'pro_dash.status_published'|trans }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -266,9 +266,9 @@
                         {{ form_end(editForm) }}
                     </div>
                      <div class="modal-footer drl-modal-footer">
-                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'Annuler'|trans }}</button>
+                        <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'pro_dash.btn_cancel'|trans }}</button>
                         <button type="submit" form="editProjectForm{{ project.id }}" class="drl-btn-orange px-5" style="background: #16a34a; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
-                            <i class="ph-floppy-disk me-2"></i> {{ 'Enregistrer les modifications'|trans }}
+                            <i class="ph-floppy-disk me-2"></i> {{ 'pro_dash.btn_save_changes'|trans }}
                         </button>
                     </div>
                 </div>
@@ -285,19 +285,19 @@
                                 <i class="ph-warning"></i>
                             </div>
                         </div>
-                         <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'Supprimer le projet ?'|trans }}</h4>
+                         <h4 class="drl-card-title mb-2" style="font-size: 20px;">{{ 'pro_dash.delete_project_title'|trans }}</h4>
                         <p class="text-muted mb-4">
-                            {{ 'Êtes-vous sûr de vouloir supprimer définitivement'|trans }} <strong>"{{ project.name }}"</strong>? {{ 'Cette action est irréversible.'|trans }}
+                            {{ 'pro_dash.delete_project_confirm'|trans }} <strong>"{{ project.name }}"</strong>? {{ 'pro_dash.delete_irreversible'|trans }}
                         </p>
                         <div class="d-flex flex-column gap-2 mt-4">
                             <form method="post" action="{{ path('professional_project_delete', {id: project.id}) }}" class="w-100">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project.id) }}">
                                  <button type="submit" class="drl-btn-orange w-100 justify-content-center" style="background:#ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.25);">
-                                    <i class="ph-trash me-2"></i> {{ 'Oui, supprimer définitivement'|trans }}
+                                    <i class="ph-trash me-2"></i> {{ 'pro_dash.btn_confirm_delete_project'|trans }}
                                 </button>
                             </form>
                             <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">
-                                {{ 'Annuler'|trans }}
+                                {{ 'pro_dash.btn_cancel'|trans }}
                             </button>
                         </div>
                     </div>

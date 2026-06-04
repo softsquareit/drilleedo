@@ -1,6 +1,6 @@
 {% extends 'professional/base_professional.html.twig' %}
 
-{% block title %}{{ 'Mon Profil'|trans }} – {{ app.user.displayName }}{% endblock %}
+{% block title %}{{ 'menu.my_profile'|trans }} – {{ app.user.displayName }}{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -264,7 +264,7 @@
             {% else %}
                 <img src="{{ asset('assets/drilleedo/images/team/avatar.jpg') }}" alt="{{ user.displayName }}" class="prf-avatar pro-avatar-img">
             {% endif %}
-            <button class="prf-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" title="{{ 'Changer la photo'|trans }}">
+            <button class="prf-avatar-edit" data-bs-toggle="modal" data-bs-target="#editLogoModal" title="{{ 'prf.btn_change_photo'|trans }}">
                 <i class="ph-camera"></i>
             </button>
         </div>
@@ -277,31 +277,31 @@
             <div class="prf-badges">
                 {# Availability #}
                 {% if user.availabilityStatus == 'AVAILABLE' %}
-                    <span class="prf-badge prf-badge--avail"><i class="ph-check-circle"></i> {{ 'Disponible'|trans }}</span>
+                    <span class="prf-badge prf-badge--avail"><i class="ph-check-circle"></i> {{ 'prf.avail_available'|trans }}</span>
                 {% elseif user.availabilityStatus == 'BUSY' %}
-                    <span class="prf-badge prf-badge--busy"><i class="ph-clock"></i> {{ 'Occupé'|trans }}</span>
+                    <span class="prf-badge prf-badge--busy"><i class="ph-clock"></i> {{ 'prf.avail_busy'|trans }}</span>
                 {% else %}
-                    <span class="prf-badge prf-badge--unavail"><i class="ph-x-circle"></i> {{ 'Non disponible'|trans }}</span>
+                    <span class="prf-badge prf-badge--unavail"><i class="ph-x-circle"></i> {{ 'prf.avail_unavailable'|trans }}</span>
                 {% endif %}
 
                 {# Verified #}
                 {% if user.isVerified %}
-                    <span class="prf-badge prf-badge--blue"><i class="ph-shield-check"></i> {{ 'Vérifié Drilleedo'|trans }}</span>
+                    <span class="prf-badge prf-badge--blue"><i class="ph-shield-check"></i> {{ 'prf.badge_verified'|trans }}</span>
                 {% endif %}
 
                 {# Top Rated #}
                 {% if user.isTopRated %}
-                    <span class="prf-badge prf-badge--gold"><i class="ph-star"></i> {{ 'Top Noté'|trans }}</span>
+                    <span class="prf-badge prf-badge--gold"><i class="ph-star"></i> {{ 'prf.badge_top_rated'|trans }}</span>
                 {% endif %}
 
                 {# RBQ #}
                 {% if user.isRbqCertified %}
-                    <span class="prf-badge prf-badge--navy"><i class="ph-medal"></i> {{ 'Certifié RBQ'|trans }}</span>
+                    <span class="prf-badge prf-badge--navy"><i class="ph-medal"></i> {{ 'prf.badge_rbq'|trans }}</span>
                 {% endif %}
 
                 {# Insurance #}
                 {% if user.hasInsurance %}
-                    <span class="prf-badge prf-badge--green"><i class="ph-umbrella"></i> {{ 'Assuré'|trans }}</span>
+                    <span class="prf-badge prf-badge--green"><i class="ph-umbrella"></i> {{ 'prf.badge_insured'|trans }}</span>
                 {% endif %}
 
                 {# Category #}
@@ -317,31 +317,31 @@
                         <i class="ph-star" style="fill: #f59e0b; font-size: 16px; vertical-align: middle;"></i>
                         {{ avgRating|number_format(1) }}
                     </div>
-                    <div class="prf-stat-lbl">{{ 'Évaluation'|trans }}</div>
+                    <div class="prf-stat-lbl">{{ 'prf.lbl_rating'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if reviewCount > 0 %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val">{{ reviewCount }}</div>
-                    <div class="prf-stat-lbl">{{ 'Avis'|trans }}</div>
+                    <div class="prf-stat-lbl">{{ 'prf.lbl_reviews'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if user.expYears %}
                 <div class="prf-stat-item">
-                    <div class="prf-stat-val">{{ user.expYears }} {{ 'ans'|trans }}</div>
-                    <div class="prf-stat-lbl">{{ 'Expérience'|trans }}</div>
+                    <div class="prf-stat-val">{{ user.expYears }} {{ 'prf.lbl_years'|trans }}</div>
+                    <div class="prf-stat-lbl">{{ 'prf.lbl_experience'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if user.city %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val" style="font-size: 15px;">{{ user.city }}</div>
-                    <div class="prf-stat-lbl">{{ 'Ville'|trans }}</div>
+                    <div class="prf-stat-lbl">{{ 'prf.lbl_city'|trans }}</div>
                 </div>
                 {% endif %}
                 {% if user.minPrice %}
                 <div class="prf-stat-item">
                     <div class="prf-stat-val">{{ user.minPrice }} $</div>
-                    <div class="prf-stat-lbl">{{ 'Prix min.'|trans }}</div>
+                    <div class="prf-stat-lbl">{{ 'prf.lbl_min_price'|trans }}</div>
                 </div>
                 {% endif %}
             </div>
@@ -350,20 +350,20 @@
         {# Edit button #}
         <div class="prf-edit-btn">
             <button type="button" class="drl-btn-orange" style="padding: 10px 20px; font-size: 13px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                <i class="ph-pencil me-1"></i> {{ 'Modifier le profil'|trans }}
+                <i class="ph-pencil me-1"></i> {{ 'prf.btn_edit_profile'|trans }}
             </button>
         </div>
     </div>
 
     {# Completion bar #}
     <div class="prf-completion">
-        <span class="prf-completion-label">{{ 'Complétude du profil'|trans }}</span>
+        <span class="prf-completion-label">{{ 'prf.completion_label'|trans }}</span>
         <div class="prf-completion-bar">
             <div class="prf-completion-fill" style="width: {{ completionPct }}%;"></div>
         </div>
         <span class="prf-completion-pct">{{ completionPct }}%</span>
         {% if completionPct < 100 %}
-            <a href="#" onclick="document.querySelector('[data-bs-target=\'#editProfileModal\']').click(); return false;" class="drl-tag drl-tag--info ms-2" style="font-size: 11px; text-decoration: none;">{{ 'Compléter'|trans }}</a>
+            <a href="#" onclick="document.querySelector('[data-bs-target=\'#editProfileModal\']').click(); return false;" class="drl-tag drl-tag--info ms-2" style="font-size: 11px; text-decoration: none;">{{ 'prf.btn_complete'|trans }}</a>
         {% endif %}
     </div>
 </div>
@@ -376,13 +376,13 @@
     {# Tabs nav #}
     <div class="prf-tabs" role="tablist">
         <button class="prf-tab-btn active" data-tab="presentation" type="button">
-            <i class="ph-user-circle"></i> {{ 'Présentation'|trans }}
+            <i class="ph-user-circle"></i> {{ 'prf.tab_presentation'|trans }}
         </button>
         <button class="prf-tab-btn" data-tab="services" type="button">
-            <i class="ph-briefcase"></i> {{ 'Activité & Services'|trans }}
+            <i class="ph-briefcase"></i> {{ 'prf.tab_activity'|trans }}
         </button>
         <button class="prf-tab-btn" data-tab="trust" type="button">
-            <i class="ph-shield-check"></i> {{ 'Confiance & Certifications'|trans }}
+            <i class="ph-shield-check"></i> {{ 'prf.tab_trust'|trans }}
         </button>
     </div>
 
@@ -392,7 +392,7 @@
             <div class="col-lg-8">
 
                 {# About #}
-                <p class="prf-section-title">{{ 'À propos'|trans }}</p>
+                <p class="prf-section-title">{{ 'prf.section_about'|trans }}</p>
                 <div class="prf-field" style="border-bottom: none; padding-top: 0;">
                     <div class="prf-field-icon prf-field-icon--blue">
                         <i class="ph-file-text"></i>
@@ -401,12 +401,12 @@
                         {% if user.about %}
                             <p class="prf-field-val" style="white-space: pre-line;">{{ user.about }}</p>
                         {% else %}
-                            <p class="prf-field-val prf-field-empty">{{ 'Non renseigné'|trans }}</p>
+                            <p class="prf-field-val prf-field-empty">{{ 'prf.not_filled'|trans }}</p>
                         {% endif %}
                     </div>
                 </div>
 
-                <p class="prf-section-title mt-4">{{ 'Coordonnées'|trans }}</p>
+                <p class="prf-section-title mt-4">{{ 'prf.section_contact'|trans }}</p>
 
                 <div class="prf-field">
                     <div class="prf-field-icon prf-field-icon--slate">
@@ -423,8 +423,8 @@
                         <i class="ph-map-pin"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">{{ 'Ville'|trans }}</p>
-                        <p class="prf-field-val {% if not user.city %}prf-field-empty{% endif %}">{{ user.city ?: 'Non renseignée'|trans }}</p>
+                        <p class="prf-field-label">{{ 'prf.lbl_city'|trans }}</p>
+                        <p class="prf-field-val {% if not user.city %}prf-field-empty{% endif %}">{{ user.city ?: 'prf.not_filled_f'|trans }}</p>
                     </div>
                 </div>
 
@@ -434,7 +434,7 @@
                         <i class="ph-phone"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">{{ 'Téléphone'|trans }}</p>
+                        <p class="prf-field-label">{{ 'prf.lbl_phone'|trans }}</p>
                         <p class="prf-field-val">{{ user.phoneNum }}</p>
                     </div>
                 </div>
@@ -445,14 +445,14 @@
                         <i class="ph-navigation-arrow"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">{{ "Zone d'intervention"|trans }}</p>
+                        <p class="prf-field-label">{{ 'prf.lbl_zone'|trans }}</p>
                         <p class="prf-field-val {% if not user.interventionZone %}prf-field-empty{% endif %}">
                             {% if user.interventionZone %}
                                 {{ user.interventionZone }}{% if user.interventionRadius %} ({{ user.interventionRadius }} km){% endif %}
                             {% elseif user.interventionRadius %}
-                                {{ 'Rayon de %radius% km'|trans({'%radius%': user.interventionRadius}) }}
+                                {{ 'prf.radius_km'|trans({'%radius%': user.interventionRadius}) }}
                             {% else %}
-                                {{ 'Non renseignée'|trans }}
+                                {{ 'prf.not_filled_f'|trans }}
                             {% endif %}
                         </p>
                     </div>
@@ -463,7 +463,7 @@
             <div class="col-lg-4">
 
                 {# Languages #}
-                <p class="prf-section-title">{{ 'Langues parlées'|trans }}</p>
+                <p class="prf-section-title">{{ 'prf.lbl_languages'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon prf-field-icon--navy">
                         <i class="ph-globe"></i>
@@ -471,20 +471,20 @@
                     <div>
                         {% if user.languages and user.languages|length > 0 %}
                             <div class="prf-tag-list">
-                                {% set langMap = {'FR': 'Français'|trans, 'EN': 'Anglais'|trans, 'ES': 'Espagnol'|trans, 'IT': 'Italien'|trans} %}
+                                {% set langMap = {'FR': 'prf.lang_fr'|trans, 'EN': 'prf.lang_en'|trans, 'ES': 'prf.lang_es'|trans, 'IT': 'prf.lang_it'|trans} %}
                                 {% for lang in user.languages %}
                                     <span class="prf-tag">{{ langMap[lang] ?? lang }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            <p class="prf-field-val prf-field-empty">{{ 'Non renseignées'|trans }}</p>
+                            <p class="prf-field-val prf-field-empty">{{ 'prf.not_filled_pl'|trans }}</p>
                         {% endif %}
                     </div>
                 </div>
 
                 {# Opening hours #}
                 {% if user.openingHours and user.openingHours|length > 0 %}
-                <p class="prf-section-title mt-4">{{ 'Horaires'|trans }}</p>
+                <p class="prf-section-title mt-4">{{ 'prf.lbl_hours'|trans }}</p>
                 <ul class="prf-hours-list">
                     {% for line in user.openingHours %}
                         <li><span>{{ line }}</span></li>
@@ -501,7 +501,7 @@
         <div class="row g-4">
 
             <div class="col-lg-6">
-                <p class="prf-section-title">{{ "Secteur d'activité"|trans }}</p>
+                <p class="prf-section-title">{{ 'prf.lbl_sector'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon prf-field-icon--blue">
                         <i class="ph-squares-four"></i>
@@ -509,18 +509,18 @@
                     <div>
                         {% if user.category %}
                             {% if user.category.parent %}
-                                <p class="prf-field-label">{{ 'Secteur'|trans }}</p>
+                                <p class="prf-field-label">{{ 'prf.lbl_sector_short'|trans }}</p>
                                 <p class="prf-field-val">{{ user.category.parent.localizedTitle(app.request.locale) }}</p>
-                                <p class="prf-field-label mt-2">{{ 'Service spécialisé'|trans }}</p>
+                                <p class="prf-field-label mt-2">{{ 'prf.lbl_specialized'|trans }}</p>
                             {% endif %}
                             <p class="prf-field-val">{{ user.category.localizedTitle(app.request.locale) }}</p>
                         {% else %}
-                            <p class="prf-field-val prf-field-empty">{{ 'Non renseigné'|trans }}</p>
+                            <p class="prf-field-val prf-field-empty">{{ 'prf.not_filled'|trans }}</p>
                         {% endif %}
                     </div>
                 </div>
 
-                <p class="prf-section-title mt-4">{{ 'Services proposés'|trans }}</p>
+                <p class="prf-section-title mt-4">{{ 'prf.section_services'|trans }}</p>
                 {% if user.services and user.services|length > 0 %}
                     <ul class="prf-service-list">
                         {% for item in user.services %}
@@ -528,12 +528,12 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="prf-field-val prf-field-empty">{{ 'Aucun service listé'|trans }}</p>
+                    <p class="prf-field-val prf-field-empty">{{ 'prf.no_services'|trans }}</p>
                 {% endif %}
             </div>
 
             <div class="col-lg-6">
-                <p class="prf-section-title">{{ 'Pourquoi me choisir ?'|trans }}</p>
+                <p class="prf-section-title">{{ 'prf.section_why'|trans }}</p>
                 {% if user.whyChooseUs and user.whyChooseUs|length > 0 %}
                     <ul class="prf-service-list" style="list-style: none;">
                         {% for item in user.whyChooseUs %}
@@ -544,30 +544,30 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="prf-field-val prf-field-empty">{{ 'Non renseigné'|trans }}</p>
+                    <p class="prf-field-val prf-field-empty">{{ 'prf.not_filled'|trans }}</p>
                 {% endif %}
 
-                <p class="prf-section-title mt-4">{{ 'Disponibilité'|trans }}</p>
+                <p class="prf-section-title mt-4">{{ 'prf.lbl_availability'|trans }}</p>
                 <div class="prf-field" style="padding-top: 0; border-bottom: none;">
                     <div class="prf-field-icon {% if user.availabilityStatus == 'AVAILABLE' %}prf-field-icon--green{% elseif user.availabilityStatus == 'BUSY' %}prf-field-icon--orng{% else %}prf-field-icon--slate{% endif %}">
                         <i class="ph-clock"></i>
                     </div>
                     <div>
-                        <p class="prf-field-label">{{ 'Statut actuel'|trans }}</p>
+                        <p class="prf-field-label">{{ 'prf.lbl_current_status'|trans }}</p>
                         <p class="prf-field-val">
                             {% if user.availabilityStatus == 'AVAILABLE' %}
-                                <span style="color: #16a34a; font-weight: 800;">{{ 'Disponible'|trans }}</span>
+                                <span style="color: #16a34a; font-weight: 800;">{{ 'prf.avail_available'|trans }}</span>
                             {% elseif user.availabilityStatus == 'BUSY' %}
-                                <span style="color: #d97706; font-weight: 800;">{{ 'Occupé'|trans }}</span>
+                                <span style="color: #d97706; font-weight: 800;">{{ 'prf.avail_busy'|trans }}</span>
                             {% else %}
-                                <span style="color: #dc2626; font-weight: 800;">{{ 'Indisponible'|trans }}</span>
+                                <span style="color: #dc2626; font-weight: 800;">{{ 'prf.avail_unavailable_lbl'|trans }}</span>
                             {% endif %}
                         </p>
                         <form method="post" action="{{ path('professional_update_availability') }}" class="mt-2 d-flex gap-2 flex-wrap">
                             <input type="hidden" name="_token" value="{{ csrf_token('update-availability') }}">
-                            <button type="submit" name="status" value="AVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'AVAILABLE' %}drl-btn-green{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'Disponible'|trans }}</button>
-                            <button type="submit" name="status" value="BUSY" class="drl-btn btn-sm {% if user.availabilityStatus == 'BUSY' %}drl-btn-orange{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'Occupé'|trans }}</button>
-                            <button type="submit" name="status" value="UNAVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'UNAVAILABLE' %}drl-btn-danger{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'Indisponible'|trans }}</button>
+                            <button type="submit" name="status" value="AVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'AVAILABLE' %}drl-btn-green{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'prf.avail_available'|trans }}</button>
+                            <button type="submit" name="status" value="BUSY" class="drl-btn btn-sm {% if user.availabilityStatus == 'BUSY' %}drl-btn-orange{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'prf.avail_busy'|trans }}</button>
+                            <button type="submit" name="status" value="UNAVAILABLE" class="drl-btn btn-sm {% if user.availabilityStatus == 'UNAVAILABLE' %}drl-btn-danger{% else %}drl-btn-outline{% endif %}" style="padding: 4px 12px; font-size: 12px;">{{ 'prf.avail_unavailable_lbl'|trans }}</button>
                         </form>
                     </div>
                 </div>
@@ -578,59 +578,59 @@
 
     {# ── Tab 3: Confiance & Certifications ── #}
     <div class="prf-tab-pane" id="pane-trust">
-        <p class="prf-section-title">Badges de confiance</p>
+        <p class="prf-section-title">{{ 'prf.trust_badges_title'|trans }}</p>
         <div class="prf-trust-grid">
             <div class="prf-trust-item {{ user.isVerified ? 'active' }}">
                 <div class="prf-trust-icon"><i class="ph-shield-check"></i></div>
-                <span class="prf-trust-label">Vérifié Drilleedo</span>
+                <span class="prf-trust-label">{{ 'prf.trust_verified'|trans }}</span>
             </div>
             <div class="prf-trust-item {{ user.isTopRated ? 'active' }}">
                 <div class="prf-trust-icon"><i class="ph-star"></i></div>
-                <span class="prf-trust-label">Top Noté</span>
+                <span class="prf-trust-label">{{ 'prf.trust_top_rated'|trans }}</span>
             </div>
             <div class="prf-trust-item {{ user.isRbqCertified ? 'active' }}">
                 <div class="prf-trust-icon"><i class="ph-medal"></i></div>
-                <span class="prf-trust-label">Certifié RBQ</span>
+                <span class="prf-trust-label">{{ 'prf.trust_rbq'|trans }}</span>
             </div>
             <div class="prf-trust-item {{ user.hasInsurance ? 'active' }}">
                 <div class="prf-trust-icon"><i class="ph-umbrella"></i></div>
-                <span class="prf-trust-label">Assuré R.C.</span>
+                <span class="prf-trust-label">{{ 'prf.trust_insured'|trans }}</span>
             </div>
             <div class="prf-trust-item {{ user.hasFreeQuotes ? 'active' }}">
                 <div class="prf-trust-icon"><i class="ph-gift"></i></div>
-                <span class="prf-trust-label">Soumissions gratuites</span>
+                <span class="prf-trust-label">{{ 'prf.trust_free_quotes'|trans }}</span>
             </div>
             <div class="prf-trust-item {{ user.hasGuaranteedWork ? 'active' }}">
                 <div class="prf-trust-icon"><i class="ph-check-square"></i></div>
-                <span class="prf-trust-label">Travaux garantis</span>
+                <span class="prf-trust-label">{{ 'prf.trust_guaranteed'|trans }}</span>
             </div>
         </div>
 
-        <p class="prf-section-title mt-4">Tarification</p>
+        <p class="prf-section-title mt-4">{{ 'prf.pricing_title'|trans }}</p>
         <div class="row g-3 mt-0">
             <div class="col-sm-6 col-lg-3">
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
                     <div style="font-size: 22px; font-weight: 900; color: #0d2151;">{{ user.minPrice ? user.minPrice ~ ' $' : '—' }}</div>
-                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Prix minimum</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">{{ 'prf.lbl_min_price_stat'|trans }}</div>
                 </div>
             </div>
             <div class="col-sm-6 col-lg-3">
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
                     <div style="font-size: 22px; font-weight: 900; color: #0d2151;">{{ user.interventionRadius ? user.interventionRadius ~ ' km' : '—' }}</div>
-                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Rayon d'intervention</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">{{ 'prf.lbl_radius_stat'|trans }}</div>
                 </div>
             </div>
         </div>
 
         {% if user.licenceNum or user.companyNum %}
-        <p class="prf-section-title mt-4">Numéros légaux</p>
+        <p class="prf-section-title mt-4">{{ 'prf.legal_title'|trans }}</p>
         <div class="row g-3 mt-0">
             {% if user.licenceNum %}
             <div class="col-sm-6">
                 <div class="prf-field" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; gap: 12px;">
                     <div class="prf-field-icon prf-field-icon--navy"><i class="ph-hash"></i></div>
                     <div>
-                        <p class="prf-field-label">N° Licence</p>
+                        <p class="prf-field-label">{{ 'prf.lbl_licence_short'|trans }}</p>
                         <p class="prf-field-val">{{ user.licenceNum }}</p>
                     </div>
                 </div>
@@ -641,7 +641,7 @@
                 <div class="prf-field" style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; gap: 12px;">
                     <div class="prf-field-icon prf-field-icon--navy"><i class="ph-briefcase"></i></div>
                     <div>
-                        <p class="prf-field-label">N° Entreprise</p>
+                        <p class="prf-field-label">{{ 'prf.lbl_company_short'|trans }}</p>
                         <p class="prf-field-val">{{ user.companyNum }}</p>
                     </div>
                 </div>
@@ -689,11 +689,11 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                     <div class="w-100">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="modal-title mb-0">
-                                <i class="ph-user-focus me-2"></i>{{ 'Modifier le profil'|trans }}
+                                <i class="ph-user-focus me-2"></i>{{ 'prf.btn_edit_profile'|trans }}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <p class="mb-0">{{ 'Personnalisez votre présence sur Drilleedo pour attirer plus de clients.'|trans }}</p>
+                        <p class="mb-0">{{ 'prf.modal_subtitle'|trans }}</p>
                     </div>
                 </div>
 
@@ -702,16 +702,16 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                     {# Modal Tabs #}
                     <div class="prf-modal-tabs sticky-top">
                         <button type="button" class="prf-modal-tab-btn active" data-modal-tab="tab-identity">
-                            <i class="ph-identification-card"></i> {{ 'Identité'|trans }}
+                            <i class="ph-identification-card"></i> {{ 'prf.modal_tab_identity'|trans }}
                         </button>
                         <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-activity">
-                            <i class="ph-briefcase"></i> {{ 'Activité'|trans }}
+                            <i class="ph-briefcase"></i> {{ 'prf.modal_tab_activity'|trans }}
                         </button>
                         <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-presence">
-                            <i class="ph-info"></i> {{ 'Présence'|trans }}
+                            <i class="ph-info"></i> {{ 'prf.modal_tab_presence'|trans }}
                         </button>
                         <button type="button" class="prf-modal-tab-btn" data-modal-tab="tab-trust">
-                            <i class="ph-shield-check"></i> {{ 'Certifications'|trans }}
+                            <i class="ph-shield-check"></i> {{ 'prf.modal_tab_certs'|trans }}
                         </button>
                     </div>
 
@@ -719,36 +719,36 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
 
                         {# ── Tab: Identité ── #}
                         <div class="prf-modal-tab-pane" id="tab-identity">
-                            <h6 class="prf-modal-section-title">{{ 'Informations de base'|trans }}</h6>
+                            <h6 class="prf-modal-section-title">{{ 'prf.section_basic'|trans }}</h6>
                             <div class="row g-4 mt-0">
                                 <div class="col-lg-12">
-                                    <label class="drl-label">{{ "Nom de l'entreprise / Nom commercial"|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_company_name'|trans }}</label>
                                     {{ form_widget(form.company_name, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Construction Tremblay Inc.'}}) }}
                                     {{ form_errors(form.company_name) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Email professionnel'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_pro_email'|trans }}</label>
                                     {{ form_widget(form.email, {'attr': {'class': 'drl-input', 'placeholder': 'contact@monentreprise.ca'}}) }}
                                     {{ form_errors(form.email) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Téléphone'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_phone'|trans }}</label>
                                     {{ form_widget(form.phoneNum, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 514-123-4567'}}) }}
                                     {{ form_errors(form.phoneNum) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Ville'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_city'|trans }}</label>
                                     {{ form_widget(form.city, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Montréal'}}) }}
                                     {{ form_errors(form.city) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ "Années d'expérience"|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_exp_years'|trans }}</label>
                                     {{ form_widget(form.exp_years, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 10'}}) }}
                                     {{ form_errors(form.exp_years) }}
                                 </div>
                                 <div class="col-12">
-                                    <label class="drl-label">{{ 'À propos de moi / ma compagnie'|trans }}</label>
-                                    {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '6', 'placeholder': 'Décrivez votre expérience, vos valeurs, votre approche...'|trans}}) }}
+                                    <label class="drl-label">{{ 'prf.lbl_about_me'|trans }}</label>
+                                    {{ form_widget(form.about, {'attr': {'class': 'drl-input', 'rows': '6', 'placeholder': 'prf.ph_about'|trans}}) }}
                                     {{ form_errors(form.about) }}
                                 </div>
                             </div>
@@ -756,15 +756,15 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
 
                         {# ── Tab: Activité ── #}
                         <div class="prf-modal-tab-pane d-none" id="tab-activity">
-                            <h6 class="prf-modal-section-title">{{ 'Domaine expertise'|trans }}</h6>
+                            <h6 class="prf-modal-section-title">{{ 'prf.section_expertise'|trans }}</h6>
                             <div class="row g-4 mt-0">
                                 <div class="col-lg-6">
-                                    <label class="drl-label" for="{{ form.parentCategory.vars.id }}">{{ "Secteur d'activité"|trans }}</label>
+                                    <label class="drl-label" for="{{ form.parentCategory.vars.id }}">{{ 'prf.lbl_sector'|trans }}</label>
                                     {{ form_widget(form.parentCategory, {'attr': {'class': 'drl-input form-select parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
                                     {{ form_errors(form.parentCategory) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label" for="{{ form.category.vars.id }}">{{ 'Service spécialisé'|trans }}</label>
+                                    <label class="drl-label" for="{{ form.category.vars.id }}">{{ 'prf.lbl_specialized'|trans }}</label>
                                     {{ form_widget(form.category, {
                                         'attr': {
                                             'class': 'drl-input form-select child-category-select selectpicker',
@@ -775,40 +775,40 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                                     {{ form_errors(form.category) }}
                                 </div>
                                 <div class="col-12">
-                                    <label class="drl-label">{{ 'Pourquoi me choisir ?'|trans }} <span class="text-muted fw-normal" style="font-size: 12px; text-transform: none; letter-spacing: 0;">({{ 'un avantage par ligne'|trans }})</span></label>
-                                    {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Expérience reconnue\nTravaux garantis\nRéponse rapide"|trans}}) }}
+                                    <label class="drl-label">{{ 'prf.section_why'|trans }} <span class="text-muted fw-normal" style="font-size: 12px; text-transform: none; letter-spacing: 0;">({{ 'prf.hint_one_per_line'|trans }})</span></label>
+                                    {{ form_widget(form.whyChooseUs, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'prf.ph_why_choose'|trans}}) }}
                                     {{ form_errors(form.whyChooseUs) }}
                                 </div>
                                 <div class="col-12">
-                                    <label class="drl-label">{{ 'Mes services'|trans }} <span class="text-muted fw-normal" style="font-size: 12px; text-transform: none; letter-spacing: 0;">({{ 'un service par ligne'|trans }})</span></label>
-                                    {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': "Rénovation de cuisine\nInstallation de salle de bain\nPeinture intérieure"|trans}}) }}
+                                    <label class="drl-label">{{ 'prf.lbl_my_services'|trans }} <span class="text-muted fw-normal" style="font-size: 12px; text-transform: none; letter-spacing: 0;">({{ 'prf.hint_one_per_line'|trans }})</span></label>
+                                    {{ form_widget(form.services, {'attr': {'class': 'drl-input', 'rows': '5', 'placeholder': 'prf.ph_services'|trans}}) }}
                                     {{ form_errors(form.services) }}
                                 </div>
-                                
-                                <h6 class="prf-modal-section-title mt-4">{{ 'Conditions & Tarifs'|trans }}</h6>
+
+                                <h6 class="prf-modal-section-title mt-4">{{ 'prf.section_conditions'|trans }}</h6>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ "Zone d'intervention"|trans }}</label>
-                                    {{ form_widget(form.interventionZone, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Grand Montréal, 50km de Québec'|trans}}) }}
+                                    <label class="drl-label">{{ 'prf.lbl_zone'|trans }}</label>
+                                    {{ form_widget(form.interventionZone, {'attr': {'class': 'drl-input', 'placeholder': 'prf.ph_zone'|trans}}) }}
                                     {{ form_errors(form.interventionZone) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ "Rayon d'intervention (km)"|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_radius'|trans }}</label>
                                     {{ form_widget(form.interventionRadius, {'attr': {'class': 'drl-input', 'placeholder': '40'}}) }}
                                     {{ form_errors(form.interventionRadius) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Disponibilité'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_availability'|trans }}</label>
                                     {{ form_widget(form.availabilityStatus, {'attr': {'class': 'drl-input form-select'}}) }}
                                     {{ form_errors(form.availabilityStatus) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Prix minimum ($)'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_min_price_form'|trans }}</label>
                                     {{ form_widget(form.minPrice, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 200'}}) }}
                                     {{ form_errors(form.minPrice) }}
                                 </div>
                                 <div class="col-12">
-                                    <label class="drl-label">{{ 'Horaires (une plage par ligne)'|trans }}</label>
-                                    {{ form_widget(form.openingHours, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': "Lundi – Vendredi: 08:00 – 18:00\nSamedi: 08:00 – 14:00\nDimanche: Fermé"|trans}}) }}
+                                    <label class="drl-label">{{ 'prf.lbl_hours_form'|trans }}</label>
+                                    {{ form_widget(form.openingHours, {'attr': {'class': 'drl-input', 'rows': '4', 'placeholder': 'prf.ph_hours'|trans}}) }}
                                     {{ form_errors(form.openingHours) }}
                                 </div>
                             </div>
@@ -816,17 +816,17 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
 
                         {# ── Tab: Présence ── #}
                         <div class="prf-modal-tab-pane d-none" id="tab-presence">
-                            <h6 class="prf-modal-section-title">{{ 'Communication'|trans }}</h6>
+                            <h6 class="prf-modal-section-title">{{ 'prf.section_comm'|trans }}</h6>
                             <div class="row g-4 mt-0">
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Langues parlées'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_languages'|trans }}</label>
                                     <div class="drl-input p-3 h-auto" style="min-height: 120px;">
                                         {{ form_widget(form.languages) }}
                                     </div>
                                     {{ form_errors(form.languages) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'Préférences de contact'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_contact_prefs'|trans }}</label>
                                     <div class="drl-input p-3 h-auto" style="min-height: 120px;">
                                         {{ form_widget(form.contactPrefs) }}
                                     </div>
@@ -837,7 +837,7 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
 
                         {# ── Tab: Certifications ── #}
                         <div class="prf-modal-tab-pane d-none" id="tab-trust">
-                            <h6 class="prf-modal-section-title">{{ 'Preuves de confiance'|trans }}</h6>
+                            <h6 class="prf-modal-section-title">{{ 'prf.section_trust_proof'|trans }}</h6>
                             <div class="row g-4 mt-0">
                                 <div class="col-12">
                                     <div class="drl-input h-auto p-4">
@@ -846,8 +846,8 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                                                 <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
                                                     {{ form_widget(form.hasInsurance, {'attr': {'class': 'form-check-input mt-0'}}) }}
                                                     <div>
-                                                        <span class="d-block fw-bold text-dark">{{ 'Assurance responsabilité civile'|trans }}</span>
-                                                        <span class="d-block small text-muted">{{ 'Couverture pour les dommages'|trans }}</span>
+                                                        <span class="d-block fw-bold text-dark">{{ 'prf.lbl_insurance'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'prf.lbl_insurance_sub'|trans }}</span>
                                                     </div>
                                                 </label>
                                             </div>
@@ -855,8 +855,8 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                                                 <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
                                                     {{ form_widget(form.rbqCertified, {'attr': {'class': 'form-check-input mt-0'}}) }}
                                                     <div>
-                                                        <span class="d-block fw-bold text-dark">{{ 'Certifié RBQ'|trans }}</span>
-                                                        <span class="d-block small text-muted">{{ 'Licence obligatoire au Québec'|trans }}</span>
+                                                        <span class="d-block fw-bold text-dark">{{ 'prf.badge_rbq'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'prf.lbl_rbq_sub'|trans }}</span>
                                                     </div>
                                                 </label>
                                             </div>
@@ -864,8 +864,8 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                                                 <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
                                                     {{ form_widget(form.freeQuotes, {'attr': {'class': 'form-check-input mt-0'}}) }}
                                                     <div>
-                                                        <span class="d-block fw-bold text-dark">{{ 'Soumissions gratuites'|trans }}</span>
-                                                        <span class="d-block small text-muted">{{ 'Devis sans engagement'|trans }}</span>
+                                                        <span class="d-block fw-bold text-dark">{{ 'prf.lbl_free_quotes'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'prf.lbl_free_quotes_sub'|trans }}</span>
                                                     </div>
                                                 </label>
                                             </div>
@@ -873,8 +873,8 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                                                 <label class="d-flex align-items-center gap-3 cursor-pointer mb-0">
                                                     {{ form_widget(form.guaranteedWork, {'attr': {'class': 'form-check-input mt-0'}}) }}
                                                     <div>
-                                                        <span class="d-block fw-bold text-dark">{{ 'Travaux garantis'|trans }}</span>
-                                                        <span class="d-block small text-muted">{{ 'Garantie après service'|trans }}</span>
+                                                        <span class="d-block fw-bold text-dark">{{ 'prf.lbl_guaranteed'|trans }}</span>
+                                                        <span class="d-block small text-muted">{{ 'prf.lbl_guaranteed_sub'|trans }}</span>
                                                     </div>
                                                 </label>
                                             </div>
@@ -882,12 +882,12 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'N° Licence (RBQ etc.)'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_licence_num'|trans }}</label>
                                     {{ form_widget(form.licenceNum, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 1234-5678-90'}}) }}
                                     {{ form_errors(form.licenceNum) }}
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="drl-label">{{ 'N° Entreprise (NEQ)'|trans }}</label>
+                                    <label class="drl-label">{{ 'prf.lbl_company_num'|trans }}</label>
                                     {{ form_widget(form.companyNum, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: 1160123456'}}) }}
                                     {{ form_errors(form.companyNum) }}
                                 </div>
@@ -897,9 +897,9 @@ document.querySelectorAll('.prf-tab-btn').forEach(btn => {
                     </div>
                 </div>
                 <div class="modal-footer drl-modal-footer">
-                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'Annuler'|trans }}</button>
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-bold" data-bs-dismiss="modal">{{ 'pro_dash.btn_cancel'|trans }}</button>
                     <button type="submit" form="profileUpdateForm" class="drl-btn-orange px-5">
-                        <i class="ph-floppy-disk me-2"></i> {{ 'Enregistrer les modifications'|trans }}
+                        <i class="ph-floppy-disk me-2"></i> {{ 'prf.btn_save'|trans }}
                     </button>
                 </div>
                 {{ form_end(form) }}

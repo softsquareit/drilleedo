@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Je veux soumettre un projet | Drilleedo Canada{% endblock %}
-{% block meta_description %}Soumettez votre projet gratuitement et recevez plusieurs offres de professionnels qualifiés dans votre région. Simple, rapide, sans engagement.{% endblock %}
+{% block title %}{{ 'submit_pg.page_title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'submit_pg.meta_description'|trans }}{% endblock %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -394,11 +394,11 @@
 {# ── Breadcrumb ── #}
 <div class="prj-breadcrumb">
     <div class="container">
-        <a href="{{ path('app_home') }}">Accueil</a>
+        <a href="{{ path('app_home') }}">{{ 'submit_pg.bc_home'|trans }}</a>
         <span class="sep">/</span>
-        <a href="{{ path('app_how_it_works') }}">Comment ça marche</a>
+        <a href="{{ path('app_how_it_works') }}">{{ 'submit_pg.bc_how_it_works'|trans }}</a>
         <span class="sep">/</span>
-        <strong>Je veux soumettre un projet</strong>
+        <strong>{{ 'submit_pg.bc_current'|trans }}</strong>
     </div>
 </div>
 
@@ -410,21 +410,16 @@
         <div class="row align-items-end g-4">
             <div class="col-lg-6 pb-5">
                 <div class="prj-hero-eyebrow">
-                    <i class="feather-send"></i> Pour les propriétaires
+                    <i class="feather-send"></i> {{ 'submit_pg.hero_eyebrow'|trans }}
                 </div>
-                <h1>
-                    Recevez plusieurs offres<br>pour <span class="hl">votre projet</span>
-                </h1>
-                <p class="prj-hero-lead">
-                    Décrivez votre projet en quelques minutes. Notre système transmet votre demande
-                    à des professionnels qualifiés dans votre région. Comparez et choisissez librement.
-                </p>
+                <h1>{{ 'submit_pg.hero_title'|trans|raw }}</h1>
+                <p class="prj-hero-lead">{{ 'submit_pg.hero_lead'|trans }}</p>
                 <div class="prj-hero-actions">
                     <a href="{{ path('app_register') }}" class="btn-prj-primary">
-                        <i class="feather-send"></i> Soumettre mon projet
+                        <i class="feather-send"></i> {{ 'submit_pg.hero_btn_submit'|trans }}
                     </a>
                     <a href="#how-it-works" class="btn-prj-outline">
-                        <i class="feather-play-circle"></i> Voir comment ça marche
+                        <i class="feather-play-circle"></i> {{ 'submit_pg.hero_btn_how'|trans }}
                     </a>
                 </div>
                 <div class="prj-hero-trust">
@@ -434,33 +429,31 @@
                         <img src="{{ asset('assets/drilleedo/images/team/team-03.jpg') }}" alt="">
                         <img src="{{ asset('assets/drilleedo/images/team/team-04.jpg') }}" alt="">
                     </div>
-                    <div class="prj-trust-text">
-                        <strong>+8 000 projets</strong> concrétisés grâce à Drilleedo
-                    </div>
+                    <div class="prj-trust-text">{{ 'submit_pg.hero_trust_text'|trans|raw }}</div>
                 </div>
             </div>
             <div class="col-lg-6 prj-hero-img-col">
                 <img src="{{ asset('assets/drilleedo/images/stock/hero_handyman.jpg') }}"
-                     alt="Soumettez votre projet" class="prj-hero-img">
+                     alt="{{ 'submit_pg.hero_img_alt'|trans }}" class="prj-hero-img">
                 <div class="prj-float prj-float-1">
                     <div class="prj-float-icon orange"><i class="feather-file-text"></i></div>
                     <div>
-                        <div class="prj-float-val">3 à 5</div>
-                        <div class="prj-float-lbl">Offres reçues en moy.</div>
+                        <div class="prj-float-val">{{ 'submit_pg.float1_val'|trans }}</div>
+                        <div class="prj-float-lbl">{{ 'submit_pg.float1_lbl'|trans }}</div>
                     </div>
                 </div>
                 <div class="prj-float prj-float-2">
                     <div class="prj-float-icon green"><i class="feather-clock"></i></div>
                     <div>
-                        <div class="prj-float-val">&lt; 24h</div>
-                        <div class="prj-float-lbl">Première réponse</div>
+                        <div class="prj-float-val">{{ 'submit_pg.float2_val'|trans }}</div>
+                        <div class="prj-float-lbl">{{ 'submit_pg.float2_lbl'|trans }}</div>
                     </div>
                 </div>
                 <div class="prj-float prj-float-3">
                     <div class="prj-float-icon blue"><i class="feather-percent"></i></div>
                     <div>
-                        <div class="prj-float-val">0 $</div>
-                        <div class="prj-float-lbl">Frais de soumission</div>
+                        <div class="prj-float-val">{{ 'submit_pg.float3_val'|trans }}</div>
+                        <div class="prj-float-lbl">{{ 'submit_pg.float3_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
@@ -475,20 +468,20 @@
     <div class="container">
         <div class="prj-stats-grid">
             <div class="prj-stat-item">
-                <div class="prj-stat-val">3-5</div>
-                <div class="prj-stat-lbl">Offres reçues en moyenne</div>
+                <div class="prj-stat-val">{{ 'submit_pg.stat1_val'|trans }}</div>
+                <div class="prj-stat-lbl">{{ 'submit_pg.stat1_lbl'|trans }}</div>
             </div>
             <div class="prj-stat-item">
                 <div class="prj-stat-val">&lt;24<span>h</span></div>
-                <div class="prj-stat-lbl">Pour la 1re réponse</div>
+                <div class="prj-stat-lbl">{{ 'submit_pg.stat2_lbl'|trans }}</div>
             </div>
             <div class="prj-stat-item">
-                <div class="prj-stat-val">+1 500</div>
-                <div class="prj-stat-lbl">Professionnels disponibles</div>
+                <div class="prj-stat-val">{{ 'submit_pg.stat3_val'|trans }}</div>
+                <div class="prj-stat-lbl">{{ 'submit_pg.stat3_lbl'|trans }}</div>
             </div>
             <div class="prj-stat-item">
                 <div class="prj-stat-val">0<span> $</span></div>
-                <div class="prj-stat-lbl">Frais pour vous</div>
+                <div class="prj-stat-lbl">{{ 'submit_pg.stat4_lbl'|trans }}</div>
             </div>
         </div>
     </div>
@@ -502,47 +495,41 @@
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
                 <div class="prj-objectif-tag">
-                    <i class="feather-target"></i> Notre objectif
+                    <i class="feather-target"></i> {{ 'submit_pg.obj_tag'|trans }}
                 </div>
-                <h2 class="prj-section-title">
-                    Un formulaire simple pour<br>
-                    <span class="hl">plusieurs offres qualifiées</span>
-                </h2>
-                <p class="prj-section-sub">
-                    Décrivez votre projet une seule fois et laissez les professionnels venir à vous.
-                    Plus besoin de chercher, appeler et négocier un par un.
-                </p>
+                <h2 class="prj-section-title">{{ 'submit_pg.obj_title'|trans|raw }}</h2>
+                <p class="prj-section-sub">{{ 'submit_pg.obj_sub'|trans }}</p>
                 <ul class="prj-check-list">
                     <li>
                         <div class="prj-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Formulaire simple : type de travaux, budget, délais, localisation — en moins de 3 minutes</span>
+                        <span>{{ 'submit_pg.obj_check1'|trans }}</span>
                     </li>
                     <li>
                         <div class="prj-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Votre demande est diffusée automatiquement aux professionnels correspondant à votre besoin</span>
+                        <span>{{ 'submit_pg.obj_check2'|trans }}</span>
                     </li>
                     <li>
                         <div class="prj-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Comparez facilement les offres : prix, délais, services inclus — avant de décider</span>
+                        <span>{{ 'submit_pg.obj_check3'|trans }}</span>
                     </li>
                     <li>
                         <div class="prj-check-icon"><i class="feather-check" style="font-size:10px;"></i></div>
-                        <span>Aucune obligation d'accepter une offre — vous gardez le contrôle total</span>
+                        <span>{{ 'submit_pg.obj_check4'|trans }}</span>
                     </li>
                 </ul>
                 <a href="{{ path('app_register') }}" class="btn-prj-primary">
-                    <i class="feather-arrow-right"></i> Soumettre mon projet
+                    <i class="feather-arrow-right"></i> {{ 'submit_pg.obj_btn_submit'|trans }}
                 </a>
             </div>
             <div class="col-lg-6">
                 <div class="prj-img-wrap">
                     <img src="{{ asset('assets/drilleedo/images/stock/showcase_tall.jpg') }}"
-                         alt="Projet de rénovation" class="prj-objectif-img">
+                         alt="{{ 'submit_pg.obj_img_alt'|trans }}" class="prj-objectif-img">
                     <div class="prj-img-badge">
                         <div class="prj-img-badge-icon"><i class="feather-zap"></i></div>
                         <div>
-                            <div class="prj-img-badge-val">Réponse rapide</div>
-                            <div class="prj-img-badge-lbl">Moins de 24 heures</div>
+                            <div class="prj-img-badge-val">{{ 'submit_pg.obj_badge_val'|trans }}</div>
+                            <div class="prj-img-badge-lbl">{{ 'submit_pg.obj_badge_lbl'|trans }}</div>
                         </div>
                     </div>
                 </div>
@@ -557,44 +544,32 @@
 <section class="prj-how" id="how-it-works">
     <div class="container">
         <div class="prj-how-header">
-            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--O);margin-bottom:10px;">En 4 étapes</span>
-            <h2 class="prj-section-title" style="margin-bottom:8px;">Comment ça fonctionne</h2>
+            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--O);margin-bottom:10px;">{{ 'submit_pg.how_eyebrow'|trans }}</span>
+            <h2 class="prj-section-title" style="margin-bottom:8px;">{{ 'submit_pg.how_title'|trans }}</h2>
             <p style="font-size:15px;color:var(--M);max-width:520px;margin:0 auto;">
-                De la description de votre projet à la réception des offres
+                {{ 'submit_pg.how_sub'|trans }}
             </p>
         </div>
         <div class="prj-steps-grid">
             <div class="prj-step-card">
                 <div class="prj-step-num">1</div>
-                <div class="prj-step-title">Créez votre profil</div>
-                <p class="prj-step-text">
-                    Inscrivez-vous en quelques minutes pour sauvegarder vos projets, contacter des
-                    professionnels et suivre vos échanges depuis votre espace personnel.
-                </p>
+                <div class="prj-step-title">{{ 'submit_pg.step1_title'|trans }}</div>
+                <p class="prj-step-text">{{ 'submit_pg.step1_text'|trans }}</p>
             </div>
             <div class="prj-step-card">
                 <div class="prj-step-num">2</div>
-                <div class="prj-step-title">Décrivez votre projet</div>
-                <p class="prj-step-text">
-                    Remplissez le formulaire avec les détails essentiels : type de travaux, budget
-                    estimé, délais souhaités et localisation. Simple et rapide.
-                </p>
+                <div class="prj-step-title">{{ 'submit_pg.step2_title'|trans }}</div>
+                <p class="prj-step-text">{{ 'submit_pg.step2_text'|trans }}</p>
             </div>
             <div class="prj-step-card">
                 <div class="prj-step-num">3</div>
-                <div class="prj-step-title">Recevez des soumissions</div>
-                <p class="prj-step-text">
-                    Votre demande est envoyée aux entrepreneurs qualifiés. Les professionnels
-                    intéressés vous envoient leurs offres avec prix, délais et détails des services.
-                </p>
+                <div class="prj-step-title">{{ 'submit_pg.step3_title'|trans }}</div>
+                <p class="prj-step-text">{{ 'submit_pg.step3_text'|trans }}</p>
             </div>
             <div class="prj-step-card">
                 <div class="prj-step-num">4</div>
-                <div class="prj-step-title">Comparez et choisissez</div>
-                <p class="prj-step-text">
-                    Analysez les propositions et sélectionnez celle qui vous convient. Vous
-                    décidez en toute liberté, sans aucune obligation d'accepter.
-                </p>
+                <div class="prj-step-title">{{ 'submit_pg.step4_title'|trans }}</div>
+                <p class="prj-step-text">{{ 'submit_pg.step4_text'|trans }}</p>
             </div>
         </div>
     </div>
@@ -609,42 +584,37 @@
             <div class="col-lg-6">
                 <div class="prj-mission-img-wrap">
                     <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
-                         alt="Notre plateforme" class="prj-mission-img">
+                         alt="{{ 'submit_pg.mission_img_alt'|trans }}" class="prj-mission-img">
                     <div class="prj-mission-img-tag">
-                        <div class="prj-mission-img-tag-num">+8 000</div>
-                        <div class="prj-mission-img-tag-lbl">projets complétés</div>
+                        <div class="prj-mission-img-tag-num">{{ 'submit_pg.mission_img_tag_num'|trans }}</div>
+                        <div class="prj-mission-img-tag-lbl">{{ 'submit_pg.mission_img_tag_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="prj-mission-tag"><i class="feather-flag"></i> Notre mission</div>
-                <h2>
-                    Connecter les projets<br>avec les <span>bons experts</span>
-                </h2>
-                <p class="prj-mission-lead">
-                    Notre réseau couvre toutes les régions du Québec et toutes les catégories de
-                    travaux — de la plomberie à la rénovation générale.
-                </p>
+                <div class="prj-mission-tag"><i class="feather-flag"></i> {{ 'submit_pg.mission_tag'|trans }}</div>
+                <h2>{{ 'submit_pg.mission_title'|trans|raw }}</h2>
+                <p class="prj-mission-lead">{{ 'submit_pg.mission_lead'|trans }}</p>
                 <div class="prj-mission-points">
                     <div class="prj-mission-point">
                         <div class="prj-mission-icon"><i class="feather-users"></i></div>
                         <div>
-                            <div class="prj-mission-pt-title">+1 500 professionnels qualifiés</div>
-                            <div class="prj-mission-pt-text">Toutes les catégories de travaux, partout au Québec, avec des profils vérifiés.</div>
+                            <div class="prj-mission-pt-title">{{ 'submit_pg.mission_pt1_title'|trans }}</div>
+                            <div class="prj-mission-pt-text">{{ 'submit_pg.mission_pt1_text'|trans }}</div>
                         </div>
                     </div>
                     <div class="prj-mission-point">
                         <div class="prj-mission-icon"><i class="feather-trending-up"></i></div>
                         <div>
-                            <div class="prj-mission-pt-title">Économisez sur chaque projet</div>
-                            <div class="prj-mission-pt-text">La concurrence entre professionnels vous garantit les meilleurs prix du marché.</div>
+                            <div class="prj-mission-pt-title">{{ 'submit_pg.mission_pt2_title'|trans }}</div>
+                            <div class="prj-mission-pt-text">{{ 'submit_pg.mission_pt2_text'|trans }}</div>
                         </div>
                     </div>
                     <div class="prj-mission-point">
                         <div class="prj-mission-icon"><i class="feather-lock"></i></div>
                         <div>
-                            <div class="prj-mission-pt-title">Vos informations protégées</div>
-                            <div class="prj-mission-pt-text">Vos coordonnées sont partagées uniquement avec les pros que vous choisissez de contacter.</div>
+                            <div class="prj-mission-pt-title">{{ 'submit_pg.mission_pt3_title'|trans }}</div>
+                            <div class="prj-mission-pt-text">{{ 'submit_pg.mission_pt3_text'|trans }}</div>
                         </div>
                     </div>
                 </div>
@@ -659,37 +629,37 @@
 <section class="prj-adv">
     <div class="container">
         <div class="text-center">
-            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--O);margin-bottom:10px;">Ce que vous gagnez</span>
-            <h2 class="prj-section-title" style="margin-bottom:8px;">Vos avantages</h2>
+            <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--O);margin-bottom:10px;">{{ 'submit_pg.adv_eyebrow'|trans }}</span>
+            <h2 class="prj-section-title" style="margin-bottom:8px;">{{ 'submit_pg.adv_title'|trans }}</h2>
             <p style="font-size:15px;color:var(--M);max-width:500px;margin:0 auto;">
-                Tout ce dont vous avez besoin pour concrétiser votre projet avec sérénité.
+                {{ 'submit_pg.adv_sub'|trans }}
             </p>
         </div>
         <div class="prj-adv-grid">
             <div class="prj-adv-card">
                 <div class="prj-adv-icon"><i class="feather-check-circle"></i></div>
-                <div class="prj-adv-title">Aucun effort de recherche</div>
-                <p class="prj-adv-text">Décrivez votre projet une seule fois. Les professionnels viennent à vous, pas l'inverse.</p>
+                <div class="prj-adv-title">{{ 'submit_pg.adv1_title'|trans }}</div>
+                <p class="prj-adv-text">{{ 'submit_pg.adv1_text'|trans }}</p>
             </div>
             <div class="prj-adv-card">
                 <div class="prj-adv-icon"><i class="feather-list"></i></div>
-                <div class="prj-adv-title">Plusieurs offres pour mieux comparer</div>
-                <p class="prj-adv-text">Recevez en moyenne 3 à 5 offres détaillées. Comparez prix, délais et approches avant de choisir.</p>
+                <div class="prj-adv-title">{{ 'submit_pg.adv2_title'|trans }}</div>
+                <p class="prj-adv-text">{{ 'submit_pg.adv2_text'|trans }}</p>
             </div>
             <div class="prj-adv-card">
                 <div class="prj-adv-icon"><i class="feather-clock"></i></div>
-                <div class="prj-adv-title">Gain de temps important</div>
-                <p class="prj-adv-text">Économisez des heures de recherche, d'appels et de négociations. Concentrez-vous sur votre projet.</p>
+                <div class="prj-adv-title">{{ 'submit_pg.adv3_title'|trans }}</div>
+                <p class="prj-adv-text">{{ 'submit_pg.adv3_text'|trans }}</p>
             </div>
             <div class="prj-adv-card">
                 <div class="prj-adv-icon"><i class="feather-dollar-sign"></i></div>
-                <div class="prj-adv-title">Meilleur rapport qualité/prix</div>
-                <p class="prj-adv-text">La compétition entre professionnels vous assure des prix compétitifs et une qualité optimale.</p>
+                <div class="prj-adv-title">{{ 'submit_pg.adv4_title'|trans }}</div>
+                <p class="prj-adv-text">{{ 'submit_pg.adv4_text'|trans }}</p>
             </div>
             <div class="prj-adv-card">
                 <div class="prj-adv-icon"><i class="feather-shield"></i></div>
-                <div class="prj-adv-title">Professionnels qualifiés uniquement</div>
-                <p class="prj-adv-text">Tous les professionnels sont examinés avant d'accéder à votre projet. Que des partenaires sérieux.</p>
+                <div class="prj-adv-title">{{ 'submit_pg.adv5_title'|trans }}</div>
+                <p class="prj-adv-text">{{ 'submit_pg.adv5_text'|trans }}</p>
             </div>
         </div>
     </div>
@@ -702,11 +672,10 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-5">
-                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--O);margin-bottom:12px;">Ils nous font confiance</span>
-                <h2 class="prj-section-title">Des propriétaires satisfaits<br>partout au Québec</h2>
+                <span style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--O);margin-bottom:12px;">{{ 'submit_pg.proof_eyebrow'|trans }}</span>
+                <h2 class="prj-section-title">{{ 'submit_pg.proof_title'|trans|raw }}</h2>
                 <p class="prj-section-sub">
-                    Chaque semaine, des dizaines de propriétaires reçoivent leurs premières offres
-                    et concrétisent leur projet avec les bons professionnels.
+                    {{ 'submit_pg.proof_sub'|trans }}
                 </p>
                 <div class="prj-proof-faces">
                     <img src="{{ asset('assets/drilleedo/images/team/team-01.jpg') }}" alt="" class="prj-proof-face">
@@ -721,39 +690,30 @@
                 <div class="prj-proof-stats">
                     <div>
                         <div class="prj-proof-stat-num">3-5</div>
-                        <div class="prj-proof-stat-lbl">Offres en moyenne</div>
+                        <div class="prj-proof-stat-lbl">{{ 'submit_pg.proof_stat1_lbl'|trans }}</div>
                     </div>
                     <div class="prj-proof-divider"></div>
                     <div>
                         <div class="prj-proof-stat-num">&lt;24h</div>
-                        <div class="prj-proof-stat-lbl">1re réponse</div>
+                        <div class="prj-proof-stat-lbl">{{ 'submit_pg.proof_stat2_lbl'|trans }}</div>
                     </div>
                     <div class="prj-proof-divider"></div>
                     <div>
                         <div class="prj-proof-stat-num">+8 000</div>
-                        <div class="prj-proof-stat-lbl">Projets complétés</div>
+                        <div class="prj-proof-stat-lbl">{{ 'submit_pg.proof_stat3_lbl'|trans }}</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="prj-testimonial">
                     <div class="prj-stars">★★★★★</div>
-                    <p class="prj-testimonial-text">
-                        "J'ai décrit ma rénovation de salle de bain le lundi matin et j'avais déjà
-                        4 soumissions le mercredi. J'ai pu comparer les prix et choisir le meilleur
-                        rapport qualité/prix. J'ai économisé 15 % par rapport au premier prix trouvé.
-                        Un service vraiment utile et entièrement gratuit !"
-                    </p>
-                    <div class="prj-testimonial-author">— Patrick D., Québec</div>
+                    <p class="prj-testimonial-text">{{ 'submit_pg.testimonial1_text'|trans }}</p>
+                    <div class="prj-testimonial-author">{{ 'submit_pg.testimonial1_author'|trans }}</div>
                 </div>
                 <div class="prj-testimonial mt-3">
                     <div class="prj-stars">★★★★★</div>
-                    <p class="prj-testimonial-text">
-                        "Très simple à utiliser. J'ai décrit mon projet en 5 minutes et reçu des
-                        offres de 3 entrepreneurs le lendemain. Je n'aurais jamais trouvé aussi
-                        rapidement par moi-même. Je recommande à tous mes amis propriétaires."
-                    </p>
-                    <div class="prj-testimonial-author">— Isabelle R., Laval</div>
+                    <p class="prj-testimonial-text">{{ 'submit_pg.testimonial2_text'|trans }}</p>
+                    <div class="prj-testimonial-author">{{ 'submit_pg.testimonial2_author'|trans }}</div>
                 </div>
             </div>
         </div>
@@ -765,18 +725,18 @@
 ══════════════════════ #}
 <section class="prj-cta">
     <div class="container" style="position:relative;z-index:2;">
-        <h2>Prêt à concrétiser<br>votre projet ?</h2>
-        <p>Soumettez votre demande en quelques minutes.<br>Gratuit, sans engagement, résultats garantis.</p>
+        <h2>{{ 'submit_pg.cta_title'|trans|raw }}</h2>
+        <p>{{ 'submit_pg.cta_sub'|trans|raw }}</p>
         <div class="prj-cta-actions">
             <a href="{{ path('app_register') }}" class="btn-prj-cta-white">
-                <i class="feather-send"></i> Soumettre mon projet
+                <i class="feather-send"></i> {{ 'submit_pg.cta_btn_submit'|trans }}
             </a>
             <a href="{{ path('professionals_list') }}" class="btn-prj-cta-outline">
-                <i class="feather-search"></i> Voir les professionnels
+                <i class="feather-search"></i> {{ 'submit_pg.cta_btn_pros'|trans }}
             </a>
         </div>
         <p class="prj-cta-note">
-            <i class="feather-lock"></i> Aucune carte requise · Gratuit · En ligne en 3 minutes
+            <i class="feather-lock"></i> {{ 'submit_pg.cta_note'|trans }}
         </p>
     </div>
 </section>

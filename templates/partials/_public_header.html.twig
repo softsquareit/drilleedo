@@ -25,9 +25,9 @@
                             <li class="has-dropdown has-menu-child-item">
                              <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}class="active"{% endif %}>{{ 'nav.how_it_works'|trans }}<i class="feather-chevron-down"></i></a>
                                 <ul class="submenu">
-                                    <li><a href="{{ path('app_for_professionals') }}">Je suis un professionnel</a></li>
-                                    <li><a href="{{ path('app_how_it_works') }}">Je publie un projet</a></li>
-                                    <li><a href="{{ path('app_find_a_pro') }}">Je cherche un professionnel</a></li>
+                                    <li><a href="{{ path('app_for_professionals') }}">{{ 'nav.submenu_i_am_pro'|trans }}</a></li>
+                                    <li><a href="{{ path('app_how_it_works') }}">{{ 'nav.submenu_post_proj'|trans }}</a></li>
+                                    <li><a href="{{ path('app_find_a_pro') }}">{{ 'nav.submenu_find_pro'|trans }}</a></li>
                                 </ul>
                             </li>
 
@@ -169,9 +169,9 @@
                     <li>
                         <a href="{{ path('app_how_it_works') }}" {% if app.request.attributes.get('_route') in ['app_how_it_works', 'individual_quote_new', 'app_receive_quotes'] %}aria-current="page"{% endif %}><i class="feather-info" aria-hidden="true"></i> {{ 'nav.how_it_works'|trans }}</a>
                         <ul style="padding-left: 1rem;">
-                            <li><a href="{{ path('app_i_am_professional') }}">Je suis un professionnel</a></li>
-                            <li><a href="{{ path('app_i_seek_professional') }}">Je cherche un professionnel</a></li>
-                            <li><a href="{{ path('app_submit_project') }}">Je veux soumettre un projet</a></li>
+                            <li><a href="{{ path('app_i_am_professional') }}">{{ 'nav.submenu_i_am_pro'|trans }}</a></li>
+                            <li><a href="{{ path('app_i_seek_professional') }}">{{ 'nav.submenu_find_pro'|trans }}</a></li>
+                            <li><a href="{{ path('app_submit_project') }}">{{ 'nav.submenu_submit_proj'|trans }}</a></li>
                             <li><a href="{{ path('individual_quote_new') }}">{{ 'nav.menu_post_project'|trans }}</a></li>
                             <li><a href="{{ path('professionals_list') }}">{{ 'nav.menu_find_professionals'|trans }}</a></li>
                             <li><a href="{{ path('app_receive_quotes') }}">{{ 'nav.menu_receive_quotes'|trans }}</a></li>
@@ -196,7 +196,7 @@
                     <li>
                         <a href="{{ path('app_for_professionals') }}" {% if app.request.attributes.get('_route') in ['app_for_professionals', 'packages', 'app_register_pro', 'app_grow_business', 'app_how_it_works_pros'] %}aria-current="page"{% endif %}><i class="feather-briefcase" aria-hidden="true"></i> {{ 'nav.for_professionals'|trans }}</a>
                         <ul style="padding-left: 1rem;">
-                            <li><a href="{{ path('app_for_professionals') }}">vv{{ 'nav.why_join'|trans }}</a></li>
+                            <li><a href="{{ path('app_for_professionals') }}">{{ 'nav.why_join'|trans }}</a></li>
                             <li><a href="{{ path('app_register_pro') }}">{{ 'nav.create_profile'|trans }}</a></li>
                             <li><a href="{{ path('app_grow_business') }}">{{ 'nav.grow_business'|trans }}</a></li>
                             <li><a href="{{ path('app_how_it_works_pros') }}">{{ 'nav.how_it_works_pros'|trans }}</a></li>
