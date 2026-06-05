@@ -5,374 +5,682 @@
 
 {% block body %}
 <main id="main-content">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
 <style>
 /* ══ REGISTER PRO LANDING PAGE ════════════════════════════════════════════
-   Follows the Drilleedo brand charter: navy #0C1825, blue #00497F, orange #FF8A3D
-   Reuses the .gyb- prefix structural system.
+   Charte : --B:#00497F · --S:#3FA9F5 · --O:#FF8A3D · --D:#0C1825 · --M:#4A6073
    ═════════════════════════════════════════════════════════════════════════ */
-
-/* ── 1. Hero ── */
-.gyb-hero {
-  min-height: 500px;
-  background: linear-gradient(135deg, #00497F 0%, #3FA9F5 100%);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+:root {
+    --B:#00497F; --S:#3FA9F5; --O:#FF8A3D; --D:#0C1825; --M:#4A6073;
+    --L:#E4EBF2; --W:#fff;
+    --sh: 0 4px 24px rgba(0,73,127,.10);
+    --sh-md: 0 10px 40px rgba(0,73,127,.14);
 }
 
-.gyb-hero__pattern {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+/* ── Scroll animation ── */
+.rp-fade { opacity:0; transform:translateY(26px); transition:opacity .55s ease, transform .55s ease; }
+.rp-fade.in { opacity:1; transform:none; }
+
+/* ════════ 1. HERO ════════ */
+.rp-hero {
+    background: var(--B);
+    padding: 100px 0 80px;
+    position: relative; overflow: hidden; text-align: center;
+}
+.rp-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
+}
+.rp-hero::after {
+    content: ''; position: absolute;
+    left: 50%; top: -140px; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(63,169,245,.08) 0%, transparent 65%);
+    pointer-events: none;
+}
+.rp-hero__inner { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+.rp-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(63,169,245,.18); color: var(--S);
+    border: 1px solid rgba(63,169,245,.35); border-radius: 999px;
+    padding: 7px 20px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 24px;
 }
 
-.gyb-hero__inner {
-  position: relative;
-  z-index: 2;
-  padding: 100px 0;
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
+.rp-hero h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900; color: #fff;
+    margin: 0 0 22px; line-height: 1.08; letter-spacing: -.025em;
+}
+.rp-hero h1 span {
+    color: var(--S); position: relative; display: inline-block;
+}
+.rp-hero h1 span::after {
+    content: ''; position: absolute;
+    bottom: 6px; left: 0; width: 100%; height: 7px;
+    background: rgba(63,169,245,.25); z-index: -1; border-radius: 4px;
+}
+.rp-hero__sub {
+    font-size: 18px; color: rgba(255,255,255,.78);
+    line-height: 1.75; margin: 0 auto 42px; max-width: 680px;
 }
 
-.gyb-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 999px;
-  padding: 6px 18px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+/* ── Buttons ── */
+.rp-btn-o {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--O); color: #fff;
+    font-size: 17px; font-weight: 800;
+    padding: 18px 44px; border-radius: 12px; text-decoration: none;
+    box-shadow: 0 8px 32px rgba(255,138,61,.42);
+    transition: all .25s;
+}
+.rp-btn-o:hover { background: #e87830; transform: translateY(-3px); color: #fff; box-shadow: 0 12px 40px rgba(255,138,61,.52); }
+
+.rp-btn-s {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--S); color: #fff;
+    font-size: 15px; font-weight: 800;
+    padding: 14px 28px; border-radius: 50px; text-decoration: none;
+    box-shadow: 0 4px 18px rgba(63,169,245,.38); transition: all .2s;
+}
+.rp-btn-s:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; }
+
+.rp-btn-w {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: #fff;
+    font-size: 15px; font-weight: 700;
+    padding: 14px 26px; border-radius: 50px; text-decoration: none;
+    border: 2px solid rgba(255,255,255,.28); transition: all .2s;
+}
+.rp-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); color: #fff; }
+
+.rp-hero__note { color: rgba(255,255,255,.52); font-size: 13px; margin-top: 18px; }
+
+/* ── Trust pills under hero ── */
+.rp-trust-row {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    margin-top: 36px;
+}
+.rp-trust-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(63,169,245,.12); color: rgba(255,255,255,.88);
+    border: 1px solid rgba(63,169,245,.25); border-radius: 999px;
+    padding: 6px 16px; font-size: 12px; font-weight: 700;
+}
+.rp-trust-pill i { color: var(--S); }
+
+/* ════════ 2. STATS STRIP ════════ */
+.rp-stats {
+    background: #fff;
+    border-top: 3px solid var(--O);
+    border-bottom: 1px solid var(--L);
+}
+.rp-stats-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+}
+.rp-stat-cell {
+    display: flex; align-items: center; gap: 14px;
+    padding: 24px 18px; border-right: 1px solid var(--L);
+}
+.rp-stat-cell:last-child { border-right: none; }
+.rp-stat-ico {
+    width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.rp-stat-num { font-size: 22px; font-weight: 900; color: var(--B); line-height: 1; }
+.rp-stat-lbl { font-size: 12px; color: var(--M); font-weight: 600; margin-top: 3px; }
+
+/* ════════ 3. BENEFITS GRID ════════ */
+.rp-benefits {
+    background: #f4f8fc; padding: 80px 0;
+}
+.rp-section-header {
+    text-align: center; margin-bottom: 52px;
+}
+.rp-section-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.10); color: var(--O);
+    border: 1px solid rgba(255,138,61,.25); border-radius: 999px;
+    padding: 6px 16px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
+}
+.rp-section-title {
+    font-size: clamp(24px, 3vw, 34px); font-weight: 900;
+    color: var(--B) !important; margin: 0 0 10px; letter-spacing: -.02em;
+}
+.rp-section-sub { font-size: 16px; color: var(--M); max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+.rp-benefits-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 28px;
+}
+.rp-benefit-card {
+    background: #fff; border: 1px solid var(--L);
+    border-radius: 24px; padding: 40px 32px; text-align: center;
+    box-shadow: var(--sh);
+    transition: transform .28s, box-shadow .28s;
+    position: relative; overflow: hidden;
+}
+.rp-benefit-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--S);
+}
+.rp-benefit-card:nth-child(1)::before { background: var(--B); }
+.rp-benefit-card:nth-child(2)::before { background: var(--S); }
+.rp-benefit-card:nth-child(3)::before { background: var(--O); }
+.rp-benefit-card:hover { transform: translateY(-7px); box-shadow: var(--sh-md); }
+.rp-benefit-ico {
+    width: 76px; height: 76px; border-radius: 22px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; font-size: 32px; color: #fff;
+}
+.rp-benefit-ico--1 { background: var(--B); box-shadow: 0 6px 22px rgba(0,73,127,.30); }
+.rp-benefit-ico--2 { background: var(--S); box-shadow: 0 6px 22px rgba(63,169,245,.35); }
+.rp-benefit-ico--3 { background: var(--O); box-shadow: 0 6px 22px rgba(255,138,61,.30); }
+.rp-benefit-card h3 {
+    font-size: 20px; font-weight: 800; color: var(--B) !important;
+    margin: 0 0 12px;
+}
+.rp-benefit-card p { font-size: 15px; color: var(--M); line-height: 1.7; margin: 0; }
+
+/* ════════ 4. ECO — 4 FEATURES ════════ */
+.rp-eco { background: #fff; padding: 80px 0; }
+.rp-eco-grid {
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 28px;
+}
+.rp-eco-card {
+    display: flex; gap: 22px; align-items: flex-start;
+    background: #f4f8fc; border: 1px solid var(--L);
+    border-radius: 20px; padding: 32px 28px;
+    transition: box-shadow .22s, transform .22s;
+}
+.rp-eco-card:hover { box-shadow: var(--sh); transform: translateY(-3px); }
+.rp-eco-ico {
+    width: 54px; height: 54px; border-radius: 16px; flex-shrink: 0;
+    background: rgba(0,73,127,.1); color: var(--B);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+}
+.rp-eco-card:nth-child(2) .rp-eco-ico { background: rgba(63,169,245,.12); color: var(--S); }
+.rp-eco-card:nth-child(3) .rp-eco-ico { background: rgba(63,169,245,.12); color: var(--S); }
+.rp-eco-card:nth-child(4) .rp-eco-ico { background: rgba(255,138,61,.10); color: var(--O); }
+.rp-eco-body h4 {
+    font-size: 17px; font-weight: 800; color: var(--B) !important; margin: 0 0 8px;
+}
+.rp-eco-body p { font-size: 14px; color: var(--M); line-height: 1.75; margin: 0; }
+
+/* ════════ 5. DASHBOARD SECTION ════════ */
+.rp-dash {
+    background: var(--B); padding: 80px 0;
+    position: relative; overflow: hidden;
+}
+.rp-dash::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
+}
+.rp-dash::after {
+    content: ''; position: absolute; top: -80px; right: -60px;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: rgba(255,138,61,.07); pointer-events: none;
+}
+.rp-dash-inner {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+.rp-dash-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+    color: var(--O); font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+}
+.rp-dash h2 {
+    font-size: clamp(24px,3vw,34px); font-weight: 900; color: #fff;
+    margin: 0 0 12px; line-height: 1.15; letter-spacing: -.02em;
+}
+.rp-dash h2 span { color: var(--S); }
+.rp-dash__sub { font-size: 15px; color: rgba(255,255,255,.65); line-height: 1.8; margin-bottom: 32px; }
+
+.rp-dash-list { display: flex; flex-direction: column; gap: 20px; }
+.rp-dash-item {
+    display: flex; gap: 16px; align-items: flex-start;
+}
+.rp-dash-item-ico {
+    width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
+    background: rgba(255,255,255,.12); color: var(--S);
+    border: 1px solid rgba(255,255,255,.1);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.rp-dash-item-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.rp-dash-item-desc { font-size: 13px; color: rgba(255,255,255,.60); line-height: 1.6; }
+
+/* Dashboard mock card */
+.rp-dash-mock {
+    background: #fff; border-radius: 20px; padding: 32px;
+    box-shadow: 0 32px 80px rgba(0,0,0,.28);
+    position: relative;
+}
+.rp-dash-mock-notif {
+    position: absolute; top: -14px; right: -14px;
+    background: var(--O); color: #fff;
+    width: 46px; height: 46px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 8px 20px rgba(255,138,61,.4);
+}
+.rp-dash-mock-head {
+    display: flex; gap: 16px; align-items: center; margin-bottom: 24px;
+}
+.rp-dash-mock-avatar {
+    width: 56px; height: 56px; background: var(--L);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: #b0bec5; flex-shrink: 0;
+}
+.rp-dash-mock-name { font-size: 18px; font-weight: 800; color: var(--D); margin-bottom: 4px; }
+.rp-dash-mock-verified {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(63,169,245,.1); color: var(--S);
+    border-radius: 6px; padding: 3px 10px;
+    font-size: 12px; font-weight: 700;
+}
+.rp-dash-mock-req {
+    background: #f4f8fc; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px;
+}
+.rp-dash-mock-req-lbl { font-size: 11px; text-transform: uppercase; font-weight: 800; color: #94a3b8; margin-bottom: 6px; }
+.rp-dash-mock-req-title { font-size: 15px; font-weight: 700; color: var(--D); margin-bottom: 4px; }
+.rp-dash-mock-req-loc { font-size: 13px; color: var(--M); display: flex; align-items: center; gap: 5px; }
+.rp-dash-mock-cta {
+    background: var(--B); color: #fff; text-align: center;
+    padding: 13px; border-radius: 8px; font-weight: 800; font-size: 14px;
 }
 
-.gyb-eyebrow i { color: #FF8A3D; }
-
-.gyb-hero__title {
-  font-size: clamp(38px, 5vw, 68px);
-  font-weight: 900;
-  color: #fff;
-  margin: 0 0 24px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+/* ════════ 6. PROFILE PREVIEW ════════ */
+.rp-preview { background: #f4f8fc; padding: 80px 0; }
+.rp-preview-content {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
 }
-
-.gyb-hero__title span {
-  color: #FF8A3D;
-  position: relative;
-  display: inline-block;
+.rp-preview-title {
+    font-size: clamp(26px,3.5vw,36px); font-weight: 900;
+    color: var(--B) !important; margin: 0 0 16px; line-height: 1.2;
 }
+.rp-preview-title span { color: var(--S); }
+.rp-preview-desc { font-size: 16px; color: var(--M); line-height: 1.75; margin: 0 0 32px; }
 
-.gyb-hero__title span::after {
-  content: '';
-  position: absolute;
-  bottom: 8px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: rgba(255,138,61,0.3);
-  z-index: -1;
-  border-radius: 4px;
+.rp-checklist { list-style: none; padding: 0; margin: 0 0 36px; display: flex; flex-direction: column; gap: 14px; }
+.rp-checklist li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 15px; color: var(--D); font-weight: 600; line-height: 1.5;
 }
+.rp-checklist li i { color: var(--S); font-size: 20px; flex-shrink: 0; margin-top: 1px; }
 
-.gyb-hero__sub {
-  font-size: 19px;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.7;
-  margin-bottom: 40px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+/* ════════ 7. FINAL CTA ════════ */
+.rp-final {
+    background: var(--B); padding: 80px 0;
+    text-align: center; position: relative; overflow: hidden;
 }
-
-/* ── Call to Action Buttons ── */
-.gyb-btn-orange {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: #FF8A3D;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 800;
-  padding: 20px 48px;
-  border-radius: 12px;
-  text-decoration: none;
-  border: none;
-  box-shadow: 0 8px 32px rgba(255,138,61,0.4);
-  transition: all 0.3s ease;
+.rp-final::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
 }
-.gyb-btn-orange:hover { background: #e87830; transform: translateY(-4px); color: #fff; box-shadow: 0 12px 40px rgba(255,138,61,0.5); }
-
-/* ── 2. Benefits Grid ── */
-.gyb-section { padding: 90px 0; background: #f8fafc; }
-
-.gyb-benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  margin-top: -60px; /* Pull up into hero slightly */
-  position: relative;
-  z-index: 10;
+.rp-final::after {
+    content: ''; position: absolute; top:-100px; right:-80px;
+    width:360px; height:360px; border-radius:50%;
+    background: rgba(255,138,61,.07); pointer-events:none;
 }
-
-.gyb-benefit-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 40px 32px;
-  text-align: center;
-  box-shadow: 0 20px 48px rgba(12,24,37,0.08);
-  transition: transform 0.3s;
+.rp-final__inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; padding: 0 24px; }
+.rp-final-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,138,61,.15); border: 1px solid rgba(255,138,61,.3);
+    color: var(--O); font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 18px;
 }
-
-.gyb-benefit-card:hover {
-  transform: translateY(-8px);
-  border-color: #bfdbfe;
+.rp-final h2 {
+    font-size: clamp(24px,3.5vw,38px); font-weight: 900; color: #fff;
+    margin: 0 0 14px; line-height: 1.15; letter-spacing: -.02em;
 }
-
-.gyb-benefit-ico {
-  width: 80px;
-  height: 80px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  font-size: 36px;
-  color: #fff;
+.rp-final__sub {
+    font-size: 16px; color: rgba(255,255,255,.65);
+    margin: 0 auto 36px; line-height: 1.7;
 }
+.rp-final-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-.gyb-benefit-ico--blue { background: linear-gradient(135deg, #00497F, #3b82f6); }
-.gyb-benefit-ico--orng { background: linear-gradient(135deg, #FF8A3D, #FF8A3D); }
-.gyb-benefit-ico--navy { background: linear-gradient(135deg, #0C1825, #003660); }
-
-.gyb-benefit-card h3 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #0C1825;
-  margin: 0 0 12px;
-}
-
-.gyb-benefit-card p {
-  font-size: 15px;
-  color: #64748b;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* ── 3. Profile Preview Strip ── */
-.gyb-preview-strip {
-  background: #fff;
-  padding: 80px 0;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.gyb-preview-content {
-  display: flex;
-  align-items: center;
-  gap: 60px;
-}
-
-.gyb-preview-text { flex: 1; }
-.gyb-preview-visual { flex: 1; text-align: right; position: relative; }
-
-.gyb-preview-visual img {
-  max-width: 100%;
-  border-radius: 20px;
-  box-shadow: 0 24px 64px rgba(12,24,37,0.12);
-}
-
-.gyb-preview-title {
-  font-size: 32px;
-  font-weight: 900;
-  color: #0C1825;
-  margin-bottom: 20px;
-  line-height: 1.2;
-}
-
-.gyb-preview-title span { color: #00497F; }
-
-.gyb-checklist {
-  list-style: none; padding: 0; margin: 30px 0 0;
-  display: flex; flex-direction: column; gap: 16px;
-}
-.gyb-checklist li {
-  display: flex; align-items: flex-start; gap: 16px;
-  font-size: 16px; color: #475569; font-weight: 600;
-}
-.gyb-checklist li i {
-  color: #16a34a; font-size: 20px; margin-top: 2px;
-}
+/* ── Shared container ── */
+.rp-wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
 
 /* ── Responsive ── */
 @media (max-width: 991px) {
-  .gyb-benefits-grid { grid-template-columns: 1fr; margin-top: 40px; }
-  .gyb-preview-content { flex-direction: column; gap: 40px; }
-  .gyb-preview-visual { text-align: center; }
+    .rp-benefits-grid { grid-template-columns: 1fr; }
+    .rp-eco-grid { grid-template-columns: 1fr; }
+    .rp-dash-inner { grid-template-columns: 1fr; gap: 40px; }
+    .rp-preview-content { grid-template-columns: 1fr; gap: 40px; }
+    .rp-stats-grid { grid-template-columns: repeat(2,1fr); }
+    .rp-stat-cell:nth-child(2) { border-right: none; }
+    .rp-stat-cell:nth-child(3) { border-top: 1px solid var(--L); }
 }
-
 @media (max-width: 767px) {
-  .gyb-hero { min-height: 400px; }
-  .gyb-hero__inner { padding: 60px 20px; }
+    .rp-hero { padding: 72px 0 60px; }
+    .rp-trust-row { gap: 8px; }
+    .rp-final-btns { flex-direction: column; align-items: center; }
 }
-
-/* Scroll Animations */
-.gyb-scroll { opacity: 0; transform: translateY(24px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.gyb-scroll.visible { opacity: 1; transform: none; }
 </style>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   1. HERO
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-hero" aria-labelledby="hero-title">
-  <div class="gyb-hero__pattern"></div>
-  <div class="container">
-    <div class="gyb-hero__inner gyb-scroll">
-      <div class="gyb-eyebrow">
-        <i class="feather-star"></i> {{ 'pro_landing.register_eyebrow'|trans }}
-      </div>
-      <h1 class="gyb-hero__title" id="hero-title">
-        {{ 'pro_landing.register_title'|trans }} <span>{{ 'pro_landing.register_title_span'|trans }}</span><br>
-        {{ 'pro_landing.register_title_after'|trans }}
-      </h1>
-      <p class="gyb-hero__sub">
-        {{ 'pro_landing.register_sub'|trans }}
-      </p>
-      
-      <div class="mt--40">
-        <a href="{{ path('app_register') }}" class="gyb-btn-orange">
-          {{ 'pro_landing.register_cta'|trans }} <i class="feather-arrow-right"></i>
+{# ════════ 1. HERO ════════ #}
+<section class="rp-hero">
+    <div class="rp-hero__inner rp-fade">
+        <div class="rp-eyebrow">
+            <i class="ph-bold ph-hard-hat"></i> {{ 'pro_landing.register_eyebrow'|trans }}
+        </div>
+        <h1>
+            {{ 'pro_landing.register_title'|trans }}
+            <span>{{ 'pro_landing.register_title_span'|trans }}</span><br>
+            {{ 'pro_landing.register_title_after'|trans }}
+        </h1>
+        <p class="rp-hero__sub">{{ 'pro_landing.register_sub'|trans }}</p>
+
+        <a href="{{ path('app_register') }}" class="rp-btn-o">
+            {{ 'pro_landing.register_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
         </a>
-      </div>
-      <p style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 16px;">
-        {{ 'pro_landing.register_note'|trans }}
-      </p>
+        <p class="rp-hero__note">{{ 'pro_landing.register_note'|trans }}</p>
+
+        <div class="rp-trust-row">
+            <div class="rp-trust-pill"><i class="ph-bold ph-seal-check"></i> {{ 'pro_landing.impact_4_num'|trans }} {{ 'pro_landing.impact_4_lbl'|trans }}</div>
+            <div class="rp-trust-pill"><i class="ph-bold ph-lightning"></i> {{ 'pro_landing.impact_3_num'|trans }} {{ 'pro_landing.impact_3_lbl'|trans }}</div>
+            <div class="rp-trust-pill"><i class="ph-bold ph-users"></i> {{ 'pro_landing.impact_1_num'|trans }} {{ 'pro_landing.impact_1_lbl'|trans }}</div>
+        </div>
     </div>
-  </div>
 </section>
 
-{# ══════════════════════════════════════════════════════════════════════════
-   2. BENEFITS GRID
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section pt-0">
-  <div class="container">
-    <div class="gyb-benefits-grid">
-      
-      {# Card 1 #}
-      <div class="gyb-benefit-card gyb-scroll">
-        <div class="gyb-benefit-ico gyb-benefit-ico--blue">
-          <i class="feather-target"></i>
-        </div>
-        <h3>{{ 'pro_landing.bene_title1'|trans }}</h3>
-        <p>{{ 'pro_landing.bene_desc1'|trans }}</p>
-      </div>
-
-      {# Card 2 #}
-      <div class="gyb-benefit-card gyb-scroll">
-        <div class="gyb-benefit-ico gyb-benefit-ico--orng">
-          <i class="feather-shield"></i>
-        </div>
-        <h3>{{ 'pro_landing.bene_title2'|trans }}</h3>
-        <p>{{ 'pro_landing.bene_desc2'|trans }}</p>
-      </div>
-
-      {# Card 3 #}
-      <div class="gyb-benefit-card gyb-scroll">
-        <div class="gyb-benefit-ico gyb-benefit-ico--navy">
-          <i class="feather-percent"></i>
-        </div>
-        <h3>{{ 'pro_landing.bene_title3'|trans }}</h3>
-        <p>{{ 'pro_landing.bene_desc3'|trans }}</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-{# ══════════════════════════════════════════════════════════════════════════
-   3. PROFILE PREVIEW STRIP
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-preview-strip">
-  <div class="container">
-    <div class="gyb-preview-content">
-      
-      <div class="gyb-preview-text gyb-scroll">
-        <h2 class="gyb-preview-title">{{ 'pro_landing.preview_title'|trans }} <span>{{ 'pro_landing.preview_title_span'|trans }}</span></h2>
-        <p style="font-size: 18px; color: #64748b; line-height: 1.6; margin-bottom: 0;">
-          {{ 'pro_landing.preview_desc'|trans }}
-        </p>
-        
-        <ul class="gyb-checklist">
-          <li><i class="feather-check-circle"></i> {{ 'pro_landing.preview_check1'|trans }}</li>
-          <li><i class="feather-check-circle"></i> {{ 'pro_landing.preview_check2'|trans }}</li>
-          <li><i class="feather-check-circle"></i> {{ 'pro_landing.preview_check3'|trans }}</li>
-          <li><i class="feather-check-circle"></i> {{ 'pro_landing.preview_check4'|trans }}</li>
-        </ul>
-        
-        <div class="mt--40">
-           <a href="{{ path('app_register') }}" class="rbt-btn btn-md btn-border">{{ 'pro_landing.preview_cta'|trans }}</a>
-        </div>
-      </div>
-      
-      <div class="gyb-preview-visual gyb-scroll">
-        {# Using a mockup of a profile card #}
-        <div style="background: white; padding: 40px; border-radius: 20px; text-align: left; box-shadow: 0 40px 80px rgba(12,24,37,0.1); border: 1px solid #e2e8f0; position: relative;">
-          
-          <div style="position: absolute; top: -15px; right: -15px; background: #FF8A3D; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(255,138,61,0.3);">
-            <i class="feather-bell" style="font-size: 24px;"></i>
-          </div>
-          
-          <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 30px;">
-            <div style="width: 80px; height: 80px; background: #f1f5f9; border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-              <i class="feather-image" style="font-size: 32px; color: #cbd5e1;"></i>
+{# ════════ 2. STATS STRIP ════════ #}
+<div class="rp-stats">
+    <div class="rp-stats-grid">
+        <div class="rp-stat-cell">
+            <div class="rp-stat-ico" style="background:rgba(0,73,127,.1);color:var(--B);">
+                <i class="ph-bold ph-users"></i>
             </div>
             <div>
-              <div style="font-size: 20px; font-weight: 800; color: #0C1825; margin-bottom: 4px;">Your Company Name</div>
-              <div style="display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 700;">
-                <span style="color: #f59e0b;"><i class="fas fa-star"></i> 5.0 (24 reviews)</span>
-                <span style="color: #cbd5e1;">|</span>
-                <span style="color: #00497F;"><i class="feather-shield"></i> Verified Pro</span>
-              </div>
+                <div class="rp-stat-num">{{ 'pro_landing.impact_1_num'|trans }}</div>
+                <div class="rp-stat-lbl">{{ 'pro_landing.impact_1_lbl'|trans }}</div>
             </div>
-          </div>
-          
-          <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <div style="font-size: 12px; text-transform: uppercase; font-weight: 800; color: #94a3b8; margin-bottom: 8px;">New Quote Request</div>
-            <div style="font-size: 16px; font-weight: 700; color: #0C1825;">Full Kitchen Renovation</div>
-            <div style="font-size: 14px; color: #64748b; margin-top: 4px;"><i class="feather-map-pin"></i> Downtown Montréal, QC</div>
-          </div>
-          
-          <div style="background: #00497F; color: white; text-align: center; padding: 14px; border-radius: 8px; font-weight: 700;">
-            Reply to Homeowner
-          </div>
         </div>
-      </div>
-      
+        <div class="rp-stat-cell">
+            <div class="rp-stat-ico" style="background:rgba(255,138,61,.12);color:var(--O);">
+                <i class="ph-bold ph-trend-up"></i>
+            </div>
+            <div>
+                <div class="rp-stat-num">{{ 'pro_landing.impact_2_num'|trans }}</div>
+                <div class="rp-stat-lbl">{{ 'pro_landing.impact_2_lbl'|trans }}</div>
+            </div>
+        </div>
+        <div class="rp-stat-cell">
+            <div class="rp-stat-ico" style="background:rgba(63,169,245,.12);color:var(--S);">
+                <i class="ph-bold ph-lightning"></i>
+            </div>
+            <div>
+                <div class="rp-stat-num">{{ 'pro_landing.impact_3_num'|trans }}</div>
+                <div class="rp-stat-lbl">{{ 'pro_landing.impact_3_lbl'|trans }}</div>
+            </div>
+        </div>
+        <div class="rp-stat-cell">
+            <div class="rp-stat-ico" style="background:rgba(0,73,127,.1);color:var(--B);">
+                <i class="ph-bold ph-currency-dollar-simple"></i>
+            </div>
+            <div>
+                <div class="rp-stat-num">{{ 'pro_landing.impact_4_num'|trans }}</div>
+                <div class="rp-stat-lbl">{{ 'pro_landing.impact_4_lbl'|trans }}</div>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+
+{# ════════ 3. BENEFITS GRID ════════ #}
+<section class="rp-benefits">
+    <div class="rp-wrap">
+        <div class="rp-section-header rp-fade">
+            <div class="rp-section-pill"><i class="ph-bold ph-star"></i> {{ 'pro_landing.grow_eyebrow'|trans }}</div>
+            <h2 class="rp-section-title">{{ 'pro_landing.grow_title'|trans }} <span style="color:var(--S);">{{ 'pro_landing.grow_title_span'|trans }}</span></h2>
+            <p class="rp-section-sub">{{ 'pro_landing.grow_sub'|trans }}</p>
+        </div>
+        <div class="rp-benefits-grid">
+            <div class="rp-benefit-card rp-fade">
+                <div class="rp-benefit-ico rp-benefit-ico--1">
+                    <i class="ph-bold ph-funnel"></i>
+                </div>
+                <h3>{{ 'pro_landing.bene_title1'|trans }}</h3>
+                <p>{{ 'pro_landing.bene_desc1'|trans }}</p>
+            </div>
+            <div class="rp-benefit-card rp-fade">
+                <div class="rp-benefit-ico rp-benefit-ico--2">
+                    <i class="ph-bold ph-shield-check"></i>
+                </div>
+                <h3>{{ 'pro_landing.bene_title2'|trans }}</h3>
+                <p>{{ 'pro_landing.bene_desc2'|trans }}</p>
+            </div>
+            <div class="rp-benefit-card rp-fade">
+                <div class="rp-benefit-ico rp-benefit-ico--3">
+                    <i class="ph-bold ph-percent"></i>
+                </div>
+                <h3>{{ 'pro_landing.bene_title3'|trans }}</h3>
+                <p>{{ 'pro_landing.bene_desc3'|trans }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ════════ 4. ECOSYSTEM — 4 FEATURES ════════ #}
+<section class="rp-eco">
+    <div class="rp-wrap">
+        <div class="rp-section-header rp-fade">
+            <div class="rp-section-pill"><i class="ph-bold ph-rocket-launch"></i> {{ 'pro_landing.eco_eyebrow'|trans }}</div>
+            <h2 class="rp-section-title">{{ 'pro_landing.eco_title'|trans }} <span style="color:var(--S);">{{ 'pro_landing.eco_title_span'|trans }}</span></h2>
+            <p class="rp-section-sub">{{ 'pro_landing.eco_sub'|trans }}</p>
+        </div>
+        <div class="rp-eco-grid rp-fade">
+            <div class="rp-eco-card">
+                <div class="rp-eco-ico"><i class="ph-bold ph-funnel"></i></div>
+                <div class="rp-eco-body">
+                    <h4>{{ 'pro_landing.eco_title1'|trans }}</h4>
+                    <p>{{ 'pro_landing.eco_desc1'|trans }}</p>
+                </div>
+            </div>
+            <div class="rp-eco-card">
+                <div class="rp-eco-ico"><i class="ph-bold ph-seal-check"></i></div>
+                <div class="rp-eco-body">
+                    <h4>{{ 'pro_landing.eco_title2'|trans }}</h4>
+                    <p>{{ 'pro_landing.eco_desc2'|trans }}</p>
+                </div>
+            </div>
+            <div class="rp-eco-card">
+                <div class="rp-eco-ico"><i class="ph-bold ph-images"></i></div>
+                <div class="rp-eco-body">
+                    <h4>{{ 'pro_landing.eco_title3'|trans }}</h4>
+                    <p>{{ 'pro_landing.eco_desc3'|trans }}</p>
+                </div>
+            </div>
+            <div class="rp-eco-card">
+                <div class="rp-eco-ico"><i class="ph-bold ph-star-half"></i></div>
+                <div class="rp-eco-body">
+                    <h4>{{ 'pro_landing.eco_title4'|trans }}</h4>
+                    <p>{{ 'pro_landing.eco_desc4'|trans }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ════════ 5. DASHBOARD ════════ #}
+<section class="rp-dash">
+    <div class="rp-wrap">
+        <div class="rp-dash-inner">
+
+            <div class="rp-fade">
+                <div class="rp-dash-tag">
+                    <i class="ph-bold ph-layout"></i> {{ 'pro_landing.dash_eyebrow'|trans }}
+                </div>
+                <h2>{{ 'pro_landing.dash_title'|trans }}<span>{{ 'pro_landing.dash_title_span'|trans }}</span></h2>
+                <p class="rp-dash__sub">{{ 'pro_landing.dash_sub'|trans }}</p>
+
+                <div class="rp-dash-list">
+                    <div class="rp-dash-item">
+                        <div class="rp-dash-item-ico"><i class="ph-bold ph-chat-circle"></i></div>
+                        <div>
+                            <div class="rp-dash-item-title">{{ 'pro_landing.dash_check1_title'|trans }}</div>
+                            <div class="rp-dash-item-desc">{{ 'pro_landing.dash_check1_desc'|trans }}</div>
+                        </div>
+                    </div>
+                    <div class="rp-dash-item">
+                        <div class="rp-dash-item-ico"><i class="ph-bold ph-clipboard-text"></i></div>
+                        <div>
+                            <div class="rp-dash-item-title">{{ 'pro_landing.dash_check2_title'|trans }}</div>
+                            <div class="rp-dash-item-desc">{{ 'pro_landing.dash_check2_desc'|trans }}</div>
+                        </div>
+                    </div>
+                    <div class="rp-dash-item">
+                        <div class="rp-dash-item-ico"><i class="ph-bold ph-chart-bar"></i></div>
+                        <div>
+                            <div class="rp-dash-item-title">{{ 'pro_landing.dash_check3_title'|trans }}</div>
+                            <div class="rp-dash-item-desc">{{ 'pro_landing.dash_check3_desc'|trans }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:36px;">
+                    <a href="{{ path('app_register') }}" class="rp-btn-s">
+                        {{ 'pro_landing.dash_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rp-dash-mock rp-fade">
+                <div class="rp-dash-mock-notif">
+                    <i class="ph-bold ph-bell"></i>
+                </div>
+                <div class="rp-dash-mock-head">
+                    <div class="rp-dash-mock-avatar">
+                        <i class="ph-bold ph-image"></i>
+                    </div>
+                    <div>
+                        <div class="rp-dash-mock-name">Your Company Name</div>
+                        <div class="rp-dash-mock-verified">
+                            <i class="ph-bold ph-shield-check"></i> Verified Pro
+                        </div>
+                    </div>
+                </div>
+                <div class="rp-dash-mock-req">
+                    <div class="rp-dash-mock-req-lbl">New Quote Request</div>
+                    <div class="rp-dash-mock-req-title">Full Kitchen Renovation</div>
+                    <div class="rp-dash-mock-req-loc">
+                        <i class="ph-bold ph-map-pin"></i> Downtown Montréal, QC
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-bottom:16px;">
+                    <div style="flex:1;background:#f4f8fc;border-radius:10px;padding:12px 14px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:700;margin-bottom:4px;">Budget estimé</div>
+                        <div style="font-size:18px;font-weight:900;color:var(--B);">$8 000 – $12 000</div>
+                    </div>
+                    <div style="flex:1;background:#f4f8fc;border-radius:10px;padding:12px 14px;">
+                        <div style="font-size:11px;color:#94a3b8;font-weight:700;margin-bottom:4px;">Délai souhaité</div>
+                        <div style="font-size:18px;font-weight:900;color:var(--S);">2–3 semaines</div>
+                    </div>
+                </div>
+                <div class="rp-dash-mock-cta">Répondre au propriétaire</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ════════ 6. PROFILE PREVIEW ════════ #}
+<section class="rp-preview">
+    <div class="rp-wrap">
+        <div class="rp-preview-content">
+
+            <div class="rp-fade">
+                <h2 class="rp-preview-title">
+                    {{ 'pro_landing.preview_title'|trans }}<br>
+                    <span>{{ 'pro_landing.preview_title_span'|trans }}</span>
+                </h2>
+                <p class="rp-preview-desc">{{ 'pro_landing.preview_desc'|trans }}</p>
+                <ul class="rp-checklist">
+                    <li><i class="ph-bold ph-check-circle"></i> {{ 'pro_landing.preview_check1'|trans }}</li>
+                    <li><i class="ph-bold ph-check-circle"></i> {{ 'pro_landing.preview_check2'|trans }}</li>
+                    <li><i class="ph-bold ph-check-circle"></i> {{ 'pro_landing.preview_check3'|trans }}</li>
+                    <li><i class="ph-bold ph-check-circle"></i> {{ 'pro_landing.preview_check4'|trans }}</li>
+                </ul>
+                <a href="{{ path('app_register') }}" class="rp-btn-o">
+                    {{ 'pro_landing.preview_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="rp-fade">
+                <div style="background:#fff;border-radius:22px;padding:36px;box-shadow:0 24px 64px rgba(0,73,127,.12);border:1px solid var(--L);position:relative;">
+                    <div style="position:absolute;top:-12px;right:24px;background:var(--O);color:#fff;padding:6px 16px;border-radius:999px;font-size:12px;font-weight:800;box-shadow:0 4px 14px rgba(255,138,61,.35);">
+                        <i class="ph-bold ph-star"></i> 5.0 · 24 avis
+                    </div>
+                    <div style="font-size:13px;font-weight:800;color:var(--M);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Profil public</div>
+                    <div style="font-size:22px;font-weight:900;color:var(--B);margin-bottom:4px;">Rénovation Expert Inc.</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+                        <span style="background:rgba(63,169,245,.1);color:var(--S);border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;"><i class="ph-bold ph-shield-check"></i> Vérifié RBQ</span>
+                        <span style="background:rgba(0,73,127,.08);color:var(--B);border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;">Montréal, QC</span>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-bottom:20px;">
+                        <div style="flex:1;background:#f4f8fc;border-radius:12px;padding:14px 16px;text-align:center;">
+                            <div style="font-size:22px;font-weight:900;color:var(--B);">47</div>
+                            <div style="font-size:11px;color:var(--M);font-weight:600;">Projets</div>
+                        </div>
+                        <div style="flex:1;background:#f4f8fc;border-radius:12px;padding:14px 16px;text-align:center;">
+                            <div style="font-size:22px;font-weight:900;color:var(--S);">12</div>
+                            <div style="font-size:11px;color:var(--M);font-weight:600;">Demandes/mois</div>
+                        </div>
+                        <div style="flex:1;background:rgba(255,138,61,.08);border-radius:12px;padding:14px 16px;text-align:center;">
+                            <div style="font-size:22px;font-weight:900;color:var(--O);">0%</div>
+                            <div style="font-size:11px;color:var(--M);font-weight:600;">Commission</div>
+                        </div>
+                    </div>
+                    <div style="background:var(--B);color:#fff;text-align:center;padding:14px;border-radius:10px;font-weight:800;font-size:14px;letter-spacing:.01em;">
+                        <i class="ph-bold ph-paper-plane-tilt"></i> Envoyer une demande de devis
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# ════════ 7. FINAL CTA ════════ #}
+<section class="rp-final">
+    <div class="rp-final__inner rp-fade">
+        <div class="rp-final-tag">
+            <i class="ph-bold ph-rocket-launch"></i> {{ 'pro_landing.final_eyebrow'|trans }}
+        </div>
+        <h2>{{ 'pro_landing.final_title'|trans }}</h2>
+        <p class="rp-final__sub">{{ 'pro_landing.register_note'|trans }}</p>
+        <div class="rp-final-btns">
+            <a href="{{ path('app_register') }}" class="rp-btn-o">
+                {{ 'pro_landing.final_cta1'|trans }} <i class="ph-bold ph-arrow-right"></i>
+            </a>
+            <a href="{{ path('app_for_professionals') }}" class="rp-btn-w">
+                {{ 'pro_landing.final_cta2'|trans }}
+            </a>
+        </div>
+    </div>
 </section>
 
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { 
-      if (e.isIntersecting) { 
-        e.target.classList.add('visible'); 
-        obs.unobserve(e.target); 
-      } 
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.gyb-scroll').forEach(el => obs.observe(el));
-});
+(function(){
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if (e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.rp-fade').forEach(function(el){ obs.observe(el); });
+})();
 </script>
 {% endblock %}

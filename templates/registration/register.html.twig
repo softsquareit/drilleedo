@@ -8,400 +8,345 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <style>
-        :root {
-            --drl-navy: #00497F;
-            --drl-blue: #3FA9F5;
-            --drl-orange: #FF8A3D;
-            --drl-orange-hover: #e87830;
-        }
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
+/* ══ REGISTER PAGE ════════════════════════════════════════════════════════
+   Charte : --B:#00497F · --S:#3FA9F5 · --O:#FF8A3D · --D:#0C1825 · --M:#4A6073
+   ═════════════════════════════════════════════════════════════════════════ */
+:root {
+    --B:#00497F; --S:#3FA9F5; --O:#FF8A3D; --D:#0C1825; --M:#4A6073;
+    --L:#E4EBF2;
+}
 
-        body {
-            background: #f1f5f9;
-        }
+body { background: #f4f8fc; }
 
-        .reg-main {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #00497F 0%, #3FA9F5 100%);
-            position: relative;
-            overflow: hidden;
-        }
+.reg-main {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    background: var(--B);
+    position: relative; overflow: hidden;
+}
+.reg-main::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
+}
 
-        .reg-main::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('{{ asset('uploads/banners/login.png') }}') center/cover no-repeat;
-            opacity: 0.1;
-        }
+.reg-card {
+    width: 100%; max-width: 1100px;
+    background: #fff; border-radius: 24px;
+    display: flex; overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,.30);
+    position: relative; z-index: 10;
+}
 
-        .reg-card {
-            width: 100%;
-            max-width: 1100px;
-            background: #fff;
-            border-radius: 24px;
-            display: flex;
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 10;
-        }
+/* ── SIDEBAR ── */
+.reg-sidebar {
+    width: 420px; flex-shrink: 0;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+}
 
-        /* Left Sidebar: Value Prop */
-        .reg-sidebar {
-            width: 400px;
-            background: linear-gradient(135deg, var(--drl-navy) 0%, var(--drl-blue) 100%);
-            padding: 60px 40px;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-        }
+.reg-sidebar-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: opacity .5s ease;
+}
+.reg-sidebar-bg--pro {
+    background-image: url('{{ asset('assets/drilleedo/images/bg/bg-professionals.jpg') }}');
+}
+.reg-sidebar-bg--ind {
+    background-image: url('{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}');
+    opacity: 0;
+}
+.reg-sidebar-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(0,73,127,.92) 0%, rgba(0,73,127,.75) 60%, rgba(0,73,127,.88) 100%);
+    z-index: 1;
+}
+.reg-sidebar-inner {
+    position: relative; z-index: 2;
+    padding: 44px 36px; display: flex; flex-direction: column; height: 100%;
+}
+.reg-sidebar-logo {
+    font-size: 26px; font-weight: 900; color: #fff;
+    text-decoration: none; margin-bottom: 48px; display: block;
+}
+.reg-sidebar-logo span { color: var(--O); }
 
-        .reg-sidebar::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('{{ asset('uploads/banners/login.png') }}') center/cover no-repeat;
-            opacity: 0.1;
-            z-index: 1;
-        }
+/* Account type visual badge */
+.reg-sidebar-type-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 18px; border-radius: 999px;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 20px;
+    transition: all .3s;
+}
+.reg-sidebar-type-badge--pro {
+    background: rgba(255,138,61,.2); color: var(--O);
+    border: 1px solid rgba(255,138,61,.4);
+}
+.reg-sidebar-type-badge--ind {
+    background: rgba(63,169,245,.2); color: var(--S);
+    border: 1px solid rgba(63,169,245,.4);
+    display: none;
+}
 
-        .reg-sidebar-logo {
-            font-size: 28px;
-            font-weight: 900;
-            color: #fff;
-            text-decoration: none;
-            margin-bottom: 60px;
-            position: relative;
-            z-index: 10;
-        }
-        .reg-sidebar-logo span { color: var(--drl-orange); }
+.reg-sidebar-title {
+    font-size: 28px; font-weight: 900; color: #fff;
+    margin-bottom: 28px; line-height: 1.2;
+}
+.reg-sidebar-title span { color: var(--O); }
 
-        .reg-sidebar-content {
-            flex: 1;
-            position: relative;
-            z-index: 10;
-        }
+.reg-benefit-list { list-style: none; padding: 0; margin: 0; flex: 1; }
+.reg-benefit-item { display: flex; gap: 14px; margin-bottom: 22px; }
+.reg-benefit-icon {
+    width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--O); font-size: 18px;
+}
+.reg-benefit-text h5 { font-size: 15px; font-weight: 700; color: #fff; margin: 0 0 3px; }
+.reg-benefit-text p { font-size: 13px; color: rgba(255,255,255,.68); margin: 0; line-height: 1.5; }
 
-        .reg-sidebar-title {
-            font-size: 32px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 24px;
-            line-height: 1.2;
-        }
+.reg-sidebar-trust {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px;
+}
+.reg-trust-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.8);
+    border: 1px solid rgba(255,255,255,.18); border-radius: 999px;
+    padding: 5px 12px; font-size: 11px; font-weight: 700;
+}
+.reg-trust-pill i { color: var(--S); }
 
-        .reg-benefit-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+/* ── FORM SIDE ── */
+.reg-form-side {
+    flex: 1; padding: 52px 60px;
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+}
 
-        .reg-benefit-item {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+/* Type Toggle */
+.reg-type-toggle {
+    display: flex; background: var(--L);
+    padding: 5px; border-radius: 16px;
+    margin-bottom: 36px; align-self: flex-start;
+    gap: 4px;
+}
+.reg-type-btn {
+    padding: 11px 24px; border-radius: 12px;
+    font-size: 14px; font-weight: 700;
+    border: none; cursor: pointer;
+    transition: all .28s; color: var(--M);
+    background: transparent;
+    display: flex; align-items: center; gap: 8px;
+}
+.reg-type-btn:hover { color: var(--D); background: rgba(0,73,127,.06); }
+.reg-type-btn.active.pro {
+    background: var(--B); color: #fff;
+    box-shadow: 0 6px 18px rgba(0,73,127,.28);
+}
+.reg-type-btn.active.ind {
+    background: var(--O); color: #fff;
+    box-shadow: 0 6px 18px rgba(255,138,61,.30);
+}
 
-        .reg-benefit-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--drl-orange);
-            font-size: 18px;
-        }
+/* Form header */
+.reg-form-title {
+    font-size: 26px; font-weight: 900; color: var(--B);
+    margin-bottom: 8px; line-height: 1.2;
+}
+.reg-form-sub { font-size: 15px; color: var(--M); margin-bottom: 32px; line-height: 1.5; }
 
-        .reg-benefit-text h5 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
+/* Form controls */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+.form-group-premium { margin-bottom: 20px; }
+.form-group-premium label {
+    display: block; font-size: 13px; font-weight: 700;
+    color: var(--D); margin-bottom: 7px;
+}
+.form-control-premium, .form-select-premium {
+    width: 100%; height: 50px;
+    background: #f8fafc; border: 2px solid var(--L);
+    border-radius: 12px; padding: 0 16px;
+    font-size: 15px; font-weight: 500; color: var(--D);
+    transition: all .2s;
+}
+.form-control-premium::placeholder { color: #94a3b8; }
+.form-control-premium:focus, .form-select-premium:focus {
+    background: #fff; border-color: var(--S);
+    box-shadow: 0 0 0 4px rgba(63,169,245,.12); outline: none;
+}
 
-        .reg-benefit-text p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0;
-            line-height: 1.5;
-        }
+.modern-checkbox-area {
+    display: flex; align-items: center; gap: 12px; margin: 28px 0;
+}
+.modern-checkbox {
+    width: 20px; height: 20px; accent-color: var(--B); cursor: pointer;
+}
+.modern-checkbox-area label { font-size: 13px; color: var(--M); font-weight: 600; cursor: pointer; }
+.modern-checkbox-area a { color: var(--S); text-decoration: none; }
 
-        .reg-sidebar-footer {
-            position: relative;
-            z-index: 10;
-        }
+/* Submit buttons */
+.btn-reg {
+    width: 100%; height: 54px;
+    border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    cursor: pointer; transition: all .28s;
+}
+.btn-reg-pro {
+    background: var(--B); color: #fff;
+    box-shadow: 0 8px 24px rgba(0,73,127,.28);
+}
+.btn-reg-pro:hover { background: #003a66; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,73,127,.36); }
+.btn-reg-ind {
+    background: var(--O); color: #fff;
+    box-shadow: 0 8px 24px rgba(255,138,61,.30);
+}
+.btn-reg-ind:hover { background: #e87830; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,138,61,.40); }
 
-        /* Right Side: Forms */
-        .reg-form-side {
-            flex: 1;
-            padding: 60px 80px;
-            display: flex;
-            flex-direction: column;
-        }
+.reg-footer {
+    margin-top: 32px; text-align: center;
+    font-size: 14px; color: var(--M);
+}
+.reg-footer a { font-weight: 700; color: var(--S); text-decoration: none; }
+.reg-footer a:hover { color: var(--B); }
 
-        .reg-type-toggle {
-            display: flex;
-            background: #f1f5f9;
-            padding: 6px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            align-self: flex-start;
-        }
-
-        .reg-type-btn {
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: #475569; /* Darker grey for better non-active contrast */
-            background: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .reg-type-btn:hover {
-            color: var(--drl-navy);
-            background: rgba(12,24,37, 0.05);
-        }
-
-        .reg-type-btn.active.pro {
-            background: var(--drl-navy);
-            color: #fff;
-            border-color: var(--drl-navy);
-            box-shadow: 0 10px 20px rgba(12,24,37, 0.2);
-        }
-
-        .reg-type-btn.active.ind {
-            background: var(--drl-orange);
-            color: #fff;
-            border-color: var(--drl-orange);
-            box-shadow: 0 10px 20px rgba(255,138,61, 0.2);
-        }
-
-        /* Form Styling */
-        .reg-form-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--drl-navy);
-            margin-bottom: 12px;
-        }
-
-        .reg-form-sub {
-            font-size: 16px;
-            color: #64748b;
-            margin-bottom: 40px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .form-group-premium {
-            margin-bottom: 24px;
-        }
-
-        .form-group-premium label {
-            display: block;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--drl-navy);
-            margin-bottom: 8px;
-        }
-
-        .form-control-premium, .form-select-premium {
-            width: 100%;
-            height: 52px;
-            background: #f8fafc;
-            border: 2px solid #f1f5f9;
-            border-radius: 12px;
-            padding: 0 16px;
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--drl-navy);
-            transition: all 0.2s;
-        }
-
-        .form-control-premium::placeholder {
-            color: #94a3b8;
-        }
-
-        .form-control-premium:focus, .form-select-premium:focus {
-            background: #fff;
-            border-color: var(--drl-blue);
-            box-shadow: 0 0 0 4px rgba(0, 80, 158, 0.1);
-            outline: none;
-        }
-
-        .modern-checkbox-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 32px 0;
-        }
-
-        .modern-checkbox {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--drl-orange);
-            cursor: pointer;
-        }
-
-        .modern-checkbox-area label {
-            font-size: 14px;
-            color: #475569;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .modern-checkbox-area a {
-            color: var(--drl-blue);
-            text-decoration: none;
-        }
-
-        .btn-reg {
-            width: 100%;
-            height: 56px;
-            background: var(--drl-orange);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 8px 24px rgba(255,138,61, 0.2);
-        }
-
-        .btn-reg:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(255,138,61, 0.3);
-        }
-
-        .btn-reg-navy { background: var(--drl-navy); box-shadow: 0 8px 24px rgba(12,24,37, 0.2); }
-        .btn-reg-navy:hover { background: #081636; }
-
-        .reg-footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 15px;
-            color: #64748b;
-        }
-
-        .reg-footer a {
-            font-weight: 700;
-            color: var(--drl-blue);
-            text-decoration: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .reg-sidebar { display: none; }
-            .reg-form-side { padding: 40px; }
-        }
-
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; gap: 0; }
-            .reg-main { padding: 20px 10px; }
-            .reg-card { border-radius: 16px; }
-            .reg-form-side { padding: 30px 20px; }
-        }
-    </style>
+/* Responsive */
+@media (max-width: 1024px) { .reg-sidebar { display: none; } .reg-form-side { padding: 40px; } }
+@media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .reg-main { padding: 16px; }
+    .reg-card { border-radius: 18px; }
+    .reg-form-side { padding: 28px 20px; }
+}
+</style>
 {% endblock %}
 
 {% block body %}
 <div class="reg-main">
     <div class="reg-card">
-        <!-- Sidebar: Why join our platform? -->
+
+        {# ── SIDEBAR ── #}
         <div class="reg-sidebar">
-            <a href="{{ path('app_home') }}" class="reg-sidebar-logo">Drilleedo<span>.</span></a>
-            <div class="reg-sidebar-content">
-                <h1 class="reg-sidebar-title">{{ 'security.reg_title'|trans }}</h1>
-                
-                <div class="reg-benefit-list">
-                    <div class="reg-benefit-item">
-                        <div class="reg-benefit-icon"><i class="feather-shield"></i></div>
-                        <div class="reg-benefit-text">
-                            <h5>{{ 'security.reg_ben1'|trans }}</h5>
-                            <p>{{ 'security.reg_ben1_desc'|trans }}</p>
-                        </div>
+            <div class="reg-sidebar-bg reg-sidebar-bg--pro" id="sidebar-bg-pro"></div>
+            <div class="reg-sidebar-bg reg-sidebar-bg--ind" id="sidebar-bg-ind"></div>
+            <div class="reg-sidebar-overlay"></div>
+            <div class="reg-sidebar-inner">
+                <a href="{{ path('app_home') }}" class="reg-sidebar-logo">Drilleed<span>o.</span></a>
+
+                {# Pro context #}
+                <div id="sidebar-pro-content">
+                    <div class="reg-sidebar-type-badge reg-sidebar-type-badge--pro">
+                        <i class="ph-bold ph-hard-hat"></i> Professionnel
                     </div>
-                    <div class="reg-benefit-item">
-                        <div class="reg-benefit-icon"><i class="feather-message-square"></i></div>
-                        <div class="reg-benefit-text">
-                            <h5>{{ 'security.reg_ben2'|trans }}</h5>
-                            <p>{{ 'security.reg_ben2_desc'|trans }}</p>
-                        </div>
-                    </div>
-                    <div class="reg-benefit-item">
-                        <div class="reg-benefit-icon"><i class="feather-trending-up"></i></div>
-                        <div class="reg-benefit-text">
-                            <h5>{{ 'security.reg_ben3'|trans }}</h5>
-                            <p>{{ 'security.reg_ben3_desc'|trans }}</p>
-                        </div>
+                    <h2 class="reg-sidebar-title">{{ 'security.reg_title'|trans }}</h2>
+                    <ul class="reg-benefit-list">
+                        <li class="reg-benefit-item">
+                            <div class="reg-benefit-icon"><i class="ph-bold ph-shield-check"></i></div>
+                            <div class="reg-benefit-text">
+                                <h5>{{ 'security.reg_ben1'|trans }}</h5>
+                                <p>{{ 'security.reg_ben1_desc'|trans }}</p>
+                            </div>
+                        </li>
+                        <li class="reg-benefit-item">
+                            <div class="reg-benefit-icon"><i class="ph-bold ph-chat-circle"></i></div>
+                            <div class="reg-benefit-text">
+                                <h5>{{ 'security.reg_ben2'|trans }}</h5>
+                                <p>{{ 'security.reg_ben2_desc'|trans }}</p>
+                            </div>
+                        </li>
+                        <li class="reg-benefit-item">
+                            <div class="reg-benefit-icon"><i class="ph-bold ph-trend-up"></i></div>
+                            <div class="reg-benefit-text">
+                                <h5>{{ 'security.reg_ben3'|trans }}</h5>
+                                <p>{{ 'security.reg_ben3_desc'|trans }}</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="reg-sidebar-trust">
+                        <span class="reg-trust-pill"><i class="ph-bold ph-seal-check"></i> 0% commission</span>
+                        <span class="reg-trust-pill"><i class="ph-bold ph-lightning"></i> &lt;24h premier lead</span>
+                        <span class="reg-trust-pill"><i class="ph-bold ph-users"></i> +1500 pros actifs</span>
                     </div>
                 </div>
-            </div>
-            
-            <div class="reg-sidebar-footer">
-                <p style="font-size: 13px; color: #94a3b8; font-weight: 500;">© 2024 Drilleedo Inc. All rights reserved.</p>
+
+                {# Individual context #}
+                <div id="sidebar-ind-content" style="display:none;">
+                    <div class="reg-sidebar-type-badge reg-sidebar-type-badge--ind" style="display:inline-flex !important;">
+                        <i class="ph-bold ph-house-line"></i> Particulier
+                    </div>
+                    <h2 class="reg-sidebar-title">Trouvez le <span>pro idéal</span> pour votre projet</h2>
+                    <ul class="reg-benefit-list">
+                        <li class="reg-benefit-item">
+                            <div class="reg-benefit-icon" style="color:var(--S);"><i class="ph-bold ph-magnifying-glass"></i></div>
+                            <div class="reg-benefit-text">
+                                <h5>Accès à +1 500 pros vérifiés</h5>
+                                <p>Consultez les profils, avis et portfolios des meilleurs entrepreneurs de votre région.</p>
+                            </div>
+                        </li>
+                        <li class="reg-benefit-item">
+                            <div class="reg-benefit-icon" style="color:var(--S);"><i class="ph-bold ph-currency-dollar-simple"></i></div>
+                            <div class="reg-benefit-text">
+                                <h5>Devis gratuits sans engagement</h5>
+                                <p>Recevez jusqu'à 5 soumissions compétitives et choisissez en toute liberté.</p>
+                            </div>
+                        </li>
+                        <li class="reg-benefit-item">
+                            <div class="reg-benefit-icon" style="color:var(--S);"><i class="ph-bold ph-star"></i></div>
+                            <div class="reg-benefit-text">
+                                <h5>Avis certifiés & transparents</h5>
+                                <p>Chaque avis est vérifié. Embauchez en confiance avec une totale transparence.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="reg-sidebar-trust">
+                        <span class="reg-trust-pill"><i class="ph-bold ph-check-circle"></i> Gratuit à utiliser</span>
+                        <span class="reg-trust-pill"><i class="ph-bold ph-shield-check"></i> Pros certifiés</span>
+                        <span class="reg-trust-pill"><i class="ph-bold ph-map-pin"></i> Partout au Canada</span>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- Form Side -->
+        {# ── FORM SIDE ── #}
         <div class="reg-form-side">
-            <!-- Account Type Switcher -->
+
             <div class="reg-type-toggle" role="tablist">
                 <button class="reg-type-btn active pro" id="professional-tab" type="button">
-                    <i class="feather-briefcase"></i> {{ 'security.tab_pro'|trans }}
+                    <i class="ph-bold ph-hard-hat"></i> {{ 'security.tab_pro'|trans }}
                 </button>
                 <button class="reg-type-btn ind" id="individual-tab" type="button">
-                    <i class="feather-user"></i> {{ 'security.tab_ind'|trans }}
+                    <i class="ph-bold ph-user"></i> {{ 'security.tab_ind'|trans }}
                 </button>
             </div>
 
             <div class="tab-content w-100">
-                <!-- Professional Form -->
+
+                {# ── Pro Form ── #}
                 <div class="tab-pane fade show active" id="tab-professional" role="tabpanel">
                     <h2 class="reg-form-title">{{ 'security.join_pro'|trans }}</h2>
                     <p class="reg-form-sub">{{ 'security.join_pro_sub'|trans }}</p>
 
                     {{ form_start(professionalForm, {'attr': {'class': 'rbt-form-modern', 'novalidate': 'novalidate'}}) }}
                         {% if not professionalForm.vars.valid %}
-                            <div class="alert alert-danger border-0 rounded-4 p-3 mb-4" style="background: #fff1f2; color: #e11d48; font-size: 14px;">Resolve highlighting below.</div>
+                            <div class="alert alert-danger border-0 rounded-4 p-3 mb-4" style="background:#fff1f2;color:#e11d48;font-size:14px;">Corrigez les erreurs ci-dessous.</div>
                         {% endif %}
 
                         <div class="form-row">
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_business_email'|trans }}</label>
                                 {{ form_widget(professionalForm.email, {'attr': {'class': 'form-control-premium', 'placeholder': 'pro@company.ca'}}) }}
-                                <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.email) }}</div>
+                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.email) }}</div>
                             </div>
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_secure_password'|trans }}</label>
                                 {{ form_widget(professionalForm.plainPassword, {'attr': {'class': 'form-control-premium', 'placeholder': '••••••••'}}) }}
-                                <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.plainPassword) }}</div>
+                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.plainPassword) }}</div>
                             </div>
                         </div>
 
@@ -409,25 +354,25 @@
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_sector'|trans }}</label>
                                 {{ form_widget(professionalForm.parentCategory, {'attr': {'class': 'form-select-premium parent-category-select selectpicker', 'data-live-search': 'true'}}) }}
-                                <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.parentCategory) }}</div>
+                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.parentCategory) }}</div>
                             </div>
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_service'|trans }}</label>
                                 {{ form_widget(professionalForm.category, {'attr': {'class': 'form-select-premium child-category-select selectpicker', 'data-live-search': 'true', 'data-selected-id': professionalForm.category.vars.data ? professionalForm.category.vars.data.id : ''}}) }}
-                                <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.category) }}</div>
+                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.category) }}</div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_city'|trans }}</label>
-                                {{ form_widget(professionalForm.city, {'attr': {'class': 'form-control-premium', 'placeholder': 'e.g. Montreal'}}) }}
-                                <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.city) }}</div>
+                                {{ form_widget(professionalForm.city, {'attr': {'class': 'form-control-premium', 'placeholder': 'ex. Montréal'}}) }}
+                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.city) }}</div>
                             </div>
                             <div class="form-group-premium">
                                 <label>{{ 'security.lbl_exp'|trans }}</label>
-                                {{ form_widget(professionalForm.expYears, {'attr': {'class': 'form-control-premium', 'placeholder': 'Total years'}}) }}
-                                <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(professionalForm.expYears) }}</div>
+                                {{ form_widget(professionalForm.expYears, {'attr': {'class': 'form-control-premium', 'placeholder': 'Années d\'expérience'}}) }}
+                                <div class="text-danger small mt-1 fw-bold">{{ form_errors(professionalForm.expYears) }}</div>
                             </div>
                         </div>
 
@@ -436,32 +381,32 @@
                             <label for="pro-terms">{{ 'security.agree_pro'|trans|raw }}</label>
                         </div>
 
-                        <button type="submit" class="btn-reg btn-reg-navy">
-                            {{ 'security.btn_reg_pro'|trans }} <i class="feather-arrow-right"></i>
+                        <button type="submit" class="btn-reg btn-reg-pro">
+                            {{ 'security.btn_reg_pro'|trans }} <i class="ph-bold ph-arrow-right"></i>
                         </button>
                     {{ form_end(professionalForm) }}
                 </div>
 
-                <!-- Individual Form -->
+                {# ── Individual Form ── #}
                 <div class="tab-pane fade" id="tab-individual" role="tabpanel">
                     <h2 class="reg-form-title">{{ 'security.join_ind'|trans }}</h2>
                     <p class="reg-form-sub">{{ 'security.join_ind_sub'|trans }}</p>
 
                     {{ form_start(individualForm, {'attr': {'class': 'rbt-form-modern', 'novalidate': 'novalidate'}}) }}
                         {% if not individualForm.vars.valid %}
-                            <div class="alert alert-danger border-0 rounded-4 p-3 mb-4" style="background: #fff1f2; color: #e11d48; font-size: 14px;">Resolve highlighting below.</div>
+                            <div class="alert alert-danger border-0 rounded-4 p-3 mb-4" style="background:#fff1f2;color:#e11d48;font-size:14px;">Corrigez les erreurs ci-dessous.</div>
                         {% endif %}
 
                         <div class="form-group-premium">
                             <label>{{ 'security.lbl_personal_email'|trans }}</label>
-                            {{ form_widget(individualForm.email, {'attr': {'class': 'form-control-premium', 'placeholder': 'my@email.com'}}) }}
-                            <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(individualForm.email) }}</div>
+                            {{ form_widget(individualForm.email, {'attr': {'class': 'form-control-premium', 'placeholder': 'mon@email.com'}}) }}
+                            <div class="text-danger small mt-1 fw-bold">{{ form_errors(individualForm.email) }}</div>
                         </div>
 
                         <div class="form-group-premium">
                             <label>{{ 'security.lbl_secure_password'|trans }}</label>
                             {{ form_widget(individualForm.plainPassword, {'attr': {'class': 'form-control-premium', 'placeholder': '••••••••'}}) }}
-                            <div class="text-danger small mt-1 font-weight-bold">{{ form_errors(individualForm.plainPassword) }}</div>
+                            <div class="text-danger small mt-1 fw-bold">{{ form_errors(individualForm.plainPassword) }}</div>
                         </div>
 
                         <div class="modern-checkbox-area">
@@ -469,75 +414,62 @@
                             <label for="ind-terms">{{ 'security.agree_ind'|trans|raw }}</label>
                         </div>
 
-                        <button type="submit" class="btn-reg">
-                            {{ 'security.btn_reg_ind'|trans }} <i class="feather-arrow-right"></i>
+                        <button type="submit" class="btn-reg btn-reg-ind">
+                            {{ 'security.btn_reg_ind'|trans }} <i class="ph-bold ph-arrow-right"></i>
                         </button>
                     {{ form_end(individualForm) }}
                 </div>
+
             </div>
 
             <div class="reg-footer">
                 {{ 'security.already_account'|trans }} <a href="{{ path('app_login') }}">{{ 'security.signin_here'|trans }}</a>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Optimized Manual Tab Switching Logic
-        const proBtn = document.getElementById('professional-tab');
-        const indBtn = document.getElementById('individual-tab');
-        const proPane = document.getElementById('tab-professional');
-        const indPane = document.getElementById('tab-individual');
-        
-        function switchTo(type) {
-            if (type === 'pro') {
-                // Button styles
-                proBtn.classList.add('active', 'pro');
-                indBtn.classList.remove('active', 'ind');
-                // Pane visibility
-                proPane.classList.add('show', 'active');
-                indPane.classList.remove('show', 'active');
-            } else {
-                // Button styles
-                indBtn.classList.add('active', 'ind');
-                proBtn.classList.remove('active', 'pro');
-                // Pane visibility
-                indPane.classList.add('show', 'active');
-                proPane.classList.remove('show', 'active');
-            }
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    const proBtn   = document.getElementById('professional-tab');
+    const indBtn   = document.getElementById('individual-tab');
+    const proPane  = document.getElementById('tab-professional');
+    const indPane  = document.getElementById('tab-individual');
+    const bgPro    = document.getElementById('sidebar-bg-pro');
+    const bgInd    = document.getElementById('sidebar-bg-ind');
+    const conPro   = document.getElementById('sidebar-pro-content');
+    const conInd   = document.getElementById('sidebar-ind-content');
 
-        proBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            switchTo('pro');
-        });
-        
-        indBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            switchTo('ind');
-        });
-        
-        // Restore the correct tab after a validation error (check which form was submitted)
-        const proFormHasErrors = document.querySelector('#tab-professional .text-danger:not(:empty)');
-        const indFormHasErrors = document.querySelector('#tab-individual .text-danger:not(:empty)');
-        if (indFormHasErrors && !proFormHasErrors) {
-            switchTo('ind');
+    function switchTo(type) {
+        if (type === 'pro') {
+            proBtn.classList.add('active', 'pro');
+            indBtn.classList.remove('active', 'ind');
+            proPane.classList.add('show', 'active');
+            indPane.classList.remove('show', 'active');
+            bgPro.style.opacity = '1';
+            bgInd.style.opacity = '0';
+            conPro.style.display = '';
+            conInd.style.display = 'none';
         } else {
-            switchTo('pro');
+            indBtn.classList.add('active', 'ind');
+            proBtn.classList.remove('active', 'pro');
+            indPane.classList.add('show', 'active');
+            proPane.classList.remove('show', 'active');
+            bgPro.style.opacity = '0';
+            bgInd.style.opacity = '1';
+            conPro.style.display = 'none';
+            conInd.style.display = '';
         }
+    }
 
-        // Logic for checkbox IDs and labels association
-        const checkWrappers = document.querySelectorAll('.modern-checkbox-area');
-        checkWrappers.forEach(wrapper => {
-            const label = wrapper.querySelector('label');
-            const checkbox = wrapper.querySelector('input[type="checkbox"]');
-            if (checkbox && label) {
-                const id = label.getAttribute('for');
-                if (id) checkbox.id = id;
-            }
-        });
-    });
+    proBtn.addEventListener('click', function (e) { e.preventDefault(); switchTo('pro'); });
+    indBtn.addEventListener('click', function (e) { e.preventDefault(); switchTo('ind'); });
+
+    // Restore tab after validation error
+    const indHasErrors = document.querySelector('#tab-individual .text-danger:not(:empty)');
+    const proHasErrors = document.querySelector('#tab-professional .text-danger:not(:empty)');
+    switchTo((indHasErrors && !proHasErrors) ? 'ind' : 'pro');
+});
 </script>
 {% endblock %}

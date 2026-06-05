@@ -8,423 +8,469 @@
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <style>
 /* ══ ABOUT PAGE ════════════════════════════════════════════════════════════
-   Charte : #00497F · #3FA9F5 · #FF8A3D · #0C1825 · #4A6073
+   Charte : --B:#00497F · --S:#3FA9F5 · --O:#FF8A3D · --D:#0C1825 · --M:#4A6073
    ══════════════════════════════════════════════════════════════════════════ */
 :root {
     --B:#00497F; --S:#3FA9F5; --O:#FF8A3D; --D:#0C1825; --M:#4A6073;
     --L:#E4EBF2; --W:#fff;
     --sh: 0 4px 24px rgba(0,73,127,.10);
-    --sh-md: 0 10px 40px rgba(0,73,127,.14);
+    --sh-md: 0 10px 40px rgba(0,73,127,.16);
+    --r: 22px;
 }
 .ab-wrap { max-width:1140px; margin:0 auto; padding:0 24px; }
-.ab-fade { opacity:0; transform:translateY(26px); transition:opacity .55s ease,transform .55s ease; }
+.ab-fade { opacity:0; transform:translateY(28px); transition:opacity .55s ease, transform .55s ease; }
 .ab-fade.in { opacity:1; transform:none; }
 
 /* ════════ 1. HERO ════════ */
 .ab-hero {
-    background: #00497F;
-    padding: 96px 0 80px;
+    background: var(--B);
+    padding: 100px 0 88px;
     position: relative; overflow: hidden; text-align: center;
 }
 .ab-hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
-    background-size: 28px 28px; pointer-events: none;
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 26px 26px; pointer-events: none;
 }
+/* sky blue glow top-center */
 .ab-hero::after {
     content: ''; position: absolute;
-    left: 50%; top: -120px; transform: translateX(-50%);
-    width: 700px; height: 700px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(63,169,245,.1) 0%, transparent 65%);
+    left: 50%; top: -160px; transform: translateX(-50%);
+    width: 860px; height: 860px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(63,169,245,.11) 0%, transparent 62%);
     pointer-events: none;
 }
-.ab-hero__inner { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+/* sky blue blob bottom-right */
+.ab-hero-blob {
+    position: absolute; bottom: -100px; right: -80px;
+    width: 420px; height: 420px; border-radius: 50%;
+    background: rgba(63,169,245,.07); pointer-events: none;
+}
+.ab-hero__inner { position: relative; z-index: 2; max-width: 780px; margin: 0 auto; padding: 0 20px; }
+
 .ab-hero-eyebrow {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,138,61,.18); color: #FF8A3D;
-    border: 1px solid rgba(255,138,61,.35); border-radius: 50px;
-    padding: 7px 18px; font-size: 11px; font-weight: 800;
-    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 22px;
+    background: rgba(63,169,245,.18); color: var(--S);
+    border: 1px solid rgba(63,169,245,.38); border-radius: 999px;
+    padding: 7px 20px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 24px;
 }
 .ab-hero h1 {
-    font-size: clamp(28px, 4.5vw, 54px);
-    font-weight: 900; color: #fff; margin: 0 0 6px;
-    line-height: 1.08; letter-spacing: -.025em;
+    font-size: clamp(30px, 4.8vw, 56px);
+    font-weight: 900; color: #fff; margin: 0 0 8px;
+    line-height: 1.06; letter-spacing: -.025em;
 }
-.ab-hero h1 span { color: #FF8A3D; }
+.ab-hero h1 span { color: var(--S); }
 .ab-hero__tagline {
     font-size: 17px; color: rgba(255,255,255,.72);
-    max-width: 620px; margin: 18px auto 32px; line-height: 1.75;
+    max-width: 640px; margin: 18px auto 36px; line-height: 1.78;
 }
-.ab-hero__tagline strong { color: rgba(255,255,255,.9); }
+.ab-hero__tagline strong { color: rgba(255,255,255,.92); }
 .ab-hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* trust pills under hero buttons */
+.ab-hero-trust {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    margin-top: 28px;
+}
+.ab-hero-trust-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(63,169,245,.12); color: rgba(255,255,255,.82);
+    border: 1px solid rgba(63,169,245,.28); border-radius: 999px;
+    padding: 5px 14px; font-size: 12px; font-weight: 700;
+}
+.ab-hero-trust-pill i { color: var(--S); }
 
 /* ════════ 2. STATS STRIP ════════ */
 .ab-stats {
     background: #fff;
-    border-top: 3px solid #FF8A3D;
+    border-top: 4px solid var(--O);
     border-bottom: 1px solid var(--L);
+    position: relative; z-index: 2;
+    box-shadow: 0 4px 20px rgba(0,73,127,.08);
 }
 .ab-stats-grid {
     display: grid; grid-template-columns: repeat(4,1fr);
     max-width: 1100px; margin: 0 auto; padding: 0 24px;
 }
 .ab-stat-cell {
-    display: flex; align-items: center; gap: 14px;
-    padding: 22px 18px; border-right: 1px solid var(--L);
+    display: flex; align-items: center; gap: 16px;
+    padding: 26px 20px; border-right: 1px solid var(--L);
+    transition: background .2s;
 }
 .ab-stat-cell:last-child { border-right: none; }
+.ab-stat-cell:hover { background: #fafcff; }
 .ab-stat-ico {
-    width: 46px; height: 46px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
+    width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
 }
-.ab-stat-num { font-size: 21px; font-weight: 900; color: #00497F; line-height: 1; }
-.ab-stat-lbl { font-size: 12px; color: var(--M); font-weight: 600; margin-top: 3px; }
+.ab-stat-num { font-size: 24px; font-weight: 900; color: var(--B); line-height: 1; }
+.ab-stat-lbl { font-size: 12px; color: var(--M); font-weight: 600; margin-top: 4px; }
 
 /* ════════ PAGE BG ════════ */
-.ab-bg { background: #f4f8fc; padding: 64px 0 80px; }
+.ab-bg { background: #f4f8fc; padding: 68px 0 84px; }
 
-/* ════════ 3. LE CONSTAT — dark split ════════ */
+/* ════════ 3. STORY — blue split ════════ */
 .ab-constat {
     display: grid; grid-template-columns: 1fr 1fr;
-    border-radius: 24px; overflow: hidden;
-    box-shadow: 0 12px 50px rgba(0,73,127,.18);
-    margin-bottom: 28px;
-    min-height: 500px;
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: 0 14px 56px rgba(0,73,127,.18);
+    margin-bottom: 28px; min-height: 500px;
 }
 .ab-constat-img { position: relative; overflow: hidden; }
 .ab-constat-img img { width:100%; height:100%; object-fit:cover; display:block; min-height:380px; }
 .ab-constat-img::after {
     content:''; position:absolute; inset:0;
-    background: linear-gradient(to right, rgba(12,24,37,.2), transparent);
+    background: linear-gradient(to right, rgba(0,73,127,.15), transparent);
 }
 .ab-constat-img-badge {
     position: absolute; bottom: 20px; left: 20px; z-index: 2;
-    background: rgba(12,24,37,.88); backdrop-filter: blur(10px);
-    border-radius: 12px; padding: 12px 18px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+    background: rgba(0,73,127,.92); backdrop-filter: blur(10px);
+    border-radius: 14px; padding: 14px 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.22);
+    border-left: 3px solid var(--O);
 }
-.ab-constat-img-badge__num { font-size: 22px; font-weight: 900; color: #fff; }
-.ab-constat-img-badge__num span { color: #FF8A3D; }
-.ab-constat-img-badge__lbl { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 2px; }
+.ab-constat-img-badge__num { font-size: 24px; font-weight: 900; color: #fff; }
+.ab-constat-img-badge__num span { color: var(--O); }
+.ab-constat-img-badge__lbl { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 3px; }
+
+/* TEXT PANEL — now primary blue instead of near-black */
 .ab-constat-body {
-    background: #0C1825;
-    padding: 52px 48px;
+    background: var(--B);
+    padding: 56px 52px;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: center;
 }
 .ab-constat-body::before {
     content:''; position:absolute; inset:0;
-    background-image: radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px);
-    background-size: 28px 28px; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 26px 26px; pointer-events: none;
 }
+/* orange glow bottom-right */
 .ab-constat-body::after {
-    content:''; position:absolute; bottom:-80px; right:-80px;
+    content:''; position:absolute; bottom:-100px; right:-60px;
+    width:320px; height:320px; border-radius:50%;
+    background: rgba(255,138,61,.10); pointer-events: none;
+}
+/* sky blue glow top-left */
+.ab-constat-body-glow {
+    position: absolute; top:-80px; left:-60px;
     width:280px; height:280px; border-radius:50%;
-    background: rgba(255,138,61,.08); pointer-events: none;
+    background: rgba(63,169,245,.08); pointer-events: none;
 }
 .ab-constat-inner { position: relative; z-index: 2; }
 .ab-constat-tag {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,138,61,.15); border: 1px solid rgba(255,138,61,.3);
-    color: #FF8A3D; font-size: 11px; font-weight: 800;
+    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+    color: var(--O); font-size: 11px; font-weight: 800;
     letter-spacing: .1em; text-transform: uppercase;
-    padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 18px;
 }
 .ab-constat-title {
-    font-size: clamp(20px, 2.5vw, 28px); font-weight: 900; color: #fff;
-    margin: 0 0 16px; line-height: 1.2; letter-spacing: -.015em;
+    font-size: clamp(21px, 2.6vw, 30px); font-weight: 900; color: #fff;
+    margin: 0 0 18px; line-height: 1.2; letter-spacing: -.015em;
 }
-.ab-constat-title span { color: #FF8A3D; }
-.ab-constat-lead {
-    font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.8; margin-bottom: 20px;
-}
-.ab-constat-body-text { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.8; margin-bottom: 16px; }
+.ab-constat-title span { color: var(--O); }
+.ab-constat-lead { font-size: 15px; color: rgba(255,255,255,.78); line-height: 1.8; margin-bottom: 20px; }
+.ab-constat-body-text { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.82; margin-bottom: 16px; }
 .ab-constat-body-text:last-of-type { margin-bottom: 0; }
-.ab-constat-body-text strong { color: rgba(255,255,255,.9); }
+.ab-constat-body-text strong { color: rgba(255,255,255,.92); }
 
 /* ════════ 4. MISSION & VISION ════════ */
-.ab-mv {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 24px; margin-bottom: 28px;
-}
+.ab-mv { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
 .ab-mv-card {
-    background: #fff; border-radius: 20px; overflow: hidden;
-    box-shadow: var(--sh);
-    transition: box-shadow .22s, transform .22s;
+    background: #fff; border-radius: var(--r); overflow: hidden;
+    box-shadow: var(--sh); transition: box-shadow .22s, transform .22s;
     border-top: 4px solid transparent;
 }
-.ab-mv-card:hover { box-shadow: var(--sh-md); transform: translateY(-3px); }
-.ab-mv-card--mission { border-top-color: #FF8A3D; }
-.ab-mv-card--vision  { border-top-color: #3FA9F5; }
-.ab-mv-card-img { overflow: hidden; height: 220px; }
+.ab-mv-card:hover { box-shadow: var(--sh-md); transform: translateY(-4px); }
+.ab-mv-card--mission { border-top-color: var(--O); }
+.ab-mv-card--vision  { border-top-color: var(--S); }
+.ab-mv-card-img { overflow: hidden; height: 230px; }
 .ab-mv-card-img img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .5s; }
-.ab-mv-card:hover .ab-mv-card-img img { transform: scale(1.04); }
-.ab-mv-card-body { padding: 32px 36px; }
+.ab-mv-card:hover .ab-mv-card-img img { transform: scale(1.05); }
+.ab-mv-card-body { padding: 32px 36px 36px; }
 .ab-mv-label {
     display: inline-flex; align-items: center; gap: 6px;
     font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 10px; padding: 4px 12px; border-radius: 6px;
 }
-.ab-mv-title { font-size: 20px; font-weight: 900; color: #0C1825; margin: 0 0 12px; line-height: 1.2; }
-.ab-mv-text  { font-size: 14px; color: var(--M); line-height: 1.8; margin: 0 0 10px; }
+.ab-mv-label--mission { background: rgba(255,138,61,.1); color: var(--O); }
+.ab-mv-label--vision  { background: rgba(63,169,245,.1); color: var(--S); }
+.ab-mv-title { font-size: 20px; font-weight: 900; color: var(--B) !important; margin: 0 0 12px; line-height: 1.2; }
+.ab-mv-text  { font-size: 14px; color: var(--M); line-height: 1.82; margin: 0 0 10px; }
 .ab-mv-text:last-of-type { margin: 0; }
-.ab-mv-text strong { color: #0C1825; }
-/* Vision bullets */
+.ab-mv-text strong { color: var(--D); }
 .ab-mv-list { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-direction: column; gap: 10px; }
 .ab-mv-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--M); line-height: 1.6; }
 .ab-mv-list-dot {
     width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
-    background: rgba(63,169,245,.12); color: #3FA9F5;
+    background: rgba(63,169,245,.12); color: var(--S);
     display: flex; align-items: center; justify-content: center; font-size: 11px; margin-top: 1px;
 }
 
 /* ════════ 5. VALEURS ════════ */
 .ab-values-section {
-    background: #fff; border-radius: 24px;
+    background: #fff; border-radius: var(--r);
     box-shadow: var(--sh); margin-bottom: 28px; overflow: hidden;
 }
 .ab-values-hd {
-    padding: 44px 48px 36px; border-bottom: 1px solid var(--L);
-    text-align: center;
+    padding: 48px 52px 38px; border-bottom: 1px solid var(--L); text-align: center;
+    background: #fff; position: relative; overflow: hidden;
+}
+/* subtle orange accent top-right */
+.ab-values-hd::after {
+    content:''; position:absolute; top:-40px; right:-40px;
+    width:200px; height:200px; border-radius:50%;
+    background: rgba(255,138,61,.05); pointer-events:none;
 }
 .ab-values-pill {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(0,73,127,.07); color: #00497F;
-    border: 1px solid rgba(0,73,127,.15); border-radius: 999px;
-    padding: 6px 16px; font-size: 11px; font-weight: 800;
-    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
+    background: rgba(255,138,61,.1); color: var(--O);
+    border: 1px solid rgba(255,138,61,.25); border-radius: 999px;
+    padding: 6px 18px; font-size: 11px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
 }
-.ab-values-title { font-size: clamp(22px,3vw,30px); font-weight: 900; color: #0C1825; margin: 0 0 8px; letter-spacing: -.015em; }
-.ab-values-title span { color: #00497F; }
-.ab-values-sub { font-size: 15px; color: var(--M); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+.ab-values-title { font-size: clamp(22px,3vw,30px); font-weight: 900; color: var(--B) !important; margin: 0 0 10px; letter-spacing: -.015em; }
+.ab-values-title span { color: var(--O); }
+.ab-values-sub { font-size: 15px; color: var(--M); max-width: 520px; margin: 0 auto; line-height: 1.75; }
 
-.ab-val5-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 0; border-top: 1px solid var(--L);
-}
+.ab-val5-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 .ab-val5-card {
     padding: 36px 40px;
     border-right: 1px solid var(--L); border-bottom: 1px solid var(--L);
-    transition: background .2s;
-    position: relative;
+    transition: background .2s; position: relative;
+    border-left: 3px solid transparent;
 }
 .ab-val5-card:hover { background: #fafcff; }
 .ab-val5-card:nth-child(2n) { border-right: none; }
-.ab-val5-card--full { grid-column: 1 / -1; border-right: none; }
-.ab-val5-card--full:last-child { border-bottom: none; }
-.ab-val5-head {
-    display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
-}
+.ab-val5-card--full { grid-column: 1 / -1; border-right: none; border-left: none; border-bottom: none; }
+/* colored left accent per card */
+.ab-val5-card:nth-child(1) { border-left-color: var(--B); }
+.ab-val5-card:nth-child(2) { border-left-color: var(--O); }
+.ab-val5-card:nth-child(3) { border-left-color: var(--S); }
+.ab-val5-card:nth-child(4) { border-left-color: var(--S); }
+.ab-val5-card--full { border-top: 1px solid var(--L); background: #f4f8fc; }
+.ab-val5-card--full:hover { background: #edf3fa; }
+.ab-val5-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
 .ab-val5-ico {
-    width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; font-size: 20px;
+    width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
 }
-.ab-val5-name { font-size: 18px; font-weight: 900; color: #0C1825; margin: 0; }
+.ab-val5-name { font-size: 17px; font-weight: 900; color: var(--B) !important; margin: 0 0 3px; }
 .ab-val5-lbl {
     display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .08em;
-    text-transform: uppercase; padding: 2px 8px; border-radius: 6px; margin-top: 3px;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 6px;
 }
-.ab-val5-text { font-size: 14px; color: var(--M); line-height: 1.8; margin: 0; }
-.ab-val5-text strong { color: #0C1825; }
+.ab-val5-text { font-size: 14px; color: var(--M); line-height: 1.82; margin: 0; }
+.ab-val5-text strong { color: var(--D); }
 
 /* ════════ 6. ENGAGEMENT CANADIEN ════════ */
 .ab-canada {
     display: grid; grid-template-columns: 1fr 1fr;
-    border-radius: 24px; overflow: hidden;
-    box-shadow: 0 12px 50px rgba(0,73,127,.18);
+    border-radius: var(--r); overflow: hidden;
+    box-shadow: 0 14px 56px rgba(0,73,127,.18);
     margin-bottom: 28px; min-height: 460px;
 }
 .ab-canada-img { position: relative; overflow: hidden; }
 .ab-canada-img img { width:100%; height:100%; object-fit:cover; display:block; min-height:360px; }
 .ab-canada-img::before {
     content:''; position:absolute; inset:0; z-index:1;
-    background: linear-gradient(to right, transparent 60%, rgba(22,22,48,.1) 100%);
+    background: linear-gradient(to right, transparent 55%, rgba(0,73,127,.08) 100%);
 }
 .ab-canada-flag {
     position: absolute; top: 20px; left: 20px; z-index: 2;
-    background: rgba(255,255,255,.92); backdrop-filter: blur(6px);
+    background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
     border-radius: 10px; padding: 9px 16px;
-    font-size: 14px; font-weight: 800; color: #0C1825;
+    font-size: 14px; font-weight: 800; color: var(--D);
     box-shadow: 0 4px 14px rgba(0,0,0,.12);
 }
 .ab-canada-provinces {
     position: absolute; bottom: 20px; left: 20px; z-index: 2;
-    background: rgba(12,24,37,.85); backdrop-filter: blur(10px);
+    background: rgba(0,73,127,.88); backdrop-filter: blur(10px);
     border-radius: 12px; padding: 12px 18px;
-    font-size: 12px; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.6;
+    font-size: 12px; color: rgba(255,255,255,.78); font-weight: 600; line-height: 1.6;
+    border-left: 3px solid var(--S);
 }
+
+/* TEXT PANEL — primary blue */
 .ab-canada-body {
-    background: #0C1825;
-    padding: 52px 48px;
+    background: var(--B);
+    padding: 56px 52px;
     display: flex; flex-direction: column; justify-content: center;
     position: relative; overflow: hidden;
 }
 .ab-canada-body::before {
     content:''; position:absolute; inset:0;
-    background-image: radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px);
-    background-size: 28px 28px; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 26px 26px; pointer-events: none;
+}
+.ab-canada-body::after {
+    content:''; position:absolute; bottom:-80px; right:-60px;
+    width:300px; height:300px; border-radius:50%;
+    background: rgba(63,169,245,.08); pointer-events:none;
 }
 .ab-canada-inner { position: relative; z-index: 2; }
 .ab-canada-tag {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
-    color: rgba(255,255,255,.9); font-size: 11px; font-weight: 800;
+    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+    color: var(--O); font-size: 11px; font-weight: 800;
     letter-spacing: .1em; text-transform: uppercase;
     padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
 }
 .ab-canada-title {
-    font-size: clamp(20px,2.5vw,28px); font-weight: 900; color: #fff;
+    font-size: clamp(20px,2.6vw,30px); font-weight: 900; color: #fff;
     margin: 0 0 14px; line-height: 1.2; letter-spacing: -.015em;
 }
-.ab-canada-title span { color: #3FA9F5; }
-.ab-canada-text { font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.8; margin: 0 0 14px; }
+.ab-canada-title span { color: var(--S); }
+.ab-canada-text { font-size: 14px; color: rgba(255,255,255,.72); line-height: 1.82; margin: 0 0 14px; }
 .ab-canada-text:last-of-type { margin: 0; }
-.ab-canada-text strong { color: #FF8A3D; }
-.ab-canada-provinces-list {
-    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;
-}
+.ab-canada-text strong { color: var(--O); }
+.ab-canada-provinces-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .ab-canada-prov {
-    background: rgba(255,255,255,.1); color: rgba(255,255,255,.8);
-    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.12); color: rgba(255,255,255,.85);
+    border: 1px solid rgba(255,255,255,.18);
     border-radius: 999px; padding: 5px 14px;
-    font-size: 12px; font-weight: 700;
+    font-size: 12px; font-weight: 700; transition: background .18s;
 }
+.ab-canada-prov:hover { background: rgba(255,255,255,.2); }
 
 /* ════════ 7. TÉMOIGNAGES ════════ */
 .ab-testi-section {
-    background: #fff; border-radius: 24px;
-    box-shadow: var(--sh); margin-bottom: 28px;
-    overflow: hidden;
+    background: #fff; border-radius: var(--r);
+    box-shadow: var(--sh); margin-bottom: 28px; overflow: hidden;
 }
 .ab-testi-hd {
-    padding: 44px 48px 36px; border-bottom: 1px solid var(--L);
-    text-align: center;
+    padding: 48px 52px 38px; border-bottom: 1px solid var(--L); text-align: center;
 }
 .ab-testi-hd__pill {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,138,61,.1); color: #FF8A3D;
-    border: 1px solid rgba(255,138,61,.2); border-radius: 999px;
-    padding: 6px 16px; font-size: 11px; font-weight: 800;
+    background: rgba(255,138,61,.1); color: var(--O);
+    border: 1px solid rgba(255,138,61,.22); border-radius: 999px;
+    padding: 6px 18px; font-size: 11px; font-weight: 800;
     letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
 }
-.ab-testi-hd__title { font-size: clamp(20px,2.8vw,28px); font-weight: 900; color: #0C1825; margin: 0 0 8px; letter-spacing: -.015em; }
+.ab-testi-hd__title { font-size: clamp(20px,2.8vw,28px); font-weight: 900; color: var(--B) !important; margin: 0 0 8px; letter-spacing: -.015em; }
 .ab-testi-hd__sub { font-size: 15px; color: var(--M); max-width: 480px; margin: 0 auto; }
 
-.ab-testi-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 0;
-}
-.ab-testi-col {
-    padding: 36px 40px; border-right: 1px solid var(--L);
-}
+.ab-testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.ab-testi-col { padding: 36px 40px; border-right: 1px solid var(--L); }
 .ab-testi-col:last-child { border-right: none; }
 .ab-testi-col-label {
     display: inline-flex; align-items: center; gap: 6px;
     font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-    margin-bottom: 24px; padding: 4px 12px; border-radius: 6px;
+    margin-bottom: 24px; padding: 5px 14px; border-radius: 8px;
 }
 .ab-testi-card {
     background: #f8fafc; border: 1px solid var(--L);
-    border-radius: 16px; padding: 22px 24px;
+    border-radius: 16px; padding: 22px 24px 20px;
     margin-bottom: 16px; transition: box-shadow .2s, transform .2s;
     position: relative;
 }
-.ab-testi-card:hover { box-shadow: 0 6px 24px rgba(0,73,127,.09); transform: translateY(-2px); }
+.ab-testi-card:hover { box-shadow: 0 6px 24px rgba(0,73,127,.1); transform: translateY(-2px); }
 .ab-testi-card:last-child { margin-bottom: 0; }
 .ab-testi-quote {
-    font-size: 28px; font-weight: 900; color: #FF8A3D;
-    line-height: 1; margin-bottom: 8px; opacity: .7;
+    font-size: 36px; font-weight: 900; line-height: .9; margin-bottom: 10px; opacity: .55;
 }
-.ab-testi-text { font-size: 13px; color: var(--M); line-height: 1.75; margin: 0 0 14px; font-style: italic; }
-.ab-testi-author {
-    display: flex; align-items: center; gap: 10px;
-}
+/* alternating quote colors */
+.ab-testi-col:first-child .ab-testi-card:nth-child(odd) .ab-testi-quote   { color: var(--B); }
+.ab-testi-col:first-child .ab-testi-card:nth-child(even) .ab-testi-quote  { color: var(--O); }
+.ab-testi-col:last-child .ab-testi-card:nth-child(odd) .ab-testi-quote    { color: var(--O); }
+.ab-testi-col:last-child .ab-testi-card:nth-child(even) .ab-testi-quote   { color: var(--S); }
+.ab-testi-text { font-size: 13px; color: var(--M); line-height: 1.78; margin: 0 0 14px; font-style: italic; }
+.ab-testi-author { display: flex; align-items: center; gap: 10px; }
 .ab-testi-avatar {
-    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 900; color: #fff;
+    font-size: 15px; font-weight: 900; color: #fff;
 }
-.ab-testi-name { font-size: 13px; font-weight: 800; color: #0C1825; }
+.ab-testi-name { font-size: 13px; font-weight: 800; color: var(--D); }
 .ab-testi-role { font-size: 11px; color: var(--M); }
 .ab-testi-badge {
     position: absolute; top: 16px; right: 16px;
     font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 6px;
     letter-spacing: .04em;
 }
+/* star rating */
+.ab-testi-stars { color: #F59E0B; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }
 
 /* ════════ 8. CTA FINAL ════════ */
 .ab-final-cta {
-    background: #00497F;
-    border-radius: 24px; padding: 64px 48px;
-    text-align: center; box-shadow: 0 12px 50px rgba(0,73,127,.22);
+    background: var(--B);
+    border-radius: var(--r); padding: 68px 52px;
+    text-align: center; box-shadow: 0 14px 56px rgba(0,73,127,.24);
     position: relative; overflow: hidden;
 }
 .ab-final-cta::before {
     content:''; position:absolute; inset:0;
-    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
-    background-size: 28px 28px; pointer-events:none;
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 26px 26px; pointer-events:none;
 }
+/* orange glow right */
 .ab-final-cta::after {
     content:''; position:absolute; top:-100px; right:-80px;
-    width:360px; height:360px; border-radius:50%;
-    background: rgba(255,138,61,.07); pointer-events:none;
+    width:400px; height:400px; border-radius:50%;
+    background: rgba(255,138,61,.09); pointer-events:none;
 }
-.ab-final-cta__inner { position: relative; z-index: 2; }
+/* sky blue glow left */
+.ab-final-glow-l {
+    position:absolute; bottom:-80px; left:-60px;
+    width:320px; height:320px; border-radius:50%;
+    background: rgba(63,169,245,.07); pointer-events:none;
+}
+.ab-final-cta__inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
 .ab-final-cta__tag {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,138,61,.15); border: 1px solid rgba(255,138,61,.3);
-    color: #FF8A3D; font-size: 11px; font-weight: 800;
+    background: rgba(255,138,61,.18); border: 1px solid rgba(255,138,61,.35);
+    color: var(--O); font-size: 11px; font-weight: 800;
     letter-spacing: .1em; text-transform: uppercase;
-    padding: 5px 14px; border-radius: 50px; margin-bottom: 18px;
+    padding: 5px 14px; border-radius: 50px; margin-bottom: 20px;
 }
 .ab-final-cta h2 {
-    font-size: clamp(22px,3.5vw,36px); font-weight: 900; color: #fff;
-    margin: 0 0 10px; line-height: 1.2; letter-spacing: -.02em;
+    font-size: clamp(24px,3.6vw,38px); font-weight: 900; color: #fff;
+    margin: 0 0 12px; line-height: 1.15; letter-spacing: -.02em;
 }
-.ab-final-cta h2 span { color: #FF8A3D; }
+.ab-final-cta h2 span { color: var(--O); }
 .ab-final-cta__sub {
     font-size: 16px; color: rgba(255,255,255,.65);
-    max-width: 520px; margin: 0 auto 36px; line-height: 1.7;
+    max-width: 520px; margin: 0 auto 38px; line-height: 1.75;
 }
 .ab-final-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
 /* ── Shared Buttons ── */
 .ab-btn-o {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #FF8A3D; color: #fff; font-size: 15px; font-weight: 800;
-    padding: 14px 28px; border-radius: 50px; text-decoration: none;
-    box-shadow: 0 4px 18px rgba(255,138,61,.38); transition: all .2s;
+    background: var(--O); color: #fff; font-size: 15px; font-weight: 800;
+    padding: 14px 30px; border-radius: 50px; text-decoration: none;
+    box-shadow: 0 4px 18px rgba(255,138,61,.40); transition: all .22s;
 }
-.ab-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
-.ab-btn-b {
+.ab-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; box-shadow: 0 8px 28px rgba(255,138,61,.50); }
+.ab-btn-s {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #00497F; color: #fff; font-size: 15px; font-weight: 800;
-    padding: 13px 26px; border-radius: 50px; text-decoration: none;
-    box-shadow: 0 4px 16px rgba(0,73,127,.28); transition: all .18s;
+    background: var(--S); color: #fff; font-size: 15px; font-weight: 800;
+    padding: 14px 28px; border-radius: 50px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(63,169,245,.36); transition: all .22s;
 }
-.ab-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
+.ab-btn-s:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; }
 .ab-btn-w {
     display: inline-flex; align-items: center; gap: 8px;
     background: transparent; color: #fff; font-size: 15px; font-weight: 700;
     padding: 13px 24px; border-radius: 50px; text-decoration: none;
-    border: 2px solid rgba(255,255,255,.28); transition: all .18s;
+    border: 2px solid rgba(255,255,255,.30); transition: all .22s;
 }
-.ab-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); color: #fff; }
-.ab-btn-s {
+.ab-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.60); color: #fff; }
+.ab-btn-b {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #3FA9F5; color: #fff; font-size: 15px; font-weight: 800;
-    padding: 13px 26px; border-radius: 50px; text-decoration: none;
-    box-shadow: 0 4px 16px rgba(63,169,245,.35); transition: all .18s;
+    background: var(--B); color: #fff; font-size: 15px; font-weight: 800;
+    padding: 13px 28px; border-radius: 50px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,73,127,.28); transition: all .22s;
 }
-.ab-btn-s:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; }
+.ab-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
 
 /* ── Responsive ── */
 @media (max-width:900px) {
     .ab-constat, .ab-canada { grid-template-columns: 1fr; min-height: auto; }
-    .ab-constat-body, .ab-canada-body { padding: 36px 28px; }
+    .ab-constat-body, .ab-canada-body { padding: 40px 30px; }
     .ab-mv { grid-template-columns: 1fr; }
     .ab-val5-grid { grid-template-columns: 1fr; }
     .ab-val5-card:nth-child(2n) { border-right: none; }
@@ -434,26 +480,28 @@
     .ab-stats-grid { grid-template-columns: repeat(2,1fr); }
     .ab-stat-cell:nth-child(2) { border-right: none; }
     .ab-stat-cell:nth-child(3) { border-top: 1px solid var(--L); }
+    .ab-values-hd, .ab-testi-hd { padding-left: 28px; padding-right: 28px; }
 }
 @media (max-width:600px) {
     .ab-hero { padding: 72px 0 60px; }
-    .ab-values-hd, .ab-testi-hd, .ab-val5-card, .ab-testi-col { padding-left: 24px; padding-right: 24px; }
-    .ab-final-cta { padding: 48px 24px; }
+    .ab-hero-trust { display: none; }
+    .ab-val5-card, .ab-testi-col { padding: 28px 24px; }
+    .ab-final-cta { padding: 50px 24px; }
     .ab-final-cta-btns { flex-direction: column; align-items: center; }
+    .ab-hero-btns { flex-direction: column; align-items: center; }
 }
 </style>
 
 {# ══ 1. HERO ═══════════════════════════════════════════════════════════════ #}
 <section class="ab-hero">
+    <div class="ab-hero-blob"></div>
     <div class="ab-wrap">
         <div class="ab-hero__inner">
             <div class="ab-hero-eyebrow">
                 <i class="ph-bold ph-info"></i> {{ 'about.hero_eyebrow'|trans }}
             </div>
             <h1>{{ 'about.hero_title_1'|trans }} <span>{{ 'about.hero_title_2'|trans }}</span></h1>
-            <p class="ab-hero__tagline">
-                {{ 'about.hero_sub'|trans }}
-            </p>
+            <p class="ab-hero__tagline">{{ 'about.hero_sub'|trans }}</p>
             <div class="ab-hero-btns">
                 <a href="{{ path('professionals_list') }}" class="ab-btn-o">
                     <i class="ph-bold ph-magnifying-glass"></i> {{ 'about.why_btn_find'|trans }}
@@ -461,6 +509,11 @@
                 <a href="{{ path('app_register_pro') }}" class="ab-btn-w">
                     <i class="ph-bold ph-user-plus"></i> {{ 'about.why_btn_join'|trans }}
                 </a>
+            </div>
+            <div class="ab-hero-trust">
+                <div class="ab-hero-trust-pill"><i class="ph-bold ph-seal-check"></i> +1 500 pros vérifiés</div>
+                <div class="ab-hero-trust-pill"><i class="ph-bold ph-currency-dollar-simple"></i> 0% commission</div>
+                <div class="ab-hero-trust-pill"><i class="ph-bold ph-map-pin"></i> Partout au Canada</div>
             </div>
         </div>
     </div>
@@ -470,7 +523,7 @@
 <div class="ab-stats">
     <div class="ab-stats-grid">
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:#00497F;color:#fff;">
+            <div class="ab-stat-ico" style="background:rgba(0,73,127,.1);color:var(--B);">
                 <i class="ph-bold ph-users"></i>
             </div>
             <div>
@@ -479,16 +532,16 @@
             </div>
         </div>
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:#FF8A3D;color:#fff;">
+            <div class="ab-stat-ico" style="background:rgba(255,138,61,.12);color:var(--O);">
                 <i class="ph-bold ph-currency-dollar-simple"></i>
             </div>
             <div>
-                <div class="ab-stat-num">0 %</div>
+                <div class="ab-stat-num" style="color:var(--O);">0 %</div>
                 <div class="ab-stat-lbl">{{ 'about.stat_no_commission_lbl'|trans }}</div>
             </div>
         </div>
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:#3FA9F5;color:#fff;">
+            <div class="ab-stat-ico" style="background:rgba(63,169,245,.12);color:var(--S);">
                 <i class="ph-bold ph-clock"></i>
             </div>
             <div>
@@ -497,7 +550,7 @@
             </div>
         </div>
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:#16a34a;color:#fff;">
+            <div class="ab-stat-ico" style="background:rgba(0,73,127,.1);color:var(--B);">
                 <i class="ph-bold ph-map-pin"></i>
             </div>
             <div>
@@ -512,9 +565,8 @@
 <div class="ab-bg">
     <div class="ab-wrap">
 
-        {# ── 3. LE CONSTAT ── #}
+        {# ── 3. STORY ── #}
         <div class="ab-constat ab-fade">
-
             <div class="ab-constat-img">
                 <img src="{{ asset('assets/drilleedo/images/stock/about_canada.jpg') }}"
                      alt="{{ 'about.story_img_alt'|trans }}" loading="lazy">
@@ -523,54 +575,43 @@
                     <div class="ab-constat-img-badge__lbl">{{ 'about.story_badge_lbl'|trans }}</div>
                 </div>
             </div>
-
             <div class="ab-constat-body">
+                <div class="ab-constat-body-glow"></div>
                 <div class="ab-constat-inner">
                     <div class="ab-constat-tag">
                         <i class="ph-bold ph-clock-clockwise"></i> {{ 'about.story_eyebrow'|trans }}
                     </div>
                     <h2 class="ab-constat-title">{{ 'about.story_title_1'|trans }}<br><span>{{ 'about.story_title_2'|trans }}</span></h2>
-                    <p class="ab-constat-lead">
-                        {{ 'about.story_p1'|trans }}
-                    </p>
-                    <p class="ab-constat-body-text">
-                        {{ 'about.story_p2'|trans }}
-                    </p>
-                    <p class="ab-constat-body-text">
-                        {{ 'about.story_p3'|trans }}
-                    </p>
-                    <p class="ab-constat-body-text">
-                        {{ 'about.story_sub_1'|trans|raw }} {{ 'about.story_sub_2'|trans|raw }}
-                    </p>
+                    <p class="ab-constat-lead">{{ 'about.story_p1'|trans }}</p>
+                    <p class="ab-constat-body-text">{{ 'about.story_p2'|trans }}</p>
+                    <p class="ab-constat-body-text">{{ 'about.story_p3'|trans }}</p>
+                    <p class="ab-constat-body-text">{{ 'about.story_sub_1'|trans|raw }} {{ 'about.story_sub_2'|trans|raw }}</p>
                 </div>
             </div>
-
         </div>
 
         {# ── 4. MISSION & VISION ── #}
         <div class="ab-mv ab-fade">
-
             <div class="ab-mv-card ab-mv-card--mission">
                 <div class="ab-mv-card-img">
                     <img src="{{ asset('assets/drilleedo/images/stock/about_mission.jpg') }}"
                          alt="{{ 'about.mv_lbl_mission'|trans }}" loading="lazy">
                 </div>
                 <div class="ab-mv-card-body">
-                    <div class="ab-mv-label" style="color:#FF8A3D;">
+                    <div class="ab-mv-label ab-mv-label--mission">
                         <i class="ph-bold ph-target"></i> {{ 'about.mv_lbl_mission'|trans }}
                     </div>
                     <h3 class="ab-mv-title">{{ 'about.mv_title_mission'|trans }}</h3>
                     <p class="ab-mv-text">{{ 'about.mv_desc_mission'|trans }}</p>
                 </div>
             </div>
-
             <div class="ab-mv-card ab-mv-card--vision">
                 <div class="ab-mv-card-img">
                     <img src="{{ asset('assets/drilleedo/images/stock/about_vision.jpg') }}"
                          alt="{{ 'about.mv_lbl_vision'|trans }}" loading="lazy">
                 </div>
                 <div class="ab-mv-card-body">
-                    <div class="ab-mv-label" style="color:#3FA9F5;">
+                    <div class="ab-mv-label ab-mv-label--vision">
                         <i class="ph-bold ph-binoculars"></i> {{ 'about.mv_lbl_vision'|trans }}
                     </div>
                     <h3 class="ab-mv-title">{{ 'about.mv_title_vision'|trans }}</h3>
@@ -582,28 +623,25 @@
                     </ul>
                 </div>
             </div>
-
         </div>
 
         {# ── 5. NOS VALEURS ── #}
         <div class="ab-values-section ab-fade">
-
             <div class="ab-values-hd">
                 <div class="ab-values-pill"><i class="ph-bold ph-heart"></i> {{ 'about.val_eyebrow'|trans }}</div>
-                <h2 class="ab-values-title">{{ 'about.val_title'|trans }}</h2>
+                <h2 class="ab-values-title">{{ 'about.val_title'|trans }} <span>{{ 'about.val_title'|trans }}</span></h2>
                 <p class="ab-values-sub">{{ 'about.val_sub'|trans }}</p>
             </div>
-
             <div class="ab-val5-grid">
 
                 <div class="ab-val5-card">
                     <div class="ab-val5-head">
-                        <div class="ab-val5-ico" style="background:rgba(0,73,127,.1);color:#00497F;">
+                        <div class="ab-val5-ico" style="background:rgba(0,73,127,.1);color:var(--B);">
                             <i class="ph-bold ph-shield-check"></i>
                         </div>
                         <div>
                             <div class="ab-val5-name">{{ 'about.val_1_title'|trans }}</div>
-                            <span class="ab-val5-lbl" style="background:rgba(0,73,127,.08);color:#00497F;">{{ 'about.val_1_lbl'|trans }}</span>
+                            <span class="ab-val5-lbl" style="background:rgba(0,73,127,.08);color:var(--B);">{{ 'about.val_1_lbl'|trans }}</span>
                         </div>
                     </div>
                     <p class="ab-val5-text">{{ 'about.val_1_text'|trans|raw }}</p>
@@ -611,12 +649,12 @@
 
                 <div class="ab-val5-card">
                     <div class="ab-val5-head">
-                        <div class="ab-val5-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;">
+                        <div class="ab-val5-ico" style="background:rgba(255,138,61,.1);color:var(--O);">
                             <i class="ph-bold ph-scales"></i>
                         </div>
                         <div>
                             <div class="ab-val5-name">{{ 'about.val_2_name'|trans }}</div>
-                            <span class="ab-val5-lbl" style="background:rgba(255,138,61,.1);color:#FF8A3D;">{{ 'about.val_2_lbl'|trans }}</span>
+                            <span class="ab-val5-lbl" style="background:rgba(255,138,61,.1);color:var(--O);">{{ 'about.val_2_lbl'|trans }}</span>
                         </div>
                     </div>
                     <p class="ab-val5-text">{{ 'about.val_2_text'|trans|raw }}</p>
@@ -624,12 +662,12 @@
 
                 <div class="ab-val5-card">
                     <div class="ab-val5-head">
-                        <div class="ab-val5-ico" style="background:rgba(63,169,245,.1);color:#3FA9F5;">
+                        <div class="ab-val5-ico" style="background:rgba(63,169,245,.1);color:var(--S);">
                             <i class="ph-bold ph-star"></i>
                         </div>
                         <div>
                             <div class="ab-val5-name">{{ 'about.val_3_title'|trans }}</div>
-                            <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:#3FA9F5;">{{ 'about.val_3_lbl'|trans }}</span>
+                            <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:var(--S);">{{ 'about.val_3_lbl'|trans }}</span>
                         </div>
                     </div>
                     <p class="ab-val5-text">{{ 'about.val_3_text'|trans|raw }}</p>
@@ -637,12 +675,12 @@
 
                 <div class="ab-val5-card">
                     <div class="ab-val5-head">
-                        <div class="ab-val5-ico" style="background:rgba(22,163,74,.1);color:#16a34a;">
+                        <div class="ab-val5-ico" style="background:rgba(63,169,245,.1);color:var(--S);">
                             <i class="ph-bold ph-users-three"></i>
                         </div>
                         <div>
                             <div class="ab-val5-name">{{ 'about.val_5_title'|trans }}</div>
-                            <span class="ab-val5-lbl" style="background:rgba(22,163,74,.1);color:#16a34a;">{{ 'about.val_5_lbl'|trans }}</span>
+                            <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:var(--S);">{{ 'about.val_5_lbl'|trans }}</span>
                         </div>
                     </div>
                     <p class="ab-val5-text">{{ 'about.val_5_text'|trans|raw }}</p>
@@ -650,15 +688,15 @@
 
                 <div class="ab-val5-card ab-val5-card--full">
                     <div class="ab-val5-head">
-                        <div class="ab-val5-ico" style="background:rgba(124,58,237,.1);color:#7c3aed;">
+                        <div class="ab-val5-ico" style="background:rgba(255,138,61,.1);color:var(--O);">
                             <i class="ph-bold ph-lightbulb"></i>
                         </div>
                         <div>
                             <div class="ab-val5-name">{{ 'about.val_6_title'|trans }}</div>
-                            <span class="ab-val5-lbl" style="background:rgba(124,58,237,.1);color:#7c3aed;">{{ 'about.val_6_lbl'|trans }}</span>
+                            <span class="ab-val5-lbl" style="background:rgba(255,138,61,.08);color:var(--O);">{{ 'about.val_6_lbl'|trans }}</span>
                         </div>
                     </div>
-                    <p class="ab-val5-text" style="max-width:700px;">{{ 'about.val_6_text'|trans|raw }}</p>
+                    <p class="ab-val5-text" style="max-width:720px;">{{ 'about.val_6_text'|trans|raw }}</p>
                 </div>
 
             </div>
@@ -666,16 +704,12 @@
 
         {# ── 6. ENGAGEMENT CANADIEN ── #}
         <div class="ab-canada ab-fade">
-
             <div class="ab-canada-img">
                 <img src="{{ asset('assets/drilleedo/images/stock/about_canada_homes.jpg') }}"
                      alt="{{ 'about.canada_img_alt'|trans }}" loading="lazy">
                 <div class="ab-canada-flag">{{ 'about.canada_flag'|trans }}</div>
-                <div class="ab-canada-provinces">
-                    {{ 'about.canada_provinces_img'|trans|raw }}
-                </div>
+                <div class="ab-canada-provinces">{{ 'about.canada_provinces_img'|trans|raw }}</div>
             </div>
-
             <div class="ab-canada-body">
                 <div class="ab-canada-inner">
                     <div class="ab-canada-tag">
@@ -694,58 +728,55 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         {# ── 7. TÉMOIGNAGES ── #}
         <div class="ab-testi-section ab-fade">
-
             <div class="ab-testi-hd">
                 <div class="ab-testi-hd__pill"><i class="ph-bold ph-chat-circle-dots"></i> {{ 'about.testi_pill'|trans }}</div>
                 <h2 class="ab-testi-hd__title">{{ 'about.testi_title'|trans }}</h2>
                 <p class="ab-testi-hd__sub">{{ 'about.testi_sub'|trans }}</p>
             </div>
-
             <div class="ab-testi-grid">
 
                 {# Clients #}
                 <div class="ab-testi-col">
-                    <div class="ab-testi-col-label" style="background:rgba(0,73,127,.07);color:#00497F;">
+                    <div class="ab-testi-col-label" style="background:rgba(0,73,127,.08);color:var(--B);">
                         <i class="ph-bold ph-house-line"></i> {{ 'about.testi_col1_lbl'|trans|raw }}
                     </div>
-
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">{{ 'about.testi_c1_badge'|trans }}</span>
+                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:var(--B);">{{ 'about.testi_c1_badge'|trans }}</span>
+                        <div class="ab-testi-stars">★★★★★</div>
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_c1_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:#00497F;">S</div>
+                            <div class="ab-testi-avatar" style="background:var(--B);">S</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_c1_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_c1_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
-
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.08);color:#FF8A3D;">{{ 'about.testi_c2_badge'|trans }}</span>
+                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.08);color:var(--O);">{{ 'about.testi_c2_badge'|trans }}</span>
+                        <div class="ab-testi-stars">★★★★★</div>
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_c2_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:#FF8A3D;">M</div>
+                            <div class="ab-testi-avatar" style="background:var(--O);">M</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_c2_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_c2_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
-
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(22,163,74,.08);color:#16a34a;">{{ 'about.testi_c3_badge'|trans }}</span>
+                        <span class="ab-testi-badge" style="background:rgba(63,169,245,.08);color:var(--S);">{{ 'about.testi_c3_badge'|trans }}</span>
+                        <div class="ab-testi-stars">★★★★★</div>
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_c3_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:#16a34a;">T</div>
+                            <div class="ab-testi-avatar" style="background:var(--S);">T</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_c3_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_c3_role'|trans }}</div>
@@ -756,42 +787,42 @@
 
                 {# Professionnels #}
                 <div class="ab-testi-col">
-                    <div class="ab-testi-col-label" style="background:rgba(255,138,61,.08);color:#FF8A3D;">
+                    <div class="ab-testi-col-label" style="background:rgba(255,138,61,.09);color:var(--O);">
                         <i class="ph-bold ph-hard-hat"></i> {{ 'about.testi_col2_lbl'|trans }}
                     </div>
-
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:#00497F;">{{ 'about.testi_p1_badge'|trans }}</span>
+                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.08);color:var(--O);">{{ 'about.testi_p1_badge'|trans }}</span>
+                        <div class="ab-testi-stars">★★★★★</div>
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_p1_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:#00497F;">J</div>
+                            <div class="ab-testi-avatar" style="background:var(--B);">J</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_p1_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_p1_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
-
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(255,138,61,.1);color:#FF8A3D;">{{ 'about.testi_p2_badge'|trans }}</span>
+                        <span class="ab-testi-badge" style="background:rgba(63,169,245,.08);color:var(--S);">{{ 'about.testi_p2_badge'|trans }}</span>
+                        <div class="ab-testi-stars">★★★★★</div>
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_p2_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:#FF8A3D;">A</div>
+                            <div class="ab-testi-avatar" style="background:var(--O);">A</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_p2_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_p2_role'|trans }}</div>
                             </div>
                         </div>
                     </div>
-
                     <div class="ab-testi-card">
-                        <span class="ab-testi-badge" style="background:rgba(124,58,237,.08);color:#7c3aed;">{{ 'about.testi_p3_badge'|trans }}</span>
+                        <span class="ab-testi-badge" style="background:rgba(0,73,127,.07);color:var(--B);">{{ 'about.testi_p3_badge'|trans }}</span>
+                        <div class="ab-testi-stars">★★★★★</div>
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_p3_text'|trans|raw }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:#7c3aed;">N</div>
+                            <div class="ab-testi-avatar" style="background:var(--S);">N</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_p3_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_p3_role'|trans }}</div>
@@ -805,14 +836,13 @@
 
         {# ── 8. CTA FINAL ── #}
         <div class="ab-final-cta ab-fade">
+            <div class="ab-final-glow-l"></div>
             <div class="ab-final-cta__inner">
                 <div class="ab-final-cta__tag">
                     <i class="ph-bold ph-rocket-launch"></i> {{ 'about.cta_eyebrow'|trans }}
                 </div>
                 <h2>{{ 'about.cta_title'|trans }}</h2>
-                <p class="ab-final-cta__sub">
-                    {{ 'about.cta_sub'|trans }}
-                </p>
+                <p class="ab-final-cta__sub">{{ 'about.cta_sub'|trans }}</p>
                 <div class="ab-final-cta-btns">
                     <a href="{{ path('professionals_list') }}" class="ab-btn-o">
                         <i class="ph-bold ph-magnifying-glass"></i> {{ 'about.cta_btn_find'|trans }}
@@ -831,7 +861,6 @@
 </div>
 
 </main>
-
 <script>
 (function(){
     var obs = new IntersectionObserver(function(entries){
