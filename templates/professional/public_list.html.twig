@@ -17,36 +17,36 @@
 
 /* ── Hero banner ── */
 .pl-hero {
-  background: linear-gradient(135deg, #002d50 0%, #00497F 60%, #0a6eab 100%);
-  padding: 72px 0 60px;
-  position: relative; overflow: hidden;
+  background: #00497F;
+  padding: 80px 0 64px;
+  position: relative; overflow: hidden; text-align: center;
 }
 .pl-hero::before {
   content:''; position:absolute; inset:0;
   background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
-  background-size: 28px 28px; pointer-events: none;
+  background-size: 28px 28px; pointer-events: none; z-index: 1;
 }
 .pl-hero::after {
   content:''; position:absolute; right:-80px; top:-80px;
   width:400px; height:400px; border-radius:50%;
-  background: radial-gradient(circle, rgba(255,138,61,.12) 0%, transparent 70%);
-  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,138,61,.10) 0%, transparent 70%);
+  pointer-events: none; z-index: 1;
 }
 .pl-hero-inner {
   max-width:860px; margin:0 auto; padding:0 24px;
-  text-align:center; position:relative; z-index:2;
+  position:relative; z-index:2;
 }
 .pl-hero-pill {
   display:inline-flex; align-items:center; gap:7px;
-  background:rgba(255,255,255,.1); color:rgba(255,255,255,.9);
-  border:1px solid rgba(255,255,255,.2); border-radius:50px;
-  padding:6px 18px; font-size:12px; font-weight:700;
-  letter-spacing:.6px; text-transform:uppercase; margin-bottom:20px;
+  background:rgba(255,138,61,.18); color:#FF8A3D;
+  border:1px solid rgba(255,138,61,.35); border-radius:50px;
+  padding:6px 18px; font-size:11px; font-weight:800;
+  letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px;
 }
 .pl-hero h1 {
   font-family: var(--F); font-size: clamp(26px,4vw,44px);
   font-weight:900; color:#fff; margin:0 0 14px;
-  line-height:1.1; letter-spacing:-1.5px;
+  line-height:1.1; letter-spacing:-.025em;
 }
 .pl-hero-sub {
   font-size:17px; color:rgba(255,255,255,.72);
@@ -60,10 +60,32 @@
 .pl-trust-row span { display:flex; align-items:center; gap:6px; }
 .pl-trust-row i { color:#3FA9F5; }
 
+/* ── Stats strip ── */
+.pl-stats {
+  background:#fff; border-top:3px solid #FF8A3D;
+  border-bottom:1px solid var(--L);
+}
+.pl-stats-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  max-width:1100px; margin:0 auto; padding:0 24px;
+}
+.pl-stat-cell {
+  display:flex; align-items:center; gap:14px;
+  padding:20px 18px; border-right:1px solid var(--L);
+}
+.pl-stat-cell:last-child { border-right:none; }
+.pl-stat-ico {
+  width:44px; height:44px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.pl-stat-num { font-size:20px; font-weight:900; color:#00497F; line-height:1; }
+.pl-stat-lbl { font-size:12px; color:var(--M); font-weight:600; margin-top:3px; }
+
 /* ── Filter bar ── */
 .pl-filters {
   background:#fff; border-bottom:1px solid var(--L);
-  padding:20px 0; position:sticky; top:0; z-index:100;
+  padding:18px 0; position:sticky; top:0; z-index:100;
   box-shadow:0 2px 12px rgba(0,73,127,.06);
 }
 .pl-filters-inner {
@@ -91,12 +113,12 @@
 .pl-filter-input:focus { border-color:var(--S); }
 .pl-filter-btn {
   height:44px; padding:0 22px;
-  background:var(--B); color:#fff; border:none; border-radius:10px;
+  background:var(--O); color:#fff; border:none; border-radius:50px;
   font-family:var(--F); font-size:14px; font-weight:700;
   cursor:pointer; transition:background .18s;
   display:inline-flex; align-items:center; gap:7px;
 }
-.pl-filter-btn:hover { background:#003a66; }
+.pl-filter-btn:hover { background:#e87830; }
 
 /* ── Main layout ── */
 .pl-main { max-width:1200px; margin:0 auto; padding:40px 24px; }
@@ -110,6 +132,7 @@
   background:#fff; border:1.5px solid var(--L); border-radius:var(--rx);
   overflow:hidden; transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
   display:flex; flex-direction:column;
+  box-shadow:0 2px 10px rgba(0,73,127,.06);
 }
 .pl-card:hover { transform:translateY(-6px); box-shadow:var(--sh-md); border-color:var(--S); }
 
@@ -124,7 +147,7 @@
 .pl-card:hover .pl-card-banner img { transform:scale(1.06); }
 .pl-card-banner-overlay {
   position:absolute; inset:0;
-  background:linear-gradient(0deg, rgba(0,73,127,.55) 0%, transparent 55%);
+  background:linear-gradient(0deg, rgba(0,73,127,.5) 0%, transparent 55%);
 }
 
 /* Avatar */
@@ -135,7 +158,7 @@
   box-shadow:0 4px 14px rgba(0,73,127,.18);
   display:flex; align-items:center; justify-content:center;
   font-size:16px; font-weight:900; color:var(--B);
-  background:linear-gradient(135deg,#e8f2fc,#d0e8f8);
+  background:#dde9f7;
 }
 .pl-card-avatar img { width:100%; height:100%; object-fit:cover; }
 
@@ -143,8 +166,8 @@
 .pl-card-body { padding:28px 20px 20px; flex:1; display:flex; flex-direction:column; }
 .pl-card-verified {
   display:inline-flex; align-items:center; gap:5px;
-  font-size:11px; font-weight:700; color:#16a34a;
-  background:rgba(22,163,74,.08); border:1px solid rgba(22,163,74,.18);
+  font-size:11px; font-weight:700; color:#3FA9F5;
+  background:rgba(63,169,245,.08); border:1px solid rgba(63,169,245,.20);
   border-radius:50px; padding:3px 10px; margin-bottom:8px;
 }
 .pl-card-name {
@@ -170,16 +193,16 @@
 }
 .pl-btn-outline {
   flex:1; text-align:center; padding:9px 0;
-  border:1.5px solid rgba(0,73,127,.22); border-radius:8px;
+  border:1.5px solid rgba(0,73,127,.22); border-radius:50px;
   font-family:var(--F); font-size:13px; font-weight:700; color:var(--B);
   text-decoration:none; transition:all .18s;
 }
 .pl-btn-outline:hover { background:var(--B); color:#fff; border-color:var(--B); }
 .pl-btn-solid {
   flex:1; text-align:center; padding:9px 0;
-  background:var(--O); border-radius:8px;
+  background:var(--O); border-radius:50px;
   font-family:var(--F); font-size:13px; font-weight:700; color:#fff;
-  text-decoration:none; box-shadow:0 3px 12px rgba(255,138,61,.3);
+  text-decoration:none; box-shadow:0 3px 12px rgba(255,138,61,.30);
   transition:all .18s;
 }
 .pl-btn-solid:hover { background:#e87830; transform:translateY(-1px); color:#fff; }
@@ -198,177 +221,103 @@
 .pl-empty p  { font-size:15px; color:var(--M); margin:0 0 24px; line-height:1.7; }
 
 /* Responsive */
-@media (max-width:1024px) { .pl-grid { grid-template-columns:repeat(2,1fr); } }
-@media (max-width:640px)  {
+@media (max-width:1024px) {
+  .pl-grid { grid-template-columns:repeat(2,1fr); }
+  .pl-stats-grid { grid-template-columns:repeat(2,1fr); }
+  .pl-stat-cell:nth-child(2) { border-right:none; }
+  .pl-stat-cell:nth-child(3) { border-top:1px solid var(--L); }
+}
+@media (max-width:640px) {
   .pl-grid { grid-template-columns:1fr; }
   .pl-filters-inner { flex-direction:column; align-items:stretch; }
   .pl-filter-btn { width:100%; justify-content:center; }
+  .pl-stats-grid { grid-template-columns:1fr; }
+  .pl-stat-cell { border-right:none; border-bottom:1px solid var(--L); }
+  .pl-stat-cell:last-child { border-bottom:none; }
 }
 </style>
 {% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
-    <!-- Start Banner -->
-    <div class="zenith-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1 text-center">
-                    <div class="zenith-title-wrapper">
-                        <a href="#" class="zenith-badge">
-                            <span>🛠️</span> {{ professionals|length }} {{ 'pro_pub.list_trusted_badge'|trans }}
-                        </a>
-                        <h1 class="zenith-title">{{ 'pro_pub.list_hero_title'|trans }}</h1>
-                        <p class="description text-white opacity-75" style="max-width: 600px; margin: 0 auto; font-size: 1.2rem;">
-                            {{ 'pro_pub.list_hero_sub'|trans }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Banner -->
-
-    <div class="rbt-section-gapBottom">
-        <div class="container">
-
-            <!-- Start Filter Bar -->
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1">
-                    <div class="zenith-filter-bar">
-                        <form action="{{ path('professionals_list') }}" method="get">
-                            <div class="row g-4 align-items-center">
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="filter-select rbt-modern-select">
-                                        <select class="w-100" name="category" onchange="this.form.submit()" style="border: none; background: #f8fafc; padding: 10px 15px; border-radius: 8px; font-weight: 500;">
-                                            <option value="">{{ 'pro_pub.list_all_categories'|trans }}</option>
-                                            {% for cat in categories %}
-                                                <option value="{{ cat.id }}" {% if currentCategory == cat.id %}selected{% endif %}>{{ cat.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6">
-                                      <div class="search-input-group">
-                                        <input type="text" name="location" placeholder="{{ 'pro_pub.list_ph_city'|trans }}" value="{{ currentLocation }}" style="width: 100%; border: none; background: #f8fafc; padding: 10px 15px; border-radius: 8px; font-weight: 500;">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                      <div class="d-flex align-items-center bg-light rounded-3 p-1">
-                                          <input type="text" class="form-control border-0 bg-transparent shadow-none" disabled placeholder="{{ 'pro_pub.list_ph_name_search'|trans }}" style="padding: 10px 15px;">
-                                          <button type="submit" class="btn btn-primary btn-sm rounded-3 px-3 py-2 ms-2">
-                                             {{ 'pro_pub.list_btn_search'|trans }}
-                                          </button>
-                                      </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- End Filter Bar -->
-
-            <!-- Start Card Grid -->
-            <div class="row g-5">
-                {% for pro in professionals %}
-                    <div class="col-lg-4 col-md-6 col-12" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
-                        <div class="zenith-card">
-                            <div class="zenith-card-img-wrapper">
-                                <a href="{{ path('professional_show', {id: pro.id}) }}">
-                                    {% if pro.banner %}
-                                        <img src="{{ asset('uploads/banners/' ~ pro.banner) }}" alt="{{ pro.tradeName }}" class="banner-img">
-                                    {% else %}
-                                        <img src="{{ asset('assets/drilleedo/images/bg/bg-image-1.jpg') }}" alt="Default Banner" class="banner-img">
-                                    {% endif %}
-                                </a>
-                            </div>
-                            <div class="zenith-logo-overlay">
-                                {% if pro.logo %}
-                                        <img src="{{ asset('uploads/logos/' ~ pro.logo) }}" alt="Logo" class="zenith-logo-img">
-                                {% else %}
-                                        <div class="zenith-logo-placeholder">{{ pro.tradeName|first|default('P')|upper }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="zenith-card-body">
-                                <h4 class="zenith-card-title">
-                                    <a href="{{ path('professional_show', {id: pro.id}) }}">
-                                        {{ pro.tradeName ?: pro.companyName ?: (pro.firstName ~ ' ' ~ pro.lastName) }}
-                                    </a>
-                                </h4>
-
-                                <div class="zenith-badges-row">
-                                    <span class="zenith-mini-badge primary">{{ pro.category.localizedTitle(app.request.locale)|default('Professional') }}</span>
-
-                                    {% if pro.expYears > 0 %}
-                                        <span class="zenith-mini-badge"><i class="ph-medal"></i> {{ pro.expYears }} {{ 'pro_pub.list_exp_years'|trans }}</span>
-                                    {% endif %}
-                                </div>
-
-                                <div class="zenith-meta">
-                                    <div class="zenith-location">
-                                        <i class="ph-map-pin"></i>
-                                        {{ pro.city|default('pro_pub.list_no_location'|trans) }}
-                                    </div>
-                                    <a href="{{ path('professional_show', {id: pro.id}) }}" class="btn-zenith-icon">
-                                        <i class="ph-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-12">
-                         <div class="rbt-empty-state text-center py-5">
-                             <div class="mb-4" style="font-size: 3rem;">🔍</div>
-                             <h3 class="title">{{ 'pro_pub.list_no_result_title'|trans }}</h3>
-                             <p class="description">{{ 'pro_pub.list_no_result_sub'|trans }}</p>
-                             <a href="{{ path('professionals_list') }}" class="rbt-btn btn-border btn-sm radius-round">{{ 'pro_pub.list_clear_filters'|trans }}</a>
-                         </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <!-- End Card Grid -->
-
-        </div>
-=======
 
 {# ── Hero ── #}
 <section class="pl-hero">
     <div class="pl-hero-inner">
         <div class="pl-hero-pill">
             <i class="ph-bold ph-shield-check"></i>
-            Chaque professionnel vérifié manuellement
+            {{ 'pro_pub.list_trusted_badge'|trans }}
         </div>
-        <h1>{{ 'Le bon professionnel est déjà dans notre annuaire'|trans }}</h1>
+        <h1>{{ 'pro_pub.list_hero_title'|trans }}</h1>
         <p class="pl-hero-sub">
-            {{ "Fini les recherches sans fin. Parcourez des experts vérifiés, comparez les profils, lisez les avis certifiés — et contactez directement celui qui correspond à votre projet."|trans }}
+            {{ 'pro_pub.list_hero_sub'|trans }}
         </p>
         <div class="pl-trust-row">
-            <span><i class="ph-bold ph-seal-check"></i> Pros certifiés et vérifiés</span>
+            <span><i class="ph-bold ph-seal-check"></i> Pros certifiés &amp; vérifiés</span>
             <span><i class="ph-bold ph-star"></i> Avis 100% authentiques</span>
             <span><i class="ph-bold ph-currency-dollar-simple"></i> Soumissions gratuites</span>
         </div>
     </div>
 </section>
 
+{# ── Stats strip ── #}
+<div class="pl-stats">
+    <div class="pl-stats-grid">
+        <div class="pl-stat-cell">
+            <div class="pl-stat-ico" style="background:#00497F;color:#fff;">
+                <i class="ph-bold ph-users"></i>
+            </div>
+            <div>
+                <div class="pl-stat-num">+1 500</div>
+                <div class="pl-stat-lbl">Professionnels inscrits</div>
+            </div>
+        </div>
+        <div class="pl-stat-cell">
+            <div class="pl-stat-ico" style="background:#3FA9F5;color:#fff;">
+                <i class="ph-bold ph-map-pin"></i>
+            </div>
+            <div>
+                <div class="pl-stat-num">Canada</div>
+                <div class="pl-stat-lbl">Partout au pays</div>
+            </div>
+        </div>
+        <div class="pl-stat-cell">
+            <div class="pl-stat-ico" style="background:#FF8A3D;color:#fff;">
+                <i class="ph-bold ph-currency-dollar-simple"></i>
+            </div>
+            <div>
+                <div class="pl-stat-num">0 %</div>
+                <div class="pl-stat-lbl">Commission prélevée</div>
+            </div>
+        </div>
+        <div class="pl-stat-cell">
+            <div class="pl-stat-ico" style="background:#3FA9F5;color:#fff;">
+                <i class="ph-bold ph-seal-check"></i>
+            </div>
+            <div>
+                <div class="pl-stat-num">{{ professionals|length }}</div>
+                <div class="pl-stat-lbl">Disponibles maintenant</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {# ── Filter bar ── #}
 <div class="pl-filters">
     <form action="{{ path('professionals_list') }}" method="get" class="pl-filters-inner">
         <select name="category" class="pl-filter-select" onchange="this.form.submit()">
-            <option value="">{{ 'Toutes les catégories'|trans }}</option>
+            <option value="">{{ 'pro_pub.list_all_categories'|trans }}</option>
             {% for cat in categories %}
                 <option value="{{ cat.id }}" {% if currentCategory == cat.id %}selected{% endif %}>{{ cat.name }}</option>
             {% endfor %}
         </select>
 
         <input type="text" name="location" class="pl-filter-input"
-               placeholder="{{ 'Ville (ex: Montréal)'|trans }}"
+               placeholder="{{ 'pro_pub.list_ph_city'|trans }}"
                value="{{ currentLocation }}">
 
         <button type="submit" class="pl-filter-btn">
             <i class="ph-bold ph-magnifying-glass"></i>
-            {{ 'Rechercher'|trans }}
+            {{ 'pro_pub.list_btn_search'|trans }}
         </button>
     </form>
 </div>
@@ -410,7 +359,7 @@
                     <div class="pl-card-meta">
                         <span class="pl-card-tag"><i class="ph-briefcase"></i>{{ pro.category.localizedTitle(app.request.locale)|default('Professionnel') }}</span>
                         {% if pro.expYears > 0 %}
-                            <span class="pl-card-tag"><i class="ph-medal"></i>{{ pro.expYears }} {{ "ans d'exp."|trans }}</span>
+                            <span class="pl-card-tag"><i class="ph-medal"></i>{{ pro.expYears }} {{ 'pro_pub.list_exp_years'|trans }}</span>
                         {% endif %}
                         <span class="pl-card-tag"><i class="ph-map-pin"></i>{{ pro.city|default('Canada') }}</span>
                     </div>
@@ -424,15 +373,14 @@
         {% else %}
             <div class="pl-empty">
                 <div class="pl-empty-ico"><i class="ph-bold ph-magnifying-glass"></i></div>
-                <h3>{{ 'Aucun professionnel trouvé'|trans }}</h3>
-                <p>{{ "Essayez d'ajuster vos filtres ou explorez toutes les catégories disponibles."|trans }}</p>
+                <h3>{{ 'pro_pub.list_no_result_title'|trans }}</h3>
+                <p>{{ 'pro_pub.list_no_result_sub'|trans }}</p>
                 <a href="{{ path('professionals_list') }}"
-                   style="display:inline-flex;align-items:center;gap:8px;background:#00497F;color:#fff;font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px;font-weight:700;padding:12px 24px;border-radius:50px;text-decoration:none;">
-                    <i class="ph-bold ph-arrow-left"></i> Réinitialiser les filtres
+                   style="display:inline-flex;align-items:center;gap:8px;background:#FF8A3D;color:#fff;font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px;font-weight:700;padding:12px 24px;border-radius:50px;text-decoration:none;box-shadow:0 4px 14px rgba(255,138,61,.35);">
+                    <i class="ph-bold ph-arrow-left"></i> {{ 'pro_pub.list_clear_filters'|trans }}
                 </a>
             </div>
         {% endfor %}
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
     </div>
 </div>
 

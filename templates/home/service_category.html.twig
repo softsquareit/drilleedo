@@ -7,12 +7,33 @@
 <link rel="stylesheet" href="{{ asset('assets/drilleedo/css/custom/professionals_list.css') }}">
 <style>
 /* ── Charte Drilleedo — service_category overrides ── */
-:root { --B:#00497F;--S:#3FA9F5;--O:#FF8A3D;--D:#0C1825;--M:#4A6073;--L:#E4EBF2; }
+:root { --B:#00497F;--S:#3FA9F5;--O:#FF8A3D;--D:#0C1825;--M:#4A6073;--L:#E4EBF2;--W:#fff; }
 
 /* Hero */
-.fp-hero { min-height: 380px; background: linear-gradient(135deg,#002d50 0%,#00497F 60%,#0a6eab 100%) !important; }
-.fp-hero__title { font-size: clamp(24px,4vw,44px) !important; font-weight: 900 !important; letter-spacing: -1.5px !important; }
-.fp-hero__sub { font-size: 17px !important; color: rgba(255,255,255,.75) !important; line-height: 1.75 !important; }
+.fp-hero {
+    min-height: 400px;
+    background: #00497F !important;
+    position: relative;
+}
+.fp-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none; z-index: 1;
+}
+.fp-hero__title {
+    font-size: clamp(24px,4vw,46px) !important;
+    font-weight: 900 !important;
+    letter-spacing: -1.5px !important;
+    line-height: 1.1 !important;
+}
+.fp-hero__sub {
+    font-size: 17px !important;
+    color: rgba(255,255,255,.72) !important;
+    line-height: 1.75 !important;
+    margin-top: 10px !important;
+}
+.fp-hero__content { position: relative; z-index: 2; }
 
 /* Breadcrumb */
 .svc-breadcrumb { margin-bottom: 20px; }
@@ -32,7 +53,12 @@
 .fp-search-bar__btn:hover { background: #e87830 !important; }
 
 /* Category pill bar */
-.fp-cat-bar { background: #fff; border-bottom: 1px solid var(--L); box-shadow: 0 2px 8px rgba(0,73,127,.06); }
+.fp-cat-bar {
+    background: #fff;
+    border-top: 3px solid var(--O);
+    border-bottom: 1px solid var(--L);
+    box-shadow: 0 2px 8px rgba(0,73,127,.06);
+}
 .fp-cat-pill {
     border-radius: 50px !important; font-weight: 700 !important;
     transition: all .18s !important;
@@ -64,10 +90,11 @@
 
 /* Pro cards */
 .fp-pro-card {
-    border: 1.5px solid var(--L) !important; border-radius: 20px !important;
+    border: 1.5px solid var(--L) !important; border-radius: 22px !important;
     overflow: hidden !important;
     transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
     box-shadow: 0 2px 10px rgba(0,73,127,.06) !important;
+    background: #fff !important;
 }
 .fp-pro-card:hover {
     transform: translateY(-6px) !important;
@@ -81,25 +108,26 @@
 
 /* Action buttons */
 .fp-btn-outline {
-    border: 1.5px solid rgba(0,73,127,.22) !important; border-radius: 8px !important;
+    border: 1.5px solid rgba(0,73,127,.22) !important; border-radius: 50px !important;
     color: var(--B) !important; font-weight: 700 !important; font-size: 13px !important;
     transition: all .18s !important;
 }
 .fp-btn-outline:hover { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; }
 .fp-btn-solid {
-    background: var(--O) !important; border-radius: 8px !important;
+    background: var(--O) !important; border-radius: 50px !important;
     font-weight: 700 !important; font-size: 13px !important; color: #fff !important;
-    box-shadow: 0 3px 12px rgba(255,138,61,.28) !important; transition: all .18s !important;
+    box-shadow: 0 3px 12px rgba(255,138,61,.32) !important; transition: all .18s !important;
 }
-.fp-btn-solid:hover { background: #e87830 !important; transform: translateY(-1px) !important; }
+.fp-btn-solid:hover { background: #e87830 !important; transform: translateY(-1px) !important; box-shadow: 0 6px 18px rgba(255,138,61,.38) !important; }
 
 /* Sidebar */
-.fp-sidebar-card { border: 1.5px solid var(--L) !important; border-radius: 16px !important; }
+.fp-sidebar-card { border: 1.5px solid var(--L) !important; border-radius: 16px !important; background: #fff !important; }
 .fp-sidebar-card__header { font-weight: 800 !important; color: var(--D) !important; font-size: 14px !important; }
 .fp-btn-apply {
-    background: var(--B) !important; border-radius: 10px !important;
+    background: var(--B) !important; border-radius: 50px !important;
     font-weight: 700 !important; color: #fff !important;
     transition: background .18s !important;
+    box-shadow: 0 4px 14px rgba(0,73,127,.25) !important;
 }
 .fp-btn-apply:hover { background: #003a66 !important; }
 .fp-btn-clear { color: var(--M) !important; font-size: 13px !important; font-weight: 600 !important; }
@@ -110,11 +138,11 @@
 
 /* Pagination */
 .fp-pagination a, .fp-pagination span {
-    border: 1.5px solid var(--L) !important; border-radius: 8px !important;
+    border: 1.5px solid var(--L) !important; border-radius: 10px !important;
     font-weight: 700 !important; transition: all .18s !important;
 }
-.fp-pagination a:hover { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; }
-.fp-pagination .active { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; }
+.fp-pagination a:hover { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; box-shadow: 0 4px 12px rgba(0,73,127,.2) !important; }
+.fp-pagination .active { background: var(--B) !important; color: #fff !important; border-color: var(--B) !important; box-shadow: 0 4px 12px rgba(0,73,127,.2) !important; }
 </style>
 {% endblock %}
 
@@ -340,23 +368,16 @@
                         </div>
                     </div>
                 {% else %}
-<<<<<<< HEAD
-                    <div class="fp-empty">
-                        <div class="fp-empty__icon">🔍</div>
-                        <h4>{{ 'professionals.no_results_title'|trans }}</h4>
-                        <p>{{ 'professionals.no_results_hint2'|trans }}</p>
-=======
-                    <div class="fp-empty" style="padding:64px 24px;text-align:center;background:#fff;border:1.5px solid #E4EBF2;border-radius:22px;grid-column:1/-1;">
+                    <div style="padding:64px 24px;text-align:center;background:#fff;border:1.5px solid #E4EBF2;border-radius:22px;grid-column:1/-1;">
                         <div style="width:68px;height:68px;border-radius:18px;background:rgba(63,169,245,.1);color:#3FA9F5;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 20px;">
                             <i class="feather-search"></i>
                         </div>
-                        <h4 style="font-family:'Instrument Sans',system-ui,sans-serif;font-size:20px;font-weight:900;color:#0C1825;margin:0 0 10px;">Aucun professionnel trouvé</h4>
-                        <p style="font-size:15px;color:#4A6073;margin:0 0 24px;line-height:1.7;">Essayez de modifier vos filtres ou explorez toutes les catégories disponibles.</p>
+                        <h4 style="font-family:'Instrument Sans',system-ui,sans-serif;font-size:20px;font-weight:900;color:#0C1825;margin:0 0 10px;">{{ 'professionals.no_results_title'|trans }}</h4>
+                        <p style="font-size:15px;color:#4A6073;margin:0 0 24px;line-height:1.7;">{{ 'professionals.no_results_hint2'|trans }}</p>
                         <a href="{{ path('professionals_list') }}"
-                           style="display:inline-flex;align-items:center;gap:8px;background:#00497F;color:#fff;font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px;font-weight:700;padding:12px 26px;border-radius:50px;text-decoration:none;">
-                            <i class="feather-arrow-left"></i> Voir tous les professionnels
+                           style="display:inline-flex;align-items:center;gap:8px;background:#FF8A3D;color:#fff;font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px;font-weight:700;padding:12px 26px;border-radius:50px;text-decoration:none;box-shadow:0 4px 14px rgba(255,138,61,.35);">
+                            <i class="feather-arrow-left"></i> {{ 'public_list.see_all_pros'|trans }}
                         </a>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
                     </div>
                 {% endfor %}
             </div>

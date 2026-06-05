@@ -15,14 +15,14 @@
 }
 
 /* ── Hero banner ── */
-.zenith-hero-wrapper { background: linear-gradient(135deg,#002d50,#00497F 60%,#0a6eab) !important; }
+.zenith-hero-wrapper { background: #00497F !important; }
 .zenith-hero-bg::before { background: linear-gradient(to bottom, rgba(0,29,64,.25), rgba(0,40,80,.85)) !important; }
 
 /* ── Profile header text ── */
 .zenith-name { font-weight: 900 !important; letter-spacing: -1px !important; line-height: 1.1 !important; }
 .zenith-verified-badge {
-    background: rgba(34,197,94,.15) !important; color: #4ade80 !important;
-    border-color: rgba(34,197,94,.35) !important; font-weight: 700 !important;
+    background: rgba(63,169,245,.15) !important; color: #3FA9F5 !important;
+    border-color: rgba(63,169,245,.35) !important; font-weight: 700 !important;
 }
 
 /* ── Content boxes ── */
@@ -128,7 +128,7 @@
     .zenith-avatar-placeholder {
         width: 100%;
         height: 100%;
-        background: #0F172A;
+        background: #00497F;
         color: #fff;
         display: flex;
         align-items: center;
@@ -149,9 +149,9 @@
          display: inline-flex;
          align-items: center;
          gap: 8px;
-         background: rgba(34, 197, 94, 0.2);
-         color: #4ade80;
-         border: 1px solid rgba(34, 197, 94, 0.4);
+         background: rgba(63, 169, 245, 0.2);
+         color: #3FA9F5;
+         border: 1px solid rgba(63, 169, 245, 0.4);
          padding: 8px 18px;
          border-radius: 50px;
          font-size: 1.1rem;
@@ -224,33 +224,37 @@
     .zenith-contact-btn {
         width: 100%;
         padding: 16px;
-        font-weight: 600;
-        border-radius: 12px;
-        transition: 0.3s;
+        font-weight: 700;
+        border-radius: 50px;
+        transition: all 0.2s ease;
         margin-bottom: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
+        font-family: 'Instrument Sans', system-ui, sans-serif;
     }
 
     .zenith-btn-primary {
-        background: var(--color-primary);
+        background: #FF8A3D;
         color: #fff !important;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 4px 18px rgba(255,138,61,.38);
     }
     .zenith-btn-primary:hover {
+        background: #e87830;
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        box-shadow: 0 8px 28px rgba(255,138,61,.44);
     }
 
     .zenith-btn-secondary {
-        background: #f1f5f9;
-        color: #475569 !important;
+        background: #f0f4f8;
+        color: var(--B) !important;
+        border: 1.5px solid var(--L);
     }
     .zenith-btn-secondary:hover {
-        background: #e2e8f0;
-        color: #0f172a !important;
+        background: var(--B);
+        color: #fff !important;
+        border-color: var(--B);
     }
 
     /* Projects Grid */
@@ -454,19 +458,6 @@
              <!-- Right Sidebar -->
             <div class="col-lg-4">
                 <div class="zenith-sticky-card">
-<<<<<<< HEAD
-                    <div class="d-flex align-items-center gap-2 mb-2 text-warning">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <span class="text-dark fw-bold ms-1">5.0</span>
-                    </div>
-                     <h4 class="mb-4">{{ 'pro_pub.show_sidebar_title'|trans }}</h4>
-
-                    <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" class="pro-btn pro-btn-primary pro-btn-lg w-100 mb-3">
-                        {{ 'pro_pub.show_btn_request_quote'|trans }} <i class="ph-arrow-right ms-2"></i>
-                    </a>
-                     <a href="mailto:{{ professional.email }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
-                        <i class="ph-envelope-simple me-2"></i> {{ 'pro_pub.show_btn_contact'|trans }}
-=======
                     {% if professional.stats and professional.stats.reviewCount > 0 %}
                         <div class="d-flex align-items-center gap-2 mb-2 text-warning">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -475,22 +466,21 @@
                         </div>
                     {% else %}
                         <div class="mb-2" style="font-size:13px;color:#4A6073;display:flex;align-items:center;gap:6px;">
-                            <i class="feather-clock" style="color:#FF8A3D;"></i>
+                            <i class="ph-bold ph-clock" style="color:#FF8A3D;"></i>
                             Professionnel vérifié — en attente de ses premiers avis
                         </div>
                     {% endif %}
                      <h4 class="mb-4">{{ 'Travaillons ensemble'|trans }}</h4>
                     
                     <a href="{{ path('individual_direct_request_new', {'type': 'professional', 'id': professional.id}) }}" class="pro-btn pro-btn-primary pro-btn-lg w-100 mb-3">
-                        <i class="feather-send me-2"></i> {{ 'Demander un devis'|trans }}
+                        <i class="ph-bold ph-paper-plane-tilt me-2"></i> {{ 'Demander un devis'|trans }}
                     </a>
                     <p style="font-size:12px;color:#4A6073;margin:-6px 0 12px;display:flex;align-items:center;gap:5px;">
-                        <i class="feather-check-circle" style="color:#22c55e;font-size:13px;"></i>
+                        <i class="ph-bold ph-check-circle" style="color:#3FA9F5;font-size:13px;"></i>
                         Réponse attendue dans les 24h · Sans engagement
                     </p>
                     <a href="mailto:{{ professional.email }}" class="pro-btn pro-btn-outline pro-btn-lg w-100">
                         <i class="ph-envelope-simple me-2"></i> {{ 'Contacter par courriel'|trans }}
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
                     </a>
 
                     <hr class="my-4 opacity-10">

@@ -435,15 +435,7 @@
   transform: translateY(-4px);
 }
 /* Flèche entre steps */
-.hp-step:not(:last-child)::after {
-  content: '';
-  position: absolute; right: -8px; top: 46px;
-  width: 16px; height: 16px;
-  border-top: 2px solid rgba(255,138,61,.6);
-  border-right: 2px solid rgba(255,138,61,.6);
-  transform: rotate(45deg);
-  z-index: 2;
-}
+
 .hp-step-n {
   width: 52px; height: 52px; background: var(--S);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -872,6 +864,148 @@ position: absolute;
   .hp-tb { border-right: none; border-bottom: 1px solid var(--L); padding: 12px 0; width: 100%; justify-content: center; }
   .hp-tb:last-child { border-bottom: none; }
 }
+
+/* ── Discovery section — Drilleedo brand overrides ── */
+.discovery-section-container {
+  padding: 88px 0;
+  background: #f4f8fc;
+  border-top: 3px solid var(--O);
+}
+.discovery-pill {
+  background: rgba(255,138,61,.12);
+  color: var(--O);
+  border: 1px solid rgba(255,138,61,.28);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.discovery-title {
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 900;
+  color: var(--B);
+  letter-spacing: -1.2px;
+  line-height: 1.13;
+  margin-bottom: 12px;
+}
+.discovery-subtitle {
+  color: var(--M);
+  font-size: 16px;
+  max-width: 580px;
+  margin: 0 auto 52px;
+  line-height: 1.75;
+}
+.discovery-card {
+  background: #fff;
+  border: 1.5px solid var(--L);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,73,127,.07);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  height: 100%;
+}
+.discovery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,73,127,.13);
+  border-color: rgba(63,169,245,.35);
+}
+.discovery-card-title {
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--D);
+  margin-bottom: 8px;
+  letter-spacing: -.3px;
+}
+.discovery-card-desc {
+  font-size: 14px;
+  color: var(--M);
+  line-height: 1.65;
+}
+.discovery-card-stats { color: var(--B) !important; font-weight: 700; font-size: 13px; }
+.img-overlay-box { border-radius: 14px; }
+
+/* ── Discovery cards — image + icône redesign ────────────────────────────── */
+
+/* Image : cover fixe, overlay gradient au bas */
+.discovery-section-container .img-overlay-box {
+  height: 210px !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  position: relative;
+}
+.discovery-section-container .img-overlay-box img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transition: transform .4s ease !important;
+  display: block !important;
+}
+.discovery-section-container .discovery-card:hover .img-overlay-box img {
+  transform: scale(1.06) !important;
+}
+/* Dégradé sombre au bas de l'image pour lire l'icône */
+.discovery-section-container .img-overlay-box::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.08) 0%, rgba(0,29,64,.60) 100%);
+  z-index: 1;
+  border-radius: 14px;
+}
+
+/* Icône : cercle solide coloré, positionné en bas-gauche */
+.discovery-section-container .icon-square-overlay {
+  position: absolute !important;
+  bottom: 16px !important; left: 16px !important;
+  top: auto !important; transform: none !important;
+  width: 48px !important; height: 48px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  z-index: 2 !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+}
+.discovery-section-container .icon-square-overlay i {
+  font-size: 22px !important;
+  color: #fff !important;
+}
+/* Couleur d'icône par carte */
+.discovery-section-container article:nth-child(1) .icon-square-overlay { background: #00497F !important; box-shadow: 0 4px 14px rgba(0,73,127,.45) !important; }
+.discovery-section-container article:nth-child(2) .icon-square-overlay { background: #3FA9F5 !important; box-shadow: 0 4px 14px rgba(63,169,245,.45) !important; }
+.discovery-section-container article:nth-child(3) .icon-square-overlay { background: #FF8A3D !important; box-shadow: 0 4px 14px rgba(255,138,61,.45) !important; }
+.discovery-section-container article:nth-child(4) .icon-square-overlay { background: #0C1825 !important; box-shadow: 0 4px 14px rgba(12,24,37,.45) !important; }
+
+/* Carte : coin accent couleur en haut */
+.discovery-section-container article:nth-child(1) .discovery-card { border-top: 3px solid #00497F !important; }
+.discovery-section-container article:nth-child(2) .discovery-card { border-top: 3px solid #3FA9F5 !important; }
+.discovery-section-container article:nth-child(3) .discovery-card { border-top: 3px solid #FF8A3D !important; }
+.discovery-section-container article:nth-child(4) .discovery-card { border-top: 3px solid #0C1825 !important; }
+
+/* CTA links — couleurs par carte au lieu de Bootstrap */
+.discovery-section-container article:nth-child(1) .discovery-card-stats { color: #00497F !important; font-weight: 700; }
+.discovery-section-container article:nth-child(2) .discovery-card-stats { color: #3FA9F5 !important; font-weight: 700; }
+.discovery-section-container article:nth-child(3) .discovery-card-stats { color: #FF8A3D !important; font-weight: 700; }
+.discovery-section-container article:nth-child(4) .discovery-card-stats { color: #0C1825 !important; font-weight: 700; }
+
+/* Titre card plus lisible */
+.discovery-section-container .discovery-card-title {
+  font-family: 'Instrument Sans', system-ui, sans-serif !important;
+  font-size: 17px !important; font-weight: 800 !important;
+  color: #0C1825 !important; letter-spacing: -.2px !important;
+  margin: 16px 0 8px !important;
+}
+.discovery-section-container .discovery-card-desc {
+  font-family: 'Instrument Sans', system-ui, sans-serif !important;
+  font-size: 14px !important; color: #4A6073 !important; line-height: 1.65 !important;
+}
 </style>
 {% endblock %}
 
@@ -898,11 +1032,7 @@ position: absolute;
         <span>{{ 'home_pg.hero_h1_line1'|trans }}</span>
         <span>{{ 'home_pg.hero_h1_line2'|trans }}</span>
       </h1>
-<<<<<<< HEAD
       <p class="hp-tagline">{{ 'home_pg.hero_tagline'|trans }}</p>
-=======
-      <p class="hp-tagline">Drilleedo · L'aide facile, les solutions rapides.</p>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
 
       {# Search bar #}
       <form class="hp-search" action="{{ path('professionals_list') }}" method="get" role="search">
@@ -933,25 +1063,17 @@ position: absolute;
         </div>
         <div>
           <div class="hp-proof-stars">★★★★★</div>
-<<<<<<< HEAD
           <div class="hp-proof-text">{{ 'home_pg.hero_social_proof'|trans }}</div>
-=======
-          <div class="hp-proof-text">35 000+ projets réalisés · 98% de clients satisfaits</div>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
       </div>
 
       {# CTAs — orange primaire, outline secondaire #}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
-        <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o" style="flex:1;justify-content:center;">
+        <a href="{{ path('professionals_list') }}" class="hbtn hbtn-b" style="flex:1;justify-content:center;">
           <i class="feather-send"></i> {{ 'home_pg.hero_cta_primary'|trans }}
         </a>
         <a href="{{ path('professionals_list') }}" class="hbtn hbtn-g">
-<<<<<<< HEAD
           <i class="feather-search"></i> {{ 'home_pg.hero_cta_secondary'|trans }}
-=======
-          <i class="feather-search"></i> Explorer les professionnels vérifiés
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </a>
       </div>
     </div>
@@ -968,7 +1090,6 @@ position: absolute;
                alt="Professionnel Drilleedo" loading="eager">
         </div>
         <div class="hp-pro-photo-badge-text">
-<<<<<<< HEAD
           <div class="hp-pro-photo-badge-name">{{ 'home_pg.pro_panel_badge_name'|trans }}</div>
           <span>{{ 'home_pg.pro_panel_badge_sub'|trans }}</span>
         </div>
@@ -976,28 +1097,13 @@ position: absolute;
 
       <h2>{{ 'home_pg.pro_panel_h2'|trans }}</h2>
       <p class="hp-hero-pro-sub">{{ 'home_pg.pro_panel_desc'|trans }}</p>
-=======
-          <div class="hp-pro-photo-badge-name">Drilleedo</div>
-          <span>| Pour les professionnels</span>
-        </div>
-      </div>
-
-      <h2>Votre prochain contrat est déjà publié.<br>Êtes-vous visible ?</h2>
-      <p class="hp-hero-pro-sub">Rejoignez notre communauté de professionnels vérifiés sur Drilleedo.
-Recevez des demandes qualifiées près de chez vous, bâtissez votre réputation en ligne
-et développez votre clientèle — simplement et efficacement.</p>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
 
       <div class="hp-pro-form">
         <form action="{{ path('app_register') }}" method="post" novalidate>
           <label for="hero-email">{{ 'home_pg.pro_panel_label_email'|trans }}</label>
           <input id="hero-email" type="email" name="email" class="hp-pro-input" placeholder="{{ 'home_pg.pro_panel_input_placeholder'|trans }}" required autocomplete="email" style="background: white;">
           <a href="{{ path('app_register_pro') }}" class="hbtn hbtn-o" style="width:100%;justify-content:center;text-decoration:none;font-size:15px;">
-<<<<<<< HEAD
             <i class="feather-user-plus"></i> {{ 'home_pg.pro_panel_cta'|trans }}
-=======
-            <i class="feather-user-plus"></i> Créer mon profil pro — gratuit
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
           </a>
         </form>
       </div>
@@ -1035,11 +1141,7 @@ et développez votre clientèle — simplement et efficacement.</p>
 
       <p class="hp-sc-eyebrow">{{ 'home_pg.showcase_eyebrow'|trans }}</p>
       <h2 class="hp-sc-h2" id="hp-sc-h2">
-<<<<<<< HEAD
          {{ 'home_pg.showcase_h2'|trans }}
-=======
-         La confiance ne s'affiche pas —<br>elle se prouve.
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </h2>
 
       {# 3 boutons pills : 1 filled + 2 outline #}
@@ -1053,11 +1155,7 @@ et développez votre clientèle — simplement et efficacement.</p>
       </div>
 
       <p class="hp-sc-p">
-<<<<<<< HEAD
        {{ 'home_pg.showcase_desc'|trans }}
-=======
-        Fini le bouche-à-oreille incertain et les heures perdues à chercher le bon artisan. Drilleedo vérifie chaque professionnel avant qu'il réponde à votre projet — pour que vous choisissiez en toute sérénité, partout au Canada.
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </p>
 
       {# Stat pills — 3 badges colorés #}
@@ -1220,11 +1318,7 @@ et développez votre clientèle — simplement et efficacement.</p>
       </div>
         <div class="hc" style="margin-top:52px;">
       <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
-<<<<<<< HEAD
         <i class="feather-arrow-right"></i>{{ 'home_pg.tab_p_cta'|trans }}
-=======
-        <i class="feather-user-plus"></i>Créer mon profil professionnel — gratuit
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </a>
     </div>
     </div>{# /panel-p #}
@@ -1254,14 +1348,14 @@ et développez votre clientèle — simplement et efficacement.</p>
                     <img src="{{ asset('assets/drilleedo/images/bg/bg-companies.jpg') }}"
                          alt="Trouver un entrepreneur général certifié RBQ au Canada"
                          loading="lazy" width="400" height="220">
-                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-hard-hat"></i></div>
+                    <div class="icon-square-overlay" aria-hidden="true"><i class="ph-paint-roller"></i></div>
                 </div>
                 <h3 class="discovery-card-title">{{ 'home_pg.card1_title'|trans }}</h3>
                 <p class="discovery-card-desc">
                     {{ 'home_pg.card1_desc'|trans }}
                 </p>
                 <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
-                    <i class="fas fa-arrow-right"></i>
+                    <i class="ph-arrow-right"></i>
                     <span>{{ 'home_pg.card1_cta'|trans }}</span>
                 </div>
             </a>
@@ -1275,15 +1369,15 @@ et développez votre clientèle — simplement et efficacement.</p>
                          alt="Trouver un entrepreneur spécialisé certifié — plombier, électricien, couvreur au Canada"
                          loading="lazy" width="400" height="220">
                     <div class="icon-square-overlay" aria-hidden="true">
-                        <i class="fas fa-tools"></i>
+                        <i class="ph-wrench"></i>
                     </div>
                 </div>
                 <h3 class="discovery-card-title">{{ 'home_pg.card2_title'|trans }}</h3>
                 <p class="discovery-card-desc">
                     {{ 'home_pg.card2_desc'|trans }}
                 </p>
-                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-success">
-                    <i class="fas fa-arrow-right"></i>
+                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2">
+                    <i class="ph-arrow-right"></i>
                     <span>{{ 'home_pg.card2_cta'|trans }}</span>
                 </div>
             </a>
@@ -1293,17 +1387,17 @@ et développez votre clientèle — simplement et efficacement.</p>
         <article class="col-lg-3 col-md-6">
             <a href="{{ path('professionals_list') }}" class="discovery-card d-block text-decoration-none">
                 <div class="img-overlay-box">
-                    <img src="{{ asset('assets/drilleedo/images/bg/bg-image-1.jpg') }}"
+                    <img src="{{ asset('assets/drilleedo/images/bg/bg-specifique.jpg') }}"
                          alt="Déménageurs, paysagistes, entretien ménager — professionnels vérifiés près de chez vous"
                          loading="lazy" width="400" height="220">
-                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-briefcase"></i></div>
+                    <div class="icon-square-overlay" aria-hidden="true"><i class="ph-briefcase"></i></div>
                 </div>
                 <h3 class="discovery-card-title">{{ 'home_pg.card3_title'|trans }}</h3>
                 <p class="discovery-card-desc">
                     {{ 'home_pg.card3_desc'|trans }}
                 </p>
-                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-warning">
-                    <i class="fas fa-arrow-right"></i>
+                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2">
+                    <i class="ph-arrow-right"></i>
                     <span>{{ 'home_pg.card3_cta'|trans }}</span>
                 </div>
             </a>
@@ -1316,14 +1410,14 @@ et développez votre clientèle — simplement et efficacement.</p>
                     <img src="{{ asset('assets/drilleedo/images/bg/bg-ideas.jpg') }}"
                          alt="Smart Idea — architectes et designers d'intérieur, inspirations pour rénovation au Canada"
                          loading="lazy" width="400" height="220">
-                    <div class="icon-square-overlay" aria-hidden="true"><i class="fas fa-lightbulb"></i></div>
+                    <div class="icon-square-overlay" aria-hidden="true"><i class="ph-lightbulb"></i></div>
                 </div>
                 <h3 class="discovery-card-title">{{ 'home_pg.card4_title'|trans }}</h3>
                 <p class="discovery-card-desc">
                     {{ 'home_pg.card4_desc'|trans }}
                 </p>
-                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2 text-primary">
-                    <i class="fas fa-arrow-right"></i>
+                <div class="discovery-card-stats d-flex align-items-center gap-2 mt-2">
+                    <i class="ph-arrow-right"></i>
                     <span>{{ 'home_pg.card4_cta'|trans }}</span>
                 </div>
             </a>
@@ -1343,21 +1437,7 @@ et développez votre clientèle — simplement et efficacement.</p>
         <span class="hpill hpill-w" style="margin-bottom:20px;"><i class="feather-smartphone"></i> {{ 'home.app_badge'|trans }}</span>
         <h2 class="hh2 hh2-w" id="app-banner-heading">{{ 'home.app_title'|trans }}</h2>
         <p class="hl" style="color:rgba(255,255,255,.75);margin-bottom:32px;">{{ 'home.app_desc'|trans }}</p>
-        <p style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:12px;">
-          <i class="feather-clock" style="margin-right:5px;"></i>
-          Disponible sur App Store &amp; Google Play — bientôt.
-        </p>
-        <form style="display:flex;gap:0;max-width:420px;" action="#" method="post" novalidate>
-          <label for="app-notify-email" class="sr-only">Votre courriel</label>
-          <input type="email" id="app-notify-email" name="app_notify_email"
-                 placeholder="votre@courriel.ca"
-                 style="flex:1;padding:13px 18px;border:none;border-radius:50px 0 0 50px;font-family:inherit;font-size:14px;outline:none;"
-                 required autocomplete="email">
-          <button type="submit"
-                  style="background:var(--O);color:#fff;border:none;padding:13px 22px;border-radius:0 50px 50px 0;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;">
-            Me notifier au lancement
-          </button>
-        </form>
+
         <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:8px;">
           <i class="feather-lock" style="margin-right:4px;"></i> Aucun spam. Désabonnement en un clic.
         </p>
@@ -1443,7 +1523,7 @@ et développez votre clientèle — simplement et efficacement.</p>
       {% endfor %}
     </div>
     <div class="hc" style="margin-top:48px;">
-      <a href="{{ path('professionals_list') }}" class="hbtn hbtn-o hbtn-lg">
+      <a href="{{ path('professionals_list') }}" class="hbtn hbtn-b hbtn-lg">
         {{ 'home_pg.fps_cta'|trans }} <i class="feather-arrow-right"></i>
       </a>
     </div>

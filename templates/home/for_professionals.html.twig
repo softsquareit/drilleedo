@@ -160,7 +160,7 @@
   background: rgba(63,169,245,.10); color: var(--S); border: 1px solid rgba(63,169,245,.2);
 }
 .gyb-section-title {
-  font-size: clamp(28px,3.5vw,40px); font-weight: 900; color: var(--D);
+  font-size: clamp(28px,3.5vw,40px); font-weight: 900; color: var(--B) !important;
   margin: 0 0 16px; letter-spacing: -1.5px; line-height: 1.13;
 }
 .gyb-section-title span { color: var(--B); }
@@ -175,43 +175,46 @@
 }
 .gyb-steps::before {
   content: ''; position: absolute;
-  top: 50px; left: calc(12.5% + 26px); right: calc(12.5% + 26px);
+  top: 54px; left: calc(12.5% + 26px); right: calc(12.5% + 26px);
   height: 2px;
-  background: linear-gradient(90deg, var(--B), var(--S));
+  background: var(--B); opacity: .25; z-index: 0;
 }
 .gyb-step {
   background: var(--W); border: 1.5px solid var(--L);
-  border-radius: var(--rx); padding: 28px 20px 24px;
+  border-radius: 20px; padding: 32px 20px 26px;
   text-align: center; position: relative; z-index: 1;
   transition: var(--t); box-shadow: 0 2px 12px rgba(0,73,127,.05);
 }
 .gyb-step:hover {
-  border-color: var(--S); transform: translateY(-5px);
-  box-shadow: 0 10px 36px rgba(63,169,245,.14); border-bottom: 3px solid var(--S);
+  border-color: rgba(63,169,245,.35); transform: translateY(-5px);
+  box-shadow: 0 12px 36px rgba(0,73,127,.12);
 }
 .gyb-step__num {
-  position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
-  width: 32px; height: 32px; border-radius: 50%;
+  position: absolute; top: -14px; right: 14px;
+  width: 28px; height: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 900; color: #fff;
-  background: var(--S); border: 3px solid var(--W);
-  box-shadow: 0 4px 14px rgba(63,169,245,.45);
+  font-size: 12px; font-weight: 900; color: #fff;
+  background: var(--O); border: 2px solid var(--W);
+  box-shadow: 0 4px 12px rgba(255,138,61,.4);
 }
 .gyb-step__ico {
-  width: 60px; height: 60px; border-radius: 16px;
+  width: 68px; height: 68px; border-radius: 50%;
   background: var(--S);
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px; color: #fff; margin: 0 auto 16px;
-  transition: transform .22s;
+  font-size: 26px; color: #fff; margin: 0 auto 18px;
+  transition: transform .22s; box-shadow: 0 6px 22px rgba(63,169,245,.35);
 }
-.gyb-step:hover .gyb-step__ico { transform: scale(1.08) rotate(-4deg); }
+.gyb-step:nth-child(2) .gyb-step__ico { background: var(--S); box-shadow: 0 6px 22px rgba(63,169,245,.35); }
+.gyb-step:nth-child(3) .gyb-step__ico { background: var(--S); box-shadow: 0 6px 22px rgba(63,169,245,.35); }
+.gyb-step:nth-child(4) .gyb-step__ico { background: var(--S); box-shadow: 0 6px 22px rgba(63,169,245,.35); }
+.gyb-step:hover .gyb-step__ico { transform: scale(1.06); }
 .gyb-step__chip {
   font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
   color: var(--S); background: rgba(63,169,245,.1); border-radius: 50px;
   padding: 3px 12px; margin-bottom: 10px; display: inline-block;
   border: 1px solid rgba(63,169,245,.2);
 }
-.gyb-step__title { font-size: 16px; font-weight: 800; color: var(--D); margin: 0 0 8px; }
+.gyb-step__title { font-size: 15px; font-weight: 800; color: var(--B) !important; margin: 0 0 8px; letter-spacing: -.3px; }
 .gyb-step__desc  { font-size: 13px; color: var(--M); line-height: 1.65; margin: 0; }
 
 /* ── 5. Benefits grid ── */
@@ -233,7 +236,7 @@
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; margin-bottom: 20px;
 }
-.gyb-benefit-title { font-size: 17px; font-weight: 800; color: var(--D); margin: 0 0 10px; }
+.gyb-benefit-title { font-size: 17px; font-weight: 800; color: var(--B) !important; margin: 0 0 10px; }
 .gyb-benefit-desc  { font-size: 14px; color: var(--M); line-height: 1.7; margin: 0; }
 
 /* ── 6. Pricing ── */
@@ -313,7 +316,7 @@
 .gyb-testimonial__author { display: flex; align-items: center; gap: 12px; }
 .gyb-testimonial__ava {
   width: 42px; height: 42px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--B), var(--S));
+  background: var(--B);
   color: #fff; font-size: 13px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
@@ -419,10 +422,7 @@
 .gyb-intro-feat:hover { border-color: var(--S) !important; }
 .gyb-intro-feat__ico { border-radius: 12px !important; }
 
-/* Steps — card elevation */
-.gyb-step { border-radius: 20px; box-shadow: 0 2px 10px rgba(0,73,127,.06); }
-.gyb-step:hover { box-shadow: 0 10px 36px rgba(63,169,245,.14); }
-.gyb-step__title { font-size: 15px; letter-spacing: -.3px; }
+/* Steps — card elevation (defined above) */
 
 /* Spotlight cards — why join */
 .gyb-spotlight-card { border-radius: 22px !important; }
@@ -566,7 +566,7 @@
     margin-bottom: 18px;
 }
 .gyb-intro__title {
-    font-size: clamp(26px,3.5vw,38px); font-weight: 900; color: var(--D);
+    font-size: clamp(26px,3.5vw,38px); font-weight: 900; color: var(--B);
     line-height: 1.13; letter-spacing: -1.5px; margin-bottom: 12px;
 }
 .gyb-intro__title span { color: var(--B); }
@@ -635,14 +635,14 @@
 
 .gyb-punchline {
     margin-top: 48px;
-    background: linear-gradient(160deg, #eef6ff 0%, #e3f0fd 50%, #d9ecfb 100%);
+    background: #eef5fb;
     border: 1.5px solid rgba(63,169,245,.2); border-radius: var(--rx);
     padding: 36px 40px;
     display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
 }
 .gyb-punchline__ico {
     width: 60px; height: 60px; border-radius: var(--rl); flex-shrink: 0;
-    background: linear-gradient(135deg, var(--B), var(--S));
+    background: var(--B);
     display: flex; align-items: center; justify-content: center;
     font-size: 24px; color: #fff;
     box-shadow: var(--sh);
@@ -870,13 +870,13 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
   margin-bottom: 14px; font-family: var(--F);
 }
-.pro-phase-step { font-size: 12px; font-weight: 700; color: var(--M); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--F); }
-.pro-phase-title { font-size: clamp(22px,2.8vw,32px); font-weight: 900; color: var(--D); letter-spacing: -1.2px; margin: 0 0 12px; line-height: 1.15; }
+.pro-phase-step { font-size: 12px; font-weight: 800; color: var(--S); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--F); }
+.pro-phase-title { font-size: clamp(22px,2.8vw,32px); font-weight: 900; color: var(--B) !important; letter-spacing: -1.2px; margin: 0 0 12px; line-height: 1.15; }
 .pro-phase-desc { font-size: 15px; color: var(--M); line-height: 1.8; margin-bottom: 24px; font-family: var(--F); }
 .pro-feat-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 12px; }
 .pro-feat-item { display: flex; gap: 12px; align-items: flex-start; }
 .pro-feat-ico { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-.pro-feat-item h4 { font-size: 14px; font-weight: 700; color: var(--D); margin: 0; line-height: 1.5; font-family: var(--F); }
+.pro-feat-item h4 { font-size: 14px; font-weight: 700; color: var(--B) !important; margin: 0; line-height: 1.5; font-family: var(--F); }
 .pro-note { font-size: 13px; color: var(--M); font-style: italic; line-height: 1.7; margin-bottom: 24px; font-family: var(--F); }
 .pro-btn-b {
   display: inline-flex; align-items: center; gap: 8px;
@@ -899,47 +899,14 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   <div class="container">
     <div class="pro-phase-grid">
       <div>
-<<<<<<< HEAD
-        <div class="pro-phase-step">{{ 'for_pros_pg.p1_step'|trans }}</div>
-        <div class="pro-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
-          <i class="ph-bold ph-user-plus"></i> {{ 'for_pros_pg.p1_label'|trans }}
-=======
         <div class="pro-phase-step">Étape 1</div>
         <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-user-plus"></i> Créez votre profil professionnel
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
         <h2 class="pro-phase-title">{{ 'for_pros_pg.p1_title'|trans }}</h2>
         <p class="pro-phase-desc">{{ 'for_pros_pg.p1_desc'|trans }}</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-<<<<<<< HEAD
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p1_f1'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p1_f2'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p1_f3'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p1_f4'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p1_f5'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p1_f6'|trans }}</h4>
-          </li>
-        </ul>
-        <p class="pro-note">{{ 'for_pros_pg.p1_note'|trans }}</p>
-=======
             <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Nom, logo et description percutante de votre entreprise</h4>
           </li>
@@ -958,13 +925,12 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 
         </ul>
 
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         <a href="{{ path('app_register') }}" class="pro-btn-b">
           {{ 'for_pros_pg.p1_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
         </a>
       </div>
       <div class="pro-phase-img-wrap">
-        <img src="{{ asset('assets/drilleedo/images/stock/pro_portrait.jpg') }}"
+        <img src="{{ asset('assets/drilleedo/images/stock/for-professionals_s1.png') }}"
              alt="Créer un profil professionnel sur Drilleedo" loading="lazy">
         <div class="pro-phase-img-tag">
           <i class="ph-bold ph-currency-dollar-simple"></i> {{ 'for_pros_pg.p1_img_tag'|trans }}
@@ -979,47 +945,14 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   <div class="container">
     <div class="pro-phase-grid pro-phase-grid--rev">
       <div>
-<<<<<<< HEAD
-        <div class="pro-phase-step">{{ 'for_pros_pg.p2_step'|trans }}</div>
-        <div class="pro-phase-label" style="background:rgba(255,138,61,.1);color:#FF8A3D;border:1px solid rgba(255,138,61,.2);">
-          <i class="ph-bold ph-bell-ringing"></i> {{ 'for_pros_pg.p2_label'|trans }}
-=======
         <div class="pro-phase-step">Étape 2</div>
         <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-bell-ringing"></i> Recevez des demandes ciblées
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
         <h2 class="pro-phase-title">{{ 'for_pros_pg.p2_title'|trans }}</h2>
         <p class="pro-phase-desc">{{ 'for_pros_pg.p2_desc'|trans }}</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-<<<<<<< HEAD
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p2_f1'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p2_f2'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p2_f3'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p2_f4'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p2_f5'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(255,138,61,.1);color:#FF8A3D;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p2_f6'|trans }}</h4>
-          </li>
-        </ul>
-        <p class="pro-note">{{ 'for_pros_pg.p2_note'|trans }}</p>
-=======
             <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Demandes qualifiées dans votre secteur d'activité précis</h4>
           </li>
@@ -1038,10 +971,9 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 
         </ul>
 
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </div>
       <div class="pro-phase-img-wrap">
-        <img src="{{ asset('assets/drilleedo/images/stock/showcase_1.jpg') }}"
+        <img src="{{ asset('assets/drilleedo/images/stock/for-professionals_s2.png') }}"
              alt="Recevoir des demandes ciblées de clients vérifiés" loading="lazy">
         <div class="pro-phase-img-tag">
           <i class="ph-bold ph-lightning"></i> {{ 'for_pros_pg.p2_img_tag'|trans }}
@@ -1056,47 +988,14 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   <div class="container">
     <div class="pro-phase-grid">
       <div>
-<<<<<<< HEAD
-        <div class="pro-phase-step">{{ 'for_pros_pg.p3_step'|trans }}</div>
-        <div class="pro-phase-label" style="background:rgba(0,73,127,.08);color:#00497F;border:1px solid rgba(0,73,127,.15);">
-          <i class="ph-bold ph-paper-plane-tilt"></i> {{ 'for_pros_pg.p3_label'|trans }}
-=======
         <div class="pro-phase-step">Étape 3</div>
         <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-paper-plane-tilt"></i> Soumettez vos offres
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
         <h2 class="pro-phase-title">{{ 'for_pros_pg.p3_title'|trans }}</h2>
         <p class="pro-phase-desc">{{ 'for_pros_pg.p3_desc'|trans }}</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-<<<<<<< HEAD
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p3_f1'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p3_f2'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p3_f3'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p3_f4'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p3_f5'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(0,73,127,.08);color:#00497F;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p3_f6'|trans }}</h4>
-          </li>
-        </ul>
-        <p class="pro-note">{{ 'for_pros_pg.p3_note'|trans }}</p>
-=======
             <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Consultez les détails complets de chaque projet avant de répondre</h4>
           </li>
@@ -1115,10 +1014,9 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 
         </ul>
 
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </div>
       <div class="pro-phase-img-wrap">
-        <img src="{{ asset('assets/drilleedo/images/stock/showcase_2.jpg') }}"
+        <img src="{{ asset('assets/drilleedo/images/stock/for-professionals_s3.png') }}"
              alt="Soumettre une offre à un client sur Drilleedo" loading="lazy">
         <div class="pro-phase-img-tag">
           <i class="ph-bold ph-currency-dollar-simple"></i> {{ 'for_pros_pg.p3_img_tag'|trans }}
@@ -1133,45 +1031,14 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   <div class="container">
     <div class="pro-phase-grid pro-phase-grid--rev">
       <div>
-<<<<<<< HEAD
-        <div class="pro-phase-step">{{ 'for_pros_pg.p4_step'|trans }}</div>
-        <div class="pro-phase-label" style="background:rgba(22,163,74,.1);color:#16a34a;border:1px solid rgba(22,163,74,.2);">
-          <i class="ph-bold ph-trophy"></i> {{ 'for_pros_pg.p4_label'|trans }}
-=======
         <div class="pro-phase-step">Étape 4</div>
         <div class="pro-phase-label" style="background:rgba(63,169,245,.1);color:#3FA9F5;border:1px solid rgba(63,169,245,.25);">
           <i class="ph-bold ph-trophy"></i> Gagnez des contrats &amp; développez votre réputation
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
         <h2 class="pro-phase-title">{{ 'for_pros_pg.p4_title'|trans }}</h2>
         <p class="pro-phase-desc">{{ 'for_pros_pg.p4_desc'|trans }}</p>
         <ul class="pro-feat-list">
           <li class="pro-feat-item">
-<<<<<<< HEAD
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p4_f1'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p4_f2'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p4_f3'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p4_f4'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p4_f5'|trans }}</h4>
-          </li>
-          <li class="pro-feat-item">
-            <div class="pro-feat-ico" style="background:rgba(22,163,74,.1);color:#16a34a;"><i class="ph-bold ph-check-circle"></i></div>
-            <h4>{{ 'for_pros_pg.p4_f6'|trans }}</h4>
-          </li>
-=======
             <div class="pro-feat-ico" style="background:rgba(63,169,245,.12);color:#3FA9F5;"><i class="ph-bold ph-check-circle"></i></div>
             <h4>Chaque projet réussi renforce votre profil et attire de nouveaux clients</h4>
           </li>
@@ -1188,14 +1055,13 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
             <h4>Les professionnels Drilleedo reçoivent jusqu'à +40% de demandes dès le 1er mois</h4>
           </li>
 
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </ul>
         <a href="{{ path('app_register') }}" class="pro-btn-b">
           {{ 'for_pros_pg.p4_cta'|trans }} <i class="ph-bold ph-arrow-right"></i>
         </a>
       </div>
       <div class="pro-phase-img-wrap">
-        <img src="{{ asset('assets/drilleedo/images/stock/hero_reno.jpg') }}"
+        <img src="{{ asset('assets/drilleedo/images/stock/for-professionals_s4.png') }}"
              alt="Développer son activité et sa réputation sur Drilleedo" loading="lazy">
         <div class="pro-phase-img-tag">
           <i class="ph-bold ph-trend-up"></i> {{ 'for_pros_pg.p4_img_tag'|trans }}
@@ -1211,7 +1077,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 <style>
 /* ── Why Join — style Drilleedo ── */
 .gyb-why {
-  background: linear-gradient(160deg, #eef6ff 0%, #e3f0fd 50%, #d9ecfb 100%);
+  background: #eef5fb;
   padding: 96px 0; overflow: hidden; position: relative;
 }
 .gyb-why::before {
@@ -1229,7 +1095,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   letter-spacing: .6px; text-transform: uppercase; margin-bottom: 20px;
 }
 .gyb-why__title {
-  font-size: clamp(28px,4vw,42px); font-weight: 900; color: var(--D);
+  font-size: clamp(28px,4vw,42px); font-weight: 900; color: var(--B);
   margin: 0 0 16px; letter-spacing: -1.5px; line-height: 1.13;
 }
 .gyb-why__title span { color: var(--S); }
@@ -1268,11 +1134,11 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   display: flex; align-items: center; justify-content: center;
   font-size: 28px; margin-bottom: 20px;
 }
-.gyb-spotlight-ico--navy  { background: linear-gradient(135deg,var(--B),var(--S)); color: #fff; }
-.gyb-spotlight-ico--orng  { background: rgba(255,255,255,.12); color: var(--O); border: 1px solid rgba(255,255,255,.15); }
-.gyb-spotlight-ico--green { background: linear-gradient(135deg,#16a34a,#22c55e); color: #fff; }
+.gyb-spotlight-ico--navy  { background: var(--B); color: #fff; }
+.gyb-spotlight-ico--orng  { background: rgba(255,255,255,.12); color: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.15); }
+.gyb-spotlight-ico--green { background: #3FA9F5; color: #fff; }
 .gyb-spotlight-title {
-  font-size: 20px; font-weight: 900; color: var(--D);
+  font-size: 20px; font-weight: 900; color: var(--B);
   margin: 0 0 12px; line-height: 1.2; letter-spacing: -.5px;
 }
 .gyb-spotlight-card--featured .gyb-spotlight-title { color: #fff; }
@@ -1297,7 +1163,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
   color: var(--M); background: var(--L); border-radius: 50px; padding: 4px 14px;
 }
-.gyb-compare__title { font-size: 22px; font-weight: 900; color: var(--D); margin: 0; letter-spacing: -.8px; }
+.gyb-compare__title { font-size: 22px; font-weight: 900; color: var(--B); margin: 0; letter-spacing: -.8px; }
 .gyb-compare-table { width: 100%; border-collapse: collapse; }
 .gyb-compare-table th {
   padding: 12px 20px; font-size: 13px; font-weight: 800;
@@ -1306,7 +1172,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 }
 .gyb-compare-table th.gyb-th-feature { text-align: left; color: var(--M); }
 .gyb-compare-table th.gyb-th-drilleedo {
-  background: linear-gradient(135deg, var(--D), #003660);
+  background: var(--D);
   color: #fff; border-radius: 12px 12px 0 0;
 }
 .gyb-compare-table th.gyb-th-other { color: var(--M); }
@@ -1322,7 +1188,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 .gyb-check-no  { color: var(--L); font-size: 18px; }
 
 .gyb-callout {
-  background: linear-gradient(120deg, var(--O) 0%, #f06030 100%);
+  background: var(--O);
   border-radius: var(--rx); padding: 48px 40px;
   display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
   position: relative; overflow: hidden; margin-bottom: 60px;
@@ -1535,7 +1401,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 /* ── SECTION FUSION : Avantages + Plans + Calcul ─────────────────────── */
 .df-fusion {
   padding: 96px 0;
-  background: linear-gradient(160deg, #f0f6ff 0%, #e8f2fb 50%, #ddeeff 100%);
+  background: #f4f8fc;
   position: relative; overflow: hidden;
 }
 .df-fusion::before {
@@ -1556,7 +1422,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
   font-size: clamp(28px,4vw,44px); font-weight: 900; color: #0C1825;
   line-height: 1.1; letter-spacing: -1.5px; margin: 0 0 14px;
 }
-.df-fusion-h2 span { color: #FF8A3D; }
+.df-fusion-h2 span { color: #3FA9F5; }
 .df-fusion-sub { font-size: 17px; color: #4A6073; max-width: 560px; margin: 0 auto; line-height: 1.75; }
 
 /* ── BLOC 1 : Split Drilleedo vs Les autres ── */
@@ -1564,11 +1430,11 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 .df-vs-panel { border-radius: 24px; padding: 40px 36px; position: relative; overflow: hidden; }
 .df-vs-panel--bad { background: #fff; border: 2px solid #E4EBF2; }
 .df-vs-panel--bad::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6b7280, #4b5563); }
-.df-vs-panel--good { background: linear-gradient(160deg, #002d50, #00497F 70%, #0a6eab); border: 2px solid #00497F; }
+.df-vs-panel--good { background: #00497F; border: 2px solid #00497F; }
 .df-vs-panel--good::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #FF8A3D, #f06030); }
 .df-vs-label { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 20px; }
 .df-vs-panel--bad .df-vs-label  { background: #f1f5f9; color: #64748b; }
-.df-vs-panel--good .df-vs-label { background: rgba(255,138,61,.2); color: #FF8A3D; }
+.df-vs-panel--good .df-vs-label { background: rgba(63,169,245,.2); color: #3FA9F5; }
 .df-vs-title { font-size: clamp(18px,2.2vw,24px); font-weight: 900; line-height: 1.2; letter-spacing: -.8px; margin: 0 0 24px; }
 .df-vs-panel--bad .df-vs-title  { color: #0C1825; }
 .df-vs-panel--good .df-vs-title { color: #fff; }
@@ -1578,7 +1444,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 .df-vs-panel--good .df-vs-row { background: rgba(255,255,255,.08); }
 .df-vs-row-ico { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .df-vs-panel--bad .df-vs-row-ico  { background: #f1f5f9; color: #64748b; }
-.df-vs-panel--good .df-vs-row-ico { background: rgba(255,138,61,.2); color: #FF8A3D; }
+.df-vs-panel--good .df-vs-row-ico { background: rgba(63,169,245,.2); color: #3FA9F5; }
 .df-vs-row-name { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 2px; }
 .df-vs-panel--bad .df-vs-row-name  { color: #374151; }
 .df-vs-panel--good .df-vs-row-name { color: #fff; }
@@ -1588,8 +1454,8 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 
 /* ── BLOC 2 : Calcul revenus (4 cards) ── */
 .df-calcul-header { text-align: center; margin-bottom: 32px; }
-.df-calcul-header h3 { font-size: clamp(22px,3vw,32px); font-weight: 900; color: #0C1825; letter-spacing: -1.2px; margin: 0 0 8px; line-height: 1.15; }
-.df-calcul-header h3 span { color: #FF8A3D; }
+.df-calcul-header h3 { font-size: clamp(22px,3vw,32px); font-weight: 900; color: var(--B); letter-spacing: -1.2px; margin: 0 0 8px; line-height: 1.15; }
+.df-calcul-header h3 span { color: #3FA9F5; }
 .df-calcul-header p { font-size: 15px; color: #4A6073; margin: 0; }
 .df-calcul-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
 .df-calcul-card { background: #fff; border-radius: 20px; padding: 28px 20px 24px; text-align: center; border: 1.5px solid #E4EBF2; box-shadow: 0 2px 12px rgba(0,73,127,.05); position: relative; overflow: hidden; transition: transform .22s ease, box-shadow .22s ease; }
@@ -1601,12 +1467,12 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 .df-calcul-divider { border: none; border-top: 1px dashed #E4EBF2; margin: 0 0 16px; }
 .df-calcul-lost-lbl { font-size: 11px; font-weight: 600; color: #4A6073; margin-bottom: 4px; }
 .df-calcul-lost { font-size: 15px; font-weight: 800; color: #64748b; margin-bottom: 8px; }
-.df-calcul-saved { display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg,#16a34a,#22c55e); color: #fff; font-size: 14px; font-weight: 900; padding: 8px 18px; border-radius: 50px; box-shadow: 0 4px 14px rgba(22,163,74,.35); }
+.df-calcul-saved { display: inline-flex; align-items: center; gap: 5px; background: #16a34a; color: #fff; font-size: 14px; font-weight: 900; padding: 8px 18px; border-radius: 50px; box-shadow: 0 4px 14px rgba(22,163,74,.35); }
 .df-calcul-note { text-align: center; font-size: 15px; font-style: italic; color: #4A6073; font-weight: 600; letter-spacing: -.3px; padding: 18px 24px; background: #fff; border-radius: 14px; border: 1.5px solid #E4EBF2; margin-bottom: 48px; }
 
 /* ── BLOC 3 : Standard vs Premium ── */
 .df-plans-header { text-align: center; margin-bottom: 36px; }
-.df-plans-header h3 { font-size: clamp(22px,3vw,34px); font-weight: 900; color: #0C1825; letter-spacing: -1.2px; margin: 0 0 8px; line-height: 1.15; }
+.df-plans-header h3 { font-size: clamp(22px,3vw,34px); font-weight: 900; color: var(--B); letter-spacing: -1.2px; margin: 0 0 8px; line-height: 1.15; }
 .df-plans-header h3 span { color: #00497F; }
 .df-plans-grid { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 16px; align-items: start; }
 .df-plan-card { border-radius: 22px; overflow: hidden; border: 1.5px solid #E4EBF2; background: #fff; box-shadow: 0 2px 12px rgba(0,73,127,.05); transition: transform .22s ease, box-shadow .22s ease; }
@@ -1614,8 +1480,8 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 .df-plan-card--premium { border-color: #FF8A3D; box-shadow: 0 8px 36px rgba(255,138,61,.18); }
 .df-plan-card--others { background: #f8f9fa; opacity: .75; }
 .df-plan-head { padding: 28px 26px 20px; border-bottom: 1px solid #E4EBF2; }
-.df-plan-card--standard .df-plan-head { background: linear-gradient(135deg,#002d50,#00497F); }
-.df-plan-card--premium  .df-plan-head { background: linear-gradient(135deg,#FF8A3D,#f06030); }
+.df-plan-card--standard .df-plan-head { background: #00497F; }
+.df-plan-card--premium  .df-plan-head { background: #FF8A3D; }
 .df-plan-card--others   .df-plan-head { background: #6b7280; }
 .df-plan-badge { display: inline-block; background: rgba(255,255,255,.2); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; padding: 3px 12px; border-radius: 50px; margin-bottom: 12px; }
 .df-plan-price { font-size: 36px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 4px; }
@@ -1656,136 +1522,14 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
     <div class="df-fusion-head">
       <div class="df-fusion-pill">
         <i class="ph-bold ph-lightning" aria-hidden="true"></i>
-<<<<<<< HEAD
-        {{ 'for_pros_pg.why2_eyebrow'|trans }}
-      </div>
-      <h2 class="gyb-section-title" id="pourquoi-heading">
-        {{ 'for_pros_pg.why2_title'|trans }}<br>
-        <span>{{ 'for_pros_pg.why2_title_span'|trans }}</span>
-=======
         La différence qui compte
       </div>
       <h2 class="df-fusion-h2" id="df-fusion-heading">
         Les autres s'enrichissent sur votre travail.<br><span>Drilleedo, non.</span>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
       </h2>
       <p class="df-fusion-sub">Une seule section. Tous les chiffres. La vérité — sans détour.</p>
     </div>
 
-<<<<<<< HEAD
-    {# ── Tableau 2 colonnes : Ce que vous obtenez / Ce que ça change ── #}
-    <div class="gyb-compare" style="margin-top:52px;">
-      <div class="gyb-compare__header">
-        <span class="gyb-compare__label">{{ 'for_pros_pg.why2_comp_label'|trans }}</span>
-        <h3 class="gyb-compare__title">{{ 'for_pros_pg.why2_comp_title'|trans }}</h3>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="gyb-compare-table" aria-label="Avantages Drilleedo pour les professionnels">
-          <thead>
-            <tr>
-              <th class="gyb-th-drilleedo" scope="col" style="text-align:left;border-radius:12px 0 0 0;">{{ 'for_pros_pg.why2_th1'|trans }}</th>
-              <th class="gyb-th-other" scope="col" style="text-align:left;">{{ 'for_pros_pg.why2_th2'|trans }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">{{ 'for_pros_pg.why2_r1_col1'|trans }}</td>
-              <td class="gyb-td-feature" style="font-weight:400;">{{ 'for_pros_pg.why2_r1_col2'|trans }}</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">{{ 'for_pros_pg.why2_r2_col1'|trans }}</td>
-              <td class="gyb-td-feature" style="font-weight:400;">{{ 'for_pros_pg.why2_r2_col2'|trans }}</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">{{ 'for_pros_pg.why2_r3_col1'|trans }}</td>
-              <td class="gyb-td-feature" style="font-weight:400;">{{ 'for_pros_pg.why2_r3_col2'|trans }}</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">{{ 'for_pros_pg.why2_r4_col1'|trans }}</td>
-              <td class="gyb-td-feature" style="font-weight:400;">{{ 'for_pros_pg.why2_r4_col2'|trans }}</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">{{ 'for_pros_pg.why2_r5_col1'|trans }}</td>
-              <td class="gyb-td-feature" style="font-weight:400;">{{ 'for_pros_pg.why2_r5_col2'|trans }}</td>
-            </tr>
-            <tr>
-              <td class="gyb-td-drilleedo" style="text-align:left;font-weight:800;color:var(--O);">{{ 'for_pros_pg.why2_r6_col1'|trans }}</td>
-              <td class="gyb-td-feature" style="font-weight:400;">{{ 'for_pros_pg.why2_r6_col2'|trans }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    {# ── Tableau 4 colonnes : Standard / Premium / Les autres ── #}
-    <div style="margin-top:60px;">
-      <div class="text-center" style="margin-bottom:40px;">
-        <div class="gyb-section-eyebrow" style="background:rgba(255,138,61,.1);color:var(--O);border-color:rgba(255,138,61,.2);">
-          <i class="ph-bold ph-tag" aria-hidden="true"></i>
-          {{ 'for_pros_pg.why2_sub_eyebrow'|trans }}
-        </div>
-        <h3 style="font-size:clamp(22px,3vw,34px);font-weight:900;color:var(--D);letter-spacing:-1.2px;margin:0 0 10px;line-height:1.13;">
-          {{ 'for_pros_pg.why2_sub_title'|trans }} <span style="color:var(--B);">{{ 'for_pros_pg.why2_sub_title_span'|trans }}</span> {{ 'for_pros_pg.why2_sub_title_after'|trans }}
-        </h3>
-      </div>
-
-      <div class="gyb-compare">
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-family:var(--F);" aria-label="Comparaison Standard Premium Les autres">
-            <thead>
-              <tr>
-                <th style="padding:14px 20px;background:var(--D);color:rgba(255,255,255,.65);font-size:12px;font-weight:800;text-align:left;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.tbl2_th1'|trans }}</th>
-                <th style="padding:14px 20px;background:linear-gradient(135deg,#002d50,var(--B));color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.tbl2_th2'|trans }}</th>
-                <th style="padding:14px 20px;background:linear-gradient(135deg,var(--O),#f06030);color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.tbl2_th3'|trans }}</th>
-                <th style="padding:14px 20px;background:#6b7280;color:#fff;font-size:12px;font-weight:800;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.tbl2_th4'|trans }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r1_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r1_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r1_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r1_col4'|trans }}</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r2_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r2_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r2_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r2_col4'|trans }}</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r3_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r3_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r3_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r3_col4'|trans }}</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r4_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;color:var(--M);text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r4_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r4_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r4_col4'|trans }}</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r5_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:var(--B);text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r5_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r5_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r5_col4'|trans }}</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r6_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r6_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r6_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:600;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.tbl2_r6_col4'|trans }}</td>
-              </tr>
-              <tr>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:var(--D);">{{ 'for_pros_pg.tbl2_r7_col1'|trans }}</td>
-                <td style="padding:13px 20px;font-size:17px;font-weight:900;color:#16a34a;text-align:center;background:rgba(0,73,127,.04);">{{ 'for_pros_pg.tbl2_r7_col2'|trans }}</td>
-                <td style="padding:13px 20px;font-size:17px;font-weight:900;color:#16a34a;text-align:center;background:rgba(255,138,61,.06);">{{ 'for_pros_pg.tbl2_r7_col3'|trans }}</td>
-                <td style="padding:13px 20px;font-size:14px;font-weight:700;color:#c0392b;text-align:center;">{{ 'for_pros_pg.tbl2_r7_col4'|trans }}</td>
-              </tr>
-            </tbody>
-          </table>
-=======
     {# BLOC 1 : Drilleedo vs Les autres #}
     <div class="df-vs-wrap">
       <div class="df-vs-panel df-vs-panel--bad">
@@ -1845,7 +1589,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 
     {# BLOC 2 : Calcul revenus #}
     <div class="df-calcul-header">
-      <div class="df-fusion-pill" style="background:rgba(255,138,61,.1);color:#FF8A3D;border-color:rgba(255,138,61,.22);">
+      <div class="df-fusion-pill">
         <i class="ph-bold ph-calculator" aria-hidden="true"></i> Faites le calcul
       </div>
       <h3>Ce que vous gardez — <span>contrat par contrat</span></h3>
@@ -1897,7 +1641,7 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 
     {# BLOC 3 : Standard vs Premium vs Les autres #}
     <div class="df-plans-header">
-      <div class="df-fusion-pill" style="background:rgba(255,138,61,.1);color:#FF8A3D;border-color:rgba(255,138,61,.22);">
+      <div class="df-fusion-pill">
         <i class="ph-bold ph-tag" aria-hidden="true"></i> Choisissez votre niveau
       </div>
       <h3>Gardez <span>100% de vos revenus</span> — Standard ou Premium</h3>
@@ -1962,7 +1706,6 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
             <div class="df-plan-row df-plan-row--bad"><span class="df-plan-row-ico"><i class="ph-bold ph-minus-circle"></i></span>Activation en plusieurs semaines</div>
           </div>
           <div style="background:#dee2e6;color:#6b7280;border-radius:50px;padding:13px;text-align:center;font-size:14px;font-weight:800;">Non recommandé</div>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
         </div>
       </div>
     </div>
@@ -1972,156 +1715,6 @@ dans votre poche. Sans commission. Sans surprise. Sans jamais partager vos reven
 {# ── /Section fusionnée ── #}
 
 
-<<<<<<< HEAD
-{# ══════════════════════════════════════════════════════════════════════════
-   4. PRICING PLANS
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section gyb-section--gray gyb-scroll" aria-labelledby="pricing-heading">
-  <div class="container">
-    <div class="text-center">
-      <div class="gyb-section-eyebrow">
-        <i class="ph-bold ph-tag" aria-hidden="true"></i>
-        {{ 'for_pros.price_eyebrow'|trans }}
-      </div>
-      <h2 class="gyb-section-title" id="pricing-heading">{{ 'for_pros.price_title'|trans }}<span>{{ 'for_pros.price_title_span'|trans }}</span>{{ 'for_pros.price_title_after'|trans }}</h2>
-      <p class="gyb-section-sub mx-auto">{{ 'for_pros.price_sub'|trans }}</p>
-    </div>
-
-    <div class="gyb-plans">
-      {# Free #}
-      <div class="gyb-plan gyb-plan--basic">
-        <div class="gyb-plan__head">
-          <div class="gyb-plan__name">{{ 'for_pros.plan1_name'|trans }}</div>
-          <div class="gyb-plan__price">{{ 'for_pros.plan1_price'|trans }}</div>
-          <div class="gyb-plan__price-note">{{ 'for_pros.plan1_note'|trans }}</div>
-        </div>
-        <div class="gyb-plan__body">
-          <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f1'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f2'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f3'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan1_f4'|trans }}</li>
-            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no1'|trans }}</li>
-            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no2'|trans }}</li>
-            <li class="gyb-plan__feature gyb-no"><i class="ph-bold ph-x" aria-hidden="true"></i> {{ 'for_pros.plan1_no3'|trans }}</li>
-          </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan1_cta'|trans }}</a>
-        </div>
-      </div>
-
-      {# Pro — Popular #}
-      <div class="gyb-plan gyb-plan--popular">
-        <div class="gyb-plan__popular-badge">{{ 'for_pros.plan2_badge'|trans }}</div>
-        <div class="gyb-plan__head">
-          <div class="gyb-plan__name">{{ 'for_pros.plan2_name'|trans }}</div>
-          <div class="gyb-plan__price">{{ 'for_pros.plan2_price'|trans }}<span style="font-size:18px;font-weight:600;">{{ 'for_pros.plan2_price_mo'|trans }}</span></div>
-          <div class="gyb-plan__price-note">{{ 'for_pros.plan2_note'|trans }}</div>
-        </div>
-        <div class="gyb-plan__body">
-          <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f1'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f2'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f3'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f4'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f5'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f6'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan2_f7'|trans }}</li>
-          </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan2_cta'|trans }}</a>
-        </div>
-      </div>
-
-      {# Enterprise #}
-      <div class="gyb-plan gyb-plan--enterprise">
-        <div class="gyb-plan__head">
-          <div class="gyb-plan__name">{{ 'for_pros.plan3_name'|trans }}</div>
-          <div class="gyb-plan__price">{{ 'for_pros.plan3_price'|trans }}<span style="font-size:18px;font-weight:600;">{{ 'for_pros.plan3_price_mo'|trans }}</span></div>
-          <div class="gyb-plan__price-note">{{ 'for_pros.plan3_note'|trans }}</div>
-        </div>
-        <div class="gyb-plan__body">
-          <ul class="gyb-plan__features">
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f1'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f2'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f3'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f4'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f5'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f6'|trans }}</li>
-            <li class="gyb-plan__feature"><i class="ph-bold ph-check" aria-hidden="true"></i> {{ 'for_pros.plan3_f7'|trans }}</li>
-          </ul>
-          <a href="{{ path('app_register') }}" class="gyb-plan__cta">{{ 'for_pros.plan3_cta'|trans }}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-{# ══════════════════════════════════════════════════════════════════════════
-   NEW: FAITES LE CALCUL
-══════════════════════════════════════════════════════════════════════════ #}
-<section class="gyb-section gyb-scroll" aria-labelledby="calcul-heading">
-  <div class="container">
-
-    <div class="text-center">
-      <div class="gyb-section-eyebrow" style="background:rgba(255,138,61,.1);color:var(--O);border-color:rgba(255,138,61,.2);">
-        <i class="ph-bold ph-calculator" aria-hidden="true"></i>
-        {{ 'for_pros_pg.calc_eyebrow'|trans }}
-      </div>
-      <h2 class="gyb-section-title" id="calcul-heading">
-        {{ 'for_pros_pg.calc_title'|trans }} <span>{{ 'for_pros_pg.calc_title_span'|trans }}</span>
-      </h2>
-    </div>
-
-    <div class="gyb-compare" style="margin-top:52px;">
-      <div style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;font-family:var(--F);" aria-label="Calcul économies Drilleedo vs autres plateformes">
-          <thead>
-            <tr>
-              <th style="padding:16px 20px;background:var(--D);color:rgba(255,255,255,.65);font-size:12px;font-weight:800;text-align:center;border-radius:12px 0 0 0;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.calc_th1'|trans }}</th>
-              <th style="padding:16px 20px;background:linear-gradient(135deg,#002d50,var(--B));color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.calc_th2'|trans }}</th>
-              <th style="padding:16px 20px;background:#c0392b;color:#fff;font-size:12px;font-weight:800;text-align:center;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.calc_th3'|trans }}</th>
-              <th style="padding:16px 20px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;font-size:12px;font-weight:800;text-align:center;border-radius:0 12px 0 0;text-transform:uppercase;letter-spacing:.06em;">{{ 'for_pros_pg.calc_th4'|trans }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;border-bottom:1px solid var(--L);">5 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.calc_r1_col2'|trans }}</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.calc_r1_col3'|trans }}</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(22,163,74,.07);">{{ 'for_pros_pg.calc_r1_col4'|trans }}</td>
-            </tr>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;border-bottom:1px solid var(--L);">10 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.calc_r2_col2'|trans }}</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.calc_r2_col3'|trans }}</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(22,163,74,.07);">{{ 'for_pros_pg.calc_r2_col4'|trans }}</td>
-            </tr>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;border-bottom:1px solid var(--L);">20 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(0,73,127,.04);">{{ 'for_pros_pg.calc_r3_col2'|trans }}</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;border-bottom:1px solid var(--L);">{{ 'for_pros_pg.calc_r3_col3'|trans }}</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;border-bottom:1px solid var(--L);background:rgba(22,163,74,.07);">{{ 'for_pros_pg.calc_r3_col4'|trans }}</td>
-            </tr>
-            <tr>
-              <td style="padding:16px 20px;font-size:15px;font-weight:800;color:var(--D);text-align:center;">50 000$</td>
-              <td style="padding:16px 20px;font-size:15px;font-weight:700;color:#16a34a;text-align:center;background:rgba(0,73,127,.04);">{{ 'for_pros_pg.calc_r4_col2'|trans }}</td>
-              <td style="padding:16px 20px;font-size:14px;color:#c0392b;text-align:center;">{{ 'for_pros_pg.calc_r4_col3'|trans }}</td>
-              <td style="padding:16px 20px;font-size:18px;font-weight:900;color:#16a34a;text-align:center;background:rgba(22,163,74,.07);">{{ 'for_pros_pg.calc_r4_col4'|trans }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="text-align:center;font-size:15px;font-style:italic;color:var(--M);margin:28px 0 0;font-weight:600;letter-spacing:-.3px;">
-        {{ 'for_pros_pg.calc_footnote'|trans }}
-      </p>
-    </div>
-
-  </div>
-</section>
-{# ── /Faites le calcul ── #}
-
-=======
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
 
 {# ══════════════════════════════════════════════════════════════════════════
    5. PRO TESTIMONIALS

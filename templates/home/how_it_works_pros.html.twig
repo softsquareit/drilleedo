@@ -20,28 +20,33 @@
 
 /* ── Hero ── */
 .hiw-hero {
-  background: var(--B);
+  background: #00497F;
   padding: 80px 0 70px;
   position: relative; overflow: hidden;
+}
+.hiw-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 28px 28px; pointer-events: none;
 }
 .hiw-hero::after {
   content: ''; position: absolute;
   right: -80px; top: -80px;
   width: 420px; height: 420px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(63,169,245,.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255,138,61,.10) 0%, transparent 70%);
   pointer-events: none;
 }
 .hiw-hero-inner { position: relative; z-index: 2; max-width: 760px; }
 .hiw-hero-pill {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.12); color: #fff;
-  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,138,61,.18); color: #FF8A3D;
+  border: 1px solid rgba(255,138,61,.35);
   border-radius: 999px; padding: 6px 18px;
   font-size: 12px; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; margin-bottom: 24px;
   font-family: var(--F);
 }
-.hiw-hero-pill i { color: var(--S); }
+.hiw-hero-pill i { color: #FF8A3D; }
 .hiw-hero h1 {
   font-family: var(--F); font-size: clamp(32px, 4.5vw, 54px);
   font-weight: 900; color: #fff; margin: 0 0 20px;
@@ -66,7 +71,7 @@
 .hiw-hero-badge i { color: var(--S); font-size: 15px; }
 
 /* ── Steps Section ── */
-.hiw-steps { padding: 90px 0; background: #f5f8ff; }
+.hiw-steps { padding: 90px 0; background: #f4f8fc; border-top: 3px solid var(--O); }
 .hiw-steps-header { text-align: center; margin-bottom: 56px; }
 .hiw-steps-pill {
   display: inline-flex; align-items: center; gap: 7px;
@@ -208,22 +213,28 @@
 }
 .hiw-trust-cta {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  background: var(--S); color: #fff;
+  background: var(--O); color: #fff;
   font-family: var(--F); font-size: 14px; font-weight: 800;
-  border-radius: 10px; padding: 13px 20px; text-decoration: none;
-  transition: var(--t);
+  border-radius: 50px; padding: 13px 20px; text-decoration: none;
+  box-shadow: 0 4px 16px rgba(255,138,61,.32); transition: var(--t);
 }
-.hiw-trust-cta:hover { background: #2a95e0; color: #fff; }
+.hiw-trust-cta:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
 
 /* ── Final CTA ── */
 .hiw-cta {
-  background: linear-gradient(135deg, var(--B) 0%, #0a3d70 100%);
+  background: #00497F;
   padding: 90px 0; text-align: center; position: relative; overflow: hidden;
 }
 .hiw-cta::before {
-  content: ''; position: absolute; right: -100px; bottom: -100px;
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 28px 28px; pointer-events: none;
+}
+.hiw-cta::after {
+  content: ''; position: absolute; right: -80px; bottom: -80px;
   width: 400px; height: 400px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(63,169,245,.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255,138,61,.10) 0%, transparent 70%);
+  pointer-events: none;
 }
 .hiw-cta-title {
   font-family: var(--F); font-size: clamp(28px, 4vw, 44px);

@@ -22,7 +22,7 @@
 
 /* ════════ 1. HERO ════════ */
 .ab-hero {
-    background: linear-gradient(135deg, #0C1825 0%, #003660 55%, #00497F 100%);
+    background: #00497F;
     padding: 96px 0 80px;
     position: relative; overflow: hidden; text-align: center;
 }
@@ -42,8 +42,8 @@
 .ab-hero__inner { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
 .ab-hero-eyebrow {
     display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,.1); color: rgba(255,255,255,.88);
-    border: 1px solid rgba(255,255,255,.18); border-radius: 999px;
+    background: rgba(255,138,61,.18); color: #FF8A3D;
+    border: 1px solid rgba(255,138,61,.35); border-radius: 50px;
     padding: 7px 18px; font-size: 11px; font-weight: 800;
     letter-spacing: .1em; text-transform: uppercase; margin-bottom: 22px;
 }
@@ -54,7 +54,7 @@
 }
 .ab-hero h1 span { color: #FF8A3D; }
 .ab-hero__tagline {
-    font-size: 17px; color: rgba(255,255,255,.6);
+    font-size: 17px; color: rgba(255,255,255,.72);
     max-width: 620px; margin: 18px auto 32px; line-height: 1.75;
 }
 .ab-hero__tagline strong { color: rgba(255,255,255,.9); }
@@ -84,7 +84,7 @@
 .ab-stat-lbl { font-size: 12px; color: var(--M); font-weight: 600; margin-top: 3px; }
 
 /* ════════ PAGE BG ════════ */
-.ab-bg { background: linear-gradient(180deg, #eef5fb 0%, #f4f8fc 40%, #f8fbff 100%); padding: 64px 0 80px; }
+.ab-bg { background: #f4f8fc; padding: 64px 0 80px; }
 
 /* ════════ 3. LE CONSTAT — dark split ════════ */
 .ab-constat {
@@ -110,7 +110,7 @@
 .ab-constat-img-badge__num span { color: #FF8A3D; }
 .ab-constat-img-badge__lbl { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 2px; }
 .ab-constat-body {
-    background: linear-gradient(160deg, #0C1825 0%, #003660 100%);
+    background: #0C1825;
     padding: 52px 48px;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: center;
@@ -257,7 +257,7 @@
     font-size: 12px; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.6;
 }
 .ab-canada-body {
-    background: linear-gradient(160deg, #0C1825 0%, #00497F 100%);
+    background: #0C1825;
     padding: 52px 48px;
     display: flex; flex-direction: column; justify-content: center;
     position: relative; overflow: hidden;
@@ -357,19 +357,19 @@
 
 /* ════════ 8. CTA FINAL ════════ */
 .ab-final-cta {
-    background: linear-gradient(135deg, #0C1825 0%, #003660 100%);
+    background: #00497F;
     border-radius: 24px; padding: 64px 48px;
     text-align: center; box-shadow: 0 12px 50px rgba(0,73,127,.22);
     position: relative; overflow: hidden;
 }
 .ab-final-cta::before {
-    content:''; position:absolute; top:-100px; right:-80px;
-    width:360px; height:360px; border-radius:50%;
-    background: rgba(63,169,245,.08); pointer-events:none;
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events:none;
 }
 .ab-final-cta::after {
-    content:''; position:absolute; bottom:-80px; left:-60px;
-    width:280px; height:280px; border-radius:50%;
+    content:''; position:absolute; top:-100px; right:-80px;
+    width:360px; height:360px; border-radius:50%;
     background: rgba(255,138,61,.07); pointer-events:none;
 }
 .ab-final-cta__inner { position: relative; z-index: 2; }
@@ -395,28 +395,28 @@
 .ab-btn-o {
     display: inline-flex; align-items: center; gap: 8px;
     background: #FF8A3D; color: #fff; font-size: 15px; font-weight: 800;
-    padding: 14px 28px; border-radius: 8px; text-decoration: none;
+    padding: 14px 28px; border-radius: 50px; text-decoration: none;
     box-shadow: 0 4px 18px rgba(255,138,61,.38); transition: all .2s;
 }
 .ab-btn-o:hover { background: #e87830; transform: translateY(-2px); color: #fff; }
 .ab-btn-b {
     display: inline-flex; align-items: center; gap: 8px;
     background: #00497F; color: #fff; font-size: 15px; font-weight: 800;
-    padding: 13px 26px; border-radius: 8px; text-decoration: none;
+    padding: 13px 26px; border-radius: 50px; text-decoration: none;
     box-shadow: 0 4px 16px rgba(0,73,127,.28); transition: all .18s;
 }
 .ab-btn-b:hover { background: #003a66; transform: translateY(-2px); color: #fff; }
 .ab-btn-w {
     display: inline-flex; align-items: center; gap: 8px;
     background: transparent; color: #fff; font-size: 15px; font-weight: 700;
-    padding: 13px 24px; border-radius: 8px; text-decoration: none;
+    padding: 13px 24px; border-radius: 50px; text-decoration: none;
     border: 2px solid rgba(255,255,255,.28); transition: all .18s;
 }
 .ab-btn-w:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); color: #fff; }
 .ab-btn-s {
     display: inline-flex; align-items: center; gap: 8px;
     background: #3FA9F5; color: #fff; font-size: 15px; font-weight: 800;
-    padding: 13px 26px; border-radius: 8px; text-decoration: none;
+    padding: 13px 26px; border-radius: 50px; text-decoration: none;
     box-shadow: 0 4px 16px rgba(63,169,245,.35); transition: all .18s;
 }
 .ab-btn-s:hover { background: #2a95e0; transform: translateY(-2px); color: #fff; }
@@ -470,7 +470,7 @@
 <div class="ab-stats">
     <div class="ab-stats-grid">
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#00497F,#003a66);color:#fff;">
+            <div class="ab-stat-ico" style="background:#00497F;color:#fff;">
                 <i class="ph-bold ph-users"></i>
             </div>
             <div>
@@ -479,7 +479,7 @@
             </div>
         </div>
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#FF8A3D,#e05000);color:#fff;">
+            <div class="ab-stat-ico" style="background:#FF8A3D;color:#fff;">
                 <i class="ph-bold ph-currency-dollar-simple"></i>
             </div>
             <div>
@@ -488,7 +488,7 @@
             </div>
         </div>
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#3FA9F5,#1e88e5);color:#fff;">
+            <div class="ab-stat-ico" style="background:#3FA9F5;color:#fff;">
                 <i class="ph-bold ph-clock"></i>
             </div>
             <div>
@@ -497,7 +497,7 @@
             </div>
         </div>
         <div class="ab-stat-cell">
-            <div class="ab-stat-ico" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;">
+            <div class="ab-stat-ico" style="background:#16a34a;color:#fff;">
                 <i class="ph-bold ph-map-pin"></i>
             </div>
             <div>
@@ -632,11 +632,7 @@
                             <span class="ab-val5-lbl" style="background:rgba(63,169,245,.1);color:#3FA9F5;">{{ 'about.val_3_lbl'|trans }}</span>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <p class="ab-val5-text">{{ 'about.val_3_text'|trans|raw }}</p>
-=======
-                    <p class="ab-val5-text">L'excellence n'est pas un bonus sur Drilleedo — c'est le ticket d'entrée. Chaque professionnel dans notre réseau a été sélectionné parce qu'il le mérite. <strong>L'excellence, on ne la laisse pas au hasard. Chaque professionnel est sélectionné, vérifié et évalué — par vous.</strong> À chaque profil, à chaque projet, à chaque connexion.</p>
->>>>>>> 34f4ec7046757cf420585a882303c059b2eeb3f1
                 </div>
 
                 <div class="ab-val5-card">
@@ -723,7 +719,7 @@
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_c1_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#00497F,#3FA9F5);">S</div>
+                            <div class="ab-testi-avatar" style="background:#00497F;">S</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_c1_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_c1_role'|trans }}</div>
@@ -736,7 +732,7 @@
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_c2_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#FF8A3D,#e05000);">M</div>
+                            <div class="ab-testi-avatar" style="background:#FF8A3D;">M</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_c2_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_c2_role'|trans }}</div>
@@ -749,7 +745,7 @@
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_c3_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#16a34a,#22c55e);">T</div>
+                            <div class="ab-testi-avatar" style="background:#16a34a;">T</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_c3_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_c3_role'|trans }}</div>
@@ -769,7 +765,7 @@
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_p1_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#00497F,#003a66);">J</div>
+                            <div class="ab-testi-avatar" style="background:#00497F;">J</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_p1_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_p1_role'|trans }}</div>
@@ -782,7 +778,7 @@
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_p2_text'|trans }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#FF8A3D,#c73d0d);">A</div>
+                            <div class="ab-testi-avatar" style="background:#FF8A3D;">A</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_p2_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_p2_role'|trans }}</div>
@@ -795,7 +791,7 @@
                         <div class="ab-testi-quote">"</div>
                         <p class="ab-testi-text">{{ 'about.testi_p3_text'|trans|raw }}</p>
                         <div class="ab-testi-author">
-                            <div class="ab-testi-avatar" style="background:linear-gradient(135deg,#7c3aed,#a855f7);">N</div>
+                            <div class="ab-testi-avatar" style="background:#7c3aed;">N</div>
                             <div>
                                 <div class="ab-testi-name">{{ 'about.testi_p3_name'|trans }}</div>
                                 <div class="ab-testi-role">{{ 'about.testi_p3_role'|trans }}</div>
