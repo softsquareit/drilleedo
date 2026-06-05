@@ -90,7 +90,11 @@
       "Bash(php -r \"echo 'PHP OK';\")",
       "Bash(php bin/console lint:twig templates/home/find_a_pro.html.twig templates/home/for_professionals.html.twig templates/home/service_category.html.twig templates/home/about.html.twig)",
       "Bash(cat > *)",
-      "Bash(grep -E \"user|people|person|gear|settings|star|check|shield|seal|arrow-right$|paint|ruler|pencil|compass|graduation|certificate|medal|trophy|crown\")"
+      "Bash(grep -E \"user|people|person|gear|settings|star|check|shield|seal|arrow-right$|paint|ruler|pencil|compass|graduation|certificate|medal|trophy|crown\")",
+      "Bash(php bin/console doctrine:database:create --env=test)",
+      "Bash(mysql -u phpmyadmin -p622240 -e \"SELECT 1\")",
+      "Bash(mysql -u phpmyadmin -p622240 -h 127.0.0.1 -e \"SELECT 1\")",
+      "Bash(mysql -u root -e \"SELECT user, host FROM mysql.user WHERE user='phpmyadmin'\")"
     ],
     "additionalDirectories": [
       "/home/softsquareit/Desktop/drilledov2/doc",

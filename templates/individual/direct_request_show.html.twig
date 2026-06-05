@@ -6,17 +6,17 @@
     {# ── Status Banners ── #}
     {% if request.status|upper == 'IN_PROGRESS' %}
         <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mb-4">
-            <i class="feather-tool alert-icon"></i>
+            <i class="ph-wrench alert-icon"></i>
             <div><div class="fw-bold">{{ 'individual.status_in_progress_msg'|trans }}</div></div>
         </div>
     {% elseif request.status|upper == 'ACCEPTED' %}
         <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mb-4">
-            <i class="feather-award alert-icon"></i>
+            <i class="ph-medal alert-icon"></i>
             <div><div class="fw-bold">{{ 'individual.status_accepted_msg'|trans }}</div></div>
         </div>
     {% elseif request.status|upper == 'CLOSED' %}
         <div class="drl-alert drl-alert--warning d-flex align-items-center gap-3 mb-4">
-            <i class="feather-lock alert-icon"></i>
+            <i class="ph-lock alert-icon"></i>
             <div>
                 <div class="fw-bold">{{ 'individual.request_closed'|trans }}</div>
                 <div class="small opacity-75">{{ 'individual.request_closed_sub'|trans }}</div>
@@ -26,11 +26,11 @@
 
     {# ── Workflow Stepper ── #}
     {% set drSteps = [
-        {'key': 'DRAFT',       'label': 'Brouillon',  'icon': 'feather-file'},
-        {'key': 'PUBLISHED',   'label': 'Envoyée',    'icon': 'feather-send'},
-        {'key': 'ACCEPTED',    'label': 'Acceptée',   'icon': 'feather-award'},
-        {'key': 'IN_PROGRESS', 'label': 'En cours',   'icon': 'feather-tool'},
-        {'key': 'CLOSED',      'label': 'Clôturée',   'icon': 'feather-check-square'}
+        {'key': 'DRAFT',       'label': 'Brouillon',  'icon': 'ph-file'},
+        {'key': 'PUBLISHED',   'label': 'Envoyée',    'icon': 'ph-paper-plane-tilt'},
+        {'key': 'ACCEPTED',    'label': 'Acceptée',   'icon': 'ph-medal'},
+        {'key': 'IN_PROGRESS', 'label': 'En cours',   'icon': 'ph-wrench'},
+        {'key': 'CLOSED',      'label': 'Clôturée',   'icon': 'ph-check-square'}
     ] %}
     {% set drStepOrder = {'DRAFT': 0, 'PUBLISHED': 1, 'ACCEPTED': 2, 'IN_PROGRESS': 3, 'CLOSED': 4} %}
     {% set drCurrentStep = drStepOrder[request.status|upper]|default(0) %}
@@ -48,7 +48,7 @@
                                    (isCurrent ? 'background: var(--drl-orange); color: #fff; border: 2px solid var(--drl-orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.15);' :
                                    'background: #fff; color: #94a3b8; border: 2px solid #e2e8f0;') }}">
                         {% if isDone %}
-                            <i class="feather-check" style="font-size: 14px;"></i>
+                            <i class="ph-check" style="font-size: 14px;"></i>
                         {% else %}
                             <i class="{{ step.icon }}" style="font-size: 14px;"></i>
                         {% endif %}
@@ -66,7 +66,7 @@
     {# ── Back link + Workflow Actions ── #}
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
         <a href="{{ path('individual_direct_requests') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2" style="font-size: 14px; font-weight: 600;">
-            <i class="feather-arrow-left"></i> {{ 'individual.back_to_direct_list'|trans }}
+            <i class="ph-arrow-left"></i> {{ 'individual.back_to_direct_list'|trans }}
         </a>
 
         <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -74,20 +74,20 @@
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
                         style="background: rgba(251,146,60,0.1); color: #ea580c; border: none;"
                         data-bs-toggle="modal" data-bs-target="#revertDirectRequestModal">
-                    <i class="feather-rotate-ccw"></i> {{ 'individual.revert_published'|trans }}
+                    <i class="ph-arrow-counter-clockwise"></i> {{ 'individual.revert_published'|trans }}
                 </button>
             {% endif %}
             {% if request.status|upper == 'ACCEPTED' %}
                 <button type="button" class="drl-btn-orange shadow-sm d-flex align-items-center gap-2"
                         data-bs-toggle="modal" data-bs-target="#startDirectRequestModal">
-                    <i class="feather-play-circle"></i> {{ 'individual.start_project'|trans }}
+                    <i class="ph-play-circle"></i> {{ 'individual.start_project'|trans }}
                 </button>
             {% endif %}
             {% if request.status|upper in ['ACCEPTED', 'IN_PROGRESS'] %}
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
                         style="background: rgba(100,116,139,0.1); color: #475569; border: none;"
                         data-bs-toggle="modal" data-bs-target="#closeDirectRequestModal">
-                    <i class="feather-lock"></i> {{ 'individual.close_request'|trans }}
+                    <i class="ph-lock"></i> {{ 'individual.close_request'|trans }}
                 </button>
             {% endif %}
         </div>
@@ -100,7 +100,7 @@
             {# Recipient card #}
             <div class="drl-card mb-4">
                 <div class="drl-card-head border-bottom pb-3">
-                    <h5 class="drl-card-title mb-0"><i class="feather-send me-2 text-primary"></i>{{ 'individual.target_recipient'|trans }}</h5>
+                    <h5 class="drl-card-title mb-0"><i class="ph-paper-plane-tilt me-2 text-primary"></i>{{ 'individual.target_recipient'|trans }}</h5>
                 </div>
                 <div class="p-4 text-center">
                     {% if request.targetProfessional %}
@@ -120,7 +120,7 @@
                     {% elseif request.targetCompany %}
                         {% set target = request.targetCompany %}
                         <div class="drl-stat-icon mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem; border-radius: 50%; background: #faf5ff; color: #6b21a8; border: 2px solid #f3e8ff; display:flex;align-items:center;justify-content:center;">
-                            <i class="feather-briefcase"></i>
+                            <i class="ph-briefcase"></i>
                         </div>
                         <h5 class="fw-bold text-dark mb-1">{{ target.companyName }}</h5>
                         <span class="drl-tag" style="background: #f3e8ff; color: #6b21a8;">{{ 'individual.type_company'|trans }}</span>
@@ -133,7 +133,7 @@
             {# Request meta card #}
             <div class="drl-card">
                 <div class="drl-card-head border-bottom pb-3">
-                    <h5 class="drl-card-title mb-0"><i class="feather-info me-2 text-primary"></i>{{ 'individual.request_info'|trans }}</h5>
+                    <h5 class="drl-card-title mb-0"><i class="ph-info me-2 text-primary"></i>{{ 'individual.request_info'|trans }}</h5>
                 </div>
                 <div class="p-4">
                     <ul class="list-unstyled mb-0" style="font-size: 14px;">
@@ -141,13 +141,13 @@
                             <div class="text-muted small mb-1">{{ 'individual.th_status'|trans }}</div>
                             {% set stField = request.status|upper %}
                             {% set statusMap = {
-                                'DRAFT':       {'class': 'drl-tag--draft',   'icon': 'feather-file'},
-                                'PUBLISHED':   {'class': 'drl-tag--sent',    'icon': 'feather-globe'},
-                                'ACCEPTED':    {'class': 'drl-tag--success', 'icon': 'feather-check-circle'},
-                                'IN_PROGRESS': {'class': 'drl-tag--warning', 'icon': 'feather-tool'},
-                                'CLOSED':      {'class': 'drl-tag--danger',  'icon': 'feather-lock'}
+                                'DRAFT':       {'class': 'drl-tag--draft',   'icon': 'ph-file'},
+                                'PUBLISHED':   {'class': 'drl-tag--sent',    'icon': 'ph-globe'},
+                                'ACCEPTED':    {'class': 'drl-tag--success', 'icon': 'ph-check-circle'},
+                                'IN_PROGRESS': {'class': 'drl-tag--warning', 'icon': 'ph-wrench'},
+                                'CLOSED':      {'class': 'drl-tag--danger',  'icon': 'ph-lock'}
                             } %}
-                            {% set st = statusMap[stField]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle'}) %}
+                            {% set st = statusMap[stField]|default({'class': 'drl-tag--draft', 'icon': 'ph-question'}) %}
                             <span class="drl-tag {{ st.class }}">
                                 <i class="{{ st.icon }} me-1" style="font-size: 10px;"></i>{{ ('status.' ~ request.status)|trans({}, 'messages') }}
                             </span>
@@ -157,11 +157,11 @@
                             <div class="d-flex flex-column gap-2 mt-1">
                                 {% if request.category and request.category.parent %}
                                     <span class="drl-tag drl-tag--draft" style="width:fit-content;">
-                                        <i class="feather-folder me-1"></i>{{ request.category.parent.localizedTitle(app.request.locale) }}
+                                        <i class="ph-folder me-1"></i>{{ request.category.parent.localizedTitle(app.request.locale) }}
                                     </span>
                                 {% endif %}
                                 <span class="drl-tag drl-tag--sent" style="width:fit-content;">
-                                    <i class="feather-tag me-1"></i>{{ request.category ? request.category.localizedTitle(app.request.locale) : 'individual.general'|trans }}
+                                    <i class="ph-tag me-1"></i>{{ request.category ? request.category.localizedTitle(app.request.locale) : 'individual.general'|trans }}
                                 </span>
                             </div>
                         </li>
@@ -190,7 +190,7 @@
                         <li>
                             <div class="text-muted small mb-1">{{ 'individual.urgent_intervention'|trans }}</div>
                             {% if request.urgentIntervention %}
-                                <span class="drl-tag drl-tag--danger"><i class="feather-zap me-1"></i>{{ 'individual.yes'|trans }}</span>
+                                <span class="drl-tag drl-tag--danger"><i class="ph-lightning me-1"></i>{{ 'individual.yes'|trans }}</span>
                             {% else %}
                                 <span class="drl-tag drl-tag--draft">{{ 'individual.no'|trans }}</span>
                             {% endif %}
@@ -206,9 +206,9 @@
             {# Request details card #}
             <div class="drl-card mb-4">
                 <div class="drl-card-head border-bottom pb-3">
-                    <h5 class="drl-card-title mb-0"><i class="feather-file-text me-2 text-primary"></i>{{ request.title }}</h5>
+                    <h5 class="drl-card-title mb-0"><i class="ph-file-text me-2 text-primary"></i>{{ request.title }}</h5>
                     <span class="drl-tag drl-tag--draft" style="font-size: 11px;">
-                        <i class="feather-send me-1"></i>{{ 'individual.my_direct_requests'|trans }}
+                        <i class="ph-paper-plane-tilt me-1"></i>{{ 'individual.my_direct_requests'|trans }}
                     </span>
                 </div>
                 <div class="p-4">
@@ -234,7 +234,7 @@
                     {# IN_PROGRESS inline reminder #}
                     {% if request.status|upper == 'IN_PROGRESS' %}
                         <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mt-2" style="font-size: 13px;">
-                            <i class="feather-tool alert-icon"></i>
+                            <i class="ph-wrench alert-icon"></i>
                             <div class="alert-content">{{ 'individual.close_request'|trans }} → {{ 'individual.close_request_confirm'|trans }}</div>
                         </div>
                     {% endif %}
@@ -249,7 +249,7 @@
                 <div class="drl-card-head">
                     <div>
                         <h4 class="drl-card-title d-flex align-items-center gap-2">
-                            <i class="feather-inbox text-primary"></i> {{ 'individual.offers_on_request'|trans }}
+                            <i class="ph-tray text-primary"></i> {{ 'individual.offers_on_request'|trans }}
                             {% if newOfferCountDR > 0 %}
                                 <span class="badge rounded-pill fw-bold px-2 py-1" style="background: var(--drl-orange); color:#fff; font-size:11px;">
                                     {{ newOfferCountDR }} {{ 'individual.offer_new_badge'|trans }}
@@ -269,14 +269,14 @@
                                 : (offer.provider.companyName|default(offer.provider.email)) %}
                             {% set isNew = not offer.isViewed and offer.status|upper in ['PUBLISHED', 'INTERESTED'] %}
                             {% set offerStatusMap = {
-                                'DRAFT':      {'class': 'drl-tag--draft',   'icon': 'feather-file',         'border': '#94a3b8'},
-                                'PUBLISHED':  {'class': 'drl-tag--sent',    'icon': 'feather-send',          'border': 'var(--drl-orange)'},
-                                'INTERESTED': {'class': 'drl-tag--warning', 'icon': 'feather-bookmark',      'border': '#f59e0b'},
-                                'ACCEPTED':   {'class': 'drl-tag--success', 'icon': 'feather-check-circle',  'border': '#10b981'},
-                                'REJECTED':   {'class': 'drl-tag--danger',  'icon': 'feather-x-circle',      'border': '#ef4444'},
-                                'CLOSED':     {'class': 'drl-tag--draft',   'icon': 'feather-check-square',  'border': '#64748b'}
+                                'DRAFT':      {'class': 'drl-tag--draft',   'icon': 'ph-file',         'border': '#94a3b8'},
+                                'PUBLISHED':  {'class': 'drl-tag--sent',    'icon': 'ph-paper-plane-tilt',          'border': 'var(--drl-orange)'},
+                                'INTERESTED': {'class': 'drl-tag--warning', 'icon': 'ph-bookmark',      'border': '#f59e0b'},
+                                'ACCEPTED':   {'class': 'drl-tag--success', 'icon': 'ph-check-circle',  'border': '#10b981'},
+                                'REJECTED':   {'class': 'drl-tag--danger',  'icon': 'ph-x-circle',      'border': '#ef4444'},
+                                'CLOSED':     {'class': 'drl-tag--draft',   'icon': 'ph-check-square',  'border': '#64748b'}
                             } %}
-                            {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle', 'border': '#e2e8f0'}) %}
+                            {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'ph-question', 'border': '#e2e8f0'}) %}
 
                             <div class="rounded-4 border mb-3 overflow-hidden {{ isNew ? 'shadow-sm' : '' }}"
                                  style="border-left: 4px solid {{ offerInfo.border }} !important; background: {{ isNew ? '#fffbf7' : '#fafbfc' }};">
@@ -308,7 +308,7 @@
                                             </a>
                                             <div class="d-flex align-items-center gap-1 mt-1 flex-wrap">
                                                 <span class="drl-tag drl-tag--draft p-0 px-2" style="font-size: 10px;">
-                                                    <i class="feather-briefcase me-1"></i>{{ offer.provider.getType() }}
+                                                    <i class="ph-briefcase me-1"></i>{{ offer.provider.getType() }}
                                                 </span>
                                                 {% if offer.provider.entrepreneurType %}
                                                     <span class="drl-tag drl-tag--sent p-0 px-2" style="font-size: 10px;">
@@ -317,11 +317,11 @@
                                                 {% endif %}
                                                 {% if offer.viewedAt %}
                                                     <span class="text-muted" style="font-size: 10px;">
-                                                        <i class="feather-eye me-1"></i>{{ 'individual.offer_seen_on'|trans }} {{ offer.viewedAt|date('d/m/Y') }}
+                                                        <i class="ph-eye me-1"></i>{{ 'individual.offer_seen_on'|trans }} {{ offer.viewedAt|date('d/m/Y') }}
                                                     </span>
                                                 {% else %}
                                                     <span style="font-size: 10px; color: var(--drl-orange); font-weight: 700;">
-                                                        <i class="feather-eye-off me-1"></i>{{ 'individual.offer_not_seen'|trans }}
+                                                        <i class="ph-eye-slash me-1"></i>{{ 'individual.offer_not_seen'|trans }}
                                                     </span>
                                                 {% endif %}
                                             </div>
@@ -358,25 +358,25 @@
                                             <div class="d-flex flex-column gap-2">
                                                 {% if offer.estimatedDuration %}
                                                     <div class="d-flex align-items-center gap-2 small text-muted">
-                                                        <i class="feather-clock" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                                        <i class="ph-clock" style="font-size: 13px; color: var(--drl-orange);"></i>
                                                         <span>{{ 'individual.estimated_duration'|trans }} : <strong class="text-dark">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('j') }}</strong></span>
                                                     </div>
                                                 {% endif %}
                                                 {% if offer.possibleStartDate %}
                                                     <div class="d-flex align-items-center gap-2 small text-muted">
-                                                        <i class="feather-calendar" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                                        <i class="ph-calendar" style="font-size: 13px; color: var(--drl-orange);"></i>
                                                         <span>{{ 'individual.possible_start'|trans }} : <strong class="text-dark">{{ offer.possibleStartDate|date('d/m/Y') }}</strong></span>
                                                     </div>
                                                 {% endif %}
                                                 {% if offer.priorVisit is not null %}
                                                     <div class="d-flex align-items-center gap-2 small text-muted">
-                                                        <i class="feather-map-pin" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                                        <i class="ph-map-pin" style="font-size: 13px; color: var(--drl-orange);"></i>
                                                         <span>{{ 'individual.prior_visit'|trans }} : <strong class="text-dark">{{ offer.priorVisit ? 'individual.yes'|trans : 'individual.no'|trans }}</strong></span>
                                                     </div>
                                                 {% endif %}
                                                 {% if offer.documents|length > 0 %}
                                                     <div class="d-flex align-items-center gap-2 small text-muted">
-                                                        <i class="feather-paperclip" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                                        <i class="ph-paperclip" style="font-size: 13px; color: var(--drl-orange);"></i>
                                                         <span>{{ offer.documents|length }} {{ 'individual.attached_docs'|trans }}</span>
                                                     </div>
                                                 {% endif %}
@@ -407,7 +407,7 @@
                                      style="background: rgba(0,0,0,0.02); border-top: 1px solid #f1f5f9;">
                                     <a href="{{ path('individual_offer_show', {'id': offer.id}) }}"
                                        class="drl-act-btn drl-act-btn--view shadow-sm" style="font-size: 13px;">
-                                        <i class="feather-eye me-1"></i> {{ 'individual.view_full_offer'|trans }}
+                                        <i class="ph-eye me-1"></i> {{ 'individual.view_full_offer'|trans }}
                                     </a>
 
                                     {% if request.status|upper not in ['CLOSED'] and offer.status|upper in ['PUBLISHED', 'INTERESTED'] %}
@@ -417,32 +417,32 @@
                                                 <form action="{{ path('individual_offer_interested', {'id': offer.id}) }}" method="POST" class="d-inline">
                                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                                     <button type="submit" class="drl-act-btn shadow-sm" style="background: rgba(245,158,11,0.12); color: #b45309; border: none; font-size:13px;">
-                                                        <i class="feather-bookmark me-1"></i> {{ 'individual.interested'|trans }}
+                                                        <i class="ph-bookmark me-1"></i> {{ 'individual.interested'|trans }}
                                                     </button>
                                                 </form>
                                             {% endif %}
                                             {# Accept #}
                                             <button type="button" class="drl-act-btn shadow-sm" style="background: rgba(16,185,129,0.12); color: #059669; border: none; font-size:13px;"
                                                     data-bs-toggle="modal" data-bs-target="#acceptOfferDRModal{{ offer.id }}">
-                                                <i class="feather-check-circle me-1"></i> {{ 'individual.accept'|trans }}
+                                                <i class="ph-check-circle me-1"></i> {{ 'individual.accept'|trans }}
                                             </button>
                                             {# Reject #}
                                             <button type="button" class="drl-act-btn shadow-sm" style="background: rgba(220,53,69,0.1); color: #dc3545; border: none; font-size:13px;"
                                                     data-bs-toggle="modal" data-bs-target="#rejectOfferDRModal{{ offer.id }}">
-                                                <i class="feather-x-circle me-1"></i> {{ 'individual.reject'|trans }}
+                                                <i class="ph-x-circle me-1"></i> {{ 'individual.reject'|trans }}
                                             </button>
                                         </div>
                                     {% elseif offer.status|upper == 'ACCEPTED' %}
                                         <span class="drl-tag drl-tag--success" style="font-size: 13px;">
-                                            <i class="feather-award me-1"></i> {{ 'individual.offer_accepted_msg'|trans }}
+                                            <i class="ph-medal me-1"></i> {{ 'individual.offer_accepted_msg'|trans }}
                                         </span>
                                     {% elseif offer.status|upper == 'REJECTED' %}
                                         <span class="text-muted small fst-italic">
-                                            <i class="feather-x-circle me-1"></i> {{ 'individual.offer_rejected_msg'|trans }}
+                                            <i class="ph-x-circle me-1"></i> {{ 'individual.offer_rejected_msg'|trans }}
                                         </span>
                                     {% elseif offer.status|upper == 'CLOSED' %}
                                         <span class="drl-tag drl-tag--draft" style="font-size: 13px;">
-                                            <i class="feather-check-square me-1"></i> {{ ('status.CLOSED')|trans({}, 'messages') }}
+                                            <i class="ph-check-square me-1"></i> {{ ('status.CLOSED')|trans({}, 'messages') }}
                                         </span>
                                     {% endif %}
                                 </div>
@@ -451,7 +451,7 @@
                     {% else %}
                         <div class="py-5 text-center">
                             <div class="mb-3 text-muted">
-                                <i class="feather-inbox" style="font-size: 4rem; opacity: 0.2;"></i>
+                                <i class="ph-tray" style="font-size: 4rem; opacity: 0.2;"></i>
                             </div>
                             <h5 class="fw-bold text-dark">{{ 'individual.no_offer_yet_direct'|trans }}</h5>
                             <p class="text-muted small">{{ 'individual.no_offer_yet_direct_sub'|trans }}</p>
@@ -482,7 +482,7 @@
                             <div class="mb-4">
                                 <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
                                      style="width: 70px; height: 70px; background: rgba(16,185,129,0.1);">
-                                    <i class="feather-check-circle" style="font-size: 2rem; color: #059669;"></i>
+                                    <i class="ph-check-circle" style="font-size: 2rem; color: #059669;"></i>
                                 </div>
                             </div>
                             <h4 class="fw-bold text-dark mb-2">{{ 'individual.accept_offer_title'|trans }}</h4>
@@ -492,7 +492,7 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                     <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                             style="background: #059669; color: #fff; font-size: 1rem;">
-                                        <i class="feather-check-circle"></i> {{ 'individual.accept'|trans }}
+                                        <i class="ph-check-circle"></i> {{ 'individual.accept'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -512,7 +512,7 @@
                             <div class="mb-4">
                                 <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
                                      style="width: 70px; height: 70px; background: rgba(220,53,69,0.1);">
-                                    <i class="feather-x-circle" style="font-size: 2rem; color: #dc3545;"></i>
+                                    <i class="ph-x-circle" style="font-size: 2rem; color: #dc3545;"></i>
                                 </div>
                             </div>
                             <h4 class="fw-bold text-dark mb-2">{{ 'individual.reject_offer_title'|trans }}</h4>
@@ -522,7 +522,7 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                     <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                             style="background: #dc3545; color: #fff; font-size: 1rem;">
-                                        <i class="feather-x-circle"></i> {{ 'individual.reject'|trans }}
+                                        <i class="ph-x-circle"></i> {{ 'individual.reject'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -543,7 +543,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(234,88,12,0.1);">
-                            <i class="feather-rotate-ccw" style="font-size: 2rem; color: #ea580c;"></i>
+                            <i class="ph-arrow-counter-clockwise" style="font-size: 2rem; color: #ea580c;"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.revert_published'|trans }}</h4>
@@ -556,7 +556,7 @@
                             : (drProv.companyName|default(drProv.email)) %}
                         <div class="p-3 rounded-3 mb-3" style="background: #fff7ed; border: 1px solid #fed7aa;">
                             <div class="small fw-bold" style="color: #c2410c;">
-                                <i class="feather-alert-triangle me-1"></i>
+                                <i class="ph-warning me-1"></i>
                                 L'offre de <strong>{{ drProvName }}</strong> sera annulée et remise en attente. Vous devrez choisir un nouveau prestataire.
                             </div>
                         </div>
@@ -567,7 +567,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token('revert-direct-request-' ~ request.id) }}">
                             <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                     style="background: #ea580c; color: #fff; font-size: 1rem;">
-                                <i class="feather-rotate-ccw"></i> {{ 'individual.revert_published'|trans }}
+                                <i class="ph-arrow-counter-clockwise"></i> {{ 'individual.revert_published'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -586,7 +586,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="drl-stat-icon drl-stat-icon--2 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
-                            <i class="feather-play-circle"></i>
+                            <i class="ph-play-circle"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.start_project'|trans }}</h4>
@@ -595,7 +595,7 @@
                         <form action="{{ path('individual_direct_request_start', {'id': request.id}) }}" method="POST" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('start-direct-request-' ~ request.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg">
-                                <i class="feather-play-circle me-2"></i> {{ 'individual.start_project'|trans }}
+                                <i class="ph-play-circle me-2"></i> {{ 'individual.start_project'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -614,7 +614,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(71,85,105,0.1);">
-                            <i class="feather-lock" style="font-size: 2rem; color: #475569;"></i>
+                            <i class="ph-lock" style="font-size: 2rem; color: #475569;"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.close_request'|trans }}</h4>
@@ -624,7 +624,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token('close-direct-request-' ~ request.id) }}">
                             <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                     style="background: #475569; color: #fff; font-size: 1rem;">
-                                <i class="feather-lock"></i> {{ 'individual.close_request'|trans }}
+                                <i class="ph-lock"></i> {{ 'individual.close_request'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">

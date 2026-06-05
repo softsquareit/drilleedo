@@ -110,7 +110,7 @@
 <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
     <div>
         <h4 class="fw-bold mb-1" style="color:#0d2151;">
-            <i class="feather-inbox me-2" style="color:#f97316;"></i>{{ 'individual.received_offers'|trans }}
+            <i class="ph-tray me-2" style="color:#f97316;"></i>{{ 'individual.received_offers'|trans }}
         </h4>
         <p class="text-muted mb-0" style="font-size:14px;">{{ 'individual.received_offers_sub'|trans }}</p>
     </div>
@@ -128,7 +128,7 @@
 {% if unreadOffers > 0 %}
 <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
      style="background:#fff7ed;border:1.5px solid #fed7aa;border-left:4px solid #f97316;">
-    <i class="feather-eye-off" style="color:#f97316;font-size:20px;"></i>
+    <i class="ph-eye-slash" style="color:#f97316;font-size:20px;"></i>
     <div class="flex-grow-1">
         <div class="fw-bold" style="color:#c2410c;">{{ unreadOffers }} offre{{ unreadOffers > 1 ? 's' : '' }} non lue{{ unreadOffers > 1 ? 's' : '' }} — consultez-les pour que les prestataires soient notifiés</div>
         <div class="small text-muted">La lecture d'une offre notifie automatiquement le prestataire.</div>
@@ -140,12 +140,12 @@
     {# ── Filter + Search bar ── #}
     <div class="of-filter-bar">
         <div class="of-search-wrap">
-            <i class="feather-search"></i>
+            <i class="ph-magnifying-glass"></i>
             <input type="text" id="offerSearch" class="of-search" placeholder="Rechercher une demande ou un pro...">
         </div>
 
         <button class="of-filter-pill active" data-filter="all">
-            <i class="feather-layers"></i> Toutes
+            <i class="ph-stack"></i> Toutes
         </button>
         {% if unreadOffers > 0 %}
         <button class="of-filter-pill" data-filter="unread">
@@ -153,16 +153,16 @@
         </button>
         {% endif %}
         <button class="of-filter-pill" data-filter="PUBLISHED">
-            <i class="feather-send"></i> Envoyées
+            <i class="ph-paper-plane-tilt"></i> Envoyées
         </button>
         <button class="of-filter-pill" data-filter="INTERESTED">
-            <i class="feather-bookmark"></i> Intéressé
+            <i class="ph-bookmark"></i> Intéressé
         </button>
         <button class="of-filter-pill" data-filter="ACCEPTED">
-            <i class="feather-check-circle"></i> Acceptées
+            <i class="ph-check-circle"></i> Acceptées
         </button>
         <button class="of-filter-pill" data-filter="REJECTED">
-            <i class="feather-x-circle"></i> Refusées
+            <i class="ph-x-circle"></i> Refusées
         </button>
 
         <select id="offerSort" class="of-sort ms-auto">
@@ -175,7 +175,7 @@
 
     {# ── Empty filter result ── #}
     <div id="offerEmptyFilter" style="display:none;" class="py-5 text-center">
-        <i class="feather-filter text-muted" style="font-size:3rem;opacity:.3;"></i>
+        <i class="ph-funnel text-muted" style="font-size:3rem;opacity:.3;"></i>
         <p class="text-muted mt-3">Aucune offre ne correspond aux filtres sélectionnés.</p>
     </div>
 
@@ -228,7 +228,7 @@
                                     {% if avgRating > 0 %}
                                         <span class="d-inline-flex align-items-center gap-1" style="font-size:12px;">
                                             {% for i in 1..5 %}
-                                                <i class="feather-star offer-star {{ i <= avgRating ? '' : 'empty' }}"
+                                                <i class="ph-star offer-star {{ i <= avgRating ? '' : 'empty' }}"
                                                    style="{{ i <= avgRating ? 'fill:#fbbf24;' : '' }}"></i>
                                             {% endfor %}
                                             <span class="fw-semibold ms-1" style="color:#92400e;">{{ avgRating|number_format(1) }}</span>
@@ -256,9 +256,9 @@
                                 <span class="offer-price-curr">$</span>
                             </div>
                             <div class="small text-muted mt-1" style="font-size:11px;">
-                                <i class="feather-calendar me-1"></i>Reçue le {{ offer.createdAt|date('d/m/Y') }}
+                                <i class="ph-calendar me-1"></i>Reçue le {{ offer.createdAt|date('d/m/Y') }}
                                 {% if offer.viewedAt %}
-                                    · <i class="feather-eye me-1"></i>Lue le {{ offer.viewedAt|date('d/m/Y') }}
+                                    · <i class="ph-eye me-1"></i>Lue le {{ offer.viewedAt|date('d/m/Y') }}
                                 {% endif %}
                             </div>
                         </div>
@@ -266,7 +266,7 @@
                         {# Related request #}
                         {% if parentRequest %}
                             <div class="d-flex align-items-center gap-2 p-2 rounded-3 mb-3" style="background:#f8fafc;border:1px solid #e2e8f0;">
-                                <i class="feather-link text-muted" style="font-size:12px;flex-shrink:0;"></i>
+                                <i class="ph-link text-muted" style="font-size:12px;flex-shrink:0;"></i>
                                 <div class="min-w-0">
                                     <span class="small fw-semibold text-dark d-block" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                                         {{ parentRequest.title|slice(0,55) }}{% if parentRequest.title|length > 55 %}…{% endif %}
@@ -288,17 +288,17 @@
                             <div class="d-flex flex-wrap gap-1 mt-2">
                                 {% if offer.estimatedDuration %}
                                     <span style="font-size:11px;padding:3px 8px;border-radius:20px;background:#f1f5f9;color:#475569;">
-                                        <i class="feather-clock me-1"></i>{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('j') }}
+                                        <i class="ph-clock me-1"></i>{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('j') }}
                                     </span>
                                 {% endif %}
                                 {% if offer.possibleStartDate %}
                                     <span style="font-size:11px;padding:3px 8px;border-radius:20px;background:#f1f5f9;color:#475569;">
-                                        <i class="feather-calendar me-1"></i>Début {{ offer.possibleStartDate|date('d/m') }}
+                                        <i class="ph-calendar me-1"></i>Début {{ offer.possibleStartDate|date('d/m') }}
                                     </span>
                                 {% endif %}
                                 {% if offer.documents|length > 0 %}
                                     <span style="font-size:11px;padding:3px 8px;border-radius:20px;background:#f1f5f9;color:#475569;">
-                                        <i class="feather-paperclip me-1"></i>{{ offer.documents|length }} doc{{ offer.documents|length > 1 ? 's' : '' }}
+                                        <i class="ph-paperclip me-1"></i>{{ offer.documents|length }} doc{{ offer.documents|length > 1 ? 's' : '' }}
                                     </span>
                                 {% endif %}
                             </div>
@@ -310,7 +310,7 @@
                         {# Primary CTA #}
                         <a href="{{ path('individual_offer_show', {'id': offer.id}) }}"
                            class="drl-act-btn drl-act-btn--view flex-grow-1 justify-content-center" style="font-size:13px;">
-                            <i class="feather-eye me-1"></i> Voir l'offre
+                            <i class="ph-eye me-1"></i> Voir l'offre
                         </a>
 
                         {# Quick actions #}
@@ -321,11 +321,11 @@
                                         style="font-size:12px;padding:8px 14px;"
                                         data-bs-toggle="modal"
                                         data-bs-target="#acceptOfferQuickModal{{ offer.id }}">
-                                    <i class="feather-check-circle me-1"></i> Accepter
+                                    <i class="ph-check-circle me-1"></i> Accepter
                                 </button>
                             {% elseif offer.status|upper == 'ACCEPTED' %}
                                 <span class="drl-tag drl-tag--success" style="font-size:11px;">
-                                    <i class="feather-award me-1"></i>Acceptée
+                                    <i class="ph-medal me-1"></i>Acceptée
                                 </span>
                             {% endif %}
                         {% endif %}
@@ -340,13 +340,13 @@
     <div class="drl-card">
         <div class="py-5 text-center">
             <div class="mb-4 text-muted opacity-20" style="font-size:5rem;">
-                <i class="feather-inbox"></i>
+                <i class="ph-tray"></i>
             </div>
             <h5 class="fw-bold text-dark">{{ 'individual.empty_offers_title'|trans }}</h5>
             <p class="text-muted mb-4 px-5">{{ 'individual.empty_offers_sub'|trans }}</p>
             <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
                 <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange px-5 shadow-lg">
-                    <i class="feather-plus me-2"></i> {{ 'individual.btn_post_global'|trans }}
+                    <i class="ph-plus me-2"></i> {{ 'individual.btn_post_global'|trans }}
                 </a>
             </div>
         </div>
@@ -369,7 +369,7 @@
                     <div class="mb-4">
                         <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle"
                              style="width:72px;height:72px;background:rgba(16,185,129,.12);">
-                            <i class="feather-check-circle" style="font-size:2rem;color:#10b981;"></i>
+                            <i class="ph-check-circle" style="font-size:2rem;color:#10b981;"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">Accepter cette offre ?</h4>
@@ -384,7 +384,7 @@
                             <button type="submit"
                                     class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                     style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:1rem;">
-                                <i class="feather-check-circle"></i> Oui, accepter
+                                <i class="ph-check-circle"></i> Oui, accepter
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">

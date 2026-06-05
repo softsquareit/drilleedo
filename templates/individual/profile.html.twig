@@ -147,11 +147,11 @@
         <div class="prof-hero-email">{{ user.email }}</div>
         <div class="d-flex align-items-center gap-2 flex-wrap">
             <span class="drl-tag" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:12px;">
-                <i class="feather-user me-1"></i>{{ 'individual.individual_member'|trans }}
+                <i class="ph-user me-1"></i>{{ 'individual.individual_member'|trans }}
             </span>
             {% if completionPct == 100 %}
                 <span class="drl-tag" style="background:rgba(16,185,129,.2);color:#6ee7b7;border:1px solid rgba(16,185,129,.3);font-size:12px;">
-                    <i class="feather-check-circle me-1"></i>Profil complet
+                    <i class="ph-check-circle me-1"></i>Profil complet
                 </span>
             {% endif %}
         </div>
@@ -169,13 +169,13 @@
 {% if completionPct < 100 %}
 <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4 shadow-sm"
      style="background:#fffbeb;border:1.5px solid #fde68a;border-left:4px solid #f59e0b;">
-    <i class="feather-alert-circle" style="color:#f59e0b;font-size:20px;flex-shrink:0;"></i>
+    <i class="ph-warning-circle" style="color:#f59e0b;font-size:20px;flex-shrink:0;"></i>
     <div class="flex-grow-1">
         <div class="fw-bold" style="color:#92400e;">Profil incomplet ({{ completionPct }}%)</div>
         <div class="small text-muted">Un profil complet rassure les prestataires et améliore la qualité des offres reçues.</div>
     </div>
     <button class="drl-btn-orange shadow-sm" style="font-size:13px;padding:8px 16px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-        <i class="feather-edit me-1"></i>Compléter
+        <i class="ph-pencil me-1"></i>Compléter
     </button>
 </div>
 {% endif %}
@@ -207,14 +207,14 @@
                     <span class="prof-bloc-title">{{ 'Informations personnelles'|trans }}</span>
                 </div>
                 <button class="drl-act-btn drl-act-btn--view" style="font-size:12px;" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                    <i class="feather-edit-2 me-1"></i>{{ 'Modifier'|trans }}
+                    <i class="ph-pencil-2 me-1"></i>{{ 'Modifier'|trans }}
                 </button>
             </div>
             <div class="prof-bloc-body">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-user me-1"></i>{{ 'Prénom'|trans }}</div>
+                            <div class="prof-info-label"><i class="ph-user me-1"></i>{{ 'Prénom'|trans }}</div>
                             <div class="prof-info-val {{ not firstName ? 'empty' : '' }}">
                                 {{ firstName ?: 'Non renseigné'|trans }}
                             </div>
@@ -222,7 +222,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-user me-1"></i>{{ 'Nom'|trans }}</div>
+                            <div class="prof-info-label"><i class="ph-user me-1"></i>{{ 'Nom'|trans }}</div>
                             <div class="prof-info-val {{ not lastName ? 'empty' : '' }}">
                                 {{ lastName ?: 'Non renseigné'|trans }}
                             </div>
@@ -230,13 +230,13 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-mail me-1"></i>Email</div>
+                            <div class="prof-info-label"><i class="ph-envelope me-1"></i>Email</div>
                             <div class="prof-info-val">{{ user.email }}</div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-phone me-1"></i>{{ 'Téléphone'|trans }}</div>
+                            <div class="prof-info-label"><i class="ph-phone me-1"></i>{{ 'Téléphone'|trans }}</div>
                             <div class="prof-info-val {{ not phone ? 'empty' : '' }}">
                                 {{ phone ?: 'Non renseigné'|trans }}
                             </div>
@@ -244,7 +244,7 @@
                     </div>
                     <div class="col-12">
                         <div class="prof-info-item">
-                            <div class="prof-info-label"><i class="feather-map-pin me-1"></i>{{ 'Adresse / Localisation'|trans }}</div>
+                            <div class="prof-info-label"><i class="ph-map-pin me-1"></i>{{ 'Adresse / Localisation'|trans }}</div>
                             <div class="prof-info-val {{ not adresse ? 'empty' : '' }}">
                                 {{ adresse ?: 'Non renseignée'|trans }}
                             </div>
@@ -283,19 +283,19 @@
                             </div>
                             <a href="{{ path('individual_quote_show', {'id': q.id}) }}"
                                class="drl-act-btn drl-act-btn--view" style="font-size:11px;padding:5px 10px;">
-                                <i class="feather-eye"></i>
+                                <i class="ph-eye"></i>
                             </a>
                         </div>
                     {% endfor %}
                     {% if user.quoteRequests|length > 3 %}
                         <a href="{{ path('individual_quotes') }}" class="d-block text-center mt-2 text-decoration-none"
                            style="font-size:13px;color:#3b82f6;">
-                            <i class="feather-arrow-right me-1"></i>{{ 'Voir toutes les demandes'|trans }} ({{ user.quoteRequests|length }})
+                            <i class="ph-arrow-right me-1"></i>{{ 'Voir toutes les demandes'|trans }} ({{ user.quoteRequests|length }})
                         </a>
                     {% endif %}
                 {% else %}
                     <div class="text-center py-3 text-muted" style="font-size:13px;">
-                        <i class="feather-file-text me-2"></i>{{ 'Aucune demande pour l\\'instant'|trans }}
+                        <i class="ph-file-text me-2"></i>{{ 'Aucune demande pour l\\'instant'|trans }}
                     </div>
                 {% endif %}
             </div>
@@ -316,7 +316,7 @@
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
                              style="width:20px;height:20px;background:{{ done ? 'rgba(16,185,129,.15)' : '#f1f5f9' }};">
-                            <i class="feather-{{ done ? 'check' : 'minus' }}"
+                            <i class="ph-{{ done ? 'check' : 'minus' }}"
                                style="font-size:11px;color:{{ done ? '#10b981' : '#94a3b8' }};"></i>
                         </div>
                         <span style="font-size:13px;color:{{ done ? '#1e293b' : '#94a3b8' }};">{{ label }}</span>
@@ -341,7 +341,7 @@
 
                 {% if completionPct < 100 %}
                 <button class="drl-btn-orange w-100 mt-3 justify-content-center" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                    <i class="feather-edit-2 me-1"></i>{{ 'Compléter maintenant'|trans }}
+                    <i class="ph-pencil-2 me-1"></i>{{ 'Compléter maintenant'|trans }}
                 </button>
                 {% endif %}
             </div>
@@ -356,19 +356,19 @@
             <div class="prof-bloc-body d-flex flex-column gap-2">
                 <a href="{{ path('individual_quote_new') }}"
                    class="drl-btn-orange justify-content-center shadow-sm">
-                    <i class="feather-plus me-2"></i>{{ 'Nouvelle demande'|trans }}
+                    <i class="ph-plus me-2"></i>{{ 'Nouvelle demande'|trans }}
                 </a>
                 <a href="{{ path('individual_quotes') }}"
                    class="drl-act-btn drl-act-btn--view justify-content-center">
-                    <i class="feather-file-text me-2"></i>{{ 'Mes demandes'|trans }}
+                    <i class="ph-file-text me-2"></i>{{ 'Mes demandes'|trans }}
                 </a>
                 <a href="{{ path('individual_offers') }}"
                    class="drl-act-btn drl-act-btn--view justify-content-center">
-                    <i class="feather-inbox me-2"></i>{{ 'Mes offres reçues'|trans }}
+                    <i class="ph-tray me-2"></i>{{ 'Mes offres reçues'|trans }}
                 </a>
                 <a href="{{ path('individual_settings') }}"
                    class="drl-act-btn drl-act-btn--view justify-content-center">
-                    <i class="feather-settings me-2"></i>{{ 'Paramètres du compte'|trans }}
+                    <i class="ph-gear me-2"></i>{{ 'Paramètres du compte'|trans }}
                 </a>
             </div>
         </div>
@@ -385,7 +385,7 @@
             <div class="modal-header drl-modal-header">
                 <div>
                     <h5 class="modal-title drl-modal-title" id="editProfileModalLabel">
-                        <i class="feather-edit-3 me-2"></i>{{ 'individual.edit_my_profile'|trans }}
+                        <i class="ph-pencil-3 me-2"></i>{{ 'individual.edit_my_profile'|trans }}
                     </h5>
                     <p class="text-muted small mb-0">{{ 'Informations visibles par les prestataires sur vos demandes'|trans }}</p>
                 </div>
@@ -396,34 +396,34 @@
                     <div class="row g-4">
                         <div class="col-lg-6">
                             <label class="drl-label" for="{{ form.first_name.vars.id }}">
-                                <i class="feather-user me-1"></i>{{ 'individual.first_name'|trans }}
+                                <i class="ph-user me-1"></i>{{ 'individual.first_name'|trans }}
                             </label>
                             {{ form_widget(form.first_name, {'attr': {'class': 'drl-input', 'placeholder': 'Votre prénom'}}) }}
                             <div class="text-danger small mt-1">{{ form_errors(form.first_name) }}</div>
                         </div>
                         <div class="col-lg-6">
                             <label class="drl-label" for="{{ form.last_name.vars.id }}">
-                                <i class="feather-user me-1"></i>{{ 'individual.last_name'|trans }}
+                                <i class="ph-user me-1"></i>{{ 'individual.last_name'|trans }}
                             </label>
                             {{ form_widget(form.last_name, {'attr': {'class': 'drl-input', 'placeholder': 'Votre nom'}}) }}
                             <div class="text-danger small mt-1">{{ form_errors(form.last_name) }}</div>
                         </div>
                         <div class="col-lg-6">
                             <label class="drl-label" for="{{ form.phone_num.vars.id }}">
-                                <i class="feather-phone me-1"></i>{{ 'individual.phone_number'|trans }}
+                                <i class="ph-phone me-1"></i>{{ 'individual.phone_number'|trans }}
                             </label>
                             {{ form_widget(form.phone_num, {'attr': {'class': 'drl-input', 'placeholder': '+216 XX XXX XXX'}}) }}
                             <div class="text-danger small mt-1">{{ form_errors(form.phone_num) }}</div>
                         </div>
                         <div class="col-lg-6">
                             <label class="drl-label opacity-60">
-                                <i class="feather-mail me-1"></i>{{ 'individual.email_readonly'|trans|raw }}
+                                <i class="ph-envelope me-1"></i>{{ 'individual.email_readonly'|trans|raw }}
                             </label>
                             <input type="email" class="drl-input bg-light" value="{{ user.email }}" disabled>
                         </div>
                         <div class="col-12">
                             <label class="drl-label" for="{{ form.adresse.vars.id }}">
-                                <i class="feather-map-pin me-1"></i>{{ 'individual.service_address'|trans }}
+                                <i class="ph-map-pin me-1"></i>{{ 'individual.service_address'|trans }}
                             </label>
                             {{ form_widget(form.adresse, {'attr': {'class': 'drl-input', 'placeholder': 'Ex: Tunis, Ariana, Sousse...'}}) }}
                             <div class="text-danger small mt-1">{{ form_errors(form.adresse) }}</div>
@@ -435,7 +435,7 @@
                         {{ 'individual.cancel'|trans }}
                     </button>
                     <button type="submit" class="drl-btn-orange px-5">
-                        <i class="feather-save me-2"></i>{{ 'individual.save_changes'|trans }}
+                        <i class="ph-floppy-disk me-2"></i>{{ 'individual.save_changes'|trans }}
                     </button>
                 </div>
             {{ form_end(form) }}

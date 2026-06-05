@@ -66,10 +66,10 @@
                      {% for label, messages in app.flashes %}
                          {% for message in messages %}
                              {% set alertType = label == 'error' ? 'danger' : label %}
-                             {% set alertIcon = 'feather-info' %}
-                             {% if label == 'success' %}{% set alertIcon = 'feather-check-circle' %}
-                             {% elseif label == 'error' or label == 'danger' %}{% set alertIcon = 'feather-alert-octagon' %}
-                             {% elseif label == 'warning' %}{% set alertIcon = 'feather-alert-triangle' %}
+                             {% set alertIcon = 'ph-info' %}
+                             {% if label == 'success' %}{% set alertIcon = 'ph-check-circle' %}
+                             {% elseif label == 'error' or label == 'danger' %}{% set alertIcon = 'ph-warning-octagon' %}
+                             {% elseif label == 'warning' %}{% set alertIcon = 'ph-warning' %}
                              {% endif %}
 
                              <div class="alert alert-{{ alertType }} alert-dismissible fade show shadow-sm d-flex align-items-start gap-3" role="alert" style="border-radius: 12px; border-bottom: 3px solid; background-color: #fff; border-top: none; border-left: none; border-right: none;">
@@ -120,8 +120,8 @@
                         lengthMenu: '_MENU_',
                         info: 'Showing _START_ to _END_ of _TOTAL_ entries',
                         paginate: { 
-                            'next': '<i class="feather-chevron-right"></i>', 
-                            'previous': '<i class="feather-chevron-left"></i>' 
+                            'next': '<i class="ph-caret-right"></i>', 
+                            'previous': '<i class="ph-caret-left"></i>' 
                         }
                     },
                     drawCallback: function() {

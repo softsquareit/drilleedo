@@ -216,11 +216,11 @@ input[type="date"].nq-input { color-scheme: light; }
             <h4 class="fw-bold mb-1" style="color:#1e293b;">Demande directe</h4>
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <p class="text-muted small mb-0">Envoyer une demande de soumission à</p>
-                <span class="nq-target-badge"><i class="feather-user"></i> {{ targetName }}</span>
+                <span class="nq-target-badge"><i class="ph-user"></i> {{ targetName }}</span>
             </div>
         </div>
         <a href="{{ path('individual_dashboard') }}" class="nq-btn-cancel">
-            <i class="feather-arrow-left"></i> Retour
+            <i class="ph-arrow-left"></i> Retour
         </a>
     </div>
 
@@ -243,7 +243,7 @@ input[type="date"].nq-input { color-scheme: light; }
                     {# Titre #}
                     <div class="mb-4">
                         <label class="nq-label" for="{{ form.title.vars.id }}">
-                            <i class="feather-edit-3"></i> Titre de la demande
+                            <i class="ph-pencil-3"></i> Titre de la demande
                         </label>
                         {{ form_widget(form.title, {'attr': {
                             'class': 'nq-input',
@@ -251,20 +251,20 @@ input[type="date"].nq-input { color-scheme: light; }
                             'id': form.title.vars.id
                         }}) }}
                         {% if form_errors(form.title) %}
-                            <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.title) }}</div>
+                            <div class="nq-error"><i class="ph-warning-circle" style="font-size:12px;"></i> {{ form_errors(form.title) }}</div>
                         {% endif %}
                     </div>
 
                     {# Catégorie #}
                     <div class="mb-2">
                         <label class="nq-label" for="{{ form.category.vars.id }}">
-                            <i class="feather-tag"></i> Catégorie de service <span style="color:#ef4444;">*</span>
+                            <i class="ph-tag"></i> Catégorie de service <span style="color:#ef4444;">*</span>
                         </label>
                         {{ form_widget(form.category, {'attr': {
                             'class': 'nq-input'
                         }}) }}
                         {% if form_errors(form.category) %}
-                            <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.category) }}</div>
+                            <div class="nq-error"><i class="ph-warning-circle" style="font-size:12px;"></i> {{ form_errors(form.category) }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -283,7 +283,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 </div>
                 <div class="nq-section-body">
                     <label class="nq-label" for="dr_description">
-                        <i class="feather-align-left"></i> Description <span style="color:#ef4444;">*</span>
+                        <i class="ph-text-align-left"></i> Description <span style="color:#ef4444;">*</span>
                     </label>
                     {{ form_widget(form.description, {'attr': {
                         'id': 'dr_description',
@@ -293,7 +293,7 @@ input[type="date"].nq-input { color-scheme: light; }
                     }}) }}
                     <div id="descCharCount" style="font-size:11px;color:#94a3b8;margin-top:4px;text-align:right;">0 caractères</div>
                     {% if form_errors(form.description) %}
-                        <div class="nq-error"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.description) }}</div>
+                        <div class="nq-error"><i class="ph-warning-circle" style="font-size:12px;"></i> {{ form_errors(form.description) }}</div>
                     {% endif %}
                 </div>
             </div>
@@ -317,14 +317,14 @@ input[type="date"].nq-input { color-scheme: light; }
                     {# Drop zone #}
                     <div class="nq-dropzone" id="nqDropzone" role="button" tabindex="0" aria-label="Zone de dépôt de photos — cliquer ou glisser-déposer">
                         <div class="nq-dropzone-icon">
-                            <i class="feather-upload-cloud"></i>
+                            <i class="ph-cloud-arrow-up"></i>
                         </div>
                         <div class="nq-dropzone-title">Glissez vos photos ici</div>
                         <div class="nq-dropzone-sub">ou cliquez pour parcourir depuis votre appareil</div>
                         <div class="nq-dropzone-specs">
-                            <span><i class="feather-check-circle"></i> JPG, PNG, JPEG</span>
-                            <span><i class="feather-check-circle"></i> Max 5 Mo chacune</span>
-                            <span><i class="feather-check-circle"></i> Jusqu'à 5 photos</span>
+                            <span><i class="ph-check-circle"></i> JPG, PNG, JPEG</span>
+                            <span><i class="ph-check-circle"></i> Max 5 Mo chacune</span>
+                            <span><i class="ph-check-circle"></i> Jusqu'à 5 photos</span>
                         </div>
                         {{ form_widget(form.images, {'attr': {
                             'class': 'd-none',
@@ -337,7 +337,7 @@ input[type="date"].nq-input { color-scheme: light; }
                     <div class="nq-photo-count" id="nqPhotoCount" style="display:none;"></div>
 
                     {% if form_errors(form.images) %}
-                        <div class="nq-error mt-2"><i class="feather-alert-circle" style="font-size:12px;"></i> {{ form_errors(form.images) }}</div>
+                        <div class="nq-error mt-2"><i class="ph-warning-circle" style="font-size:12px;"></i> {{ form_errors(form.images) }}</div>
                     {% endif %}
                 </div>
             </div>
@@ -359,7 +359,7 @@ input[type="date"].nq-input { color-scheme: light; }
                         {# Langues #}
                         <div class="col-md-6">
                             <label class="nq-label" for="{{ form.languages.vars.id }}">
-                                <i class="feather-globe"></i> Langue(s) souhaitée(s)
+                                <i class="ph-globe"></i> Langue(s) souhaitée(s)
                                 <span class="badge-opt">optionnel</span>
                             </label>
                             {{ form_widget(form.languages, {'attr': {
@@ -372,7 +372,7 @@ input[type="date"].nq-input { color-scheme: light; }
                         {# Date souhaitée de début #}
                         <div class="col-md-6">
                             <label class="nq-label" for="{{ form.desiredStartDate.vars.id }}">
-                                <i class="feather-calendar"></i> Date souhaitée de début
+                                <i class="ph-calendar"></i> Date souhaitée de début
                                 <span class="badge-opt">optionnel</span>
                             </label>
                             {{ form_widget(form.desiredStartDate, {'attr': {'class': 'nq-input'}}) }}
@@ -383,16 +383,16 @@ input[type="date"].nq-input { color-scheme: light; }
                     {# Disponibilités — chips cliquables #}
                     <div class="mt-4">
                         <label class="nq-label mb-3">
-                            <i class="feather-clock"></i> Disponibilités pour visite / devis
+                            <i class="ph-clock"></i> Disponibilités pour visite / devis
                         </label>
                         <div class="nq-chips">
                             {% for child in form.availabilities %}
                                 <label class="nq-chip" for="{{ child.vars.id }}">
                                     {{ form_widget(child) }}
-                                    {% if child.vars.label == 'Matin' %}<i class="feather-sun"></i>{% endif %}
-                                    {% if child.vars.label == 'Après-midi' %}<i class="feather-sunset"></i>{% endif %}
-                                    {% if child.vars.label == 'Week-end' %}<i class="feather-calendar"></i>{% endif %}
-                                    {% if child.vars.label == 'Flexible' %}<i class="feather-check-circle"></i>{% endif %}
+                                    {% if child.vars.label == 'Matin' %}<i class="ph-sun"></i>{% endif %}
+                                    {% if child.vars.label == 'Après-midi' %}<i class="ph-cloud-sun"></i>{% endif %}
+                                    {% if child.vars.label == 'Week-end' %}<i class="ph-calendar"></i>{% endif %}
+                                    {% if child.vars.label == 'Flexible' %}<i class="ph-check-circle"></i>{% endif %}
                                     {{ child.vars.label }}
                                 </label>
                             {% endfor %}
@@ -403,15 +403,15 @@ input[type="date"].nq-input { color-scheme: light; }
                     {# Intervention urgente — chips Oui / Non #}
                     <div class="mt-4">
                         <label class="nq-label mb-3">
-                            <i class="feather-zap" style="color:#ef4444;"></i>
+                            <i class="ph-lightning" style="color:#ef4444;"></i>
                             Intervention urgente
                         </label>
                         <div class="nq-chips">
                             {% for child in form.urgentIntervention %}
                                 <label class="nq-chip nq-chip-urgence" for="{{ child.vars.id }}">
                                     {{ form_widget(child) }}
-                                    {% if child.vars.label == 'Oui' %}<i class="feather-alert-triangle" style="color:#ef4444;"></i>{% endif %}
-                                    {% if child.vars.label == 'Non' %}<i class="feather-check"></i>{% endif %}
+                                    {% if child.vars.label == 'Oui' %}<i class="ph-warning" style="color:#ef4444;"></i>{% endif %}
+                                    {% if child.vars.label == 'Non' %}<i class="ph-check"></i>{% endif %}
                                     {{ child.vars.label }}
                                 </label>
                             {% endfor %}
@@ -425,10 +425,10 @@ input[type="date"].nq-input { color-scheme: light; }
             {# ── Footer Actions ── #}
             <div class="nq-footer">
                 <a href="{{ path('individual_dashboard') }}" class="nq-btn-cancel">
-                    <i class="feather-arrow-left"></i> Annuler
+                    <i class="ph-arrow-left"></i> Annuler
                 </a>
                 <button type="submit" id="drSubmitBtn" class="nq-btn-submit">
-                    <i class="feather-send"></i>
+                    <i class="ph-paper-plane-tilt"></i>
                     Envoyer la demande
                 </button>
             </div>
@@ -445,7 +445,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 <div class="nq-section mb-3">
                     <div class="nq-section-head">
                         <div class="nq-section-num" style="background:linear-gradient(135deg,#f97316,#ea580c);">
-                            <i class="feather-user" style="font-size:13px;"></i>
+                            <i class="ph-user" style="font-size:13px;"></i>
                         </div>
                         <div>
                             <p class="nq-section-title">Destinataire</p>
@@ -454,7 +454,7 @@ input[type="date"].nq-input { color-scheme: light; }
                     <div class="nq-section-body py-3">
                         <div class="d-flex align-items-center gap-3 p-3" style="background:linear-gradient(135deg,#fff7ed,#fff);border-radius:10px;border:1px solid #fed7aa;">
                             <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                <i class="feather-briefcase" style="color:#fff;font-size:16px;"></i>
+                                <i class="ph-briefcase" style="color:#fff;font-size:16px;"></i>
                             </div>
                             <div>
                                 <div style="font-size:14px;font-weight:700;color:#1e293b;">{{ targetName }}</div>
@@ -468,7 +468,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 <div class="nq-section mb-3">
                     <div class="nq-section-head">
                         <div class="nq-section-num" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">
-                            <i class="feather-info" style="font-size:13px;"></i>
+                            <i class="ph-info" style="font-size:13px;"></i>
                         </div>
                         <div>
                             <p class="nq-section-title">Ce qui se passe ensuite</p>
@@ -476,21 +476,21 @@ input[type="date"].nq-input { color-scheme: light; }
                     </div>
                     <div class="nq-section-body py-3">
                         <div class="nq-tip-item">
-                            <div class="nq-tip-icon orange"><i class="feather-send"></i></div>
+                            <div class="nq-tip-icon orange"><i class="ph-paper-plane-tilt"></i></div>
                             <div style="font-size:13px;color:#475569;line-height:1.5;">
                                 <strong>Demande envoyée</strong><br>
                                 {{ targetName }} recevra votre demande immédiatement.
                             </div>
                         </div>
                         <div class="nq-tip-item">
-                            <div class="nq-tip-icon blue"><i class="feather-eye"></i></div>
+                            <div class="nq-tip-icon blue"><i class="ph-eye"></i></div>
                             <div style="font-size:13px;color:#475569;line-height:1.5;">
                                 <strong>Révision & Réponse</strong><br>
                                 Ils examineront votre projet et pourront demander des précisions.
                             </div>
                         </div>
                         <div class="nq-tip-item mb-0">
-                            <div class="nq-tip-icon green"><i class="feather-check-circle"></i></div>
+                            <div class="nq-tip-icon green"><i class="ph-check-circle"></i></div>
                             <div style="font-size:13px;color:#475569;line-height:1.5;">
                                 <strong>Recevez une offre</strong><br>
                                 S'ils sont intéressés, ils vous enverront une soumission.
@@ -503,7 +503,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 <div class="nq-section mt-0" id="nqSummaryCard">
                     <div class="nq-section-head">
                         <div class="nq-section-num" style="background:linear-gradient(135deg,#10b981,#059669);">
-                            <i class="feather-check-square" style="font-size:13px;"></i>
+                            <i class="ph-check-square" style="font-size:13px;"></i>
                         </div>
                         <div><p class="nq-section-title">Récapitulatif</p></div>
                     </div>
@@ -524,7 +524,7 @@ input[type="date"].nq-input { color-scheme: light; }
                 </div>
 
                 <div class="mt-3 p-3 rounded-3" style="background:#f0fdf4;border:1px solid #bbf7d0;font-size:12px;color:#166534;display:flex;align-items:center;gap:8px;">
-                    <i class="feather-lock" style="flex-shrink:0;"></i>
+                    <i class="ph-lock" style="flex-shrink:0;"></i>
                     Votre demande est privée et sécurisée
                 </div>
 
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.innerHTML = `
                     <img src="${e.target.result}" alt="Photo ${idx + 1}">
                     <button type="button" class="nq-photo-remove" data-idx="${idx}" title="Supprimer">
-                        <i class="feather-x"></i>
+                        <i class="ph-x"></i>
                     </button>`;
                 item.querySelector('.nq-photo-remove').addEventListener('click', ev => {
                     ev.stopPropagation();
@@ -623,7 +623,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const remaining = MAX_FILES - selectedFiles.length;
         photoCount.style.display = 'flex';
-        photoCount.innerHTML = `<i class="feather-image" style="color:#f97316;font-size:13px;"></i>
+        photoCount.innerHTML = `<i class="ph-image" style="color:#f97316;font-size:13px;"></i>
             <span>${selectedFiles.length}</span> photo${selectedFiles.length > 1 ? 's' : ''} sélectionnée${selectedFiles.length > 1 ? 's' : ''}
             ${remaining > 0 ? `<span style="color:#94a3b8;margin-left:6px;">· ${remaining} emplacement${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''}</span>` : '<span style="color:#f97316;margin-left:6px;">· Limite atteinte</span>'}`;
     }
@@ -735,7 +735,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const btn = document.getElementById('drSubmitBtn');
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '<i class="feather-loader me-2" style="animation:spin 1s linear infinite;"></i> Envoi en cours…';
+                btn.innerHTML = '<i class="ph-spinner me-2" style="animation:spin 1s linear infinite;"></i> Envoi en cours…';
             }
         });
     }

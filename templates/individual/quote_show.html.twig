@@ -19,7 +19,7 @@
     {# ── Status Banners ── #}
     {% if quote.status|upper == 'CLOSED' %}
         <div class="drl-alert drl-alert--warning d-flex align-items-center gap-3 mb-4">
-            <i class="feather-lock alert-icon"></i>
+            <i class="ph-lock alert-icon"></i>
             <div>
                 <div class="fw-bold">{{ 'individual.request_closed'|trans }}</div>
                 <div class="small opacity-75">{{ 'individual.request_closed_sub'|trans }}</div>
@@ -27,14 +27,14 @@
         </div>
     {% elseif quote.status|upper == 'IN_PROGRESS' %}
         <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mb-4">
-            <i class="feather-tool alert-icon"></i>
+            <i class="ph-wrench alert-icon"></i>
             <div>
                 <div class="fw-bold">{{ 'individual.status_in_progress_msg'|trans }}</div>
             </div>
         </div>
     {% elseif quote.status|upper == 'ACCEPTED' %}
         <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mb-4">
-            <i class="feather-award alert-icon"></i>
+            <i class="ph-medal alert-icon"></i>
             <div>
                 <div class="fw-bold">{{ 'individual.status_accepted_msg'|trans }}</div>
             </div>
@@ -43,11 +43,11 @@
 
     {# ── Workflow Stepper ── #}
     {% set steps = [
-        {'key': 'DRAFT',       'label': 'Brouillon',  'icon': 'feather-file'},
-        {'key': 'PUBLISHED',   'label': 'Publiée',    'icon': 'feather-send'},
-        {'key': 'ACCEPTED',    'label': 'Acceptée',   'icon': 'feather-award'},
-        {'key': 'IN_PROGRESS', 'label': 'En cours',   'icon': 'feather-tool'},
-        {'key': 'CLOSED',      'label': 'Clôturée',   'icon': 'feather-check-square'}
+        {'key': 'DRAFT',       'label': 'Brouillon',  'icon': 'ph-file'},
+        {'key': 'PUBLISHED',   'label': 'Publiée',    'icon': 'ph-paper-plane-tilt'},
+        {'key': 'ACCEPTED',    'label': 'Acceptée',   'icon': 'ph-medal'},
+        {'key': 'IN_PROGRESS', 'label': 'En cours',   'icon': 'ph-wrench'},
+        {'key': 'CLOSED',      'label': 'Clôturée',   'icon': 'ph-check-square'}
     ] %}
     {% set stepOrder = {'DRAFT': 0, 'PUBLISHED': 1, 'ACCEPTED': 2, 'IN_PROGRESS': 3, 'CLOSED': 4} %}
     {% set currentStep = stepOrder[quote.status|upper]|default(0) %}
@@ -66,7 +66,7 @@
                                    (isCurrent ? 'background: var(--drl-orange); color: #fff; border: 2px solid var(--drl-orange); box-shadow: 0 0 0 4px rgba(249,115,22,0.15);' :
                                    'background: #fff; color: #94a3b8; border: 2px solid #e2e8f0;') }}">
                         {% if isDone %}
-                            <i class="feather-check" style="font-size: 14px;"></i>
+                            <i class="ph-check" style="font-size: 14px;"></i>
                         {% else %}
                             <i class="{{ step.icon }}" style="font-size: 14px;"></i>
                         {% endif %}
@@ -84,7 +84,7 @@
     {# ── Header Actions ── #}
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
         <a href="{{ path('individual_quotes') }}" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-2">
-            <i class="feather-arrow-left"></i> {{ 'individual.back_quotes'|trans }}
+            <i class="ph-arrow-left"></i> {{ 'individual.back_quotes'|trans }}
         </a>
 
         <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -92,7 +92,7 @@
                 {# Publish #}
                 <button type="button" class="drl-btn-orange shadow-sm d-flex align-items-center gap-2"
                         data-bs-toggle="modal" data-bs-target="#publishQuoteModal">
-                    <i class="feather-upload-cloud"></i> {{ 'individual.publish_request'|trans }}
+                    <i class="ph-cloud-arrow-up"></i> {{ 'individual.publish_request'|trans }}
                 </button>
             {% endif %}
 
@@ -101,7 +101,7 @@
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
                         style="background: rgba(251,146,60,0.1); color: #ea580c; border: none;"
                         data-bs-toggle="modal" data-bs-target="#revertQuoteModal">
-                    <i class="feather-rotate-ccw"></i> {{ 'individual.revert_published'|trans }}
+                    <i class="ph-arrow-counter-clockwise"></i> {{ 'individual.revert_published'|trans }}
                 </button>
             {% endif %}
 
@@ -109,7 +109,7 @@
                 {# Start Project #}
                 <button type="button" class="drl-btn-orange shadow-sm d-flex align-items-center gap-2"
                         data-bs-toggle="modal" data-bs-target="#startQuoteModal">
-                    <i class="feather-play-circle"></i> {{ 'individual.start_project'|trans }}
+                    <i class="ph-play-circle"></i> {{ 'individual.start_project'|trans }}
                 </button>
             {% endif %}
 
@@ -118,7 +118,7 @@
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
                         style="background: rgba(100,116,139,0.1); color: #475569; border: none;"
                         data-bs-toggle="modal" data-bs-target="#closeQuoteModal">
-                    <i class="feather-lock"></i> {{ 'individual.close_request'|trans }}
+                    <i class="ph-lock"></i> {{ 'individual.close_request'|trans }}
                 </button>
             {% endif %}
 
@@ -126,7 +126,7 @@
                 {# Edit #}
                 <a href="{{ path('individual_quote_edit', {'id': quote.id}) }}"
                    class="drl-act-btn drl-act-btn--view shadow-sm d-flex align-items-center gap-2 text-decoration-none">
-                    <i class="feather-edit-2"></i> {{ 'individual.edit_request'|trans }}
+                    <i class="ph-pencil-2"></i> {{ 'individual.edit_request'|trans }}
                 </a>
             {% endif %}
 
@@ -134,7 +134,7 @@
                 <button type="button" class="drl-act-btn shadow-sm d-flex align-items-center gap-2"
                         style="background: rgba(220,53,69,0.1); color: #dc3545; border: none;"
                         data-bs-toggle="modal" data-bs-target="#deleteQuoteModal">
-                    <i class="feather-trash-2"></i> {{ 'individual.delete'|trans }}
+                    <i class="ph-trash"></i> {{ 'individual.delete'|trans }}
                 </button>
             {% endif %}
         </div>
@@ -145,16 +145,16 @@
         <div class="drl-card-head border-bottom pb-3">
             <div>
                 <h4 class="drl-card-title mb-1">{{ quote.title }}</h4>
-                <p class="mb-0 text-muted small"><i class="feather-calendar me-1"></i> {{ 'individual.posted_on'|trans }} {{ quote.creationDate|date('F j, Y') }}</p>
+                <p class="mb-0 text-muted small"><i class="ph-calendar me-1"></i> {{ 'individual.posted_on'|trans }} {{ quote.creationDate|date('F j, Y') }}</p>
             </div>
             {% set statusMap = {
-                'DRAFT':       {'class': 'drl-tag--draft',    'icon': 'feather-file'},
-                'PUBLISHED':   {'class': 'drl-tag--sent',     'icon': 'feather-globe'},
-                'ACCEPTED':    {'class': 'drl-tag--success',  'icon': 'feather-check-circle'},
-                'IN_PROGRESS': {'class': 'drl-tag--warning',  'icon': 'feather-tool'},
-                'CLOSED':      {'class': 'drl-tag--danger',   'icon': 'feather-lock'}
+                'DRAFT':       {'class': 'drl-tag--draft',    'icon': 'ph-file'},
+                'PUBLISHED':   {'class': 'drl-tag--sent',     'icon': 'ph-globe'},
+                'ACCEPTED':    {'class': 'drl-tag--success',  'icon': 'ph-check-circle'},
+                'IN_PROGRESS': {'class': 'drl-tag--warning',  'icon': 'ph-wrench'},
+                'CLOSED':      {'class': 'drl-tag--danger',   'icon': 'ph-lock'}
             } %}
-            {% set statusInfo = statusMap[quote.status]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle'}) %}
+            {% set statusInfo = statusMap[quote.status]|default({'class': 'drl-tag--draft', 'icon': 'ph-question'}) %}
             <span class="drl-tag {{ statusInfo.class }}">
                 <i class="{{ statusInfo.icon }} me-1"></i>{{ ('status.' ~ quote.status)|trans({}, 'messages') }}
             </span>
@@ -175,11 +175,11 @@
                             <div class="d-flex flex-column gap-2">
                                 {% if quote.category and quote.category.parent %}
                                     <span class="drl-tag drl-tag--draft" style="width:fit-content;">
-                                        <i class="feather-folder me-1"></i>{{ quote.category.parent.localizedTitle(app.request.locale) }}
+                                        <i class="ph-folder me-1"></i>{{ quote.category.parent.localizedTitle(app.request.locale) }}
                                     </span>
                                 {% endif %}
                                 <span class="drl-tag drl-tag--sent" style="width:fit-content;">
-                                    <i class="feather-tag me-1"></i>{{ quote.category ? quote.category.localizedTitle(app.request.locale) : 'individual.general'|trans }}
+                                    <i class="ph-tag me-1"></i>{{ quote.category ? quote.category.localizedTitle(app.request.locale) : 'individual.general'|trans }}
                                 </span>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                         {% if quote.desiredStartDate or quote.desiredEndDate %}
                             <div class="drl-label text-muted small mb-1">{{ 'individual.desired_start'|trans }}</div>
                             <div class="mb-4 fw-semibold text-dark small">
-                                <i class="feather-calendar me-1 text-muted"></i>
+                                <i class="ph-calendar me-1 text-muted"></i>
                                 {% if quote.desiredStartDate %}{{ quote.desiredStartDate|date('d/m/Y') }}{% endif %}
                                 {% if quote.desiredStartDate and quote.desiredEndDate %} → {% endif %}
                                 {% if quote.desiredEndDate %}{{ quote.desiredEndDate|date('d/m/Y') }}{% endif %}
@@ -195,12 +195,12 @@
                         {% endif %}
 
                         {% if quote.address %}
-                            <div class="drl-label text-muted small mb-1"><i class="feather-map-pin me-1"></i> Adresse</div>
+                            <div class="drl-label text-muted small mb-1"><i class="ph-map-pin me-1"></i> Adresse</div>
                             <div class="mb-4 fw-semibold text-dark small">{{ quote.address }}</div>
                         {% endif %}
 
                         {% if quote.budget %}
-                            <div class="drl-label text-muted small mb-1"><i class="feather-dollar-sign me-1"></i> Budget estimé</div>
+                            <div class="drl-label text-muted small mb-1"><i class="ph-currency-dollar-simple me-1"></i> Budget estimé</div>
                             <div class="mb-4 fw-semibold text-dark small">{{ quote.budget|number_format(2) }} $</div>
                         {% endif %}
 
@@ -225,7 +225,7 @@
                         <div class="drl-label text-muted small mb-1">{{ 'individual.urgent_intervention'|trans }}</div>
                         <div class="mb-4">
                             {% if quote.urgentIntervention %}
-                                <span class="drl-tag drl-tag--danger"><i class="feather-zap me-1"></i>{{ 'individual.yes'|trans }}</span>
+                                <span class="drl-tag drl-tag--danger"><i class="ph-lightning me-1"></i>{{ 'individual.yes'|trans }}</span>
                             {% else %}
                                 <span class="drl-tag drl-tag--draft">{{ 'individual.no'|trans }}</span>
                             {% endif %}
@@ -247,7 +247,7 @@
                                                         style="width: 20px; height: 20px; margin-top: -6px; margin-right: -6px; border-radius: 50%; background: #ef4444; color: #fff; border: 2px solid #fff; font-size: 10px; cursor: pointer; padding: 0;"
                                                         data-bs-toggle="modal" data-bs-target="#deleteImageModal{{ loop.index0 }}"
                                                         title="{{ 'individual.delete'|trans }}">
-                                                    <i class="feather-x"></i>
+                                                    <i class="ph-x"></i>
                                                 </button>
                                             {% endif %}
                                         </div>
@@ -276,7 +276,7 @@
             <div class="drl-card-head">
                 <div class="d-flex align-items-center gap-4">
                     <div class="drl-stat-icon drl-stat-icon--3 m-0 shadow-sm" style="width: 56px; height: 56px; font-size: 24px;">
-                        <i class="feather-award"></i>
+                        <i class="ph-medal"></i>
                     </div>
                     <div>
                         <h4 class="mb-1 fw-bold text-dark">{{ 'individual.provider_selected'|trans }}</h4>
@@ -290,20 +290,20 @@
                     {% set provName = provider.primaryContact ? (provider.primaryContact.firstName ~ ' ' ~ provider.primaryContact.lastName) : (provider.companyName|default(provider.email)) %}
                     <div class="col-md-4">
                         <div class="p-4 rounded-4 bg-light shadow-sm h-100">
-                            <div class="drl-label text-muted small mb-2"><i class="feather-user me-2 text-primary"></i>{{ 'individual.hired_pro'|trans }}</div>
+                            <div class="drl-label text-muted small mb-2"><i class="ph-user me-2 text-primary"></i>{{ 'individual.hired_pro'|trans }}</div>
                             <div class="fw-bold text-dark mb-1">{{ provName }}</div>
                             <span class="drl-tag drl-tag--sent">{{ provider.getType() }}</span>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="p-4 rounded-4 bg-light shadow-sm h-100">
-                            <div class="drl-label text-muted small mb-2"><i class="feather-mail me-2 text-primary"></i>{{ 'individual.email_address'|trans }}</div>
+                            <div class="drl-label text-muted small mb-2"><i class="ph-envelope me-2 text-primary"></i>{{ 'individual.email_address'|trans }}</div>
                             <a href="mailto:{{ provider.email }}" class="fw-bold text-dark text-decoration-none">{{ provider.email }}</a>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="p-4 rounded-4 bg-light shadow-sm h-100">
-                            <div class="drl-label text-muted small mb-2"><i class="feather-phone me-2 text-primary"></i>{{ 'individual.phone_number'|trans }}</div>
+                            <div class="drl-label text-muted small mb-2"><i class="ph-phone me-2 text-primary"></i>{{ 'individual.phone_number'|trans }}</div>
                             <div class="fw-bold text-dark">{{ provider.phoneNum|default('individual.not_provided'|trans) }}</div>
                         </div>
                     </div>
@@ -324,7 +324,7 @@
     <div class="drl-card mb-4" id="compare">
         <div class="drl-card-head">
             <div>
-                <h5 class="drl-card-title mb-0"><i class="feather-bar-chart-2 me-2 text-primary"></i>Comparaison des offres</h5>
+                <h5 class="drl-card-title mb-0"><i class="ph-chart-bar me-2 text-primary"></i>Comparaison des offres</h5>
                 <p class="drl-card-sub mb-0">Comparez les {{ comparableOffers|length }} offres reçues côte à côte</p>
             </div>
             <span class="drl-tag drl-tag--sent" style="font-size:12px;">{{ comparableOffers|length }} offres</span>
@@ -349,13 +349,13 @@
                                     <span class="fw-bold text-dark" style="font-size:12px;text-align:center;">{{ pName|slice(0,20) }}{% if pName|length > 20 %}…{% endif %}</span>
                                     {# Status badge #}
                                     {% if o.status|upper == 'ACCEPTED' %}
-                                        <span class="drl-tag drl-tag--success" style="font-size:10px;"><i class="feather-check-circle me-1"></i>Acceptée</span>
+                                        <span class="drl-tag drl-tag--success" style="font-size:10px;"><i class="ph-check-circle me-1"></i>Acceptée</span>
                                     {% elseif o.status|upper == 'INTERESTED' %}
-                                        <span class="drl-tag drl-tag--warning" style="font-size:10px;"><i class="feather-bookmark me-1"></i>Intéressé</span>
+                                        <span class="drl-tag drl-tag--warning" style="font-size:10px;"><i class="ph-bookmark me-1"></i>Intéressé</span>
                                     {% elseif o.status|upper == 'REJECTED' %}
-                                        <span class="drl-tag drl-tag--danger" style="font-size:10px;"><i class="feather-x-circle me-1"></i>Refusée</span>
+                                        <span class="drl-tag drl-tag--danger" style="font-size:10px;"><i class="ph-x-circle me-1"></i>Refusée</span>
                                     {% else %}
-                                        <span class="drl-tag drl-tag--sent" style="font-size:10px;"><i class="feather-send me-1"></i>Envoyée</span>
+                                        <span class="drl-tag drl-tag--sent" style="font-size:10px;"><i class="ph-paper-plane-tilt me-1"></i>Envoyée</span>
                                     {% endif %}
                                 </div>
                             </th>
@@ -378,7 +378,7 @@
                     {# Row: Prix #}
                     <tr style="border-bottom:1px solid #f1f5f9;">
                         <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
-                            <i class="feather-dollar-sign me-2 text-muted"></i>Prix proposé
+                            <i class="ph-currency-dollar-simple me-2 text-muted"></i>Prix proposé
                         </td>
                         {% for o in comparableOffers %}
                             {% set isBest = o.price == minPrice %}
@@ -389,7 +389,7 @@
                                 </span>
                                 {% if isBest %}
                                     <div style="font-size:10px;color:#10b981;font-weight:700;margin-top:2px;">
-                                        <i class="feather-trending-down me-1"></i>Meilleur prix
+                                        <i class="ph-trend-down me-1"></i>Meilleur prix
                                     </div>
                                 {% endif %}
                             </td>
@@ -399,7 +399,7 @@
                     {# Row: Note #}
                     <tr style="border-bottom:1px solid #f1f5f9;">
                         <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
-                            <i class="feather-star me-2 text-muted"></i>Note prestataire
+                            <i class="ph-star me-2 text-muted"></i>Note prestataire
                         </td>
                         {% for o in comparableOffers %}
                             {% set r = o.provider.stats ? o.provider.stats.averageRating : 0 %}
@@ -408,13 +408,13 @@
                             <td style="padding:12px 16px;text-align:center;background:{{ isBest ? 'rgba(245,158,11,.04)' : '' }};">
                                 {% if r > 0 %}
                                     <div class="d-flex align-items-center justify-content-center gap-1">
-                                        <i class="feather-star" style="color:#fbbf24;font-size:13px;fill:#fbbf24;"></i>
+                                        <i class="ph-star" style="color:#fbbf24;font-size:13px;fill:#fbbf24;"></i>
                                         <span class="fw-bold" style="color:{{ isBest ? '#b45309' : '#475569' }};">{{ r|number_format(1) }}</span>
                                         {% if rc > 0 %}<span class="text-muted" style="font-size:11px;">({{ rc }})</span>{% endif %}
                                     </div>
                                     {% if isBest %}
                                         <div style="font-size:10px;color:#f59e0b;font-weight:700;margin-top:2px;">
-                                            <i class="feather-award me-1"></i>Meilleure note
+                                            <i class="ph-medal me-1"></i>Meilleure note
                                         </div>
                                     {% endif %}
                                 {% else %}
@@ -427,7 +427,7 @@
                     {# Row: Délai #}
                     <tr style="border-bottom:1px solid #f1f5f9;">
                         <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
-                            <i class="feather-clock me-2 text-muted"></i>Durée estimée
+                            <i class="ph-clock me-2 text-muted"></i>Durée estimée
                         </td>
                         {% for o in comparableOffers %}
                             <td style="padding:12px 16px;text-align:center;">
@@ -443,7 +443,7 @@
                     {# Row: Début possible #}
                     <tr style="border-bottom:1px solid #f1f5f9;">
                         <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
-                            <i class="feather-calendar me-2 text-muted"></i>Début possible
+                            <i class="ph-calendar me-2 text-muted"></i>Début possible
                         </td>
                         {% for o in comparableOffers %}
                             <td style="padding:12px 16px;text-align:center;">
@@ -459,13 +459,13 @@
                     {# Row: Visite préalable #}
                     <tr style="border-bottom:1px solid #f1f5f9;">
                         <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
-                            <i class="feather-map-pin me-2 text-muted"></i>Visite préalable
+                            <i class="ph-map-pin me-2 text-muted"></i>Visite préalable
                         </td>
                         {% for o in comparableOffers %}
                             <td style="padding:12px 16px;text-align:center;">
                                 {% if o.priorVisit is not null %}
                                     {% if o.priorVisit %}
-                                        <span class="drl-tag drl-tag--sent" style="font-size:11px;"><i class="feather-check me-1"></i>Oui</span>
+                                        <span class="drl-tag drl-tag--sent" style="font-size:11px;"><i class="ph-check me-1"></i>Oui</span>
                                     {% else %}
                                         <span class="drl-tag drl-tag--draft" style="font-size:11px;">Non</span>
                                     {% endif %}
@@ -479,7 +479,7 @@
                     {# Row: Documents #}
                     <tr style="border-bottom:1px solid #f1f5f9;">
                         <td style="padding:12px 16px;font-size:13px;font-weight:600;color:#475569;white-space:nowrap;">
-                            <i class="feather-paperclip me-2 text-muted"></i>Documents joints
+                            <i class="ph-paperclip me-2 text-muted"></i>Documents joints
                         </td>
                         {% for o in comparableOffers %}
                             <td style="padding:12px 16px;text-align:center;">
@@ -501,12 +501,12 @@
                                 {% if o.status|upper in ['PUBLISHED','INTERESTED'] %}
                                     <a href="{{ path('individual_offer_show', {'id': o.id}) }}"
                                        class="drl-btn-orange" style="font-size:12px;padding:8px 14px;text-decoration:none;">
-                                        <i class="feather-eye me-1"></i>Voir & Décider
+                                        <i class="ph-eye me-1"></i>Voir & Décider
                                     </a>
                                 {% else %}
                                     <a href="{{ path('individual_offer_show', {'id': o.id}) }}"
                                        class="drl-act-btn drl-act-btn--view" style="font-size:12px;">
-                                        <i class="feather-eye me-1"></i>Voir
+                                        <i class="ph-eye me-1"></i>Voir
                                     </a>
                                 {% endif %}
                             </td>
@@ -527,7 +527,7 @@
         <div class="drl-card-head">
             <div>
                 <h4 class="drl-card-title d-flex align-items-center gap-2">
-                    <i class="feather-inbox text-primary"></i> {{ 'individual.received_offers'|trans }}
+                    <i class="ph-tray text-primary"></i> {{ 'individual.received_offers'|trans }}
                     {% if newOfferCount > 0 %}
                         <span class="badge rounded-pill fw-bold px-2 py-1" style="background: var(--drl-orange); color:#fff; font-size:11px;">
                             {{ newOfferCount }} {{ 'individual.offer_new_badge'|trans }}
@@ -546,14 +546,14 @@
                     : (offer.provider.companyName|default(offer.provider.email)) %}
                 {% set isNew = not offer.isViewed and offer.status|upper in ['PUBLISHED', 'INTERESTED'] %}
                 {% set offerStatusMap = {
-                    'DRAFT':      {'class': 'drl-tag--draft',   'icon': 'feather-file',         'border': '#94a3b8'},
-                    'PUBLISHED':  {'class': 'drl-tag--sent',    'icon': 'feather-send',          'border': 'var(--drl-orange)'},
-                    'INTERESTED': {'class': 'drl-tag--warning', 'icon': 'feather-bookmark',      'border': '#f59e0b'},
-                    'ACCEPTED':   {'class': 'drl-tag--success', 'icon': 'feather-check-circle',  'border': '#10b981'},
-                    'REJECTED':   {'class': 'drl-tag--danger',  'icon': 'feather-x-circle',      'border': '#ef4444'},
-                    'CLOSED':     {'class': 'drl-tag--draft',   'icon': 'feather-check-square',  'border': '#64748b'}
+                    'DRAFT':      {'class': 'drl-tag--draft',   'icon': 'ph-file',         'border': '#94a3b8'},
+                    'PUBLISHED':  {'class': 'drl-tag--sent',    'icon': 'ph-paper-plane-tilt',          'border': 'var(--drl-orange)'},
+                    'INTERESTED': {'class': 'drl-tag--warning', 'icon': 'ph-bookmark',      'border': '#f59e0b'},
+                    'ACCEPTED':   {'class': 'drl-tag--success', 'icon': 'ph-check-circle',  'border': '#10b981'},
+                    'REJECTED':   {'class': 'drl-tag--danger',  'icon': 'ph-x-circle',      'border': '#ef4444'},
+                    'CLOSED':     {'class': 'drl-tag--draft',   'icon': 'ph-check-square',  'border': '#64748b'}
                 } %}
-                {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle', 'border': '#e2e8f0'}) %}
+                {% set offerInfo = offerStatusMap[offer.status|upper]|default({'class': 'drl-tag--draft', 'icon': 'ph-question', 'border': '#e2e8f0'}) %}
 
                 <div class="rounded-4 border mb-3 overflow-hidden {{ isNew ? 'shadow-sm' : '' }}"
                      style="border-left: 4px solid {{ offerInfo.border }} !important; background: {{ isNew ? '#fffbf7' : '#fafbfc' }};">
@@ -586,7 +586,7 @@
                                 </a>
                                 <div class="d-flex align-items-center gap-1 mt-1 flex-wrap">
                                     <span class="drl-tag drl-tag--draft p-0 px-2" style="font-size: 10px;">
-                                        <i class="feather-briefcase me-1"></i>{{ offer.provider.getType() }}
+                                        <i class="ph-briefcase me-1"></i>{{ offer.provider.getType() }}
                                     </span>
                                     {% if offer.provider.entrepreneurType %}
                                         <span class="drl-tag drl-tag--sent p-0 px-2" style="font-size: 10px;">
@@ -595,7 +595,7 @@
                                     {% endif %}
                                     {% if offer.provider.stats and offer.provider.stats.averageRating > 0 %}
                                         <span class="qs-offer-rating">
-                                            <i class="feather-star qs-star" style="fill:#fbbf24;"></i>
+                                            <i class="ph-star qs-star" style="fill:#fbbf24;"></i>
                                             <span class="fw-semibold" style="color:#92400e;">{{ offer.provider.stats.averageRating|number_format(1) }}</span>
                                             {% if offer.provider.stats.reviewCount > 0 %}
                                                 <span class="text-muted">({{ offer.provider.stats.reviewCount }})</span>
@@ -604,11 +604,11 @@
                                     {% endif %}
                                     {% if offer.viewedAt %}
                                         <span class="text-muted" style="font-size: 10px;">
-                                            <i class="feather-eye me-1"></i>{{ 'individual.offer_seen_on'|trans }} {{ offer.viewedAt|date('d/m/Y') }}
+                                            <i class="ph-eye me-1"></i>{{ 'individual.offer_seen_on'|trans }} {{ offer.viewedAt|date('d/m/Y') }}
                                         </span>
                                     {% else %}
                                         <span style="font-size: 10px; color: var(--drl-orange); font-weight: 700;">
-                                            <i class="feather-eye-off me-1"></i>{{ 'individual.offer_not_seen'|trans }}
+                                            <i class="ph-eye-slash me-1"></i>{{ 'individual.offer_not_seen'|trans }}
                                         </span>
                                     {% endif %}
                                 </div>
@@ -645,25 +645,25 @@
                                 <div class="d-flex flex-column gap-2">
                                     {% if offer.estimatedDuration %}
                                         <div class="d-flex align-items-center gap-2 small text-muted">
-                                            <i class="feather-clock" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                            <i class="ph-clock" style="font-size: 13px; color: var(--drl-orange);"></i>
                                             <span>{{ 'individual.estimated_duration'|trans }} : <strong class="text-dark">{{ offer.estimatedDuration }} {{ offer.estimatedDurationUnit|default('j') }}</strong></span>
                                         </div>
                                     {% endif %}
                                     {% if offer.possibleStartDate %}
                                         <div class="d-flex align-items-center gap-2 small text-muted">
-                                            <i class="feather-calendar" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                            <i class="ph-calendar" style="font-size: 13px; color: var(--drl-orange);"></i>
                                             <span>{{ 'individual.possible_start'|trans }} : <strong class="text-dark">{{ offer.possibleStartDate|date('d/m/Y') }}</strong></span>
                                         </div>
                                     {% endif %}
                                     {% if offer.priorVisit is not null %}
                                         <div class="d-flex align-items-center gap-2 small text-muted">
-                                            <i class="feather-map-pin" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                            <i class="ph-map-pin" style="font-size: 13px; color: var(--drl-orange);"></i>
                                             <span>{{ 'individual.prior_visit'|trans }} : <strong class="text-dark">{{ offer.priorVisit ? 'individual.yes'|trans : 'individual.no'|trans }}</strong></span>
                                         </div>
                                     {% endif %}
                                     {% if offer.documents|length > 0 %}
                                         <div class="d-flex align-items-center gap-2 small text-muted">
-                                            <i class="feather-paperclip" style="font-size: 13px; color: var(--drl-orange);"></i>
+                                            <i class="ph-paperclip" style="font-size: 13px; color: var(--drl-orange);"></i>
                                             <span>{{ offer.documents|length }} {{ 'individual.attached_docs'|trans }}</span>
                                         </div>
                                     {% endif %}
@@ -678,7 +678,7 @@
                          style="background: rgba(0,0,0,0.02); border-top: 1px solid #f1f5f9;">
                         <a href="{{ path('individual_offer_show', {'id': offer.id}) }}"
                            class="drl-act-btn drl-act-btn--view shadow-sm" style="font-size: 13px;">
-                            <i class="feather-eye me-1"></i> {{ 'individual.view_full_offer'|trans }}
+                            <i class="ph-eye me-1"></i> {{ 'individual.view_full_offer'|trans }}
                         </a>
 
                         {% if quote.status|upper not in ['CLOSED'] and offer.status|upper in ['PUBLISHED', 'INTERESTED'] %}
@@ -688,32 +688,32 @@
                                     <form action="{{ path('individual_offer_interested', {'id': offer.id}) }}" method="POST" class="d-inline">
                                         <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                         <button type="submit" class="drl-act-btn shadow-sm" style="background: rgba(245,158,11,0.12); color: #b45309; border: none; font-size:13px;">
-                                            <i class="feather-bookmark me-1"></i> {{ 'individual.interested'|trans }}
+                                            <i class="ph-bookmark me-1"></i> {{ 'individual.interested'|trans }}
                                         </button>
                                     </form>
                                 {% endif %}
                                 {# Accept #}
                                 <button type="button" class="drl-act-btn shadow-sm" style="background: rgba(16,185,129,0.12); color: #059669; border: none; font-size:13px;"
                                         data-bs-toggle="modal" data-bs-target="#acceptOfferModal{{ offer.id }}">
-                                    <i class="feather-check-circle me-1"></i> {{ 'individual.accept'|trans }}
+                                    <i class="ph-check-circle me-1"></i> {{ 'individual.accept'|trans }}
                                 </button>
                                 {# Reject #}
                                 <button type="button" class="drl-act-btn shadow-sm" style="background: rgba(220,53,69,0.1); color: #dc3545; border: none; font-size:13px;"
                                         data-bs-toggle="modal" data-bs-target="#rejectOfferModal{{ offer.id }}">
-                                    <i class="feather-x-circle me-1"></i> {{ 'individual.reject'|trans }}
+                                    <i class="ph-x-circle me-1"></i> {{ 'individual.reject'|trans }}
                                 </button>
                             </div>
                         {% elseif offer.status|upper == 'ACCEPTED' %}
                             <span class="drl-tag drl-tag--success" style="font-size: 13px;">
-                                <i class="feather-award me-1"></i> {{ 'individual.offer_accepted_msg'|trans }}
+                                <i class="ph-medal me-1"></i> {{ 'individual.offer_accepted_msg'|trans }}
                             </span>
                         {% elseif offer.status|upper == 'REJECTED' %}
                             <span class="text-muted small fst-italic">
-                                <i class="feather-x-circle me-1"></i> {{ 'individual.offer_rejected_msg'|trans }}
+                                <i class="ph-x-circle me-1"></i> {{ 'individual.offer_rejected_msg'|trans }}
                             </span>
                         {% elseif offer.status|upper == 'CLOSED' %}
                             <span class="drl-tag drl-tag--draft" style="font-size: 13px;">
-                                <i class="feather-check-square me-1"></i> {{ ('status.CLOSED')|trans({}, 'messages') }}
+                                <i class="ph-check-square me-1"></i> {{ ('status.CLOSED')|trans({}, 'messages') }}
                             </span>
                         {% endif %}
                     </div>
@@ -721,7 +721,7 @@
             {% else %}
                 <div class="py-5 text-center">
                     <div class="mb-3 text-muted">
-                        <i class="feather-inbox" style="font-size: 4rem; opacity: 0.2;"></i>
+                        <i class="ph-tray" style="font-size: 4rem; opacity: 0.2;"></i>
                     </div>
                     <h5 class="fw-bold text-dark">{{ 'individual.empty_offers_title'|trans }}</h5>
                     <p class="text-muted small">{{ 'individual.empty_offers_review'|trans }}</p>
@@ -743,7 +743,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(234,88,12,0.1);">
-                            <i class="feather-rotate-ccw" style="font-size: 2rem; color: #ea580c;"></i>
+                            <i class="ph-arrow-counter-clockwise" style="font-size: 2rem; color: #ea580c;"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.revert_published'|trans }}</h4>
@@ -754,7 +754,7 @@
                             : (revProv.companyName|default(revProv.email)) %}
                         <div class="p-3 rounded-3 mb-3" style="background: #fff7ed; border: 1px solid #fed7aa;">
                             <div class="small fw-bold" style="color: #c2410c;">
-                                <i class="feather-alert-triangle me-1"></i>
+                                <i class="ph-warning me-1"></i>
                                 L'offre de <strong>{{ revProvName }}</strong> sera annulée et remise en attente. Vous devrez choisir un nouveau prestataire.
                             </div>
                         </div>
@@ -765,7 +765,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token('revert-quote-' ~ quote.id) }}">
                             <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                     style="background: #ea580c; color: #fff; font-size: 1rem;">
-                                <i class="feather-rotate-ccw"></i> {{ 'individual.revert_published'|trans }}
+                                <i class="ph-arrow-counter-clockwise"></i> {{ 'individual.revert_published'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -784,7 +784,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="drl-stat-icon drl-stat-icon--2 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
-                            <i class="feather-play-circle"></i>
+                            <i class="ph-play-circle"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.start_project'|trans }}</h4>
@@ -793,7 +793,7 @@
                         <form action="{{ path('individual_quote_start', {'id': quote.id}) }}" method="POST" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('start-quote-' ~ quote.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg">
-                                <i class="feather-play-circle me-2"></i> {{ 'individual.start_project'|trans }}
+                                <i class="ph-play-circle me-2"></i> {{ 'individual.start_project'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -812,7 +812,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(71,85,105,0.1);">
-                            <i class="feather-lock" style="font-size: 2rem; color: #475569;"></i>
+                            <i class="ph-lock" style="font-size: 2rem; color: #475569;"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.close_request'|trans }}</h4>
@@ -822,7 +822,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token('close-quote-' ~ quote.id) }}">
                             <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                     style="background: #475569; color: #fff; font-size: 1rem;">
-                                <i class="feather-lock"></i> {{ 'individual.close_request'|trans }}
+                                <i class="ph-lock"></i> {{ 'individual.close_request'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -841,7 +841,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="drl-stat-icon drl-stat-icon--2 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
-                            <i class="feather-upload-cloud"></i>
+                            <i class="ph-cloud-arrow-up"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.publish_confirm'|trans }}</h4>
@@ -852,7 +852,7 @@
                         <form action="{{ path('individual_quote_publish', {'id': quote.id}) }}" method="POST" class="w-100">
                             <input type="hidden" name="_token" value="{{ csrf_token('publish-quote-' ~ quote.id) }}">
                             <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg">
-                                <i class="feather-check me-2"></i> {{ 'individual.btn_yes_publish'|trans }}
+                                <i class="ph-check me-2"></i> {{ 'individual.btn_yes_publish'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -871,7 +871,7 @@
                 <div class="modal-body drl-modal-body p-5 text-center">
                     <div class="mb-4">
                         <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(239,68,68,0.1);">
-                            <i class="feather-alert-triangle" style="font-size: 2rem; color: #ef4444;"></i>
+                            <i class="ph-warning" style="font-size: 2rem; color: #ef4444;"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">{{ 'individual.delete_title'|trans }}</h4>
@@ -883,7 +883,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token('delete-quote-' ~ quote.id) }}">
                             <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                     style="background: #ef4444; color: #fff; font-size: 1rem;">
-                                <i class="feather-trash-2"></i> {{ 'individual.btn_yes_delete'|trans }}
+                                <i class="ph-trash"></i> {{ 'individual.btn_yes_delete'|trans }}
                             </button>
                         </form>
                         <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -903,7 +903,7 @@
                     <div class="modal-body drl-modal-body p-5 text-center">
                         <div class="mb-4">
                             <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(239,68,68,0.1);">
-                                <i class="feather-image" style="font-size: 2rem; color: #ef4444;"></i>
+                                <i class="ph-image" style="font-size: 2rem; color: #ef4444;"></i>
                             </div>
                         </div>
                         <h4 class="fw-bold text-dark mb-2">{{ 'individual.remove_image_title'|trans }}</h4>
@@ -913,7 +913,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token('remove-image-' ~ quote.id) }}">
                                 <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                         style="background: #ef4444; color: #fff; font-size: 1rem;">
-                                    <i class="feather-trash-2"></i> {{ 'individual.btn_yes_remove'|trans }}
+                                    <i class="ph-trash"></i> {{ 'individual.btn_yes_remove'|trans }}
                                 </button>
                             </form>
                             <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -936,7 +936,7 @@
                     <div class="modal-body drl-modal-body p-5 text-center">
                         <div class="mb-4">
                             <div class="drl-stat-icon drl-stat-icon--3 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
-                                <i class="feather-check-circle"></i>
+                                <i class="ph-check-circle"></i>
                             </div>
                         </div>
                         <h4 class="fw-bold text-dark mb-2">{{ 'individual.accept_offer_title'|trans }}</h4>
@@ -947,7 +947,7 @@
                             <form action="{{ path('individual_offer_accept', {'id': offer.id}) }}" method="POST" class="w-100">
                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                 <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg">
-                                    <i class="feather-check me-2"></i>{{ 'individual.accept'|trans }}
+                                    <i class="ph-check me-2"></i>{{ 'individual.accept'|trans }}
                                 </button>
                             </form>
                             <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -966,7 +966,7 @@
                     <div class="modal-body drl-modal-body p-5 text-center">
                         <div class="mb-4">
                             <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle" style="width: 70px; height: 70px; background: rgba(239,68,68,0.1);">
-                                <i class="feather-x-circle" style="font-size: 2rem; color: #ef4444;"></i>
+                                <i class="ph-x-circle" style="font-size: 2rem; color: #ef4444;"></i>
                             </div>
                         </div>
                         <h4 class="fw-bold text-dark mb-2">{{ 'individual.reject_offer_title'|trans }}</h4>
@@ -976,7 +976,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token('offer-action-' ~ offer.id) }}">
                                 <button type="submit" class="w-100 py-3 d-flex align-items-center justify-content-center gap-2 rounded-3 border-0 fw-bold"
                                         style="background: #ef4444; color: #fff; font-size: 1rem;">
-                                    <i class="feather-x"></i>{{ 'individual.reject'|trans }}
+                                    <i class="ph-x"></i>{{ 'individual.reject'|trans }}
                                 </button>
                             </form>
                             <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
@@ -1004,7 +1004,7 @@
                             <img src="${e.target.result}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--drl-orange);">
                             <div class="position-absolute top-0 end-0 text-white rounded-circle d-flex align-items-center justify-content-center"
                                  style="width: 16px; height: 16px; font-size: 10px; margin-top: -5px; margin-right: -5px; background: var(--drl-orange);">
-                                <i class="feather-check"></i>
+                                <i class="ph-check"></i>
                             </div>
                         `;
                         container.appendChild(wrapper);

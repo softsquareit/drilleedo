@@ -26,15 +26,15 @@
                         {% set entityType = notification.relatedEntityType|default('') %}
                         {% set titleLower = notification.title|default('')|lower %}
                         {% if 'accept' in titleLower or 'complet' in titleLower %}
-                            <i class="feather-check-circle text-success" style="font-size: 1.25rem;"></i>
+                            <i class="ph-check-circle text-success" style="font-size: 1.25rem;"></i>
                         {% elseif 'reject' in titleLower or 'refus' in titleLower or 'withdrawn' in titleLower %}
-                            <i class="feather-x-circle text-danger" style="font-size: 1.25rem;"></i>
+                            <i class="ph-x-circle text-danger" style="font-size: 1.25rem;"></i>
                         {% elseif entityType == 'offer' %}
-                            <i class="feather-tag" style="color: #00509e; font-size: 1.25rem;"></i>
+                            <i class="ph-tag" style="color: #00509e; font-size: 1.25rem;"></i>
                         {% elseif entityType == 'quote' %}
-                            <i class="feather-file-text" style="color: #f97316; font-size: 1.25rem;"></i>
+                            <i class="ph-file-text" style="color: #f97316; font-size: 1.25rem;"></i>
                         {% else %}
-                            <i class="feather-bell" style="color: #6366f1; font-size: 1.25rem;"></i>
+                            <i class="ph-bell" style="color: #6366f1; font-size: 1.25rem;"></i>
                         {% endif %}
                     </div>
 
@@ -48,7 +48,7 @@
                         </div>
                         <p class="text-muted mb-1" style="font-size: 13px; line-height: 1.55;">{{ notification.message }}</p>
                         <span class="text-muted" style="font-size: 11px;">
-                            <i class="feather-clock me-1"></i>{{ notification.createdAt|date('d/m/Y — H:i') }}
+                            <i class="ph-clock me-1"></i>{{ notification.createdAt|date('d/m/Y — H:i') }}
                         </span>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="py-5 text-center">
                     <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4"
                          style="width: 80px; height: 80px;">
-                        <i class="feather-bell-off text-muted" style="font-size: 2.5rem;"></i>
+                        <i class="ph-bell-slash text-muted" style="font-size: 2.5rem;"></i>
                     </div>
                     <h5 class="fw-bold text-dark">{{ 'individual.empty_notifs_title'|trans }}</h5>
                     <p class="text-muted mb-0">{{ 'individual.empty_notifs_sub'|trans }}</p>

@@ -10,7 +10,7 @@
          style="background: #fefce8; border-color: #fde68a; border-left: 4px solid #f59e0b;">
         <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
              style="width: 40px; height: 40px; background: rgba(245,158,11,0.15);">
-            <i class="feather-edit" style="color: #f59e0b; font-size: 18px;"></i>
+            <i class="ph-pencil" style="color: #f59e0b; font-size: 18px;"></i>
         </div>
         <div class="alert-content flex-grow-1">
             <div class="fw-bold" style="color:#92400e;">
@@ -19,7 +19,7 @@
             <div class="small text-muted">Publiez-les pour commencer à recevoir des offres des professionnels.</div>
         </div>
         <a href="{{ path('individual_quotes') }}" class="drl-btn-orange flex-shrink-0 shadow-sm" style="font-size: 13px; padding: 8px 16px; background: #f59e0b !important;">
-            <i class="feather-upload-cloud me-1"></i> Publier maintenant
+            <i class="ph-cloud-arrow-up me-1"></i> Publier maintenant
         </a>
     </div>
     {% endif %}
@@ -29,7 +29,7 @@
          style="background: #fff7ed; border-color: #fed7aa; border-left: 4px solid #f97316;">
         <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
              style="width: 40px; height: 40px; background: rgba(249,115,22,0.15);">
-            <i class="feather-eye-off" style="color: #f97316; font-size: 18px;"></i>
+            <i class="ph-eye-slash" style="color: #f97316; font-size: 18px;"></i>
         </div>
         <div class="alert-content flex-grow-1">
             <div class="fw-bold" style="color: #c2410c;">
@@ -38,7 +38,7 @@
             <div class="small text-muted">Vous avez des devis que vous n'avez pas encore consultés. Cliquez pour les examiner.</div>
         </div>
         <a href="{{ path('individual_offers') }}" class="drl-btn-orange flex-shrink-0 shadow-sm" style="font-size: 13px; padding: 8px 16px;">
-            <i class="feather-eye me-1"></i> Voir les offres
+            <i class="ph-eye me-1"></i> Voir les offres
         </a>
     </div>
     {% endif %}
@@ -47,14 +47,14 @@
     <div class="drl-alert drl-alert--success d-flex align-items-center gap-3 mb-3 shadow-sm">
         <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
              style="width: 40px; height: 40px; background: rgba(16,185,129,0.15);">
-            <i class="feather-tool" style="color: #059669; font-size: 18px;"></i>
+            <i class="ph-wrench" style="color: #059669; font-size: 18px;"></i>
         </div>
         <div class="alert-content flex-grow-1">
             <div class="fw-bold">{{ inProgressCount }} chantier{{ inProgressCount > 1 ? 's' : '' }} en cours</div>
             <div class="small opacity-75">N'oubliez pas de clôturer vos demandes une fois les travaux terminés.</div>
         </div>
         <a href="{{ path('individual_quotes') }}" class="drl-act-btn drl-act-btn--view flex-shrink-0 shadow-sm" style="font-size:13px;">
-            <i class="feather-tool me-1"></i> Voir les chantiers
+            <i class="ph-wrench me-1"></i> Voir les chantiers
         </a>
     </div>
     {% endif %}
@@ -69,7 +69,7 @@
             </p>
         </div>
         <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange shadow-lg" style="background: white !important; color: var(--drl-navy) !important;">
-            <i class="feather-plus me-2"></i> {{ 'individual.dashboard_btn_post'|trans }}
+            <i class="ph-plus me-2"></i> {{ 'individual.dashboard_btn_post'|trans }}
         </a>
     </div>
     {% endif %}
@@ -81,7 +81,7 @@
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--1">
-                        <i class="feather-file-text"></i>
+                        <i class="ph-file-text"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ totalRequests }}</h3>
@@ -95,7 +95,7 @@
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--2" style="background: #eff6ff; color: #00509e; border-color: #dbeafe;">
-                        <i class="feather-send"></i>
+                        <i class="ph-paper-plane-tilt"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ publishedCount }}</h3>
@@ -110,7 +110,7 @@
                 <div class="drl-stat {% if unseenOffersCount > 0 %}drl-stat--highlight{% endif %}" style="{{ unseenOffersCount > 0 ? 'border-color: #fed7aa;' : '' }}">
                     <div class="position-relative">
                         <div class="drl-stat-icon drl-stat-icon--3" style="{{ unseenOffersCount > 0 ? 'background: #fff7ed; color: #f97316; border-color: #fed7aa;' : '' }}">
-                            <i class="feather-inbox"></i>
+                            <i class="ph-tray"></i>
                         </div>
                         {% if unseenOffersCount > 0 %}
                             <span class="position-absolute top-0 end-0 badge rounded-pill"
@@ -124,7 +124,7 @@
                         <p class="drl-stat-lbl">{{ 'individual.stat_offers'|trans }}</p>
                         {% if unseenOffersCount > 0 %}
                             <span style="font-size: 11px; color: #f97316; font-weight: 700;">
-                                <i class="feather-eye-off" style="font-size: 10px;"></i> {{ unseenOffersCount }} non lue{{ unseenOffersCount > 1 ? 's' : '' }}
+                                <i class="ph-eye-slash" style="font-size: 10px;"></i> {{ unseenOffersCount }} non lue{{ unseenOffersCount > 1 ? 's' : '' }}
                             </span>
                         {% endif %}
                     </div>
@@ -136,7 +136,7 @@
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon" style="background: #fff7ed; color: #f97316; border-color: #fed7aa; width:52px; height:52px; border-radius:14px; border:1.5px solid; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">
-                        <i class="feather-tool"></i>
+                        <i class="ph-wrench"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ inProgressCount }}</h3>
@@ -150,7 +150,7 @@
             <a href="{{ path('individual_quotes') }}" class="d-block text-decoration-none h-100">
                 <div class="drl-stat">
                     <div class="drl-stat-icon drl-stat-icon--4">
-                        <i class="feather-check-circle"></i>
+                        <i class="ph-check-circle"></i>
                     </div>
                     <div>
                         <h3 class="drl-stat-val">{{ acceptedOffersCount }}</h3>
@@ -214,7 +214,7 @@
                                             <span class="drl-tag drl-tag--success">{{ 'individual.offers_count'|trans({'%count%': offerCount}) }}</span>
                                             {% if pendingOnQuote > 0 %}
                                                 <span class="ms-1" style="font-size: 11px; color: #f97316; font-weight: 700;">
-                                                    <i class="feather-zap" style="font-size: 10px;"></i> {{ pendingOnQuote }} {{ 'individual.stat_pending'|trans }}
+                                                    <i class="ph-lightning" style="font-size: 10px;"></i> {{ pendingOnQuote }} {{ 'individual.stat_pending'|trans }}
                                                 </span>
                                             {% endif %}
                                         {% else %}
@@ -235,7 +235,7 @@
                                     </td>
                                     <td class="text-end px-3">
                                         <a href="{{ path('individual_quote_show', {'id': quote.id}) }}" class="drl-act-btn drl-act-btn--view shadow-sm">
-                                            <i class="feather-eye"></i> {{ 'individual.view'|trans }}
+                                            <i class="ph-eye"></i> {{ 'individual.view'|trans }}
                                         </a>
                                     </td>
                                 </tr>
@@ -244,12 +244,12 @@
                                     <td colspan="5" class="py-5 text-center">
                                         <div>
                                             <div class="mb-3 text-muted opacity-25" style="font-size: 4rem;">
-                                                <i class="feather-file-text"></i>
+                                                <i class="ph-file-text"></i>
                                             </div>
                                             <h6 class="fw-bold text-dark">{{ 'individual.empty_requests_title'|trans }}</h6>
                                             <p class="text-muted small">{{ 'individual.empty_requests_sub'|trans }}</p>
                                             <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange mt-3">
-                                                <i class="feather-plus me-2"></i> {{ 'individual.dashboard_btn_post'|trans }}
+                                                <i class="ph-plus me-2"></i> {{ 'individual.dashboard_btn_post'|trans }}
                                             </a>
                                         </div>
                                     </td>

@@ -62,7 +62,7 @@
         <div class="d-flex align-items-center gap-3">
             <span class="drl-tag drl-tag--sent">{{ quotes|length }} {{ 'individual.total'|trans }}</span>
             <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange shadow-sm">
-                <i class="feather-plus me-2"></i> {{ 'individual.new_request'|trans }}
+                <i class="ph-plus me-2"></i> {{ 'individual.new_request'|trans }}
             </a>
         </div>
     </div>
@@ -72,13 +72,13 @@
             {% for quote in quotes %}
                 {% set statusKey = quote.status|lower %}
                 {% set statusMap = {
-                    'draft':       {'class': 'drl-tag--draft',   'icon': 'feather-file',         'bar': 'draft'},
-                    'published':   {'class': 'drl-tag--sent',    'icon': 'feather-globe',         'bar': 'published'},
-                    'accepted':    {'class': 'drl-tag--success', 'icon': 'feather-check-circle',  'bar': 'accepted'},
-                    'in_progress': {'class': 'drl-tag--warning', 'icon': 'feather-tool',          'bar': 'in_progress'},
-                    'closed':      {'class': 'drl-tag--danger',  'icon': 'feather-lock',          'bar': 'closed'}
+                    'draft':       {'class': 'drl-tag--draft',   'icon': 'ph-file',         'bar': 'draft'},
+                    'published':   {'class': 'drl-tag--sent',    'icon': 'ph-globe',         'bar': 'published'},
+                    'accepted':    {'class': 'drl-tag--success', 'icon': 'ph-check-circle',  'bar': 'accepted'},
+                    'in_progress': {'class': 'drl-tag--warning', 'icon': 'ph-wrench',          'bar': 'in_progress'},
+                    'closed':      {'class': 'drl-tag--danger',  'icon': 'ph-lock',          'bar': 'closed'}
                 } %}
-                {% set st = statusMap[statusKey]|default({'class': 'drl-tag--draft', 'icon': 'feather-help-circle', 'bar': 'draft'}) %}
+                {% set st = statusMap[statusKey]|default({'class': 'drl-tag--draft', 'icon': 'ph-question', 'bar': 'draft'}) %}
                 {% set offerCount = quote.offers|length %}
                 {% set pubOffers = 0 %}
                 {% for o in quote.offers %}{% if o.status|upper == 'PUBLISHED' %}{% set pubOffers = pubOffers + 1 %}{% endif %}{% endfor %}
@@ -94,7 +94,7 @@
                                        class="fw-bold text-dark text-decoration-none d-block mb-1"
                                        style="font-size: 1rem; line-height: 1.35;">{{ quote.title }}</a>
                                     <span class="text-muted" style="font-size: 11px;">
-                                        <i class="feather-calendar me-1"></i>{{ quote.creationDate|date('d/m/Y') }}
+                                        <i class="ph-calendar me-1"></i>{{ quote.creationDate|date('d/m/Y') }}
                                     </span>
                                 </div>
                                 <span class="drl-tag {{ st.class }} flex-shrink-0" style="font-size: 11px;">
@@ -110,10 +110,10 @@
                             {# Category + offers row #}
                             <div class="d-flex align-items-center justify-content-between">
                                 <span class="drl-tag drl-tag--sent" style="font-size: 11px;">
-                                    <i class="feather-tag me-1"></i>{{ quote.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}
+                                    <i class="ph-tag me-1"></i>{{ quote.category.localizedTitle(app.request.locale)|default('individual.general'|trans) }}
                                 </span>
                                 <span class="qr-offer-pill {{ offerCount > 0 ? 'has-offers' : 'no-offers' }}">
-                                    <i class="feather-inbox"></i>
+                                    <i class="ph-tray"></i>
                                     {% if offerCount > 0 %}
                                         {{ offerCount }} {{ 'individual.bid'|trans }}{{ offerCount > 1 ? 's' : '' }}
                                         {% if pubOffers > 0 %}&nbsp;· <span style="color:#d97706;">{{ pubOffers }} {{ 'individual.new_offers'|trans }}</span>{% endif %}
@@ -127,28 +127,28 @@
                         <div class="qr-card-footer">
                             <a href="{{ path('individual_quote_show', {'id': quote.id}) }}"
                                class="drl-act-btn drl-act-btn--view flex-grow-1 justify-content-center">
-                                <i class="feather-eye me-1"></i> {{ 'individual.view'|trans }}
+                                <i class="ph-eye me-1"></i> {{ 'individual.view'|trans }}
                             </a>
                             {% if quote.status == 'DRAFT' %}
                                 <button type="button" class="drl-btn-orange flex-grow-1 justify-content-center shadow-sm"
                                         style="font-size: 13px;"
                                         data-bs-toggle="modal" data-bs-target="#publishQuoteModal{{ quote.id }}">
-                                    <i class="feather-upload-cloud me-1"></i> {{ 'individual.publish'|trans }}
+                                    <i class="ph-cloud-arrow-up me-1"></i> {{ 'individual.publish'|trans }}
                                 </button>
                             {% elseif quote.status == 'PUBLISHED' and offerCount > 0 %}
                                 <a href="{{ path('individual_quote_show', {'id': quote.id}) }}#offres"
                                    class="drl-btn-orange flex-grow-1 justify-content-center shadow-sm" style="font-size: 13px; text-decoration:none;">
-                                    <i class="feather-inbox me-1"></i> {{ 'individual.view_offers'|trans }}
+                                    <i class="ph-tray me-1"></i> {{ 'individual.view_offers'|trans }}
                                 </a>
                             {% elseif quote.status == 'ACCEPTED' %}
                                 <a href="{{ path('individual_quote_show', {'id': quote.id}) }}"
                                    class="drl-btn-orange flex-grow-1 justify-content-center shadow-sm" style="font-size: 13px; text-decoration:none; background:linear-gradient(135deg,#059669,#10b981);">
-                                    <i class="feather-play-circle me-1"></i> {{ 'individual.start_project'|trans }}
+                                    <i class="ph-play-circle me-1"></i> {{ 'individual.start_project'|trans }}
                                 </a>
                             {% elseif quote.status == 'IN_PROGRESS' %}
                                 <a href="{{ path('individual_quote_show', {'id': quote.id}) }}"
                                    class="drl-act-btn drl-act-btn--view flex-grow-1 justify-content-center" style="font-size: 13px; text-decoration:none;">
-                                    <i class="feather-tool me-1"></i> {{ 'individual.status_in_progress_msg'|trans }}
+                                    <i class="ph-wrench me-1"></i> {{ 'individual.status_in_progress_msg'|trans }}
                                 </a>
                             {% endif %}
                         </div>
@@ -162,12 +162,12 @@
         <div class="drl-card">
             <div class="py-5 text-center">
                 <div class="mb-4 text-muted opacity-25">
-                    <i class="feather-file-text" style="font-size: 5rem;"></i>
+                    <i class="ph-file-text" style="font-size: 5rem;"></i>
                 </div>
                 <h5 class="fw-bold text-dark">{{ 'individual.empty_quotes_title'|trans }}</h5>
                 <p class="text-muted mb-4 px-5">{{ 'individual.empty_quotes_sub'|trans }}</p>
                 <a href="{{ path('individual_quote_new') }}" class="drl-btn-orange px-5 shadow-lg">
-                    <i class="feather-plus me-2"></i> {{ 'individual.btn_post_first'|trans }}
+                    <i class="ph-plus me-2"></i> {{ 'individual.btn_post_first'|trans }}
                 </a>
             </div>
         </div>
@@ -184,7 +184,7 @@
                         <div class="modal-body drl-modal-body p-5 text-center">
                             <div class="mb-4">
                                 <div class="drl-stat-icon drl-stat-icon--2 mx-auto" style="width: 70px; height: 70px; font-size: 32px;">
-                                    <i class="feather-upload-cloud"></i>
+                                    <i class="ph-cloud-arrow-up"></i>
                                 </div>
                             </div>
                             <h4 class="fw-bold text-dark mb-2">{{ 'individual.publish_confirm'|trans }}</h4>
@@ -196,7 +196,7 @@
                                 <form action="{{ path('individual_quote_publish', {'id': quote.id}) }}" method="POST" class="w-100">
                                     <input type="hidden" name="_token" value="{{ csrf_token('publish-quote-' ~ quote.id) }}">
                                     <button type="submit" class="drl-btn-orange w-100 py-3 justify-content-center shadow-lg">
-                                        <i class="feather-check me-2"></i> {{ 'individual.btn_yes_publish'|trans }}
+                                        <i class="ph-check me-2"></i> {{ 'individual.btn_yes_publish'|trans }}
                                     </button>
                                 </form>
                                 <button type="button" class="drl-act-btn drl-act-btn--view w-100 py-3 justify-content-center border-0" data-bs-dismiss="modal">
